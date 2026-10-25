@@ -377,7 +377,7 @@ details.reveal[open] summary{margin-bottom:6px}
 .pcard li button:hover{background:var(--surface2)}
 .pcard li .st{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);flex:none}
 .pcard li .st.d{background:var(--tip);border-color:var(--tip)}
-.tools3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tools3{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 @media (max-width:700px){.tools3{grid-template-columns:minmax(0,1fr)}}
 .tool{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px}
 .tool:hover{border-color:var(--accent)}
@@ -446,7 +446,7 @@ details.reveal[open] summary{margin-bottom:6px}
 .pcd[data-k="key"] h4{background:var(--key-soft);color:var(--key)}
 .pcb{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;font-size:14.5px;line-height:1.45;flex:1}
 .psub{color:var(--muted);text-align:center;font-size:13.5px}
-.psvg svg{width:100%;height:auto;display:block;min-width:0!important;margin:0 auto}
+.psvg svg{width:auto;max-width:100%;height:auto;display:block;min-width:0!important;margin:0 auto}
 .pcode,.pout{font-size:13px;padding:8px 10px;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}
 .pcode{background:var(--code-bg);border:1px solid var(--line)}
 .pout{background:var(--out-bg);border:1px dashed var(--line);color:var(--tip);margin-top:-4px}
@@ -470,6 +470,7 @@ details.reveal[open] summary{margin-bottom:6px}
 .ptbl thead th[data-k="acc"]{background:var(--accent-soft);color:var(--accent)}
 .ptbl tbody th{background:var(--pst-card);font-family:var(--display);font-weight:600;font-size:14px;white-space:nowrap}
 .ptbl td{text-align:center}
+.ptbl code{white-space:nowrap;overflow-wrap:normal}
 .t-ok{color:var(--tip);font-weight:700} .t-no{color:var(--trap);font-weight:700} .t-warn{color:var(--key);font-weight:700} .t-acc{color:var(--accent);font-weight:700}
 .navtools button:first-child{grid-column:span 2}
 select.search{appearance:auto}
@@ -553,7 +554,7 @@ var V = (function(){
   function grid(m, o){
     o = o || {};
     var cw = o.cw || 58, ch = o.ch || 42, R = m.length, C = m[0].length;
-    var padL = o.rl ? 92 : 30, top = (o.cl ? 34 : 14) + (o.title ? 24 : 0);
+    var padL = o.rl ? 92 : (o.res && o.res.dir === 'bottom' ? 74 : 30), top = (o.cl || (o.res && o.res.dir === 'right') ? 34 : 14) + (o.title ? 24 : 0);
     var resR = o.res && o.res.dir === 'right', resB = o.res && o.res.dir === 'bottom';
     var W = padL + C * cw + (resR ? cw + 70 : 0) + 30;
     var H = top + R * ch + (resB ? ch + 56 : 0) + 20 + (o.axis ? 0 : 0);
@@ -599,7 +600,7 @@ var V = (function(){
   /* Venn diagram. o: {a,b,ao:[],ab:[],bo:[],shade:'a'|'b'|'ab'|'union'|'sym'|'aonly'|'bonly',title,op} */
   function venn(o){
     n++;
-    var id = 'vn' + n, W = 460, H = 270, cx1 = 170, cx2 = 290, cy = 140, r = 105;
+    var id = 'vn' + n, W = 460, H = 270, cx1 = 170, cx2 = 290, cy = 140, r = 105, fs = o.fs || 15, gap = fs * 1.6;
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" style="min-width:' + Math.round(W * 0.6) + 'px" role="img" aria-label="' + e(o.label || 'Venn diagram of two sets') + '">';
     s += '<defs><clipPath id="' + id + 'a"><circle cx="' + cx1 + '" cy="' + cy + '" r="' + r + '"/></clipPath></defs>';
     var sh = o.shade;
@@ -609,9 +610,9 @@ var V = (function(){
     var mid = (sh === 'a' || sh === 'b' || sh === 'ab' || sh === 'union') ? 'sv-hl' : 'sv-box';
     s += '<circle cx="' + cx2 + '" cy="' + cy + '" r="' + r + '" clip-path="url(#' + id + 'a)" class="' + mid + '" style="stroke:none"/>';
     s += '<circle cx="' + cx1 + '" cy="' + cy + '" r="' + r + '" class="sv-ln"/><circle cx="' + cx2 + '" cy="' + cy + '" r="' + r + '" class="sv-ln"/>';
-    s += '<text x="' + (cx1 - 70) + '" y="' + (cy - 82) + '" class="sv-h">' + e(o.a || 'A') + '</text>';
-    s += '<text x="' + (cx2 + 52) + '" y="' + (cy - 82) + '" class="sv-h">' + e(o.b || 'B') + '</text>';
-    function col(arr, x){ (arr || []).forEach(function(t, i){ var y = cy - (arr.length - 1) * 12 + i * 24 + 5; s += '<text x="' + x + '" y="' + y + '" text-anchor="middle" class="sv-tm">' + e(t) + '</text>'; }); }
+    s += '<text x="' + (cx1 - 70) + '" y="' + (cy - 82) + '" class="sv-h" style="font-size:' + Math.max(15, fs) + 'px">' + e(o.a || 'A') + '</text>';
+    s += '<text x="' + (cx2 + 52) + '" y="' + (cy - 82) + '" class="sv-h" style="font-size:' + Math.max(15, fs) + 'px">' + e(o.b || 'B') + '</text>';
+    function col(arr, x){ (arr || []).forEach(function(t, i){ var y = cy - (arr.length - 1) * gap / 2 + i * gap + fs / 3; s += '<text x="' + x + '" y="' + y + '" text-anchor="middle" class="sv-tm" style="font-size:' + fs + 'px">' + e(t) + '</text>'; }); }
     col(o.ao, cx1 - 48); col(o.ab, (cx1 + cx2) / 2); col(o.bo, cx2 + 48);
     if (o.op) s += '<text x="' + (W / 2) + '" y="' + (H - 6) + '" text-anchor="middle" class="sv-tm sv-ta" style="font-weight:600">' + e(o.op) + '</text>';
     return s + '</svg>';
@@ -7744,6 +7745,933 @@ while True:
   ]
 });
 
+/* ---------- Extra slide decks, inserted into chapters ---------- */
+(function(){
+  function addDeck(id, beforeHeading, deck){
+    var ch = CHAPTERS.filter(function(c){ return c.id === id; })[0];
+    var i = ch.body.findIndex(function(b){ return b.t === 'h' && b.text === beforeHeading; });
+    if (i < 0) throw new Error('heading not found: ' + id + ' / ' + beforeHeading);
+    ch.body.splice(i, 0, Object.assign({ t: 'deck' }, deck));
+  }
+
+  addDeck("variables", "Dynamic typing", { title: "Variables in 6 slides", s: [
+    { big: "A variable is a name pointing at a value.", b: "Create it once with `=`, then use the name anywhere below." },
+    { h: "Create, then reuse", c: R`
+price = 250
+qty = 4
+total = price * qty
+print(total)`, o: R`1000` },
+    { h: "Change it any time", b: "The right side is worked out first, then stored back in the name.", c: R`
+score = 10
+score = score + 5
+print(score)`, o: R`15` },
+    { h: "Every value has a type", c: R`print(type(250), type(2.5), type("250"), type(True))`, o: R`<class 'int'> <class 'float'> <class 'str'> <class 'bool'>` },
+    { h: "Text that looks like a number is still text", c: R`
+a = "250"
+print(a + "4")
+print(int(a) + 4)`, o: R`
+2504
+254` },
+    { h: "Convert with the type's name", items: ["`int(\"25\")` text to whole number", "`float(\"2.5\")` text to decimal", "`str(100)` number to text", "`bool(0)` zero and empty values become False"] }
+  ]});
+
+  addDeck("output", "f-strings: the best way to format", { title: "Three ways to build a sentence", s: [
+    { big: "Same sentence, three ways. Only one is easy to read.", b: "We want: `Name: Asha, Age: 25`" },
+    { h: "1. Commas in print()", b: "Easy, but print adds a space between every item, so you get a space before the comma.", c: R`
+name = "Asha"
+age = 25
+print("Name:", name, ", Age:", age)`, o: R`Name: Asha , Age: 25` },
+    { h: "2. Joining with +", b: "Exact control, but every number needs `str()`, and it gets messy fast.", c: R`
+name = "Asha"
+age = 25
+print("Name: " + name + ", Age: " + str(age))`, o: R`Name: Asha, Age: 25` },
+    { h: "3. f-string (use this one)", b: "Exact, readable, and no `str()` needed.", c: R`
+name = "Asha"
+age = 25
+print(f"Name: {name}, Age: {age}")`, o: R`Name: Asha, Age: 25` },
+    { h: "Bonus: format numbers inside the slot", c: R`
+price = 1234.5
+print(f"Price: {price:,.2f}")`, o: R`Price: 1,234.50` }
+  ]});
+
+  addDeck("conditions", "Truthy and falsy values", { title: "Writing good conditions", s: [
+    { big: "Every if asks a True or False question.", b: "These five habits keep those questions correct." },
+    { h: "Compare with ==, not =", c: R`
+x = 5
+print(x == 5, x != 5)`, o: R`True False` },
+    { h: "Combine with and / or", c: R`
+age = 25
+has_id = True
+print(age >= 18 and has_id)`, o: R`True` },
+    { h: "Ranges read naturally", c: R`
+temp = 28
+print(20 <= temp <= 30)`, o: R`True` },
+    { h: "Check a list of options with in", c: R`
+day = "Sun"
+print(day in ("Sat", "Sun"))`, o: R`True` },
+    { h: "Test every branch", b: "Try one value for each path: one that hits the `if`, one for each `elif`, and one that falls through to `else`. Bugs hide in the branch you never ran." }
+  ]});
+
+  addDeck("whileloops", "while-else", { title: "break, continue and pass", s: [
+    { big: "Three small words that steer any loop." },
+    { h: "break: stop the loop now", c: R`
+for n in [3, 8, 12, 5]:
+    if n > 10:
+        print("found", n)
+        break`, o: R`found 12` },
+    { h: "continue: skip this round only", c: R`
+for n in range(1, 6):
+    if n == 3:
+        continue
+    print(n, end=" ")`, o: R`1 2 4 5` },
+    { h: "pass: do nothing (yet)", c: R`
+for n in range(3):
+    pass          # fill this in later
+print("loop done")`, o: R`loop done` },
+    { h: "Nested loops: break leaves one level", c: R`
+for i in range(1, 3):
+    for j in range(1, 4):
+        if j == 2:
+            break
+        print(i, j)`, o: R`
+1 1
+2 1` },
+    { h: "Rule of thumb", items: ["Found what you need? `break`", "This item is bad but others may be fine? `continue`", "Python needs a line here but you have nothing yet? `pass`"] }
+  ]});
+
+  addDeck("tuples", "Why use a tuple?", { title: "Tuples in 5 slides", s: [
+    { big: "A tuple is a list that promises never to change." },
+    { h: "Create and read", c: R`
+point = (17.38, 78.48)
+print(point[0], len(point))`, o: R`17.38 2` },
+    { h: "Unpack into names", c: R`
+point = (17.38, 78.48)
+lat, lon = point
+print(f"lat={lat} lon={lon}")`, o: R`lat=17.38 lon=78.48` },
+    { h: "Return several values", c: R`
+def stats(nums):
+    return min(nums), max(nums)
+
+lo, hi = stats([4, 9, 1])
+print(lo, hi)`, o: R`1 9` },
+    { h: "Use as a dictionary key", c: R`
+distance = {("Delhi", "Agra"): 233}
+print(distance[("Delhi", "Agra")])`, o: R`233` }
+  ]});
+
+  addDeck("sets", "Real-world uses", { title: "Sets for analysts", s: [
+    { big: "Sets answer \"who\" and \"how many unique\"." },
+    { h: "Count unique values", c: R`
+visits = ["Asha", "Ravi", "Asha", "Neha", "Ravi"]
+print(len(set(visits)))`, o: R`3` },
+    { h: "Fast yes/no checks", c: R`
+blocked = {"spam@x.com", "bot@y.com"}
+print("bot@y.com" in blocked)`, o: R`True` },
+    { h: "Compare two groups", c: R`
+menu_a = {"tea", "coffee", "juice"}
+menu_b = {"coffee", "lassi"}
+print(sorted(menu_a & menu_b), sorted(menu_a - menu_b))`, o: R`['coffee'] ['juice', 'tea']` },
+    { h: "Remember", items: ["No order and no index", "`{}` is a dict, use `set()`", "`discard()` is the safe way to remove", "Wrap in `sorted()` when you need a fixed order"] }
+  ]});
+
+  addDeck("functions2", "The mutable default argument trap", { title: "Scope in 5 slides", s: [
+    { big: "Where a variable is created decides where it can be seen." },
+    { h: "Local variables stay inside", c: R`
+def f():
+    local_var = 5
+
+f()
+print(local_var)`, o: R`NameError: name 'local_var' is not defined`, err: true },
+    { h: "Globals can be read inside", c: R`
+rate = 0.18
+
+def tax(x):
+    return x * rate
+
+print(tax(100))`, o: R`18.0` },
+    { h: "Assigning inside makes a new local", c: R`
+count = 0
+
+def reset():
+    count = 5      # a new local count
+
+reset()
+print(count)`, o: R`0` },
+    { h: "Best habit: pass in, return out", c: R`
+def add_bonus(score, bonus):
+    return score + bonus
+
+s = 70
+s = add_bonus(s, 5)
+print(s)`, o: R`75` }
+  ]});
+
+  addDeck("files", "Paths, and checking or deleting files", { title: "Working with a text file", s: [
+    { big: "Open, read or write, close. with does the closing for you." },
+    { h: "Write a file", c: R`
+with open("notes.txt", "w") as f:
+    f.write("Asha,82\nRavi,67\n")
+print("saved")`, o: R`saved` },
+    { h: "Read it back", c: R`
+with open("notes.txt", "w") as f:
+    f.write("Asha,82\nRavi,67\n")
+with open("notes.txt") as f:
+    print(f.read())`, o: R`
+Asha,82
+Ravi,67` },
+    { h: "Add a line", c: R`
+with open("notes.txt", "w") as f:
+    f.write("Asha,82\nRavi,67\n")
+with open("notes.txt", "a") as f:
+    f.write("Neha,91\n")
+with open("notes.txt") as f:
+    print(len(f.readlines()), "lines")`, o: R`3 lines` },
+    { h: "Turn lines into data", c: R`
+with open("notes.txt", "w") as f:
+    f.write("Asha,82\nRavi,67\n")
+marks = {}
+with open("notes.txt") as f:
+    for line in f:
+        name, mark = line.strip().split(",")
+        marks[name] = int(mark)
+print(marks)`, o: R`{'Asha': 82, 'Ravi': 67}` }
+  ]});
+
+  addDeck("modules", "math", { title: "Importing in 5 slides", s: [
+    { big: "Don't write it yourself. Import it." },
+    { h: "Import a whole module", c: R`
+import math
+print(math.floor(4.7))`, o: R`4` },
+    { h: "Give it a short name", c: R`
+import statistics as st
+print(st.median([3, 1, 2]))`, o: R`2` },
+    { h: "Import only what you need", c: R`
+from math import pi, sqrt
+print(round(pi, 2), sqrt(81))`, o: R`3.14 9.0` },
+    { h: "Install new libraries", b: "Libraries like pandas are not built in. Install once, then import:", c: R`
+%pip install pandas
+import pandas as pd` }
+  ]});
+
+  addDeck("numpy1", "Ways to create arrays", { title: "From list to array", s: [
+    { big: "An array is a list built for maths." },
+    { h: "Make one", c: R`
+import numpy as np
+a = np.array([10, 20, 30])
+print(a, type(a))`, o: R`[10 20 30] <class 'numpy.ndarray'>` },
+    { h: "Maths on every item at once", c: R`
+import numpy as np
+a = np.array([10, 20, 30])
+print(a * 2, a + 1)`, o: R`[20 40 60] [11 21 31]` },
+    { h: "shape tells you the size", c: R`
+import numpy as np
+m = np.array([[1, 2], [3, 4], [5, 6]])
+print(m.shape)`, o: R`(3, 2)` },
+    { h: "One type for everything", c: R`
+import numpy as np
+print(np.array([1, 2, 3.5]).dtype)`, o: R`float64` }
+  ]});
+})();
+
+/* ---------- Revision posters: Part 1 and 2 ---------- */
+POSTERS.intro = {
+  title: "Meet Python: How Your Code Runs",
+  sub: "What Python does with your code, where you write it, and the few rules it never bends.",
+  mods: [
+    { title: "How Python runs code", sub: "Top to bottom, one line at a time", cards: [
+      { h: "The run order", svg: V.flow([
+        { t: "You press Shift + Enter", k: "acc" },
+        { t: "Read the next line", k: "box" },
+        { t: "Run it\n(any output appears)", k: "tip" },
+        { t: "More lines?", k: "hl", d: true, lbl: "no" },
+        { t: "Cell finished", k: "soft" }
+      ], { back: [{ from: 3, to: 1, lbl: "yes", ln: "a" }], label: "Python reads and runs one line at a time" }) },
+      { h: "Where you write Python", rules: [["acc", "Jupyter", "cells with output below (your course notebooks)"], ["acc", "Google Colab", "Jupyter in the browser, nothing to install"], ["acc", "VS Code", "for bigger projects with many files"], ["acc", ".py file", "a script you run with `python file.py`"]] },
+      { h: "Text vs maths in print()", span: 1, c: R`
+print("10 + 5")   # in quotes: text
+print(10 + 5)     # no quotes: maths`, o: R`
+10 + 5
+15` }
+    ]},
+    { title: "Rules Python never bends", sub: "Get these right and most errors disappear", cards: [
+      { h: "Correct", k: "tip", c: R`
+if 5 > 2:
+    print("yes")`, verdict: ["ok", "Colon, then a 4-space indent"] },
+      { h: "Error", k: "trap", c: R`
+if 5 > 2:
+print("yes")`, verdict: ["no", "IndentationError"] },
+      { h: "Five syntax rules", span: 1, rules: [["key", "one line", "one instruction per line, no semicolons"], ["key", ":", "a colon starts a block"], ["key", "4 spaces", "mark the lines inside the block"], ["key", "print \u2260 Print", "capital letters matter"], ["key", "# note", "comments are ignored by Python"]] }
+    ], table: { head: ["You see", "It usually means", "Fix"], rows: [
+      ["`SyntaxError`", "A grammar mistake", "Add the missing `:`, bracket or quote"],
+      ["`IndentationError`", "Wrong spaces", "Indent 4 spaces after a `:`"],
+      ["`NameError`", "Unknown name", "Check spelling, capitals and run order"],
+      ["`TypeError`", "Types do not mix", "Convert with `str()` or `int()`"]
+    ]}}
+  ]
+};
+
+POSTERS.variables = {
+  title: "Variables & Data Types",
+  sub: "Names point at values. Every value has a type. Text that looks like a number is still text.",
+  mods: [
+    { title: "Variables are name tags", sub: "= stores, == compares", cards: [
+      { h: "Names point at values", span: 1, svg: V.refs({ vars: [["name", 0], ["age", 1], ["weight", 2], ["paid", 3]], objs: [{ v: "\"Raman\"", t: "str" }, { v: "16", t: "int" }, { v: "77.43", t: "float" }, { v: "False", t: "bool" }] }) },
+      { h: "Naming rules", rules: [["tip", "ticket_price", "letters, digits, _"], ["trap", "2nd_place", "cannot start with a digit"], ["trap", "ticket price", "no spaces"], ["trap", "class", "no keywords"], ["key", "name \u2260 Name", "case-sensitive"]] },
+      { h: "= vs ==", rules: [["acc", "x = 5", "store 5 in x"], ["acc", "x == 5", "ask: is x equal to 5? gives True/False"]], c: R`
+x = 5
+y = x
+x = 10
+print(x, y)`, o: R`10 5` }
+    ]},
+    { title: "Types and casting", sub: "Convert before you calculate", cards: [
+      { h: "input() always gives text", k: "trap", c: R`
+seats = "3"        # what input() returns
+print(seats * 2)
+print(int(seats) * 2)`, o: R`
+33
+6` },
+      { h: "Casting traps", k: "key", rules: [["trap", "int(3.99)", "3: cuts, does not round"], ["trap", "int(\"3.5\")", "ValueError"], ["trap", "bool(\"False\")", "True: any non-empty text"], ["trap", "0.1 + 0.2", "0.30000000000000004"], ["trap", "round(2.5)", "2: half goes to even"]] }
+    ], table: { head: ["Type", "Example", "Use for", "Convert with"], rows: [
+      ["`int`", "`16`", "whole numbers", "`int(\"16\")`"],
+      ["`float`", "`77.43`", "decimals", "`float(\"77.43\")`"],
+      ["`str`", "`\"Raman\"`", "text", "`str(16)`"],
+      ["`bool`", "`True`", "yes / no", "`bool(1)`"],
+      ["`None`", "`None`", "no value yet", "\u2013"]
+    ]}}
+  ]
+};
+
+POSTERS.output = {
+  title: "Printing & f-Strings",
+  sub: "Control spaces and new lines, then format numbers so a manager can read them.",
+  mods: [
+    { title: "print() controls", sub: "sep goes between, end goes after", cards: [
+      { h: "sep and end", c: R`
+print("A", "B", "C")
+print("A", "B", sep="-")
+print("A", end="")
+print("B")`, o: R`
+A B C
+A-B
+AB` },
+      { h: "Escape characters", rules: [["acc", "\\n", "new line"], ["acc", "\\t", "tab"], ["acc", "\\\\", "a real backslash"], ["acc", "\\'  \\\"", "quotes inside quotes"], ["acc", "r\"C:\\new\"", "raw string: keep backslashes"]] },
+      { h: "+ only joins text", k: "trap", span: 1, c: R`print("Age: " + 25)`, verdict: ["no", "TypeError: use str(25) or an f-string"] }
+    ]},
+    { title: "f-strings", sub: "f\"...{value:spec}...\"", cards: [
+      { h: "Anatomy of an f-string", span: 1, svg: ART.fstring() },
+      { h: "A neat money line", c: R`
+amount = 1234.5
+print(f"Total: {amount:,.2f}")
+print(f"{0.256:.1%}")`, o: R`
+Total: 1,234.50
+25.6%` },
+      { h: "Line up columns", c: R`
+print(f"[{'Tea':<6}]")
+print(f"[{'Tea':>6}]")`, o: R`
+[Tea   ]
+[   Tea]` }
+    ], table: { head: ["Spec", "Input", "Shows", "Use for"], rows: [
+      ["`.2f`", "`1234.5678`", "`1234.57`", "money, averages"],
+      ["`,`", "`1500000`", "`1,500,000`", "big numbers"],
+      ["`,.2f`", "`1234.5678`", "`1,234.57`", "money with commas"],
+      ["`.1%`", "`0.256`", "`25.6%`", "percentages"],
+      ["`03d`", "`7`", "`007`", "IDs"],
+      ["`>8`", "`\"Tea\"`", "`     Tea`", "columns"]
+    ]}}
+  ]
+};
+
+POSTERS.operators = {
+  title: "Operators: Division, Order & Identity",
+  sub: "The three operators that trip up everyone: //, % and is.",
+  mods: [
+    { title: "The division family", sub: "/ gives a float, // whole groups, % what is left", cards: [
+      { h: "11 sweets, 3 friends", span: 1, svg: ART.sweets() },
+      { h: "Quick rules", rules: [["acc", "7 / 2", "3.5 (always a float)"], ["acc", "7 // 2", "3 (whole groups)"], ["acc", "7 % 2", "1 (left over)"], ["trap", "-7 // 2", "-4 (rounds DOWN)"], ["tip", "n % 2 == 0", "is n even?"]] },
+      { h: "The course margin bug", k: "trap", c: R`
+print((30000 // 180000) * 100)
+print(round((30000 / 180000) * 100, 2))`, o: R`
+0
+16.67`, foot: "Use / for percentages, never //" }
+    ]},
+    { title: "Order and identity", sub: "Brackets first. == for values, is for None", cards: [
+      { h: "Precedence ladder", svg: V.flow([
+        { t: "( )  brackets", k: "acc", code: 1 }, { t: "**  power", k: "box", code: 1 }, { t: "*  /  //  %", k: "box", code: 1 },
+        { t: "+  -", k: "box", code: 1 }, { t: "==  >  <  in  is", k: "hl", code: 1 }, { t: "not, then and, then or", k: "soft", code: 1 }
+      ], { label: "Operator precedence from highest to lowest" }), foot: "Top runs first. Same rung: left to right." },
+      { h: "== vs is", svg: V.refs({ vars: [["a", 0], ["b", 1], ["c", 0]], objs: [{ v: "[1, 2, 3]", t: "obj 1" }, { v: "[1, 2, 3]", t: "obj 2" }], objW: 170, gapX: 90 }), rules: [["tip", "a == b", "True: same values"], ["trap", "a is b", "False: two objects"], ["tip", "a is c", "True: same object"]] }
+    ], table: { head: ["Family", "Operators", "Gives"], rows: [
+      ["Arithmetic", "`+ - * / // % **`", "a number"],
+      ["Comparison", "`== != > < >= <=`", "True / False"],
+      ["Logical", "`and or not`", "True / False"],
+      ["Assignment", "`= += -= *= /=`", "updates a variable"],
+      ["Membership", "`in`, `not in`", "True / False"],
+      ["Identity", "`is`, `is not`", "True / False (same object?)"]
+    ]}}
+  ]
+};
+
+POSTERS.conditions = {
+  title: "Decisions: if, elif, else",
+  sub: "Python checks from the top and runs only the first branch that is True.",
+  mods: [
+    { title: "How an elif chain runs", sub: "First True wins, the rest are skipped", cards: [
+      { h: "score = 85", span: 1, svg: V.flow([
+        { t: "score >= 90 ?", d: true, k: "hl", lbl: "False" },
+        { t: "score >= 80 ?", d: true, k: "hl", lbl: "False" },
+        { t: "score >= 70 ?", d: true, k: "hl", lbl: "False" },
+        { t: "else: grade = \"F\"", k: "soft", code: 1 }
+      ], { side: [{ from: 0, t: "grade = \"A\"", k: "box", lbl: "True" }, { from: 1, t: "grade = \"B\"  \u2190 runs", k: "tip", lbl: "True", ln: "g" }, { from: 2, t: "grade = \"C\"", k: "box", lbl: "True" }], label: "elif ladder" }) },
+      { h: "Order matters", k: "trap", c: R`
+marks = 92
+if marks >= 45:
+    print("Grade D")
+elif marks >= 90:
+    print("Grade A")`, o: R`Grade D`, foot: "Put the strictest check first" },
+      { h: "One-line choice", c: R`
+age = 20
+print("Adult" if age >= 18 else "Minor")`, o: R`Adult` }
+    ]},
+    { title: "Truthy, falsy & traps", sub: "Any value can act as True or False", cards: [
+      { h: "Falsy values", k: "key", rules: [["trap", "0  0.0", "zero"], ["trap", "\"\"", "empty text"], ["trap", "[]  {}  ()  set()", "empty collections"], ["trap", "None", "no value"]], foot: "Everything else is truthy, even \"0\" and \" \"" },
+      { h: "x == 1 or 2", k: "trap", c: R`
+choice = 5
+if choice == 1 or 2:
+    print("runs for ANY choice")`, o: R`runs for ANY choice`, verdict: ["ok", "Write: if choice in (1, 2):"] }
+    ], table: { head: ["Form", "Use when"], rows: [
+      ["`if`", "Do something only when True"],
+      ["`if-else`", "Exactly one of two paths"],
+      ["`if-elif-else`", "Many paths, first True wins"],
+      ["nested `if`", "A check that only matters after another passes"],
+      ["`a if c else b`", "Pick between two values in one line"],
+      ["`match-case`", "One value against many fixed options"]
+    ]}}
+  ]
+};
+
+POSTERS.forloops = {
+  title: "For Loops & range()",
+  sub: "Repeat code for every item, and remember that stop is never included.",
+  mods: [
+    { title: "range() and the loop", sub: "range(start, stop, step)", cards: [
+      { h: "range(2, 10, 2)", span: 1, svg: V.strip(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], { pos: false, hl: [2, 4, 6, 8], dim: [10], bracket: [2, 10, "2, 4, 6, 8  (10 is the stop: left out)"] }) },
+      { h: "The three forms", rules: [["acc", "range(5)", "0 1 2 3 4"], ["acc", "range(2, 5)", "2 3 4"], ["acc", "range(0, 10, 3)", "0 3 6 9"], ["acc", "range(5, 0, -1)", "5 4 3 2 1"], ["trap", "range(1, 10)", "stops at 9! use 11"]] },
+      { h: "Accumulator", c: R`
+total = 0
+for p in [120, 45, 80]:
+    total += p
+print(total)`, o: R`245` }
+    ]},
+    { title: "Patterns and nesting", sub: "Five patterns cover almost every loop", cards: [
+      { h: "The 5 patterns", rules: [["tip", "total += x", "sum (start at 0)"], ["tip", "count += 1", "count matches"], ["tip", "out.append(x)", "filter into a new list"], ["tip", "if x > best", "find the biggest"], ["tip", "fact *= i", "multiply (start at 1)"]] },
+      { h: "Nested: 3 x 3 = 9 rounds", svg: V.cells([1, 2, 3].map(function(i){ return { label: "i = " + i, cells: [1, 2, 3].map(function(j){ return { t: "(" + i + "," + j + ")", k: "run" }; }) }; }), { cl: ["j = 1", "j = 2", "j = 3"], cw: 58 }), foot: "The inner loop restarts for every outer round" }
+    ], table: { head: ["Tool", "Gives you", "Example"], rows: [
+      ["`enumerate()`", "index and item", "`for i, x in enumerate(items):`"],
+      ["`zip()`", "two lists side by side", "`for a, b in zip(l1, l2):`"],
+      ["`for-else`", "else runs if no break", "\"not found\" messages"],
+      ["`end=\" \"`", "print on one line", "`print(i, end=\" \")`"]
+    ]}}
+  ]
+};
+
+POSTERS.whileloops = {
+  title: "While Loops, break, continue & pass",
+  sub: "Loop until something happens, and take control of any loop.",
+  mods: [
+    { title: "while loop anatomy", sub: "Start, check, run, update, repeat", cards: [
+      { h: "count from 1 to 3", span: 1, svg: V.flow([
+        { t: "count = 1", k: "soft", code: 1 },
+        { t: "count <= 3 ?", d: true, k: "hl", lbl: "True" },
+        { t: "print(count)", k: "box", code: 1 },
+        { t: "count += 1", k: "tip", code: 1 }
+      ], { back: [{ from: 3, to: 1, lbl: "repeat", ln: "a" }], side: [{ from: 1, t: "loop ends", k: "soft", lbl: "False" }], label: "while loop flowchart" }) },
+      { h: "Infinite loop", k: "trap", c: R`
+count = 1
+while count <= 3:
+    print(count)
+    # forgot count += 1`, verdict: ["no", "Runs forever: press Stop"] },
+      { h: "for or while?", rules: [["acc", "for", "you know what to loop over"], ["acc", "while", "loop until something happens"], ["acc", "while True + break", "menus, input checks, games"]] }
+    ]},
+    { title: "break, continue, pass in nested loops", sub: "Each square is one inner round. Outer loop i, inner loop j, the statement fires when j == 3", cards: [
+      { h: "break: leave the inner loop", k: "trap", span: 1, svg: V.cells([1, 2].map(function(i){ return { label: "i = " + i, cells: [{ t: "j=1", k: "run" }, { t: "j=2", k: "run" }, { t: "break", k: "stop" }, { t: "j=4", k: "never" }] }; }), { cw: 70 }), foot: "j = 4 never runs, but the outer loop carries on with i = 2" },
+      { h: "continue: skip this round", k: "key", span: 1, svg: V.cells([1, 2].map(function(i){ return { label: "i = " + i, cells: [{ t: "j=1", k: "run" }, { t: "j=2", k: "run" }, { t: "skip", k: "skip" }, { t: "j=4", k: "run" }] }; }), { cw: 70 }), foot: "Only the rest of round j = 3 is skipped" },
+      { h: "pass: do nothing", k: "tip", span: 1, svg: V.cells([1, 2].map(function(i){ return { label: "i = " + i, cells: [{ t: "j=1", k: "run" }, { t: "j=2", k: "run" }, { t: "pass", k: "run" }, { t: "j=4", k: "run" }] }; }), { cw: 70 }), foot: "Everything still runs. pass is just a placeholder" }
+    ], table: { head: ["", ["break", "trap"], ["continue", "key"], ["pass", "tip"]], rows: [
+      ["Action", "Exits the innermost loop", "Skips the rest of this round", "Does nothing"],
+      ["Inner loop", "Remaining rounds never run", "Jumps to the next round", "Carries on as normal"],
+      ["Outer loop", "Moves on to its next round", "Unaffected", "Unaffected"]
+    ]}}
+  ]
+};
+
+/* ---------- Revision posters: Part 3 ---------- */
+POSTERS.strings = {
+  title: "Strings: Index, Slice & Clean",
+  sub: "Positions start at 0, stop is never included, and every method returns a new string.",
+  mods: [
+    { title: "Indexing and slicing", sub: "s[start:stop:step]", cards: [
+      { h: "Positions", span: 1, svg: V.strip(["P", "y", "t", "h", "o", "n"], { neg: true, rowLabels: true, w: 52, hl: [2, 3, 4], bracket: [2, 5, "s[2:5] → \"tho\""] }) },
+      { h: "Slices of \"Python\"", rules: [["acc", "s[0]  s[-1]", "\"P\"  \"n\""], ["acc", "s[:3]", "\"Pyt\" first 3"], ["acc", "s[-3:]", "\"hon\" last 3"], ["acc", "s[::2]", "\"Pto\" every 2nd"], ["acc", "s[::-1]", "\"nohtyP\" reversed"]] },
+      { h: "Two rules", k: "key", items: ["Stop is **never** included: `s[2:5]` has 3 characters", "`s[10]` is an IndexError, but a slice past the end is fine: `s[2:100]` gives \"thon\""] }
+    ]},
+    { title: "Immutable, so methods return new text", sub: "Store the result or it is lost", cards: [
+      { h: "replace() makes a new string", k: "trap", c: R`
+city = "Jaipur"
+city.replace("Jai", "Udai")
+print(city)
+city = city.replace("Jai", "Udai")
+print(city)`, o: R`
+Jaipur
+Udaipur` },
+      { h: "Cleaning pipeline", svg: V.flow([
+        { t: "\"  priya SHARMA  \"", k: "trap", code: 1 }, { t: ".strip()", k: "box", code: 1 }, { t: ".title()", k: "box", code: 1 }, { t: "\"Priya Sharma\"", k: "tip", code: 1 }
+      ], { label: "strip then title" }), foot: "Methods chain left to right" }
+    ], table: { head: ["Method", "Does", "Example → result"], rows: [
+      ["`strip()`", "remove spaces at both ends", "`\" hi \"` → `\"hi\"`"],
+      ["`split(\",\")`", "text → list", "`\"a,b\"` → `['a', 'b']`"],
+      ["`\"-\".join(l)`", "list → text", "`['a', 'b']` → `\"a-b\"`"],
+      ["`find(x)`", "position, or -1", "`\"data\".find(\"t\")` → `2`"],
+      ["`count(x)`", "how many", "`\"banana\".count(\"a\")` → `3`"],
+      ["`isdigit()`", "only digits?", "`\"3.5\".isdigit()` → [[no:False]]"]
+    ]}}
+  ]
+};
+
+POSTERS.lists = {
+  title: "Lists: Add, Remove, Sort & Copy",
+  sub: "Ordered, changeable, duplicates allowed. And b = a is never a copy.",
+  mods: [
+    { title: "Changing a list", sub: "Methods change the list in place", cards: [
+      { h: "append vs extend", span: 1, svg: V.strip(["1", "2", "[3, 4]"], { w: 70, pos: false, hl: [2], title: "a.append([3, 4])  →  3 items" }) + V.strip(["1", "2", "3", "4"], { w: 70, pos: false, hl: [2, 3], title: "a.extend([3, 4])  →  4 items" }) },
+      { h: "Removing", rules: [["acc", "remove(x)", "first x, by value"], ["acc", "pop(i)", "by index, gives it back"], ["acc", "del lst[i]", "by index"], ["acc", "clear()", "everything"], ["trap", "remove(\"z\")", "ValueError if missing"]] },
+      { h: "sort() vs sorted()", k: "trap", c: R`
+nums = [3, 1, 2]
+print(sorted(nums), nums)
+print(nums.sort(), nums)`, o: R`
+[1, 2, 3] [3, 1, 2]
+None [1, 2, 3]` }
+    ]},
+    { title: "The copy trap", sub: "Two names can share one list", cards: [
+      { h: "b = a: one list, two names", k: "trap", svg: V.refs({ vars: [["a", 0], ["b", 0]], objs: [{ v: "[99, 2, 3]", t: "obj 1" }], objW: 150, gapX: 80 }), verdict: ["no", "b[0] = 99 changes a too"] },
+      { h: "c = a.copy(): two lists", k: "tip", svg: V.refs({ vars: [["a", 0], ["c", 1]], objs: [{ v: "[1, 2, 3]", t: "obj 1" }, { v: "[99, 2, 3]", t: "obj 2" }], objW: 150, gapX: 80 }), verdict: ["ok", "a is safe"] },
+      { h: "Never remove while looping", k: "trap", span: 1, c: R`
+nums = [2, 4, 5, 6]
+for n in nums:
+    if n % 2 == 0:
+        nums.remove(n)
+print(nums)`, o: R`[4, 5]`, foot: "4 was skipped. Build a new list instead: [n for n in nums if n % 2]" }
+    ], table: { head: ["I want to...", "Use"], rows: [
+      ["add one item", "`lst.append(x)`"], ["add many items", "`lst.extend(other)`"], ["add at a position", "`lst.insert(i, x)`"],
+      ["sort and keep the original", "`sorted(lst)`"], ["biggest first", "`sorted(lst, reverse=True)`"], ["a separate copy", "`lst.copy()` or `lst[:]`"]
+    ]}}
+  ]
+};
+
+POSTERS.tuples = {
+  title: "Tuples: Fixed Records & Unpacking",
+  sub: "A list that cannot change. Perfect for records, return values and dictionary keys.",
+  mods: [
+    { title: "Immutable sequences", sub: "Read anything, change nothing", cards: [
+      { h: "No changes allowed", k: "trap", c: R`
+t = (10, 20)
+t[0] = 15`, verdict: ["no", "TypeError: no item assignment"] },
+      { h: "The comma makes it", k: "key", c: R`
+print(type((11)))
+print(type((11,)))`, o: R`
+<class 'int'>
+<class 'tuple'>` },
+      { h: "Just two methods", rules: [["acc", "t.count(x)", "how many times"], ["acc", "t.index(x)", "first position"], ["acc", "t + (x,)", "\"add\" by making a new tuple"]] },
+      { h: "Hidden mutability", k: "trap", c: R`
+t = (1, [2, 3])
+t[1].append(4)
+print(t)`, o: R`(1, [2, 3, 4])` }
+    ]},
+    { title: "Packing and unpacking", sub: "Many values in, many names out", cards: [
+      { h: "name, age, city = person", span: 1, svg: V.refs({ vars: [["name", 0], ["age", 1], ["city", 2]], objs: [{ v: "\"John\"", t: "item 0" }, { v: "25", t: "item 1" }, { v: "\"New York\"", t: "item 2" }], objW: 170 }), foot: "Matched by position. Counts must match or you get ValueError" },
+      { h: "Star collects the rest", c: R`
+first, *mid, last = (1, 2, 3, 4, 5)
+print(first, mid, last)`, o: R`1 [2, 3, 4] 5` },
+      { h: "Swap and return", c: R`
+a, b = 1, 2
+a, b = b, a
+print(a, b)`, o: R`2 1` }
+    ], table: { head: ["", "List [ ]", "Tuple ( )"], rows: [
+      ["Change items", "[[ok:Yes]]", "[[no:No]]"], ["Methods", "many", "`count`, `index`"], ["Dict key", "[[no:No]]", "[[ok:Yes]]"], ["Best for", "collections that change", "fixed records"]
+    ]}}
+  ]
+};
+
+POSTERS.sets = {
+  title: "Sets: Unique Items & Venn Operations",
+  sub: "No order, no index, no duplicates. Compare two groups in one line.",
+  mods: [
+    { title: "What a set does", sub: "Duplicates vanish, membership is fast", cards: [
+      { h: "Duplicates disappear", c: R`
+a = {2, 4, 3, 2, 4, 3}
+print(a, len(a))`, o: R`{2, 3, 4} 3` },
+      { h: "{} is not a set", k: "trap", c: R`
+print(type({}))
+print(type(set()))`, o: R`
+<class 'dict'>
+<class 'set'>` },
+      { h: "Adding and removing", span: 1, rules: [["acc", "s.add(x)", "one item"], ["acc", "s.update(lst)", "many items"], ["trap", "s.remove(x)", "KeyError if missing"], ["tip", "s.discard(x)", "no error if missing"], ["trap", "s[0]", "TypeError: no index"]] }
+    ]},
+    { title: "The four operations", sub: "a = September customers, b = October customers", cards: [
+      { h: "a | b  union", svg: V.venn({ a: "a", b: "b", ao: ["3", "4"], ab: ["2", "7"], bo: ["1", "5"], fs: 34, shade: "union" }), foot: "everyone, once" },
+      { h: "a & b  intersection", svg: V.venn({ a: "a", b: "b", ao: ["3", "4"], ab: ["2", "7"], bo: ["1", "5"], fs: 34, shade: "ab" }), foot: "came back" },
+      { h: "a - b  difference", svg: V.venn({ a: "a", b: "b", ao: ["3", "4"], ab: ["2", "7"], bo: ["1", "5"], fs: 34, shade: "aonly" }), foot: "lost customers" },
+      { h: "a ^ b  symmetric", svg: V.venn({ a: "a", b: "b", ao: ["3", "4"], ab: ["2", "7"], bo: ["1", "5"], fs: 34, shade: "sym" }), foot: "came only once" }
+    ], table: { head: ["Operation", "Operator", "Method", "Answers"], rows: [
+      ["Union", "`a | b`", "`a.union(b)`", "all customers"], ["Intersection", "`a & b`", "`a.intersection(b)`", "returning customers"],
+      ["Difference", "`a - b`", "`a.difference(b)`", "lost customers"], ["Symmetric", "`a ^ b`", "`a.symmetric_difference(b)`", "one-time customers"]
+    ]}}
+  ]
+};
+
+POSTERS.dicts = {
+  title: "Dictionaries: Keys, Values & Patterns",
+  sub: "Look things up by name. The shape of most real data.",
+  mods: [
+    { title: "Look up by key", sub: "Keys are unique and unchangeable", cards: [
+      { h: "Key → value", span: 1, svg: V.refs({ vars: [["\"name\"", 0], ["\"age\"", 1], ["\"city\"", 2]], objs: [{ v: "\"Raman\"", t: "str" }, { v: "16", t: "int" }, { v: "\"Jaipur\"", t: "str" }], objW: 160 }) },
+      { h: "[ ] vs get()", rules: [["trap", "d[\"email\"]", "KeyError if missing"], ["tip", "d.get(\"email\")", "None if missing"], ["tip", "d.get(\"email\", \"-\")", "your default"], ["acc", "d[\"age\"] = 17", "adds or updates"]] },
+      { h: "in checks keys only", k: "trap", c: R`
+d = {"name": "Asha"}
+print("name" in d, "Asha" in d)`, o: R`True False` }
+    ]},
+    { title: "Nested data and patterns", sub: "One bracket per level", cards: [
+      { h: "data[0][\"marks\"][\"maths\"][-1]", svg: V.flow([
+        { t: "data  (list)", k: "soft", code: 1, lbl: "[0]" }, { t: "Raman's dict", k: "box", lbl: "[\"marks\"]" }, { t: "marks dict", k: "box", lbl: "[\"maths\"]" }, { t: "[99, 98]", k: "acc", code: 1, lbl: "[-1]" }, { t: "98", k: "tip", code: 1 }
+      ], { label: "Following a nested path" }) },
+      { h: "Count pattern", c: R`
+counts = {}
+for w in "a b a c a".split():
+    counts[w] = counts.get(w, 0) + 1
+print(counts)`, o: R`{'a': 3, 'b': 1, 'c': 1}` }
+    ], table: { head: ["Pattern", "Core line", "Like"], rows: [
+      ["Count", "`d[k] = d.get(k, 0) + 1`", "COUNTIF"],
+      ["Total by category", "`d[cat] = d.get(cat, 0) + amt`", "pivot table / GROUP BY"],
+      ["Group", "`d.setdefault(k, []).append(x)`", "grouping rows"],
+      ["Look up", "`codes.get(code, \"Unknown\")`", "VLOOKUP"]
+    ]}}
+  ]
+};
+
+POSTERS.comprehensions = {
+  title: "Comprehensions & Choosing a Collection",
+  sub: "Build lists in one line, then pick the right container for the job.",
+  mods: [
+    { title: "One-line lists", sub: "[keep for item in items if test]", cards: [
+      { h: "Anatomy", span: 1, svg: ART.compAnatomy() },
+      { h: "Filter: if at the END", k: "tip", c: R`
+nums = [-2, 5, -1, 8]
+print([x for x in nums if x > 0])`, o: R`[5, 8]` },
+      { h: "Transform: if-else at the FRONT", k: "key", c: R`
+nums = [-2, 5, -1, 8]
+print([x if x > 0 else 0 for x in nums])`, o: R`[0, 5, 0, 8]` },
+      { h: "Grid trap", k: "trap", span: 1, c: R`
+bad = [[0] * 2] * 2
+bad[0][0] = 9
+print(bad)
+good = [[0] * 2 for _ in range(2)]
+good[0][0] = 9
+print(good)`, o: R`
+[[9, 0], [9, 0]]
+[[9, 0], [0, 0]]` }
+    ]},
+    { title: "Which collection?", sub: "Ask these questions in order", cards: [
+      { h: "Decision chart", span: 1, svg: V.flow([
+        { t: "Look things up by\na name or ID?", d: true, k: "hl", lbl: "no" },
+        { t: "Only unique items?", d: true, k: "hl", lbl: "no" },
+        { t: "Must never change?", d: true, k: "hl", lbl: "no" },
+        { t: "list  [ ]", k: "tip", code: 1 }
+      ], { side: [{ from: 0, t: "dict  {k: v}", k: "acc", lbl: "yes" }, { from: 1, t: "set  { }", k: "acc", lbl: "yes" }, { from: 2, t: "tuple  ( )", k: "acc", lbl: "yes" }], label: "Choosing a collection" }) }
+    ], table: { head: ["", "str", "list", "tuple", "set", "dict"], rows: [
+      ["Mutable", "[[no:No]]", "[[ok:Yes]]", "[[no:No]]", "[[ok:Yes]]", "[[ok:Yes]]"],
+      ["Ordered", "Yes", "Yes", "Yes", "[[no:No]]", "Yes"],
+      ["Indexed", "Yes", "Yes", "Yes", "[[no:No]]", "by key"],
+      ["Duplicates", "Yes", "Yes", "Yes", "[[no:No]]", "keys: No"]
+    ]}}
+  ]
+};
+
+/* ---------- Revision posters: Parts 4 to 8 ---------- */
+POSTERS.functions = {
+  title: "Functions: def, Parameters & return",
+  sub: "Write a job once, call it whenever you need it, and hand the answer back with return.",
+  mods: [
+    { title: "Anatomy and the call", sub: "Define once, call many times", cards: [
+      { h: "Parts of a function", span: 1, svg: ART.funcAnatomy() },
+      { h: "What happens on a call", svg: V.flow([
+        { t: "total = add(5, 7)", k: "acc", code: 1 }, { t: "jump in: a = 5, b = 7", k: "box" }, { t: "result = 12", k: "box", code: 1 }, { t: "return 12", k: "tip", code: 1 }, { t: "total = 12", k: "hl", code: 1 }
+      ], { label: "Function call flow" }) },
+      { h: "Parameter vs argument", rules: [["acc", "def greet(name):", "name is a parameter"], ["acc", "greet(\"Ravi\")", "\"Ravi\" is an argument"], ["acc", "def f(a, b=1):", "b has a default"], ["acc", "f(b=2, a=1)", "keyword arguments"]] }
+    ]},
+    { title: "print vs return", sub: "print shows, return hands back", cards: [
+      { h: "print inside", k: "trap", c: R`
+def double(n):
+    print(n * 2)
+r = double(4)
+print(r)`, o: R`
+8
+None` },
+      { h: "return inside", k: "tip", c: R`
+def double(n):
+    return n * 2
+r = double(4)
+print(r + 1)`, o: R`9` },
+      { h: "Rules to remember", span: 1, rules: [["key", "no return", "the function gives back None"], ["key", "return", "ends the function immediately"], ["key", "return a, b", "gives back a tuple"], ["trap", "def f(a=1, b):", "SyntaxError: defaults go last"]] }
+    ], table: { head: ["Argument style", "Call", "Note"], rows: [
+      ["Positional", "`area(5, 2)`", "order matters"], ["Keyword", "`area(h=2, w=5)`", "order does not matter"],
+      ["Default", "`greet()`", "uses `name=\"Guest\"`"], ["Mixed", "`bill(500, tax=0.05)`", "positional first"]
+    ]}}
+  ]
+};
+
+POSTERS.functions2 = {
+  title: "Advanced Functions",
+  sub: "Flexible inputs, scope rules, and the tools that show up in interviews.",
+  mods: [
+    { title: "Inputs and scope", sub: "*args, **kwargs, LEGB", cards: [
+      { h: "*args and **kwargs", span: 1, c: R`
+def order(item, *extras, **notes):
+    print(item, extras, notes)
+order("Pizza", "olives", spicy=True)`, o: R`Pizza ('olives',) {'spicy': True}` },
+      { h: "LEGB lookup order", svg: ART.legb() },
+      { h: "Two famous traps", k: "trap", rules: [["trap", "count += 1", "inside a function: UnboundLocalError (pass it in and return it)"], ["trap", "def f(x, lst=[])", "one list shared by every call: use lst=None"]] }
+    ]},
+    { title: "lambda, recursion, generators, decorators", sub: "Small tools, big ideas", cards: [
+      { h: "lambda as a sort key", c: R`
+rows = [("Tea", 20), ("Coffee", 45), ("Juice", 35)]
+print(sorted(rows, key=lambda r: r[1]))`, o: R`[('Tea', 20), ('Juice', 35), ('Coffee', 45)]` },
+      { h: "Recursion: fact(3)", svg: V.flow([
+        { t: "fact(3) = 3 * fact(2)", k: "box", code: 1 }, { t: "fact(2) = 2 * fact(1)", k: "box", code: 1 }, { t: "fact(1) = 1  (base case)", k: "tip", code: 1 }, { t: "unwind: 2 * 1 = 2, 3 * 2 = 6", k: "hl", code: 1 }
+      ], { label: "Recursion call stack" }), foot: "No base case = RecursionError" }
+    ], table: { head: ["Tool", "What it is", "Example"], rows: [
+      ["`lambda`", "tiny one-line function", "`lambda x: x * 2`"], ["`map` / `filter`", "apply / keep", "`list(filter(f, items))`"],
+      ["generator", "`yield` values one at a time", "`def gen(): yield 1`"], ["decorator", "wraps a function", "`@log_call`"]
+    ]}}
+  ]
+};
+
+POSTERS.errors = {
+  title: "Errors & try / except",
+  sub: "Read the message from the bottom, then handle what you expect.",
+  mods: [
+    { title: "Reading an error", sub: "Bottom line first", cards: [
+      { h: "How to read a traceback", svg: V.flow([
+        { t: "1. Last line: type + message", k: "trap" }, { t: "2. ----> arrow: the failing line", k: "hl" }, { t: "3. Read upwards: who called it", k: "box" }, { t: "4. Fix the code, or handle it", k: "tip" }
+      ], { label: "Reading a traceback" }) },
+      { h: "TypeError vs ValueError", rules: [["trap", "\"a\" + 1", "TypeError: wrong type"], ["trap", "int(\"abc\")", "ValueError: right type, bad value"], ["trap", "[1, 2][5]", "IndexError"], ["trap", "d[\"x\"]", "KeyError"], ["trap", "10 / 0", "ZeroDivisionError"]] }
+    ]},
+    { title: "Handling errors", sub: "try, except, else, finally", cards: [
+      { h: "The flow", svg: ART.tryFlow() },
+      { h: "Safe conversion", c: R`
+for raw in ["120", "N/A", "42"]:
+    try:
+        print(int(raw) * 2)
+    except ValueError:
+        print("skip", raw)`, o: R`
+240
+skip N/A
+84` },
+      { h: "Raise your own", span: 1, c: R`
+def set_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+    return age
+try:
+    set_age(-3)
+except ValueError as e:
+    print("Error:", e)`, o: R`Error: Age cannot be negative`, foot: "Never write a bare except: it hides your own bugs" }
+    ], table: { head: ["Block", "Runs when"], rows: [
+      ["`try`", "always, first"], ["`except`", "an error happened"], ["`else`", "no error happened"], ["`finally`", "always, for clean-up"]
+    ]}}
+  ]
+};
+
+POSTERS.files = {
+  title: "Files: Modes, with, CSV, JSON & pickle",
+  sub: "Save results and load data back. Open, read or write, and let with close it.",
+  mods: [
+    { title: "Opening files", sub: "open(name, mode)", cards: [
+      { h: "Modes", rules: [["acc", "\"r\"", "read (default)"], ["trap", "\"w\"", "write: WIPES the file first"], ["tip", "\"a\"", "append to the end"], ["acc", "\"x\"", "create: error if it exists"], ["acc", "\"rb\" \"wb\"", "binary, for pickle"]] },
+      { h: "Always use with", k: "tip", c: R`
+with open("demo.txt", "w") as f:
+    f.write("Hi\nBye\n")
+with open("demo.txt") as f:
+    for line in f:
+        print(line.strip())`, o: R`
+Hi
+Bye` },
+      { h: "write() needs text", k: "trap", span: 1, c: R`
+with open("demo.txt", "a") as f:
+    f.write(2000)`, verdict: ["no", "TypeError: use f.write(str(2000))"] }
+    ]},
+    { title: "Data formats", sub: "Pick the format for the job", cards: [
+      { h: "JSON", c: R`
+import json
+text = json.dumps({"ok": True, "n": None})
+print(text)`, o: R`{"ok": true, "n": null}` },
+      { h: "pickle", c: R`
+import pickle
+with open("db.pkl", "wb") as f:
+    pickle.dump({"seats": 20}, f)
+with open("db.pkl", "rb") as f:
+    print(pickle.load(f))`, o: R`{'seats': 20}` }
+    ], table: { head: ["Format", "Module", "Readable?", "Best for"], rows: [
+      ["Text", "`open()`", "[[ok:Yes]]", "notes, logs"], ["CSV", "`csv` / pandas", "[[ok:Yes]] (Excel)", "tables"],
+      ["JSON", "`json`", "[[ok:Yes]]", "nested data, APIs"], ["Pickle", "`pickle`", "[[no:No]] (binary)", "your own Python objects"]
+    ]}}
+  ]
+};
+
+POSTERS.modules = {
+  title: "Modules & Libraries",
+  sub: "Import tools instead of writing them. Install more with pip.",
+  mods: [
+    { title: "Importing", sub: "Module, package, library", cards: [
+      { h: "What contains what", svg: ART.libNest() },
+      { h: "Import styles", rules: [["acc", "import math", "math.sqrt(25)"], ["acc", "import numpy as np", "np.array(...)"], ["acc", "from math import sqrt", "sqrt(25)"], ["trap", "from math import *", "avoid: names clash"], ["tip", "%pip install pandas", "install in a notebook"]] }
+    ]},
+    { title: "Handy modules", sub: "Already installed with Python", cards: [
+      { h: "Dates", c: R`
+from datetime import date, timedelta
+d = date(2026, 12, 24)
+print((d + timedelta(days=4)).strftime("%d %b %Y"))`, o: R`28 Dec 2026`, foot: "strftime formats, strptime parses" },
+      { h: "Counting", c: R`
+from collections import Counter
+print(Counter("tea coffee tea".split()).most_common(1))`, o: R`[('tea', 2)]` },
+      { h: "randint includes the end", k: "trap", span: 1, rules: [["trap", "random.randint(1, 6)", "1 to 6 (6 included)"], ["acc", "range(1, 6)", "1 to 5"], ["acc", "np.random.randint(1, 6)", "1 to 5"], ["tip", "random.seed(42)", "repeatable results"]] }
+    ], table: { head: ["Module", "Use it for", "Example"], rows: [
+      ["`math`", "rounding, roots, pi", "`math.ceil(23 / 4)`"], ["`random`", "random picks", "`random.choice(lst)`"],
+      ["`datetime`", "dates and times", "`datetime.now()`"], ["`statistics`", "mean, median, stdev", "`statistics.median(x)`"],
+      ["`re`", "text patterns", "`re.findall(r\"\\d+\", s)`"], ["`os`", "files and folders", "`os.path.exists(p)`"]
+    ]}}
+  ]
+};
+
+POSTERS.oop = {
+  title: "Classes & Objects",
+  sub: "A class is the blueprint, an object is the real thing built from it.",
+  mods: [
+    { title: "Blueprint and objects", sub: "One class, many objects", cards: [
+      { h: "class Room \u2192 three objects", span: 1, svg: ART.rooms() },
+      { h: "__init__ and self", c: R`
+class Room:
+    def __init__(self, number, rate):
+        self.number = number
+        self.rate = rate
+    def price(self, nights):
+        return self.rate * nights
+
+r1 = Room(101, 3499)
+print(r1.number, r1.price(2))`, o: R`101 6998` },
+      { h: "self, simply", k: "key", items: ["`self` means **this object**", "`r1.price(2)` runs `Room.price(r1, 2)`", "Write `self.rate`, not just `rate`", "Class attribute: shared by all objects. `self.x`: one per object"] }
+    ]},
+    { title: "The four pillars", sub: "Encapsulation, inheritance, polymorphism, abstraction", cards: [
+      { h: "Inheritance", svg: ART.inherit() },
+      { h: "Pillars in one line each", rules: [["acc", "Encapsulation", "protect data behind methods (`__balance`)"], ["acc", "Inheritance", "`class Student(Person):`"], ["acc", "Polymorphism", "same method name, different classes"], ["acc", "Abstraction", "simple methods hide the details"]] }
+    ], table: { head: ["Magic method", "Triggered by"], rows: [
+      ["`__init__`", "creating `Room(...)`"], ["`__str__`", "`print(obj)`"], ["`__eq__`", "`a == b`"], ["`__lt__`", "`a < b`, `sorted()`"], ["`__len__`", "`len(obj)`"], ["`__add__`", "`a + b`"]
+    ]}}
+  ]
+};
+
+POSTERS.numpy1 = {
+  title: "NumPy Arrays",
+  sub: "Fast grids of numbers, all one type. Rows always come before columns.",
+  mods: [
+    { title: "Why and what", sub: "Arrays beat lists for numbers", cards: [
+      { h: "Dimensions and shape", span: 1, svg: ART.dims() },
+      { h: "List vs array", rules: [["trap", "[1, 2] * 2", "[1, 2, 1, 2] (repeats)"], ["tip", "np.array([1, 2]) * 2", "[2 4] (multiplies)"], ["acc", "printed array", "no commas: [1 2 3]"], ["acc", "one dtype", "mixed values get upcast"]] },
+      { h: "Upcasting trap", k: "trap", c: R`
+import numpy as np
+print(np.array([1, 2.5]))
+print(np.array([1, "a"]))`, o: R`
+[1.  2.5]
+['1' 'a']` }
+    ]},
+    { title: "Create and reshape", sub: "Same values, new shape", cards: [
+      { h: "arange vs linspace", k: "key", c: R`
+import numpy as np
+print(np.arange(0, 10, 2.5))
+print(np.linspace(0, 10, 5))`, o: R`
+[0.  2.5 5.  7.5]
+[ 0.   2.5  5.   7.5 10. ]`, foot: "arange: you pick the step, stop excluded. linspace: you pick the count, stop included" },
+      { h: "reshape(2, 3)", svg: V.strip(["1", "2", "3", "4", "5", "6"], { w: 40, pos: false }) + V.grid([["1", "2", "3"], ["4", "5", "6"]], { cw: 44, ch: 34 }), foot: "6 values fit 2 x 3 or 3 x 2, never 4 x 2" }
+    ], table: { head: ["Function", "Makes"], rows: [
+      ["`np.array(lst)`", "array from a list"], ["`np.zeros((2, 3))`", "2 x 3 of 0."], ["`np.full((2, 3), 7)`", "2 x 3 of 7"],
+      ["`np.arange(1, 10)`", "1 to 9"], ["`np.random.randint(1, 10, 5)`", "5 ints, 1 to 9"], ["`a.shape  a.size  a.dtype`", "inspect it"]
+    ]}}
+  ]
+};
+
+POSTERS.numpy2 = {
+  title: "NumPy for Analysis",
+  sub: "Maths on whole columns, axis that finally makes sense, and filters with masks.",
+  mods: [
+    { title: "Maths and selection", sub: "No loops needed", cards: [
+      { h: "Vectorised maths", c: R`
+import numpy as np
+price = np.array([120, 45, 80])
+qty = np.array([2, 10, 3])
+print(price * qty, (price * qty).sum())`, o: R`[240 450 240] 930` },
+      { h: "Picking data", rules: [["acc", "m[1, 2]", "row 1, column 2"], ["acc", "m[0, :]", "a whole row"], ["acc", "m[:, 1]", "a whole column"], ["acc", "m[0:2, 1:3]", "a block"], ["trap", "x[1:3]", "a view: use .copy()"]] },
+      { h: "Broadcasting", span: 1, c: R`
+import numpy as np
+m = np.array([[1, 2, 3], [4, 5, 6]])
+print(m + np.array([10, 20, 30]))`, o: R`
+[[11 22 33]
+ [14 25 36]]` }
+    ]},
+    { title: "axis and filters", sub: "axis=0 goes down, axis=1 goes across", cards: [
+      { h: "sum(axis=0): per column", svg: V.grid([["100", "150", "200"], ["120", "140", "180"], ["110", "160", "220"]], { cw: 50, ch: 34, res: { dir: "bottom", vals: ["330", "450", "600"], label: "axis=0" } }) },
+      { h: "sum(axis=1): per row", svg: V.grid([["100", "150", "200"], ["120", "140", "180"], ["110", "160", "220"]], { cw: 50, ch: 34, res: { dir: "right", vals: ["450", "440", "490"], label: "axis=1" } }) },
+      { h: "Masks filter data", span: 1, c: R`
+import numpy as np
+sal = np.array([45000, 55000, 38000, 72000])
+print(sal[sal > 50000], np.sum(sal > 50000))
+print(sal[(sal > 40000) & (sal < 60000)])`, o: R`
+[55000 72000] 2
+[45000 55000]`, foot: "Use & | ~ with brackets, never and / or" }
+    ], table: { head: ["Function", "Gives"], rows: [
+      ["`a.mean()  a.sum()`", "average, total"], ["`a.max()  a.argmax()`", "largest value, its position"], ["`np.median(a)`", "middle value"],
+      ["`a.std()`", "spread (use `ddof=1` to match pandas)"], ["`np.where(c, x, y)`", "label every value"], ["`np.unique(a)`", "unique values"]
+    ]}}
+  ]
+};
+
+POSTERS.projects = {
+  title: "Projects: Build Any Small Program",
+  sub: "Data first, then one function per action, then the menu loop.",
+  mods: [
+    { title: "The build recipe", sub: "The same steps every time", cards: [
+      { h: "Six steps", svg: V.flow([
+        { t: "Describe it in plain words", k: "soft" }, { t: "Choose the data structure", k: "acc" }, { t: "One function per action", k: "box" },
+        { t: "Test with fixed values", k: "hl" }, { t: "Add the menu loop", k: "box" }, { t: "Handle bad input", k: "tip" }
+      ], { label: "Program building steps" }) },
+      { h: "Menu loop skeleton", c: R`
+while True:
+    choice = input("1 Book 2 Cancel 3 Exit: ")
+    if choice == "1":
+        ...
+    elif choice == "2":
+        ...
+    elif choice == "3":
+        break
+    else:
+        print("Invalid choice")` }
+    ]},
+    { title: "What each project uses", sub: "Every chapter shows up somewhere", cards: [
+      { h: "Inventory: the right collection for each job", span: 1, rules: [["acc", "dict", "inventory: item ID \u2192 details (fast lookup)"], ["acc", "set", "categories (each stored once)"], ["acc", "list", "transactions (ordered history)"], ["acc", "tuple", "(name, category, price): fixed facts"], ["acc", "str", "IDs like ITEM0001 and the report"]] }
+    ], table: { head: ["Project", "Key concepts"], rows: [
+      ["Movie tickets", "nested dict, functions, pickle, menu loop"], ["Supermarket bill", "nested while, accumulator, f-strings"],
+      ["Theater billing", "if-elif, try/except, seat list, time.sleep"], ["Inventory", "class, all five collections, sorting"], ["Book borrowing", "dict of lists, setdefault, pickle"]
+    ]}}
+  ]
+};
+
 /* ---------- Study hub engine ---------- */
 (function(){
 'use strict';
@@ -8001,7 +8929,7 @@ function Slides(el, d){
     if (s.b) h += String(s.b).split('\n\n').map(function(p){ return '<p>' + md(p) + '</p>'; }).join('');
     if (s.items) h += '<ul>' + s.items.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>';
     if (s.svg) h += '<div class="fig" style="padding:8px">' + s.svg + '</div>';
-    if (s.c) h += cell(s.c, s.o);
+    if (s.c) h += cell(s.c, s.o, { err: s.err });
     h += '</div></div>';
     box.innerHTML = h;
     dots.forEach(function(dd, j){ dd.className = j === i ? 'cur' : ''; });
@@ -8382,7 +9310,7 @@ function vHome(){
   var nAnim = 0, nDeck = 0, nMM = 0, nQ = 0;
   CH.forEach(function(c){ (c.body || []).forEach(function(b){ if (b.t === 'anim') nAnim++; if (b.t === 'deck') nDeck++; if (b.t === 'mm') nMM++; }); nQ += (c.quiz || []).length; });
   var h = '<section class="hero"><div><div class="eyebrow">Data Analytics · Python module</div><h1>Learn Python from your first <mark>print()</mark> to NumPy</h1>' +
-    '<p>' + CH.length + ' chapters in plain, simple English. Every chapter has notes, pictures, animated explainers, slides, practice tasks, a quiz and flashcards. Your progress saves in this browser.</p>' +
+    '<p>' + CH.length + ' chapters in plain, simple English. Every chapter has notes, pictures, animated explainers, slides, a revision poster, practice tasks you can run right here in real Python, a quiz and flashcards. Your progress saves in this browser.</p>' +
     '<div class="row"><button class="btn pri" type="button" data-go="' + go.id + '">' + (dn ? 'Continue: ' : 'Start: ') + esc(go.nav || go.title) + '</button><button class="btn" type="button" data-go="flashcards">Flashcards</button></div></div>' +
     '<div class="hero-term" aria-hidden="true"><div class="tb"><i></i><i></i><i></i></div><pre>' + hl('>>> name = "Python"\n>>> print(f"Hello, {name}!")') + '\nHello, Python!\n' + hl('>>> import numpy as np\n>>> np.array([1, 2, 3]) * 10') + '\narray([10, 20, 30])</pre></div></section>';
   h += '<div class="stats"><div class="stat"><b>' + dn + '/' + CH.length + '</b><span>chapters done</span></div><div class="stat"><b>' + kc + '/' + allCards.length + '</b><span>flashcards known</span></div><div class="stat"><b>' + (exam == null ? '–' : exam + '/25') + '</b><span>best exam score</span></div><div class="stat"><b>' + Math.round(mins / 60) + ' hrs</b><span>total study time</span></div></div>';
@@ -8391,14 +9319,15 @@ function vHome(){
     var chs = CH.filter(function(c){ return c.part === p.n; });
     return '<div class="pcard"><div class="pn">Part ' + p.n + '</div><h3>' + esc(p.title) + '</h3><p class="muted" style="font-size:14px">' + esc(p.sub || '') + '</p><ul>' + chs.map(function(c){ return '<li><button type="button" data-go="' + c.id + '"><span class="st' + (done[c.id] ? ' d' : '') + '"></span>' + c.num + '. ' + esc(c.nav || c.title) + (c.tricky ? ' <span class="pill trap" style="padding:0 6px;font-size:11px">tricky</span>' : '') + '</button></li>'; }).join('') + '</ul></div>';
   }).join('') + '</div></section>';
-  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards from every chapter. Mark the ones you know.</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button></div></section>';
+  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards from every chapter. Mark the ones you know.</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button><button class="tool" type="button" data-go="posters"><b>Revision posters</b><span>' + Object.keys(window.POSTERS || {}).length + ' one-page infographics, one per chapter.</span></button></div></section>';
   h += '<section class="sec"><h2>How to study with this hub</h2><div class="how">' +
     '<div><b>1. Read the notes</b>Short sections with pictures. Yellow highlights are words to remember.</div>' +
     '<div><b>2. Play the explainers</b>' + nAnim + ' animated explainers show code running line by line. Pause any time.</div>' +
     '<div><b>3. Flip the slides</b>' + nDeck + ' slide decks sum up the big ideas in a few screens.</div>' +
     '<div><b>4. Predict, then check</b>Guess the output before you look. This is how the ideas stick.</div>' +
-    '<div><b>5. Do the tasks</b>Type the practice code in Jupyter or Colab yourself. Solutions are hidden until you need them.</div>' +
-    '<div><b>6. Quiz and flashcards</b>Finish each chapter with the quiz, then revise with flashcards a day later.</div></div></section>';
+    '<div><b>5. Do the tasks</b>Type your answer in the code box under each task and press Run. Real Python runs right in your browser. Solutions stay hidden until you need them.</div>' +
+    '<div><b>6. Quiz and flashcards</b>Finish each chapter with the quiz, then revise with flashcards a day later.</div>' +
+    '<div><b>7. Revise with the poster</b>Each chapter ends with a one-page poster. Open the poster gallery before an exam or interview.</div></div></section>';
   view.className = 'col wide';
   view.innerHTML = h;
   var parts = PARTS.map(function(p){ return { t: 'Part ' + p.n + ': ' + p.title, k: CH.filter(function(c){ return c.part === p.n; }).map(function(c){ return { t: c.num + '. ' + (c.nav || c.title), go: c.id }; }) }; });
