@@ -473,6 +473,61 @@ details.reveal[open] summary{margin-bottom:6px}
 .ptbl code{white-space:nowrap;overflow-wrap:normal}
 .t-ok{color:var(--tip);font-weight:700} .t-no{color:var(--trap);font-weight:700} .t-warn{color:var(--key);font-weight:700} .t-acc{color:var(--accent);font-weight:700}
 select.search{appearance:auto}
+/* ---------- Picture cheat sheets (always dark neon) ---------- */
+.sheet{container-type:inline-size;margin:0;background:#060A18;background-image:linear-gradient(rgba(120,150,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,150,255,.05) 1px,transparent 1px);background-size:28px 28px;border-radius:20px;padding:22px 20px;color:#E8EEFC;display:flex;flex-direction:column;gap:14px;scroll-margin-top:80px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}
+.sheet code{background:rgba(255,255,255,.08);color:#E8EEFC;border:0}
+.sh-h{text-align:center}
+.sh-h h3{font-size:clamp(24px,4.4vw,40px);font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:#fff;line-height:1.1}
+.sh-pink{color:#F472B6}.sh-lime{color:#BEF264}
+.sh-h p{display:flex;align-items:center;gap:12px;justify-content:center;font-family:var(--display);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#AAB4C8;margin-top:6px;font-size:18px}
+.sh-h p::before,.sh-h p::after{content:"";height:1px;width:60px;background:#3A4560}
+.sh-rows{display:flex;flex-direction:column;gap:12px}
+.sh-row{--k:#2DD4BF;display:grid;grid-template-columns:150px 150px minmax(0,1fr);gap:14px;align-items:center;border:2px solid var(--k);border-radius:16px;padding:10px 14px 10px 10px;background:linear-gradient(90deg,color-mix(in srgb,var(--k) 16%,#060A18),#0A1022 60%);box-shadow:0 0 18px -6px var(--k),inset 0 0 22px -14px var(--k)}
+.sh-c-teal{--k:#2DD4BF}.sh-c-green{--k:#4ADE80}.sh-c-blue{--k:#60A5FA}.sh-c-purple{--k:#C084FC}.sh-c-orange{--k:#FB923C}.sh-c-pink{--k:#F472B6}.sh-c-yellow{--k:#FACC15}.sh-c-cyan{--k:#22D3EE}
+.sh-pic{width:150px;height:150px;border-radius:12px;overflow:hidden;background:#01041A}
+.sh-pic img{width:100%;height:100%;object-fit:cover;display:block;-webkit-mask-image:radial-gradient(circle,#000 62%,transparent 74%);mask-image:radial-gradient(circle,#000 62%,transparent 74%)}
+.sh-name{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;border-right:1px solid rgba(255,255,255,.12);padding-right:12px;height:100%;justify-content:center}
+.sh-name b.sh-nl{font-size:15px;letter-spacing:.02em}
+.sh-name b{font-family:var(--display);font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:var(--k)}
+.sh-sym{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--k);text-shadow:0 0 12px var(--k);line-height:1.3}
+.sh-symn{font-size:13px;color:#C9D2E3}
+.sh-sym.sh-sl{font-size:21px}.sh-sym.sh-sxl{font-size:16px}
+.sh-l{overflow-wrap:break-word;max-width:100%}
+.sh-txt{overflow-wrap:break-word;max-width:100%}
+@container (min-width:1000px){.sh-row{grid-template-columns:150px 175px minmax(0,1fr)}}
+@container (max-width:860px) and (min-width:560px){.sh-row{grid-template-columns:118px 128px minmax(0,1fr);gap:10px}.sh-pic{width:118px;height:118px}.sh-name b{font-size:16px}.sh-name b.sh-nl{font-size:13px}.sh-sym{font-size:24px}.sh-sym.sh-sl{font-size:18px}.sh-sym.sh-sxl{font-size:14px}.sh-l{font-size:11.5px}.sh-txt{font-size:12.5px}.sh-i{width:27px;height:27px}}
+.sh-empty{font-size:12px;color:#AAB4C8;margin-top:4px}
+.sh-empty em{font-style:normal;color:#F87171;font-weight:700}
+.sh-facts{display:flex;flex-direction:column;gap:8px;min-width:0}
+.sh-grid{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:6px}
+.sh-gh{font-family:var(--display);font-weight:600;font-size:15px;color:#C9D2E3;letter-spacing:.04em;text-transform:uppercase;padding:4px 2px 0;border-bottom:1px dashed #3A4560;margin-bottom:-2px}
+.sh-big{font-family:var(--mono);font-size:clamp(10.5px,1.45cqw,13.5px);font-weight:600;color:var(--k);background:rgba(255,255,255,.06)!important;border-radius:7px;padding:5px 7px;margin-top:4px;white-space:normal;overflow-wrap:break-word;line-height:1.35;max-width:100%}
+.sh-txt{font-size:14px;font-weight:700;color:#F1F5FD;margin-top:6px;line-height:1.3}
+.sh-dim{color:#8A95AB;font-weight:600}
+.sh-text .sh-f{align-items:flex-start;text-align:left}
+.sh-text .sh-txt{font-weight:600}
+.sh-text .sh-big{font-size:clamp(10px,1.3cqw,12.5px)}
+.sh-f{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.sh-l{font-family:var(--display);font-weight:600;font-size:13px;color:#fff}
+.sh-i{width:32px;height:32px;color:var(--k)}
+.sh-i svg{width:100%;height:100%;display:block}
+.sh-v{font-size:clamp(11px,1.4cqw,13px);color:#DCE3F0;font-weight:700;line-height:1.25;overflow-wrap:anywhere;max-width:100%}
+.sh-cap{font-size:14px;color:#DCE3F0;border-top:1px solid rgba(255,255,255,.12);padding-top:7px}
+.sh-cap code{font-size:12.5px;white-space:nowrap}
+.sh-foot{font-size:13px;color:#AAB4C8;text-align:center}
+.sh-credit{font-size:11px;color:#6B7690;text-align:center;margin-top:-8px}
+.sh-act .btn svg{width:16px;height:16px}
+@media (max-width:700px){
+  .sheet{padding:16px 10px}
+  .sh-row{grid-template-columns:96px minmax(0,1fr);padding:8px;gap:10px}
+  .sh-pic{width:96px;height:96px}
+  .sh-name{border-right:0;padding-right:0;align-items:flex-start;text-align:left}
+  .sh-facts{grid-column:1 / -1}
+  .sh-grid{gap:2px}.sh-l,.sh-v{font-size:11.5px}.sh-i{width:26px;height:26px}
+  .sh-big{font-size:11.5px;padding:3px 4px}.sh-txt{font-size:12px}
+  .sh-text .sh-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px 10px}
+}
+
 
 /* ---------- Part overview pages ---------- */
 .chlink.ovl{margin-top:2px;border:1px dashed color-mix(in srgb,var(--accent) 45%,var(--line))}
@@ -11469,6 +11524,225 @@ print(m.mean(axis=0))`, o: ["`[2. 3.]`", "`[1.5 3.5]`", "`2.5`", "`[4 6]`"], a: 
   ]
 });
 
+/* ---------- Picture cheat sheets: one per Part overview ----------
+   Pictures are AI-painted (Canva) with no text in them. All text and icons are drawn in code.
+   A sheet has groups; each group has its own columns. fact = [kind, value]
+   kinds: lockC lockO ord shuf yes no key warn down right (icon + value), big (code), txt (words), dash */
+var SHEETS = {};
+
+SHEETS[1] = {
+  title: ["The ", ["5", "pink"], " basic ", ["data types", "lime"]], sub: "Cheat sheet",
+  groups: [{ cols: ["Example", "Convert with", "x + x", "Use it for", "Changeable?"], rows: [
+    { name: "int", c: "teal", img: "ov1-int", sym: "42", symName: "Whole numbers",
+      facts: [["big", "42"], ["big", "int(\"42\")"], ["big", "84"], ["txt", "Counts, IDs"], ["lockC", "Immutable"]],
+      cap: "An abacus: counts whole things. int(3.9) cuts to 3, it does not round.", ex: "qty = 3" },
+    { name: "float", c: "green", img: "ov1-float", sym: "3.14", symName: "Decimal numbers",
+      facts: [["big", "3.14"], ["big", "float(\"3.14\")"], ["big", "6.28"], ["txt", "Prices, averages"], ["lockC", "Immutable"]],
+      cap: "A measuring jug: measures in decimals. 0.1 + 0.2 is not exactly 0.3.", ex: "price = 499.5" },
+    { name: "str", c: "blue", img: "ov1-str", sym: "\"hi\"", symName: "Text",
+      facts: [["big", "\"hi\""], ["big", "str(42)"], ["big", "\"hihi\""], ["txt", "Names, labels"], ["lockC", "Immutable"]],
+      cap: "A name tag: holds text. \"25\" + 5 is a TypeError, so convert first.", ex: "name = \"Asha\"" },
+    { name: "bool", c: "purple", img: "ov1-bool", sym: "True", symName: "True or False",
+      facts: [["big", "True"], ["big", "bool(0)"], ["big", "2"], ["txt", "Yes/no checks"], ["lockC", "Immutable"]],
+      cap: "A light switch: only on (True) or off (False). Capital T and F. True counts as 1.", ex: "is_paid = False" },
+    { name: "None", c: "orange", img: "ov1-none", sym: "None", symName: "No value yet",
+      facts: [["big", "None"], ["dash", "Just write None"], ["no", "TypeError"], ["txt", "Missing results"], ["lockC", "Immutable"]],
+      cap: "An empty box: the place exists, but nothing is in it yet. None is not 0.", ex: "result = None" }
+  ]}],
+  foot: "Check any value with type(x). input() always gives you a str, so convert it before doing maths."
+};
+
+SHEETS[2] = {
+  title: ["The ", ["6", "pink"], " words that ", ["control your code", "lime"]], sub: "Cheat sheet",
+  groups: [{ cols: ["Repeats?", "Own condition?", "What happens", "Used in", "Watch out"], rows: [
+    { name: "if / else", c: "teal", img: "ov2-if", sym: "if:", symName: "Decision",
+      facts: [["no", "No"], ["yes", "Yes"], ["txt", "Runs one path"], ["txt", "Anywhere"], ["warn", "First True branch wins"]],
+      cap: "A road fork: you take exactly one path. Put the strictest check first.", ex: "if marks >= 90:" },
+    { name: "for", c: "green", img: "ov2-for", sym: "for x in", symName: "Loop over items",
+      facts: [["yes", "Yes"], ["no", "No, needs items"], ["txt", "One round per item"], ["txt", "Anywhere"], ["warn", "range() stop is excluded"]],
+      cap: "A conveyor belt: every item comes past once, then it stops by itself.", ex: "for x in range(1, 11):" },
+    { name: "while", c: "blue", img: "ov2-while", sym: "while:", symName: "Loop until",
+      facts: [["yes", "Yes"], ["yes", "Yes"], ["txt", "Repeats while True"], ["txt", "Anywhere"], ["warn", "Change something, or it never ends"]],
+      cap: "A washing machine: keeps spinning until the clothes are clean.", ex: "while balance > 0:" },
+    { name: "break", c: "purple", img: "ov2-break", sym: "break", symName: "Leave the loop",
+      facts: [["no", "No"], ["no", "No"], ["txt", "Jumps out of the loop"], ["txt", "Loops only"], ["warn", "Leaves the inner loop only"]],
+      cap: "An emergency exit: you found it, so leave right now.", ex: "if found: break" },
+    { name: "continue", c: "orange", img: "ov2-continue", sym: "continue", symName: "Skip this round",
+      facts: [["no", "No"], ["no", "No"], ["txt", "Jumps to the next round"], ["txt", "Loops only"], ["warn", "The rest of this round is skipped"]],
+      cap: "A skip button: skip this song, the playlist keeps playing.", ex: "if bad: continue" },
+    { name: "pass", c: "pink", img: "ov2-pass", sym: "pass", symName: "Placeholder",
+      facts: [["no", "No"], ["no", "No"], ["txt", "Nothing at all"], ["txt", "Anywhere"], ["warn", "It does not skip or stop"]],
+      cap: "A blank \"coming soon\" sign: holds the place until you write the real code.", ex: "def todo(): pass" }
+  ]}],
+  foot: "A loop's else runs only when no break happened. Falsy values: 0, \"\", [], {}, None, False."
+};
+
+SHEETS[3] = {
+  title: ["The ", ["5", "pink"], " Python ", ["collections", "lime"]], sub: "Cheat sheet",
+  groups: [{ cols: ["Changeable?", "Order", "Indexing", "Slicing", "Duplicates"], rows: [
+    { name: "String", c: "teal", img: "ov3-str", sym: "\" \"", symName: "Quotes", empty: "\"\"",
+      facts: [["lockC", "Immutable"], ["ord", "Ordered"], ["yes", "s[0]"], ["yes", "s[1:3]"], ["yes", "Allowed"]],
+      cap: "A carved stone tablet: once written, it can't be changed.", ex: "s = \"Hello\"" },
+    { name: "List", c: "green", img: "ov3-list", sym: "[ ]", symName: "Square brackets", empty: "[]",
+      facts: [["lockO", "Mutable"], ["ord", "Ordered"], ["yes", "l[0]"], ["yes", "l[1:3]"], ["yes", "Allowed"]],
+      cap: "An open backpack: add, remove or change items any time.", ex: "cart = [\"rice\", \"dal\"]" },
+    { name: "Tuple", c: "blue", img: "ov3-tuple", sym: "( )", symName: "Round brackets", empty: "()",
+      facts: [["lockC", "Immutable"], ["ord", "Ordered"], ["yes", "t[0]"], ["yes", "t[1:3]"], ["yes", "Allowed"]],
+      cap: "A locked safe: once closed, nothing inside can change.", ex: "point = (17.38, 78.48)" },
+    { name: "Set", c: "purple", img: "ov3-set", sym: "{ }", symName: "Curly braces", empty: "set()", trap: "not {}",
+      facts: [["lockO", "Mutable"], ["shuf", "Unordered"], ["no", "No index"], ["no", "No slicing"], ["no", "Removed"]],
+      cap: "A bag of gems: only one of each kind is allowed.", ex: "cities = {\"Pune\", \"Delhi\"}" },
+    { name: "Dictionary", c: "orange", img: "ov3-dict", sym: "{k: v}", symName: "Curly braces + colons", empty: "{}",
+      facts: [["lockO", "Mutable"], ["ord", "Insertion order"], ["key", "By key: d[\"tea\"]"], ["no", "No slicing"], ["key", "Keys: no\nValues: yes"]],
+      cap: "Labelled lockers: find any item instantly by its key.", ex: "prices = {\"tea\": 20}" }
+  ]}],
+  foot: "Lock = can it change after you create it? Numbered list = keeps its order. Green tick = you can do it, red cross = you can't."
+};
+
+SHEETS[4] = {
+  title: ["Functions: ", ["inputs", "pink"], " and ", ["outputs", "lime"]], sub: "Cheat sheet",
+  groups: [{ cols: ["In the def line", "In the call", "Inside you get", "Optional?", "Order matters?"], rows: [
+    { name: "Positional", c: "teal", img: "ov4-pos", sym: "a, b", symName: "Normal parameters",
+      facts: [["big", "f(a, b)"], ["big", "f(1, 2)"], ["big", "a=1, b=2"], ["no", "Required"], ["ord", "Yes"]],
+      cap: "Seats in a row: values sit down in the same order as the names.", ex: "area(5, 2)" },
+    { name: "Default", c: "green", img: "ov4-def", sym: "b=10", symName: "Pre-filled value",
+      facts: [["big", "f(a, b=10)"], ["big", "f(1)"], ["big", "b=10"], ["yes", "Optional"], ["ord", "Yes"]],
+      cap: "A ready-made order: you get it unless you ask for something else. Defaults go last.", ex: "def greet(name=\"Guest\"):" },
+    { name: "Keyword", c: "blue", img: "ov4-kw", sym: "b=2", symName: "Passed by name",
+      facts: [["big", "f(a, b)"], ["big", "f(b=2, a=1)"], ["big", "a=1, b=2"], ["no", "Required"], ["shuf", "No, by name"]],
+      cap: "Colour-matched lids: each value finds its own jar by name.", ex: "rect(h=2, w=5)" },
+    { name: "*args", c: "purple", img: "ov4-args", sym: "*args", symName: "Any number of values",
+      facts: [["big", "f(*args)"], ["big", "f(1, 2, 3)"], ["big", "(1, 2, 3)"], ["yes", "0 or more"], ["ord", "Yes"]],
+      cap: "A sack: holds any number of extra values, as a tuple.", ex: "total(1, 2, 3)" },
+    { name: "**kwargs", c: "orange", img: "ov4-kwargs", sym: "**kw", symName: "Any number of name=value",
+      facts: [["big", "f(**kw)"], ["big", "f(x=1, y=2)"], ["big", "{'x': 1, 'y': 2}"], ["yes", "0 or more"], ["shuf", "No, by name"]],
+      cap: "A spice rack: any number of labelled jars, as a dict.", ex: "profile(name=\"Asha\")" },
+    { name: "return", c: "pink", img: "ov4-ret", sym: "return", symName: "The output",
+      facts: [["big", "return x"], ["big", "y = f(1)"], ["txt", "x comes back into y"], ["yes", "No return gives None"], ["dash", "–"]],
+      cap: "A boomerang: the value comes back to whoever called. print() only shows it.", ex: "return a + b" }
+  ]}],
+  foot: "Order in a def line: normal parameters, then defaults, then *args, then **kwargs."
+};
+
+SHEETS[5] = {
+  title: ["Files: ", ["modes", "pink"], " and ", ["formats", "lime"]], sub: "Cheat sheet",
+  groups: [
+    { h: "Opening a file: open(name, mode)", cols: ["Reads?", "Writes?", "If the file exists", "If it is missing", "Old text kept?"], rows: [
+      { name: "\"r\"", c: "teal", img: "ov5-r", sym: "r", symName: "Read (the default)",
+        facts: [["yes", "Yes"], ["no", "No"], ["yes", "Reads it"], ["no", "FileNotFoundError"], ["yes", "Untouched"]],
+        cap: "Reading glasses: you look, you don't touch.", ex: "open(\"data.txt\")" },
+      { name: "\"w\"", c: "pink", img: "ov5-w", sym: "w", symName: "Write",
+        facts: [["no", "No"], ["yes", "Yes"], ["warn", "Wipes it first"], ["yes", "Creates it"], ["no", "Wiped"]],
+        cap: "An eraser: wipes the page clean the moment it opens.", ex: "open(\"report.txt\", \"w\")" },
+      { name: "\"a\"", c: "green", img: "ov5-a", sym: "a", symName: "Append",
+        facts: [["no", "No"], ["yes", "At the end"], ["yes", "Adds to the end"], ["yes", "Creates it"], ["yes", "Kept"]],
+        cap: "A new page at the back of the notebook: old pages stay.", ex: "open(\"log.txt\", \"a\")" },
+      { name: "\"x\"", c: "blue", img: "ov5-x", sym: "x", symName: "Create new only",
+        facts: [["no", "No"], ["yes", "Yes"], ["no", "FileExistsError"], ["yes", "Creates it"], ["dash", "–"]],
+        cap: "A shielded new sheet: it refuses to touch a file that already exists.", ex: "open(\"new.txt\", \"x\")" }
+    ]},
+    { h: "Saving data: which format?", cols: ["Readable by people?", "Holds", "Module", "Open the file with", "Best for"], rows: [
+      { name: "CSV", c: "purple", img: "ov5-csv", sym: ".csv", symName: "Comma-separated",
+        facts: [["yes", "Yes"], ["txt", "Rows and columns"], ["big", "csv"], ["big", "\"w\", newline=\"\""], ["txt", "Tables, Excel"]],
+        cap: "A spreadsheet grid: one row per line, commas between the columns.", ex: "csv.DictReader(f)" },
+      { name: "JSON", c: "orange", img: "ov5-json", sym: ".json", symName: "Nested text",
+        facts: [["yes", "Yes"], ["txt", "Dicts and lists"], ["big", "json"], ["big", "\"w\" / \"r\""], ["txt", "APIs, settings"]],
+        cap: "Boxes inside boxes: nested data any language can read. Tuples come back as lists.", ex: "json.dump(data, f)" },
+      { name: "pickle", c: "yellow", img: "ov5-pkl", sym: ".pkl", symName: "Python objects",
+        facts: [["no", "No, binary"], ["txt", "Any Python object"], ["big", "pickle"], ["big", "\"wb\" / \"rb\""], ["txt", "Your own saved state"]],
+        cap: "A sealed pickle jar: keeps any object exactly as it was. Only open jars you made yourself.", ex: "pickle.dump(obj, f)" }
+    ]}
+  ],
+  foot: "Always open files with: with open(name, mode) as f: so they close by themselves."
+};
+
+SHEETS[6] = {
+  title: ["Class, object and the ", ["4 pillars", "lime"]], sub: "Cheat sheet",
+  groups: [{ text: 1, w: [0.9, 1.15, 1.3, 0.85], cols: ["In one line", "Python", "Example", "Why it helps"], rows: [
+    { name: "Class", c: "teal", img: "ov6-class", sym: "class", symName: "The blueprint",
+      facts: [["txt", "The plan for one kind of thing"], ["big", "class Room:"], ["big", "Room(101)"], ["txt", "Design it once"]],
+      cap: "A blueprint: it describes every house, but you can't live in it." },
+    { name: "Object", c: "green", img: "ov6-obj", sym: "r = Room()", symName: "One instance",
+      facts: [["txt", "One thing built from the plan"], ["big", "r = Room(101)"], ["big", "r.rate  r.book()"], ["txt", "Each one has its own data"]],
+      cap: "A house built from the blueprint: build as many as you like." },
+    { name: "Encapsulation", c: "blue", img: "ov6-enc", sym: "__x", symName: "Pillar 1",
+      facts: [["txt", "Protect the data, change it through methods"], ["big", "self.__balance"], ["big", "acct.deposit(500)"], ["txt", "Rules can't be broken by accident"]],
+      cap: "A bank vault with a teller window: you don't reach in, you ask the teller." },
+    { name: "Inheritance", c: "purple", img: "ov6-inh", sym: "(Parent)", symName: "Pillar 2",
+      facts: [["txt", "A child class reuses a parent class"], ["big", "class Suite(Room):"], ["big", "super().__init__()"], ["txt", "Shared code is written once"]],
+      cap: "A family tree: children get the parents' features and add their own." },
+    { name: "Polymorphism", c: "orange", img: "ov6-poly", sym: ".area()", symName: "Pillar 3",
+      facts: [["txt", "Same method name, different behaviour"], ["big", "def area(self):"], ["big", "for s in shapes: s.area()"], ["txt", "One loop works for every type"]],
+      cap: "A universal remote: one power button works on the TV, the fan and the AC." },
+    { name: "Abstraction", c: "pink", img: "ov6-abs", sym: "simple()", symName: "Pillar 4",
+      facts: [["txt", "Hide the details behind simple methods"], ["big", "def report(self):"], ["big", "df.groupby(\"city\")"], ["txt", "Use it without knowing the inside"]],
+      cap: "A car dashboard: you press the pedal, you never touch the engine." }
+  ]}],
+  foot: "Attributes are data, used without brackets: r.rate. Methods are actions, used with brackets: r.book()."
+};
+
+SHEETS[7] = {
+  title: ["NumPy: the ", ["3", "pink"], " big ", ["differences", "lime"]], sub: "Cheat sheet",
+  groups: [
+    { h: "Python list vs NumPy array", cols: ["Types inside", "x * 2", "x + x", "Printed as", "Speed"], rows: [
+      { name: "List", c: "teal", img: "ov7-list", sym: "[1, 2]", symName: "Python list",
+        facts: [["txt", "Any mix"], ["big", "[1, 2, 1, 2]"], ["big", "[1, 2, 1, 2]"], ["big", "[1, 2]"], ["txt", "Slow"]],
+        cap: "A shopping bag: any mix of things, and you keep adding.", ex: "lst = [1, \"a\", 2.5]" },
+      { name: "Array", c: "green", img: "ov7-array", sym: "np.array", symName: "NumPy array",
+        facts: [["txt", "One type"], ["big", "[2 4]"], ["big", "[2 4]"], ["big", "[1 2]"], ["txt", "Fast"]],
+        cap: "An egg tray: a neat grid where every slot holds the same kind of thing.", ex: "a = np.array([1, 2])" }
+    ]},
+    { h: "axis=0 vs axis=1, on m = [[1, 2, 3], [4, 5, 6]]", cols: ["Direction", "One result per", "m.sum(axis=…)", "How many results"], rows: [
+      { name: "axis=0", c: "blue", img: "ov7-ax0", sym: "↓", symName: "Down the rows",
+        facts: [["down", "Down"], ["txt", "Column"], ["big", "[5 7 9]"], ["big", "3"]],
+        cap: "A lift going down: it passes every floor of one column.", ex: "sales.sum(axis=0)" },
+      { name: "axis=1", c: "purple", img: "ov7-ax1", sym: "→", symName: "Across the columns",
+        facts: [["right", "Across"], ["txt", "Row"], ["big", "[ 6 15]"], ["big", "2"]],
+        cap: "A train going across: it passes every station in one row.", ex: "sales.sum(axis=1)" }
+    ]},
+    { h: "View vs copy", cols: ["Made by", "Shares memory?", "Change it and the original…", "Use it when"], rows: [
+      { name: "View", c: "orange", img: "ov7-view", sym: "a[1:3]", symName: "A slice",
+        facts: [["big", "a[1:3]"], ["yes", "Yes"], ["warn", "Changes too"], ["txt", "You only read it"]],
+        cap: "A window: you look at the same room, so moving things moves them in the room." },
+      { name: "Copy", c: "pink", img: "ov7-copy", sym: ".copy()", symName: "Separate array",
+        facts: [["big", "a[1:3].copy()"], ["no", "No"], ["yes", "Stays safe"], ["txt", "You will change it"]],
+        cap: "A photocopy: scribble on it all you like, the original stays clean." }
+    ]}
+  ],
+  foot: "Filtering: a[a > 50]. Two conditions: a[(a > 10) & (a < 20)], with & | ~ and brackets."
+};
+
+SHEETS[8] = {
+  title: ["The whole ", ["course", "pink"], " on ", ["one sheet", "lime"]], sub: "Revision sheet",
+  groups: [{ text: 1, w: [1.3, 1, 1.1], cols: ["Key syntax", "Use it for", "Top trap"], rows: [
+    { name: "Basics", c: "blue", img: "ov1-str", sym: "x = 5", symName: "Part 1",
+      facts: [["big", "f\"{x:.2f}\""], ["txt", "Storing and showing values"], ["warn", "input() always gives a str"]],
+      cap: "A name tag: a variable is a name stuck on a value." },
+    { name: "Decide & loop", c: "teal", img: "ov2-if", sym: "if / for", symName: "Part 2",
+      facts: [["big", "for x in items:"], ["txt", "Choosing and repeating"], ["warn", "range() stop is excluded"]],
+      cap: "A road fork: choose a path, then loop round again when needed." },
+    { name: "Collections", c: "green", img: "ov3-list", sym: "[ ] ( ) { }", symName: "Part 3",
+      facts: [["big", "d.get(k, 0)"], ["txt", "Holding many values"], ["warn", "{} is a dict, not a set"]],
+      cap: "A backpack: one name, many things inside. Pick the right container for the job." },
+    { name: "Functions", c: "pink", img: "ov4-ret", sym: "def", symName: "Part 4",
+      facts: [["big", "def f(x): return x"], ["txt", "Reusing a job"], ["warn", "print is not return"]],
+      cap: "A boomerang: send values in, and the result comes back with return." },
+    { name: "Real-world", c: "yellow", img: "ov5-pkl", sym: "try / with", symName: "Part 5",
+      facts: [["big", "with open(f, \"a\") as f:"], ["txt", "Bad input, saving data"], ["warn", "\"w\" wipes the file"]],
+      cap: "A sealed jar: your data stays safe after the program ends." },
+    { name: "OOP", c: "purple", img: "ov6-inh", sym: "class", symName: "Part 6",
+      facts: [["big", "self.x"], ["txt", "Things with data and actions"], ["warn", "Every method needs self"]],
+      cap: "A family tree: classes build on each other, and every object comes from a class." },
+    { name: "NumPy", c: "green", img: "ov7-array", sym: "np", symName: "Part 7",
+      facts: [["big", "a.sum(axis=0)"], ["txt", "Maths on many numbers"], ["warn", "Use & on arrays, not and"]],
+      cap: "An egg tray: the same kind of value in every slot, so maths on all of them is fast." },
+    { name: "Projects", c: "cyan", img: "ov8-panel", sym: "while True", symName: "Part 8",
+      facts: [["big", "while True: … break"], ["txt", "Whole programs with a menu"], ["warn", "Make functions work before the menu"]],
+      cap: "A control panel: one button per job, plus a quit button." }
+  ]}],
+  foot: "Every program is the same shape: choose the data structure, write one function per job, loop over a menu, save the data."
+};
+
 /* ---------- Study hub engine ---------- */
 (function(){
 'use strict';
@@ -12082,6 +12356,47 @@ function posterHTML(p, num){
   return h + '</div></div>';
 }
 
+/* ---------- Picture cheat sheets ---------- */
+var SHI = {
+  lockC: '<svg viewBox="0 0 32 32"><path d="M10 14v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/><rect x="6" y="14" width="20" height="15" rx="3" fill="#FBBF24"/><circle cx="16" cy="21" r="2.4" fill="#5B3A00"/></svg>',
+  lockO: '<svg viewBox="0 0 32 32"><path d="M10 14V9a6 6 0 0 1 11.6-2.2" fill="none" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/><rect x="6" y="14" width="20" height="15" rx="3" fill="#FBBF24"/><circle cx="16" cy="21" r="2.4" fill="#5B3A00"/></svg>',
+  ord: '<svg viewBox="0 0 32 32" fill="currentColor"><text x="4" y="11" font-size="8" font-family="monospace" font-weight="700">1</text><text x="4" y="19.5" font-size="8" font-family="monospace" font-weight="700">2</text><text x="4" y="28" font-size="8" font-family="monospace" font-weight="700">3</text><rect x="12" y="6" width="16" height="3" rx="1.5"/><rect x="12" y="14.5" width="16" height="3" rx="1.5"/><rect x="12" y="23" width="16" height="3" rx="1.5"/></svg>',
+  shuf: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h5c6 0 8 14 14 14h5M4 23h5c3 0 4.5-3 6-6M19 12c1.5-2 2.5-3 4-3h5M24 5l4 4-4 4M24 19l4 4-4 4"/></svg>',
+  yes: '<svg viewBox="0 0 32 32" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="12.5"/><path d="M10 16.5l4 4 8-9"/></svg>',
+  no: '<svg viewBox="0 0 32 32" fill="none" stroke="#F87171" stroke-width="3" stroke-linecap="round"><circle cx="16" cy="16" r="12.5"/><path d="M11 11l10 10M21 11L11 21"/></svg>',
+  key: '<svg viewBox="0 0 32 32" fill="none" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"><circle cx="10" cy="16" r="5.5"/><path d="M15.5 16H28M23 16v5M27 16v4"/></svg>',
+  warn: '<svg viewBox="0 0 32 32" fill="none" stroke="#FBBF24" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M16 4l13 23H3z"/><path d="M16 12v7M16 23v.5"/></svg>',
+  down: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4v22M8 18l8 8 8-8"/></svg>',
+  right: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16h22M18 8l8 8-8 8"/></svg>'
+};
+function shFact(f, label){
+  var k = f[0], v = esc(f[1]).replace(/\n/g, '<br>').replace(/([a-z])(Error|Exists|Found)\b/g, '$1<wbr>$2'), mid;
+  if (k === 'big') mid = '<code class="sh-big">' + v + '</code>';
+  else if (k === 'txt') mid = '<span class="sh-txt">' + v + '</span>';
+  else if (k === 'dash') mid = '<span class="sh-txt sh-dim">' + v + '</span>';
+  else mid = '<span class="sh-i">' + (SHI[k] || '') + '</span><span class="sh-v">' + v + '</span>';
+  return '<div class="sh-f"><span class="sh-l">' + esc(label) + '</span>' + mid + '</div>';
+}
+function sheetHTML(s, n){
+  var t = s.title.map(function(x){ return Array.isArray(x) ? '<span class="sh-' + x[1] + '">' + esc(x[0]) + '</span>' : esc(x); }).join('');
+  var h = '<figure class="sheet" id="sheet' + n + '"><div class="sh-h"><h3>' + t + '</h3><p>' + esc(s.sub) + '</p></div>';
+  (s.groups || [{ cols: s.cols, rows: s.rows }]).forEach(function(g){
+    if (g.h) h += '<div class="sh-gh">' + esc(g.h) + '</div>';
+    h += '<div class="sh-rows' + (g.text ? ' sh-text' : '') + '">';
+    g.rows.forEach(function(r){
+      h += '<div class="sh-row sh-c-' + r.c + '"><div class="sh-pic"><img src="img/' + r.img + '.webp" alt="" width="200" height="200" loading="lazy" decoding="async"></div>' +
+        '<div class="sh-name"><b' + (r.name.length > 9 ? ' class="sh-nl"' : '') + '>' + esc(r.name) + '</b><span class="sh-sym' + (r.sym.length > 9 ? ' sh-sxl' : r.sym.length > 6 ? ' sh-sl' : '') + '">' + esc(r.sym) + '</span><span class="sh-symn">' + esc(r.symName) + '</span>' +
+        (r.empty ? '<span class="sh-empty">empty: <code>' + esc(r.empty) + '</code>' + (r.trap ? ' <em>' + esc(r.trap) + '</em>' : '') + '</span>' : '') + '</div>' +
+        '<div class="sh-facts"><div class="sh-grid" style="--n:' + g.cols.length + (g.w ? ';grid-template-columns:' + g.w.map(function(x){ return 'minmax(0,' + x + 'fr)'; }).join(' ') : '') + '">' + r.facts.map(function(f, j){ return shFact(f, g.cols[j]); }).join('') +
+        '</div><p class="sh-cap">' + esc(r.cap) + (r.ex ? ' <code>' + esc(r.ex) + '</code>' : '') + '</p></div></div>';
+    });
+    h += '</div>';
+  });
+  h += (s.foot ? '<p class="sh-foot">' + esc(s.foot) + '</p>' : '') + '<p class="sh-credit">Pictures made with AI (Canva and Gemini). Text and icons checked by hand.</p></figure>';
+  h += '<div class="row sh-act"><a class="btn" href="img/sheet-ov' + n + '.jpg" download="python-part' + n + '-cheat-sheet.jpg"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v8M4.5 6.5L8 10l3.5-3.5M3 13h10"/></svg>Save as image</a><span class="muted" style="font-size:14px">Keep it on your phone for quick revision.</span></div>';
+  return h;
+}
+
 /* ---------- Mount helpers ---------- */
 function mountAll(root, mounts){
   $$('.mount', root).forEach(function(m){
@@ -12176,6 +12491,7 @@ function vChapter(c){
   var h = '<header class="chead"><div class="num">' + (OV ? (c.part === PARTS.length ? 'Part ' + c.part + ' · Whole-course overview' : 'Part ' + c.part + ' · Overview') : 'Part ' + c.part + ' · Chapter ' + c.num) + '</div><h1>' + esc(c.title) + '</h1><p class="lead">' + md(c.lead) + '</p>' +
     '<div class="row">' + (OV ? '<span class="pill lvl">★ Summary page</span>' : '<span class="pill lvl">' + esc(c.lvl || 'Beginner') + '</span>') + '<span class="pill">' + esc(c.time || '') + '</span>' + (c.tricky ? '<span class="pill trap">Tricky topic: extra practice inside</span>' : '') + '</div></header>';
   if (c.five) h += '<div class="five"><h3>' + esc(c.fiveTitle || 'The whole Part in 5 lines') + '</h3><ol>' + c.five.map(function(g){ return '<li><span>' + md(g) + '</span></li>'; }).join('') + '</ol></div>';
+  if (OV && (window.SHEETS || {})[c.part]) h += sheetHTML(window.SHEETS[c.part], c.part);
   if (c.goals) h += '<div class="goals"><h3>In this chapter you will learn</h3><ul>' + c.goals.map(function(g){ return '<li>' + md(g) + '</li>'; }).join('') + '</ul></div>';
   h += '<div class="toc" id="toc"></div>';
   var body = '', open = false, ctx = { mounts: mounts, cid: c.id };
@@ -12310,6 +12626,11 @@ function vOverviews(){
     var tb = ovTables(o), nd = (o.body || []).filter(function(b){ return b.t === 'defs'; }).reduce(function(a, b){ return a + b.items.length; }, 0);
     return '<button class="ovcard" type="button" data-go="' + o.id + '"><span class="pn">Part ' + o.part + (done[o.id] ? ' · done ✓' : '') + '</span><span class="ovtt">' + esc(o.title) + '</span><span class="ovfirst">' + md(o.five[0]) + '</span><span class="ovmeta">' + nd + ' definitions · ' + tb.length + ' tables · ' + (o.quiz || []).length + ' quiz questions · ' + (o.cards || []).length + ' cards</span></button>';
   }).join('') + '</div>';
+  var SH = window.SHEETS || {};
+  h += '<section class="sec"><h2>Picture cheat sheets</h2><p class="prose muted">One picture sheet per Part. Tap to open it, or save it to your phone.</p><div class="ovlist">' + OVS.filter(function(o){ return SH[o.part]; }).map(function(o){
+    var t = SH[o.part].title.map(function(x){ return Array.isArray(x) ? x[0] : x; }).join('');
+    return '<div class="ovrow"><span class="ovk k-big">Part ' + o.part + '</span><button type="button" class="ovt" data-jump="sheet' + o.part + '" data-ov="' + o.id + '" style="text-align:left;font-weight:700">' + esc(t) + '</button><a class="ovp" href="img/sheet-ov' + o.part + '.jpg" download="python-part' + o.part + '-cheat-sheet.jpg">Save image</a></div>';
+  }).join('') + '</div></section>';
   h += '<section class="sec"><h2>Find a difference fast</h2><p class="prose muted">Every comparison table from all the overviews. Search for a word like <code>tuple</code>, <code>return</code>, <code>axis</code> or <code>==</code>, then tap a table to jump straight to it.</p>' +
     '<label for="ovq" class="eyebrow">Search the comparison tables</label><input id="ovq" class="search" type="search" placeholder="e.g. list vs tuple, sort, is" autocomplete="off"><div id="ovList" class="ovlist"></div></section>';
   view.className = 'col wide'; view.innerHTML = h;
