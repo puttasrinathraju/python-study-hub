@@ -217,7 +217,36 @@ while True:
         print(g, &quot;Correct!&quot;)
         break</code></pre><p class="olbl">Output</p><pre class="out">3 Too low
 9 Too high
-7 Correct!</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>while condition:</code> repeats while the condition is True. Always update something so it can end.</li><li><code>while True:</code> + <code>break</code> is the standard pattern for menus and input checks.</li><li><code>break</code> leaves the loop. <code>continue</code> skips to the next round. <code>pass</code> does nothing.</li><li><code>break</code> exits only the innermost loop.</li><li>Use <code>for</code> when you know what to loop over. Use <code>while</code> when you loop until something happens.</li></ul></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>i = 1
+7 Correct!</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>while condition:</code> repeats while the condition is True. Always update something so it can end.</li><li><code>while True:</code> + <code>break</code> is the standard pattern for menus and input checks.</li><li><code>break</code> leaves the loop. <code>continue</code> skips to the next round. <code>pass</code> does nothing.</li><li><code>break</code> exits only the innermost loop.</li><li>Use <code>for</code> when you know what to loop over. Use <code>while</code> when you loop until something happens.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Keep looping while n is bigger than 0.</p><figure class="code"><pre><code>n = 3
+___ n &gt; 0:
+    print(n)
+    n -= 1</code></pre></figure><details><summary>Answer</summary><p><code>while</code> — <code>while</code> repeats as long as its condition stays True.</p><p>Output:</p><pre class="out">3
+2
+1</pre></details></li><li><p>Stop the loop when n reaches 4.</p><figure class="code"><pre><code>n = 1
+while True:
+    if n == 4:
+        ___
+    print(n)
+    n += 1</code></pre></figure><details><summary>Answer</summary><p><code>break</code> — <code>break</code> leaves the loop at once. It is the way out of <code>while True</code>.</p><p>Output:</p><pre class="out">1
+2
+3</pre></details></li><li><p>Skip 3 but keep looping.</p><figure class="code"><pre><code>n = 0
+while n &lt; 5:
+    n += 1
+    if n == 3:
+        ___
+    print(n)</code></pre></figure><details><summary>Answer</summary><p><code>continue</code> — <code>continue</code> jumps straight to the next turn of the loop.</p><p>Output:</p><pre class="out">1
+2
+4
+5</pre></details></li><li><p>Increase count by 1 each time, so the loop can end.</p><figure class="code"><pre><code>count = 0
+while count &lt; 3:
+    print(&quot;Hi&quot;)
+    count ___ 1</code></pre></figure><details><summary>Answer</summary><p><code>+=</code> — Without changing count, the condition never becomes False: an endless loop.</p><p>Output:</p><pre class="out">Hi
+Hi
+Hi</pre></details></li><li><p>Print No break when the loop ends without break.</p><figure class="code"><pre><code>n = 0
+while n &lt; 2:
+    n += 1
+___:
+    print(&quot;No break&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>else</code> — A loop's <code>else</code> runs only when the loop finished without <code>break</code>.</p><p>Output:</p><pre class="out">No break</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>i = 1
 while i &lt; 4:
     print(i, end=&quot; &quot;)
     i += 1</code></pre></figure><ol type="A"><li><code>1 2 3</code></li><li><code>1 2 3 4</code></li><li><code>0 1 2 3</code></li><li>It never stops</li></ol><details><summary>Answer</summary><p><b><code>1 2 3</code></b>. The loop stops when i becomes 4, because 4 &lt; 4 is False.</p></details></li><li><p>What happens if you forget <code>i += 1</code> in the loop above?</p><ol type="A"><li>It prints once</li><li>It runs forever (infinite loop)</li><li>SyntaxError</li><li>It prints nothing</li></ol><details><summary>Answer</summary><p><b>It runs forever (infinite loop)</b>. i stays 1, so <code>i &lt; 4</code> is always True.</p></details></li><li><p>What does <code>continue</code> do?</p><ol type="A"><li>Ends the loop</li><li>Skips the rest of this round and starts the next one</li><li>Does nothing</li><li>Restarts the program</li></ol><details><summary>Answer</summary><p><b>Skips the rest of this round and starts the next one</b>. continue jumps straight to the next round.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>for i in range(1, 6):

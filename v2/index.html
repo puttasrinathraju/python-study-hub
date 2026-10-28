@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="A free, interactive Python course for aspiring data analysts: 22 chapters, a real Python runner in the browser with answer checking, teacher videos, quizzes, flashcards, a glossary and a full Python reference.">
+<meta name="description" content="A free, interactive Python course for aspiring data analysts: 23 chapters, a real Python runner in the browser with answer checking, teacher videos, quizzes, flashcards, a glossary and a full Python reference.">
 <link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/v2/">
 <meta property="og:title" content="Python Study Hub: learn Python for data analysis">
-<meta property="og:description" content="A free, interactive Python course for aspiring data analysts: 22 chapters, a real Python runner in the browser with answer checking, teacher videos, quizzes, flashcards, a glossary and a full Python reference.">
+<meta property="og:description" content="A free, interactive Python course for aspiring data analysts: 23 chapters, a real Python runner in the browser with answer checking, teacher videos, quizzes, flashcards, a glossary and a full Python reference.">
 <link rel="sitemap" type="application/xml" href="sitemap.xml">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Crect width=%2740%27 height=%2740%27 rx=%2710%27 fill=%27%232C68B0%27/%3E%3Ctext x=%2720%27 y=%2726%27 text-anchor=%27middle%27 font-family=%27monospace%27 font-size=%2715%27 font-weight=%27700%27 fill=%27white%27%3E%26gt;%26gt;%26gt;%3C/text%3E%3C/svg%3E">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
@@ -414,7 +414,7 @@ details.reveal[open] summary{margin-bottom:6px}
 .gd pre{margin:0;font-family:var(--mono);font-size:13px;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;overflow-x:auto}
 .gl2 button{font-size:13px;font-weight:700;color:var(--accent)}
 @media (max-width:640px){.gitem{grid-template-columns:minmax(0,1fr);gap:4px}}
-.navtools button:first-child{grid-column:span 2}
+.navtools button:first-child,.navtools button:last-child:nth-child(even){grid-column:span 2}
 .cell-top .trycell{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));font-weight:700;margin-left:auto}
 .cell-top .trycell + .copy{margin-left:6px}
 .trybox{margin-top:-4px}
@@ -427,6 +427,28 @@ details.reveal[open] summary{margin-bottom:6px}
 .refex pre,.refo{margin:0;font-family:var(--mono);font-size:13px;white-space:pre;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:6px 9px;overflow-x:auto;max-width:100%}
 .refex pre{flex:1;min-width:0}
 .refo{background:var(--out-bg);border-style:dashed}
+.refn{color:var(--muted);font-size:14px}
+.exq{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:12px 0;background:var(--surface)}
+.exh{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted)}
+.exst{color:var(--tip);font-weight:700}
+.exqq{margin:6px 0 4px;font-size:16px}
+.excode{margin:8px 0 10px;font-family:var(--mono);font-size:14px;line-height:1.75;white-space:pre;overflow-x:auto;background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.exin{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1.5px dashed var(--accent);border-radius:6px;padding:1px 4px;margin:0 1px;max-width:26ch;vertical-align:baseline}
+.exin:focus{outline:2px solid var(--accent);outline-offset:1px;border-style:solid}
+.exin.ok{border:1.5px solid var(--tip);background:var(--tip-soft)}
+.exin.no{border:1.5px solid var(--trap);background:var(--trap-soft)}
+.exfb{margin-top:10px}.exfb .rchk{border:1px solid var(--line);border-radius:10px}
+.exo{margin:8px 0 4px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.exprog{display:flex;align-items:center;gap:12px;margin:4px 0 8px}.exbar{flex:1;height:10px;border-radius:99px;background:var(--surface2);overflow:hidden}.exbar span{display:block;height:100%;background:var(--tip)}
+details.exch{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:var(--surface);padding:0 14px}
+details.exch summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;padding:12px 0;font-weight:600;list-style:none}
+details.exch summary::-webkit-details-marker{display:none}
+details.exch summary::before{content:"▸";color:var(--accent);margin-right:2px}details.exch[open] summary::before{content:"▾"}
+details.exch summary span:first-child{flex:1}
+details.exch .exq{background:var(--bg)}
+details.exch .row{padding-bottom:12px}
+@media (max-width:700px){.excode{white-space:pre-wrap;overflow-wrap:anywhere}}
+
 .reftb{flex:none;width:28px;height:28px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:12px}
 .reftry td{background:var(--bg);padding:8px}
 #rtoc{margin-top:4px}
@@ -700,7 +722,7 @@ figure[id]{scroll-margin-top:80px}
     <div class="prog"><div class="bar"><i id="pbar"></i></div><span id="ptxt">0 of 0 chapters done</span></div>
     <nav class="parts" id="parts"></nav>
   </aside>
-  <main class="main" id="main"><div class="col" id="view"><div class="nojs"><h1>Python Study Hub: learn Python for data analysis</h1><p>A free, interactive course for aspiring data analysts, from your first <code>print()</code> to NumPy.</p><ul><li>22 chapters in plain, simple English, from your first <code>print()</code> to NumPy, in 8 Parts</li><li>A <b>real Python runner in the browser</b> (Python 3.12 with NumPy) under every practice task, with a <b>Check my answer</b> button, and a <b>Try it</b> button on every code example</li><li>Animated explainers that run code line by line, slide decks, mind maps and a revision poster for every chapter</li><li>A short video by a real teacher for every chapter (English, plus Telugu for 14 chapters)</li><li>Practice on a realistic, messy hotel bookings dataset, plus an end-to-end mini project</li><li>An overview page for every Part with key definitions, big comparison tables, "don't mix these up" tables and a picture cheat sheet</li><li>Quizzes, a final exam, flashcards with spaced repetition, a cheat sheet, a glossary and a full Python reference</li><li>Works on phones, has dark mode, works offline after the first visit, no ads and no sign-up</li></ul><p><a href="learn/index.html">Read every chapter as plain text</a> · <a href="learn/reference.html">Python reference</a> · <a href="learn/glossary.html">Glossary</a></p><h2>Part 1: Start here</h2><ul><li><a href="learn/intro.html">1. Meet Python</a></li><li><a href="learn/variables.html">2. Variables and data types</a></li><li><a href="learn/output.html">3. Printing and formatting output</a></li><li><a href="learn/operators.html">4. Operators</a></li><li><a href="learn/overview1.html">Part 1 overview</a></li></ul><h2>Part 2: Decisions and loops</h2><ul><li><a href="learn/conditions.html">5. If, elif and else</a></li><li><a href="learn/forloops.html">6. For loops and range()</a></li><li><a href="learn/whileloops.html">7. While loops, break and continue</a></li><li><a href="learn/overview2.html">Part 2 overview</a></li></ul><h2>Part 3: Collections</h2><ul><li><a href="learn/strings.html">8. Strings in depth</a></li><li><a href="learn/lists.html">9. Lists</a></li><li><a href="learn/tuples.html">10. Tuples</a></li><li><a href="learn/sets.html">11. Sets</a></li><li><a href="learn/dicts.html">12. Dictionaries</a></li><li><a href="learn/comprehensions.html">13. Comprehensions and choosing the right collection</a></li><li><a href="learn/overview3.html">Part 3 overview</a></li></ul><h2>Part 4: Functions</h2><ul><li><a href="learn/functions.html">14. Functions: the basics</a></li><li><a href="learn/functions2.html">15. Functions: advanced tools</a></li><li><a href="learn/overview4.html">Part 4 overview</a></li></ul><h2>Part 5: Real-world Python</h2><ul><li><a href="learn/errors.html">16. Errors and exceptions</a></li><li><a href="learn/files.html">17. File handling</a></li><li><a href="learn/modules.html">18. Modules and libraries</a></li><li><a href="learn/overview5.html">Part 5 overview</a></li></ul><h2>Part 6: Object-oriented Python</h2><ul><li><a href="learn/oop.html">19. Classes and objects (OOP)</a></li><li><a href="learn/overview6.html">Part 6 overview</a></li></ul><h2>Part 7: NumPy</h2><ul><li><a href="learn/numpy1.html">20. NumPy basics: arrays</a></li><li><a href="learn/numpy2.html">21. NumPy operations for analysis</a></li><li><a href="learn/overview7.html">Part 7 overview</a></li></ul><h2>Part 8: Projects</h2><ul><li><a href="learn/projects.html">22. Projects: put it all together</a></li><li><a href="learn/overview8.html">Whole-course overview</a></li></ul></div></div></main>
+  <main class="main" id="main"><div class="col" id="view"><div class="nojs"><h1>Python Study Hub: learn Python for data analysis</h1><p>A free, interactive course for aspiring data analysts, from your first <code>print()</code> to NumPy.</p><ul><li>23 chapters in plain, simple English, from your first <code>print()</code> to NumPy, in 8 Parts</li><li>A <b>real Python runner in the browser</b> (Python 3.12 with NumPy) under every practice task, with a <b>Check my answer</b> button, and a <b>Try it</b> button on every code example</li><li>Animated explainers that run code line by line, slide decks, mind maps and a revision poster for every chapter</li><li>A short video by a real teacher for every chapter (English, plus Telugu for 14 chapters)</li><li>Practice on a realistic, messy hotel bookings dataset, plus an end-to-end mini project</li><li>An overview page for every Part with key definitions, big comparison tables, "don't mix these up" tables and a picture cheat sheet</li><li>Quizzes, a final exam, flashcards with spaced repetition, a cheat sheet, a glossary and a full Python reference</li><li>Works on phones, has dark mode, works offline after the first visit, no ads and no sign-up</li></ul><p><a href="learn/index.html">Read every chapter as plain text</a> · <a href="learn/reference.html">Python reference</a> · <a href="learn/glossary.html">Glossary</a></p><h2>Part 1: Start here</h2><ul><li><a href="learn/intro.html">1. Meet Python</a></li><li><a href="learn/variables.html">2. Variables and data types</a></li><li><a href="learn/output.html">3. Printing and formatting output</a></li><li><a href="learn/operators.html">4. Operators</a></li><li><a href="learn/overview1.html">Part 1 overview</a></li></ul><h2>Part 2: Decisions and loops</h2><ul><li><a href="learn/conditions.html">5. If, elif and else</a></li><li><a href="learn/forloops.html">6. For loops and range()</a></li><li><a href="learn/whileloops.html">7. While loops, break and continue</a></li><li><a href="learn/overview2.html">Part 2 overview</a></li></ul><h2>Part 3: Collections</h2><ul><li><a href="learn/strings.html">8. Strings in depth</a></li><li><a href="learn/lists.html">9. Lists</a></li><li><a href="learn/tuples.html">10. Tuples</a></li><li><a href="learn/sets.html">11. Sets</a></li><li><a href="learn/dicts.html">12. Dictionaries</a></li><li><a href="learn/comprehensions.html">13. Comprehensions and choosing the right collection</a></li><li><a href="learn/overview3.html">Part 3 overview</a></li></ul><h2>Part 4: Functions</h2><ul><li><a href="learn/functions.html">14. Functions: the basics</a></li><li><a href="learn/functions2.html">15. Functions: advanced tools</a></li><li><a href="learn/overview4.html">Part 4 overview</a></li></ul><h2>Part 5: Real-world Python</h2><ul><li><a href="learn/errors.html">16. Errors and exceptions</a></li><li><a href="learn/files.html">17. File handling</a></li><li><a href="learn/modules.html">18. Modules and libraries</a></li><li><a href="learn/overview5.html">Part 5 overview</a></li></ul><h2>Part 6: Object-oriented Python</h2><ul><li><a href="learn/oop.html">19. Classes and objects (OOP)</a></li><li><a href="learn/overview6.html">Part 6 overview</a></li></ul><h2>Part 7: NumPy</h2><ul><li><a href="learn/numpy1.html">20. NumPy basics: arrays</a></li><li><a href="learn/numpy2.html">21. NumPy operations for analysis</a></li><li><a href="learn/numpy3.html">22. NumPy extras: iterate, split, search, random and ufuncs</a></li><li><a href="learn/overview7.html">Part 7 overview</a></li></ul><h2>Part 8: Projects</h2><ul><li><a href="learn/projects.html">23. Projects: put it all together</a></li><li><a href="learn/overview8.html">Whole-course overview</a></li></ul></div></div></main>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -939,6 +961,27 @@ var V = (function(){
       x += 34 + it[1].length * 7.2;
     });
     return '<svg viewBox="0 0 ' + x + ' 28" width="' + x + '" role="img" aria-label="legend">' + s + '</svg>';
+  };
+
+  /* Histogram. counts: bar heights. o: {labels:[one per bar, '' to skip], ticks:[[boundary index, text]], hl:[bar index], title, label, bw, h} */
+  V.hist = function(counts, o){
+    o = o || {};
+    var bw = o.bw || 22, H = o.h || 110, padL = 18, padR = 18, top = o.title ? 30 : 10, n = counts.length;
+    var max = Math.max.apply(null, counts) || 1, W = padL + padR + n * bw, base = top + H;
+    var s = '<svg viewBox="0 0 ' + W + ' ' + (base + 26) + '" width="' + W + '" style="min-width:' + Math.round(W * 0.6) + 'px" role="img" aria-label="' + V.esc(o.label || o.title || 'histogram') + '">';
+    if (o.title) s += '<text x="' + padL + '" y="18" class="sv-mb">' + V.esc(o.title) + '</text>';
+    counts.forEach(function(c, i){
+      var bh = c ? Math.max(2, Math.round(c / max * H)) : 0, x = padL + i * bw;
+      s += '<rect x="' + (x + 2) + '" y="' + (base - bh) + '" width="' + (bw - 4) + '" height="' + bh + '" rx="2" class="' + ((o.hl || []).indexOf(i) > -1 ? 'sv-hl' : 'sv-acc') + '"/>';
+      var lb = (o.labels || [])[i];
+      if (lb != null && lb !== '') s += '<text x="' + (x + bw / 2) + '" y="' + (base + 18) + '" text-anchor="middle" class="sv-m">' + V.esc(lb) + '</text>';
+    });
+    (o.ticks || []).forEach(function(t){
+      var x = padL + t[0] * bw;
+      s += '<path d="M' + x + ' ' + base + ' v5" class="sv-lna"/><text x="' + x + '" y="' + (base + 18) + '" text-anchor="middle" class="sv-m">' + V.esc(t[1]) + '</text>';
+    });
+    s += '<path d="M' + padL + ' ' + base + ' H' + (W - padR) + '" class="sv-lna"/>';
+    return s + '</svg>';
   };
 })();
 
@@ -6984,6 +7027,7 @@ Size: 9
 Data type: int64
 Dimensions: 2
 Bytes per value: 8` },
+    { t: "note", k: "tip", b: "Run this with **Try it** and you will see `int32` and 4 bytes. The Python inside your browser is a 32-bit build. On your own computer, and in Colab or Jupyter, whole numbers are `int64` (8 bytes), as shown above." },
     { t: "h", text: "One array, one data type" },
     { t: "p", b: "Every value in an array has the same type (`dtype`). If you mix types, NumPy quietly **upcasts** everything to a type that can hold them all." },
     { t: "code", c: R`
@@ -7472,6 +7516,644 @@ print(x[0])`, o: ["`1`", "`100`", "An error", "`[100 2]`"], a: 1, chk: 1, e: "A 
   ]
 });
 })();
+
+/* Chapter: NumPy extras (generated; every output came from running the code) */
+chapter({ id: "numpy3", part: 7, title: "NumPy extras: iterate, split, search, random and ufuncs", nav: "NumPy extras", time: "45 min", lvl: "Intermediate", keys: "numpy nditer ndenumerate iterate loop split array_split hsplit vsplit search where searchsorted random seed randint choice shuffle permutation distribution normal binomial poisson uniform exponential logistic multinomial chi square rayleigh pareto zipf ufunc frompyfunc add subtract multiply divide power mod around floor ceil trunc log sum cumsum prod cumprod diff lcm gcd sin deg2rad unique union1d intersect1d setdiff1d setxor1d", lead: "The rest of the NumPy toolbox: loop over arrays, cut them into pieces, find values, make random data that behaves like real data, and use NumPy's fast maths functions (ufuncs).", goals: [
+  "Loop over arrays with `for`, `nditer` and `ndenumerate`",
+  "Split arrays with `array_split`, `split`, `vsplit` and `hsplit`",
+  "Find values with `np.where` and `np.searchsorted`",
+  "Make random numbers and simulate data with distributions",
+  "Use ufuncs for arithmetic, rounding, logs, sums, LCM/GCD, trigonometry and sets"
+], src: [
+  "W3Schools NumPy tutorial topics (array iterating, split, search, random, ufuncs)",
+  "NumPy documentation"
+], body: [
+  { t: "h", text: "Looping over arrays" },
+  { t: "p", b: "You rarely need loops in NumPy, because maths on the whole array is faster. When you do, a `for` loop over a 2D array gives you one **row** at a time." },
+  { t: "code", c: R`
+import numpy as np
+m = np.array([[1, 2], [3, 4]])
+for row in m:
+    print(row)`, o: R`
+[1 2]
+[3 4]` },
+  { t: "code", c: R`
+import numpy as np
+m = np.array([[1, 2], [3, 4]])
+for x in np.nditer(m):
+    print(x, end=" ")`, o: "1 2 3 4 ", ttl: "nditer: every single value, whatever the shape" },
+  { t: "code", c: R`
+import numpy as np
+m = np.array([[10, 20], [30, 40]])
+for pos, x in np.ndenumerate(m):
+    print(pos, x)`, o: R`
+(0, 0) 10
+(0, 1) 20
+(1, 0) 30
+(1, 1) 40`, ttl: "ndenumerate: the position and the value together" },
+  { t: "note", k: "tip", b: "Before you write a loop, ask: can NumPy do this on the whole array at once? Usually it can, and it is much faster." },
+  { t: "h", text: "Splitting arrays" },
+  { t: "p", b: "Splitting is the opposite of joining with `concatenate`. `np.array_split(a, n)` cuts an array into `n` parts. If the parts cannot be equal, the first ones get one extra item." },
+  { t: "code", c: R`
+import numpy as np
+a = np.arange(1, 8)
+for part in np.array_split(a, 3):
+    print(part)`, o: R`
+[1 2 3]
+[4 5]
+[6 7]` },
+  { t: "anim", title: "How array_split shares out 7 values", frames: [
+    { html: V.strip(["1", "2", "3", "4", "5", "6", "7"], {"w": 52, "label": "a"}) + "<div class=\"bigcode\">np.array_split(a, 3)</div>", c: "7 values into 3 parts. 7 ÷ 3 = 2, with 1 left over." },
+    { html: V.strip(["1", "2", "3", "4", "5", "6", "7"], {"w": 52, "hl2": [0, 1, 2], "dim": [3, 4, 5, 6], "bracket": [0, 3, "part 1"]}), c: "Every part gets 2 values. The 1 left over goes to the **first** part, so part 1 gets 3 values: `[1 2 3]`." },
+    { html: V.strip(["1", "2", "3", "4", "5", "6", "7"], {"w": 52, "hl": [3, 4], "hl2": [0, 1, 2], "dim": [5, 6], "bracket": [3, 5, "part 2"]}), c: "Part 2 gets the next 2: `[4 5]`." },
+    { html: V.strip(["1", "2", "3", "4", "5", "6", "7"], {"w": 52, "hl": [5, 6], "hl2": [0, 1, 2, 3, 4], "bracket": [5, 7, "part 3"]}) + "<div class=\"res\">[array([1, 2, 3]), array([4, 5]), array([6, 7])]</div>", c: "Part 3 gets the last 2: `[6 7]`. The sizes are 3, 2 and 2. `np.split(a, 3)` would stop with a ValueError instead." }
+  ] },
+  { t: "code", c: R`
+import numpy as np
+a = np.arange(6)
+print(np.split(a, 3))`, o: "[array([0, 1]), array([2, 3]), array([4, 5])]", ttl: "np.split works too, but only when the parts are equal" },
+  { t: "code", c: R`
+import numpy as np
+np.split(np.arange(7), 3)`, o: "ValueError: array split does not result in an equal division", ttl: "7 items cannot make 3 equal parts", err: true },
+  { t: "code", c: R`
+import numpy as np
+m = np.arange(1, 7).reshape(2, 3)
+top, bottom = np.vsplit(m, 2)
+print(top, bottom)
+left, mid, right = np.hsplit(m, 3)
+print(left.ravel(), right.ravel())`, o: R`
+[[1 2 3]] [[4 5 6]]
+[1 4] [3 6]`, ttl: "Split a table into rows (vsplit) or columns (hsplit)" },
+  { t: "pred", chk: 1, c: R`
+import numpy as np
+print([len(p) for p in np.array_split(np.arange(10), 4)])`, o: [
+    "`[3, 3, 2, 2]`",
+    "`[2, 2, 3, 3]`",
+    "`[3, 3, 3, 1]`",
+    "A ValueError"
+  ], a: 0, e: "10 ÷ 4 = 2 with 2 left over. The first two parts get one extra each: 3, 3, 2, 2." },
+  { t: "table", head: [
+    "Function",
+    "Cuts",
+    "Parts must be equal?"
+  ], rows: [
+    [
+      "`np.array_split(a, n)`",
+      "Into n parts",
+      "[[ok:No]]: the first parts get the extras"
+    ],
+    [
+      "`np.split(a, n)`",
+      "Into n parts",
+      "[[no:Yes]]: ValueError otherwise"
+    ],
+    [
+      "`np.vsplit(m, n)`",
+      "A table into groups of rows",
+      "Yes"
+    ],
+    [
+      "`np.hsplit(m, n)`",
+      "A table into groups of columns",
+      "Yes"
+    ]
+  ] },
+  { t: "h", text: "Searching arrays" },
+  { t: "p", b: "`np.where(condition)` gives the **positions** where the condition is True. `np.searchsorted(a, x)` tells you where `x` would go in a **sorted** array to keep it sorted." },
+  { t: "code", c: R`
+import numpy as np
+a = np.array([4, 7, 4, 9, 4])
+print(np.where(a == 4))
+print(np.where(a == 4)[0])`, o: R`
+(array([0, 2, 4]),)
+[0 2 4]` },
+  { t: "code", c: R`
+import numpy as np
+prices = np.array([100, 250, 400, 900])
+print(np.searchsorted(prices, 300))
+print(np.searchsorted(prices, [50, 400, 1000]))
+print(np.searchsorted(prices, 400, side="right"))   # after an equal value`, o: R`
+2
+[0 2 4]
+3`, ttl: "searchsorted: where would this value fit?" },
+  { t: "anim", title: "searchsorted: where does 300 fit?", frames: [
+    { html: V.strip(["100", "250", "400", "900"], {"w": 64, "label": "prices"}) + "<div class=\"bigcode\">np.searchsorted(prices, 300)</div>", c: "`prices` is sorted. Where could 300 go so that it stays sorted?" },
+    { html: V.strip(["100", "250", "400", "900"], {"w": 64, "hl2": [0, 1], "dim": [2, 3]}), c: "100 and 250 are smaller than 300, so 300 must come after them." },
+    { html: V.strip(["100", "250", "400", "900"], {"w": 64, "hl2": [0, 1], "hl": [2]}) + "<div class=\"res\">2</div>", c: "400 is the first value bigger than 300, so 300 goes **at position 2**, just before 400." },
+    { html: V.strip(["100", "250", "300", "400", "900"], {"w": 64, "hl": [2]}), c: "Put there, the array stays sorted. Analysts use this to put values into bands, like price ranges. If the value is already in the array, `side=\"right\"` places it after the equal value instead of before it." }
+  ] },
+  { t: "note", k: "trap", b: "`np.where(cond)` with **one** argument gives positions. `np.where(cond, x, y)` with **three** arguments picks values, as you saw in the last chapter. Same name, two different jobs." },
+  { t: "h", text: "Random numbers" },
+  { t: "p", b: "`np.random` makes random data for testing code, simulations and sampling. `np.random.seed(n)` makes the \"random\" numbers repeat exactly, so your results are the same every run." },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(42)
+rolls = np.random.randint(1, 7, size=1000)    # 1000 dice rolls; 7 is not included
+print(rolls.min(), rolls.max(), len(rolls))`, o: "1 6 1000", ttl: "randint: random whole numbers" },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(1)
+days = np.random.choice(["busy", "quiet"], p=[0.7, 0.3], size=10000)
+print(round(np.mean(days == "busy"), 1))`, o: "0.7", ttl: "choice: pick from a list, with chances you set" },
+  { t: "code", c: R`
+import numpy as np
+a = np.array([1, 2, 3, 4, 5])
+p = np.random.permutation(a)     # a new shuffled copy; a is unchanged
+print(np.array_equal(np.sort(p), a), a)
+np.random.shuffle(a)             # shuffles a itself
+print(np.sort(a))`, o: R`
+True [1 2 3 4 5]
+[1 2 3 4 5]`, ttl: "permutation vs shuffle" },
+  { t: "note", k: "tip", b: "Newer code often uses a generator object: `rng = np.random.default_rng(42)`, then `rng.integers(1, 7, 10)` or `rng.normal(0, 1, 5)`. It does the same jobs and is the modern recommendation." },
+  { t: "h", text: "Random data distributions" },
+  { t: "p", b: "A ==distribution== describes which values are likely and which are rare. Analysts use them to simulate data and to recognise patterns in real data. Each example below makes 100,000 values, so the averages come out very close to the theory." },
+  { t: "table", head: [
+    "Distribution",
+    "Function",
+    "Gives you",
+    "Real example"
+  ], rows: [
+    [
+      "Normal",
+      "`np.random.normal(loc, scale, size)`",
+      "A bell curve around `loc`",
+      "Test scores, delivery times, heights"
+    ],
+    [
+      "Binomial",
+      "`np.random.binomial(n, p, size)`",
+      "Successes out of `n` tries",
+      "How many of 10 guests order breakfast"
+    ],
+    [
+      "Poisson",
+      "`np.random.poisson(lam, size)`",
+      "Count of events in a time window",
+      "Bookings per day, calls per hour"
+    ],
+    [
+      "Uniform",
+      "`np.random.uniform(low, high, size)`",
+      "Every value in the range equally likely",
+      "Random test prices"
+    ],
+    [
+      "Exponential",
+      "`np.random.exponential(scale, size)`",
+      "Time until the next event",
+      "Minutes between two bookings"
+    ],
+    [
+      "Logistic",
+      "`np.random.logistic(loc, scale, size)`",
+      "Like normal, with more extreme values",
+      "Growth models, machine learning"
+    ],
+    [
+      "Multinomial",
+      "`np.random.multinomial(n, pvals)`",
+      "Counts across several outcomes",
+      "100 dice rolls: how many 1s, 2s, ... 6s"
+    ],
+    [
+      "Chi-square",
+      "`np.random.chisquare(df, size)`",
+      "Used in statistical tests",
+      "Is this difference real or chance?"
+    ],
+    [
+      "Rayleigh",
+      "`np.random.rayleigh(scale, size)`",
+      "Sizes of random 2D movements",
+      "Wind speeds, signal strength"
+    ],
+    [
+      "Pareto",
+      "`np.random.pareto(a, size)`",
+      "The 80/20 rule: a few huge values",
+      "A few customers bring most revenue"
+    ],
+    [
+      "Zipf",
+      "`np.random.zipf(a, size)`",
+      "A few very common items, many rare ones",
+      "Word counts, city sizes"
+    ]
+  ] },
+  { t: "deck", title: "Which distribution fits my data?", s: [
+    { big: "A distribution is the shape your data makes when you count it.", b: "Count how many values fall into each range and draw the counts as bars: a **histogram**. Its shape tells you which distribution fits. Every chart here is 100,000 simulated values." },
+    { h: "Normal: the bell curve", b: "Most values sit near the average and fewer sit far away, on both sides. Test scores, delivery times, heights.", svg: V.hist([16, 114, 484, 1636, 4410, 9174, 15022, 19255, 19209, 15001, 9119, 4374, 1619, 451, 86, 24], {"ticks": [[0, "20"], [4, "40"], [6, "50"], [8, "60"], [10, "70"], [12, "80"], [16, "100"]], "hl": [6, 7, 8, 9], "label": "Histogram of 100,000 normal values around 60"}) },
+    { h: "Binomial: successes out of n tries", b: "10 guests, and each one orders breakfast with a chance of 0.4. On most days about **4** of them do. It can never go above 10.", svg: V.hist([559, 3960, 12068, 21671, 24873, 20044, 11222, 4358, 1069, 160, 16], {"labels": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "hl": [4], "bw": 28, "label": "Histogram of binomial values from 0 to 10, peak at 4"}) },
+    { h: "Poisson: events in a time window", b: "Bookings per day, 6 on average. Never negative, with a long tail to the right (the highlighted busy days).", svg: V.hist([260, 1435, 4364, 8870, 13294, 15859, 16219, 13828, 10591, 7003, 4073, 2262, 1088, 496, 209, 100, 49], {"labels": ["0", "", "2", "", "4", "", "6", "", "8", "", "10", "", "12", "", "14", "", "16+"], "hl": [10, 11, 12, 13, 14, 15, 16], "label": "Histogram of daily bookings, peak near 6, long right tail"}) },
+    { h: "Uniform: every value equally likely", b: "A random price between 100 and 200. Flat: no value is more likely than another.", svg: V.hist([10064, 9869, 10048, 10020, 10140, 9789, 10010, 10024, 10154, 9882], {"ticks": [[0, "100"], [5, "150"], [10, "200"]], "bw": 30, "label": "Flat histogram of uniform values from 100 to 200"}) },
+    { h: "Exponential: waiting time until the next event", b: "Minutes between two bookings, 10 on average. Short waits are common and long waits are rare.", svg: V.hist([39430, 23789, 14315, 8725, 5406, 3288, 1983, 1214, 711, 446, 276, 186], {"ticks": [[0, "0"], [2, "10"], [4, "20"], [6, "30"], [8, "40"], [12, "60 min"]], "bw": 26, "label": "Histogram of waiting times, tallest at 0 and falling away"}) },
+    { h: "How to choose", items: [
+      "Measuring something, like a time or a score? Try **normal**.",
+      "Counting successes out of a fixed number of tries? **Binomial**.",
+      "Counting events in a time window? **Poisson**.",
+      "Measuring the wait between events? **Exponential**.",
+      "No value more likely than another? **Uniform**."
+    ] }
+  ] },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(7)
+scores = np.random.normal(loc=60, scale=10, size=100000)
+print(round(scores.mean()), round(scores.std()))
+print(round(np.mean((scores > 50) & (scores < 70)), 2))   # share within 1 std of the mean`, o: R`
+60 10
+0.68`, ttl: "Normal: about 68% of values sit within 1 standard deviation" },
+  { t: "fig", svg: V.hist([16, 114, 484, 1636, 4410, 9174, 15022, 19255, 19209, 15001, 9119, 4374, 1619, 451, 86, 24], {"ticks": [[0, "20"], [4, "40"], [6, "50"], [8, "60"], [10, "70"], [12, "80"], [16, "100"]], "hl": [6, 7, 8, 9], "label": "Histogram of 100,000 normal values around 60"}), cap: "The 100,000 scores as a histogram. The highlighted bars, from 50 to 70 (one standard deviation either side of 60), hold about 68% of all values." },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(3)
+breakfast = np.random.binomial(n=10, p=0.4, size=100000)   # guests out of 10 who order breakfast
+print(round(breakfast.mean()), breakfast.min() >= 0, breakfast.max() <= 10)`, o: "4 True True", ttl: "Binomial: the average is n × p = 4" },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(5)
+bookings = np.random.poisson(lam=6, size=100000)   # bookings per day, 6 on average
+print(round(bookings.mean()), round(np.mean(bookings >= 10), 2))`, o: "6 0.08", ttl: "Poisson: 6 a day on average, 10 or more on about 8% of days" },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(9)
+u = np.random.uniform(100, 200, size=100000)
+print(u.min() >= 100, u.max() < 200, round(u.mean()))`, o: "True True 150", ttl: "Uniform: every value equally likely, so the average is the middle" },
+  { t: "code", c: R`
+import numpy as np
+np.random.seed(2)
+counts = np.random.multinomial(600, [1/6] * 6)   # 600 dice rolls
+print(counts.sum(), len(counts), all(counts > 60))`, o: "600 6 True", ttl: "Multinomial: counts for each face add up to the total rolls" },
+  { t: "h", text: "ufuncs: NumPy's fast maths functions" },
+  { t: "p", b: "A ==ufunc== (universal function) works on every value of an array at once, in fast compiled code. You have already used some: `a + b` is really `np.add(a, b)`." },
+  { t: "code", c: R`
+import numpy as np
+a = np.array([10, 20, 30])
+b = np.array([3, 4, 5])
+print(np.add(a, b), np.subtract(a, b), np.multiply(a, b))
+print(np.divide(a, b).round(2), np.power(b, 2), np.mod(a, b))`, o: R`
+[13 24 35] [ 7 16 25] [ 30  80 150]
+[3.33 5.   6.  ] [ 9 16 25] [1 0 0]`, ttl: "Simple arithmetic" },
+  { t: "code", c: R`
+import numpy as np
+a = np.array([-2.5, -1.7, 1.2, 2.5, 3.5])
+print("around:", np.around(a))
+print("floor: ", np.floor(a))
+print("ceil:  ", np.ceil(a))
+print("trunc: ", np.trunc(a))`, o: R`
+around: [-2. -2.  1.  2.  4.]
+floor:  [-3. -2.  1.  2.  3.]
+ceil:   [-2. -1.  2.  3.  4.]
+trunc:  [-2. -1.  1.  2.  3.]`, ttl: "Rounding: four different rules" },
+  { t: "pred", chk: 1, c: R`
+import numpy as np
+print(np.around([0.5, 1.5, 2.5]))`, o: [
+    "`[1. 2. 3.]`",
+    "`[0. 2. 2.]`",
+    "`[0. 1. 2.]`",
+    "`[1. 2. 2.]`"
+  ], a: 1, e: "A .5 goes to the nearest **even** number, exactly like Python's `round()`. Always rounding .5 up would push totals higher over many values." },
+  { t: "table", head: [
+    "Function",
+    "Rule",
+    "-1.7 becomes",
+    "2.5 becomes"
+  ], rows: [
+    [
+      "`np.around`",
+      "Nearest (a .5 goes to the even number)",
+      "-2",
+      "2"
+    ],
+    [
+      "`np.floor`",
+      "Down, towards minus infinity",
+      "-2",
+      "2"
+    ],
+    [
+      "`np.ceil`",
+      "Up, towards plus infinity",
+      "-1",
+      "3"
+    ],
+    [
+      "`np.trunc`",
+      "Cut the decimals off, towards 0",
+      "-1",
+      "2"
+    ]
+  ] },
+  { t: "code", c: R`
+import numpy as np
+print(np.log10([10, 100, 1000]), np.log2([2, 8]), np.log(np.e).round(2))`, o: "[1. 2. 3.] [1. 3.] 1.0", ttl: "Logs" },
+  { t: "code", c: R`
+import numpy as np
+sales = np.array([120, 80, 150])
+print(np.sum(sales), np.cumsum(sales))
+print(np.prod([2, 3, 4]), np.cumprod([2, 3, 4]))
+print(np.diff([100, 120, 90, 130]))`, o: R`
+350 [120 200 350]
+24 [ 2  6 24]
+[ 20 -30  40]`, ttl: "Sums, products and differences" },
+  { t: "code", c: R`
+import numpy as np
+print(np.lcm(4, 6), np.gcd(12, 18))
+print(np.lcm.reduce([3, 4, 6]), np.gcd.reduce([20, 30, 50]))`, o: R`
+12 6
+12 10`, ttl: "LCM and GCD, for two numbers or a whole array" },
+  { t: "code", c: R`
+import numpy as np
+angles = np.array([0, 90, 180])
+print(np.sin(np.deg2rad(angles)).round(2))`, o: "[0. 1. 0.]", ttl: "Trigonometry works in radians, so convert degrees first" },
+  { t: "code", c: R`
+import numpy as np
+a = np.array([1, 2, 3, 4])
+b = np.array([3, 4, 5])
+print(np.unique([3, 1, 3, 2]), np.union1d(a, b))
+print(np.intersect1d(a, b), np.setdiff1d(a, b), np.setxor1d(a, b))`, o: R`
+[1 2 3] [1 2 3 4 5]
+[3 4] [1 2] [1 2 5]`, ttl: "Set operations on arrays" },
+  { t: "code", c: R`
+import numpy as np
+def gst(price):
+    return round(price * 1.18, 2)
+
+gst_u = np.frompyfunc(gst, 1, 1)   # 1 input, 1 output
+print(gst_u(np.array([100, 250])))`, o: "[118.0 295.0]", ttl: "Make your own ufunc from a normal function" },
+  { t: "table", head: [
+    "Family",
+    "Functions",
+    "Same as"
+  ], rows: [
+    [
+      "Arithmetic",
+      "`np.add`, `np.subtract`, `np.multiply`, `np.divide`, `np.power`, `np.mod`",
+      "`+ - * / ** %`"
+    ],
+    [
+      "Rounding",
+      "`np.around`, `np.floor`, `np.ceil`, `np.trunc`",
+      "`round()`, `math.floor()` …"
+    ],
+    [
+      "Logs",
+      "`np.log`, `np.log2`, `np.log10`",
+      "`math.log()`"
+    ],
+    [
+      "Sums and products",
+      "`np.sum`, `np.cumsum`, `np.prod`, `np.cumprod`, `np.diff`",
+      "`sum()` and loops"
+    ],
+    [
+      "LCM and GCD",
+      "`np.lcm`, `np.gcd`, `.reduce()`",
+      "`math.lcm()`, `math.gcd()`"
+    ],
+    [
+      "Trigonometry",
+      "`np.sin`, `np.cos`, `np.deg2rad`, `np.rad2deg`",
+      "`math.sin()` …"
+    ],
+    [
+      "Sets",
+      "`np.unique`, `np.union1d`, `np.intersect1d`, `np.setdiff1d`, `np.setxor1d`",
+      "Python sets `| & - ^`"
+    ]
+  ] },
+  { t: "h", text: "Practice" },
+  { t: "prac", items: [
+    { q: "`stays = np.array([2, 1, 3, 2, 4, 1, 2])` holds a week of guest stays. Split it into 3 parts with `array_split` and print the total nights in each part as a list: `[6, 6, 3]`.", hint: "Loop over `np.array_split(stays, 3)` and collect `int(part.sum())`.", sol: R`
+import numpy as np
+stays = np.array([2, 1, 3, 2, 4, 1, 2])
+print([int(part.sum()) for part in np.array_split(stays, 3)])`, out: "[6, 6, 3]", why: "7 values in 3 parts gives sizes 3, 2 and 2. The first part gets the extra value.", starter: R`
+import numpy as np
+stays = np.array([2, 1, 3, 2, 4, 1, 2])
+` },
+    { q: "`rates = np.array([1800, 2600, 1800, 4800, 2600])`. Print the positions where the rate is 2600, then where 3000 would fit into the sorted unique rates.", hint: "`np.where(rates == 2600)[0]`, then `np.searchsorted(np.unique(rates), 3000)`.", sol: R`
+import numpy as np
+rates = np.array([1800, 2600, 1800, 4800, 2600])
+print(np.where(rates == 2600)[0])
+print(np.searchsorted(np.unique(rates), 3000))`, out: R`
+[1 4]
+2`, why: "`np.unique` also sorts, which is exactly what `searchsorted` needs.", starter: R`
+import numpy as np
+rates = np.array([1800, 2600, 1800, 4800, 2600])
+` },
+    { q: "Simulate 100,000 days of bookings with `np.random.poisson(lam=6, ...)` after `np.random.seed(5)`. Print the average bookings per day (rounded) and the share of days with 10 or more bookings (2 decimals).", hint: "`round(days.mean())` and `round(np.mean(days >= 10), 2)`.", sol: R`
+import numpy as np
+np.random.seed(5)
+days = np.random.poisson(lam=6, size=100000)
+print(round(days.mean()), round(np.mean(days >= 10), 2))`, out: "6 0.08", why: "With so many days, the simulation lands very close to the theory: about 8% of days get 10 or more bookings." },
+    { q: "`occupancy = np.array([60, 66, 72, 70])` is a hotel's weekly occupancy %. Print the week-to-week change with `np.diff`, then the running total with `np.cumsum`.", hint: "Both are ufunc helpers: `np.diff(occupancy)` and `np.cumsum(occupancy)`.", sol: R`
+import numpy as np
+occupancy = np.array([60, 66, 72, 70])
+print(np.diff(occupancy))
+print(np.cumsum(occupancy))`, out: R`
+[ 6  6 -2]
+[ 60 126 198 268]`, why: "`diff` gives one value fewer than the input, because it compares neighbours.", starter: R`
+import numpy as np
+occupancy = np.array([60, 66, 72, 70])
+` },
+    { q: "Guest IDs from two weeks: `week1 = np.array([101, 102, 103, 105])` and `week2 = np.array([102, 105, 106])`. Print the guests who came in both weeks, the guests who came only in week 1, and everyone.", hint: "`np.intersect1d`, `np.setdiff1d` and `np.union1d`.", sol: R`
+import numpy as np
+week1 = np.array([101, 102, 103, 105])
+week2 = np.array([102, 105, 106])
+print(np.intersect1d(week1, week2))
+print(np.setdiff1d(week1, week2))
+print(np.union1d(week1, week2))`, out: R`
+[102 105]
+[101 103]
+[101 102 103 105 106]`, why: "These work like Python's set operators `&`, `-` and `|`, and they return sorted arrays.", starter: R`
+import numpy as np
+week1 = np.array([101, 102, 103, 105])
+week2 = np.array([102, 105, 106])
+` }
+  ] }
+], take: [
+  "Loop over arrays only when you must. `nditer` visits every value, `ndenumerate` also gives its position.",
+  "`array_split` allows unequal parts. `split` needs equal parts or raises ValueError.",
+  "`np.where(cond)` gives positions. `np.searchsorted` finds where a value fits in a sorted array.",
+  "`np.random.seed()` makes random results repeat. Distributions (normal, binomial, poisson, uniform...) simulate realistic data.",
+  "ufuncs work on whole arrays at once: arithmetic, rounding, logs, `cumsum`, `diff`, `lcm`, `sin`, set operations."
+], quiz: [
+  { q: "What does this print?", c: R`
+import numpy as np
+print(len(np.array_split(np.arange(7), 3)[0]))`, o: [
+    "`2`",
+    "`3`",
+    "`7`",
+    "An error"
+  ], a: 1, chk: 1, e: "7 items in 3 parts gives sizes 3, 2, 2. The first part gets the extra item." },
+  { q: "What happens with `np.split(np.arange(7), 3)`?", o: [
+    "Parts of 3, 2, 2",
+    "A ValueError",
+    "Parts of 2, 2, 3",
+    "It drops the last item"
+  ], a: 1, e: "`np.split` needs equal parts. Use `np.array_split` when they can't be equal." },
+  { q: "What does this print?", c: R`
+import numpy as np
+a = np.array([5, 3, 5])
+print(np.where(a == 5)[0])`, o: [
+    "`[5 5]`",
+    "`[0 2]`",
+    "`[True False True]`",
+    "`2`"
+  ], a: 1, chk: 1, e: "With one argument, `np.where` gives the positions where the condition is True." },
+  { q: "What does this print?", c: R`
+import numpy as np
+print(np.searchsorted([10, 20, 30], 25))`, o: [
+    "`1`",
+    "`2`",
+    "`3`",
+    "`25`"
+  ], a: 1, chk: 1, e: "25 would go between 20 and 30, at position 2." },
+  { q: "Why call `np.random.seed(42)` first?", o: [
+    "To make the numbers bigger",
+    "So the random numbers are the same every run",
+    "To make them truly random",
+    "It is required before any random function"
+  ], a: 1, e: "A seed makes results repeatable, which matters when you share or test your analysis." },
+  { q: "Which distribution fits 'number of bookings per day'?", o: [
+    "Uniform",
+    "Poisson",
+    "Normal",
+    "Pareto"
+  ], a: 1, e: "Poisson counts events in a fixed time window." },
+  { q: "What does this print?", c: R`
+import numpy as np
+print(np.diff([100, 120, 90]))`, o: [
+    "`[ 20 -30]`",
+    "`[100 120 90]`",
+    "`[220 210]`",
+    "`[-20 30]`"
+  ], a: 0, chk: 1, e: "`diff` gives each value minus the one before it: 120-100 and 90-120." },
+  { q: "What does this print?", c: R`
+import numpy as np
+print(np.floor(-1.5), np.trunc(-1.5))`, o: [
+    "`-2.0 -1.0`",
+    "`-1.0 -1.0`",
+    "`-2.0 -2.0`",
+    "`-1.0 -2.0`"
+  ], a: 0, chk: 1, e: "`floor` goes down (to -2). `trunc` cuts the decimals off, towards 0 (to -1)." },
+  { q: "What is the difference between `np.random.permutation(a)` and `np.random.shuffle(a)`?", o: [
+    "There is none",
+    "`permutation` returns a new shuffled copy; `shuffle` changes `a` itself",
+    "`shuffle` returns a new copy; `permutation` changes `a`",
+    "`permutation` only works on lists"
+  ], a: 1, e: "`permutation` leaves `a` alone and gives back a shuffled copy. `shuffle` shuffles `a` in place and returns `None`." }
+], cards: [
+  [
+    "`array_split` vs `split`",
+    "`array_split` allows unequal parts. `split` needs equal parts, or it raises ValueError."
+  ],
+  [
+    "`vsplit` vs `hsplit`",
+    "`vsplit` cuts a table into groups of rows. `hsplit` cuts it into groups of columns."
+  ],
+  [
+    "`np.where(cond)` with one argument",
+    "Gives the positions where the condition is True."
+  ],
+  [
+    "What does `np.searchsorted(a, x)` do?",
+    "Finds the position where x would go in the sorted array a."
+  ],
+  [
+    "Why use `np.random.seed()`?",
+    "To make random results the same every run."
+  ],
+  [
+    "Normal vs Poisson vs Binomial",
+    "Normal: bell curve (scores, times). Poisson: counts per time window (bookings per day). Binomial: successes out of n tries."
+  ],
+  [
+    "What is a ufunc?",
+    "A NumPy function that works on every value of an array at once, like `np.add` or `np.sqrt`."
+  ],
+  [
+    "`np.floor` vs `np.ceil` vs `np.trunc`",
+    "floor goes down, ceil goes up, trunc cuts the decimals off (towards 0)."
+  ],
+  [
+    "What does `np.around([0.5, 1.5, 2.5])` give?",
+    "`[0. 2. 2.]`: a .5 goes to the nearest even number, like Python's `round()`."
+  ],
+  [
+    "`permutation` vs `shuffle`",
+    "`np.random.permutation(a)` returns a new shuffled copy. `np.random.shuffle(a)` shuffles `a` itself and returns None."
+  ],
+  [
+    "`np.cumsum` vs `np.diff`",
+    "`cumsum` gives running totals (same length). `diff` gives the change between neighbours (one value shorter)."
+  ],
+  [
+    "`intersect1d` vs `setdiff1d` vs `union1d`",
+    "In both / only in the first / in either. All three return sorted unique values."
+  ]
+], cheat: [
+  [
+    "for x in np.nditer(m):",
+    "Every value of any array"
+  ],
+  [
+    "for pos, x in np.ndenumerate(m):",
+    "Position and value"
+  ],
+  [
+    "np.array_split(a, 3)",
+    "Split into 3 parts (can be unequal)"
+  ],
+  [
+    "np.vsplit(m, 2)  np.hsplit(m, 3)",
+    "Split rows / columns"
+  ],
+  [
+    "np.where(a == x)[0]",
+    "Positions of x"
+  ],
+  [
+    "np.searchsorted(a, x)",
+    "Where x fits in a sorted array"
+  ],
+  [
+    "np.searchsorted(edges, a, side=\"right\")",
+    "Band number for every value"
+  ],
+  [
+    "np.random.seed(42)",
+    "Repeatable random numbers"
+  ],
+  [
+    "np.random.choice(items, p=[...], size=n)",
+    "Random picks with chances"
+  ],
+  [
+    "np.random.normal(60, 10, 1000)",
+    "1000 values from a bell curve"
+  ],
+  [
+    "np.random.poisson(6, 1000)",
+    "1000 daily counts, average 6"
+  ],
+  [
+    "np.cumsum(a)  np.diff(a)",
+    "Running total / changes"
+  ],
+  [
+    "np.around  np.floor  np.ceil  np.trunc",
+    "Rounding rules"
+  ],
+  [
+    "np.union1d  np.intersect1d  np.setdiff1d",
+    "Set operations on arrays"
+  ],
+  [
+    "np.frompyfunc(f, 1, 1)",
+    "Turn a function into a ufunc"
+  ]
+] });
 
 chapter({
   id: "projects", part: 8, title: "Projects: put it all together", nav: "Projects", time: "90 min", lvl: "Intermediate",
@@ -8289,6 +8971,35 @@ Biggest booking: B1017 Divya Sharma
 Amount: ₹19,200 for 4 nights in a Suite`, why: "`argmax()` gives a position, not a value, so you can use it to find the matching row." },
     ]}
   ]);
+  addEnd("numpy3", [
+    { t: "h", text: "Real data practice: hotel bookings" },
+    { t: "p", b: "The same messy **`hotel_bookings.csv`** file, and two everyday analyst jobs: putting values into **bands**, and sharing work out **fairly**." },
+    { t: "prac", items: [
+      { q: "Put every booking's room rate into a price band: **Budget** (under ₹2,000), **Mid** (₹2,000 to ₹2,999) and **Premium** (₹3,000 and up). Use `np.searchsorted` with the edges `[2000, 3000]` and print how many bookings are in each band.", hint: "`np.searchsorted([2000, 3000], rates, side=\"right\")` gives 0, 1 or 2 for every booking. Then count with `np.sum(bands == i)`.", starter: "import csv\nimport numpy as np\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list({r[\"booking_id\"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking\n", sol: R`
+import csv
+import numpy as np
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list({r["booking_id"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rates = np.array([int(r["rate"]) for r in rows])
+bands = np.searchsorted([2000, 3000], rates, side="right")   # 0, 1 or 2 for every booking
+for i, name in enumerate(["Budget", "Mid", "Premium"]):
+    print(f"{name:8} {int(np.sum(bands == i))} bookings")`, out: R`
+Budget   17 bookings
+Mid      18 bookings
+Premium  5 bookings`, why: "`side=\"right\"` sends a value that equals an edge to the higher band, so a rate of exactly ₹2,000 counts as Mid. This is how analysts bucket prices, ages or scores." },
+      { q: "Three staff members will phone every booking to confirm it. Share the unique bookings out with `np.array_split`, in file order, and print how many calls each person gets and their first and last booking ID.", hint: "Make an array of `booking_id` values, then loop over `np.array_split(ids, 3)` with `enumerate(..., start=1)`.", starter: "import csv\nimport numpy as np\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list({r[\"booking_id\"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking\n", sol: R`
+import csv
+import numpy as np
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list({r["booking_id"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+ids = np.array([r["booking_id"] for r in rows])
+for n, batch in enumerate(np.array_split(ids, 3), start=1):
+    print(f"Staff {n}: {len(batch)} calls, {batch[0]} to {batch[-1]}")`, out: R`
+Staff 1: 14 calls, B1001 to B1014
+Staff 2: 13 calls, B1015 to B1027
+Staff 3: 13 calls, B1028 to B1040`, why: "40 bookings do not split equally into 3, so `np.split` would fail. `array_split` gives the first person the one extra call." }
+    ]}
+  ]);
   addEnd("projects", [
     { t: "h", text: "Mini project: hotel booking report" },
     { t: "p", b: "One small project that does what a data analyst does every week: **load** a messy file, **clean** it, **analyse** it, **report** the results and **save** them. It uses the same **`hotel_bookings.csv`** file and skills from every Part of the course." },
@@ -9035,6 +9746,46 @@ print(sal[(sal > 40000) & (sal < 60000)])`, o: R`
   ]
 };
 
+POSTERS.numpy3 = {
+  title: "NumPy Extras",
+  sub: "Loop, split, search, simulate data and use fast maths functions.",
+  mods: [
+    { title: "Split and search", sub: "Cut arrays up and find values", cards: [
+      { h: "array_split shares out extras", c: R`
+import numpy as np
+a = np.arange(1, 8)
+print(np.array_split(a, 3))`, o: R`
+[array([1, 2, 3]), array([4, 5]), array([6, 7])]` },
+      { h: "Find positions", c: R`
+import numpy as np
+prices = np.array([100, 250, 400, 900])
+print(np.where(prices > 300)[0])
+print(np.searchsorted(prices, 300))`, o: R`
+[2 3]
+2` },
+      { h: "Watch out", span: 1, rules: [["tip", "np.array_split(a, 3)", "parts can be unequal"], ["trap", "np.split(a, 3)", "ValueError if parts are unequal"], ["acc", "np.where(cond)", "one argument: positions"], ["acc", "np.where(cond, x, y)", "three arguments: pick values"], ["acc", "for x in np.nditer(m)", "every value, any shape"]] }
+    ]},
+    { title: "Random data and ufuncs", sub: "Simulate realistic data, then do fast maths", cards: [
+      { h: "Normal: the bell curve", svg: V.hist([16, 114, 484, 1636, 4410, 9174, 15022, 19255, 19209, 15001, 9119, 4374, 1619, 451, 86, 24], {"ticks": [[0, "20"], [8, "60"], [16, "100"]], "hl": [6, 7, 8, 9], "bw": 16, "h": 80, "label": "Bell curve histogram"}) },
+      { h: "Poisson: events per day", c: R`
+import numpy as np
+np.random.seed(5)
+days = np.random.poisson(6, 100000)
+print(round(days.mean()), round(np.mean(days >= 10), 2))`, o: R`
+6 0.08`, foot: "np.random.seed(n) makes results repeat" },
+      { h: "ufuncs", span: 1, c: R`
+import numpy as np
+sales = np.array([120, 80, 150])
+print(np.cumsum(sales), np.diff(sales))
+print(np.around([0.5, 1.5, 2.5]))`, o: R`
+[120 200 350] [-40  70]
+[0. 2. 2.]`, foot: "A .5 rounds to the nearest even number" }
+    ], table: { head: ["Distribution", "Use it for"], rows: [
+      ["`np.random.normal(loc, scale, n)`", "measurements: scores, times"], ["`np.random.binomial(n, p, size)`", "successes out of n tries"], ["`np.random.poisson(lam, n)`", "counts per day or hour"],
+      ["`np.random.uniform(low, high, n)`", "every value equally likely"], ["`np.random.exponential(scale, n)`", "waiting time between events"], ["`np.random.choice(items, p=[...])`", "random picks with set chances"]
+    ]}}
+  ]
+};
 POSTERS.projects = {
   title: "Projects: Build Any Small Program",
   sub: "Data first, then one function per action, then the menu loop.",
@@ -11131,12 +11882,12 @@ print(C().r)`, o: ["`5`", "`<bound method>`", "An error", "`None`"], a: 0, chk: 
 /* ---------- Part 7 overview: NumPy ---------- */
 overview({
   part: 7, title: "Part 7 overview: NumPy", nav: "Part 7 overview", time: "30 min",
-  keys: "numpy np array ndarray shape ndim size dtype zeros ones full arange linspace reshape flatten concatenate vstack hstack vectorisation broadcasting axis mask boolean view copy where argmax mean sum",
-  lead: "Both NumPy chapters on one page: making arrays, describing them, doing maths on them, and the classic mix-ups (`axis`, views and copies, `and` vs `&`).",
+  keys: "numpy np array ndarray shape ndim size dtype zeros ones full arange linspace reshape flatten concatenate vstack hstack vectorisation broadcasting axis mask boolean view copy where argmax mean sum nditer split array_split searchsorted random seed choice distribution normal binomial poisson uniform exponential ufunc cumsum diff floor ceil trunc around unique intersect1d setdiff1d union1d",
+  lead: "All three NumPy chapters on one page: making arrays, describing them, doing maths on them, splitting and searching them, simulating data, and the classic mix-ups (`axis`, views and copies, `and` vs `&`).",
   five: [
     "NumPy's ==array== is like a list built for maths: one data type, a fixed size, and maths on every value at once. Start with `import numpy as np`.",
-    "Describe any array with `shape` (rows, columns), `ndim`, `size` and `dtype`.",
-    "Make arrays with `np.array`, `zeros`, `ones`, `full`, `arange` (stop excluded) and `linspace` (stop included). Change the layout with `reshape`.",
+    "Describe any array with `shape` (rows, columns), `ndim`, `size` and `dtype`. Simulate realistic data with `np.random`, and set a seed to repeat the results.",
+    "Make arrays with `np.array`, `zeros`, `ones`, `full`, `arange` (stop excluded) and `linspace` (stop included). Change the layout with `reshape` and cut arrays up with `array_split`.",
     "`axis=0` works **down** the rows and gives one result per column. `axis=1` works **across** and gives one result per row.",
     "Filter with boolean masks: `a[a > 50]`, combined with `&`, `|` and `~`, each condition in brackets. Slices are **views**, so use `.copy()` for a separate array."
   ],
@@ -11144,7 +11895,8 @@ overview({
     { t: "h", text: "Mind map of Part 7" },
     { t: "mm", title: "Part 7 at a glance", root: "Part 7: NumPy", hint: "Tap a branch to open that chapter", kids: [
       { t: "20. Arrays", go: "numpy1", k: ["np.array([...])", "shape, ndim, size, dtype", "zeros, ones, full, eye", "arange vs linspace", "reshape, flatten", "concatenate, vstack, hstack"] },
-      { t: "21. Maths & filters", go: "numpy2", k: ["a * 2 on every value", "broadcasting", "sum, mean, std, argmax", "m[r, c], m[:, 1]", "axis=0 and axis=1", "a[a > 50], np.where", "view vs copy"] }
+      { t: "21. Maths & filters", go: "numpy2", k: ["a * 2 on every value", "broadcasting", "sum, mean, std, argmax", "m[r, c], m[:, 1]", "axis=0 and axis=1", "a[a > 50], np.where", "view vs copy"] },
+      { t: "22. Extras", go: "numpy3", k: ["nditer, ndenumerate", "array_split, vsplit, hsplit", "np.where(cond), searchsorted", "random.seed, choice", "normal, binomial, poisson", "ufuncs: around, cumsum, diff", "intersect1d, union1d"] }
     ]},
 
     { t: "h", text: "Key definitions" },
@@ -11213,7 +11965,22 @@ print(np.where(marks >= 40, "Pass", "Fail"))`, o: R`['Fail' 'Pass' 'Pass']`, go:
       { t: "argmax", d: "The **position** of the largest value. `argmin` gives the position of the smallest.", c: R`
 import numpy as np
 sales = np.array([40, 90, 70])
-print(sales.max(), sales.argmax())`, o: R`90 1`, go: "numpy2" }
+print(sales.max(), sales.argmax())`, o: R`90 1`, go: "numpy2" },
+      { t: "ufunc", d: "A **universal function**: a NumPy function that works on every value of an array at once, in fast compiled code. `a + b` is really `np.add(a, b)`.", c: R`
+import numpy as np
+print(np.add([1, 2], [10, 20]), np.sqrt([4, 9]))`, o: R`[11 22] [2. 3.]`, go: "numpy3" },
+      { t: "Random seed", d: "A starting number for the random generator. The same seed gives the same \"random\" numbers every run, so anyone can repeat your results.", c: R`
+import numpy as np
+np.random.seed(1)
+a = np.random.rand(3)
+np.random.seed(1)
+b = np.random.rand(3)
+print(np.array_equal(a, b))`, o: R`True`, go: "numpy3" },
+      { t: "Distribution", d: "The pattern of which values are likely and which are rare. Normal is a bell curve around the average. Poisson counts events in a time window.", c: R`
+import numpy as np
+np.random.seed(0)
+x = np.random.normal(100, 15, 100000)   # average 100, spread 15
+print(round(x.mean()), round(x.std()))`, o: R`100 15`, go: "numpy3" }
     ]},
 
     { t: "h", text: "The big comparison tables" },
@@ -11252,6 +12019,31 @@ print(sales.max(), sales.argmax())`, o: R`90 1`, go: "numpy2" }
       ["`m[m > 3]`", "Every value above 3, as a flat array", "`[4 5 6]`"]
     ], cap: "Inside the brackets the order is always `[rows, columns]`. A `:` on its own means \"all of them\"." },
 
+    { t: "table", master: true, title: "Splitting, searching and set functions", head: ["Code", "Does", "Example", "Result"], rows: [
+      ["`np.array_split(a, n)`", "Cuts into n parts, which **can be unequal**", "`np.array_split(np.arange(5), 2)`", "`[array([0, 1, 2]), array([3, 4])]`"],
+      ["`np.split(a, n)`", "Cuts into n **equal** parts (ValueError otherwise)", "`np.split(np.arange(6), 3)`", "`[array([0, 1]), array([2, 3]), array([4, 5])]`"],
+      ["`np.where(cond)`", "Positions where cond is True", "`np.where(np.array([4, 7, 4]) == 4)[0]`", "`[0 2]`"],
+      ["`np.searchsorted(a, x)`", "Where x would fit in the sorted array a", "`np.searchsorted([10, 20, 30], 25)`", "`2`"],
+      ["`np.cumsum(a)`", "Running total", "`np.cumsum([1, 2, 3])`", "`[1 3 6]`"],
+      ["`np.diff(a)`", "Change between neighbours (one value shorter)", "`np.diff([1, 4, 9])`", "`[3 5]`"],
+      ["`np.around(a, d)`", "Round to d decimals (.5 to the even number)", "`np.around([1.25, 2.5], 1)`", "`[1.2 2.5]`"],
+      ["`np.unique(a)`", "Sorted unique values", "`np.unique([3, 1, 3])`", "`[1 3]`"],
+      ["`np.intersect1d(a, b)`", "Values in both", "`np.intersect1d([1, 2, 3], [2, 3, 4])`", "`[2 3]`"],
+      ["`np.setdiff1d(a, b)`", "Values in a but not in b", "`np.setdiff1d([1, 2, 3], [2, 3, 4])`", "`[1]`"]
+    ]},
+    { t: "table", master: true, title: "Random data in one table", head: ["Code", "Gives you", "Typical use"], rows: [
+      ["`np.random.seed(n)`", "The same random numbers every run", "Results others can repeat"],
+      ["`np.random.rand(n)`", "Decimals from 0 to 1", "Quick test data"],
+      ["`np.random.randint(lo, hi, n)`", "Whole numbers, **hi excluded**", "Dice rolls, IDs"],
+      ["`np.random.choice(items, n, p=[...])`", "Random picks, with the chances you set", "Sampling, simulating categories"],
+      ["`np.random.permutation(a)`", "A shuffled **copy**", "Random order, original kept"],
+      ["`np.random.shuffle(a)`", "Shuffles `a` **itself**, returns `None`", "Random order in place"],
+      ["`np.random.normal(loc, scale, n)`", "A bell curve around `loc`", "Scores, delivery times"],
+      ["`np.random.binomial(n, p, size)`", "Successes out of n tries", "Guests out of 10 who order breakfast"],
+      ["`np.random.poisson(lam, n)`", "Event counts per time window", "Bookings per day"],
+      ["`np.random.uniform(lo, hi, n)`", "Every value equally likely", "Random test prices"],
+      ["`np.random.exponential(scale, n)`", "Waiting time between events", "Minutes between bookings"]
+    ]},
     { t: "h", text: "Don't mix these up" },
     { t: "vs", title: "Python list vs NumPy array", head: ["", "List", "NumPy array"], rows: [
       ["Types inside", "Any mix", "One type for every value"],
@@ -11375,6 +12167,61 @@ print(np.hstack([a, b]))`, o: R`
       ["Includes the high value?", "[[ok:Yes]] 1 to 6", "[[no:No]] 1 to 6, because 7 is excluded"],
       ["Many at once?", "One per call", "`np.random.randint(1, 7, 100)` gives 100"]
     ], rule: "Same name, different rule. NumPy follows the \"stop is excluded\" habit of `range()` and `arange()`." },
+    { t: "vs", title: "`np.array_split` vs `np.split`", head: ["", "`np.array_split(a, n)`", "`np.split(a, n)`"], rows: [
+      ["Parts must be equal?", "[[ok:No]]: the first parts get the extras", "[[no:Yes]]: otherwise ValueError"],
+      ["7 values into 3 parts", "Sizes 3, 2, 2", "ValueError"],
+      ["Use it for", "Batches, sharing work out", "When you know it divides evenly"]
+    ], c: R`
+import numpy as np
+a = np.arange(7)
+print([len(p) for p in np.array_split(a, 3)])
+print([len(p) for p in np.split(a[:6], 3)])`, o: R`
+[3, 2, 2]
+[2, 2, 2]`, rule: "Not sure the parts will be equal? Use `array_split`." },
+    { t: "vs", title: "`np.where(cond)` vs `np.where(cond, x, y)`", head: ["", "`np.where(cond)`", "`np.where(cond, x, y)`"], rows: [
+      ["Arguments", "One", "Three"],
+      ["Gives", "The **positions** where cond is True", "A new array: x where True, y where False"],
+      ["Result length", "The number of matches", "The same as the input"]
+    ], c: R`
+import numpy as np
+marks = np.array([35, 80, 55])
+print(np.where(marks >= 40)[0])
+print(np.where(marks >= 40, "Pass", "Fail"))`, o: R`
+[1 2]
+['Fail' 'Pass' 'Pass']`, rule: "One argument finds positions. Three arguments replace values." },
+    { t: "vs", title: "`floor` vs `ceil` vs `trunc` vs `around`", head: ["", "`np.floor`", "`np.ceil`", "`np.trunc`", "`np.around`"], rows: [
+      ["Rule", "Down", "Up", "Towards 0", "Nearest (.5 to even)"],
+      ["`-1.7` becomes", "-2", "-1", "-1", "-2"],
+      ["`2.5` becomes", "2", "3", "2", "2"]
+    ], c: R`
+import numpy as np
+a = np.array([-1.7, 2.5])
+print(np.floor(a), np.ceil(a), np.trunc(a), np.around(a))`, o: R`[-2.  2.] [-1.  3.] [-1.  2.] [-2.  2.]`, rule: "Negative numbers show the difference: `floor` goes down, `trunc` goes towards 0." },
+    { t: "vs", title: "`permutation` vs `shuffle`", head: ["", "`np.random.permutation(a)`", "`np.random.shuffle(a)`"], rows: [
+      ["Changes `a`?", "[[ok:No]]", "[[no:Yes]]"],
+      ["Returns", "A new shuffled array", "`None`"],
+      ["Use it for", "A random order while keeping the original", "Shuffling in place"]
+    ], c: R`
+import numpy as np
+a = np.array([1, 2, 3])
+b = np.random.permutation(a)
+print(a, np.sort(b))
+print(np.random.shuffle(a))`, o: R`
+[1 2 3] [1 2 3]
+None`, rule: "Need the original order later? Use `permutation`." },
+    { t: "vs", title: "Normal vs Binomial vs Poisson", head: ["", "`normal(loc, scale)`", "`binomial(n, p)`", "`poisson(lam)`"], rows: [
+      ["Gives", "Decimals around an average", "Whole numbers from 0 to n", "Whole numbers from 0 up"],
+      ["Shape", "Bell curve, same on both sides", "A hump, never above n", "A hump with a long right tail"],
+      ["Example", "Delivery times", "Guests out of 10 who order breakfast", "Bookings per day"]
+    ], c: R`
+import numpy as np
+np.random.seed(0)
+print(round(np.random.normal(30, 5, 100000).mean()))
+print(np.random.binomial(10, 0.4, 100000).max() <= 10)
+print(np.random.poisson(6, 100000).min() >= 0)`, o: R`
+30
+True
+True`, rule: "Measuring something? normal. Successes out of n tries? binomial. Events in a time window? poisson." },
 
     { t: "h", text: "Try it yourself" },
     { t: "p", b: "NumPy takes a few seconds to load the first time you press **Run**. After that it is instant. Every comparison table above also has an **Edit and run this example** button." },
@@ -11403,7 +12250,15 @@ print(temps[hot])`, out: R`
       { q: "Make the numbers 1 to 12 with `np.arange`, reshape them into 3 rows and 4 columns, and print the second column.", hint: "`np.arange(1, 13)` (13 is excluded), then `.reshape(3, 4)`, then `[:, 1]`.", sol: R`
 import numpy as np
 m = np.arange(1, 13).reshape(3, 4)
-print(m[:, 1])`, out: R`[ 2  6 10]`, why: "`:` takes every row and `1` picks the second column, because counting starts at 0." }
+print(m[:, 1])`, out: R`[ 2  6 10]`, why: "`:` takes every row and `1` picks the second column, because counting starts at 0." },
+      { q: "`rates = np.array([1800, 2600, 4800, 2600, 1800])`. Give every rate a band number with `np.searchsorted([2000, 3000], rates, side=\"right\")`: 0 is under 2000, 1 is 2000 to 2999, 2 is 3000 and up. Print the bands, then how many rates are in each band as a list.", hint: "After making `bands`, count each band with `int(np.sum(bands == i))` for `i` in `range(3)`.", starter: "import numpy as np\nrates = np.array([1800, 2600, 4800, 2600, 1800])\n", sol: R`
+import numpy as np
+rates = np.array([1800, 2600, 4800, 2600, 1800])
+bands = np.searchsorted([2000, 3000], rates, side="right")
+print(bands)
+print([int(np.sum(bands == i)) for i in range(3)])`, out: R`
+[0 1 2 1 0]
+[2, 2, 1]`, why: "`searchsorted` turns each value into a band number in one step, with no `if`/`elif` chain." }
     ]}
   ],
   quiz: [
@@ -11445,7 +12300,17 @@ print(np.array([40, 90, 70]).argmax())`, o: ["`90`", "`1`", "`2`", "`0`"], a: 1,
     { q: "What does this print?", c: R`
 import numpy as np
 m = np.array([[1, 2, 3], [4, 5, 6]])
-print(m[:, 1])`, o: ["`[4 5 6]`", "`[2 5]`", "`[1 2 3]`", "`2`"], a: 1, chk: 1, e: "`:` takes every row and `1` picks column 1 from each." }
+print(m[:, 1])`, o: ["`[4 5 6]`", "`[2 5]`", "`[1 2 3]`", "`2`"], a: 1, chk: 1, e: "`:` takes every row and `1` picks column 1 from each." },
+    { q: "What does this print?", c: R`
+import numpy as np
+print([len(p) for p in np.array_split(np.arange(8), 3)])`, o: ["`[3, 3, 2]`", "`[2, 3, 3]`", "`[3, 2, 3]`", "A ValueError"], a: 0, chk: 1, e: "8 ÷ 3 = 2 with 2 left over, so the first two parts get one extra each." },
+    { q: "What does this print?", c: R`
+import numpy as np
+print(np.searchsorted([100, 200, 300], 200, side="right"))`, o: ["`1`", "`2`", "`3`", "`200`"], a: 1, chk: 1, e: "200 is already in the array. `side=\"right\"` places it after the equal value, at position 2." },
+    { q: "What does this print?", c: R`
+import numpy as np
+print(np.diff(np.cumsum([3, 4, 5])))`, o: ["`[4 5]`", "`[3 4 5]`", "`[7 9]`", "`[1 1]`"], a: 0, chk: 1, e: "`cumsum` gives `[3 7 12]`. `diff` gives the changes, 4 and 5: it undoes `cumsum`, except for the first value." },
+    { q: "Which distribution would you use to simulate the number of calls a help desk gets each hour?", o: ["Normal", "Uniform", "Poisson", "Binomial"], a: 2, e: "Poisson counts events in a fixed time window, like calls per hour or bookings per day." }
   ],
   cards: [
     ["List vs NumPy array", "A list holds mixed types and `* 2` repeats it. An array holds one type and `* 2` doubles every value. Arrays are much faster for maths."],
@@ -11459,7 +12324,11 @@ print(m[:, 1])`, o: ["`[4 5 6]`", "`[2 5]`", "`[1 2 3]`", "`2`"], a: 1, chk: 1, 
     ["`max()` vs `argmax()`", "`max()` gives the largest value. `argmax()` gives its position."],
     ["What does `reshape(3, -1)` mean?", "3 rows, and NumPy works out the number of columns."],
     ["Mask vs `np.where`", "A mask keeps only the matching values. `np.where(cond, x, y)` keeps the length and replaces each value."],
-    ["What happens when you mix types in an array?", "Upcasting: everything becomes the type that can hold all of them. One string makes every value a string."]
+    ["What happens when you mix types in an array?", "Upcasting: everything becomes the type that can hold all of them. One string makes every value a string."],
+    ["`array_split` vs `split`", "`array_split` allows unequal parts (the first ones get the extras). `split` needs equal parts or raises ValueError."],
+    ["`np.where(cond)` vs `np.where(cond, x, y)`", "One argument gives the positions where cond is True. Three arguments give a new array with x or y in every place."],
+    ["Normal vs Binomial vs Poisson", "Normal: a bell curve of measurements. Binomial: successes out of n tries. Poisson: event counts per time window."],
+    ["What is a ufunc?", "A NumPy function that works on every value of an array at once, like `np.add`, `np.around` or `np.cumsum`."]
   ]
 });
 
@@ -11485,7 +12354,7 @@ overview({
       { t: "Part 4: Functions", go: "overview4", k: [{ t: "Function basics", go: "functions" }, { t: "Advanced tools", go: "functions2" }] },
       { t: "Part 5: Real-world", go: "overview5", k: [{ t: "Errors & try/except", go: "errors" }, { t: "Files, CSV, JSON", go: "files" }, { t: "Modules & libraries", go: "modules" }] },
       { t: "Part 6: OOP", go: "overview6", k: [{ t: "Classes & objects", go: "oop" }] },
-      { t: "Part 7: NumPy", go: "overview7", k: [{ t: "Arrays", go: "numpy1" }, { t: "Maths, axis, filters", go: "numpy2" }] },
+      { t: "Part 7: NumPy", go: "overview7", k: [{ t: "Arrays", go: "numpy1" }, { t: "Maths, axis, filters", go: "numpy2" }, { t: "Split, random, ufuncs", go: "numpy3" }] },
       { t: "Part 8: Projects", go: "projects", k: [{ t: "Movie tickets", go: "projects" }, { t: "Supermarket billing", go: "projects" }, { t: "Inventory system", go: "projects" }] }
     ]},
 
@@ -11746,7 +12615,7 @@ Above average: ['Tue' 'Thu' 'Fri' 'Sat']`, why: "`argmax` finds the position, th
     ]}
   ],
   quiz: [
-    { q: "What does this print?", c: R`print(type(input))`, o: ["`<class 'str'>`", "`<class 'builtin_function_or_method'>`", "`<class 'function'>`", "An error"], a: 1, chk: 1, e: "Without brackets, `input` is the built-in function itself. Calling `input()` is what gives you a string." },
+    { q: "What does this print?", c: R`print(type(print))`, o: ["`<class 'str'>`", "`<class 'builtin_function_or_method'>`", "`<class 'NoneType'>`", "An error"], a: 1, chk: 1, e: "Without brackets, `print` is the built-in function itself. Calling `print()` runs it, and what it gives back is `None`." },
     { q: "What does this print?", c: R`print(10 / 4, 10 // 4, 10 % 4)`, o: ["`2.5 2 2`", "`2 2 2`", "`2.5 2.5 2`", "`2.5 2 0.5`"], a: 0, chk: 1, e: "`/` gives a float, `//` the whole groups and `%` the remainder." },
     { q: "What does this print?", c: R`print(list(range(3, 0, -1)))`, o: ["`[3, 2, 1]`", "`[3, 2, 1, 0]`", "`[]`", "`[0, 1, 2, 3]`"], a: 0, chk: 1, e: "Counting down, the stop value 0 is still excluded." },
     { q: "You need to store each customer's ID with their details and find them fast. Which collection?", o: ["A list", "A tuple", "A set", "A dictionary"], a: 3, e: "Look-ups by a key such as an ID are exactly what dictionaries are for." },
@@ -12277,6 +13146,14 @@ var VIDEOS = {
    "mins": 6
   }
  },
+ "numpy3": {
+  "en": {
+   "id": "Ql5zGPtxlHY",
+   "title": "Random numbers in NumPy are easy!",
+   "channel": "Bro Code",
+   "mins": 8
+  }
+ },
  "projects": {
   "en": {
    "id": "8aW3tkIul-8",
@@ -12319,10 +13196,22 @@ var REFERENCE = [
     "o": "3"
    },
    {
+    "m": "encode(encoding)",
+    "d": "Turns text into bytes, for files and the internet",
+    "c": "print(\"café\".encode(\"utf-8\"))",
+    "o": "b'caf\\xc3\\xa9'"
+   },
+   {
     "m": "endswith(x)",
     "d": "True if the text ends with x",
     "c": "print(\"report.csv\".endswith(\".csv\"))",
     "o": "True"
+   },
+   {
+    "m": "expandtabs(n)",
+    "d": "Replaces tab characters with spaces",
+    "c": "print(\"a\\tb\".expandtabs(4) + \"|\")",
+    "o": "a   b|"
    },
    {
     "m": "find(x)",
@@ -12335,6 +13224,12 @@ var REFERENCE = [
     "d": "Fills {} slots (f-strings are easier)",
     "c": "print(\"{} is {} years\".format(\"Asha\", 25))",
     "o": "Asha is 25 years"
+   },
+   {
+    "m": "format_map(d)",
+    "d": "Like format(), but fills the slots from a dict",
+    "c": "print(\"{name} is {age}\".format_map({\"name\": \"Asha\", \"age\": 25}))",
+    "o": "Asha is 25"
    },
    {
     "m": "index(x)",
@@ -12355,9 +13250,27 @@ var REFERENCE = [
     "o": "True False"
    },
    {
+    "m": "isascii()",
+    "d": "True if every character is plain English (ASCII)",
+    "c": "print(\"Pune\".isascii(), \"₹500\".isascii())",
+    "o": "True False"
+   },
+   {
+    "m": "isdecimal()",
+    "d": "True if only digits like 0 to 9 (not ² or ½)",
+    "c": "print(\"2024\".isdecimal(), \"²\".isdecimal())",
+    "o": "True False"
+   },
+   {
     "m": "isdigit()",
     "d": "True if only digits",
     "c": "print(\"2024\".isdigit(), \"20.5\".isdigit())",
+    "o": "True False"
+   },
+   {
+    "m": "isidentifier()",
+    "d": "True if the text could be a variable name",
+    "c": "print(\"total_sales\".isidentifier(), \"2nd\".isidentifier())",
     "o": "True False"
    },
    {
@@ -12365,6 +13278,18 @@ var REFERENCE = [
     "d": "True if all letters are small",
     "c": "print(\"hello\".islower())",
     "o": "True"
+   },
+   {
+    "m": "isnumeric()",
+    "d": "True if only number characters, including ½ and ²",
+    "c": "print(\"½\".isnumeric(), \"12.5\".isnumeric())",
+    "o": "True False"
+   },
+   {
+    "m": "isprintable()",
+    "d": "True if there are no hidden characters like new lines",
+    "c": "print(\"hi\".isprintable(), \"hi\\n\".isprintable())",
+    "o": "True False"
    },
    {
     "m": "isspace()",
@@ -12409,6 +13334,12 @@ var REFERENCE = [
     "o": "[hi  ]"
    },
    {
+    "m": "maketrans(x, y, z)",
+    "d": "Builds a swap table for translate(); z lists characters to delete",
+    "c": "table = str.maketrans(\"ae\", \"AE\")\nprint(\"data science\".translate(table))",
+    "o": "dAtA sciEncE"
+   },
+   {
     "m": "partition(sep)",
     "d": "Splits once into (before, sep, after)",
     "c": "print(\"name=Asha\".partition(\"=\"))",
@@ -12439,10 +13370,22 @@ var REFERENCE = [
     "o": "3"
    },
    {
+    "m": "rindex(x)",
+    "d": "Like index(), but searches from the right",
+    "c": "print(\"a/b/c\".rindex(\"/\"))",
+    "o": "3"
+   },
+   {
     "m": "rjust(width, fill)",
     "d": "Pads on the left to a given width",
     "c": "print(\"42\".rjust(5, \"0\"))",
     "o": "00042"
+   },
+   {
+    "m": "rpartition(sep)",
+    "d": "Splits once, at the last sep",
+    "c": "print(\"report.final.csv\".rpartition(\".\"))",
+    "o": "('report.final', '.', 'csv')"
    },
    {
     "m": "rsplit(sep, n)",
@@ -12491,6 +13434,12 @@ var REFERENCE = [
     "d": "Capital first letter of every word",
     "c": "print(\"asha reddy\".title())",
     "o": "Asha Reddy"
+   },
+   {
+    "m": "translate(table)",
+    "d": "Swaps or deletes characters using a maketrans() table",
+    "c": "print(\"9,84,80\".translate(str.maketrans(\"\", \"\", \",\")))",
+    "o": "98480"
    },
    {
     "m": "upper()",
@@ -12688,6 +13637,12 @@ var REFERENCE = [
     "o": "{1, 2, 4}"
    },
    {
+    "m": "symmetric_difference_update(t)",
+    "d": "Keeps only items in one set but not both (s ^= t)",
+    "c": "s = {1, 2, 3}\ns.symmetric_difference_update({3, 4})\nprint(s)",
+    "o": "{1, 2, 4}"
+   },
+   {
     "m": "union(t)",
     "d": "Everything from both (same as s | t)",
     "c": "print({1, 2}.union({2, 3}))",
@@ -12786,10 +13741,20 @@ var REFERENCE = [
     "o": "7.5"
    },
    {
+    "m": "aiter(x)",
+    "d": "Gets an async iterator, for async for loops",
+    "n": "Used only in async code (`async def`), which data analysis rarely needs."
+   },
+   {
     "m": "all(items)",
     "d": "True if every item is truthy",
     "c": "print(all([True, 1, \"a\"]), all([1, 0]))",
     "o": "True False"
+   },
+   {
+    "m": "anext(it)",
+    "d": "The next item from an async iterator",
+    "n": "Used only in async code (`async def`), which data analysis rarely needs."
    },
    {
     "m": "any(items)",
@@ -12798,10 +13763,45 @@ var REFERENCE = [
     "o": "True"
    },
    {
+    "m": "ascii(x)",
+    "d": "Like repr(), but escapes every character that is not plain ASCII",
+    "c": "print(ascii(\"café ₹\"))",
+    "o": "'caf\\xe9 \\u20b9'"
+   },
+   {
+    "m": "bin(n)",
+    "d": "The number in binary, as text",
+    "c": "print(bin(10))",
+    "o": "0b1010"
+   },
+   {
     "m": "bool(x)",
     "d": "Converts to True or False",
     "c": "print(bool(0), bool(\"hi\"))",
     "o": "False True"
+   },
+   {
+    "m": "breakpoint()",
+    "d": "Pauses the program here and opens the debugger",
+    "n": "Put it on a line to stop there and inspect your variables. Try it in your own Python or IDE."
+   },
+   {
+    "m": "bytearray(x)",
+    "d": "Bytes you can change",
+    "c": "b = bytearray(b\"hi\")\nb[0] = 72\nprint(b)",
+    "o": "bytearray(b'Hi')"
+   },
+   {
+    "m": "bytes(x, encoding)",
+    "d": "Bytes that cannot change",
+    "c": "print(bytes(\"hi\", \"utf-8\"), list(b\"hi\"))",
+    "o": "b'hi' [104, 105]"
+   },
+   {
+    "m": "callable(x)",
+    "d": "True if x can be called with ()",
+    "c": "print(callable(len), callable(5))",
+    "o": "True False"
    },
    {
     "m": "chr(n)",
@@ -12810,10 +13810,40 @@ var REFERENCE = [
     "o": "A"
    },
    {
+    "m": "classmethod",
+    "d": "Makes a method that gets the class (cls), often another way to create objects",
+    "c": "class Guest:\n    def __init__(self, name):\n        self.name = name\n    @classmethod\n    def from_text(cls, text):\n        return cls(text.strip().title())\nprint(Guest.from_text(\"  asha \").name)",
+    "o": "Asha"
+   },
+   {
+    "m": "compile(text, name, mode)",
+    "d": "Turns text into code that eval() or exec() can run (rarely needed)",
+    "c": "code = compile(\"2 + 3\", \"<text>\", \"eval\")\nprint(eval(code))",
+    "o": "5"
+   },
+   {
+    "m": "complex(re, im)",
+    "d": "A complex number",
+    "c": "print(complex(2, 3), (2 + 3j).real)",
+    "o": "(2+3j) 2.0"
+   },
+   {
+    "m": "delattr(obj, name)",
+    "d": "Deletes an attribute by name",
+    "c": "class C:\n    pass\nc = C()\nc.x = 1\ndelattr(c, \"x\")\nprint(hasattr(c, \"x\"))",
+    "o": "False"
+   },
+   {
     "m": "dict(...)",
     "d": "Makes a dictionary",
     "c": "print(dict(a=1, b=2))",
     "o": "{'a': 1, 'b': 2}"
+   },
+   {
+    "m": "dir(x)",
+    "d": "Lists the names (methods and attributes) x has",
+    "c": "print([m for m in dir(\"\") if m.startswith(\"is\")][:4])",
+    "o": "['isalnum', 'isalpha', 'isascii', 'isdecimal']"
    },
    {
     "m": "divmod(a, b)",
@@ -12826,6 +13856,18 @@ var REFERENCE = [
     "d": "Pairs each item with its position",
     "c": "print(list(enumerate([\"a\", \"b\"], start=1)))",
     "o": "[(1, 'a'), (2, 'b')]"
+   },
+   {
+    "m": "eval(text)",
+    "d": "Runs a text expression and gives back the result; never use it on text from users",
+    "c": "print(eval(\"2 * (3 + 4)\"))",
+    "o": "14"
+   },
+   {
+    "m": "exec(text)",
+    "d": "Runs text as Python code; never use it on text from users",
+    "c": "exec(\"x = 5\\nprint(x * 2)\")",
+    "o": "10"
    },
    {
     "m": "filter(f, items)",
@@ -12846,6 +13888,59 @@ var REFERENCE = [
     "o": "1,234.50"
    },
    {
+    "m": "frozenset(x)",
+    "d": "A set that cannot change, so it can be a dict key",
+    "c": "f = frozenset([1, 2, 2])\nprint(f, 2 in f)",
+    "o": "frozenset({1, 2}) True"
+   },
+   {
+    "m": "getattr(obj, name, default)",
+    "d": "Gets an attribute by name, with an optional default",
+    "c": "class Hotel:\n    city = \"Pune\"\nprint(getattr(Hotel, \"city\"), getattr(Hotel, \"stars\", 3))",
+    "o": "Pune 3"
+   },
+   {
+    "m": "globals()",
+    "d": "A dict of every name defined at the top level",
+    "c": "rate = 1800\nprint(\"rate\" in globals())",
+    "o": "True"
+   },
+   {
+    "m": "hasattr(obj, name)",
+    "d": "True if the object has that attribute",
+    "c": "print(hasattr(\"hi\", \"upper\"), hasattr(5, \"upper\"))",
+    "o": "True False"
+   },
+   {
+    "m": "hash(x)",
+    "d": "The number sets and dict keys use; lists cannot be hashed",
+    "c": "print(hash(5), hash(\"a\") == hash(\"a\"))",
+    "o": "5 True"
+   },
+   {
+    "m": "help(x)",
+    "d": "Shows Python's built-in help for x",
+    "n": "Try `help(str.split)` in your own Python. It prints a long page of text, so it is not shown here."
+   },
+   {
+    "m": "hex(n)",
+    "d": "The number in hexadecimal, as text",
+    "c": "print(hex(255))",
+    "o": "0xff"
+   },
+   {
+    "m": "id(x)",
+    "d": "A unique number for an object; the same id means the same object",
+    "c": "a = [1, 2]\nb = a\nprint(id(a) == id(b))",
+    "o": "True"
+   },
+   {
+    "m": "__import__(name)",
+    "d": "What import uses behind the scenes; write import instead",
+    "c": "m = __import__(\"math\")\nprint(m.sqrt(16))",
+    "o": "4.0"
+   },
+   {
     "m": "input(prompt)",
     "d": "Asks the user and gives back their text (always a str)",
     "c": "name = \"Asha\"   # name = input(\"Name: \") in a real program\nprint(name)",
@@ -12864,6 +13959,18 @@ var REFERENCE = [
     "o": "True"
    },
    {
+    "m": "issubclass(A, B)",
+    "d": "True if class A is a child of class B",
+    "c": "print(issubclass(bool, int), issubclass(KeyError, LookupError))",
+    "o": "True True"
+   },
+   {
+    "m": "iter(x)",
+    "d": "Gets an iterator, to take items one at a time with next()",
+    "c": "it = iter([\"a\", \"b\"])\nprint(next(it), next(it))",
+    "o": "a b"
+   },
+   {
     "m": "len(x)",
     "d": "Number of items or characters",
     "c": "print(len([1, 2, 3]), len(\"data\"))",
@@ -12874,6 +13981,12 @@ var REFERENCE = [
     "d": "Makes a list",
     "c": "print(list(\"abc\"))",
     "o": "['a', 'b', 'c']"
+   },
+   {
+    "m": "locals()",
+    "d": "A dict of the names inside the current function",
+    "c": "def f():\n    x = 1\n    return locals()\nprint(f())",
+    "o": "{'x': 1}"
    },
    {
     "m": "map(f, items)",
@@ -12888,6 +14001,12 @@ var REFERENCE = [
     "o": "9 apple"
    },
    {
+    "m": "memoryview(b)",
+    "d": "Looks at bytes without copying them (advanced)",
+    "c": "m = memoryview(b\"abc\")\nprint(m[0], m.tobytes())",
+    "o": "97 b'abc'"
+   },
+   {
     "m": "min(items)",
     "d": "Smallest item",
     "c": "print(min([4, 9, 1]))",
@@ -12898,6 +14017,24 @@ var REFERENCE = [
     "d": "The next item from an iterator",
     "c": "it = iter([10, 20])\nprint(next(it), next(it))",
     "o": "10 20"
+   },
+   {
+    "m": "object()",
+    "d": "The base class of every class in Python",
+    "c": "o = object()\nprint(type(o).__name__, isinstance(5, object))",
+    "o": "object True"
+   },
+   {
+    "m": "oct(n)",
+    "d": "The number in octal, as text",
+    "c": "print(oct(8))",
+    "o": "0o10"
+   },
+   {
+    "m": "open(file, mode)",
+    "d": "Opens a file: \"r\" read, \"w\" write, \"a\" append",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"hello\")\nwith open(\"notes.txt\") as f:\n    print(f.read())",
+    "o": "hello"
    },
    {
     "m": "ord(c)",
@@ -12918,10 +14055,22 @@ var REFERENCE = [
     "o": "1-2-3!"
    },
    {
+    "m": "property",
+    "d": "Lets a method be read like a value, without ()",
+    "c": "class Room:\n    def __init__(self, rate):\n        self.rate = rate\n    @property\n    def with_gst(self):\n        return self.rate * 1.18\nprint(Room(1000).with_gst)",
+    "o": "1180.0"
+   },
+   {
     "m": "range(start, stop, step)",
     "d": "A run of whole numbers; stop is excluded",
     "c": "print(list(range(2, 11, 4)))",
     "o": "[2, 6, 10]"
+   },
+   {
+    "m": "repr(x)",
+    "d": "The developer view of a value; text keeps its quotes",
+    "c": "print(repr(\"hi\"), str(\"hi\"))",
+    "o": "'hi' hi"
    },
    {
     "m": "reversed(items)",
@@ -12942,10 +14091,28 @@ var REFERENCE = [
     "o": "{1, 2, 3}"
    },
    {
+    "m": "setattr(obj, name, value)",
+    "d": "Sets an attribute by name",
+    "c": "class C:\n    pass\nc = C()\nsetattr(c, \"city\", \"Pune\")\nprint(c.city)",
+    "o": "Pune"
+   },
+   {
+    "m": "slice(start, stop, step)",
+    "d": "A saved slice you can reuse",
+    "c": "s = slice(1, 4)\nprint(\"python\"[s], [10, 20, 30, 40, 50][s])",
+    "o": "yth [20, 30, 40]"
+   },
+   {
     "m": "sorted(items)",
     "d": "A new sorted list",
     "c": "print(sorted([3, 1, 2]), sorted(\"cab\"))",
     "o": "[1, 2, 3] ['a', 'b', 'c']"
+   },
+   {
+    "m": "staticmethod",
+    "d": "A plain function kept inside a class: no self, no cls",
+    "c": "class Money:\n    @staticmethod\n    def rupees(n):\n        return f\"₹{n:,}\"\nprint(Money.rupees(150000))",
+    "o": "₹150,000"
    },
    {
     "m": "str(x)",
@@ -12960,6 +14127,12 @@ var REFERENCE = [
     "o": "250"
    },
    {
+    "m": "super()",
+    "d": "Calls the parent class, usually from __init__",
+    "c": "class Room:\n    def __init__(self, rate):\n        self.rate = rate\nclass Suite(Room):\n    def __init__(self, rate):\n        super().__init__(rate)\n        self.butler = True\nprint(Suite(4800).rate)",
+    "o": "4800"
+   },
+   {
     "m": "tuple(x)",
     "d": "Makes a tuple",
     "c": "print(tuple([1, 2]))",
@@ -12972,14 +14145,1896 @@ var REFERENCE = [
     "o": "<class 'float'>"
    },
    {
+    "m": "vars(obj)",
+    "d": "A dict of the object's attributes",
+    "c": "class Guest:\n    def __init__(self):\n        self.name = \"Asha\"\n        self.nights = 2\nprint(vars(Guest()))",
+    "o": "{'name': 'Asha', 'nights': 2}"
+   },
+   {
     "m": "zip(a, b)",
     "d": "Pairs items from two lists",
     "c": "print(list(zip([\"Asha\", \"Ravi\"], [82, 67])))",
     "o": "[('Asha', 82), ('Ravi', 67)]"
    }
   ]
+ },
+ {
+  "id": "file",
+  "title": "File methods",
+  "intro": "Use these on the file object that `open()` gives you. Modes: `\"r\"` read (the default), `\"w\"` write (replaces the file), `\"a\"` append, `\"r+\"` read and write. Write `with open(...) as f:` so the file closes by itself. Most examples first write a small file, so every one of them runs.",
+  "rows": [
+   {
+    "m": "close()",
+    "d": "Closes the file (with does this for you)",
+    "c": "f = open(\"notes.txt\", \"w\")\nf.write(\"hi\")\nf.close()\nprint(f.closed)",
+    "o": "True"
+   },
+   {
+    "m": "detach()",
+    "d": "Separates the text layer from the raw binary file",
+    "n": "Rarely needed. It is for advanced work with binary files."
+   },
+   {
+    "m": "fileno()",
+    "d": "The operating system's number for the open file",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(isinstance(f.fileno(), int))",
+    "o": "True"
+   },
+   {
+    "m": "flush()",
+    "d": "Writes waiting text to the file now, not later",
+    "c": "with open(\"log.txt\", \"w\") as f:\n    f.write(\"saved now\")\n    f.flush()\n    with open(\"log.txt\") as g:\n        print(g.read())",
+    "o": "saved now"
+   },
+   {
+    "m": "isatty()",
+    "d": "True if the file is a terminal window",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.isatty())",
+    "o": "False"
+   },
+   {
+    "m": "read(n)",
+    "d": "Reads the whole file, or n characters, as one string",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.read(6))",
+    "o": "line 1"
+   },
+   {
+    "m": "readable()",
+    "d": "True if you can read from the file",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    print(f.readable(), f.writable())",
+    "o": "False True"
+   },
+   {
+    "m": "readline()",
+    "d": "Reads one line, including its \\n",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.readline().strip())\n    print(f.readline().strip())",
+    "o": "line 1\nline 2"
+   },
+   {
+    "m": "readlines()",
+    "d": "Reads every line into a list",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.readlines())",
+    "o": "['line 1\\n', 'line 2\\n', 'line 3\\n']"
+   },
+   {
+    "m": "seek(pos)",
+    "d": "Moves to a position (0 is the start)",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    f.read()\n    f.seek(0)   # back to the start\n    print(f.readline().strip())",
+    "o": "line 1"
+   },
+   {
+    "m": "seekable()",
+    "d": "True if you can use seek()",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.seekable())",
+    "o": "True"
+   },
+   {
+    "m": "tell()",
+    "d": "The current position in the file",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    f.readline()\n    print(f.tell())",
+    "o": "7"
+   },
+   {
+    "m": "truncate(size)",
+    "d": "Cuts the file down to size characters",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\", \"r+\") as f:\n    f.truncate(6)\nwith open(\"notes.txt\") as f:\n    print(f.read())",
+    "o": "line 1"
+   },
+   {
+    "m": "writable()",
+    "d": "True if you can write to the file",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"line 1\\nline 2\\nline 3\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.writable())",
+    "o": "False"
+   },
+   {
+    "m": "write(text)",
+    "d": "Writes text and gives back how many characters",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    n = f.write(\"hello\")\nwith open(\"notes.txt\") as f:\n    print(n, f.read())",
+    "o": "5 hello"
+   },
+   {
+    "m": "writelines(lines)",
+    "d": "Writes a list of strings; it does not add new lines",
+    "c": "with open(\"notes.txt\", \"w\") as f:\n    f.writelines([\"a\\n\", \"b\\n\"])\nwith open(\"notes.txt\") as f:\n    print(f.read().splitlines())",
+    "o": "['a', 'b']"
+   }
+  ]
+ },
+ {
+  "id": "kw",
+  "title": "Keywords",
+  "intro": "Keywords are Python's reserved words, so you cannot use them as names: `class = 5` is a SyntaxError. `match`, `case`, `type` and `_` are **soft** keywords: special only in certain places.",
+  "rows": [
+   {
+    "m": "and",
+    "d": "True only if both sides are true",
+    "c": "age = 25\nprint(age > 18 and age < 60)",
+    "o": "True"
+   },
+   {
+    "m": "as",
+    "d": "Gives something a short name",
+    "c": "import math as m\nprint(m.sqrt(49))",
+    "o": "7.0"
+   },
+   {
+    "m": "assert",
+    "d": "Stops with AssertionError if a check is False",
+    "c": "nights = 2\nassert nights > 0, \"nights must be positive\"\nprint(\"ok\")",
+    "o": "ok"
+   },
+   {
+    "m": "async",
+    "d": "Starts an asynchronous function (async def)",
+    "n": "For web and network code that waits a lot. Data analysis rarely needs it."
+   },
+   {
+    "m": "await",
+    "d": "Waits for an async result inside async def",
+    "n": "Only works inside an `async def` function."
+   },
+   {
+    "m": "break",
+    "d": "Leaves the loop now",
+    "c": "for n in [3, 8, 12, 5]:\n    if n > 10:\n        break\n    print(n)",
+    "o": "3\n8"
+   },
+   {
+    "m": "class",
+    "d": "Defines a class",
+    "c": "class Guest:\n    pass\nprint(type(Guest()).__name__)",
+    "o": "Guest"
+   },
+   {
+    "m": "continue",
+    "d": "Skips to the next turn of the loop",
+    "c": "for n in [1, 2, 3, 4]:\n    if n % 2 == 0:\n        continue\n    print(n)",
+    "o": "1\n3"
+   },
+   {
+    "m": "def",
+    "d": "Defines a function",
+    "c": "def double(x):\n    return x * 2\nprint(double(21))",
+    "o": "42"
+   },
+   {
+    "m": "del",
+    "d": "Deletes a name, an item or a slice",
+    "c": "rooms = [\"101\", \"102\", \"103\"]\ndel rooms[0]\nprint(rooms)",
+    "o": "['102', '103']"
+   },
+   {
+    "m": "elif",
+    "d": "Another condition, checked if the ones above were False",
+    "c": "score = 72\nif score >= 80:\n    print(\"A\")\nelif score >= 60:\n    print(\"B\")\nelse:\n    print(\"C\")",
+    "o": "B"
+   },
+   {
+    "m": "else",
+    "d": "Runs when no condition above was True",
+    "c": "stock = 0\nif stock > 0:\n    print(\"in stock\")\nelse:\n    print(\"sold out\")",
+    "o": "sold out"
+   },
+   {
+    "m": "except",
+    "d": "Catches an error from the try block",
+    "c": "try:\n    int(\"abc\")\nexcept ValueError:\n    print(\"not a number\")",
+    "o": "not a number"
+   },
+   {
+    "m": "False",
+    "d": "The 'no' value of a bool",
+    "c": "print(5 < 3, bool(0))",
+    "o": "False False"
+   },
+   {
+    "m": "finally",
+    "d": "Always runs, error or not",
+    "c": "try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print(\"error\")\nfinally:\n    print(\"always runs\")",
+    "o": "error\nalways runs"
+   },
+   {
+    "m": "for",
+    "d": "Loops over every item",
+    "c": "for city in [\"Pune\", \"Goa\"]:\n    print(city)",
+    "o": "Pune\nGoa"
+   },
+   {
+    "m": "from",
+    "d": "Imports one part of a module",
+    "c": "from math import sqrt\nprint(sqrt(81))",
+    "o": "9.0"
+   },
+   {
+    "m": "global",
+    "d": "Lets a function change a top-level variable",
+    "c": "count = 0\ndef add():\n    global count\n    count += 1\nadd()\nprint(count)",
+    "o": "1"
+   },
+   {
+    "m": "if",
+    "d": "Runs code only when a condition is True",
+    "c": "nights = 3\nif nights > 2:\n    print(\"long stay\")",
+    "o": "long stay"
+   },
+   {
+    "m": "import",
+    "d": "Loads a module",
+    "c": "import math\nprint(math.pi)",
+    "o": "3.141592653589793"
+   },
+   {
+    "m": "in",
+    "d": "Checks membership, or loops in for",
+    "c": "print(\"a\" in \"data\", 5 in [1, 2, 3])",
+    "o": "True False"
+   },
+   {
+    "m": "is",
+    "d": "True if both are the same object (not just equal)",
+    "c": "a = [1]\nb = a\nc = [1]\nprint(a is b, a is c, a == c)",
+    "o": "True False True"
+   },
+   {
+    "m": "lambda",
+    "d": "A small one-line function without a name",
+    "c": "double = lambda x: x * 2\nprint(double(8))",
+    "o": "16"
+   },
+   {
+    "m": "match, case",
+    "d": "Soft keywords: compare a value against patterns (Python 3.10+)",
+    "c": "status = \"cancelled\"\nmatch status:\n    case \"confirmed\":\n        print(\"Keep\")\n    case \"cancelled\" | \"no-show\":\n        print(\"Check refund\")\n    case _:\n        print(\"Unknown\")",
+    "o": "Check refund"
+   },
+   {
+    "m": "None",
+    "d": "Means 'no value'; test it with is None",
+    "c": "result = print(\"hi\")\nprint(result is None)",
+    "o": "hi\nTrue"
+   },
+   {
+    "m": "nonlocal",
+    "d": "Lets an inner function change the outer function's variable",
+    "c": "def outer():\n    n = 0\n    def inner():\n        nonlocal n\n        n += 1\n    inner()\n    return n\nprint(outer())",
+    "o": "1"
+   },
+   {
+    "m": "not",
+    "d": "Flips True and False",
+    "c": "print(not True, not 0)",
+    "o": "False True"
+   },
+   {
+    "m": "or",
+    "d": "True if either side is true; it stops at the first true value and gives it back",
+    "c": "print(0 or \"default\", 5 > 3 or 1 / 0)",
+    "o": "default True"
+   },
+   {
+    "m": "pass",
+    "d": "Does nothing: a placeholder",
+    "c": "def todo():\n    pass\nprint(todo())",
+    "o": "None"
+   },
+   {
+    "m": "raise",
+    "d": "Raises an error on purpose",
+    "c": "try:\n    raise ValueError(\"nights must be positive\")\nexcept ValueError as e:\n    print(e)",
+    "o": "nights must be positive"
+   },
+   {
+    "m": "return",
+    "d": "Ends a function and gives back a value",
+    "c": "def area(w, h):\n    return w * h\nprint(area(3, 4))",
+    "o": "12"
+   },
+   {
+    "m": "True",
+    "d": "The 'yes' value of a bool",
+    "c": "print(5 > 3, bool(\"hi\"))",
+    "o": "True True"
+   },
+   {
+    "m": "try",
+    "d": "Runs code that might fail, with except to catch it",
+    "c": "try:\n    print(10 / 2)\nexcept ZeroDivisionError:\n    print(\"cannot divide\")",
+    "o": "5.0"
+   },
+   {
+    "m": "while",
+    "d": "Loops while a condition is True",
+    "c": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1",
+    "o": "3\n2\n1"
+   },
+   {
+    "m": "with",
+    "d": "Opens something and closes it for you at the end",
+    "c": "with open(\"demo.txt\", \"w\") as f:\n    f.write(\"saved\")\nprint(f.closed)",
+    "o": "True"
+   },
+   {
+    "m": "yield",
+    "d": "Gives back values one at a time, making a generator",
+    "c": "def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\nprint(list(countdown(3)))",
+    "o": "[3, 2, 1]"
+   }
+  ]
+ },
+ {
+  "id": "exc",
+  "title": "Built-in exceptions",
+  "intro": "Each error's name tells you what went wrong. Catch the specific one, like `except KeyError:`. Some are parents of others: `LookupError` covers `IndexError` and `KeyError`, `ArithmeticError` covers `ZeroDivisionError` and `OverflowError`, and `OSError` covers `FileNotFoundError` and `PermissionError`. `except Exception` catches almost everything except `SystemExit` and `KeyboardInterrupt`.",
+  "rows": [
+   {
+    "m": "ArithmeticError",
+    "d": "Parent of maths errors like ZeroDivisionError",
+    "c": "try:\n    print(10 / 0)\nexcept ArithmeticError as e:\n    print(type(e).__name__)",
+    "o": "ZeroDivisionError"
+   },
+   {
+    "m": "AssertionError",
+    "d": "An assert check was False",
+    "c": "try:\n    assert 2 + 2 == 5, \"maths is broken\"\nexcept AssertionError as e:\n    print(\"AssertionError:\", e)",
+    "o": "AssertionError: maths is broken"
+   },
+   {
+    "m": "AttributeError",
+    "d": "The object has no attribute or method with that name",
+    "c": "try:\n    [1, 2].push(3)\nexcept AttributeError as e:\n    print(\"AttributeError:\", e)",
+    "o": "AttributeError: 'list' object has no attribute 'push'"
+   },
+   {
+    "m": "BaseException",
+    "d": "The parent of every error, even SystemExit and KeyboardInterrupt",
+    "n": "Do not catch it in normal code. Catch `Exception` or, better, a specific error."
+   },
+   {
+    "m": "EOFError",
+    "d": "input() found no more input to read",
+    "n": "Happens when a program asks for input but none can come, for example in some online runners."
+   },
+   {
+    "m": "Exception",
+    "d": "The parent of almost every error you will meet",
+    "c": "try:\n    int(\"abc\")\nexcept Exception as e:\n    print(type(e).__name__, \"-\", e)",
+    "o": "ValueError - invalid literal for int() with base 10: 'abc'"
+   },
+   {
+    "m": "FileNotFoundError",
+    "d": "The file does not exist at that path",
+    "c": "try:\n    open(\"missing.csv\")\nexcept FileNotFoundError as e:\n    print(\"FileNotFoundError:\", e.filename)",
+    "o": "FileNotFoundError: missing.csv"
+   },
+   {
+    "m": "FloatingPointError",
+    "d": "A decimal maths problem, raised only when NumPy is told to",
+    "n": "Only after `np.seterr(all=\"raise\")`, for example on `np.float64(1) / 0`. The Python in this browser cannot raise it, so try it in your own Python."
+   },
+   {
+    "m": "GeneratorExit",
+    "d": "Sent into a generator when it is closed",
+    "c": "def gen():\n    try:\n        yield 1\n    except GeneratorExit:\n        print(\"generator closed\")\n        raise\nit = gen()\nnext(it)\nit.close()",
+    "o": "generator closed"
+   },
+   {
+    "m": "ImportError",
+    "d": "import found the module but not the name you asked for",
+    "c": "try:\n    from math import sqroot\nexcept ImportError as e:\n    print(type(e).__name__)",
+    "o": "ImportError"
+   },
+   {
+    "m": "IndentationError",
+    "d": "The spaces at the start of a line are wrong",
+    "c": "try:\n    compile(\"if True:\\nprint(1)\", \"<code>\", \"exec\")\nexcept IndentationError as e:\n    print(\"IndentationError:\", e.msg)",
+    "o": "IndentationError: expected an indented block after 'if' statement on line 1"
+   },
+   {
+    "m": "IndexError",
+    "d": "The position is past the end of the list or string",
+    "c": "try:\n    [10, 20, 30][5]\nexcept IndexError as e:\n    print(\"IndexError:\", e)",
+    "o": "IndexError: list index out of range"
+   },
+   {
+    "m": "KeyboardInterrupt",
+    "d": "You pressed Ctrl+C to stop the program",
+    "n": "`except Exception` does not catch it, so Ctrl+C can always stop a program."
+   },
+   {
+    "m": "KeyError",
+    "d": "The dictionary does not have that key",
+    "c": "try:\n    {\"Pune\": 1}[\"Delhi\"]\nexcept KeyError as e:\n    print(\"KeyError:\", e)",
+    "o": "KeyError: 'Delhi'"
+   },
+   {
+    "m": "LookupError",
+    "d": "Parent of IndexError and KeyError",
+    "c": "try:\n    {\"a\": 1}[\"b\"]\nexcept LookupError as e:\n    print(type(e).__name__)",
+    "o": "KeyError"
+   },
+   {
+    "m": "MemoryError",
+    "d": "The computer ran out of memory",
+    "n": "For example a list far too big to fit. Work in smaller chunks."
+   },
+   {
+    "m": "ModuleNotFoundError",
+    "d": "No module with that name is installed",
+    "c": "try:\n    import pandaz\nexcept ModuleNotFoundError as e:\n    print(\"ModuleNotFoundError:\", e)",
+    "o": "ModuleNotFoundError: No module named 'pandaz'"
+   },
+   {
+    "m": "NameError",
+    "d": "The name was never defined (often a typo)",
+    "c": "try:\n    total = 5\n    print(totl)\nexcept NameError as e:\n    print(\"NameError:\", e)",
+    "o": "NameError: name 'totl' is not defined"
+   },
+   {
+    "m": "NotImplementedError",
+    "d": "A method that a child class must write itself",
+    "c": "try:\n    class Shape:\n        def area(self):\n            raise NotImplementedError(\"each shape needs its own area()\")\n    Shape().area()\nexcept NotImplementedError as e:\n    print(\"NotImplementedError:\", e)",
+    "o": "NotImplementedError: each shape needs its own area()"
+   },
+   {
+    "m": "OSError",
+    "d": "Parent of file and system errors",
+    "c": "try:\n    open(\"missing.csv\")\nexcept OSError as e:\n    print(type(e).__name__)",
+    "o": "FileNotFoundError"
+   },
+   {
+    "m": "OverflowError",
+    "d": "A number is too big to calculate",
+    "c": "try:\n    import math\n    math.exp(1000)\nexcept OverflowError as e:\n    print(\"OverflowError:\", e)",
+    "o": "OverflowError: math range error"
+   },
+   {
+    "m": "PermissionError",
+    "d": "You are not allowed to open or change that file",
+    "n": "Common on Windows when the file is open in Excel. Close it and run again."
+   },
+   {
+    "m": "RecursionError",
+    "d": "A function called itself too many times",
+    "c": "try:\n    def f():\n        return f()\n    f()\nexcept RecursionError as e:\n    print(type(e).__name__)",
+    "o": "RecursionError"
+   },
+   {
+    "m": "ReferenceError",
+    "d": "A weak reference points to an object that no longer exists",
+    "n": "Advanced and rare: only with the `weakref` module."
+   },
+   {
+    "m": "RuntimeError",
+    "d": "Something went wrong that fits no other error",
+    "c": "try:\n    d = {\"a\": 1}\n    for k in d:\n        d[\"b\"] = 2\nexcept RuntimeError as e:\n    print(\"RuntimeError:\", e)",
+    "o": "RuntimeError: dictionary changed size during iteration"
+   },
+   {
+    "m": "StopIteration",
+    "d": "next() was called but the iterator has no items left",
+    "c": "try:\n    it = iter([1])\n    next(it)\n    next(it)\nexcept StopIteration as e:\n    print(\"StopIteration: no items left\")",
+    "o": "StopIteration: no items left"
+   },
+   {
+    "m": "SyntaxError",
+    "d": "The code breaks Python's grammar rules",
+    "c": "try:\n    eval(\"print('hi'\")\nexcept SyntaxError as e:\n    print(\"SyntaxError:\", e.msg)",
+    "o": "SyntaxError: '(' was never closed"
+   },
+   {
+    "m": "SystemError",
+    "d": "Something went wrong inside Python itself",
+    "n": "Very rare. It means a bug in Python or a library, not in your code."
+   },
+   {
+    "m": "SystemExit",
+    "d": "sys.exit() was called to stop the program",
+    "c": "try:\n    import sys\n    sys.exit(\"bye\")\nexcept SystemExit as e:\n    print(\"SystemExit:\", e)",
+    "o": "SystemExit: bye"
+   },
+   {
+    "m": "TabError",
+    "d": "Tabs and spaces are mixed in the indentation",
+    "c": "try:\n    compile(\"if True:\\n\\tx = 1\\n        y = 2\", \"<code>\", \"exec\")\nexcept TabError as e:\n    print(\"TabError:\", e.msg)",
+    "o": "TabError: inconsistent use of tabs and spaces in indentation"
+   },
+   {
+    "m": "TypeError",
+    "d": "The operation does not work on this type",
+    "c": "try:\n    print(\"5\" + 5)\nexcept TypeError as e:\n    print(\"TypeError:\", e)",
+    "o": "TypeError: can only concatenate str (not \"int\") to str"
+   },
+   {
+    "m": "UnboundLocalError",
+    "d": "A local variable was used before it got a value",
+    "c": "try:\n    count = 0\n    def add():\n        count += 1\n    add()\nexcept UnboundLocalError as e:\n    print(\"UnboundLocalError:\", e)",
+    "o": "UnboundLocalError: cannot access local variable 'count' where it is not associated with a value"
+   },
+   {
+    "m": "UnicodeDecodeError",
+    "d": "Bytes could not be turned into text",
+    "c": "try:\n    b\"\\xff\".decode(\"utf-8\")\nexcept UnicodeDecodeError as e:\n    print(\"UnicodeDecodeError:\", e.reason)",
+    "o": "UnicodeDecodeError: invalid start byte"
+   },
+   {
+    "m": "UnicodeEncodeError",
+    "d": "Text could not be turned into bytes",
+    "c": "try:\n    \"₹500\".encode(\"ascii\")\nexcept UnicodeEncodeError as e:\n    print(\"UnicodeEncodeError:\", e.reason)",
+    "o": "UnicodeEncodeError: ordinal not in range(128)"
+   },
+   {
+    "m": "UnicodeError",
+    "d": "Parent of the text encoding errors",
+    "c": "try:\n    \"₹500\".encode(\"ascii\")\nexcept UnicodeError as e:\n    print(type(e).__name__)",
+    "o": "UnicodeEncodeError"
+   },
+   {
+    "m": "UnicodeTranslateError",
+    "d": "A problem while translating text characters",
+    "n": "Rare. You are much more likely to meet UnicodeDecodeError or UnicodeEncodeError."
+   },
+   {
+    "m": "ValueError",
+    "d": "The type is right but the value is not",
+    "c": "try:\n    int(\"abc\")\nexcept ValueError as e:\n    print(\"ValueError:\", e)",
+    "o": "ValueError: invalid literal for int() with base 10: 'abc'"
+   },
+   {
+    "m": "ZeroDivisionError",
+    "d": "You divided by zero",
+    "c": "try:\n    print(10 / 0)\nexcept ZeroDivisionError as e:\n    print(\"ZeroDivisionError:\", e)",
+    "o": "ZeroDivisionError: division by zero"
+   }
+  ]
  }
 ];
+
+/* Quick exercises: fill in the blanks (___). Every answer was run in real Python; o is the real output. */
+var EXERCISES = {
+ "intro": [
+  {
+   "q": "Show the text Hello, World! on the screen.",
+   "c": "___(\"Hello, World!\")",
+   "a": [
+    [
+     "print"
+    ]
+   ],
+   "o": "Hello, World!",
+   "e": "`print()` shows whatever you put inside the brackets."
+  },
+  {
+   "q": "Turn the second line into a comment, so Python skips it.",
+   "c": "print(\"This runs\")\n___ print(\"This is skipped\")",
+   "a": [
+    [
+     "#"
+    ]
+   ],
+   "o": "This runs",
+   "e": "Python ignores everything after `#` on a line."
+  },
+  {
+   "q": "Print the answer to 15 times 4.",
+   "c": "print(15 ___ 4)",
+   "a": [
+    [
+     "*"
+    ]
+   ],
+   "o": "60",
+   "e": "`*` multiplies. Python works out the answer first, then prints it."
+  },
+  {
+   "q": "Insert the keyword that runs the indented line only when 5 is bigger than 2.",
+   "c": "___ 5 > 2:\n    print(\"Five is bigger than two\")",
+   "a": [
+    [
+     "if"
+    ]
+   ],
+   "o": "Five is bigger than two",
+   "e": "The indented line belongs to the `if`. Python uses indentation, not brackets, to group lines."
+  },
+  {
+   "q": "Print Total: 250 by giving print() two values.",
+   "c": "print(\"Total:\"___ 250)",
+   "a": [
+    [
+     ","
+    ]
+   ],
+   "o": "Total: 250",
+   "e": "A comma separates the values, and print() puts one space between them."
+  }
+ ],
+ "variables": [
+  {
+   "q": "Create a variable called city that holds Pune.",
+   "c": "___ = \"Pune\"\nprint(city)",
+   "a": [
+    [
+     "city"
+    ]
+   ],
+   "o": "Pune",
+   "e": "The name goes on the left of `=` and the value on the right."
+  },
+  {
+   "q": "Assign 10, 20 and 30 to x, y and z in one line.",
+   "c": "x, y, z = ___\nprint(y)",
+   "a": [
+    [
+     "10, 20, 30",
+     "(10, 20, 30)",
+     "[10, 20, 30]"
+    ]
+   ],
+   "o": "20",
+   "e": "Python matches the values to the names in order, so y gets 20."
+  },
+  {
+   "q": "Print the data type of price.",
+   "c": "price = 99.5\nprint(___(price))",
+   "a": [
+    [
+     "type"
+    ]
+   ],
+   "o": "<class 'float'>",
+   "e": "`type()` tells you the type. A number with a decimal point is a `float`."
+  },
+  {
+   "q": "Convert the text \"42\" to a whole number so the sum works.",
+   "c": "age = ___(\"42\")\nprint(age + 8)",
+   "a": [
+    [
+     "int"
+    ]
+   ],
+   "o": "50",
+   "e": "`int()` turns text made of digits into a whole number."
+  },
+  {
+   "q": "Store the boolean value for 'yes' in is_open.",
+   "c": "is_open = ___\nprint(is_open, type(is_open))",
+   "a": [
+    [
+     "True"
+    ]
+   ],
+   "o": "True <class 'bool'>",
+   "e": "Booleans are `True` and `False`, with a capital first letter and no quotes."
+  }
+ ],
+ "output": [
+  {
+   "q": "Print the three letters with a dash between them: a-b-c",
+   "c": "print(\"a\", \"b\", \"c\", ___=\"-\")",
+   "a": [
+    [
+     "sep"
+    ]
+   ],
+   "o": "a-b-c",
+   "e": "`sep` sets what goes between the values. The default is one space."
+  },
+  {
+   "q": "Keep both texts on one line: Loading...done",
+   "c": "print(\"Loading\", ___=\"...\")\nprint(\"done\")",
+   "a": [
+    [
+     "end"
+    ]
+   ],
+   "o": "Loading...done",
+   "e": "`end` replaces the new line that print() normally adds at the end."
+  },
+  {
+   "q": "Make this an f-string so the values fill the slots.",
+   "c": "name = \"Asha\"\nage = 25\nprint(___\"{name} is {age} years old\")",
+   "a": [
+    [
+     "f"
+    ]
+   ],
+   "o": "Asha is 25 years old",
+   "e": "An `f` before the quotes turns `{name}` into the value of name."
+  },
+  {
+   "q": "Show the price with exactly 2 decimal places.",
+   "c": "price = 1234.5\nprint(f\"{price:___}\")",
+   "a": [
+    [
+     ".2f"
+    ]
+   ],
+   "o": "1234.50",
+   "e": "`.2f` means a decimal number with 2 digits after the point."
+  },
+  {
+   "q": "Put Hello and World on two lines with an escape character.",
+   "c": "print(\"Hello___World\")",
+   "a": [
+    [
+     "\\n"
+    ]
+   ],
+   "o": "Hello\nWorld",
+   "e": "`\\n` inside a string means 'new line'."
+  }
+ ],
+ "operators": [
+  {
+   "q": "Get the remainder when 17 is divided by 5.",
+   "c": "print(17 ___ 5)",
+   "a": [
+    [
+     "%"
+    ]
+   ],
+   "o": "2",
+   "e": "`%` (modulus) gives the remainder: 17 is 3 fives and 2 left over."
+  },
+  {
+   "q": "Get how many full hours are in 135 minutes.",
+   "c": "print(135 ___ 60)",
+   "a": [
+    [
+     "//"
+    ]
+   ],
+   "o": "2",
+   "e": "`//` is floor division: it keeps only the whole part."
+  },
+  {
+   "q": "Check that x is not equal to 10.",
+   "c": "x = 7\nprint(x ___ 10)",
+   "a": [
+    [
+     "!="
+    ]
+   ],
+   "o": "True",
+   "e": "`!=` means 'not equal'. `=` alone assigns, `==` compares."
+  },
+  {
+   "q": "Check whether \"a\" is inside the word \"data\".",
+   "c": "print(\"a\" ___ \"data\")",
+   "a": [
+    [
+     "in"
+    ]
+   ],
+   "o": "True",
+   "e": "`in` checks membership in strings, lists, sets and dictionaries."
+  },
+  {
+   "q": "Add 500 to total with the short assignment operator.",
+   "c": "total = 1000\ntotal ___ 500\nprint(total)",
+   "a": [
+    [
+     "+="
+    ]
+   ],
+   "o": "1500",
+   "e": "`total += 500` is short for `total = total + 500`."
+  }
+ ],
+ "conditions": [
+  {
+   "q": "Print Adult when age is 18 or more.",
+   "c": "age = 20\n___ age >= 18:\n    print(\"Adult\")",
+   "a": [
+    [
+     "if"
+    ]
+   ],
+   "o": "Adult",
+   "e": "`if` runs the indented block only when the condition is True."
+  },
+  {
+   "q": "Insert the keyword for the second check.",
+   "c": "score = 65\nif score >= 80:\n    print(\"A\")\n___ score >= 60:\n    print(\"B\")\nelse:\n    print(\"C\")",
+   "a": [
+    [
+     "elif"
+    ]
+   ],
+   "o": "B",
+   "e": "`elif` is checked only when the conditions above it were False."
+  },
+  {
+   "q": "Print Weekend when the day is Saturday or Sunday.",
+   "c": "day = \"Sunday\"\nif day == \"Saturday\" ___ day == \"Sunday\":\n    print(\"Weekend\")",
+   "a": [
+    [
+     "or"
+    ]
+   ],
+   "o": "Weekend",
+   "e": "`or` is True when at least one side is True."
+  },
+  {
+   "q": "Finish the one-line if-else (ternary).",
+   "c": "marks = 45\nstatus = \"Pass\" ___ marks >= 40 ___ \"Fail\"\nprint(status)",
+   "a": [
+    [
+     "if"
+    ],
+    [
+     "else"
+    ]
+   ],
+   "o": "Pass",
+   "e": "The pattern is `value_if_true if condition else value_if_false`."
+  },
+  {
+   "q": "Keep the empty block valid with a placeholder.",
+   "c": "stock = 0\nif stock > 0:\n    ___\nelse:\n    print(\"Sold out\")",
+   "a": [
+    [
+     "pass"
+    ]
+   ],
+   "o": "Sold out",
+   "e": "A block cannot be empty. `pass` does nothing and keeps the code valid."
+  }
+ ],
+ "forloops": [
+  {
+   "q": "Loop over the list and print each city.",
+   "c": "for city ___ [\"Pune\", \"Goa\", \"Delhi\"]:\n    print(city)",
+   "a": [
+    [
+     "in"
+    ]
+   ],
+   "o": "Pune\nGoa\nDelhi",
+   "e": "`for item in collection:` visits every item in order."
+  },
+  {
+   "q": "Print the numbers 1 to 5.",
+   "c": "for n in range(1, ___):\n    print(n)",
+   "a": [
+    [
+     "6"
+    ]
+   ],
+   "o": "1\n2\n3\n4\n5",
+   "e": "The stop number is never included, so you need 6 to reach 5."
+  },
+  {
+   "q": "Get the position and the item together, starting from 1.",
+   "c": "for i, name in ___([\"Asha\", \"Ravi\"], start=1):\n    print(i, name)",
+   "a": [
+    [
+     "enumerate"
+    ]
+   ],
+   "o": "1 Asha\n2 Ravi",
+   "e": "`enumerate()` gives (position, item) pairs."
+  },
+  {
+   "q": "Walk through two lists side by side.",
+   "c": "names = [\"Asha\", \"Ravi\"]\nmarks = [82, 67]\nfor name, mark in ___(names, marks):\n    print(name, mark)",
+   "a": [
+    [
+     "zip"
+    ]
+   ],
+   "o": "Asha 82\nRavi 67",
+   "e": "`zip()` pairs the first items, then the second items, and so on."
+  },
+  {
+   "q": "Add up all the prices.",
+   "c": "total = 0\nfor p in [120, 80, 50]:\n    total ___ p\nprint(total)",
+   "a": [
+    [
+     "+="
+    ]
+   ],
+   "o": "250",
+   "e": "Start at 0 and add each value: the accumulator pattern."
+  }
+ ],
+ "whileloops": [
+  {
+   "q": "Keep looping while n is bigger than 0.",
+   "c": "n = 3\n___ n > 0:\n    print(n)\n    n -= 1",
+   "a": [
+    [
+     "while"
+    ]
+   ],
+   "o": "3\n2\n1",
+   "e": "`while` repeats as long as its condition stays True."
+  },
+  {
+   "q": "Stop the loop when n reaches 4.",
+   "c": "n = 1\nwhile True:\n    if n == 4:\n        ___\n    print(n)\n    n += 1",
+   "a": [
+    [
+     "break"
+    ]
+   ],
+   "o": "1\n2\n3",
+   "e": "`break` leaves the loop at once. It is the way out of `while True`."
+  },
+  {
+   "q": "Skip 3 but keep looping.",
+   "c": "n = 0\nwhile n < 5:\n    n += 1\n    if n == 3:\n        ___\n    print(n)",
+   "a": [
+    [
+     "continue"
+    ]
+   ],
+   "o": "1\n2\n4\n5",
+   "e": "`continue` jumps straight to the next turn of the loop."
+  },
+  {
+   "q": "Increase count by 1 each time, so the loop can end.",
+   "c": "count = 0\nwhile count < 3:\n    print(\"Hi\")\n    count ___ 1",
+   "a": [
+    [
+     "+="
+    ]
+   ],
+   "o": "Hi\nHi\nHi",
+   "e": "Without changing count, the condition never becomes False: an endless loop."
+  },
+  {
+   "q": "Print No break when the loop ends without break.",
+   "c": "n = 0\nwhile n < 2:\n    n += 1\n___:\n    print(\"No break\")",
+   "a": [
+    [
+     "else"
+    ]
+   ],
+   "o": "No break",
+   "e": "A loop's `else` runs only when the loop finished without `break`."
+  }
+ ],
+ "strings": [
+  {
+   "q": "Get the first character.",
+   "c": "word = \"Python\"\nprint(word[___])",
+   "a": [
+    [
+     "0"
+    ]
+   ],
+   "o": "P",
+   "e": "Counting starts at 0, so the first character is at index 0."
+  },
+  {
+   "q": "Get the last character with a negative index.",
+   "c": "word = \"Python\"\nprint(word[___])",
+   "a": [
+    [
+     "-1"
+    ]
+   ],
+   "o": "n",
+   "e": "Negative indexes count from the end: -1 is the last character."
+  },
+  {
+   "q": "Slice out yth from Python.",
+   "c": "word = \"Python\"\nprint(word[1:___])",
+   "a": [
+    [
+     "4"
+    ]
+   ],
+   "o": "yth",
+   "e": "A slice stops before the stop index, so 1:4 gives indexes 1, 2 and 3."
+  },
+  {
+   "q": "Remove the spaces at both ends.",
+   "c": "name = \"  Asha  \"\nprint(\"[\" + name.___() + \"]\")",
+   "a": [
+    [
+     "strip"
+    ]
+   ],
+   "o": "[Asha]",
+   "e": "`strip()` removes spaces from both ends. `lstrip()` and `rstrip()` do one side."
+  },
+  {
+   "q": "Split the text into a list at each comma.",
+   "c": "row = \"Asha,82,Pune\"\nprint(row.___(\",\"))",
+   "a": [
+    [
+     "split"
+    ]
+   ],
+   "o": "['Asha', '82', 'Pune']",
+   "e": "`split(\",\")` cuts the text at every comma and gives a list."
+  }
+ ],
+ "lists": [
+  {
+   "q": "Add Goa to the end of the list.",
+   "c": "cities = [\"Pune\", \"Delhi\"]\ncities.___(\"Goa\")\nprint(cities)",
+   "a": [
+    [
+     "append"
+    ]
+   ],
+   "o": "['Pune', 'Delhi', 'Goa']",
+   "e": "`append()` adds one item at the end."
+  },
+  {
+   "q": "Insert Mumbai at position 0.",
+   "c": "cities = [\"Pune\", \"Delhi\"]\ncities.___(0, \"Mumbai\")\nprint(cities)",
+   "a": [
+    [
+     "insert"
+    ]
+   ],
+   "o": "['Mumbai', 'Pune', 'Delhi']",
+   "e": "`insert(position, item)` puts the item at that position."
+  },
+  {
+   "q": "Remove the last item and keep it.",
+   "c": "stack = [1, 2, 3]\nlast = stack.___()\nprint(last, stack)",
+   "a": [
+    [
+     "pop"
+    ]
+   ],
+   "o": "3 [1, 2]",
+   "e": "`pop()` removes the last item and gives it back."
+  },
+  {
+   "q": "Get a new sorted list and keep the original as it is.",
+   "c": "marks = [70, 45, 90]\nprint(___(marks), marks)",
+   "a": [
+    [
+     "sorted"
+    ]
+   ],
+   "o": "[45, 70, 90] [70, 45, 90]",
+   "e": "`sorted()` makes a new list. `marks.sort()` would change marks itself."
+  },
+  {
+   "q": "Make a real copy, so changing b does not change a.",
+   "c": "a = [1, 2, 3]\nb = a.___()\nb.append(4)\nprint(a, b)",
+   "a": [
+    [
+     "copy"
+    ]
+   ],
+   "o": "[1, 2, 3] [1, 2, 3, 4]",
+   "e": "`b = a` would make two names for one list. `copy()` makes a separate list."
+  }
+ ],
+ "tuples": [
+  {
+   "q": "Make a tuple with one item. Watch the comma!",
+   "c": "t = (\"Pune\"___)\nprint(type(t))",
+   "a": [
+    [
+     ","
+    ]
+   ],
+   "o": "<class 'tuple'>",
+   "e": "Without the comma, the brackets are just grouping and t is a string."
+  },
+  {
+   "q": "Count how many times 2 appears.",
+   "c": "t = (1, 2, 2, 3, 2)\nprint(t.___(2))",
+   "a": [
+    [
+     "count"
+    ]
+   ],
+   "o": "3",
+   "e": "Tuples have only two methods: `count()` and `index()`."
+  },
+  {
+   "q": "Find the position of Goa.",
+   "c": "t = (\"Pune\", \"Goa\", \"Delhi\")\nprint(t.___(\"Goa\"))",
+   "a": [
+    [
+     "index"
+    ]
+   ],
+   "o": "1",
+   "e": "`index()` gives the position of the first match."
+  },
+  {
+   "q": "Unpack the tuple into three names.",
+   "c": "point = (4, 7, 2)\nx, y, ___ = point\nprint(x, y, z)",
+   "a": [
+    [
+     "z"
+    ]
+   ],
+   "o": "4 7 2",
+   "e": "Unpacking needs one name for each item."
+  },
+  {
+   "q": "Change a tuple: convert it to a list first.",
+   "c": "t = (1, 2, 3)\nitems = ___(t)\nitems[0] = 99\nt = tuple(items)\nprint(t)",
+   "a": [
+    [
+     "list"
+    ]
+   ],
+   "o": "(99, 2, 3)",
+   "e": "Tuples cannot change, so convert to a list, change it, and convert back."
+  }
+ ],
+ "sets": [
+  {
+   "q": "Add mango to the set.",
+   "c": "fruits = {\"apple\", \"kiwi\"}\nfruits.___(\"mango\")\nprint(len(fruits))",
+   "a": [
+    [
+     "add"
+    ]
+   ],
+   "o": "3",
+   "e": "Sets use `add()`, not `append()`."
+  },
+  {
+   "q": "Remove the duplicates by making a set.",
+   "c": "ids = [3, 1, 3, 2, 1]\nprint(sorted(___(ids)))",
+   "a": [
+    [
+     "set"
+    ]
+   ],
+   "o": "[1, 2, 3]",
+   "e": "A set keeps only unique items. `sorted()` puts them in order."
+  },
+  {
+   "q": "Get the items that are in both sets.",
+   "c": "a = {1, 2, 3}\nb = {2, 3, 4}\nprint(a ___ b)",
+   "a": [
+    [
+     "&"
+    ]
+   ],
+   "o": "{2, 3}",
+   "e": "`&` is intersection: items in both. `|` is union, `-` is difference."
+  },
+  {
+   "q": "Remove items without an error, even when one is missing.",
+   "c": "fruits = {\"apple\", \"kiwi\"}\nfruits.___(\"kiwi\")\nfruits.___(\"grape\")\nprint(fruits)",
+   "a": [
+    [
+     "discard"
+    ],
+    [
+     "discard"
+    ]
+   ],
+   "o": "{'apple'}",
+   "e": "`discard()` does nothing if the item is missing. `remove()` would raise KeyError."
+  },
+  {
+   "q": "Check that every item of a is also in b.",
+   "c": "a = {1, 2}\nb = {1, 2, 3}\nprint(a.___(b))",
+   "a": [
+    [
+     "issubset"
+    ]
+   ],
+   "o": "True",
+   "e": "a is a subset of b when all of a's items are in b. `a <= b` does the same."
+  }
+ ],
+ "dicts": [
+  {
+   "q": "Print the value for the key city.",
+   "c": "person = {\"name\": \"Asha\", \"city\": \"Pune\"}\nprint(person[___])",
+   "a": [
+    [
+     "\"city\""
+    ]
+   ],
+   "o": "Pune",
+   "e": "Put the key in square brackets, with quotes because it is a string."
+  },
+  {
+   "q": "Get the age safely: 0 if the key is missing.",
+   "c": "person = {\"name\": \"Asha\"}\nprint(person.___(\"age\", 0))",
+   "a": [
+    [
+     "get"
+    ]
+   ],
+   "o": "0",
+   "e": "`get(key, default)` never raises KeyError."
+  },
+  {
+   "q": "Add the key nights with the value 3.",
+   "c": "booking = {\"id\": \"B1001\"}\nbooking[___] = 3\nprint(booking)",
+   "a": [
+    [
+     "\"nights\""
+    ]
+   ],
+   "o": "{'id': 'B1001', 'nights': 3}",
+   "e": "Assigning to a new key adds it. Assigning to an old key updates it."
+  },
+  {
+   "q": "Loop over the keys and values together.",
+   "c": "stock = {\"tea\": 20, \"coffee\": 45}\nfor k, v in stock.___():\n    print(k, v)",
+   "a": [
+    [
+     "items"
+    ]
+   ],
+   "o": "tea 20\ncoffee 45",
+   "e": "`items()` gives (key, value) pairs."
+  },
+  {
+   "q": "Count each room type.",
+   "c": "rooms = [\"Deluxe\", \"Suite\", \"Deluxe\"]\ncounts = {}\nfor r in rooms:\n    counts[r] = counts.get(r, ___) + 1\nprint(counts)",
+   "a": [
+    [
+     "0"
+    ]
+   ],
+   "o": "{'Deluxe': 2, 'Suite': 1}",
+   "e": "A new key starts at 0, then every visit adds 1: the counting pattern."
+  }
+ ],
+ "comprehensions": [
+  {
+   "q": "Make the squares of 1 to 5 in one line.",
+   "c": "squares = [n ___ 2 for n in range(1, 6)]\nprint(squares)",
+   "a": [
+    [
+     "**"
+    ]
+   ],
+   "o": "[1, 4, 9, 16, 25]",
+   "e": "`**` is the power operator. The expression comes first, then the loop."
+  },
+  {
+   "q": "Keep only the marks of 40 or more.",
+   "c": "marks = [35, 80, 55, 20]\npassed = [m for m in marks ___ m >= 40]\nprint(passed)",
+   "a": [
+    [
+     "if"
+    ]
+   ],
+   "o": "[80, 55]",
+   "e": "A filter `if` goes at the end of the comprehension."
+  },
+  {
+   "q": "Label every mark with a ternary.",
+   "c": "marks = [35, 80]\nprint([\"Pass\" if m >= 40 ___ \"Fail\" for m in marks])",
+   "a": [
+    [
+     "else"
+    ]
+   ],
+   "o": "['Fail', 'Pass']",
+   "e": "An `if ... else` that transforms each item goes at the front."
+  },
+  {
+   "q": "Build a dictionary of names and their lengths.",
+   "c": "names = [\"Asha\", \"Ravi\"]\nprint({n___ len(n) for n in names})",
+   "a": [
+    [
+     ":"
+    ]
+   ],
+   "o": "{'Asha': 4, 'Ravi': 4}",
+   "e": "A dict comprehension writes `key: value` before the loop."
+  },
+  {
+   "q": "Add up the prices with a generator expression.",
+   "c": "print(___(p for p in [120, 80, 50]))",
+   "a": [
+    [
+     "sum"
+    ]
+   ],
+   "o": "250",
+   "e": "A generator expression in round brackets feeds values one at a time, here into `sum()`."
+  }
+ ],
+ "functions": [
+  {
+   "q": "Define a function called greet.",
+   "c": "___ greet():\n    print(\"Hello!\")\ngreet()",
+   "a": [
+    [
+     "def"
+    ]
+   ],
+   "o": "Hello!",
+   "e": "`def name():` defines a function. Calling it with `greet()` runs it."
+  },
+  {
+   "q": "Send the result back from the function.",
+   "c": "def add(a, b):\n    ___ a + b\nprint(add(5, 7))",
+   "a": [
+    [
+     "return"
+    ]
+   ],
+   "o": "12",
+   "e": "`return` sends a value back to where the function was called."
+  },
+  {
+   "q": "Give name the default value Guest.",
+   "c": "def welcome(name___\"Guest\"):\n    print(\"Welcome,\", name)\nwelcome()",
+   "a": [
+    [
+     "="
+    ]
+   ],
+   "o": "Welcome, Guest",
+   "e": "`name=\"Guest\"` is used when no argument is given."
+  },
+  {
+   "q": "Pass w by keyword.",
+   "c": "def area(w, h):\n    return w * h\nprint(area(h=3, ___=4))",
+   "a": [
+    [
+     "w"
+    ]
+   ],
+   "o": "12",
+   "e": "Keyword arguments use the parameter's name, so their order does not matter."
+  },
+  {
+   "q": "Return the smallest and the largest value.",
+   "c": "def min_max(nums):\n    return min(nums), ___(nums)\nlo, hi = min_max([4, 9, 1])\nprint(lo, hi)",
+   "a": [
+    [
+     "max"
+    ]
+   ],
+   "o": "1 9",
+   "e": "Returning two values gives back a tuple, which you can unpack."
+  }
+ ],
+ "functions2": [
+  {
+   "q": "Accept any number of positional arguments.",
+   "c": "def total(___nums):\n    return sum(nums)\nprint(total(1, 2, 3))",
+   "a": [
+    [
+     "*"
+    ]
+   ],
+   "o": "6",
+   "e": "`*nums` collects the arguments into a tuple."
+  },
+  {
+   "q": "Accept any number of keyword arguments.",
+   "c": "def show(___info):\n    print(info)\nshow(name=\"Asha\", city=\"Pune\")",
+   "a": [
+    [
+     "**"
+    ]
+   ],
+   "o": "{'name': 'Asha', 'city': 'Pune'}",
+   "e": "`**info` collects keyword arguments into a dictionary."
+  },
+  {
+   "q": "Write a lambda that doubles x.",
+   "c": "double = ___ x: x * 2\nprint(double(8))",
+   "a": [
+    [
+     "lambda"
+    ]
+   ],
+   "o": "16",
+   "e": "`lambda x: x * 2` is a tiny function without a name."
+  },
+  {
+   "q": "Sort the names by their length.",
+   "c": "names = [\"Ravi\", \"Al\", \"Asha K\"]\nprint(sorted(names, ___=lambda n: len(n)))",
+   "a": [
+    [
+     "key"
+    ]
+   ],
+   "o": "['Al', 'Ravi', 'Asha K']",
+   "e": "`key` tells `sorted()` what to compare. `key=len` works too."
+  },
+  {
+   "q": "Give back values one at a time (a generator).",
+   "c": "def countdown(n):\n    while n > 0:\n        ___ n\n        n -= 1\nprint(list(countdown(3)))",
+   "a": [
+    [
+     "yield"
+    ]
+   ],
+   "o": "[3, 2, 1]",
+   "e": "`yield` pauses the function and hands out one value each time."
+  }
+ ],
+ "errors": [
+  {
+   "q": "Catch the error so the program does not crash.",
+   "c": "___:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero\")",
+   "a": [
+    [
+     "try"
+    ]
+   ],
+   "o": "Cannot divide by zero",
+   "e": "Code that might fail goes inside `try:`."
+  },
+  {
+   "q": "Name the error that int(\"abc\") raises.",
+   "c": "try:\n    int(\"abc\")\nexcept ___:\n    print(\"Not a number\")",
+   "a": [
+    [
+     "ValueError"
+    ]
+   ],
+   "o": "Not a number",
+   "e": "The type is right (text), but the value cannot become a number: ValueError."
+  },
+  {
+   "q": "Add the block that always runs.",
+   "c": "try:\n    x = int(\"5\")\nexcept ValueError:\n    print(\"bad\")\n___:\n    print(\"done\")",
+   "a": [
+    [
+     "finally"
+    ]
+   ],
+   "o": "done",
+   "e": "`finally` runs whether there was an error or not."
+  },
+  {
+   "q": "Raise your own error when nights is negative.",
+   "c": "nights = -1\ntry:\n    if nights < 0:\n        ___ ValueError(\"nights cannot be negative\")\nexcept ValueError as e:\n    print(e)",
+   "a": [
+    [
+     "raise"
+    ]
+   ],
+   "o": "nights cannot be negative",
+   "e": "`raise` creates an error on purpose, with your own message."
+  },
+  {
+   "q": "Store the error as e to print its message.",
+   "c": "try:\n    [1, 2][5]\nexcept IndexError ___ e:\n    print(e)",
+   "a": [
+    [
+     "as"
+    ]
+   ],
+   "o": "list index out of range",
+   "e": "`except SomeError as e:` gives you the error object, and printing it shows the message."
+  }
+ ],
+ "files": [
+  {
+   "q": "Open the file for writing.",
+   "c": "with open(\"notes.txt\", ___) as f:\n    f.write(\"Hello\")\nwith open(\"notes.txt\") as f:\n    print(f.read())",
+   "a": [
+    [
+     "\"w\""
+    ]
+   ],
+   "o": "Hello",
+   "e": "Mode `\"w\"` writes, and replaces the file if it exists."
+  },
+  {
+   "q": "Add a line at the end without deleting what is there.",
+   "c": "with open(\"log.txt\", \"w\") as f:\n    f.write(\"one\\n\")\nwith open(\"log.txt\", ___) as f:\n    f.write(\"two\\n\")\nwith open(\"log.txt\") as f:\n    print(f.read().splitlines())",
+   "a": [
+    [
+     "\"a\""
+    ]
+   ],
+   "o": "['one', 'two']",
+   "e": "Mode `\"a\"` (append) adds to the end and keeps the old text."
+  },
+  {
+   "q": "Use the keyword that closes the file for you.",
+   "c": "___ open(\"notes.txt\", \"w\") as f:\n    f.write(\"saved\")\nprint(f.closed)",
+   "a": [
+    [
+     "with"
+    ]
+   ],
+   "o": "True",
+   "e": "`with` closes the file at the end of the block, even after an error."
+  },
+  {
+   "q": "Read all the lines into a list.",
+   "c": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"a\\nb\\n\")\nwith open(\"notes.txt\") as f:\n    print(f.___())",
+   "a": [
+    [
+     "readlines"
+    ]
+   ],
+   "o": "['a\\n', 'b\\n']",
+   "e": "`readlines()` gives a list with one string per line, each ending in `\\n`."
+  },
+  {
+   "q": "Read the CSV rows as dictionaries.",
+   "c": "import csv\nwith open(\"people.csv\", \"w\", newline=\"\") as f:\n    f.write(\"name,city\\nAsha,Pune\\n\")\nwith open(\"people.csv\") as f:\n    for row in csv.___(f):\n        print(row[\"name\"], row[\"city\"])",
+   "a": [
+    [
+     "DictReader"
+    ]
+   ],
+   "o": "Asha Pune",
+   "e": "`csv.DictReader` uses the first line as keys, so you can write `row[\"name\"]`."
+  }
+ ],
+ "modules": [
+  {
+   "q": "Import the math module.",
+   "c": "___ math\nprint(math.sqrt(64))",
+   "a": [
+    [
+     "import"
+    ]
+   ],
+   "o": "8.0",
+   "e": "`import math` loads the module. Then use `math.` before its functions."
+  },
+  {
+   "q": "Import only sqrt from math.",
+   "c": "___ math import sqrt\nprint(sqrt(81))",
+   "a": [
+    [
+     "from"
+    ]
+   ],
+   "o": "9.0",
+   "e": "`from module import name` lets you use the name without `math.` in front."
+  },
+  {
+   "q": "Give the module a short name.",
+   "c": "import statistics ___ st\nprint(st.mean([2, 4, 6]))",
+   "a": [
+    [
+     "as"
+    ]
+   ],
+   "o": "4",
+   "e": "`as` gives a module a nickname, like `import numpy as np`."
+  },
+  {
+   "q": "Round 4.2 up to the next whole number.",
+   "c": "import math\nprint(math.___(4.2))",
+   "a": [
+    [
+     "ceil"
+    ]
+   ],
+   "o": "5",
+   "e": "`ceil` rounds up and `floor` rounds down."
+  },
+  {
+   "q": "Count how often each item appears.",
+   "c": "from collections import ___\nprint(Counter([\"a\", \"b\", \"a\"]))",
+   "a": [
+    [
+     "Counter"
+    ]
+   ],
+   "o": "Counter({'a': 2, 'b': 1})",
+   "e": "`Counter` counts items for you, like a dictionary of counts."
+  }
+ ],
+ "oop": [
+  {
+   "q": "Create a class called Guest.",
+   "c": "___ Guest:\n    pass\ng = Guest()\nprint(type(g).__name__)",
+   "a": [
+    [
+     "class"
+    ]
+   ],
+   "o": "Guest",
+   "e": "`class Name:` makes a blueprint. `Guest()` makes an object from it."
+  },
+  {
+   "q": "Add the method that runs when an object is created.",
+   "c": "class Room:\n    def ___(self, number):\n        self.number = number\nr = Room(101)\nprint(r.number)",
+   "a": [
+    [
+     "__init__"
+    ]
+   ],
+   "o": "101",
+   "e": "`__init__` runs automatically each time you create an object."
+  },
+  {
+   "q": "Store the name on the object.",
+   "c": "class Guest:\n    def __init__(self, name):\n        ___.name = name\nprint(Guest(\"Asha\").name)",
+   "a": [
+    [
+     "self"
+    ]
+   ],
+   "o": "Asha",
+   "e": "`self` is the object being built, so `self.name` stays with it."
+  },
+  {
+   "q": "Make Suite inherit from Room.",
+   "c": "class Room:\n    beds = 1\nclass Suite(___):\n    pass\nprint(Suite.beds)",
+   "a": [
+    [
+     "Room"
+    ]
+   ],
+   "o": "1",
+   "e": "The parent class goes in brackets. Suite gets everything Room has."
+  },
+  {
+   "q": "Add the magic method that print() uses.",
+   "c": "class Room:\n    def __init__(self, n):\n        self.n = n\n    def ___(self):\n        return f\"Room {self.n}\"\nprint(Room(101))",
+   "a": [
+    [
+     "__str__",
+     "__repr__"
+    ]
+   ],
+   "o": "Room 101",
+   "e": "`__str__` gives the friendly text that print() shows."
+  }
+ ],
+ "numpy1": [
+  {
+   "q": "Import NumPy with its usual short name.",
+   "c": "import numpy ___ np\nprint(np.array([1, 2, 3]))",
+   "a": [
+    [
+     "as"
+    ]
+   ],
+   "o": "[1 2 3]",
+   "e": "Everyone writes `import numpy as np`, so code examples look the same everywhere."
+  },
+  {
+   "q": "Print the shape of the array.",
+   "c": "import numpy as np\nm = np.array([[1, 2, 3], [4, 5, 6]])\nprint(m.___)",
+   "a": [
+    [
+     "shape"
+    ]
+   ],
+   "o": "(2, 3)",
+   "e": "`shape` is (rows, columns). It has no brackets because it is an attribute."
+  },
+  {
+   "q": "Make an array of 5 zeros.",
+   "c": "import numpy as np\nprint(np.___(5))",
+   "a": [
+    [
+     "zeros"
+    ]
+   ],
+   "o": "[0. 0. 0. 0. 0.]",
+   "e": "`np.zeros(5)` gives five `0.` values (floats)."
+  },
+  {
+   "q": "Make 0, 2, 4, 6, 8 with arange.",
+   "c": "import numpy as np\nprint(np.arange(0, 10, ___))",
+   "a": [
+    [
+     "2"
+    ]
+   ],
+   "o": "[0 2 4 6 8]",
+   "e": "The third number is the step. The stop (10) is not included."
+  },
+  {
+   "q": "Change the 6 values into 2 rows and 3 columns.",
+   "c": "import numpy as np\na = np.arange(6)\nprint(a.___(2, 3))",
+   "a": [
+    [
+     "reshape"
+    ]
+   ],
+   "o": "[[0 1 2]\n [3 4 5]]",
+   "e": "`reshape(rows, cols)` needs rows × cols to equal the number of values."
+  }
+ ],
+ "numpy2": [
+  {
+   "q": "Add 18% GST to every price at once.",
+   "c": "import numpy as np\nprices = np.array([100, 200])\nprint(prices ___ 1.18)",
+   "a": [
+    [
+     "*"
+    ]
+   ],
+   "o": "[118. 236.]",
+   "e": "Maths on an array works on every value. No loop needed."
+  },
+  {
+   "q": "Get the total of each column.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nprint(m.sum(axis=___))",
+   "a": [
+    [
+     "0"
+    ]
+   ],
+   "o": "[4 6]",
+   "e": "`axis=0` goes down the rows, giving one result per column."
+  },
+  {
+   "q": "Keep only the values above 50.",
+   "c": "import numpy as np\na = np.array([30, 60, 90])\nprint(a[a ___ 50])",
+   "a": [
+    [
+     ">"
+    ]
+   ],
+   "o": "[60 90]",
+   "e": "`a > 50` is a mask of True/False. Using it inside `[ ]` keeps the True values."
+  },
+  {
+   "q": "Combine two conditions on an array.",
+   "c": "import numpy as np\na = np.array([5, 15, 25])\nprint(a[(a > 10) ___ (a < 20)])",
+   "a": [
+    [
+     "&"
+    ]
+   ],
+   "o": "[15]",
+   "e": "Arrays need `&` instead of `and`, with brackets around each condition."
+  },
+  {
+   "q": "Find the position of the largest value.",
+   "c": "import numpy as np\nsales = np.array([40, 90, 70])\nprint(sales.___())",
+   "a": [
+    [
+     "argmax"
+    ]
+   ],
+   "o": "1",
+   "e": "`argmax()` gives the position. `max()` would give the value."
+  }
+ ],
+ "numpy3": [
+  {
+   "q": "Split 7 values into 3 parts, even though they cannot be equal.",
+   "c": "import numpy as np\nprint([len(p) for p in np.___(np.arange(7), 3)])",
+   "a": [
+    [
+     "array_split"
+    ]
+   ],
+   "o": "[3, 2, 2]",
+   "e": "`array_split` allows unequal parts. `np.split` would raise ValueError."
+  },
+  {
+   "q": "Find the positions where the value is 4.",
+   "c": "import numpy as np\na = np.array([4, 7, 4])\nprint(np.___(a == 4)[0])",
+   "a": [
+    [
+     "where",
+     "nonzero"
+    ]
+   ],
+   "o": "[0 2]",
+   "e": "With one argument, `np.where(cond)` gives the positions where cond is True."
+  },
+  {
+   "q": "Make the random numbers the same on every run.",
+   "c": "import numpy as np\nnp.random.___(42)\na = np.random.randint(1, 7, 3)\nnp.random.seed(42)\nb = np.random.randint(1, 7, 3)\nprint((a == b).all())",
+   "a": [
+    [
+     "seed"
+    ]
+   ],
+   "o": "True",
+   "e": "The same seed always gives the same 'random' numbers."
+  },
+  {
+   "q": "Get the running total of the sales.",
+   "c": "import numpy as np\nprint(np.___([120, 80, 150]))",
+   "a": [
+    [
+     "cumsum"
+    ]
+   ],
+   "o": "[120 200 350]",
+   "e": "`cumsum` adds as it goes: 120, 120 + 80, 120 + 80 + 150."
+  },
+  {
+   "q": "Simulate 1000 days of bookings, 6 a day on average.",
+   "c": "import numpy as np\nnp.random.seed(5)\ndays = np.random.___(6, 1000)\nprint(days.min() >= 0, len(days))",
+   "a": [
+    [
+     "poisson"
+    ]
+   ],
+   "o": "True 1000",
+   "e": "Poisson counts events in a time window, like bookings per day."
+  }
+ ],
+ "projects": [
+  {
+   "q": "Add up the bill: price times quantity for every item.",
+   "c": "cart = {\"tea\": 2, \"cake\": 1}\nprices = {\"tea\": 20, \"cake\": 90}\ntotal = 0\nfor item, qty in cart.items():\n    total += prices[___] * qty\nprint(total)",
+   "a": [
+    [
+     "item"
+    ]
+   ],
+   "o": "130",
+   "e": "Use the loop variable as the key to look up each price."
+  },
+  {
+   "q": "Stop the menu loop when the user chooses q.",
+   "c": "choices = [\"1\", \"2\", \"q\", \"1\"]\nfor choice in choices:\n    if choice == \"q\":\n        ___\n    print(\"Option\", choice)",
+   "a": [
+    [
+     "break"
+    ]
+   ],
+   "o": "Option 1\nOption 2",
+   "e": "Menus usually loop until the user picks quit, then `break`."
+  },
+  {
+   "q": "Show the total with thousands separators.",
+   "c": "total = 15600\nprint(f\"Total: ₹{total:___}\")",
+   "a": [
+    [
+     ","
+    ]
+   ],
+   "o": "Total: ₹15,600",
+   "e": "`:,` adds a comma every three digits."
+  },
+  {
+   "q": "Reject a quantity that is not a whole number.",
+   "c": "qty = \"two\"\nif not qty.___():\n    print(\"Please enter a number\")",
+   "a": [
+    [
+     "isdigit",
+     "isdecimal",
+     "isnumeric"
+    ]
+   ],
+   "o": "Please enter a number",
+   "e": "Check the text before `int()`, so bad input cannot crash the program."
+  },
+  {
+   "q": "Save the summary dictionary as JSON.",
+   "c": "import json\nsummary = {\"bookings\": 33, \"revenue\": 220000}\nwith open(\"report.json\", \"w\") as f:\n    json.___(summary, f)\nwith open(\"report.json\") as f:\n    print(json.load(f))",
+   "a": [
+    [
+     "dump"
+    ]
+   ],
+   "o": "{'bookings': 33, 'revenue': 220000}",
+   "e": "`json.dump(data, file)` writes to a file. `json.dumps(data)` gives a string."
+  }
+ ]
+};
 
 /* ---------- Study hub engine ---------- */
 (function(){
@@ -13697,7 +16752,7 @@ function mountAll(root, mounts){
 /* ---------- Sidebar ---------- */
 var view = $('#view'), side = $('#side');
 function buildSide(){
-  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
+  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
   $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + t[1] + '</button>'; }).join('');
   $('#parts').innerHTML = PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
@@ -13755,7 +16810,7 @@ function vHome(){
     return '<div class="pcard"><div class="pn">Part ' + p.n + '</div><h3>' + esc(p.title) + '</h3><p class="muted" style="font-size:14px">' + esc(p.sub || '') + '</p><ul>' + chs.map(function(c){ return '<li><button type="button" data-go="' + c.id + '"><span class="st' + (done[c.id] ? ' d' : '') + '"></span>' + c.num + '. ' + esc(c.nav || c.title) + (c.tricky ? ' <span class="pill trap" style="padding:0 6px;font-size:11px">tricky</span>' : '') + '</button></li>'; }).join('') +
       (ov ? '<li class="ovli"><button type="button" data-go="' + ov.id + '"><span class="st ov' + (done[ov.id] ? ' d' : '') + '"></span>★ ' + esc(ov.nav) + '</button></li>' : '') + '</ul></div>';
   }).join('') + '</div></section>';
-  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards with smart review. ' + (dueCount(allCards) ? '<b style="font-size:inherit;color:var(--accent)">' + dueCount(allCards) + ' due today.</b>' : 'Rate each card and it comes back on the right day.') + '</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button><button class="tool" type="button" data-go="posters"><b>Revision posters</b><span>' + Object.keys(window.POSTERS || {}).length + ' one-page infographics, one per chapter.</span></button><button class="tool" type="button" data-go="overviews"><b>Part overviews</b><span>' + OVS.length + ' summary pages with key definitions, big comparison tables and "don\'t mix these up" tables.</span></button></div></section>';
+  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards with smart review. ' + (dueCount(allCards) ? '<b style="font-size:inherit;color:var(--accent)">' + dueCount(allCards) + ' due today.</b>' : 'Rate each card and it comes back on the right day.') + '</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="exercises"><b>Quick exercises</b><span>' + Object.keys(EXS).reduce(function(a, k){ return a + EXS[k].length; }, 0) + ' fill-in-the-blank exercises, 5 per chapter, checked instantly.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button><button class="tool" type="button" data-go="posters"><b>Revision posters</b><span>' + Object.keys(window.POSTERS || {}).length + ' one-page infographics, one per chapter.</span></button><button class="tool" type="button" data-go="overviews"><b>Part overviews</b><span>' + OVS.length + ' summary pages with key definitions, big comparison tables and "don\'t mix these up" tables.</span></button></div></section>';
   h += '<section class="sec"><h2>How to study with this hub</h2><div class="how">' +
     '<div><b>1. Read the notes</b>Short sections with pictures. Yellow highlights are words to remember.</div>' +
     '<div><b>2. Play the explainers</b>' + nAnim + ' animated explainers show code running line by line. Pause any time.</div>' +
@@ -13817,6 +16872,7 @@ function vChapter(c){
   var PST = window.POSTERS || {};
   if (PST[c.id]) h += '<section class="sec"><h2 id="' + c.id + '-poster">Revision poster</h2><p class="prose muted">The whole chapter on one page. Use it to revise before the quiz, or come back to it a week later.</p>' + posterHTML(PST[c.id], c.num) + '<div class="row"><button class="btn" type="button" data-poster="' + c.id + '">Open in the poster gallery (wide view)</button></div></section>';
   if (c.take) h += '<div class="take"><h3>Key takeaways</h3><ul>' + c.take.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></div>';
+  if (!OV) h += exSection(c);
   if (c.quiz && c.quiz.length) h += '<section class="sec"><h2 id="' + c.id + '-quiz">' + (OV ? 'Mixed quiz for the whole Part' : 'Chapter quiz') + '</h2>' + (OV ? '<p class="prose muted">Questions mix every chapter of this Part, with extra focus on the differences above.</p>' : '') + '<div id="quizBox"></div></section>';
   if (c.cards && c.cards.length) h += '<section class="sec"><h2 id="' + c.id + '-cards">' + (OV ? 'Flashcards for the whole Part' : 'Flashcards') + '</h2><p class="prose muted">Say the answer out loud, flip, then rate it. <b>Again</b> brings the card back today. <b>Good</b> and <b>Easy</b> bring it back in a few days.</p><div id="deckBox"></div></section>';
   var done = store.get('done', {});
@@ -13830,6 +16886,7 @@ function vChapter(c){
   var chips = toc.map(function(t, j){ return '<button type="button" data-s="' + c.id + '-s' + (j + 1) + '">' + md(t) + '</button>'; });
   if (vMount) chips.unshift('<button type="button" data-s="' + c.id + '-video">Video</button>');
   if ((window.POSTERS || {})[c.id]) chips.push('<button type="button" data-s="' + c.id + '-poster">Poster</button>');
+  if (!OV && EXS[c.id]) chips.push('<button type="button" data-s="' + c.id + '-ex">Exercises</button>');
   if (c.quiz && c.quiz.length) chips.push('<button type="button" data-s="' + c.id + '-quiz">Quiz</button>');
   if (c.cards && c.cards.length) chips.push('<button type="button" data-s="' + c.id + '-cards">Flashcards</button>');
   if (toc.length > 3) chips.unshift('<button type="button" class="foldall" data-f="1">Fold all</button>');
@@ -13839,6 +16896,7 @@ function vChapter(c){
   $$('button[data-s]', tocEl).forEach(function(b){ b.onclick = function(){ var t = document.getElementById(b.getAttribute('data-s')); if (!t) return; var sc = t.closest('.sec'); if (sc && sc.classList.contains('folded')) { sc.classList.remove('folded'); var fb = $('h2 .fold', sc); if (fb) fb.setAttribute('aria-expanded', 'true'); } t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; });
   mountAll(view, mounts);
   if (vMount) VideoBox($('.vmount', view), vMount.v);
+  mountEx(view);
   if (c.quiz && c.quiz.length) Quiz($('#quizBox'), c.quiz, c.id);
   if (c.cards && c.cards.length) Deck($('#deckBox'), chCards(c));
   $('#doneBtn').onclick = function(){
@@ -14014,8 +17072,8 @@ function vGlossary(){
 var REF_BY = {}; (window.REFERENCE || []).forEach(function(x){ REF_BY[x.id] = x; });
 function vReference(){
   var RF = window.REFERENCE || [], total = RF.reduce(function(a, x){ return a + x.rows.length; }, 0);
-  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets and dictionaries, plus the built-in functions: ' + total + ' entries, each with an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
-    '<label for="rq" class="eyebrow">Search the reference</label><input id="rq" class="search" type="search" placeholder="e.g. strip, append, get, zip" autocomplete="off"><div class="toc" id="rtoc">' + RF.map(function(x){ return '<button type="button" data-s="ref-' + x.id + '">' + esc(x.title) + '</button>'; }).join('') + '</div><div id="rBox"></div>';
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword and the built-in exceptions: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
+    '<label for="rq" class="eyebrow">Search the reference</label><input id="rq" class="search" type="search" placeholder="e.g. strip, append, zip, KeyError, lambda" autocomplete="off"><div class="toc" id="rtoc">' + RF.map(function(x){ return '<button type="button" data-s="ref-' + x.id + '">' + esc(x.title) + '</button>'; }).join('') + '</div><div id="rBox"></div>';
   view.className = 'col wide'; view.innerHTML = h;
   function draw(q){
     q = (q || '').toLowerCase().trim();
@@ -14023,7 +17081,7 @@ function vReference(){
       var rows = x.rows.map(function(r, i){ return { r: r, i: i }; }).filter(function(o){ return !q || (o.r.m + ' ' + o.r.d + ' ' + x.title).toLowerCase().indexOf(q) > -1; });
       if (!rows.length) return '';
       return '<section class="sec refsec"><h2 id="ref-' + x.id + '">' + esc(x.title) + '</h2><p class="prose muted">' + md(x.intro) + '</p><div class="tbl"><table class="reft"><thead><tr><th>Method</th><th>What it does</th><th>Example</th><th>Output</th></tr></thead><tbody>' +
-        rows.map(function(o){ var r = o.r; return '<tr><th scope="row"><code>' + esc(r.m) + '</code></th><td>' + md(r.d) + '</td><td><div class="refex"><pre>' + hl(r.c) + '</pre><button class="reftb" type="button" data-reft="' + x.id + ':' + o.i + '" aria-label="Edit and run this example">▶</button></div></td><td><pre class="refo">' + esc(r.o) + '</pre></td></tr>'; }).join('') +
+        rows.map(function(o){ var r = o.r; return '<tr><th scope="row"><code>' + esc(r.m) + '</code></th><td>' + md(r.d) + '</td>' + (r.c ? '<td><div class="refex"><pre>' + hl(r.c) + '</pre><button class="reftb" type="button" data-reft="' + x.id + ':' + o.i + '" aria-label="Edit and run this example">▶</button></div></td><td><pre class="refo">' + esc(r.o) + '</pre></td>' : '<td colspan="2" class="refn">' + md(r.n || '') + '</td>') + '</tr>'; }).join('') +
         '</tbody></table></div></section>';
     }).join('') || '<p class="muted">Nothing matches that search.</p>';
   }
@@ -14032,15 +17090,71 @@ function vReference(){
   draw('');
 }
 
+/* ---------- Quick exercises: fill in the blanks ---------- */
+var EXS = window.EXERCISES || {};
+function exNorm(v){ return String(v).trim().replace(/[‘’“”']/g, '"').replace(/\s+/g, ' ').replace(/\s*([()\[\]{},:+\-*\/%=<>!.&|^~])\s*/g, '$1'); }
+function exCount(cid){ var st = store.get('ex', {}), n = 0; (EXS[cid] || []).forEach(function(x, i){ if (st[cid + ':' + i]) n++; }); return n; }
+function ExBox(el, cid, i){
+  var x = EXS[cid][i], st = store.get('ex', {}), k = 0;
+  var code = hl(x.c.replace(/___/g, '\u0001')).replace(/\u0001/g, function(){
+    var j = k++, w = Math.max(3, Math.max.apply(null, x.a[j].map(function(a){ return a.length; })) + 2);
+    return '<input class="exin" data-b="' + j + '" style="width:' + w + 'ch" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Blank ' + (j + 1) + ' of ' + x.a.length + '">';
+  });
+  el.className = 'exq';
+  el.innerHTML = '<div class="exh"><span>Exercise ' + (i + 1) + ' of ' + EXS[cid].length + '</span><span class="exst">' + (st[cid + ':' + i] ? '✓ Solved' : '') + '</span></div><p class="exqq">' + md(x.q) + '</p><pre class="excode">' + code + '</pre>' +
+    '<div class="row"><button class="btn pri exck" type="button">Check</button><button class="btn exsh" type="button">Show answer</button></div><div class="exfb" aria-live="polite"></div>';
+  var ins = $$('.exin', el), fb = $('.exfb', el);
+  function done(own){
+    fb.innerHTML = '<div class="rchk ' + (own ? 'ok' : 'almost') + '"><b>' + (own ? 'Correct!' : 'Here is the answer.') + '</b> ' + md(x.e) + '<div class="exo">Output</div><pre>' + esc(x.o) + '</pre></div>';
+    if (own) { var s2 = store.get('ex', {}); s2[cid + ':' + i] = 1; store.set('ex', s2); $('.exst', el).textContent = '✓ Solved'; var pc = document.getElementById('exc-' + cid); if (pc) pc.textContent = exCount(cid) + '/' + EXS[cid].length; }
+  }
+  function check(){
+    var bad = 0, empty = 0, caseHint = false;
+    ins.forEach(function(inp, j){
+      inp.value = inp.value.trim();
+      var v = exNorm(inp.value), ok = x.a[j].some(function(a){ return exNorm(a) === v; });
+      if (!inp.value.trim()) empty++;
+      if (!ok && x.a[j].some(function(a){ return exNorm(a).toLowerCase() === v.toLowerCase(); })) caseHint = true;
+      inp.classList.toggle('ok', ok); inp.classList.toggle('no', !ok && !!inp.value.trim());
+      if (!ok) bad++;
+    });
+    if (!bad) return done(true);
+    fb.innerHTML = '<div class="rchk no"><b>Not yet.</b> ' + (empty === ins.length ? 'Type your answer in the box' + (ins.length > 1 ? 'es' : '') + ' first.' : caseHint ? 'Check your capital letters: Python treats <code>True</code> and <code>true</code> as different words.' : (ins.length > 1 ? bad + ' of ' + ins.length + ' boxes are not right yet. ' : '') + 'Look again at the question, or press <b>Show answer</b>.') + '</div>';
+  }
+  $('.exck', el).onclick = check;
+  $('.exsh', el).onclick = function(){ ins.forEach(function(inp, j){ inp.value = x.a[j][0]; inp.classList.remove('no'); inp.classList.add('ok'); }); done(false); };
+  ins.forEach(function(inp, j){ inp.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); if (ins[j + 1] && !ins[j + 1].value) ins[j + 1].focus(); else check(); } }); });
+}
+function exSection(c){
+  var L = EXS[c.id]; if (!L || !L.length) return '';
+  return '<section class="sec"><h2 id="' + c.id + '-ex">Quick exercises</h2><p class="prose muted">Type the missing code in each box, then press <b>Check</b> (or Enter). Extra spaces and \'single\' or "double" quotes do not matter. <span id="exc-' + c.id + '">' + exCount(c.id) + '/' + L.length + '</span> solved.</p>' + L.map(function(x, i){ return '<div class="exmount" data-c="' + c.id + '" data-i="' + i + '"></div>'; }).join('') + '</section>';
+}
+function mountEx(root){ $$('.exmount', root).forEach(function(m){ ExBox(m, m.getAttribute('data-c'), +m.getAttribute('data-i')); }); }
+function vExercises(){
+  var total = 0, solved = 0;
+  Object.keys(EXS).forEach(function(cid){ total += EXS[cid].length; solved += exCount(cid); });
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Quick exercises</h1><p class="lead">' + total + ' short fill-in-the-blank exercises: 5 for every chapter. Type the missing code, press <b>Check</b>, and see the real output. Your progress is saved in this browser.</p></header>' +
+    '<div class="exprog"><div class="exbar"><span style="width:' + (total ? Math.round(solved / total * 100) : 0) + '%"></span></div><b>' + solved + ' of ' + total + ' solved</b></div>';
+  PARTS.forEach(function(p){
+    var chs = SEQ.filter(function(c){ return !c.ov && c.part === p.n && EXS[c.id]; });
+    if (!chs.length) return;
+    h += '<section class="sec"><h2>Part ' + p.n + ': ' + esc(p.title) + '</h2>' + chs.map(function(c){
+      return '<details class="exch" data-c="' + c.id + '"><summary><span>' + c.num + '. ' + esc(c.nav || c.title) + '</span><span class="muted" id="exc-' + c.id + '">' + exCount(c.id) + '/' + EXS[c.id].length + '</span></summary><div class="exlist"></div><div class="row"><button class="btn" type="button" data-go="' + c.id + '">Open the chapter →</button></div></details>';
+    }).join('') + '</section>';
+  });
+  view.className = 'col'; view.innerHTML = h;
+  $$('details.exch', view).forEach(function(d){ d.addEventListener('toggle', function(){ if (!d.open || d.getAttribute('data-m')) return; d.setAttribute('data-m', '1'); var cid = d.getAttribute('data-c'); $('.exlist', d).innerHTML = EXS[cid].map(function(x, i){ return '<div class="exmount" data-c="' + cid + '" data-i="' + i + '"></div>'; }).join(''); mountEx(d); }); });
+}
+
 /* ---------- Router ---------- */
-var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference };
+var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises };
 function render(id){
   stopAll(); COPY = []; TRY = []; cellNo = 0;
   if (!TOOLS[id] && !byId[id]) id = 'home';
   if (TOOLS[id]) TOOLS[id](); else vChapter(byId[id]);
   updateSide(id);
   var c = byId[id];
-  $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference' })[id];
+  $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises' })[id];
   closeDrawer();
   window.scrollTo(0, 0);
   if (PENDING) {

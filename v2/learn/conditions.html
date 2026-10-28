@@ -179,7 +179,23 @@ print(&quot;Total:&quot;, subtotal - discount)</code></pre><p class="olbl">Outpu
 Discount: 150.0
 Total: 1350.0</pre></figure></details></li><li><p>Rewrite as a ternary: if <code>temp &gt; 30</code> the label is &quot;Hot&quot;, otherwise &quot;Pleasant&quot;. Use <code>temp = 34</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>temp = 34
 label = &quot;Hot&quot; if temp &gt; 30 else &quot;Pleasant&quot;
-print(label)</code></pre><p class="olbl">Output</p><pre class="out">Hot</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>if condition:</code> then an indented block. <code>else:</code> runs when the condition is False.</li><li>In an <code>if-elif-else</code> chain, only the <b>first</b> True branch runs. Put the strictest check first.</li><li>Combine with <code>and</code>, <code>or</code>, <code>not</code>. Never write <code>x == 1 or 2</code>. Write <code>x in (1, 2)</code>.</li><li>Falsy: <code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code>, <code>[]</code>, <code>()</code>, <code>{}</code>, <code>set()</code>, <code>None</code>, <code>False</code>. Everything else is truthy.</li><li><code>a if cond else b</code> picks between two values. <code>pass</code> is an empty placeholder.</li></ul></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>score = 85
+print(label)</code></pre><p class="olbl">Output</p><pre class="out">Hot</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>if condition:</code> then an indented block. <code>else:</code> runs when the condition is False.</li><li>In an <code>if-elif-else</code> chain, only the <b>first</b> True branch runs. Put the strictest check first.</li><li>Combine with <code>and</code>, <code>or</code>, <code>not</code>. Never write <code>x == 1 or 2</code>. Write <code>x in (1, 2)</code>.</li><li>Falsy: <code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code>, <code>[]</code>, <code>()</code>, <code>{}</code>, <code>set()</code>, <code>None</code>, <code>False</code>. Everything else is truthy.</li><li><code>a if cond else b</code> picks between two values. <code>pass</code> is an empty placeholder.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Print Adult when age is 18 or more.</p><figure class="code"><pre><code>age = 20
+___ age &gt;= 18:
+    print(&quot;Adult&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>if</code> — <code>if</code> runs the indented block only when the condition is True.</p><p>Output:</p><pre class="out">Adult</pre></details></li><li><p>Insert the keyword for the second check.</p><figure class="code"><pre><code>score = 65
+if score &gt;= 80:
+    print(&quot;A&quot;)
+___ score &gt;= 60:
+    print(&quot;B&quot;)
+else:
+    print(&quot;C&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>elif</code> — <code>elif</code> is checked only when the conditions above it were False.</p><p>Output:</p><pre class="out">B</pre></details></li><li><p>Print Weekend when the day is Saturday or Sunday.</p><figure class="code"><pre><code>day = &quot;Sunday&quot;
+if day == &quot;Saturday&quot; ___ day == &quot;Sunday&quot;:
+    print(&quot;Weekend&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>or</code> — <code>or</code> is True when at least one side is True.</p><p>Output:</p><pre class="out">Weekend</pre></details></li><li><p>Finish the one-line if-else (ternary).</p><figure class="code"><pre><code>marks = 45
+status = &quot;Pass&quot; ___ marks &gt;= 40 ___ &quot;Fail&quot;
+print(status)</code></pre></figure><details><summary>Answer</summary><p><code>if</code>, <code>else</code> — The pattern is <code>value_if_true if condition else value_if_false</code>.</p><p>Output:</p><pre class="out">Pass</pre></details></li><li><p>Keep the empty block valid with a placeholder.</p><figure class="code"><pre><code>stock = 0
+if stock &gt; 0:
+    ___
+else:
+    print(&quot;Sold out&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>pass</code> — A block cannot be empty. <code>pass</code> does nothing and keeps the code valid.</p><p>Output:</p><pre class="out">Sold out</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>score = 85
 if score &gt;= 90:
     print(&quot;A&quot;)
 elif score &gt;= 80:
