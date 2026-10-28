@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 4 overview: functions | Python Study Hub</title>
+<meta name="description" content="Both function chapters on one page: how to define and call a function, every way to pass inputs, scope, and the advanced tools. The pairs people confuse most are in the &quot;don't mix these up&quot; tables.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/v2/learn/overview4.html">
+<meta property="og:title" content="Part 4 overview: functions | Python Study Hub">
+<meta property="og:description" content="Both function chapters on one page: how to define and call a function, every way to pass inputs, scope, and the advanced tools. The pairs people confuse most are in the &quot;don't mix these up&quot; tables.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#overview4">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#overview4">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 4 · Functions · Overview</p><h1>Part 4 overview: functions</h1><p class="lead">Both function chapters on one page: how to define and call a function, every way to pass inputs, scope, and the advanced tools. The pairs people confuse most are in the &quot;don't mix these up&quot; tables.</p><section class="five"><h2>The whole Part in 5 lines</h2><ol><li>A <mark>function</mark> is a named block of code that runs only when you call it: <code>def name(params):</code> defines it, <code>name(args)</code> runs it.</li><li><b>Parameters</b> are the names in the <code>def</code> line. <b>Arguments</b> are the values you pass in the call.</li><li><code>return</code> hands a value back and ends the function. With no <code>return</code>, a function gives back <code>None</code>. <code>print</code> only shows text.</li><li>Defaults (<code>b=1</code>), keyword arguments (<code>f(b=2)</code>), <code>*args</code> (extra values, as a tuple) and <code>**kwargs</code> (extra named values, as a dict) make calls flexible.</li><li>Names made inside a function are <b>local</b> (the LEGB rule). <code>lambda</code> makes tiny functions, <code>yield</code> makes generators and <code>@decorator</code> wraps a function.</li></ol></section><section class="sheet"><h2>Picture cheat sheet: Functions: inputs and outputs</h2><div class="tbl"><table><thead><tr><th></th><th>Symbol</th><th>In the def line</th><th>In the call</th><th>Inside you get</th><th>Optional?</th><th>Order matters?</th><th>Picture and example</th></tr></thead><tbody><tr><th scope="row"><b>Positional</b></th><td><code>a, b</code> Normal parameters</td><td>f(a, b)</td><td>f(1, 2)</td><td>a=1, b=2</td><td>Required</td><td>Yes</td><td>Seats in a row: values sit down in the same order as the names. <code>area(5, 2)</code></td></tr><tr><th scope="row"><b>Default</b></th><td><code>b=10</code> Pre-filled value</td><td>f(a, b=10)</td><td>f(1)</td><td>b=10</td><td>Optional</td><td>Yes</td><td>A ready-made order: you get it unless you ask for something else. Defaults go last. <code>def greet(name=&quot;Guest&quot;):</code></td></tr><tr><th scope="row"><b>Keyword</b></th><td><code>b=2</code> Passed by name</td><td>f(a, b)</td><td>f(b=2, a=1)</td><td>a=1, b=2</td><td>Required</td><td>No, by name</td><td>Colour-matched lids: each value finds its own jar by name. <code>rect(h=2, w=5)</code></td></tr><tr><th scope="row">*<b>args</b></th><td><code>*args</code> Any number of values</td><td>f(*args)</td><td>f(1, 2, 3)</td><td>(1, 2, 3)</td><td>0 or more</td><td>Yes</td><td>A sack: holds any number of extra values, as a tuple. <code>total(1, 2, 3)</code></td></tr><tr><th scope="row">**<b>kwargs</b></th><td><code>**kw</code> Any number of name=value</td><td>f(**kw)</td><td>f(x=1, y=2)</td><td>{'x': 1, 'y': 2}</td><td>0 or more</td><td>No, by name</td><td>A spice rack: any number of labelled jars, as a dict. <code>profile(name=&quot;Asha&quot;)</code></td></tr><tr><th scope="row"><b>return</b></th><td><code>return</code> The output</td><td>return x</td><td>y = f(1)</td><td>x comes back into y</td><td>No return gives None</td><td>–</td><td>A boomerang: the value comes back to whoever called. print() only shows it. <code>return a + b</code></td></tr></tbody></table></div><p class="cap">Order in a def line: normal parameters, then defaults, then *args, then **kwargs.</p></section><h2>Mind map of Part 4</h2>
+<section class="mm"><h3>Mind map: Part 4 at a glance</h3><ul><li><b>Part 4: Functions</b><ul><li>14. Function basics<ul><li>def name(params):</li><li>call: name(args)</li><li>return vs print</li><li>defaults and keywords</li><li>return a, b</li><li>docstrings, help()</li></ul></li><li>15. Advanced tools<ul><li>*args and **kwargs</li><li>scope: LEGB</li><li>mutable default trap</li><li>lambda, map, filter</li><li>recursion</li><li>generators: yield</li><li>decorators: @</li></ul></li></ul></li></ul></section>
+<h2>Key definitions</h2>
+<dl class="defs"><dt>Function</dt><dd><p>A named, reusable block of code. It can take inputs and give back a result.</p><figure class="code"><pre><code>def greet(name):
+    return f&quot;Hi {name}&quot;
+
+print(greet(&quot;Asha&quot;))</code></pre><p class="olbl">Output</p><pre class="out">Hi Asha</pre></figure></dd><dt>Defining vs calling</dt><dd><p><code>def</code> only stores the function. Nothing inside runs until you call it with brackets.</p><figure class="code"><pre><code>def hello():
+    print(&quot;hello&quot;)
+
+print(&quot;before&quot;)
+hello()</code></pre><p class="olbl">Output</p><pre class="out">before
+hello</pre></figure></dd><dt>Parameter</dt><dd><p>A name in the <code>def</code> line. It is a placeholder that receives a value when the function is called.</p><figure class="code"><pre><code>def add(a, b):      # a and b are parameters
+    return a + b</code></pre></figure></dd><dt>Argument</dt><dd><p>The actual value you pass when you call the function.</p><figure class="code"><pre><code>def add(a, b):
+    return a + b
+
+print(add(2, 3))    # 2 and 3 are arguments</code></pre><p class="olbl">Output</p><pre class="out">5</pre></figure></dd><dt>Return value</dt><dd><p>What <code>return</code> hands back. You can store it and keep calculating with it.</p><figure class="code"><pre><code>def square(x):
+    return x * x
+
+y = square(4) + 1
+print(y)</code></pre><p class="olbl">Output</p><pre class="out">17</pre></figure></dd><dt>Default parameter</dt><dd><p>A parameter with a value already filled in. The caller can leave it out.</p><figure class="code"><pre><code>def greet(name=&quot;Guest&quot;):
+    return f&quot;Hi {name}&quot;
+
+print(greet(), &quot;|&quot;, greet(&quot;Ravi&quot;))</code></pre><p class="olbl">Output</p><pre class="out">Hi Guest | Hi Ravi</pre></figure></dd><dt>Keyword argument</dt><dd><p>An argument passed by name. The order no longer matters.</p><figure class="code"><pre><code>def rect(w, h):
+    return w * h
+
+print(rect(h=2, w=5))</code></pre><p class="olbl">Output</p><pre class="out">10</pre></figure></dd><dt>*args</dt><dd><p>Collects any number of extra positional arguments into a <b>tuple</b>.</p><figure class="code"><pre><code>def total(*nums):
+    return sum(nums)
+
+print(total(1, 2, 3), total())</code></pre><p class="olbl">Output</p><pre class="out">6 0</pre></figure></dd><dt>**kwargs</dt><dd><p>Collects any number of extra keyword arguments into a <b>dict</b>.</p><figure class="code"><pre><code>def profile(**info):
+    print(info)
+
+profile(name=&quot;Asha&quot;, city=&quot;Pune&quot;)</code></pre><p class="olbl">Output</p><pre class="out">{'name': 'Asha', 'city': 'Pune'}</pre></figure></dd><dt>Scope</dt><dd><p>Where a name can be seen. A name created inside a function is <b>local</b> to it.</p><figure class="code"><pre><code>x = &quot;global&quot;
+
+def f():
+    x = &quot;local&quot;
+    return x
+
+print(f(), x)</code></pre><p class="olbl">Output</p><pre class="out">local global</pre></figure></dd><dt>LEGB rule</dt><dd><p>The order Python searches for a name: <b>L</b>ocal, <b>E</b>nclosing function, <b>G</b>lobal, <b>B</b>uilt-in.</p><figure class="code"><pre><code>x = &quot;G&quot;
+
+def outer():
+    x = &quot;E&quot;
+    def inner():
+        return x     # not local, so Python finds the enclosing x
+    return inner()
+
+print(outer())</code></pre><p class="olbl">Output</p><pre class="out">E</pre></figure></dd><dt>lambda</dt><dd><p>A tiny function with no name and one expression. Mostly used for <code>key=</code> in <code>sorted()</code>, <code>max()</code> and <code>min()</code>.</p><figure class="code"><pre><code>print(sorted([&quot;bb&quot;, &quot;a&quot;, &quot;ccc&quot;], key=lambda s: len(s)))</code></pre><p class="olbl">Output</p><pre class="out">['a', 'bb', 'ccc']</pre></figure></dd><dt>Recursion</dt><dd><p>A function that calls itself. It needs a <b>base case</b> that stops the calls.</p><figure class="code"><pre><code>def fact(n):
+    if n &lt;= 1:          # base case
+        return 1
+    return n * fact(n - 1)
+
+print(fact(5))</code></pre><p class="olbl">Output</p><pre class="out">120</pre></figure></dd><dt>Iterator</dt><dd><p>An object that hands out items one at a time with <code>next()</code>. Every <code>for</code> loop uses one behind the scenes.</p><figure class="code"><pre><code>it = iter([&quot;a&quot;, &quot;b&quot;])
+print(next(it), next(it))</code></pre><p class="olbl">Output</p><pre class="out">a b</pre></figure></dd><dt>Generator</dt><dd><p>A function that uses <code>yield</code>. It produces values one at a time, pausing between them.</p><figure class="code"><pre><code>def count_up(n):
+    for i in range(1, n + 1):
+        yield i
+
+print(list(count_up(3)))</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3]</pre></figure></dd><dt>Decorator</dt><dd><p>A function that wraps another function to add behaviour. Put <code>@name</code> above the <code>def</code>.</p><figure class="code"><pre><code>def shout(func):
+    def wrapper():
+        return func().upper()
+    return wrapper
+
+@shout
+def hi():
+    return &quot;hi&quot;
+
+print(hi())</code></pre><p class="olbl">Output</p><pre class="out">HI</pre></figure></dd></dl>
+<h2>The big comparison tables</h2>
+<h3>Every way to pass inputs to a function</h3><div class="tbl"><table><thead><tr><th>Kind</th><th>In the <code>def</code> line</th><th>In the call</th><th>Inside the function</th><th>Use it for</th></tr></thead><tbody><tr><th scope="row">Positional</th><td><code>def f(a, b):</code></td><td><code>f(1, 2)</code></td><td><code>a = 1</code>, <code>b = 2</code> (by position)</td><td>Required inputs in a fixed order</td></tr><tr><th scope="row">Default</th><td><code>def f(a, b=10):</code></td><td><code>f(1)</code> or <code>f(1, 5)</code></td><td><code>b</code> is 10 unless you pass one</td><td>Optional settings</td></tr><tr><th scope="row">Keyword</th><td>Any <code>def</code></td><td><code>f(b=2, a=1)</code></td><td>Matched by <b>name</b>, any order</td><td>Clear calls with many inputs</td></tr><tr><th scope="row"><code>*args</code></th><td><code>def f(*args):</code></td><td><code>f(1, 2, 3)</code></td><td><code>args = (1, 2, 3)</code>, a tuple</td><td>Any number of values</td></tr><tr><th scope="row"><code>**kwargs</code></th><td><code>def f(**kwargs):</code></td><td><code>f(x=1, y=2)</code></td><td><code>kwargs = {'x': 1, 'y': 2}</code>, a dict</td><td>Any number of named options</td></tr><tr><th scope="row">Unpacking in a call</th><td><code>def f(a, b):</code></td><td><code>f(*[1, 2])</code> or <code>f(**{&quot;a&quot;: 1, &quot;b&quot;: 2})</code></td><td><code>a = 1</code>, <code>b = 2</code></td><td>Passing a list or dict as separate inputs</td></tr></tbody></table></div><p class="cap">Order in a <code>def</code> line: normal parameters, then ones with defaults, then <code>*args</code>, then <code>**kwargs</code>.</p>
+<h3>The function toolbox</h3><div class="tbl"><table><thead><tr><th>Tool</th><th>What it is</th><th>Shape</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><th scope="row"><code>def</code> function</th><td>A named, reusable block</td><td><code>def f(x):</code> … <code>return …</code></td><td><code>def double(x): return x * 2</code> then <code>double(4)</code></td><td><code>8</code></td></tr><tr><th scope="row"><code>lambda</code></th><td>A one-expression function with no name</td><td><code>lambda x: x * 2</code></td><td><code>(lambda x: x * 2)(4)</code></td><td><code>8</code></td></tr><tr><th scope="row"><code>map()</code></th><td>Applies a function to every item</td><td><code>map(func, items)</code></td><td><code>list(map(str, [1, 2]))</code></td><td><code>['1', '2']</code></td></tr><tr><th scope="row"><code>filter()</code></th><td>Keeps items where the function gives a truthy value (like True or 1)</td><td><code>filter(func, items)</code></td><td><code>list(filter(lambda x: x &gt; 1, [1, 2, 3]))</code></td><td><code>[2, 3]</code></td></tr><tr><th scope="row">Recursion</th><td>A function calling itself</td><td>A base case plus a smaller call</td><td><code>fact(5)</code></td><td><code>120</code></td></tr><tr><th scope="row">Generator</th><td>A function with <code>yield</code></td><td><code>def g(): yield …</code></td><td><code>list(count_up(3))</code></td><td><code>[1, 2, 3]</code></td></tr><tr><th scope="row">Decorator</th><td>A function that wraps another</td><td><code>@wrapper</code> above a <code>def</code></td><td><code>@shout</code> on <code>hi()</code></td><td><code>'HI'</code></td></tr></tbody></table></div>
+<h2>Don't mix these up</h2>
+<section class="vs"><h3>Don't mix up: Parameter vs argument</h3><div class="tbl"><table><thead><tr><th></th><th>Parameter</th><th>Argument</th></tr></thead><tbody><tr><th scope="row">Where you see it</th><td>In the <code>def</code> line</td><td>In the call</td></tr><tr><th scope="row">What it is</th><td>A name, a placeholder</td><td>An actual value</td></tr><tr><th scope="row">Example</th><td><code>w</code> and <code>h</code> in <code>def area(w, h):</code></td><td><code>5</code> and <code>2</code> in <code>area(5, 2)</code></td></tr><tr><th scope="row">Think of it as</th><td>An empty, labelled box</td><td>What you put in the box</td></tr></tbody></table></div><figure class="code"><pre><code>def area(w, h):        # parameters: w, h
+    return w * h
+
+print(area(5, 2))      # arguments: 5, 2</code></pre><p class="olbl">Output</p><pre class="out">10</pre></figure><p><b>Rule of thumb:</b> Parameters are defined, arguments are passed.</p></section>
+<section class="vs"><h3>Don't mix up: <code>print</code> vs <code>return</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>print(x)</code></th><th><code>return x</code></th></tr></thead><tbody><tr><th scope="row">Does what</th><td>Shows text on the screen</td><td>Hands the value back to the caller</td></tr><tr><th scope="row">Can you use the result later?</th><td><span class="t-no">No</span> the function gives back <code>None</code></td><td><span class="t-ok">Yes</span> store it, add to it, pass it on</td></tr><tr><th scope="row">Ends the function?</th><td>No</td><td>Yes, immediately</td></tr><tr><th scope="row">Use it for</th><td>Messages for a person to read</td><td>Results for more calculations</td></tr></tbody></table></div><figure class="code"><pre><code>def show_total(a, b):
+    print(a + b)
+
+def get_total(a, b):
+    return a + b
+
+x = show_total(2, 3)
+y = get_total(2, 3)
+print(x, y, y * 10)</code></pre><p class="olbl">Output</p><pre class="out">5
+None 5 50</pre></figure><p><b>Rule of thumb:</b> If another line of code needs the answer, <code>return</code> it. Print only at the very end.</p></section>
+<section class="vs"><h3>Don't mix up: <code>*args</code> vs <code>**kwargs</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>*args</code></th><th><code>**kwargs</code></th></tr></thead><tbody><tr><th scope="row">Collects</th><td>Extra <b>positional</b> arguments</td><td>Extra <b>keyword</b> arguments</td></tr><tr><th scope="row">Becomes a</th><td>Tuple</td><td>Dict</td></tr><tr><th scope="row">Call looks like</th><td><code>f(1, 2, 3)</code></td><td><code>f(mode=&quot;fast&quot;, debug=True)</code></td></tr><tr><th scope="row">Loop over it with</th><td><code>for x in args:</code></td><td><code>for k, v in kwargs.items():</code></td></tr><tr><th scope="row">The names</th><td><code>args</code> is only a habit. The <code>*</code> matters</td><td><code>kwargs</code> is only a habit. The <code>**</code> matters</td></tr></tbody></table></div><figure class="code"><pre><code>def demo(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+demo(1, 2, mode=&quot;fast&quot;, debug=True)</code></pre><p class="olbl">Output</p><pre class="out">(1, 2)
+{'mode': 'fast', 'debug': True}</pre></figure><p><b>Rule of thumb:</b> One star: values in a tuple. Two stars: name=value pairs in a dict.</p></section>
+<section class="vs"><h3>Don't mix up: Local vs global variables</h3><div class="tbl"><table><thead><tr><th></th><th>Local</th><th>Global</th></tr></thead><tbody><tr><th scope="row">Created</th><td>Inside a function</td><td>Outside every function</td></tr><tr><th scope="row">Visible</th><td>Only inside that function, only while it runs</td><td>Everywhere in the file</td></tr><tr><th scope="row">Assigning inside a function</th><td>Makes a <b>new</b> local name</td><td>Needs <code>global name</code> first (avoid it)</td></tr><tr><th scope="row">Gone after the call?</th><td>Yes</td><td>No</td></tr></tbody></table></div><figure class="code"><pre><code>count = 0          # global
+
+def add_one():
+    count = 1      # a new local; the global is untouched
+    return count
+
+print(add_one(), count)</code></pre><p class="olbl">Output</p><pre class="out">1 0</pre></figure><p><b>Rule of thumb:</b> Pass values in as arguments and send results out with <code>return</code>. Then you never need <code>global</code>.</p></section>
+<section class="vs"><h3>Don't mix up: <code>def</code> vs <code>lambda</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>def</code></th><th><code>lambda</code></th></tr></thead><tbody><tr><th scope="row">Has a name</th><td>Yes</td><td>No (you can store it in a variable)</td></tr><tr><th scope="row">Body</th><td>Any number of lines</td><td>One expression only</td></tr><tr><th scope="row"><code>return</code></th><td>You write it</td><td>Automatic</td></tr><tr><th scope="row">Use it for</th><td>Any real piece of logic</td><td>Tiny rules inside <code>sorted(key=…)</code>, <code>max(key=…)</code>, <code>map</code>, <code>filter</code></td></tr></tbody></table></div><figure class="code"><pre><code>def by_mark(s):
+    return s[1]
+
+students = [(&quot;Asha&quot;, 82), (&quot;Ravi&quot;, 67)]
+print(sorted(students, key=by_mark))
+print(sorted(students, key=lambda s: s[1], reverse=True))</code></pre><p class="olbl">Output</p><pre class="out">[('Ravi', 67), ('Asha', 82)]
+[('Asha', 82), ('Ravi', 67)]</pre></figure><p><b>Rule of thumb:</b> If it fits in one short expression and you only need it once, <code>lambda</code>. Otherwise, <code>def</code>.</p></section>
+<section class="vs"><h3>Don't mix up: <code>return</code> vs <code>yield</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>return</code></th><th><code>yield</code></th></tr></thead><tbody><tr><th scope="row">Gives back</th><td>One value, then the function ends</td><td>One value at a time, pausing in between</td></tr><tr><th scope="row">Calling the function gives</th><td>The value</td><td>A generator object</td></tr><tr><th scope="row">Memory</th><td>Builds the whole result first</td><td>Makes each item only when asked</td></tr><tr><th scope="row">Use it for</th><td>Normal results</td><td>Long or endless sequences, big files</td></tr></tbody></table></div><figure class="code"><pre><code>def squares_list(n):
+    return [i * i for i in range(n)]
+
+def squares_gen(n):
+    for i in range(n):
+        yield i * i
+
+print(squares_list(4))
+g = squares_gen(4)
+print(next(g), next(g), list(g))</code></pre><p class="olbl">Output</p><pre class="out">[0, 1, 4, 9]
+0 1 [4, 9]</pre></figure><p><b>Rule of thumb:</b> A generator can be used up only once. Need the values more than once? Save them first: <code>vals = list(gen)</code>.</p></section>
+<section class="vs"><h3>Don't mix up: Default <code>[]</code> vs default <code>None</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>def f(x, bag=[]):</code></th><th><code>def f(x, bag=None):</code></th></tr></thead><tbody><tr><th scope="row">The default is made</th><td>Once, when the function is defined</td><td>A fresh list on every call (inside the function)</td></tr><tr><th scope="row">Second call</th><td>Still holds items from the first call</td><td>Starts empty</td></tr><tr><th scope="row">Verdict</th><td><span class="t-no">Bug</span></td><td><span class="t-ok">Correct</span></td></tr></tbody></table></div><figure class="code"><pre><code>def add_bad(item, bag=[]):
+    bag.append(item)
+    return bag
+
+def add_good(item, bag=None):
+    if bag is None:
+        bag = []
+    bag.append(item)
+    return bag
+
+print(add_bad(&quot;a&quot;), add_bad(&quot;b&quot;))
+print(add_good(&quot;a&quot;), add_good(&quot;b&quot;))</code></pre><p class="olbl">Output</p><pre class="out">['a', 'b'] ['a', 'b']
+['a'] ['b']</pre></figure><p><b>Rule of thumb:</b> Never use a list or dict as a default value. Use <code>None</code> and create it inside.</p></section>
+<section class="vs"><h3>Don't mix up: <code>map()</code> vs <code>filter()</code> vs a comprehension</h3><div class="tbl"><table><thead><tr><th></th><th><code>map(f, items)</code></th><th><code>filter(f, items)</code></th><th>Comprehension</th></tr></thead><tbody><tr><th scope="row">Does</th><td>Changes <b>every</b> item</td><td><b>Keeps</b> items where <code>f</code> gives a truthy value</td><td>Either, or both at once</td></tr><tr><th scope="row">Result length</th><td>Same as the input</td><td>Same or shorter</td><td>Your choice</td></tr><tr><th scope="row">Gives you</th><td>A map object: wrap it in <code>list()</code></td><td>A filter object: wrap it in <code>list()</code></td><td>A list straight away</td></tr></tbody></table></div><figure class="code"><pre><code>nums = [1, 2, 3, 4]
+print(list(map(lambda x: x * 10, nums)))
+print(list(filter(lambda x: x % 2 == 0, nums)))
+print([x * 10 for x in nums if x % 2 == 0])</code></pre><p class="olbl">Output</p><pre class="out">[10, 20, 30, 40]
+[2, 4]
+[20, 40]</pre></figure><p><b>Rule of thumb:</b> Most Python programmers reach for the comprehension. Know <code>map</code> and <code>filter</code> so you can read other people's code.</p></section>
+<section class="vs"><h3>Don't mix up: <code>f</code> vs <code>f()</code></h3><div class="tbl"><table><thead><tr><th></th><th><code>f</code></th><th><code>f()</code></th></tr></thead><tbody><tr><th scope="row">Means</th><td>The function itself</td><td>Run the function now</td></tr><tr><th scope="row">Gives you</th><td>A function object</td><td>Whatever the function returns</td></tr><tr><th scope="row">Use it for</th><td>Passing a function along: <code>key=len</code>, <code>map(str, …)</code></td><td>Getting a result</td></tr></tbody></table></div><figure class="code"><pre><code>def hi():
+    return &quot;hi&quot;
+
+print(type(hi), hi())
+print(sorted([&quot;ccc&quot;, &quot;a&quot;, &quot;bb&quot;], key=len))</code></pre><p class="olbl">Output</p><pre class="out">&lt;class 'function'&gt; hi
+['a', 'bb', 'ccc']</pre></figure><p><b>Rule of thumb:</b> When you hand a function to <code>key=</code>, <code>map</code> or <code>filter</code>, leave the brackets off.</p></section>
+<h2>Try it yourself</h2>
+<p>Write each function, then call it. Every comparison table above also has an <b>Edit and run this example</b> button.</p>
+<ol class="tasks"><li><p>Write <code>grade(score)</code> that returns <code>&quot;A&quot;</code> (90+), <code>&quot;B&quot;</code> (75+), <code>&quot;C&quot;</code> (50+) or <code>&quot;F&quot;</code>. Then print <code>[grade(s) for s in [95, 80, 52, 30]]</code>.</p><details><summary>Hint</summary><p>Use <code>if / elif / else</code> and <code>return</code> in each branch. Check the highest band first.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>def grade(score):
+    if score &gt;= 90:
+        return &quot;A&quot;
+    elif score &gt;= 75:
+        return &quot;B&quot;
+    elif score &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+print([grade(s) for s in [95, 80, 52, 30]])</code></pre><p class="olbl">Output</p><pre class="out">['A', 'B', 'C', 'F']</pre></figure><p><code>return</code> ends the function, so once a band matches, the lower checks never run.</p></details></li><li><p>Write <code>stats(*nums)</code> that returns the smallest, the largest and the average (rounded to 1 decimal). Then <code>lo, hi, avg = stats(4, 9, 1, 6)</code> and print <code>1 9 5.0</code>.</p><details><summary>Hint</summary><p><code>*nums</code> is a tuple, so <code>min()</code>, <code>max()</code>, <code>sum()</code> and <code>len()</code> all work on it. Return three values with commas.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>def stats(*nums):
+    return min(nums), max(nums), round(sum(nums) / len(nums), 1)
+
+lo, hi, avg = stats(4, 9, 1, 6)
+print(lo, hi, avg)</code></pre><p class="olbl">Output</p><pre class="out">1 9 5.0</pre></figure><p>Returning several values really returns one tuple, which you unpack into three names.</p></details></li><li><p>Write <code>make_bill(**items)</code> that takes <code>item=price</code> pairs and returns the total. <code>print(make_bill(tea=20, samosa=15, coffee=45))</code> should print <code>80</code>.</p><details><summary>Hint</summary><p><code>items</code> is a dict, so <code>sum(items.values())</code> adds the prices.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>def make_bill(**items):
+    return sum(items.values())
+
+print(make_bill(tea=20, samosa=15, coffee=45))</code></pre><p class="olbl">Output</p><pre class="out">80</pre></figure><p><code>**items</code> gathers every keyword argument into a dict: <code>{'tea': 20, 'samosa': 15, 'coffee': 45}</code>.</p></details></li><li><p>This function has the mutable default bug. Fix it so the two calls print <code>['x'] ['y']</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>def add_item(item, cart=[]):
+    cart.append(item)
+    return cart
+
+print(add_item(&quot;x&quot;), add_item(&quot;y&quot;))</code></pre></figure><details><summary>Hint</summary><p>Change the default to <code>None</code> and create the list inside the function.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>def add_item(item, cart=None):
+    if cart is None:
+        cart = []
+    cart.append(item)
+    return cart
+
+print(add_item(&quot;x&quot;), add_item(&quot;y&quot;))</code></pre><p class="olbl">Output</p><pre class="out">['x'] ['y']</pre></figure><p>A default list is created once and shared by every call. <code>None</code> plus a new list inside gives each call its own list.</p></details></li><li><p><code>products = [(&quot;pen&quot;, 10), (&quot;bag&quot;, 450), (&quot;book&quot;, 120)]</code>. Print them sorted by price, most expensive first.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>products = [(&quot;pen&quot;, 10), (&quot;bag&quot;, 450), (&quot;book&quot;, 120)]</code></pre></figure><details><summary>Hint</summary><p><code>sorted(products, key=lambda p: p[1], reverse=True)</code></p></details><details><summary>Solution</summary><figure class="code"><pre><code>products = [(&quot;pen&quot;, 10), (&quot;bag&quot;, 450), (&quot;book&quot;, 120)]
+print(sorted(products, key=lambda p: p[1], reverse=True))</code></pre><p class="olbl">Output</p><pre class="out">[('bag', 450), ('book', 120), ('pen', 10)]</pre></figure><p>The lambda tells <code>sorted()</code> to compare item <code>[1]</code>, the price, of each tuple.</p></details></li></ol><section class="quiz"><h2>Mixed quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>def f():
+    pass
+
+print(f())</code></pre></figure><ol type="A"><li>Nothing</li><li><code>None</code></li><li><code>pass</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>None</code></b>. A function without <code>return</code> gives back <code>None</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def add(a, b=10):
+    return a + b
+
+print(add(5), add(5, 1))</code></pre></figure><ol type="A"><li><code>15 6</code></li><li><code>15 15</code></li><li><code>5 6</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>15 6</code></b>. The default 10 is used only when you leave <code>b</code> out.</p></details></li><li><p>In <code>def area(w, h):</code> what are <code>w</code> and <code>h</code>?</p><ol type="A"><li>Arguments</li><li>Parameters</li><li>Return values</li><li>Global variables</li></ol><details><summary>Answer</summary><p><b>Parameters</b>. Names in the <code>def</code> line are parameters. The values you pass in a call are arguments.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f(*args):
+    return len(args)
+
+print(f(1, &quot;a&quot;, [2, 3]))</code></pre></figure><ol type="A"><li><code>4</code></li><li><code>3</code></li><li><code>1</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. <code>args</code> is the tuple <code>(1, 'a', [2, 3])</code>: three items.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f(**kw):
+    return list(kw)
+
+print(f(a=1, b=2))</code></pre></figure><ol type="A"><li><code>[1, 2]</code></li><li><code>['a', 'b']</code></li><li><code>[('a', 1), ('b', 2)]</code></li><li><code>{'a': 1, 'b': 2}</code></li></ol><details><summary>Answer</summary><p><b><code>['a', 'b']</code></b>. <code>kw</code> is a dict, and turning a dict into a list gives its keys.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>x = 5
+
+def f():
+    x = 10
+
+f()
+print(x)</code></pre></figure><ol type="A"><li><code>10</code></li><li><code>5</code></li><li><code>None</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>5</code></b>. Assigning inside <code>f</code> makes a new local <code>x</code>. The global <code>x</code> is not touched.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print((lambda a, b: a * b)(3, 4))</code></pre></figure><ol type="A"><li><code>7</code></li><li><code>12</code></li><li><code>34</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>12</code></b>. The lambda takes two values and returns their product.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f(n):
+    if n == 0:
+        return 0
+    return n + f(n - 1)
+
+print(f(4))</code></pre></figure><ol type="A"><li><code>4</code></li><li><code>10</code></li><li><code>24</code></li><li>It never stops</li></ol><details><summary>Answer</summary><p><b><code>10</code></b>. 4 + 3 + 2 + 1 + 0 = 10. The base case <code>n == 0</code> stops the recursion.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f():
+    return 1
+    print(&quot;after&quot;)
+
+print(f())</code></pre></figure><ol type="A"><li><code>after</code> then <code>1</code></li><li><code>1</code></li><li><code>1</code> then <code>after</code></li><li><code>None</code></li></ol><details><summary>Answer</summary><p><b><code>1</code></b>. <code>return</code> ends the function at once, so the line after it never runs.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def g():
+    yield 1
+    yield 2
+
+print(list(g()))</code></pre></figure><ol type="A"><li><code>[1]</code></li><li><code>[1, 2]</code></li><li><code>2</code></li><li><code>&lt;generator&gt;</code></li></ol><details><summary>Answer</summary><p><b><code>[1, 2]</code></b>. <code>list()</code> keeps asking the generator for values until it runs out.</p></details></li><li><p>Which <code>def</code> line is valid Python?</p><ol type="A"><li><code>def f(a, b=2):</code></li><li><code>def f(a=1, b):</code></li><li><code>def f(**kw, *args):</code></li><li><code>def f(a b):</code></li></ol><details><summary>Answer</summary><p><b><code>def f(a, b=2):</code></b>. Parameters with defaults must come after the ones without, and <code>*args</code> comes before <code>**kwargs</code>.</p></details></li><li><p>Why does <code>sorted(words, key=len)</code> have no brackets after <code>len</code>?</p><ol type="A"><li>It is a typo</li><li>You pass the function itself, and <code>sorted()</code> calls it on each item</li><li><code>len</code> does not need brackets anywhere</li><li>Brackets would sort in reverse</li></ol><details><summary>Answer</summary><p><b>You pass the function itself, and <code>sorted()</code> calls it on each item</b>. <code>len</code> is the function. <code>len()</code> would try to run it right away, with nothing to measure.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Parameter vs argument</dt><dd>A <b>parameter</b> is the name in the <code>def</code> line. An <b>argument</b> is the value you pass in the call.</dd><dt><code>print</code> vs <code>return</code></dt><dd><code>print</code> shows text and the function gives back <code>None</code>. <code>return</code> hands the value back so you can use it.</dd><dt>What does a function return without a <code>return</code> line?</dt><dd><code>None</code>.</dd><dt>What does <code>*args</code> become inside the function?</dt><dd>A <b>tuple</b> of the extra positional arguments.</dd><dt>What does <code>**kwargs</code> become inside the function?</dt><dd>A <b>dict</b> of the extra keyword arguments.</dd><dt>What is the LEGB rule?</dt><dd>The order Python looks up a name: Local, Enclosing, Global, Built-in.</dd><dt>Local vs global</dt><dd>Local names live inside one function call. Global names are made outside all functions and are visible everywhere.</dd><dt>Why is <code>def f(x, items=[])</code> dangerous?</dt><dd>The list is created once and shared by every call. Use <code>items=None</code> and create the list inside.</dd><dt>When would you use <code>lambda</code>?</dt><dd>For a tiny one-off rule, usually as <code>key=</code> in <code>sorted()</code>, <code>max()</code> or <code>min()</code>.<figure class="code"><pre><code>sorted(rows, key=lambda r: r[1])</code></pre></figure></dd><dt><code>return</code> vs <code>yield</code></dt><dd><code>return</code> gives one value and ends. <code>yield</code> gives values one at a time and pauses, making a generator.</dd><dt>What does every recursive function need?</dt><dd>A <b>base case</b> that stops it from calling itself forever.</dd><dt>What is a decorator?</dt><dd>A function that wraps another to add behaviour. You apply it with <code>@name</code> above the <code>def</code>.</dd><dt>Return several values</dt><dd>Separate them with commas. You get a tuple that you can unpack.<figure class="code"><pre><code>def lo_hi(xs):
+    return min(xs), max(xs)
+
+lo, hi = lo_hi([4, 9, 1])</code></pre></figure></dd></dl></section><nav class="pn"><a href="functions2.html">← Functions advanced</a><a href="errors.html">Errors &amp; try/except →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

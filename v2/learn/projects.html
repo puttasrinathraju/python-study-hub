@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects: put it all together | Python Study Hub</title>
+<meta name="description" content="Four complete programs from your course and PDFs, rebuilt step by step, plus a challenge from your notebook. This is where all the chapters meet.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/v2/learn/projects.html">
+<meta property="og:title" content="Projects: put it all together | Python Study Hub">
+<meta property="og:description" content="Four complete programs from your course and PDFs, rebuilt step by step, plus a challenge from your notebook. This is where all the chapters meet.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 8 · Projects · Chapter 22</p><h1>Projects: put it all together</h1><p class="lead">Four complete programs from your course and PDFs, rebuilt step by step, plus a challenge from your notebook. This is where all the chapters meet.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Plan a program before coding: data first, then actions</li><li>Build the course's movie ticket system with functions and pickle</li><li>Read the supermarket billing and theater billing systems end to end</li><li>See how the inventory system uses all five collection types</li><li>Build the book borrowing system yourself</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=8aW3tkIul-8">Let's code a beginner's Python banking program</a> by Bro Code (about 15 min)</li></ul></section><h2>How to build any small program</h2>
+<ol><li><b>Describe it in plain words.</b> &quot;Users can see movies, book seats, cancel seats, and the data is saved.&quot;</li><li><b>Choose the data structure first.</b> What do you store, and how will you look it up? (Usually a dictionary.)</li><li><b>List the actions</b> and make each one a function: <code>show_movies</code>, <code>book</code>, <code>cancel</code>, <code>save</code>.</li><li><b>Test each function</b> with fixed values before adding <code>input()</code>.</li><li><b>Add the menu loop</b> last: <code>while True</code> + <code>if/elif</code> + <code>break</code>.</li><li><b>Handle bad input</b> with <code>try/except</code> and clear messages.</li></ol>
+<section class="mm"><h3>Mind map: Which chapters each project uses</h3><ul><li><b>Projects</b><ul><li>Movie tickets<ul><li>nested dict</li><li>while True menu</li><li>functions</li><li>pickle save/load</li></ul></li><li>Supermarket bill<ul><li>nested while loops</li><li>accumulator</li><li>f-string formatting</li></ul></li><li>Theater billing<ul><li>if-elif-else</li><li>try/except validation</li><li>list of seats</li><li>time.sleep</li></ul></li><li>Inventory system<ul><li>class + methods</li><li>dict, set, list, tuple, str</li><li>report with sorting</li></ul></li><li>Book borrowing<ul><li>your turn</li><li>dict of lists</li><li>pickle</li></ul></li></ul></li></ul></section>
+<h2>Project 1: Movie ticket booking system</h2>
+<p>Your course notebook builds this with one big <code>while True</code> loop. Here it is rebuilt with <b>functions</b>, so each part is short and easy to test. The data is <b>saved with pickle</b>, so bookings survive a restart.</p>
+<section class="deck"><h3>Slides: Movie ticket system: walkthrough</h3><ol><li><p><b>Data first: one dictionary of movies.</b></p><p>Each movie name is a key. Its value is another dictionary with the price and seats left.</p><figure class="code"><pre><code>movie_db = {
+    &quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20},
+    &quot;Drishyam&quot;: {&quot;price&quot;: 500, &quot;seats&quot;: 40},
+}
+print(movie_db[&quot;Drishyam&quot;][&quot;seats&quot;])</code></pre><p class="olbl">Output</p><pre class="out">40</pre></figure></li><li><p><b>Action 1: book seats</b></p><ul><li>Is the movie there? (<code>in</code>)</li><li>Are there enough seats? (<code>if</code>)</li><li>Reduce the seats, work out the bill</li><li><b>Return</b> a message instead of printing, so it is easy to test</li></ul></li><li><p><b>Action 2: cancel seats</b></p><p>The course rule: 50% refund. Add the seats back.</p></li><li><p><b>Action 3: save and load</b></p><p><code>pickle.dump</code> on exit, <code>pickle.load</code> on start. If the file does not exist yet (<code>FileNotFoundError</code>), start from the default movies.</p></li><li><p><b>Last: the menu loop</b></p><p><code>while True</code>, show the movies, ask for 1, 2 or 3, call the right function, <code>break</code> on exit. Because the logic lives in functions, the loop stays short and readable.</p></li></ol></section>
+<figure class="code"><figcaption>The functions, tested with fixed values</figcaption><pre><code>import pickle
+
+def load_db(path=&quot;cinema.pkl&quot;):
+    try:
+        with open(path, &quot;rb&quot;) as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return {
+            &quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20},
+            &quot;Drishyam&quot;: {&quot;price&quot;: 500, &quot;seats&quot;: 40},
+            &quot;Hanuman Ansh&quot;: {&quot;price&quot;: 700, &quot;seats&quot;: 10},
+            &quot;Udta Teer&quot;: {&quot;price&quot;: 400, &quot;seats&quot;: 50},
+        }
+
+def save_db(db, path=&quot;cinema.pkl&quot;):
+    with open(path, &quot;wb&quot;) as f:
+        pickle.dump(db, f)
+
+def show_movies(db):
+    for name, d in db.items():
+        print(f&quot;{name:&lt;14} Rs {d['price']:&gt;5}  {d['seats']:&gt;3} seats left&quot;)
+
+def book(db, movie, n):
+    if movie not in db:
+        return &quot;Movie not found&quot;
+    if n &lt;= 0 or n &gt; db[movie][&quot;seats&quot;]:
+        return &quot;Insufficient seats or invalid number of seats&quot;
+    db[movie][&quot;seats&quot;] -= n
+    bill = db[movie][&quot;price&quot;] * n
+    return f&quot;{n} seats booked for {movie}. Bill: Rs {bill}&quot;
+
+def cancel(db, movie, n):
+    if movie not in db:
+        return &quot;Movie not found&quot;
+    refund = db[movie][&quot;price&quot;] * n * 0.5
+    db[movie][&quot;seats&quot;] += n
+    return f&quot;{n} seats cancelled. Refund (50%): Rs {refund}&quot;
+
+# --- test run ---
+db = load_db()
+show_movies(db)
+print(book(db, &quot;Drishyam&quot;, 3))
+print(book(db, &quot;Hanuman Ansh&quot;, 15))
+print(book(db, &quot;Avatar&quot;, 2))
+print(cancel(db, &quot;Drishyam&quot;, 1))
+save_db(db)
+print(load_db()[&quot;Drishyam&quot;])       # loaded back from the file</code></pre><p class="olbl">Output</p><pre class="out">Ramayan        Rs  1000   20 seats left
+Drishyam       Rs   500   40 seats left
+Hanuman Ansh   Rs   700   10 seats left
+Udta Teer      Rs   400   50 seats left
+3 seats booked for Drishyam. Bill: Rs 1500
+Insufficient seats or invalid number of seats
+Movie not found
+1 seats cancelled. Refund (50%): Rs 250.0
+{'price': 500, 'seats': 38}</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Run that cell twice in Jupyter and the seat counts keep going down, because the second run <b>loads the saved file</b>. That is the whole point of saving. Delete <code>cinema.pkl</code> to start fresh.</p></aside>
+<figure class="code"><figcaption>The menu loop (put it in the same notebook, after the functions)</figcaption><pre><code>def main():
+    db = load_db()
+    while True:
+        print(&quot;\nMovies on the box office right now:&quot;)
+        show_movies(db)
+        choice = input(&quot;\n1 Book   2 Cancel   3 Exit: &quot;)
+        if choice in (&quot;1&quot;, &quot;2&quot;):
+            movie = input(&quot;Movie name: &quot;).strip().title()
+            try:
+                n = int(input(&quot;Number of seats: &quot;))
+            except ValueError:
+                print(&quot;Please type a number&quot;)
+                continue
+            if choice == &quot;1&quot;:
+                print(book(db, movie, n))
+            else:
+                print(cancel(db, movie, n))
+        elif choice == &quot;3&quot;:
+            save_db(db)
+            print(&quot;Thank you!!&quot;)
+            break
+        else:
+            print(&quot;Invalid choice&quot;)
+
+main()</code></pre><p class="olbl">Output</p><pre class="out">Movies on the box office right now:
+Ramayan        Rs  1000   20 seats left
+Drishyam       Rs   500   40 seats left
+Hanuman Ansh   Rs   700   10 seats left
+Udta Teer      Rs   400   50 seats left
+
+1 Book   2 Cancel   3 Exit: 1
+Movie name: ramayan
+Number of seats: 2
+2 seats booked for Ramayan. Bill: Rs 2000
+...
+1 Book   2 Cancel   3 Exit: 3
+Thank you!!</pre></figure>
+<aside class="note trap"><strong>Spot the bug in the original</strong><p>The course's cancel option adds seats back without checking how many were booked, so someone could &quot;cancel&quot; 100 seats that were never sold. A real system would track bookings per customer. Try adding that as an extra challenge: a dict of <code>{customer: {movie: seats}}</code>.</p></aside>
+<h2>Project 2: Supermarket billing system</h2>
+<p>The course version (shown in the While Loops chapter) asks for every price with <code>input()</code>. Here the same logic is moved into a function, so you can bill a whole list of customers and get the day's total.</p>
+<figure class="code"><pre><code>def make_bill(name, mob_no, cart):
+    amount = 0
+    for price, qty in cart:              # accumulator pattern
+        amount += price * qty
+    print(&quot;-&quot; * 40)
+    print(&quot;Name:  &quot;, name)
+    print(&quot;MobNo: &quot;, mob_no)
+    print(&quot;-&quot; * 40)
+    for price, qty in cart:
+        print(f&quot;{qty:&gt;3} x {price:&gt;8.2f} = {price * qty:&gt;10.2f}&quot;)
+    print(&quot;-&quot; * 40)
+    print(f&quot;Amount: {amount:.2f}&quot;)
+    return amount
+
+customers = [
+    (&quot;Raghav&quot;, &quot;87564756&quot;, [(500, 4), (2000, 2)]),
+    (&quot;Asha&quot;, &quot;99887766&quot;, [(45.5, 10)]),
+]
+day_total = 0
+for name, mob, cart in customers:        # tuple unpacking
+    day_total += make_bill(name, mob, cart)
+print(&quot;\nTotal sales today:&quot;, day_total)</code></pre><p class="olbl">Output</p><pre class="out">----------------------------------------
+Name:   Raghav
+MobNo:  87564756
+----------------------------------------
+  4 x   500.00 =    2000.00
+  2 x  2000.00 =    4000.00
+----------------------------------------
+Amount: 6000.00
+----------------------------------------
+Name:   Asha
+MobNo:  99887766
+----------------------------------------
+ 10 x    45.50 =     455.00
+----------------------------------------
+Amount: 455.00
+
+Total sales today: 6455.0</pre></figure>
+<h2>Project 3: Theater billing system (from the PDF)</h2>
+<p>The PDF shows five pieces of this program. Here they are joined into one working program, with a comment on each part saying which concept it uses.</p>
+<figure class="code"><pre><code>import time
+
+def theater_billing():
+    print(&quot;Welcome to City Cinema&quot;)
+    print(&quot;1. Avengers: Endgame  (12)&quot;)
+    print(&quot;2. The Lion King      (10)&quot;)
+    print(&quot;3. Joker              (11)&quot;)
+
+    # 1. Movie selection: if-elif-else
+    movie_choice = input(&quot;\nEnter movie number (1-3): &quot;)
+    if movie_choice == &quot;1&quot;:
+        movie_name, ticket_price = &quot;Avengers: Endgame&quot;, 12
+    elif movie_choice == &quot;2&quot;:
+        movie_name, ticket_price = &quot;The Lion King&quot;, 10
+    elif movie_choice == &quot;3&quot;:
+        movie_name, ticket_price = &quot;Joker&quot;, 11
+    else:
+        print(&quot;Invalid choice. Exiting...&quot;)
+        return
+
+    # 2. Ticket quantity: while True + try/except + break
+    while True:
+        try:
+            num_tickets = int(input(&quot;\nEnter number of tickets (1-10): &quot;))
+            if 1 &lt;= num_tickets &lt;= 10:
+                break
+            print(&quot;Please enter a number between 1 and 10.&quot;)
+        except ValueError:
+            print(&quot;Please enter a valid number.&quot;)
+
+    # 3. Seat selection: for loop + membership test + list methods
+    available_seats = [&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;, &quot;A4&quot;, &quot;A5&quot;, &quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;, &quot;B4&quot;, &quot;B5&quot;]
+    selected_seats = []
+    for i in range(num_tickets):
+        while True:
+            seat = input(f&quot;Select seat {i + 1}: &quot;).upper()
+            if seat in available_seats:
+                selected_seats.append(seat)
+                available_seats.remove(seat)
+                break
+            print(f&quot;Seat {seat} is not available. Please choose from: {available_seats}&quot;)
+
+    # 4. Discount logic: simple if, default set first
+    subtotal = num_tickets * ticket_price
+    discount = 0
+    if num_tickets &gt;= 5:
+        discount = subtotal * 0.1
+
+    # 5. Animation effect: while loop with a counter
+    print(&quot;\nPrinting your bill&quot;, end=&quot;&quot;)
+    count = 0
+    while count &lt; 5:
+        print(&quot;.&quot;, end=&quot;&quot;, flush=True)
+        time.sleep(0.5)
+        count += 1
+
+    print(f&quot;\n\nMovie:    {movie_name}&quot;)
+    print(f&quot;Seats:    {', '.join(selected_seats)}&quot;)
+    print(f&quot;Subtotal: {subtotal:.2f}&quot;)
+    print(f&quot;Discount: {discount:.2f}&quot;)
+    print(f&quot;Total:    {subtotal - discount:.2f}&quot;)
+
+theater_billing()</code></pre><p class="olbl">Output</p><pre class="out">Welcome to City Cinema
+1. Avengers: Endgame  (12)
+2. The Lion King      (10)
+3. Joker              (11)
+
+Enter movie number (1-3): 3
+
+Enter number of tickets (1-10): five
+Please enter a valid number.
+
+Enter number of tickets (1-10): 5
+Select seat 1: a1
+Select seat 2: a1
+Seat A1 is not available. Please choose from: ['A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5']
+Select seat 2: a2
+Select seat 3: a3
+Select seat 4: b1
+Select seat 5: b2
+
+Printing your bill.....
+
+Movie:    Joker
+Seats:    A1, A2, A3, B1, B2
+Subtotal: 55.00
+Discount: 5.50
+Total:    49.50</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The PDF version uses <code>return</code> inside the else branch to exit early. That only works inside a function, which is why the whole program is wrapped in <code>def theater_billing():</code>.</p></aside>
+<h2>Project 4: Inventory management system (from the PDF)</h2>
+<p>The PDF's biggest program uses <b>every</b> collection type for the job it is best at. Here is a shorter version you can run, without the random parts, so the output is always the same.</p>
+<div class="tbl"><table><thead><tr><th>Collection</th><th>Used for</th><th>Why this one</th></tr></thead><tbody><tr><td><b>dict</b></td><td><code>inventory</code>: item ID to details</td><td>Fast lookup by ID</td></tr><tr><td><b>set</b></td><td><code>categories</code></td><td>Each category stored once, automatically</td></tr><tr><td><b>list</b></td><td><code>transactions</code></td><td>Ordered history that keeps growing</td></tr><tr><td><b>tuple</b></td><td><code>(name, category, price)</code></td><td>Fixed facts that should not change by accident</td></tr><tr><td><b>str</b></td><td>IDs like <code>ITEM0001</code>, names, the report</td><td>Text, formatted with f-strings</td></tr></tbody></table></div>
+<figure class="code"><pre><code>class InventoryManagementSystem:
+    def __init__(self):
+        self.inventory = {}        # dict: item_id -&gt; details
+        self.categories = set()    # set: unique categories
+        self.transactions = []     # list: history
+        self.next_id = 1
+
+    def add_item(self, name, category, price, quantity):
+        item_id = f&quot;ITEM{self.next_id:04d}&quot;          # string ID
+        self.next_id += 1
+        self.categories.add(category)
+        self.inventory[item_id] = {
+            &quot;properties&quot;: (name, category, price),     # tuple: fixed facts
+            &quot;quantity&quot;: quantity,
+        }
+        self.transactions.append((&quot;ADD&quot;, item_id, quantity))
+        return item_id
+
+    def update_quantity(self, item_id, change):
+        if item_id not in self.inventory:
+            return False
+        self.inventory[item_id][&quot;quantity&quot;] += change
+        kind = &quot;RESTOCK&quot; if change &gt; 0 else &quot;SALE&quot;
+        self.transactions.append((kind, item_id, abs(change)))
+        return True
+
+    def search_by_name(self, part):
+        part = part.lower()
+        return [item[&quot;properties&quot;][0] for item in self.inventory.values()
+                if part in item[&quot;properties&quot;][0].lower()]
+
+    def low_stock(self, threshold=5):
+        result = []
+        for item in self.inventory.values():
+            if item[&quot;quantity&quot;] &lt;= threshold:
+                result.append(item[&quot;properties&quot;][0])
+        return result                                  # after the loop!
+
+    def report(self):
+        total_value = sum(item[&quot;properties&quot;][2] * item[&quot;quantity&quot;]
+                          for item in self.inventory.values())
+        by_category = {}
+        for item in self.inventory.values():
+            cat = item[&quot;properties&quot;][1]
+            by_category[cat] = by_category.get(cat, 0) + item[&quot;quantity&quot;]
+        lines = [f&quot;Total unique items: {len(self.inventory)}&quot;,
+                 f&quot;Total inventory value: {total_value:,.2f}&quot;,
+                 &quot;Category breakdown:&quot;]
+        for cat, count in sorted(by_category.items(), key=lambda x: x[1], reverse=True):
+            lines.append(f&quot;- {cat}: {count} units&quot;)
+        return &quot;\n&quot;.join(lines)
+
+ims = InventoryManagementSystem()
+for row in [(&quot;Laptop&quot;, &quot;Electronics&quot;, 899.99, 10),
+            (&quot;Headphones&quot;, &quot;Electronics&quot;, 149.99, 20),
+            (&quot;T-shirt&quot;, &quot;Clothing&quot;, 19.99, 50),
+            (&quot;Coffee Maker&quot;, &quot;Appliances&quot;, 89.99, 8),
+            (&quot;Cookbook&quot;, &quot;Books&quot;, 24.99, 15)]:
+    ims.add_item(*row)                 # unpack the tuple into arguments
+
+ims.update_quantity(&quot;ITEM0001&quot;, -7)    # sell 7 laptops
+ims.update_quantity(&quot;ITEM0004&quot;, -4)    # sell 4 coffee makers
+ims.update_quantity(&quot;ITEM0003&quot;, 10)    # restock t-shirts
+
+print(sorted(ims.categories))
+print(ims.search_by_name(&quot;o&quot;))
+print(&quot;Low stock:&quot;, ims.low_stock())
+print(ims.report())
+print(&quot;Last transaction:&quot;, ims.transactions[-1])</code></pre><p class="olbl">Output</p><pre class="out">['Appliances', 'Books', 'Clothing', 'Electronics']
+['Laptop', 'Headphones', 'Coffee Maker', 'Cookbook']
+Low stock: ['Laptop', 'Coffee Maker']
+Total unique items: 5
+Total inventory value: 7,633.98
+Category breakdown:
+- Clothing: 60 units
+- Electronics: 23 units
+- Books: 15 units
+- Appliances: 4 units
+Last transaction: ('RESTOCK', 'ITEM0003', 10)</pre></figure>
+<aside class="note trap"><strong>Check the indentation in your PDF copy</strong><p>In the PDF's <code>get_low_stock_items</code>, the line <code>return low_stock</code> appears indented <b>inside</b> the <code>for</code> loop. If it is, the method returns after checking only the <b>first</b> item. The <code>return</code> must line up with the <code>for</code>, as in <code>low_stock()</code> above. Indentation is logic in Python.</p></aside>
+<h2>Your turn: the book borrowing system</h2>
+<p>Your course notebook ends with two to-dos: &quot;need to create a Book borrow system&quot; and &quot;maintain the data of movie ticket as well as the books count using pickle&quot;. Try it yourself before opening the solution.</p>
+<ol class="tasks"><li><p>Build a library with <code>library = {&quot;Python Basics&quot;: 3, &quot;SQL Guide&quot;: 1, &quot;Data Viz&quot;: 2}</code> (title to copies available). Write <code>borrow(member, title)</code> and <code>give_back(member, title)</code>. Keep track of who has which book in a second dictionary. Then save both dictionaries with pickle.</p><details><summary>Hint</summary><p>Use a dict of lists for borrowed books: <code>{&quot;Asha&quot;: [&quot;SQL Guide&quot;]}</code>. <code>setdefault(member, [])</code> creates the list the first time. Check that copies are available before lending, and that the member really has the book before taking it back.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pickle
+
+library = {&quot;Python Basics&quot;: 3, &quot;SQL Guide&quot;: 1, &quot;Data Viz&quot;: 2}
+borrowed = {}                                   # member -&gt; list of titles
+
+def borrow(member, title):
+    if library.get(title, 0) == 0:
+        return f&quot;Sorry, '{title}' is not available&quot;
+    library[title] -= 1
+    borrowed.setdefault(member, []).append(title)
+    return f&quot;{member} borrowed '{title}'&quot;
+
+def give_back(member, title):
+    if title not in borrowed.get(member, []):
+        return f&quot;{member} did not borrow '{title}'&quot;
+    borrowed[member].remove(title)
+    library[title] += 1
+    return f&quot;{member} returned '{title}'&quot;
+
+print(borrow(&quot;Asha&quot;, &quot;SQL Guide&quot;))
+print(borrow(&quot;Ravi&quot;, &quot;SQL Guide&quot;))
+print(borrow(&quot;Ravi&quot;, &quot;Data Viz&quot;))
+print(give_back(&quot;Asha&quot;, &quot;Python Basics&quot;))
+print(give_back(&quot;Asha&quot;, &quot;SQL Guide&quot;))
+print(library)
+print(borrowed)
+
+with open(&quot;library.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump({&quot;library&quot;: library, &quot;borrowed&quot;: borrowed}, f)</code></pre><p class="olbl">Output</p><pre class="out">Asha borrowed 'SQL Guide'
+Sorry, 'SQL Guide' is not available
+Ravi borrowed 'Data Viz'
+Asha did not borrow 'Python Basics'
+Asha returned 'SQL Guide'
+{'Python Basics': 3, 'SQL Guide': 1, 'Data Viz': 1}
+{'Asha': [], 'Ravi': ['Data Viz']}</pre></figure></details></li><li><p>Extend the movie system: keep a <code>bookings</code> dictionary of <code>{customer: {movie: seats}}</code>, and only allow a customer to cancel seats they actually booked.</p><details><summary>Hint</summary><p>In <code>book</code>, add to <code>bookings.setdefault(customer, {})</code>. In <code>cancel</code>, check <code>bookings.get(customer, {}).get(movie, 0) &gt;= n</code> first.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>db = {&quot;Drishyam&quot;: {&quot;price&quot;: 500, &quot;seats&quot;: 40}}
+bookings = {}
+
+def book(customer, movie, n):
+    if n &gt; db[movie][&quot;seats&quot;]:
+        return &quot;Not enough seats&quot;
+    db[movie][&quot;seats&quot;] -= n
+    mine = bookings.setdefault(customer, {})
+    mine[movie] = mine.get(movie, 0) + n
+    return f&quot;{customer} booked {n} for {movie}&quot;
+
+def cancel(customer, movie, n):
+    if bookings.get(customer, {}).get(movie, 0) &lt; n:
+        return f&quot;{customer} cannot cancel {n}: not booked&quot;
+    bookings[customer][movie] -= n
+    db[movie][&quot;seats&quot;] += n
+    return f&quot;{customer} cancelled {n}. Refund: {db[movie]['price'] * n * 0.5}&quot;
+
+print(book(&quot;Asha&quot;, &quot;Drishyam&quot;, 3))
+print(cancel(&quot;Asha&quot;, &quot;Drishyam&quot;, 5))
+print(cancel(&quot;Asha&quot;, &quot;Drishyam&quot;, 2))
+print(bookings, db[&quot;Drishyam&quot;][&quot;seats&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Asha booked 3 for Drishyam
+Asha cannot cancel 5: not booked
+Asha cancelled 2. Refund: 500.0
+{'Asha': {'Drishyam': 1}} 39</pre></figure></details></li></ol>
+<h2>Where to go next</h2>
+<div class="tbl"><table><thead><tr><th>Next</th><th>Why</th><th>Builds on</th></tr></thead><tbody><tr><td><b>pandas</b></td><td>Tables (DataFrames): read CSV/Excel, clean, filter, group, merge</td><td>Dictionaries, lists, NumPy masks and axis</td></tr><tr><td><b>Matplotlib / Seaborn</b></td><td>Charts: line, bar, histogram, scatter</td><td>Lists and arrays of numbers</td></tr><tr><td><b>SQL + Python</b></td><td>Pull data from databases into pandas</td><td>Strings, loops, functions</td></tr><tr><td><b>A portfolio project</b></td><td>One real dataset, cleaned and analysed end to end, with a short write-up</td><td>Everything in this hub</td></tr></tbody></table></div>
+<aside class="note why"><strong>Why analysts care</strong><p>Every project above follows the same shape as real analysis work: <b>load</b> data, <b>clean</b> it, <b>calculate</b> something, <b>report</b> it, <b>save</b> it. With pandas the steps become shorter, but the thinking is exactly what you practised here.</p></aside>
+<h2>Mini project: hotel booking report</h2>
+<p>One small project that does what a data analyst does every week: <b>load</b> a messy file, <b>clean</b> it, <b>analyse</b> it, <b>report</b> the results and <b>save</b> them. It uses the same **<code>hotel_bookings.csv</code>** file and skills from every Part of the course.</p>
+<ol><li><b>Load</b> the file and drop the duplicate booking (Part 3: dicts)</li><li><b>Clean</b> each row: spaces, capitals, <code>₹</code> text and blank cells (Parts 3 and 5)</li><li><b>Analyse</b>: confirmed bookings, revenue, revenue per room type, average stay, top channel (Parts 2, 3 and 7)</li><li><b>Report</b> it neatly with f-strings (Part 1)</li><li><b>Save</b> the summary to <code>report.json</code> (Part 5)</li></ol>
+<ol class="tasks"><li><p>Build the full report. Your output should match the solution: 33 confirmed bookings, the revenue, revenue per room type (largest first), the average stay and the top channel, then save it all to <code>report.json</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+import json
+import numpy as np
+
+# 1. Load: read the file and drop the duplicate booking
+def load(path):
+    pass
+
+# 2. Clean: fix spaces, capitals and money text in one booking
+def clean(r):
+    pass
+
+# 3. Analyse  4. Report  5. Save</code></pre></figure><details><summary>Hint</summary><p>Write <code>load(path)</code> and <code>clean(row)</code> first and test them with <code>print()</code>. When a booking has no amount, use <code>rate × nights</code>. Sort the room totals with <code>sorted(by_room.items(), key=lambda x: x[1], reverse=True)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+import json
+import numpy as np
+
+# 1. Load: read the file and drop the duplicate booking
+def load(path):
+    with open(path, encoding=&quot;utf-8&quot;) as f:
+        rows = list(csv.DictReader(f))
+    return list({r[&quot;booking_id&quot;]: r for r in rows}.values())
+
+# 2. Clean: fix spaces, capitals and money text in one booking
+def clean(r):
+    amount = r[&quot;amount&quot;].replace(&quot;₹&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;).strip()
+    nights = r[&quot;nights&quot;].strip()
+    return {
+        &quot;guest&quot;: r[&quot;guest_name&quot;].strip().title(),
+        &quot;room&quot;: r[&quot;room_type&quot;].strip().title(),
+        &quot;channel&quot;: r[&quot;channel&quot;].strip().lower(),
+        &quot;status&quot;: r[&quot;status&quot;].strip().lower(),
+        &quot;nights&quot;: int(nights) if nights else None,
+        &quot;amount&quot;: int(amount) if amount else int(r[&quot;rate&quot;]) * int(nights or 0),
+    }
+
+bookings = [clean(r) for r in load(&quot;hotel_bookings.csv&quot;)]
+confirmed = [b for b in bookings if b[&quot;status&quot;] == &quot;confirmed&quot;]
+
+# 3. Analyse
+revenue = sum(b[&quot;amount&quot;] for b in confirmed)
+by_room = {}
+by_channel = {}
+for b in confirmed:
+    by_room[b[&quot;room&quot;]] = by_room.get(b[&quot;room&quot;], 0) + b[&quot;amount&quot;]
+    by_channel[b[&quot;channel&quot;]] = by_channel.get(b[&quot;channel&quot;], 0) + 1
+nights = np.array([b[&quot;nights&quot;] for b in confirmed if b[&quot;nights&quot;] is not None])
+
+report = {
+    &quot;confirmed_bookings&quot;: len(confirmed),
+    &quot;revenue&quot;: revenue,
+    &quot;revenue_by_room&quot;: by_room,
+    &quot;average_nights&quot;: round(float(nights.mean()), 1),
+    &quot;top_channel&quot;: max(by_channel, key=by_channel.get),
+}
+
+# 4. Report
+print(&quot;HOTEL REPORT&quot;)
+print(&quot;-&quot; * 30)
+print(f&quot;Confirmed bookings: {report['confirmed_bookings']}&quot;)
+print(f&quot;Revenue:            ₹{revenue:,}&quot;)
+for room, amt in sorted(by_room.items(), key=lambda x: x[1], reverse=True):
+    print(f&quot;  {room:9} ₹{amt:,}&quot;)
+print(f&quot;Average stay:       {report['average_nights']} nights&quot;)
+print(f&quot;Top channel:        {report['top_channel']}&quot;)
+
+# 5. Save
+with open(&quot;report.json&quot;, &quot;w&quot;) as f:
+    json.dump(report, f, indent=2)
+print(&quot;Saved report.json&quot;)</code></pre><p class="olbl">Output</p><pre class="out">HOTEL REPORT
+------------------------------
+Confirmed bookings: 33
+Revenue:            ₹187,600
+  Deluxe    ₹98,800
+  Suite     ₹52,800
+  Standard  ₹36,000
+Average stay:       2.1 nights
+Top channel:        goibibo
+Saved report.json</pre></figure><p>Each step is its own small piece, so you can test it on its own. That is how every real project in this course was built.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Plan the data structure first, then turn each action into a function.</li><li>Test functions with fixed values before adding <code>input()</code> and menus.</li><li>Save state with pickle (or JSON) so it survives a restart.</li><li>Use each collection for its strength: dict for lookup, set for unique, list for history, tuple for fixed facts.</li><li>Indentation is logic: a misplaced <code>return</code> changes what a function does.</li></ul></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>In the movie system, why do <code>book()</code> and <code>cancel()</code> return a message instead of printing it?</p><ol type="A"><li>Printing is slower</li><li>Returned values are easy to test and reuse</li><li>print() does not work in functions</li><li>Pickle needs strings</li></ol><details><summary>Answer</summary><p><b>Returned values are easy to test and reuse</b>. A returned message can be printed, logged or checked in a test.</p></details></li><li><p>Why does <code>load_db()</code> catch <code>FileNotFoundError</code>?</p><ol type="A"><li>To delete old files</li><li>The first time the program runs, no save file exists yet, so it starts with default data</li><li>Pickle always raises it</li><li>To speed up loading</li></ol><details><summary>Answer</summary><p><b>The first time the program runs, no save file exists yet, so it starts with default data</b>. Without it, the very first run would crash.</p></details></li><li><p>Which collection does the inventory system use for categories, and why?</p><ol type="A"><li>list, to keep order</li><li>set, so each category is stored only once</li><li>tuple, so it cannot change</li><li>dict, for fast lookup</li></ol><details><summary>Answer</summary><p><b>set, so each category is stored only once</b>. A set ignores duplicates automatically.</p></details></li><li><p>Why are an item's name, category and price stored in a tuple?</p><ol type="A"><li>Tuples are the only type pickle can save</li><li>They are fixed facts that should not change by accident</li><li>Tuples allow duplicates</li><li>Tuples are sortable</li></ol><details><summary>Answer</summary><p><b>They are fixed facts that should not change by accident</b>. Immutability protects data that should stay fixed.</p></details></li><li><p>What goes wrong if <code>return result</code> is indented inside the for loop of <code>low_stock()</code>?</p><ol type="A"><li>Nothing</li><li>It returns after checking only the first item</li><li>It raises IndentationError</li><li>It returns None</li></ol><details><summary>Answer</summary><p><b>It returns after checking only the first item</b>. return ends the function the first time it runs, which would be during the first loop round.</p></details></li><li><p>In the theater program, what happens when the user types &quot;five&quot; for the number of tickets?</p><ol type="A"><li>The program crashes</li><li>int() raises ValueError, the except block prints a message, and the loop asks again</li><li>It books 5 tickets</li><li>It books 0 tickets</li></ol><details><summary>Answer</summary><p><b>int() raises ValueError, the except block prints a message, and the loop asks again</b>. That is the while True + try/except validation pattern.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Steps to build a small program</dt><dd>Describe it, choose the data structure, write one function per action, test with fixed values, add the menu loop, handle bad input.</dd><dt>The menu loop pattern</dt><dd><figure class="code"><pre><code>while True:
+    choice = input(&quot;1 Book 2 Cancel 3 Exit: &quot;)
+    if choice == &quot;1&quot;: ...
+    elif choice == &quot;2&quot;: ...
+    elif choice == &quot;3&quot;:
+        break
+    else:
+        print(&quot;Invalid choice&quot;)</code></pre></figure></dd><dt>How do you make data survive a restart?</dt><dd>Save it to a file on exit (pickle or JSON) and load it on start, catching FileNotFoundError for the first run.</dd><dt>Dict of lists: add an item for a key that may not exist</dt><dd><code>d.setdefault(key, []).append(item)</code></dd><dt>Which collection for: history of transactions? unique categories? item lookup by ID? fixed item facts?</dt><dd>list, set, dict, tuple.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>while True:
+    choice = input(...)
+    if choice == &quot;3&quot;: break</code></td><td>Menu loop</td></tr><tr><td><code>try:
+    with open(&quot;db.pkl&quot;, &quot;rb&quot;) as f:
+        db = pickle.load(f)
+except FileNotFoundError:
+    db = default</code></td><td>Load saved data or start fresh</td></tr><tr><td><code>d.setdefault(k, []).append(x)</code></td><td>Group items under a key</td></tr><tr><td><code>f&quot;ITEM{n:04d}&quot;</code></td><td>Make IDs like ITEM0001</td></tr><tr><td><code>sorted(d.items(), key=lambda x: x[1], reverse=True)</code></td><td>Sort a dict by value, biggest first</td></tr></tbody></table></div></section><nav class="pn"><a href="overview7.html">← Part 7 overview</a><a href="overview8.html">Whole-course overview →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

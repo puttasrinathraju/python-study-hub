@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lists | Python Study Hub</title>
+<meta name="description" content="The list is Python's most used collection: an ordered, changeable row of items. Learn to add, remove, sort and copy, and avoid the copying trap that catches everyone.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/v2/learn/lists.html">
+<meta property="og:title" content="Lists | Python Study Hub">
+<meta property="og:description" content="The list is Python's most used collection: an ordered, changeable row of items. Learn to add, remove, sort and copy, and avoid the copying trap that catches everyone.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#lists">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#lists">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 3 · Collections · Chapter 9</p><h1>Lists</h1><p class="lead">The list is Python's most used collection: an ordered, changeable row of items. Learn to add, remove, sort and copy, and avoid the copying trap that catches everyone.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Create lists and get items with indexing and slicing</li><li>Add items with <code>append()</code>, <code>insert()</code> and <code>extend()</code></li><li>Remove items with <code>remove()</code>, <code>pop()</code>, <code>del</code> and <code>clear()</code></li><li>Sort with <code>sort()</code> and <code>sorted()</code>, and know the difference</li><li>Copy lists the right way and avoid the aliasing trap</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=ohCDWZgNIU0">Python Lists</a> by Socratica (about 6 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=orVZ4MS5YxY">Python Tutorials for Beginners in Telugu - Tutorial 4 - Lists</a> by Telugu Computer World (about 33 min)</li></ul></section><h2>What is a list?</h2>
+<p>A <mark>list</mark> holds many values in <b>one variable</b>, in a fixed <b>order</b>. You write it with square brackets and commas. Lists are <b>mutable</b>: you can change them after creating them.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>names = [&quot;Raman&quot;, &quot;Raghav&quot;, &quot;Rajeev&quot;, True, 89, 78.45]   # mixed types are allowed
+colors = [&quot;Orange&quot;, &quot;Blue&quot;, &quot;Yellow&quot;, &quot;Brown&quot;]
+empty = []
+
+print(names)
+print(len(colors))
+print(type(empty))
+print(list(&quot;Python&quot;))     # list() turns any sequence into a list</code></pre><p class="olbl">Output</p><pre class="out">['Raman', 'Raghav', 'Rajeev', True, 89, 78.45]
+4
+&lt;class 'list'&gt;
+['P', 'y', 't', 'h', 'o', 'n']</pre></figure>
+<div class="tbl"><table><thead><tr><th>Property</th><th>Lists</th><th>Meaning</th></tr></thead><tbody><tr><td>Ordered</td><td>Yes</td><td>Items keep the order you put them in</td></tr><tr><td>Mutable</td><td>Yes</td><td>You can change, add and remove items</td></tr><tr><td>Duplicates</td><td>Allowed</td><td>The same value can appear many times</td></tr><tr><td>Indexed</td><td>Yes</td><td>Get items by position, starting at 0</td></tr></tbody></table></div>
+<h2>Indexing and slicing</h2>
+<p>Lists use exactly the same indexing and slicing rules as strings.</p>
+<p class="cap">Diagram: <code>colors[1:3]</code> takes index 1 and 2: Blue and Yellow.</p>
+<figure class="code"><pre><code>colors = [&quot;Orange&quot;, &quot;Blue&quot;, &quot;Yellow&quot;, &quot;Brown&quot;]
+print(colors[1])
+print(colors[-1])
+print(colors[1:3])
+print(colors[::-1])
+print(colors[-1][2:])     # slice the last string: &quot;Brown&quot; -&gt; &quot;own&quot;
+print(colors[-2][2:4])    # &quot;Yellow&quot; -&gt; &quot;ll&quot;</code></pre><p class="olbl">Output</p><pre class="out">Blue
+Brown
+['Blue', 'Yellow']
+['Brown', 'Yellow', 'Blue', 'Orange']
+own
+ll</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>colors[-1][2:]</code> works in two steps. <code>colors[-1]</code> gives the string &quot;Brown&quot;. Then <code>[2:]</code> slices that string. Reading chained brackets from left to right makes them easy.</p></aside>
+<h2>Changing items</h2>
+<figure class="code"><pre><code>colors = [&quot;Orange&quot;, &quot;Blue&quot;, &quot;Yellow&quot;, &quot;Brown&quot;]
+colors[1] = &quot;BlueGrey&quot;          # replace one item
+print(colors)
+
+nums = [10, 20, 30, 40, 50]
+nums[1:3] = [200, 300]          # replace a slice
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">['Orange', 'BlueGrey', 'Yellow', 'Brown']
+[10, 200, 300, 40, 50]</pre></figure>
+<h2>Adding items</h2>
+<div class="tbl"><table><thead><tr><th>Method</th><th>What it does</th><th>Example</th></tr></thead><tbody><tr><td><code>append(x)</code></td><td>Adds <b>one</b> item to the end</td><td><code>fruits.append(&quot;cherry&quot;)</code></td></tr><tr><td><code>insert(i, x)</code></td><td>Adds one item <b>at position i</b>, pushing the rest right</td><td><code>fruits.insert(1, &quot;orange&quot;)</code></td></tr><tr><td><code>extend(list)</code></td><td>Adds <b>every item</b> from another list</td><td><code>fruits.extend([&quot;date&quot;, &quot;fig&quot;])</code></td></tr><tr><td><code>+=</code></td><td>Same as extend</td><td><code>fruits += [&quot;grape&quot;]</code></td></tr></tbody></table></div>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;]
+fruits.append(&quot;cherry&quot;)
+print(fruits)
+fruits.insert(1, &quot;orange&quot;)
+print(fruits)
+fruits.extend([&quot;date&quot;, &quot;elderberry&quot;])
+print(fruits)
+fruits += [&quot;fig&quot;, &quot;grape&quot;]
+print(fruits)</code></pre><p class="olbl">Output</p><pre class="out">['apple', 'banana', 'cherry']
+['apple', 'orange', 'banana', 'cherry']
+['apple', 'orange', 'banana', 'cherry', 'date', 'elderberry']
+['apple', 'orange', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape']</pre></figure>
+<aside class="note trap"><strong>Trap! append() vs extend()</strong><p><code>append()</code> adds its argument as <b>one</b> item, even if that argument is a whole list. You end up with a list inside a list.</p><figure class="code"><pre><code>a = [1, 2]
+a.append([3, 4])
+print(a, len(a))
+
+b = [1, 2]
+b.extend([3, 4])
+print(b, len(b))</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, [3, 4]] 3
+[1, 2, 3, 4] 4</pre></figure></aside>
+<h2>Removing items</h2>
+<div class="tbl"><table><thead><tr><th>Way</th><th>Removes</th><th>Gives back the item?</th><th>If missing</th></tr></thead><tbody><tr><td><code>remove(x)</code></td><td>The <b>first</b> item equal to x</td><td>No</td><td><code>ValueError</code></td></tr><tr><td><code>pop(i)</code></td><td>The item at index i (last item if no i)</td><td><b>Yes</b></td><td><code>IndexError</code></td></tr><tr><td><code>del lst[i]</code></td><td>The item at index i, or a slice</td><td>No</td><td><code>IndexError</code></td></tr><tr><td><code>clear()</code></td><td>Everything</td><td>No</td><td></td></tr></tbody></table></div>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;banana&quot;, &quot;date&quot;]
+
+fruits.remove(&quot;banana&quot;)        # only the first banana goes
+print(fruits)
+
+removed = fruits.pop(1)        # remove index 1 and keep it
+print(removed)
+print(fruits)
+
+del fruits[0]
+print(fruits)
+
+fruits.clear()
+print(fruits)</code></pre><p class="olbl">Output</p><pre class="out">['apple', 'cherry', 'banana', 'date']
+cherry
+['apple', 'banana', 'date']
+['banana', 'date']
+[]</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>remove()</code> fails if the item is not there. Check first with <code>in</code>.</p><figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;]
+if &quot;mango&quot; in fruits:
+    fruits.remove(&quot;mango&quot;)
+else:
+    print(&quot;mango not in list&quot;)
+fruits.remove(&quot;mango&quot;)</code></pre><p class="olbl">Error</p><pre class="out">mango not in list
+ValueError: list.remove(x): x not in list</pre></figure></aside>
+<h2>Finding items</h2>
+<figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;banana&quot;, &quot;date&quot;]
+print(fruits.index(&quot;banana&quot;))   # position of the first match
+print(fruits.count(&quot;banana&quot;))   # how many times
+print(&quot;apple&quot; in fruits)
+print(&quot;fig&quot; in fruits)</code></pre><p class="olbl">Output</p><pre class="out">1
+2
+True
+False</pre></figure>
+<h2>Sorting: sort() vs sorted()</h2>
+<div class="cmp"><div><h4><code>list.sort()</code></h4><ul><li>Sorts the list <b>in place</b> (changes it)</li><li>Returns <code>None</code></li><li>Only works on lists</li></ul><figure class="code"><pre><code>nums = [3, 1, 4, 1, 5]
+nums.sort()
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">[1, 1, 3, 4, 5]</pre></figure></div><div><h4><code>sorted(list)</code></h4><ul><li>Makes a <b>new</b> sorted list</li><li>The original is untouched</li><li>Works on any collection: tuples, strings, sets, dict keys</li></ul><figure class="code"><pre><code>original = [3, 1, 4, 1, 5]
+new = sorted(original)
+print(new)
+print(original)</code></pre><p class="olbl">Output</p><pre class="out">[1, 1, 3, 4, 5]
+[3, 1, 4, 1, 5]</pre></figure></div></div>
+<aside class="note trap"><strong>Trap! x = x.sort()</strong><p><code>sort()</code> changes the list and returns <code>None</code>. If you store its result, you lose your list.</p><figure class="code"><pre><code>nums = [3, 1, 2]
+nums = nums.sort()
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">None</pre></figure></aside>
+<figure class="code"><figcaption>More sorting options</figcaption><pre><code>colors = [&quot;Orange&quot;, &quot;Blue&quot;, &quot;Yellow&quot;, &quot;Brown&quot;]
+colors.sort(reverse=True)               # Z to A (reverse order)
+print(colors)
+
+words = [&quot;banana&quot;, &quot;apple&quot;, &quot;Cherry&quot;, &quot;fig&quot;]
+print(sorted(words))                    # capitals sort first
+print(sorted(words, key=str.lower))     # ignore case
+print(sorted(words, key=len))           # shortest first
+
+nums = [5, 2, 8]
+nums.reverse()                          # just flip the order
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">['Yellow', 'Orange', 'Brown', 'Blue']
+['Cherry', 'apple', 'banana', 'fig']
+['apple', 'banana', 'Cherry', 'fig']
+['fig', 'apple', 'banana', 'Cherry']
+[8, 2, 5]</pre></figure>
+<p><code>key=</code> tells Python <b>what to sort by</b>. <code>key=len</code> sorts by length, <code>key=str.lower</code> sorts as if everything were lowercase. You will use <code>key=</code> with <code>lambda</code> in the Functions chapter.</p>
+<h2>Copying lists: the aliasing trap</h2>
+<p>This is the most important idea in this chapter. Writing <code>b = a</code> does <b>not</b> copy a list. It creates a second name for the <b>same</b> list. Change one and you change &quot;both&quot;.</p>
+<section class="anim"><h3>Animated explainer: Two names, one list</h3><figure class="code"><pre><code>a = [1, 2, 3]
+b = a
+b[0] = 99
+print(a)
+c = a.copy()
+c[1] = 50
+print(a, c)</code></pre></figure><ol><li>Python builds a list in memory (object 1) and points <code>a</code> at it.</li><li><code>b = a</code> does <b>not</b> build a new list. <code>b</code> now points at the <b>same</b> object 1.</li><li>We change the first item through <code>b</code>. There is only one list, so object 1 changes.</li><li>Printing <code>a</code> shows 99. Surprise! <code>a</code> and <code>b</code> are two names for the same list.</li><li><code>copy()</code> builds a <b>brand-new</b> list (object 2) with the same items.</li><li>Changing <code>c</code> only changes object 2.</li><li><code>a</code> is safe. Use <code>.copy()</code>, <code>[:]</code> or <code>list()</code> whenever you need an independent copy.</li></ol></section>
+<figure class="code"><pre><code>original = [1, 2, 3]
+copy_1 = original.copy()
+copy_2 = original[:]
+copy_3 = list(original)
+copy_1[0] = 5
+print(original, copy_1)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3] [5, 2, 3]</pre></figure>
+<aside class="note trap"><strong>Trap! Shallow copies of nested lists</strong><p><code>copy()</code> copies only the outer list. Inner lists are still shared. For lists inside lists, use <code>copy.deepcopy()</code>.</p><figure class="code"><pre><code>import copy
+a = [[1, 2], [3, 4]]
+b = a.copy()
+b[0][0] = 99
+print(a)                  # changed!
+
+c = copy.deepcopy(a)
+c[0][0] = 0
+print(a, c)</code></pre><p class="olbl">Output</p><pre class="out">[[99, 2], [3, 4]]
+[[99, 2], [3, 4]] [[0, 2], [3, 4]]</pre></figure></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>x = [10, 20]
+y = x
+y.append(30)
+print(len(x))</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li>An error</li><li><code>30</code></li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. <code>y = x</code> makes <code>y</code> another name for the same list. Appending through <code>y</code> changes the list that <code>x</code> points at too.</p></details></section>
+<h2>Nested lists</h2>
+<p>A list can hold other lists. This is how you store a table: a list of rows.</p>
+<p class="cap">Diagram: <code>matrix[1][2]</code>: row 1, then item 2 in that row, which is 6.</p>
+<figure class="code"><pre><code>matrix = [[1, 2, 3],
+          [4, 5, 6]]
+print(matrix[1])
+print(matrix[1][2])
+
+a = [1, 2, 3, 4, [5, 6]]     # course notebook
+print(a[-1][-1])</code></pre><p class="olbl">Output</p><pre class="out">[4, 5, 6]
+6
+6</pre></figure>
+<h2>Looping over lists</h2>
+<figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+for fruit in fruits:
+    print(fruit.upper())
+
+for i, fruit in enumerate(fruits):
+    print(i, fruit)
+
+i = 0
+while i &lt; len(fruits):        # while loop with an index
+    print(fruits[i][0], end=&quot; &quot;)
+    i += 1</code></pre><p class="olbl">Output</p><pre class="out">APPLE
+BANANA
+CHERRY
+0 apple
+1 banana
+2 cherry
+a b c</pre></figure>
+<aside class="note trap"><strong>Trap! Do not remove items while looping over the same list</strong><p>Removing shifts the remaining items left, so the loop skips one. Loop over a copy (<code>for x in nums[:]:</code>) or build a new list instead.</p><figure class="code"><pre><code>nums = [2, 4, 5, 6]
+for n in nums:
+    if n % 2 == 0:
+        nums.remove(n)
+print(nums)      # 4 was skipped!</code></pre><p class="olbl">Output</p><pre class="out">[4, 5]</pre></figure></aside>
+<h2>Useful built-in functions</h2>
+<figure class="code"><pre><code>sales = [45, 12, 78, 34]
+print(len(sales), sum(sales), min(sales), max(sales))
+print(sum(sales) / len(sales))        # average
+print(sorted(sales, reverse=True))
+print(any(s &gt; 70 for s in sales))     # at least one over 70?
+print(all(s &gt; 10 for s in sales))     # all over 10?</code></pre><p class="olbl">Output</p><pre class="out">4 169 12 78
+42.25
+[78, 45, 34, 12]
+True
+True</pre></figure>
+<h2>Joining and repeating lists</h2>
+<figure class="code"><pre><code>a = [1, 2]
+b = [3, 4]
+print(a + b)
+print([0] * 5)          # a list of five zeros</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3, 4]
+[0, 0, 0, 0, 0]</pre></figure>
+<h2>A first look at list comprehensions</h2>
+<p>A <mark>list comprehension</mark> builds a new list in one line. You will master them in the Comprehensions chapter. For now, learn to read them.</p>
+<figure class="code"><pre><code>squares = [x ** 2 for x in range(10)]
+print(squares)
+
+evens = [x for x in range(10) if x % 2 == 0]
+print(evens)
+
+fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+print([f.upper() for f in fruits])</code></pre><p class="olbl">Output</p><pre class="out">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+[0, 2, 4, 6, 8]
+['APPLE', 'BANANA', 'CHERRY']</pre></figure>
+<h2>Removing duplicates (course exercise)</h2>
+<figure class="code"><pre><code>a = [2, 4, 2, 3, 3, 6, 7, 8, 10, 2, 4, 5, 5, 19, 21, 16, 16, 11, 2, 1]
+
+print(list(set(a)))          # quick, but the original order is lost
+
+unique = []
+for n in a:                  # keeps the first-seen order
+    if n not in unique:
+        unique.append(n)
+print(unique)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 16, 19, 21]
+[2, 4, 3, 6, 7, 8, 10, 5, 19, 21, 16, 11, 1]</pre></figure>
+<section class="deck"><h3>Slides: List methods at a glance</h3><ol><li><p><b>11 list methods. You will use 6 of them every day.</b></p><ul><li><b>Add</b>: append, insert, extend</li><li><b>Remove</b>: remove, pop, clear</li><li><b>Find</b>: index, count</li><li><b>Order</b>: sort, reverse</li><li><b>Copy</b>: copy</li></ul></li><li><p><b>Add</b></p><figure class="code"><pre><code>cart = [&quot;rice&quot;]
+cart.append(&quot;dal&quot;)
+cart.insert(0, &quot;oil&quot;)
+cart.extend([&quot;salt&quot;, &quot;sugar&quot;])
+print(cart)</code></pre><p class="olbl">Output</p><pre class="out">['oil', 'rice', 'dal', 'salt', 'sugar']</pre></figure></li><li><p><b>Remove</b></p><figure class="code"><pre><code>cart = ['oil', 'rice', 'dal', 'salt', 'sugar']
+cart.remove(&quot;salt&quot;)
+last = cart.pop()
+print(last, cart)</code></pre><p class="olbl">Output</p><pre class="out">sugar ['oil', 'rice', 'dal']</pre></figure></li><li><p><b>Find</b></p><figure class="code"><pre><code>scores = [70, 85, 70, 90]
+print(scores.index(85), scores.count(70), 90 in scores)</code></pre><p class="olbl">Output</p><pre class="out">1 2 True</pre></figure></li><li><p><b>Order</b></p><figure class="code"><pre><code>scores = [70, 85, 70, 90]
+scores.sort(reverse=True)
+print(scores)
+print(sorted([&quot;b&quot;, &quot;a&quot;, &quot;c&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">[90, 85, 70, 70]
+['a', 'b', 'c']</pre></figure></li><li><p><b>Copy</b></p><p>Use <code>.copy()</code> when you need a separate list. <code>b = a</code> only makes a second name.</p><figure class="code"><pre><code>a = [1, 2]
+b = a.copy()
+b.append(3)
+print(a, b)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2] [1, 2, 3]</pre></figure></li></ol></section>
+<ol class="tasks"><li><p>From your course: split <code>no = [2, 3, 5, 7, 43, 41, 87, 65, 34, 22, 9, 8]</code> into two lists, <code>even</code> and <code>odd</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>no = [2, 3, 5, 7, 43, 41, 87, 65, 34, 22, 9, 8]
+even = []
+odd = []
+for n in no:
+    if n % 2 == 0:
+        even.append(n)
+    else:
+        odd.append(n)
+print(even, odd)</code></pre><p class="olbl">Output</p><pre class="out">[2, 34, 22, 8] [3, 5, 7, 43, 41, 87, 65, 9]</pre></figure></details></li><li><p>Given <code>marks = [56, 89, 72, 95, 61]</code>, print the top 3 marks, highest first.</p><details><summary>Solution</summary><figure class="code"><pre><code>marks = [56, 89, 72, 95, 61]
+print(sorted(marks, reverse=True)[:3])</code></pre><p class="olbl">Output</p><pre class="out">[95, 89, 72]</pre></figure></details></li><li><p>Remove every &quot;NA&quot; from <code>data = [&quot;12&quot;, &quot;NA&quot;, &quot;7&quot;, &quot;NA&quot;, &quot;30&quot;]</code> and convert the rest to integers.</p><details><summary>Hint</summary><p>Build a new list instead of removing while looping.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>data = [&quot;12&quot;, &quot;NA&quot;, &quot;7&quot;, &quot;NA&quot;, &quot;30&quot;]
+clean = []
+for d in data:
+    if d != &quot;NA&quot;:
+        clean.append(int(d))
+print(clean)</code></pre><p class="olbl">Output</p><pre class="out">[12, 7, 30]</pre></figure></details></li><li><p>You have <code>queue = [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;]</code>. Serve the first person (remove and print them), then add &quot;Ravi&quot; to the end.</p><details><summary>Solution</summary><figure class="code"><pre><code>queue = [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;]
+served = queue.pop(0)
+print(&quot;Serving&quot;, served)
+queue.append(&quot;Ravi&quot;)
+print(queue)</code></pre><p class="olbl">Output</p><pre class="out">Serving Asha
+['Vikram', 'Neha', 'Ravi']</pre></figure></details></li><li><p>Find the second largest value in <code>[45, 78, 12, 78, 60]</code> (the answer is 60, not 78).</p><details><summary>Hint</summary><p>Remove duplicates first, then sort.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>nums = [45, 78, 12, 78, 60]
+unique_sorted = sorted(set(nums), reverse=True)
+print(unique_sorted[1])</code></pre><p class="olbl">Output</p><pre class="out">60</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Lists are ordered, mutable, allow duplicates. Index from 0, slice like strings.</li><li><code>append()</code> adds one item. <code>extend()</code> adds each item of another list.</li><li><code>remove(x)</code> removes by value. <code>pop(i)</code> removes by index and gives it back.</li><li><code>sort()</code> changes the list and returns None. <code>sorted()</code> returns a new list.</li><li><code>b = a</code> does not copy. Use <code>a.copy()</code>, <code>a[:]</code> or <code>list(a)</code>. Use <code>deepcopy</code> for nested lists.</li><li>Never remove from a list while looping over it.</li></ul></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>nums = [10, 20, 30, 40]
+print(nums[-2])</code></pre></figure><ol type="A"><li><code>20</code></li><li><code>30</code></li><li><code>40</code></li><li><code>-20</code></li></ol><details><summary>Answer</summary><p><b><code>30</code></b>. -1 is the last item (40), -2 is the one before it (30).</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>a = [1, 2]
+a.append([3])
+print(len(a))</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>4</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. append adds the whole <code>[3]</code> as one item, so there are 3 items.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>a = [5, 3, 9]
+print(a.sort())</code></pre></figure><ol type="A"><li><code>[3, 5, 9]</code></li><li><code>None</code></li><li><code>[9, 5, 3]</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>None</code></b>. sort() changes the list in place and returns None.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>a = [1, 2, 3]
+b = a
+b.append(4)
+print(a)</code></pre></figure><ol type="A"><li><code>[1, 2, 3]</code></li><li><code>[1, 2, 3, 4]</code></li><li><code>[4]</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>[1, 2, 3, 4]</code></b>. b and a are the same list. Use a.copy() to get an independent copy.</p></details></li><li><p>Which removes the item at index 2 <b>and gives it back</b>?</p><ol type="A"><li><code>lst.remove(2)</code></li><li><code>del lst[2]</code></li><li><code>lst.pop(2)</code></li><li><code>lst.clear(2)</code></li></ol><details><summary>Answer</summary><p><b><code>lst.pop(2)</code></b>. pop(i) removes and returns. remove(2) would remove the value 2, not index 2.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>items = [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;]
+items.remove(&quot;a&quot;)
+print(items)</code></pre></figure><ol type="A"><li><code>['b', 'c']</code></li><li><code>['b', 'a', 'c']</code></li><li><code>['a', 'b', 'c']</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>['b', 'a', 'c']</code></b>. remove deletes only the first match.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print([1, 2] * 2)</code></pre></figure><ol type="A"><li><code>[2, 4]</code></li><li><code>[1, 2, 1, 2]</code></li><li><code>[[1, 2], [1, 2]]</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>[1, 2, 1, 2]</code></b>. Multiplying a list repeats it. (NumPy arrays behave differently, as you will see.)</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>m = [[1, 2], [3, 4]]
+print(m[1][0])</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>[3, 4]</code></li><li><code>1</code></li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. m[1] is [3, 4], and item 0 of that is 3.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(sorted([&quot;b&quot;, &quot;C&quot;, &quot;a&quot;]))</code></pre></figure><ol type="A"><li><code>['a', 'b', 'C']</code></li><li><code>['C', 'a', 'b']</code></li><li><code>['a', 'C', 'b']</code></li><li><code>['b', 'C', 'a']</code></li></ol><details><summary>Answer</summary><p><b><code>['C', 'a', 'b']</code></b>. Capital letters sort before small letters. Use <code>key=str.lower</code> to ignore case.</p></details></li><li><p>Which makes an independent copy of list <code>a</code>?</p><ol type="A"><li><code>b = a</code></li><li><code>b = a.copy()</code></li><li><code>b = a.sort()</code></li><li><code>b == a</code></li></ol><details><summary>Answer</summary><p><b><code>b = a.copy()</code></b>. copy(), a[:] and list(a) all build a new list.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Four properties of a list</dt><dd>Ordered, mutable (changeable), allows duplicates, indexed from 0.</dd><dt><code>append()</code> vs <code>extend()</code></dt><dd><code>append(x)</code> adds x as <b>one</b> item. <code>extend(list)</code> adds <b>each</b> item of the list.</dd><dt><code>remove()</code> vs <code>pop()</code></dt><dd><code>remove(value)</code> deletes the first match by value. <code>pop(index)</code> deletes by position and <b>returns</b> the item.</dd><dt><code>sort()</code> vs <code>sorted()</code></dt><dd><code>lst.sort()</code> changes the list and returns None. <code>sorted(lst)</code> returns a new sorted list and leaves the original alone.</dd><dt>How do you sort largest first?</dt><dd><code>lst.sort(reverse=True)</code> or <code>sorted(lst, reverse=True)</code></dd><dt>What does <code>b = a</code> do for lists?</dt><dd>Makes <code>b</code> another <b>name</b> for the same list. Changes through <code>b</code> show up in <code>a</code>.</dd><dt>Three ways to copy a list</dt><dd><code>a.copy()</code>, <code>a[:]</code>, <code>list(a)</code>. For nested lists use <code>copy.deepcopy(a)</code>.</dd><dt>How do you get an item from a nested list?</dt><dd>Chain the brackets: <code>matrix[row][col]</code>, e.g. <code>matrix[1][2]</code>.</dd><dt>Why not remove items while looping over the same list?</dt><dd>Items shift left and the loop skips some. Loop over a copy or build a new list.</dd><dt>Average of a list</dt><dd><code>sum(lst) / len(lst)</code></dd><dt>Quick way to remove duplicates (order not kept)</dt><dd><code>list(set(lst))</code></dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>lst = [1, 2, 3]</code></td><td>Create a list</td></tr><tr><td><code>lst[0]  lst[-1]  lst[1:3]</code></td><td>Index and slice</td></tr><tr><td><code>lst.append(x)</code></td><td>Add to the end</td></tr><tr><td><code>lst.insert(i, x)</code></td><td>Add at position i</td></tr><tr><td><code>lst.extend(other)</code></td><td>Add all items of another list</td></tr><tr><td><code>lst.remove(x)</code></td><td>Remove first x</td></tr><tr><td><code>lst.pop()  lst.pop(i)</code></td><td>Remove and return last / item i</td></tr><tr><td><code>del lst[i]</code></td><td>Delete item i</td></tr><tr><td><code>lst.index(x)  lst.count(x)</code></td><td>Find position / count</td></tr><tr><td><code>lst.sort()  sorted(lst)</code></td><td>Sort in place / new sorted list</td></tr><tr><td><code>lst.copy()</code></td><td>Independent copy</td></tr><tr><td><code>len(lst)  sum(lst)  min(lst)  max(lst)</code></td><td>Size and stats</td></tr></tbody></table></div></section><nav class="pn"><a href="strings.html">← Strings</a><a href="tuples.html">Tuples →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

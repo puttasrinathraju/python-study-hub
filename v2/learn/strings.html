@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strings in depth | Python Study Hub</title>
+<meta name="description" content="Text is everywhere in data: names, cities, emails, product codes. Learn to pick out parts of a string, clean it up and check what it contains.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/v2/learn/strings.html">
+<meta property="og:title" content="Strings in depth | Python Study Hub">
+<meta property="og:description" content="Text is everywhere in data: names, cities, emails, product codes. Learn to pick out parts of a string, clean it up and check what it contains.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#strings">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#strings">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 3 · Collections · Chapter 8</p><h1>Strings in depth</h1><p class="lead">Text is everywhere in data: names, cities, emails, product codes. Learn to pick out parts of a string, clean it up and check what it contains.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Get single characters with <b>indexing</b>, including negative indexes</li><li>Cut out parts with <b>slicing</b> <code>[start:stop:step]</code></li><li>Understand why strings are <b>immutable</b> and what that means for methods</li><li>Clean text with <code>strip()</code>, <code>replace()</code>, <code>lower()</code>, <code>title()</code>, <code>split()</code> and <code>join()</code></li><li>Search and check text with <code>find()</code>, <code>count()</code>, <code>startswith()</code> and the <code>is...()</code> methods</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=k9TUPpGqYTo">Python Tutorial for Beginners 2: Strings - Working with Textual Data</a> by Corey Schafer (about 21 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=o82zQ2DrIss">Python String Slicing: Access Characters &amp; Substrings (Telugu)</a> by Tutor Things (about 10 min)</li></ul></section><h2>A string is a row of characters</h2>
+<section class="mm"><h3>Mind map: Everything you can do with a string</h3><ul><li><b>Strings</b><ul><li>Get parts<ul><li>indexing s[0], s[-1]</li><li>slicing s[2:5]</li><li>reverse s[::-1]</li></ul></li><li>Change case<ul><li>upper(), lower()</li><li>title(), capitalize()</li><li>swapcase()</li></ul></li><li>Clean<ul><li>strip(), lstrip(), rstrip()</li><li>replace(old, new)</li></ul></li><li>Split and join<ul><li>split(&quot;,&quot;)</li><li>&quot;, &quot;.join(list)</li></ul></li><li>Search<ul><li>find(), index()</li><li>count()</li><li>startswith(), endswith()</li><li>in</li></ul></li><li>Check<ul><li>isdigit(), isalpha()</li><li>isalnum(), isspace()</li><li>isupper(), islower()</li></ul></li></ul></li></ul></section>
+<p>A <mark>string</mark> is a sequence of characters in a fixed order. Every character has a position number called an <b>index</b>. <code>len()</code> tells you how many characters there are, including spaces.</p>
+<figure class="code"><pre><code>message = &quot;Hello, World!&quot;
+print(len(message))
+print(type(message))</code></pre><p class="olbl">Output</p><pre class="out">13
+&lt;class 'str'&gt;</pre></figure>
+<h2>Indexing: one character at a time</h2>
+<p class="cap">Diagram: Positive indexes start at <b>0</b> on the left. Negative indexes start at <b>-1</b> on the right.</p>
+<figure class="code"><pre><code>message = &quot;Python&quot;
+print(message[0])     # first character
+print(message[1])
+print(message[-1])    # last character
+print(message[-2])    # second from the end</code></pre><p class="olbl">Output</p><pre class="out">P
+y
+n
+o</pre></figure>
+<aside class="note key"><strong>Remember this</strong><p>Counting starts at <b>0</b>, not 1. So the first character is <code>[0]</code> and the last is <code>[len - 1]</code>, or simply <code>[-1]</code>. Negative indexes are the easy way to grab things from the end.</p></aside>
+<aside class="note trap"><strong>Trap! Index out of range</strong><p>&quot;Python&quot; has 6 characters, indexes 0 to 5. Asking for index 6 is an error.</p><figure class="code"><pre><code>print(&quot;Python&quot;[6])</code></pre><p class="olbl">Error</p><pre class="out">IndexError: string index out of range</pre></figure></aside>
+<h2>Slicing: cut out a piece</h2>
+<p>Slicing uses <code>[start:stop:step]</code>. You get the characters <b>from start up to, but not including, stop</b>. Leave out start to begin at the beginning. Leave out stop to go to the end. Step is how far to jump each time (default 1).</p>
+<section class="anim"><h3>Animated explainer: Slicing a[6:10] step by step</h3><ol><li>Here is the string with its index numbers. Positive numbers count from the left starting at 0. Negative numbers count from the right starting at -1.</li><li>Take index 6 (&quot;S&quot;). This is the start position.</li><li>Take index 7 (&quot;h&quot;). Then jump 1 step.</li><li>Take index 8 (&quot;a&quot;). Then jump 1 step.</li><li>Take index 9 (&quot;r&quot;). Then jump 1 step.</li><li>We stop before index 10, because the stop position is never included. The result is &quot;Shar&quot;.</li></ol></section>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>a = &quot;raman Sharma&quot;
+print(a[6:10])     # from index 6 up to (not including) 10
+print(a[-3:])      # the last 3 characters
+print(a[-6:-1])    # negative indexes work too</code></pre><p class="olbl">Output</p><pre class="out">Shar
+rma
+Sharm</pre></figure>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>message = &quot;Python Programming&quot;
+print(message[0:6])
+print(message[7:18])
+print(message[:6])      # from the start
+print(message[7:])      # to the end
+print(message[0:18:2])  # every second character
+print(message[::-1])    # reversed</code></pre><p class="olbl">Output</p><pre class="out">Python
+Programming
+Python
+Programming
+Pto rgamn
+gnimmargorP nohtyP</pre></figure>
+<section class="anim"><h3>Animated explainer: Slicing with a step: message[0:18:2]</h3><ol><li>Here is the string with its index numbers. Positive numbers count from the left starting at 0. Negative numbers count from the right starting at -1.</li><li>Take index 0 (&quot;P&quot;). This is the start position.</li><li>Take index 2 (&quot;t&quot;). Then jump 2 steps.</li><li>Take index 4 (&quot;o&quot;). Then jump 2 steps.</li><li>Take index 6 (&quot; &quot;). Then jump 2 steps.</li><li>Take index 8 (&quot;r&quot;). Then jump 2 steps.</li><li>Take index 10 (&quot;g&quot;). Then jump 2 steps.</li><li>Take index 12 (&quot;a&quot;). Then jump 2 steps.</li><li>Take index 14 (&quot;m&quot;). Then jump 2 steps.</li><li>Take index 16 (&quot;n&quot;). Then jump 2 steps.</li><li>We stop before index 18, because the stop position is never included. The result is &quot;Pto rgamn&quot;.</li></ol></section>
+<div class="tbl"><table><thead><tr><th>Slice</th><th>Means</th><th>&quot;Python&quot; gives</th></tr></thead><tbody><tr><td><code>s[2:5]</code></td><td>Index 2 up to 4</td><td><code>&quot;tho&quot;</code></td></tr><tr><td><code>s[:3]</code></td><td>First 3 characters</td><td><code>&quot;Pyt&quot;</code></td></tr><tr><td><code>s[3:]</code></td><td>From index 3 to the end</td><td><code>&quot;hon&quot;</code></td></tr><tr><td><code>s[-3:]</code></td><td>Last 3 characters</td><td><code>&quot;hon&quot;</code></td></tr><tr><td><code>s[:-1]</code></td><td>Everything except the last</td><td><code>&quot;Pytho&quot;</code></td></tr><tr><td><code>s[::2]</code></td><td>Every second character</td><td><code>&quot;Pto&quot;</code></td></tr><tr><td><code>s[::-1]</code></td><td>Reversed</td><td><code>&quot;nohtyP&quot;</code></td></tr><tr><td><code>s[:]</code></td><td>A full copy</td><td><code>&quot;Python&quot;</code></td></tr></tbody></table></div>
+<aside class="note tip"><strong>Easy tip</strong><p>Slicing never gives an index error. If stop is past the end, Python just stops at the end. <code>&quot;Python&quot;[2:100]</code> is <code>&quot;thon&quot;</code>.</p></aside>
+<aside class="note like"><strong>Think of it like this</strong><p>Think of the index numbers as sitting <b>between</b> the characters, like the marks on a ruler. <code>s[2:5]</code> cuts at mark 2 and mark 5 and gives you what is in between: 3 characters. This is why stop is not included, and why, with a step of 1, <code>stop - start</code> is the length of the slice (when stop is inside the string).</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>print(&quot;Data Analytics&quot;[::-1][:4])</code></pre></figure><ol type="A"><li><code>Data</code></li><li><code>scit</code></li><li><code>atad</code></li><li><code>tics</code></li></ol><details><summary>Answer</summary><p><b><code>scit</code></b>. First <code>[::-1]</code> reverses it to &quot;scitylanA ataD&quot;. Then <code>[:4]</code> takes the first 4 characters of that: &quot;scit&quot;.</p></details></section>
+<h2>Strings are immutable</h2>
+<p><mark>Immutable</mark> means <b>cannot be changed after it is created</b>. You cannot replace one character inside a string.</p>
+<figure class="code"><pre><code>name = &quot;Raman&quot;
+name[0] = &quot;P&quot;</code></pre><p class="olbl">Error</p><pre class="out">TypeError: 'str' object does not support item assignment</pre></figure>
+<p>So methods that change text, like <code>upper()</code> and <code>replace()</code>, give you a <b>new</b> string and leave the original alone. This example from your course notebook shows it clearly.</p>
+<figure class="code"><pre><code>city = &quot;Jaipur&quot;
+print(city.replace(&quot;Jai&quot;, &quot;Udai&quot;))
+print(city)                          # unchanged!
+
+city = city.replace(&quot;Jai&quot;, &quot;Udai&quot;)   # store the new string to keep it
+print(city)</code></pre><p class="olbl">Output</p><pre class="out">Udaipur
+Jaipur
+Udaipur</pre></figure>
+<aside class="note trap"><strong>Trap! Forgetting to store the result</strong><p>Writing <code>name.upper()</code> on its own line does nothing useful. The new uppercase string is created and thrown away. Write <code>name = name.upper()</code> to keep it.</p></aside>
+<h2>Changing case</h2>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>a = &quot;raman Sharma&quot;
+print(a.upper())
+print(a.lower())
+print(a.capitalize())   # first letter capital, rest small
+print(a.title())        # first letter of each word capital
+print(a.swapcase())
+print(a.upper().count(&quot;R&quot;))</code></pre><p class="olbl">Output</p><pre class="out">RAMAN SHARMA
+raman sharma
+Raman sharma
+Raman Sharma
+RAMAN sHARMA
+2</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Text comparisons are case-sensitive: <code>&quot;Delhi&quot; == &quot;delhi&quot;</code> is False. Before comparing or counting text from users or files, make it all lowercase with <code>.lower()</code>.</p></aside>
+<h2>Cleaning: strip and replace</h2>
+<p><code>strip()</code> removes characters from <b>both ends</b> only. With no argument it removes spaces, tabs and new lines. <code>lstrip()</code> cleans the left end, <code>rstrip()</code> the right end.</p>
+<figure class="code"><pre><code>messy = &quot;   Hello, World!   &quot;
+print(&quot;[&quot; + messy.strip() + &quot;]&quot;)
+print(&quot;[&quot; + messy.lstrip() + &quot;]&quot;)
+print(&quot;[&quot; + messy.rstrip() + &quot;]&quot;)
+
+a = &quot;$$Raman$$$&quot;
+print(a.strip(&quot;$&quot;))
+print(a.lstrip(&quot;$&quot;))
+print(a.rstrip(&quot;$&quot;))</code></pre><p class="olbl">Output</p><pre class="out">[Hello, World!]
+[Hello, World!   ]
+[   Hello, World!]
+Raman
+Raman$$$
+$$Raman</pre></figure>
+<aside class="note trap"><strong>Trap! strip() never touches the middle</strong><p><code>strip()</code> only works on the ends. To remove a character everywhere, use <code>replace(&quot;$&quot;, &quot;&quot;)</code>.</p><figure class="code"><pre><code>a = &quot;$$Ram$an$$$&quot;
+print(a.strip(&quot;$&quot;))
+print(a.replace(&quot;$&quot;, &quot;&quot;))</code></pre><p class="olbl">Output</p><pre class="out">Ram$an
+Raman</pre></figure></aside>
+<figure class="code"><figcaption>replace(old, new, count)</figcaption><pre><code>message = &quot;Python is great, Python is easy&quot;
+print(message.replace(&quot;Python&quot;, &quot;JavaScript&quot;))
+print(message.replace(&quot;Python&quot;, &quot;JavaScript&quot;, 1))   # only the first one</code></pre><p class="olbl">Output</p><pre class="out">JavaScript is great, JavaScript is easy
+JavaScript is great, Python is easy</pre></figure>
+<h2>split() and join()</h2>
+<p><code>split()</code> breaks a string into a <b>list</b> of pieces. <code>join()</code> does the opposite: it glues a list of strings together. These two are used constantly when reading data files.</p>
+<figure class="code"><pre><code>csv_data = &quot;apple,banana,cherry&quot;
+print(csv_data.split(&quot;,&quot;))
+
+email = &quot;wscube@gmail.com&quot;
+print(email.split(&quot;@&quot;))            # course example
+
+sentence = &quot;the  cat sat&quot;
+print(sentence.split())            # no argument: split on any spaces
+
+fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+print(&quot;, &quot;.join(fruits))
+print(&quot;-&quot;.join([&quot;2026&quot;, &quot;10&quot;, &quot;25&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">['apple', 'banana', 'cherry']
+['wscube', 'gmail.com']
+['the', 'cat', 'sat']
+apple, banana, cherry
+2026-10-25</pre></figure>
+<aside class="note trap"><strong>Trap! join() only joins strings</strong><p>The glue goes <b>before</b> <code>.join</code>, and the list must hold only strings.</p><figure class="code"><pre><code>print(&quot;, &quot;.join([1, 2, 3]))</code></pre><p class="olbl">Error</p><pre class="out">TypeError: sequence item 0: expected str instance, int found</pre></figure></aside>
+<section class="deck"><h3>Slides: Cleaning messy text, one step at a time</h3><ol><li><p><b>Real data is messy.</b></p><p>Here is a name and city typed by a customer into a booking form: <code>&quot;   priya SHARMA , mumbai   &quot;</code>. Let us clean it in four steps.</p></li><li><p><b>Step 1: strip the outer spaces</b></p><figure class="code"><pre><code>raw = &quot;   priya SHARMA , mumbai   &quot;
+step1 = raw.strip()
+print(&quot;[&quot; + step1 + &quot;]&quot;)</code></pre><p class="olbl">Output</p><pre class="out">[priya SHARMA , mumbai]</pre></figure></li><li><p><b>Step 2: fix the capitals with title()</b></p><figure class="code"><pre><code>raw = &quot;   priya SHARMA , mumbai   &quot;
+step2 = raw.strip().title()
+print(step2)</code></pre><p class="olbl">Output</p><pre class="out">Priya Sharma , Mumbai</pre></figure></li><li><p><b>Step 3: split into two parts</b></p><p>Methods can be <b>chained</b>: each one works on the result of the one before.</p><figure class="code"><pre><code>raw = &quot;   priya SHARMA , mumbai   &quot;
+name, city = raw.strip().title().split(&quot;,&quot;)
+print([name, city])</code></pre><p class="olbl">Output</p><pre class="out">['Priya Sharma ', ' Mumbai']</pre></figure></li><li><p><b>Step 4: strip each part and use them</b></p><figure class="code"><pre><code>raw = &quot;   priya SHARMA , mumbai   &quot;
+name, city = raw.strip().title().split(&quot;,&quot;)
+name = name.strip()
+city = city.strip()
+print(f&quot;{name} from {city}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Priya Sharma from Mumbai</pre></figure></li><li><p><b>Why this matters</b></p><p>Without cleaning, &quot;mumbai&quot;, &quot;Mumbai &quot; and &quot;MUMBAI&quot; count as three different cities in your report. Cleaning text is often the biggest part of a data analyst's job.</p></li></ol></section>
+<h2>Searching inside a string</h2>
+<figure class="code"><pre><code>message = &quot;Python Programming&quot;
+print(message.find(&quot;Pro&quot;))      # index where it starts
+print(message.find(&quot;Java&quot;))     # -1 means not found
+print(&quot;Pro&quot; in message)         # simple yes/no
+
+text = &quot;Python is amazing and Python is easy to learn&quot;
+print(text.count(&quot;Python&quot;))
+print(text.count(&quot;a&quot;))
+
+name = &quot;Raman&quot;
+print(name.startswith(&quot;r&quot;))     # case matters
+print(name.startswith(&quot;R&quot;))
+print(&quot;report.csv&quot;.endswith(&quot;.csv&quot;))</code></pre><p class="olbl">Output</p><pre class="out">7
+-1
+True
+2
+5
+False
+True
+True</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The PDF says <code>text.count(&quot;a&quot;)</code> is 4. Run it and you get 5. &quot;amazing&quot; has two a's, and &quot;and&quot;, &quot;easy&quot; and &quot;learn&quot; have one each. Always run the code yourself. The output is the truth.</p></aside>
+<aside class="note trap"><strong>find() vs index()</strong><p>Both return the position. When the text is <b>not found</b>, <code>find()</code> returns <code>-1</code> but <code>index()</code> raises an error. Use <code>find()</code> (or <code>in</code>) when the text might be missing.</p><figure class="code"><pre><code>print(&quot;Python&quot;.index(&quot;Java&quot;))</code></pre><p class="olbl">Error</p><pre class="out">ValueError: substring not found</pre></figure></aside>
+<h2>Checking what a string contains</h2>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>a = &quot;Raman&quot;
+b = &quot;Wscube123&quot;
+c = &quot;9876&quot;
+d = &quot;WsCube Tech&quot;
+
+print(a.isalpha(), b.isalpha(), c.isalpha(), d.isalpha())
+print(a.isalnum(), b.isalnum(), c.isalnum(), d.isalnum())
+print(a.isnumeric(), b.isnumeric(), c.isnumeric(), d.isnumeric())</code></pre><p class="olbl">Output</p><pre class="out">True False False False
+True True True False
+False False True False</pre></figure>
+<div class="tbl"><table><thead><tr><th>Method</th><th>True when every character is...</th><th>Watch out</th></tr></thead><tbody><tr><td><code>isalpha()</code></td><td>a letter</td><td>A space makes it False</td></tr><tr><td><code>isdigit()</code></td><td>a digit 0 to 9</td><td><code>&quot;-5&quot;</code> and <code>&quot;3.5&quot;</code> are False</td></tr><tr><td><code>isnumeric()</code></td><td>a number character</td><td>Same as above for everyday use</td></tr><tr><td><code>isalnum()</code></td><td>a letter or digit</td><td>&quot;WsCube Tech&quot; is False because of the space</td></tr><tr><td><code>isspace()</code></td><td>whitespace</td><td></td></tr><tr><td><code>isupper()</code> / <code>islower()</code></td><td>upper / lower case letters</td><td>Digits and spaces are ignored, but there must be at least one letter</td></tr></tbody></table></div>
+<h2>Looping over a string</h2>
+<figure class="code"><pre><code>for index, character in enumerate(&quot;Py&quot;):
+    print(f&quot;Index {index}: {character}&quot;)
+
+vowels = 0
+for ch in &quot;Data Analytics&quot;.lower():
+    if ch in &quot;aeiou&quot;:
+        vowels += 1
+print(&quot;Vowels:&quot;, vowels)</code></pre><p class="olbl">Output</p><pre class="out">Index 0: P
+Index 1: y
+Vowels: 5</pre></figure>
+<h2>String methods reference</h2>
+<div class="tbl"><table><thead><tr><th>Method</th><th>Example</th><th>Result</th></tr></thead><tbody><tr><td><code>upper()</code> <code>lower()</code></td><td><code>&quot;Hi&quot;.upper()</code></td><td><code>&quot;HI&quot;</code></td></tr><tr><td><code>title()</code> <code>capitalize()</code></td><td><code>&quot;hi there&quot;.title()</code></td><td><code>&quot;Hi There&quot;</code></td></tr><tr><td><code>strip()</code> <code>lstrip()</code> <code>rstrip()</code></td><td><code>&quot; hi &quot;.strip()</code></td><td><code>&quot;hi&quot;</code></td></tr><tr><td><code>replace(a, b)</code></td><td><code>&quot;a-b&quot;.replace(&quot;-&quot;, &quot;+&quot;)</code></td><td><code>&quot;a+b&quot;</code></td></tr><tr><td><code>split(sep)</code></td><td><code>&quot;a,b&quot;.split(&quot;,&quot;)</code></td><td><code>[&quot;a&quot;, &quot;b&quot;]</code></td></tr><tr><td><code>sep.join(list)</code></td><td><code>&quot;-&quot;.join([&quot;a&quot;, &quot;b&quot;])</code></td><td><code>&quot;a-b&quot;</code></td></tr><tr><td><code>find(x)</code> <code>index(x)</code></td><td><code>&quot;hello&quot;.find(&quot;l&quot;)</code></td><td><code>2</code></td></tr><tr><td><code>count(x)</code></td><td><code>&quot;hello&quot;.count(&quot;l&quot;)</code></td><td><code>2</code></td></tr><tr><td><code>startswith(x)</code> <code>endswith(x)</code></td><td><code>&quot;data.csv&quot;.endswith(&quot;.csv&quot;)</code></td><td><code>True</code></td></tr><tr><td><code>isdigit()</code> <code>isalpha()</code> <code>isalnum()</code></td><td><code>&quot;123&quot;.isdigit()</code></td><td><code>True</code></td></tr><tr><td><code>zfill(n)</code></td><td><code>&quot;7&quot;.zfill(3)</code></td><td><code>&quot;007&quot;</code></td></tr><tr><td><code>center(n)</code> <code>ljust(n)</code> <code>rjust(n)</code></td><td><code>&quot;hi&quot;.center(6, &quot;*&quot;)</code></td><td><code>&quot;**hi**&quot;</code></td></tr></tbody></table></div>
+<ol class="tasks"><li><p>From <code>email = &quot;raman.kumar@company.in&quot;</code>, print the username and the domain separately.</p><details><summary>Solution</summary><figure class="code"><pre><code>email = &quot;raman.kumar@company.in&quot;
+user, domain = email.split(&quot;@&quot;)
+print(&quot;User:&quot;, user)
+print(&quot;Domain:&quot;, domain)</code></pre><p class="olbl">Output</p><pre class="out">User: raman.kumar
+Domain: company.in</pre></figure></details></li><li><p>Check whether a word is a palindrome (reads the same backwards), ignoring capitals. Test with &quot;Madam&quot;.</p><details><summary>Hint</summary><p>Lowercase it, then compare it with its reverse <code>[::-1]</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>word = &quot;Madam&quot;
+w = word.lower()
+print(w == w[::-1])</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure></details></li><li><p>Print the initials of <code>&quot;raman kumar sharma&quot;</code> as <code>RKS</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>full = &quot;raman kumar sharma&quot;
+initials = &quot;&quot;
+for part in full.split():
+    initials += part[0].upper()
+print(initials)</code></pre><p class="olbl">Output</p><pre class="out">RKS</pre></figure></details></li><li><p>Mask a phone number so only the last 4 digits show: <code>9876543210</code> becomes <code>******3210</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>phone = &quot;9876543210&quot;
+masked = &quot;*&quot; * (len(phone) - 4) + phone[-4:]
+print(masked)</code></pre><p class="olbl">Output</p><pre class="out">******3210</pre></figure></details></li><li><p>Count how many times the word &quot;data&quot; appears in <code>&quot;Data beats opinion. Clean data, then analyse data.&quot;</code>, ignoring case.</p><details><summary>Solution</summary><figure class="code"><pre><code>text = &quot;Data beats opinion. Clean data, then analyse data.&quot;
+print(text.lower().count(&quot;data&quot;))</code></pre><p class="olbl">Output</p><pre class="out">3</pre></figure></details></li><li><p>A product code looks like <code>&quot;SKU-00482-BLU&quot;</code>. Pull out the number part as an integer.</p><details><summary>Solution</summary><figure class="code"><pre><code>code = &quot;SKU-00482-BLU&quot;
+number = int(code.split(&quot;-&quot;)[1])
+print(number)</code></pre><p class="olbl">Output</p><pre class="out">482</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Indexes start at 0. Negative indexes count from the end: <code>s[-1]</code> is the last character.</li><li>Slicing <code>s[start:stop:step]</code> includes start, excludes stop. <code>s[::-1]</code> reverses.</li><li>Strings are immutable. Methods return a new string, so store it: <code>s = s.strip()</code>.</li><li><code>strip()</code> cleans only the ends. <code>replace()</code> changes everywhere.</li><li><code>split()</code> turns text into a list. <code>&quot;, &quot;.join(list)</code> turns a list back into text.</li><li><code>find()</code> returns -1 when missing. <code>index()</code> raises an error.</li></ul></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>s = &quot;Python&quot;
+print(s[1], s[-1])</code></pre></figure><ol type="A"><li><code>P n</code></li><li><code>y n</code></li><li><code>y o</code></li><li><code>P o</code></li></ol><details><summary>Answer</summary><p><b><code>y n</code></b>. Index 1 is the second character, y. Index -1 is the last character, n.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;Analytics&quot;[2:5])</code></pre></figure><ol type="A"><li><code>naly</code></li><li><code>aly</code></li><li><code>al</code></li><li><code>nal</code></li></ol><details><summary>Answer</summary><p><b><code>aly</code></b>. Indexes 2, 3 and 4: a, l, y. Stop (5) is not included.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;Python&quot;[::-1])</code></pre></figure><ol type="A"><li><code>Python</code></li><li><code>nohtyP</code></li><li><code>P</code></li><li><code>n</code></li></ol><details><summary>Answer</summary><p><b><code>nohtyP</code></b>. A step of -1 walks backwards through the whole string.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>city = &quot;jaipur&quot;
+city.upper()
+print(city)</code></pre></figure><ol type="A"><li><code>JAIPUR</code></li><li><code>jaipur</code></li><li><code>Jaipur</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>jaipur</code></b>. Strings are immutable. <code>upper()</code> made a new string that was never stored.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;--data--&quot;.strip(&quot;-&quot;))</code></pre></figure><ol type="A"><li><code>data</code></li><li><code>--data</code></li><li><code>data--</code></li><li><code>d-a-t-a</code></li></ol><details><summary>Answer</summary><p><b><code>data</code></b>. strip removes the given character from both ends.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;a,b,c&quot;.split(&quot;,&quot;))</code></pre></figure><ol type="A"><li><code>abc</code></li><li><code>['a', 'b', 'c']</code></li><li><code>('a', 'b', 'c')</code></li><li><code>a b c</code></li></ol><details><summary>Answer</summary><p><b><code>['a', 'b', 'c']</code></b>. split returns a list of strings.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;Python&quot;.find(&quot;z&quot;))</code></pre></figure><ol type="A"><li><code>0</code></li><li><code>-1</code></li><li><code>None</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>-1</code></b>. find returns -1 when the text is not found. index would raise an error instead.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;WsCube Tech&quot;.isalnum())</code></pre></figure><ol type="A"><li><code>True</code></li><li><code>False</code></li><li>An error</li><li><code>None</code></li></ol><details><summary>Answer</summary><p><b><code>False</code></b>. The space is not a letter or digit, so it is False.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(&quot;hello world&quot;.title())</code></pre></figure><ol type="A"><li><code>Hello world</code></li><li><code>Hello World</code></li><li><code>HELLO WORLD</code></li><li><code>hello World</code></li></ol><details><summary>Answer</summary><p><b><code>Hello World</code></b>. title() capitalises the first letter of every word.</p></details></li><li><p>Which line joins <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code> into <code>a-b-c</code>?</p><ol type="A"><li><code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].join(&quot;-&quot;)</code></li><li><code>&quot;-&quot;.join([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code></li><li><code>join(&quot;-&quot;, [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code></li><li><code>&quot;-&quot;.split([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code></li></ol><details><summary>Answer</summary><p><b><code>&quot;-&quot;.join([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code></b>. The separator comes first, then <code>.join(list)</code>.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What is the index of the first and last character?</dt><dd>First: <code>0</code>. Last: <code>-1</code> (or <code>len(s) - 1</code>).</dd><dt>What does <code>s[2:5]</code> return?</dt><dd>The characters at index 2, 3 and 4. Stop (5) is never included.</dd><dt>How do you reverse a string?</dt><dd><code>s[::-1]</code></dd><dt>What does immutable mean for strings?</dt><dd>A string cannot be changed in place. <code>s[0] = &quot;X&quot;</code> is an error. Methods return a <b>new</b> string.</dd><dt>Why does <code>name.upper()</code> alone not change <code>name</code>?</dt><dd>It returns a new string. You must store it: <code>name = name.upper()</code>.</dd><dt><code>strip()</code> vs <code>replace()</code></dt><dd><code>strip()</code> removes characters only from the two ends. <code>replace(old, new)</code> changes every match anywhere.</dd><dt><code>capitalize()</code> vs <code>title()</code></dt><dd><code>capitalize()</code>: capital first letter, every other letter small (<code>&quot;raman Sharma&quot;</code> becomes <code>&quot;Raman sharma&quot;</code>). <code>title()</code>: capital first letter of every word.</dd><dt>What do <code>split()</code> and <code>join()</code> do?</dt><dd><code>&quot;a,b&quot;.split(&quot;,&quot;)</code> gives <code>['a', 'b']</code>. <code>&quot;,&quot;.join(['a', 'b'])</code> gives <code>&quot;a,b&quot;</code>.</dd><dt><code>find()</code> vs <code>index()</code> when text is missing</dt><dd><code>find()</code> returns <code>-1</code>. <code>index()</code> raises <code>ValueError</code>.</dd><dt>How do you count a word ignoring case?</dt><dd><code>text.lower().count(&quot;data&quot;)</code></dd><dt>Does slicing past the end cause an error?</dt><dd>No. <code>&quot;Python&quot;[2:100]</code> just gives <code>&quot;thon&quot;</code>. Only single indexes like <code>s[100]</code> raise IndexError.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>s[0]  s[-1]</code></td><td>First and last character</td></tr><tr><td><code>s[2:5]  s[:3]  s[3:]</code></td><td>Slices</td></tr><tr><td><code>s[::-1]</code></td><td>Reverse</td></tr><tr><td><code>len(s)</code></td><td>Number of characters</td></tr><tr><td><code>s.upper()  s.lower()  s.title()</code></td><td>Change case</td></tr><tr><td><code>s.strip()</code></td><td>Remove spaces at both ends</td></tr><tr><td><code>s.replace(&quot;a&quot;, &quot;b&quot;)</code></td><td>Replace every a with b</td></tr><tr><td><code>s.split(&quot;,&quot;)</code></td><td>Text to list</td></tr><tr><td><code>&quot;, &quot;.join(items)</code></td><td>List to text</td></tr><tr><td><code>s.find(&quot;x&quot;)  s.count(&quot;x&quot;)</code></td><td>Position (-1 if missing), number of matches</td></tr><tr><td><code>s.startswith(&quot;x&quot;)</code></td><td>Starts with x?</td></tr><tr><td><code>s.isdigit()  s.isalpha()</code></td><td>Only digits? Only letters?</td></tr></tbody></table></div></section><nav class="pn"><a href="overview2.html">← Part 2 overview</a><a href="lists.html">Lists →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>
