@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictionaries | Python Study Hub</title>
+<meta name="description" content="A dictionary stores data as key: value pairs, so you find things by name instead of by position. It is the shape of most real data: a customer record, a product, a row from a database.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/dicts.html">
+<meta property="og:title" content="Dictionaries | Python Study Hub">
+<meta property="og:description" content="A dictionary stores data as key: value pairs, so you find things by name instead of by position. It is the shape of most real data: a customer record, a product, a row from a database.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#dicts">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#dicts">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 3 · Collections · Chapter 12</p><h1>Dictionaries</h1><p class="lead">A dictionary stores data as <b>key: value</b> pairs, so you find things by name instead of by position. It is the shape of most real data: a customer record, a product, a row from a database.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Create dictionaries and read values safely with <code>get()</code></li><li>Add, update and delete key-value pairs</li><li>Loop with <code>keys()</code>, <code>values()</code> and <code>items()</code></li><li>Work with nested dictionaries, like the course's student and movie data</li><li>Use the counting, grouping and lookup patterns</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=daefaLgNkw0">Python Tutorial for Beginners 5: Dictionaries - Working with Key-Value Pairs</a> by Corey Schafer (about 10 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=5ghvM8MOiJM">Python - Access Dictionary Items - W3Schools Python Tutorial Telugu</a> by Tutor Things (about 15 min)</li></ul></section><h2>What is a dictionary?</h2>
+<p>A <mark>dictionary</mark> (<code>dict</code>) is a collection of <b>key: value</b> pairs inside curly brackets. You look up a value by its <b>key</b>. It works like a real dictionary: you look up a word to find its meaning, or a name in your phone to find the number.</p>
+<section class="mm"><h3>Mind map: Dictionary mind map</h3><ul><li><b>Dictionary</b><ul><li>Create<ul><li>{&quot;name&quot;: &quot;Raman&quot;}</li><li>dict(name=&quot;Raman&quot;)</li><li>dict(zip(keys, values))</li></ul></li><li>Read<ul><li>d[&quot;name&quot;]  (KeyError if missing)</li><li>d.get(&quot;name&quot;, default)</li></ul></li><li>Change<ul><li>d[&quot;age&quot;] = 17</li><li>d.update(other)</li><li>d.setdefault(k, v)</li></ul></li><li>Delete<ul><li>d.pop(k)</li><li>del d[k]</li><li>d.popitem(), d.clear()</li></ul></li><li>Loop<ul><li>for k in d</li><li>d.values()</li><li>for k, v in d.items()</li></ul></li><li>Patterns<ul><li>count things</li><li>group things</li><li>lookup table</li><li>nested records</li></ul></li></ul></li></ul></section>
+<figure class="code"><figcaption>List vs dictionary, from your course notebook</figcaption><pre><code>stu_details_list = [&quot;Raman&quot;, 16, &quot;X&quot;, True]     # what does 16 mean? you must remember
+
+stu_details = {
+    &quot;name&quot;: &quot;Raman&quot;,
+    &quot;age&quot;: 16,
+    &quot;class&quot;: &quot;X&quot;,
+    &quot;isFeePaid&quot;: True,
+}
+print(stu_details_list[1])
+print(stu_details[&quot;age&quot;])                       # the key explains itself</code></pre><p class="olbl">Output</p><pre class="out">16
+16</pre></figure>
+<p class="cap">Diagram: Keys on the left, values on the right. You always look up by key.</p>
+<div class="tbl"><table><thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody><tr><td>Keys are unique</td><td>Use the same key twice and the <b>last</b> value wins</td></tr><tr><td>Keys must be immutable</td><td>Strings, numbers and tuples are fine. Lists are not</td></tr><tr><td>Values can be anything</td><td>Numbers, text, lists, even other dictionaries</td></tr><tr><td>Ordered</td><td>Since Python 3.7, items stay in the order you added them</td></tr><tr><td>Mutable</td><td>You can add, change and remove pairs</td></tr></tbody></table></div>
+<figure class="code"><figcaption>Duplicate keys: the last one wins (course notebook)</figcaption><pre><code>stu_details = {
+    &quot;name&quot;: &quot;Raman&quot;,
+    &quot;name&quot;: &quot;Rajeev&quot;,
+    &quot;age&quot;: 16,
+}
+print(stu_details)</code></pre><p class="olbl">Output</p><pre class="out">{'name': 'Rajeev', 'age': 16}</pre></figure>
+<h2>Creating dictionaries</h2>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>empty = {}
+person = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30, &quot;city&quot;: &quot;New York&quot;}
+person_alt = dict(name=&quot;John&quot;, age=30, city=&quot;New York&quot;)
+from_pairs = dict([(&quot;name&quot;, &quot;John&quot;), (&quot;age&quot;, 30)])
+from_zip = dict(zip([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [1, 2, 3]))
+squares = {x: x ** 2 for x in range(5)}
+
+print(person == person_alt)
+print(from_pairs)
+print(from_zip)
+print(squares)</code></pre><p class="olbl">Output</p><pre class="out">True
+{'name': 'John', 'age': 30}
+{'a': 1, 'b': 2, 'c': 3}
+{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</pre></figure>
+<h2>Reading values: [ ] vs get()</h2>
+<figure class="code"><pre><code>person = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30, &quot;city&quot;: &quot;New York&quot;}
+print(person[&quot;name&quot;])
+print(person.get(&quot;age&quot;))
+print(person.get(&quot;email&quot;))                    # missing: gives None
+print(person.get(&quot;email&quot;, &quot;Not specified&quot;))   # missing: gives your default</code></pre><p class="olbl">Output</p><pre class="out">John
+30
+None
+Not specified</pre></figure>
+<aside class="note trap"><strong>Trap! KeyError</strong><p>Square brackets crash when the key is missing. Use <code>get()</code> when a key might not be there, or check first with <code>in</code>.</p><figure class="code"><pre><code>person = {&quot;name&quot;: &quot;John&quot;}
+print(person[&quot;email&quot;])</code></pre><p class="olbl">Error</p><pre class="out">KeyError: 'email'</pre></figure></aside>
+<aside class="note trap"><strong>Trap! in checks keys, not values</strong><p><code>in</code> on a dictionary only looks at the <b>keys</b>.</p><figure class="code"><pre><code>person = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}
+print(&quot;name&quot; in person)
+print(&quot;John&quot; in person)
+print(&quot;John&quot; in person.values())</code></pre><p class="olbl">Output</p><pre class="out">True
+False
+True</pre></figure></aside>
+<h2>Adding, updating and removing</h2>
+<p>Assigning to a key <b>adds</b> it if it is new, or <b>updates</b> it if it already exists. Same syntax for both.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>stu = {&quot;name&quot;: &quot;Rajeev&quot;, &quot;age&quot;: 16, &quot;class&quot;: &quot;X&quot;, &quot;isFeePaid&quot;: True}
+
+stu[&quot;mobNo&quot;] = &quot;9879879879&quot;     # new key: added
+stu[&quot;isFeePaid&quot;] = False        # existing key: updated
+print(stu)
+
+del stu[&quot;age&quot;]
+print(stu)</code></pre><p class="olbl">Output</p><pre class="out">{'name': 'Rajeev', 'age': 16, 'class': 'X', 'isFeePaid': False, 'mobNo': '9879879879'}
+{'name': 'Rajeev', 'class': 'X', 'isFeePaid': False, 'mobNo': '9879879879'}</pre></figure>
+<figure class="code"><figcaption>update(), pop(), popitem(), clear() (from the PDF)</figcaption><pre><code>person = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30, &quot;city&quot;: &quot;New York&quot;}
+person.update({&quot;phone&quot;: &quot;123-456-7890&quot;, &quot;age&quot;: 32})   # add and change at once
+print(person)
+
+phone = person.pop(&quot;phone&quot;)      # remove a key and get its value
+print(phone)
+
+last = person.popitem()          # remove the last added pair
+print(last)
+print(person)
+
+person.clear()
+print(person)</code></pre><p class="olbl">Output</p><pre class="out">{'name': 'John', 'age': 32, 'city': 'New York', 'phone': '123-456-7890'}
+123-456-7890
+('city', 'New York')
+{'name': 'John', 'age': 32}
+{}</pre></figure>
+<h2>keys(), values(), items() and looping</h2>
+<figure class="code"><pre><code>person = {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30, &quot;city&quot;: &quot;New York&quot;}
+print(person.keys())
+print(person.values())
+print(person.items())
+
+for key in person:                  # looping a dict gives the keys
+    print(key)
+
+for key, value in person.items():   # the most useful loop
+    print(f&quot;{key}: {value}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">dict_keys(['name', 'age', 'city'])
+dict_values(['John', 30, 'New York'])
+dict_items([('name', 'John'), ('age', 30), ('city', 'New York')])
+name
+age
+city
+name: John
+age: 30
+city: New York</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>keys()</code>, <code>values()</code> and <code>items()</code> are <b>live views</b>. If you add a key later, a view you saved earlier shows it too. Wrap in <code>list()</code> if you need a fixed snapshot: <code>list(person.keys())</code>.</p></aside>
+<figure class="code"><figcaption>setdefault and copy</figcaption><pre><code>person = {&quot;name&quot;: &quot;John&quot;}
+phone = person.setdefault(&quot;phone&quot;, &quot;000&quot;)   # adds the key only if missing
+print(phone, person)
+
+backup = person.copy()                      # same aliasing rules as lists
+backup[&quot;name&quot;] = &quot;Changed&quot;
+print(person[&quot;name&quot;], backup[&quot;name&quot;])</code></pre><p class="olbl">Output</p><pre class="out">000 {'name': 'John', 'phone': '000'}
+John Changed</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+d[&quot;a&quot;] = d.get(&quot;a&quot;, 0) + 10
+d[&quot;c&quot;] = d.get(&quot;c&quot;, 0) + 10
+print(d)</code></pre></figure><ol type="A"><li><code>{'a': 11, 'b': 2, 'c': 10}</code></li><li><code>{'a': 10, 'b': 2, 'c': 10}</code></li><li><code>KeyError: 'c'</code></li><li><code>{'a': 11, 'b': 2}</code></li></ol><details><summary>Answer</summary><p><b><code>{'a': 11, 'b': 2, 'c': 10}</code></b>. <code>get(&quot;a&quot;, 0)</code> finds 1, so a becomes 11. <code>get(&quot;c&quot;, 0)</code> finds nothing and returns 0, so c becomes 10. This <code>get(key, 0) + 1</code> trick is the heart of counting.</p></details></section>
+<h2>Nested dictionaries</h2>
+<p>Values can be dictionaries or lists themselves. This is how real records look, and it is exactly how JSON data from websites and APIs is shaped. Read nested data one bracket at a time.</p>
+<section class="anim"><h3>Animated explainer: Following a path into nested data</h3><ol><li>From your course notebook: a <b>list</b> of students. Each student is a <b>dict</b>, and <code>marks</code> is another dict, and <code>maths</code> is a list of two test scores.</li><li><code>data[0]</code>: data is a list, so use a position. Item 0 is Raman's dictionary.</li><li><code>[&quot;marks&quot;]</code>: that is a dict, so use a key. We get the marks dictionary.</li><li><code>[&quot;maths&quot;]</code>: another key. We get a list of two scores.</li><li><code>[-1]</code>: the last item of that list. The answer is 98. Each bracket goes one level deeper.</li></ol></section>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>data = [
+    {&quot;name&quot;: &quot;Raman&quot;, &quot;class&quot;: &quot;X&quot;, &quot;sec&quot;: &quot;C&quot;,
+     &quot;marks&quot;: {&quot;eng&quot;: 90, &quot;hin&quot;: 89, &quot;maths&quot;: [99, 98], &quot;sci&quot;: 89, &quot;sst&quot;: 88}},
+    {&quot;name&quot;: &quot;Rajeev&quot;, &quot;class&quot;: &quot;X&quot;, &quot;sec&quot;: &quot;A&quot;,
+     &quot;marks&quot;: {&quot;eng&quot;: 86, &quot;hin&quot;: 98, &quot;maths&quot;: [100, 99], &quot;sci&quot;: 82, &quot;sst&quot;: 96}},
+]
+
+for stu in data:
+    print(stu[&quot;name&quot;], &quot;:&quot;, stu[&quot;marks&quot;][&quot;maths&quot;][-1])
+
+data[1][&quot;marks&quot;][&quot;eng&quot;] = 88          # change a nested value
+print(data[1][&quot;marks&quot;][&quot;eng&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Raman : 98
+Rajeev : 99
+88</pre></figure>
+<figure class="code"><figcaption>The course movie database</figcaption><pre><code>movie_db = {
+    &quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20},
+    &quot;Drishyam&quot;: {&quot;price&quot;: 500, &quot;seats&quot;: 40},
+    &quot;Hanuman Ansh&quot;: {&quot;price&quot;: 700, &quot;seats&quot;: 10},
+    &quot;Udta Teer&quot;: {&quot;price&quot;: 400, &quot;seats&quot;: 50},
+}
+
+for name, details in movie_db.items():
+    print(name, &quot;:&quot;, details)
+
+movie = &quot;Drishyam&quot;
+seats_wanted = 3
+if movie in movie_db:
+    if seats_wanted &lt;= movie_db[movie][&quot;seats&quot;]:
+        bill = movie_db[movie][&quot;price&quot;] * seats_wanted
+        movie_db[movie][&quot;seats&quot;] -= seats_wanted
+        print(f&quot;{seats_wanted} seats booked. Bill: {bill}&quot;)
+        print(movie_db[movie][&quot;seats&quot;], &quot;seats left&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Ramayan : {'price': 1000, 'seats': 20}
+Drishyam : {'price': 500, 'seats': 40}
+Hanuman Ansh : {'price': 700, 'seats': 10}
+Udta Teer : {'price': 400, 'seats': 50}
+3 seats booked. Bill: 1500
+37 seats left</pre></figure>
+<p>You will build the full booking and cancelling system in the Projects chapter.</p>
+<h2>Dictionary comprehensions</h2>
+<figure class="code"><pre><code>keys = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+values = [1, 2, 3]
+print({k: v for k, v in zip(keys, values)})
+
+print({x: x ** 2 for x in range(10) if x % 2 == 0})
+
+prices = {&quot;tea&quot;: 20, &quot;coffee&quot;: 45, &quot;juice&quot;: 60}
+print({item: p * 1.18 for item, p in prices.items()})   # add 18% GST</code></pre><p class="olbl">Output</p><pre class="out">{'a': 1, 'b': 2, 'c': 3}
+{0: 0, 2: 4, 4: 16, 6: 36, 8: 64}
+{'tea': 23.599999999999998, 'coffee': 53.099999999999994, 'juice': 70.8}</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>See <code>23.599999999999998</code> and <code>53.099999999999994</code>? That is the float precision issue from the Variables chapter. Wrap it: <code>round(p * 1.18, 2)</code>.</p></aside>
+<h2>Patterns every analyst uses</h2>
+<section class="deck"><h3>Slides: Dictionary patterns</h3><ol><li><p><b>Four patterns cover most dictionary work.</b></p><ul><li><b>Count</b>: how many of each?</li><li><b>Group</b>: which items belong together?</li><li><b>Total by category</b>: how much per group?</li><li><b>Look up</b>: translate a code into a name</li></ul></li><li><p><b>1. Count</b></p><p>Loop, and add 1 to that key. <code>get(word, 0)</code> returns 0 the first time.</p><figure class="code"><pre><code>text = &quot;hello world hello python world python hello&quot;
+counts = {}
+for word in text.split():
+    counts[word] = counts.get(word, 0) + 1
+print(counts)</code></pre><p class="olbl">Output</p><pre class="out">{'hello': 3, 'world': 2, 'python': 2}</pre></figure></li><li><p><b>1b. Count with Counter</b></p><p>Python has a ready-made counter in the <code>collections</code> module.</p><figure class="code"><pre><code>from collections import Counter
+text = &quot;hello world hello python world python hello&quot;
+c = Counter(text.split())
+print(c.most_common(2))</code></pre><p class="olbl">Output</p><pre class="out">[('hello', 3), ('world', 2)]</pre></figure></li><li><p><b>2. Group</b></p><p>Each key holds a list. Create the list the first time you see a key.</p><figure class="code"><pre><code>students = [(&quot;Alice&quot;, &quot;A&quot;), (&quot;Bob&quot;, &quot;B&quot;), (&quot;Charlie&quot;, &quot;A&quot;), (&quot;David&quot;, &quot;C&quot;)]
+by_grade = {}
+for name, grade in students:
+    if grade not in by_grade:
+        by_grade[grade] = []
+    by_grade[grade].append(name)
+print(by_grade)</code></pre><p class="olbl">Output</p><pre class="out">{'A': ['Alice', 'Charlie'], 'B': ['Bob'], 'C': ['David']}</pre></figure></li><li><p><b>3. Total by category</b></p><p>Like a pivot table: sum a number for each category.</p><figure class="code"><pre><code>sales = [(&quot;Electronics&quot;, 899), (&quot;Clothing&quot;, 20), (&quot;Electronics&quot;, 150), (&quot;Books&quot;, 15)]
+totals = {}
+for category, amount in sales:
+    totals[category] = totals.get(category, 0) + amount
+print(totals)</code></pre><p class="olbl">Output</p><pre class="out">{'Electronics': 1049, 'Clothing': 20, 'Books': 15}</pre></figure></li><li><p><b>4. Look up</b></p><p>Translate codes into names, with a default for unknown codes.</p><figure class="code"><pre><code>country_codes = {&quot;US&quot;: &quot;United States&quot;, &quot;IN&quot;: &quot;India&quot;, &quot;MX&quot;: &quot;Mexico&quot;}
+for code in [&quot;IN&quot;, &quot;FR&quot;]:
+    print(code, &quot;-&gt;&quot;, country_codes.get(code, &quot;Unknown&quot;))</code></pre><p class="olbl">Output</p><pre class="out">IN -&gt; India
+FR -&gt; Unknown</pre></figure></li></ol></section>
+<aside class="note why"><strong>Why analysts care</strong><p>Pattern 3 is exactly what a <b>pivot table</b> or SQL's <code>GROUP BY</code> does. In pandas it is one line: <code>df.groupby(&quot;category&quot;)[&quot;amount&quot;].sum()</code>. Now you know what is happening underneath.</p></aside>
+<h2>Why dictionaries are fast</h2>
+<p>To check <code>9999 in some_list</code>, Python looks at every item one by one. To check <code>9999 in some_dict</code>, Python uses the key's <b>hash</b> to jump straight to the right place, like using the index at the back of a book. With 10,000 items the PDF's timing test shows the dictionary is many times faster, and the gap grows with size.</p>
+<aside class="note trap"><strong>Trap! Keys must be immutable</strong><p>A list can change, so it cannot be a key. Use a tuple instead.</p><figure class="code"><pre><code>bad = {[1, 2]: &quot;point&quot;}</code></pre><p class="olbl">Error</p><pre class="out">TypeError: unhashable type: 'list'</pre></figure></aside>
+<div class="tbl"><table><thead><tr><th>Method</th><th>What it does</th></tr></thead><tbody><tr><td><code>d.get(k, default)</code></td><td>Value for k, or default if missing</td></tr><tr><td><code>d.keys()</code> <code>d.values()</code> <code>d.items()</code></td><td>Views of keys, values, pairs</td></tr><tr><td><code>d.update(other)</code></td><td>Add or overwrite pairs from another dict</td></tr><tr><td><code>d.pop(k)</code></td><td>Remove k and return its value</td></tr><tr><td><code>d.popitem()</code></td><td>Remove and return the last pair</td></tr><tr><td><code>d.setdefault(k, v)</code></td><td>Return d[k]; if missing, set it to v first</td></tr><tr><td><code>d.copy()</code></td><td>Shallow copy</td></tr><tr><td><code>d.clear()</code></td><td>Remove everything</td></tr><tr><td><code>dict.fromkeys(keys, v)</code></td><td>New dict with every key set to v</td></tr></tbody></table></div>
+<ol class="tasks"><li><p>Count how many times each letter appears in &quot;banana&quot;.</p><details><summary>Solution</summary><figure class="code"><pre><code>counts = {}
+for ch in &quot;banana&quot;:
+    counts[ch] = counts.get(ch, 0) + 1
+print(counts)</code></pre><p class="olbl">Output</p><pre class="out">{'b': 1, 'a': 3, 'n': 2}</pre></figure></details></li><li><p>From <code>marks = {&quot;Asha&quot;: 82, &quot;Ravi&quot;: 67, &quot;Neha&quot;: 91}</code>, print the student with the highest mark.</p><details><summary>Hint</summary><p>Loop over <code>items()</code> and keep the best so far, or use <code>max(marks, key=marks.get)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>marks = {&quot;Asha&quot;: 82, &quot;Ravi&quot;: 67, &quot;Neha&quot;: 91}
+best = max(marks, key=marks.get)
+print(best, marks[best])</code></pre><p class="olbl">Output</p><pre class="out">Neha 91</pre></figure></details></li><li><p>Swap keys and values: <code>{&quot;a&quot;: 1, &quot;b&quot;: 2}</code> becomes <code>{1: &quot;a&quot;, 2: &quot;b&quot;}</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+flipped = {v: k for k, v in d.items()}
+print(flipped)</code></pre><p class="olbl">Output</p><pre class="out">{1: 'a', 2: 'b'}</pre></figure></details></li><li><p>Room bookings: <code>[(&quot;Deluxe&quot;, 3499), (&quot;Suite&quot;, 6999), (&quot;Deluxe&quot;, 3499), (&quot;Standard&quot;, 1999)]</code>. Find revenue per room type.</p><details><summary>Solution</summary><figure class="code"><pre><code>bookings = [(&quot;Deluxe&quot;, 3499), (&quot;Suite&quot;, 6999), (&quot;Deluxe&quot;, 3499), (&quot;Standard&quot;, 1999)]
+revenue = {}
+for room, rate in bookings:
+    revenue[room] = revenue.get(room, 0) + rate
+print(revenue)</code></pre><p class="olbl">Output</p><pre class="out">{'Deluxe': 6998, 'Suite': 6999, 'Standard': 1999}</pre></figure></details></li><li><p>Using the course movie_db, cancel 4 seats of &quot;Ramayan&quot; with a 50% refund, and print the refund and the new seat count.</p><details><summary>Solution</summary><figure class="code"><pre><code>movie_db = {&quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20}}
+movie = &quot;Ramayan&quot;
+n = 4
+refund = movie_db[movie][&quot;price&quot;] * n * 0.5
+movie_db[movie][&quot;seats&quot;] += n
+print(&quot;Refund:&quot;, refund)
+print(&quot;Seats now:&quot;, movie_db[movie][&quot;seats&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Refund: 2000.0
+Seats now: 24</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>A dict maps unique, immutable keys to values: <code>{&quot;name&quot;: &quot;Raman&quot;}</code>.</li><li><code>d[k]</code> raises KeyError when missing. <code>d.get(k, default)</code> is safe.</li><li><code>d[k] = v</code> adds or updates. Remove with <code>pop()</code>, <code>del</code> or <code>popitem()</code>.</li><li>Loop with <code>for k, v in d.items():</code>. <code>in</code> checks keys only.</li><li>Count with <code>d[k] = d.get(k, 0) + 1</code>. Group with lists as values. Nested data: one bracket per level.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Print the value for the key city.</p><figure class="code"><pre><code>person = {&quot;name&quot;: &quot;Asha&quot;, &quot;city&quot;: &quot;Pune&quot;}
+print(person[___])</code></pre></figure><details><summary>Answer</summary><p><code>&quot;city&quot;</code> — Put the key in square brackets, with quotes because it is a string.</p><p>Output:</p><pre class="out">Pune</pre></details></li><li><p>Get the age safely: 0 if the key is missing.</p><figure class="code"><pre><code>person = {&quot;name&quot;: &quot;Asha&quot;}
+print(person.___(&quot;age&quot;, 0))</code></pre></figure><details><summary>Answer</summary><p><code>get</code> — <code>get(key, default)</code> never raises KeyError.</p><p>Output:</p><pre class="out">0</pre></details></li><li><p>Add the key nights with the value 3.</p><figure class="code"><pre><code>booking = {&quot;id&quot;: &quot;B1001&quot;}
+booking[___] = 3
+print(booking)</code></pre></figure><details><summary>Answer</summary><p><code>&quot;nights&quot;</code> — Assigning to a new key adds it. Assigning to an old key updates it.</p><p>Output:</p><pre class="out">{'id': 'B1001', 'nights': 3}</pre></details></li><li><p>Loop over the keys and values together.</p><figure class="code"><pre><code>stock = {&quot;tea&quot;: 20, &quot;coffee&quot;: 45}
+for k, v in stock.___():
+    print(k, v)</code></pre></figure><details><summary>Answer</summary><p><code>items</code> — <code>items()</code> gives (key, value) pairs.</p><p>Output:</p><pre class="out">tea 20
+coffee 45</pre></details></li><li><p>Count each room type.</p><figure class="code"><pre><code>rooms = [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Deluxe&quot;]
+counts = {}
+for r in rooms:
+    counts[r] = counts.get(r, ___) + 1
+print(counts)</code></pre></figure><details><summary>Answer</summary><p><code>0</code> — A new key starts at 0, then every visit adds 1: the counting pattern.</p><p>Output:</p><pre class="out">{'Deluxe': 2, 'Suite': 1}</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+print(d[&quot;b&quot;])</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>2</code></li><li><code>b</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. Square brackets with a key return its value.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;a&quot;: 1}
+print(d.get(&quot;z&quot;, 0))</code></pre></figure><ol type="A"><li><code>None</code></li><li><code>0</code></li><li><code>KeyError</code></li><li><code>z</code></li></ol><details><summary>Answer</summary><p><b><code>0</code></b>. get returns the default (0) when the key is missing.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;x&quot;: 1, &quot;x&quot;: 2}
+print(d)</code></pre></figure><ol type="A"><li><code>{'x': 1, 'x': 2}</code></li><li><code>{'x': 2}</code></li><li><code>{'x': 1}</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>{'x': 2}</code></b>. Keys are unique. The last value for a repeated key wins.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;name&quot;: &quot;Asha&quot;}
+print(&quot;Asha&quot; in d)</code></pre></figure><ol type="A"><li><code>True</code></li><li><code>False</code></li><li>An error</li><li><code>name</code></li></ol><details><summary>Answer</summary><p><b><code>False</code></b>. in checks keys. &quot;Asha&quot; is a value. Use <code>&quot;Asha&quot; in d.values()</code>.</p></details></li><li><p>Which loop gives you both keys and values?</p><ol type="A"><li><code>for k in d:</code></li><li><code>for k, v in d.items():</code></li><li><code>for v in d.values():</code></li><li><code>for k, v in d:</code></li></ol><details><summary>Answer</summary><p><b><code>for k, v in d.items():</code></b>. items() gives (key, value) pairs that you unpack.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+d[&quot;c&quot;] = 3
+d[&quot;a&quot;] = 10
+print(len(d), d[&quot;a&quot;])</code></pre></figure><ol type="A"><li><code>3 10</code></li><li><code>4 10</code></li><li><code>3 1</code></li><li><code>2 10</code></li></ol><details><summary>Answer</summary><p><b><code>3 10</code></b>. c is added (3 keys). a is updated to 10.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>info = {&quot;stats&quot;: {&quot;views&quot;: [10, 25, 40]}}
+print(info[&quot;stats&quot;][&quot;views&quot;][1])</code></pre></figure><ol type="A"><li><code>10</code></li><li><code>25</code></li><li><code>40</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>25</code></b>. Go one level per bracket: stats, then views, then index 1.</p></details></li><li><p>Which can NOT be a dictionary key?</p><ol type="A"><li><code>&quot;name&quot;</code></li><li><code>42</code></li><li><code>(1, 2)</code></li><li><code>[1, 2]</code></li></ol><details><summary>Answer</summary><p><b><code>[1, 2]</code></b>. Keys must be immutable. Lists can change, so they are not allowed.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+v = d.pop(&quot;a&quot;)
+print(v, d)</code></pre></figure><ol type="A"><li><code>1 {'b': 2}</code></li><li><code>a {'b': 2}</code></li><li><code>1 {'a': 1, 'b': 2}</code></li><li><code>None {'b': 2}</code></li></ol><details><summary>Answer</summary><p><b><code>1 {'b': 2}</code></b>. pop removes the key and returns its value.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What is a dictionary?</dt><dd>A collection of <b>key: value</b> pairs, like <code>{&quot;name&quot;: &quot;Raman&quot;, &quot;age&quot;: 16}</code>. You look values up by key.</dd><dt>Rules for dictionary keys</dt><dd>Keys must be <b>unique</b> and <b>immutable</b> (str, int, tuple). Values can be anything.</dd><dt><code>d[&quot;x&quot;]</code> vs <code>d.get(&quot;x&quot;)</code></dt><dd><code>d[&quot;x&quot;]</code> raises KeyError if x is missing. <code>d.get(&quot;x&quot;)</code> returns None (or your default).</dd><dt>How do you add or update a key?</dt><dd><code>d[&quot;key&quot;] = value</code>. Adds if new, updates if it exists.</dd><dt>Three ways to delete from a dict</dt><dd><code>d.pop(k)</code> (returns the value), <code>del d[k]</code>, <code>d.popitem()</code> (last pair). <code>d.clear()</code> empties it.</dd><dt>Best way to loop over a dict</dt><dd><figure class="code"><pre><code>for key, value in d.items():
+    print(key, value)</code></pre></figure></dd><dt>What does <code>in</code> check on a dict?</dt><dd>Only the <b>keys</b>. Use <code>x in d.values()</code> to search values.</dd><dt>The counting pattern</dt><dd><figure class="code"><pre><code>counts[x] = counts.get(x, 0) + 1</code></pre></figure></dd><dt>How do you read nested data like <code>data[0][&quot;marks&quot;][&quot;maths&quot;][-1]</code>?</dt><dd>One bracket per level, left to right: list position, then key, then key, then list position.</dd><dt>Dict comprehension example</dt><dd><code>{x: x ** 2 for x in range(5)}</code> gives <code>{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</code></dd><dt>Why are dicts fast for lookups?</dt><dd>They use a hash to jump straight to the key, instead of checking items one by one like a list.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}</code></td><td>Create</td></tr><tr><td><code>d[&quot;a&quot;]  d.get(&quot;a&quot;, 0)</code></td><td>Read (error / default if missing)</td></tr><tr><td><code>d[&quot;c&quot;] = 3</code></td><td>Add or update</td></tr><tr><td><code>d.update({&quot;a&quot;: 9})</code></td><td>Add/update many</td></tr><tr><td><code>d.pop(&quot;a&quot;)  del d[&quot;a&quot;]</code></td><td>Delete a key</td></tr><tr><td><code>d.keys()  d.values()  d.items()</code></td><td>Views</td></tr><tr><td><code>for k, v in d.items():</code></td><td>Loop pairs</td></tr><tr><td><code>&quot;a&quot; in d</code></td><td>Is the key there?</td></tr><tr><td><code>counts[x] = counts.get(x, 0) + 1</code></td><td>Counting pattern</td></tr><tr><td><code>{k: v for k, v in zip(ks, vs)}</code></td><td>Build from two lists</td></tr><tr><td><code>Counter(items).most_common(3)</code></td><td>Top 3 most frequent</td></tr></tbody></table></div></section><nav class="pn"><a href="sets.html">← Sets</a><a href="comprehensions.html">Comprehensions &amp; choosing →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

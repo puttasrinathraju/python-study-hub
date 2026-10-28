@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tuples | Python Study Hub</title>
+<meta name="description" content="A tuple is a list that cannot be changed. Learn when that is exactly what you want, and master packing and unpacking.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/tuples.html">
+<meta property="og:title" content="Tuples | Python Study Hub">
+<meta property="og:description" content="A tuple is a list that cannot be changed. Learn when that is exactly what you want, and master packing and unpacking.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#tuples">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#tuples">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 3 · Collections · Chapter 10</p><h1>Tuples</h1><p class="lead">A tuple is a list that cannot be changed. Learn when that is exactly what you want, and master packing and unpacking.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Create tuples, including the one-item tuple</li><li>Get items with indexing and slicing</li><li>Understand immutability and how to &quot;update&quot; a tuple anyway</li><li>Pack and unpack values, including <code>*rest</code></li><li>Know when to choose a tuple over a list</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=NI26dqhs2Rk">Python Tuples</a> by Socratica (about 8 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=xWyn8eZHqSs">Master Tuples in Python in Telugu</a> by College Coders (about 10 min)</li></ul></section><h2>What is a tuple?</h2>
+<p>A <mark>tuple</mark> is an <b>ordered</b> collection like a list, but it is <b>immutable</b>: once created, its items cannot be changed, added or removed. You write it with round brackets.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>t = (&quot;Raman&quot;, &quot;Raghav&quot;, &quot;Raman&quot;)
+print(t)
+print(type(t))
+print(len(t))</code></pre><p class="olbl">Output</p><pre class="out">('Raman', 'Raghav', 'Raman')
+&lt;class 'tuple'&gt;
+3</pre></figure>
+<h2>Creating tuples</h2>
+<figure class="code"><pre><code>empty = ()
+coordinates = (10, 20, 30)
+mixed = (1, &quot;hello&quot;, 3.14)
+
+a = 1, 34, 32, 56, 34        # brackets are optional: this is &quot;packing&quot;
+print(type(a))
+
+print(tuple([1, 2, 3]))      # from a list
+print(tuple(&quot;Python&quot;))       # from a string</code></pre><p class="olbl">Output</p><pre class="out">&lt;class 'tuple'&gt;
+(1, 2, 3)
+('P', 'y', 't', 'h', 'o', 'n')</pre></figure>
+<aside class="note trap"><strong>Trap! A one-item tuple needs a comma</strong><p>Brackets alone are just maths grouping. It is the <b>comma</b> that makes a tuple.</p><figure class="code"><pre><code>x = (11)
+y = (11,)
+print(type(x))
+print(type(y))</code></pre><p class="olbl">Output</p><pre class="out">&lt;class 'int'&gt;
+&lt;class 'tuple'&gt;</pre></figure></aside>
+<h2>Indexing, slicing and looping</h2>
+<p>Everything you learned about indexing and slicing lists works on tuples too. Slicing a tuple gives you a new tuple.</p>
+<figure class="code"><pre><code>coordinates = (10, 20, 30, 40, 50)
+print(coordinates[0])
+print(coordinates[-1])
+print(coordinates[1:3])
+
+for index, value in enumerate(coordinates[:2]):
+    print(f&quot;Index {index}: {value}&quot;)
+
+matrix = ((1, 2, 3), (4, 5, 6), (7, 8, 9))     # nested tuples
+print(matrix[1][2])</code></pre><p class="olbl">Output</p><pre class="out">10
+50
+(20, 30)
+Index 0: 10
+Index 1: 20
+6</pre></figure>
+<h2>Only two methods</h2>
+<p>Because tuples cannot change, they only have two methods, and both just look things up.</p>
+<figure class="code"><pre><code>t = (&quot;Raman&quot;, &quot;Raghav&quot;, &quot;Raman&quot;)
+print(t.count(&quot;Raman&quot;))     # how many times
+print(t.index(&quot;Raghav&quot;))    # position of the first match</code></pre><p class="olbl">Output</p><pre class="out">2
+1</pre></figure>
+<h2>Immutability</h2>
+<figure class="code"><pre><code>coordinates = (10, 20)
+coordinates[0] = 15</code></pre><p class="olbl">Error</p><pre class="out">TypeError: 'tuple' object does not support item assignment</pre></figure>
+<p>Need to change one? Your course notebook shows the trick: convert to a list, change the list, convert back. You are really building a <b>new</b> tuple.</p>
+<figure class="code"><pre><code>no = (4, 21, 3, 7)
+temp = list(no)
+temp.append(16)
+no = tuple(temp)
+print(no)</code></pre><p class="olbl">Output</p><pre class="out">(4, 21, 3, 7, 16)</pre></figure>
+<aside class="note trap"><strong>Trap! A tuple can hold something that changes</strong><p>The tuple itself cannot change which objects it holds. But if one of those objects is a list, the list can still change.</p><figure class="code"><pre><code>t = (1, [2, 3])
+t[1].append(4)
+print(t)</code></pre><p class="olbl">Output</p><pre class="out">(1, [2, 3, 4])</pre></figure></aside>
+<h2>Packing and unpacking</h2>
+<p><b>Packing</b> means putting several values into one tuple. <b>Unpacking</b> means taking them out into separate variables in one line. The number of variables must match the number of items.</p>
+<section class="anim"><h3>Animated explainer: Unpacking a tuple</h3><ol><li><b>Packing</b>: three values travel together in one tuple called <code>person</code>.</li><li><b>Unpacking</b>: Python matches by position. Item 0 goes into the first name on the left.</li><li>Item 1 goes into the second name.</li><li>Item 2 goes into the third name. Three items, three names. If the counts do not match, you get a ValueError.</li><li>A star <code>*</code> collects &quot;everything else&quot; into a <b>list</b>. Useful when you only care about the first or last items.</li></ol></section>
+<figure class="code"><pre><code>person = (&quot;John&quot;, 25, &quot;New York&quot;)
+name, age, city = person
+print(name, age, city)
+
+n1, n2, n3, n4 = (4, 21, 3, 7)     # course notebook
+print(n1)
+
+first, *middle, last = (1, 2, 3, 4, 5)
+print(first, middle, last)
+
+a, b = 1, 2
+a, b = b, a                       # swapping is packing + unpacking
+print(a, b)</code></pre><p class="olbl">Output</p><pre class="out">John 25 New York
+4
+1 [2, 3, 4] 5
+2 1</pre></figure>
+<figure class="code"><figcaption>Counts must match</figcaption><pre><code>x, y = (1, 2, 3)</code></pre><p class="olbl">Error</p><pre class="out">ValueError: too many values to unpack (expected 2)</pre></figure>
+<section class="deck"><h3>Slides: Tuples in 5 slides</h3><ol><li><p><b>A tuple is a list that promises never to change.</b></p></li><li><p><b>Create and read</b></p><figure class="code"><pre><code>point = (17.38, 78.48)
+print(point[0], len(point))</code></pre><p class="olbl">Output</p><pre class="out">17.38 2</pre></figure></li><li><p><b>Unpack into names</b></p><figure class="code"><pre><code>point = (17.38, 78.48)
+lat, lon = point
+print(f&quot;lat={lat} lon={lon}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">lat=17.38 lon=78.48</pre></figure></li><li><p><b>Return several values</b></p><figure class="code"><pre><code>def stats(nums):
+    return min(nums), max(nums)
+
+lo, hi = stats([4, 9, 1])
+print(lo, hi)</code></pre><p class="olbl">Output</p><pre class="out">1 9</pre></figure></li><li><p><b>Use as a dictionary key</b></p><figure class="code"><pre><code>distance = {(&quot;Delhi&quot;, &quot;Agra&quot;): 233}
+print(distance[(&quot;Delhi&quot;, &quot;Agra&quot;)])</code></pre><p class="olbl">Output</p><pre class="out">233</pre></figure></li></ol></section>
+<h2>Why use a tuple?</h2>
+<ul><li><b>Fixed records</b> that should not change by accident: a date <code>(2026, 10, 25)</code>, a GPS point <code>(17.38, 78.48)</code>, an RGB colour.</li><li><b>Returning several values</b> from a function: <code>return (1920, 1080)</code>.</li><li><b>Dictionary keys</b>: tuples can be keys if everything inside them is also unchangeable. Lists cannot.</li><li><b>Slightly faster and smaller</b> than lists.</li></ul>
+<figure class="code"><pre><code>screen = (1920, 1080)          # a fixed pair of values
+width, height = screen
+print(width, height)
+
+student_grades = {
+    (&quot;John&quot;, &quot;Math&quot;): 95,
+    (&quot;John&quot;, &quot;Science&quot;): 88,
+    (&quot;Alice&quot;, &quot;Math&quot;): 92,
+}
+print(student_grades[(&quot;Alice&quot;, &quot;Math&quot;)])</code></pre><p class="olbl">Output</p><pre class="out">1920 1080
+92</pre></figure>
+<div class="cmp"><div><h4>List <code>[ ]</code></h4><ul><li>Mutable: add, remove, change</li><li>Many methods</li><li>Use for collections that grow or change: a shopping cart, a log of transactions</li></ul></div><div><h4>Tuple <code>( )</code></h4><ul><li>Immutable: fixed once made</li><li>Only <code>count()</code> and <code>index()</code></li><li>Use for fixed records, function return values, dictionary keys</li></ul></div></div>
+<figure class="code"><figcaption>Joining tuples</figcaption><pre><code>a = (1, 2)
+b = (3, 4)
+print(a + b)
+print(a * 3)</code></pre><p class="olbl">Output</p><pre class="out">(1, 2, 3, 4)
+(1, 2, 1, 2, 1, 2)</pre></figure>
+<aside class="note why"><strong>Why analysts care</strong><p>When you read a database row in Python, it often comes back as a tuple, like <code>(101, &quot;Asha&quot;, &quot;Deluxe&quot;, 3499.0)</code>. Unpacking it into named variables makes your code readable: <code>booking_id, guest, room, rate = row</code>.</p></aside>
+<ol class="tasks"><li><p>Store a date as a tuple <code>(2026, 10, 25)</code>, unpack it into <code>year</code>, <code>month</code>, <code>day</code>, and print <code>25/10/2026</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>date = (2026, 10, 25)
+year, month, day = date
+print(f&quot;{day}/{month}/{year}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">25/10/2026</pre></figure></details></li><li><p>From <code>scores = (55, 72, 90, 64, 81)</code>, unpack the first score, the last score, and the rest using <code>*</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>scores = (55, 72, 90, 64, 81)
+first, *rest, last = scores
+print(first, rest, last)</code></pre><p class="olbl">Output</p><pre class="out">55 [72, 90, 64] 81</pre></figure></details></li><li><p>Make a tuple <code>(min(nums), max(nums))</code> from <code>nums = [45, 12, 78, 34]</code> and unpack it into <code>low</code> and <code>high</code>. Print them.</p><details><summary>Solution</summary><figure class="code"><pre><code>nums = [45, 12, 78, 34]
+low, high = (min(nums), max(nums))
+print(low, high)</code></pre><p class="olbl">Output</p><pre class="out">12 78</pre></figure></details></li><li><p>&quot;Add&quot; the colour &quot;green&quot; to <code>colors = (&quot;red&quot;, &quot;blue&quot;)</code> and print the new tuple.</p><details><summary>Hint</summary><p>You cannot append to a tuple, but you can join two tuples with <code>+</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>colors = (&quot;red&quot;, &quot;blue&quot;)
+colors = colors + (&quot;green&quot;,)
+print(colors)</code></pre><p class="olbl">Output</p><pre class="out">('red', 'blue', 'green')</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Tuples are ordered and immutable. Written with <code>( )</code>, or just commas.</li><li>A one-item tuple needs a trailing comma: <code>(11,)</code>.</li><li>Only two methods: <code>count()</code> and <code>index()</code>.</li><li>Unpack with <code>a, b, c = t</code>. Use <code>*rest</code> to collect extras into a list.</li><li>Use tuples for fixed records, multiple return values and dictionary keys.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Make a tuple with one item. Watch the comma!</p><figure class="code"><pre><code>t = (&quot;Pune&quot;___)
+print(type(t))</code></pre></figure><details><summary>Answer</summary><p><code>,</code> — Without the comma, the brackets are just grouping and t is a string.</p><p>Output:</p><pre class="out">&lt;class 'tuple'&gt;</pre></details></li><li><p>Count how many times 2 appears.</p><figure class="code"><pre><code>t = (1, 2, 2, 3, 2)
+print(t.___(2))</code></pre></figure><details><summary>Answer</summary><p><code>count</code> — Tuples have only two methods: <code>count()</code> and <code>index()</code>.</p><p>Output:</p><pre class="out">3</pre></details></li><li><p>Find the position of Goa.</p><figure class="code"><pre><code>t = (&quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;)
+print(t.___(&quot;Goa&quot;))</code></pre></figure><details><summary>Answer</summary><p><code>index</code> — <code>index()</code> gives the position of the first match.</p><p>Output:</p><pre class="out">1</pre></details></li><li><p>Unpack the tuple into three names.</p><figure class="code"><pre><code>point = (4, 7, 2)
+x, y, ___ = point
+print(x, y, z)</code></pre></figure><details><summary>Answer</summary><p><code>z</code> — Unpacking needs one name for each item.</p><p>Output:</p><pre class="out">4 7 2</pre></details></li><li><p>Change a tuple: convert it to a list first.</p><figure class="code"><pre><code>t = (1, 2, 3)
+items = ___(t)
+items[0] = 99
+t = tuple(items)
+print(t)</code></pre></figure><details><summary>Answer</summary><p><code>list</code> — Tuples cannot change, so convert to a list, change it, and convert back.</p><p>Output:</p><pre class="out">(99, 2, 3)</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>print(type((5)))</code></pre></figure><ol type="A"><li><code>&lt;class 'tuple'&gt;</code></li><li><code>&lt;class 'int'&gt;</code></li><li><code>&lt;class 'list'&gt;</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>&lt;class 'int'&gt;</code></b>. Without a comma, the brackets are just grouping. <code>(5,)</code> would be a tuple.</p></details></li><li><p>What happens here?</p><figure class="code"><pre><code>t = (1, 2, 3)
+t[0] = 10</code></pre></figure><ol type="A"><li>t becomes (10, 2, 3)</li><li>TypeError</li><li>t becomes (10, 1, 2, 3)</li><li>Nothing happens</li></ol><details><summary>Answer</summary><p><b>TypeError</b>. Tuples are immutable, so item assignment raises a TypeError.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>a, *b = (1, 2, 3, 4)
+print(b)</code></pre></figure><ol type="A"><li><code>(2, 3, 4)</code></li><li><code>[2, 3, 4]</code></li><li><code>2</code></li><li><code>[1, 2, 3, 4]</code></li></ol><details><summary>Answer</summary><p><b><code>[2, 3, 4]</code></b>. The starred name collects the remaining items into a list.</p></details></li><li><p>Which tuple methods exist?</p><ol type="A"><li>append and remove</li><li>count and index</li><li>sort and reverse</li><li>add and pop</li></ol><details><summary>Answer</summary><p><b>count and index</b>. Tuples only have count() and index().</p></details></li><li><p>Why can a tuple be a dictionary key but a list cannot?</p><ol type="A"><li>Tuples are faster</li><li>Keys must be immutable (hashable), and lists are mutable</li><li>Lists are too long</li><li>Dictionaries only accept tuples</li></ol><details><summary>Answer</summary><p><b>Keys must be immutable (hashable), and lists are mutable</b>. A key must never change, so only immutable types like str, int and tuple can be keys.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print((1, 2) + (3,))</code></pre></figure><ol type="A"><li><code>(1, 2, 3)</code></li><li><code>(1, 2, (3,))</code></li><li><code>(4, 2)</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>(1, 2, 3)</code></b>. <code>+</code> joins two tuples into a new tuple.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>t = (&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;a&quot;)
+print(t.count(&quot;a&quot;), t.index(&quot;c&quot;))</code></pre></figure><ol type="A"><li><code>3 3</code></li><li><code>3 4</code></li><li><code>2 3</code></li><li><code>3 2</code></li></ol><details><summary>Answer</summary><p><b><code>3 3</code></b>. &quot;a&quot; appears 3 times and &quot;c&quot; is at index 3.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>How is a tuple different from a list?</dt><dd>A tuple is <b>immutable</b>: after creating it you cannot add, remove or change items. A list can change.</dd><dt>How do you make a tuple with one item?</dt><dd>Add a trailing comma: <code>(11,)</code>. <code>(11)</code> is just the number 11.</dd><dt>What is packing?</dt><dd>Putting several values into one tuple: <code>person = &quot;John&quot;, 25, &quot;NY&quot;</code></dd><dt>What is unpacking?</dt><dd>Taking items out into variables: <code>name, age, city = person</code>. Counts must match.</dd><dt>What does <code>first, *rest = (1, 2, 3)</code> give?</dt><dd><code>first = 1</code>, <code>rest = [2, 3]</code> (a list).</dd><dt>How do you &quot;update&quot; a tuple?</dt><dd>Convert to a list, change it, convert back: <code>t = tuple(list_version)</code>. Or join: <code>t = t + (x,)</code>.</dd><dt>Three good uses for tuples</dt><dd>Fixed records (dates, coordinates), returning several values from a function, dictionary keys.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>t = (1, 2, 3)</code></td><td>Create a tuple</td></tr><tr><td><code>t = (5,)</code></td><td>One-item tuple</td></tr><tr><td><code>t[0]  t[-1]  t[1:3]</code></td><td>Index and slice</td></tr><tr><td><code>a, b, c = t</code></td><td>Unpack</td></tr><tr><td><code>first, *rest = t</code></td><td>Unpack with a catch-all</td></tr><tr><td><code>t.count(x)  t.index(x)</code></td><td>The only two methods</td></tr><tr><td><code>tuple(lst)  list(t)</code></td><td>Convert between tuple and list</td></tr></tbody></table></div></section><nav class="pn"><a href="lists.html">← Lists</a><a href="sets.html">Sets →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

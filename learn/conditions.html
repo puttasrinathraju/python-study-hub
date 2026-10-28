@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>If, elif and else | Python Study Hub</title>
+<meta name="description" content="Teach your program to make decisions: run some code only when a condition is True, and choose between several paths.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/conditions.html">
+<meta property="og:title" content="If, elif and else | Python Study Hub">
+<meta property="og:description" content="Teach your program to make decisions: run some code only when a condition is True, and choose between several paths.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#conditions">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#conditions">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 2 · Decisions and loops · Chapter 5</p><h1>If, elif and else</h1><p class="lead">Teach your program to make decisions: run some code only when a condition is True, and choose between several paths.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Write <code>if</code>, <code>if-else</code> and <code>if-elif-else</code> blocks</li><li>Put <code>if</code> statements inside each other (nesting)</li><li>Combine conditions with <code>and</code>, <code>or</code> and <code>not</code></li><li>Know which values count as True or False (truthy and falsy)</li><li>Use the one-line if, <code>pass</code>, and <code>match-case</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=DZwmZ8Usvnk">Python Tutorial for Beginners 6: Conditionals and Booleans - If, Else, and Elif</a> by Corey Schafer (about 16 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=tXcHON6gwWU">Python IF ELIF ELSE Statement in Telugu</a> by The Software Services (about 20 min)</li></ul></section><h2>The basic if</h2>
+<p>An <code>if</code> statement runs a block of code <b>only when its condition is True</b>. The condition is any expression that gives True or False.</p>
+<figure class="code"><pre><code>age = 20
+if age &gt;= 18:
+    print(&quot;You are an adult&quot;)    # runs only if the condition is True
+print(&quot;This line always runs&quot;)</code></pre><p class="olbl">Output</p><pre class="out">You are an adult
+This line always runs</pre></figure>
+<aside class="note key"><strong>Remember this</strong><p>Get three things right every time. Put a <b>colon</b> at the end of the <code>if</code> line. Indent the lines inside by <b>4 spaces</b>. Go <b>back to the left</b> when the block ends.</p></aside>
+<h2>if-else: two paths</h2>
+<p><code>else</code> gives Python something to do when the condition is False. Exactly one of the two blocks runs, never both.</p>
+<p class="cap">Diagram: Only one path runs. Both paths meet again after the if-else block.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>age = 15
+if age &gt;= 18:
+    print(&quot;You are eligible to vote!!&quot;)
+else:
+    print(&quot;You're not eligible to vote!!&quot;)
+print(&quot;bye&quot;)</code></pre><p class="olbl">Output</p><pre class="out">You're not eligible to vote!!
+bye</pre></figure>
+<figure class="code"><figcaption>Even or odd</figcaption><pre><code>no = 56
+if no % 2 == 0:
+    print(f&quot;The {no} is an EVEN no&quot;)
+else:
+    print(f&quot;The {no} is an ODD no&quot;)</code></pre><p class="olbl">Output</p><pre class="out">The 56 is an EVEN no</pre></figure>
+<h2>if-elif-else: many paths</h2>
+<p><code>elif</code> is short for &quot;else if&quot;. Python checks the conditions <b>from top to bottom</b>. The <b>first</b> True one wins, its block runs, and Python skips everything else in the chain. <code>else</code> at the end catches anything left.</p>
+<section class="anim"><h3>Animated explainer: Watch Python walk down an elif ladder</h3><figure class="code"><pre><code>score = 85
+if score &gt;= 90:
+    grade = &quot;A&quot;
+elif score &gt;= 80:
+    grade = &quot;B&quot;
+elif score &gt;= 70:
+    grade = &quot;C&quot;
+else:
+    grade = &quot;F&quot;
+print(&quot;Grade:&quot;, grade)</code></pre></figure><ol><li>We start with a score of 85.</li><li>First question: is 85 &gt;= 90? <b>No</b>, it is False. Python skips the block under this <code>if</code>.</li><li>Next question: is 85 &gt;= 80? <b>Yes</b>, True. Python enters this block.</li><li>It stores &quot;B&quot; in <code>grade</code>.</li><li>A branch has run, so Python **skips all the remaining <code>elif</code> and <code>else</code> lines** and jumps to the first line after the chain. Line 6 was never even checked.</li></ol></section>
+<figure class="code"><figcaption>Grade calculator from your course notebook</figcaption><pre><code>marks = 78
+if marks &gt; 95:
+    print(&quot;Grade A+&quot;)
+elif marks &gt;= 75:
+    print(&quot;Grade A&quot;)
+elif marks &gt;= 65:
+    print(&quot;Grade B&quot;)
+elif marks &gt;= 55:
+    print(&quot;Grade C&quot;)
+elif marks &gt;= 45:
+    print(&quot;Grade D&quot;)
+else:
+    print(&quot;Grade E&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Grade A</pre></figure>
+<aside class="note trap"><strong>Trap! Order matters</strong><p>Because the first True condition wins, put the <b>strictest</b> check first. If you check <code>&gt;= 45</code> first, a score of 92 matches it and never reaches the A grade.</p><figure class="code"><pre><code>marks = 92
+if marks &gt;= 45:
+    print(&quot;Grade D&quot;)
+elif marks &gt;= 90:
+    print(&quot;Grade A&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Grade D</pre></figure></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>x = 15
+if x &gt; 10:
+    print(&quot;big&quot;)
+if x &gt; 5:
+    print(&quot;medium&quot;)
+else:
+    print(&quot;small&quot;)</code></pre></figure><ol type="A"><li><code>big</code></li><li><code>big</code> then <code>medium</code></li><li><code>medium</code></li><li><code>big</code> then <code>small</code></li></ol><details><summary>Answer</summary><p><b><code>big</code> then <code>medium</code></b>. These are <b>two separate</b> <code>if</code> statements, not one chain. The first prints &quot;big&quot;. The second is checked on its own and prints &quot;medium&quot;.</p></details></section>
+<h2>Combining conditions</h2>
+<p>Use <code>and</code>, <code>or</code> and <code>not</code> to build bigger conditions. This BMI checker is from your course notebook.</p>
+<figure class="code"><pre><code>bmi = 18
+if bmi &gt; 18 and bmi &lt; 25:
+    print(&quot;You're Healthy!!&quot;)
+elif bmi &gt;= 25:
+    print(&quot;You're OverWeight&quot;)
+else:
+    print(&quot;You're UnderWeight&quot;)
+print(&quot;Completed!!&quot;)</code></pre><p class="olbl">Output</p><pre class="out">You're UnderWeight
+Completed!!</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>bmi &gt; 18 and bmi &lt; 25</code> can be written as <code>18 &lt; bmi &lt; 25</code>. Python allows chained comparisons and they read more naturally.</p></aside>
+<aside class="note trap"><strong>Trap! if x == 1 or 2</strong><p>This looks right but is always True. Python reads it as <code>(x == 1) or (2)</code>, and <code>2</code> on its own counts as True. Write the full comparison each time, or use <code>in</code>.</p><figure class="code"><pre><code>choice = 5
+if choice == 1 or 2:
+    print(&quot;You picked 1 or 2&quot;)      # wrong! runs for any choice
+
+if choice == 1 or choice == 2:
+    print(&quot;Correct check&quot;)           # does not run
+if choice in (1, 2):
+    print(&quot;Also correct&quot;)            # does not run</code></pre><p class="olbl">Output</p><pre class="out">You picked 1 or 2</pre></figure></aside>
+<h2>Nested if</h2>
+<p>You can put an <code>if</code> inside another <code>if</code>. The inner one is only checked when the outer one is True. This login check is from your course notebook.</p>
+<figure class="code"><pre><code>uname = &quot;wscube&quot;
+password = &quot;123456&quot;
+
+name = &quot;wscube&quot;      # what the user typed
+ps = &quot;000000&quot;
+
+if uname == name:
+    print(&quot;Username is correct&quot;)
+    if password == ps:
+        print(&quot;Welcome back!!&quot;)
+    else:
+        print(&quot;Password is incorrect!!&quot;)
+else:
+    print(&quot;Incorrect username!!&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Username is correct
+Password is incorrect!!</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Deep nesting gets hard to read. If you are three levels deep, try combining conditions with <code>and</code>, or use <code>elif</code>.</p></aside>
+<section class="deck"><h3>Slides: Writing good conditions</h3><ol><li><p><b>Every if asks a True or False question.</b></p><p>These five habits keep those questions correct.</p></li><li><p><b>Compare with ==, not =</b></p><figure class="code"><pre><code>x = 5
+print(x == 5, x != 5)</code></pre><p class="olbl">Output</p><pre class="out">True False</pre></figure></li><li><p><b>Combine with and / or</b></p><figure class="code"><pre><code>age = 25
+has_id = True
+print(age &gt;= 18 and has_id)</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure></li><li><p><b>Ranges read naturally</b></p><figure class="code"><pre><code>temp = 28
+print(20 &lt;= temp &lt;= 30)</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure></li><li><p><b>Check a list of options with in</b></p><figure class="code"><pre><code>day = &quot;Sun&quot;
+print(day in (&quot;Sat&quot;, &quot;Sun&quot;))</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure></li><li><p><b>Test every branch</b></p><p>Try one value for each path: one that hits the <code>if</code>, one for each <code>elif</code>, and one that falls through to <code>else</code>. Bugs hide in the branch you never ran.</p></li></ol></section>
+<h2>Truthy and falsy values</h2>
+<p>A condition does not have to be a comparison. Python can treat <b>any value</b> as True or False. These values count as <mark>falsy</mark> (False): <code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code> (empty text), <code>[]</code>, <code>()</code>, <code>{}</code>, <code>set()</code>, <code>None</code> and <code>False</code>. <b>Everything else is truthy.</b></p>
+<figure class="code"><pre><code>print(bool(0), bool(0.0), bool(&quot;&quot;), bool([]), bool({}), bool(None))
+print(bool(1), bool(-5), bool(&quot;0&quot;), bool([0]), bool(&quot; &quot;))</code></pre><p class="olbl">Output</p><pre class="out">False False False False False False
+True True True True True</pre></figure>
+<figure class="code"><figcaption>A common pattern: check for an empty value</figcaption><pre><code>name = &quot;&quot;
+if name:
+    print(&quot;Hello&quot;, name)
+else:
+    print(&quot;Name is empty&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Name is empty</pre></figure>
+<h2>Short forms: one-line if and ternary</h2>
+<figure class="code"><pre><code>age = 20
+if age &gt;= 18: print(&quot;Adult&quot;)                     # one-line if
+
+status = &quot;Adult&quot; if age &gt;= 18 else &quot;Minor&quot;       # ternary: picks a value
+print(status)</code></pre><p class="olbl">Output</p><pre class="out">Adult
+Adult</pre></figure>
+<p>The ternary form is great when you just need to choose between two <b>values</b>. For longer logic, use a normal <code>if-else</code> block. It is easier to read.</p>
+<h2>pass: an empty placeholder</h2>
+<p>A block cannot be empty. If you want to write the logic later, put <code>pass</code> there. It does nothing, but keeps Python happy.</p>
+<figure class="code"><pre><code>amount = 600
+if amount &gt; 500:
+    pass        # TODO: add discount later
+print(&quot;Bill printed&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Bill printed</pre></figure>
+<h2>match-case (Python 3.10 and newer)</h2>
+<p>When you compare one value against many fixed options, <code>match</code> can be cleaner than a long <code>elif</code> chain. <code>case _:</code> catches everything else, like <code>else</code>.</p>
+<figure class="code"><pre><code>choice = 2
+match choice:
+    case 1:
+        print(&quot;Book a ticket&quot;)
+    case 2:
+        print(&quot;Cancel a ticket&quot;)
+    case 3 | 4:
+        print(&quot;Exit&quot;)
+    case _:
+        print(&quot;Invalid choice&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Cancel a ticket</pre></figure>
+<aside class="note why"><strong>Why analysts care</strong><p>In data work, conditions decide how each row is labelled: &quot;High value&quot; customers, &quot;Late&quot; deliveries, &quot;Weekend&quot; bookings. Later, pandas lets you apply the same logic to a million rows at once.</p></aside>
+<ol class="tasks"><li><p>Print the largest of three numbers <code>a = 12</code>, <code>b = 45</code>, <code>c = 30</code> using if-elif-else.</p><details><summary>Solution</summary><figure class="code"><pre><code>a, b, c = 12, 45, 30
+if a &gt;= b and a &gt;= c:
+    print(&quot;Largest:&quot;, a)
+elif b &gt;= c:
+    print(&quot;Largest:&quot;, b)
+else:
+    print(&quot;Largest:&quot;, c)</code></pre><p class="olbl">Output</p><pre class="out">Largest: 45</pre></figure></details></li><li><p>Movie ticket pricing: children under 12 pay 100, seniors 60 and above pay 120, everyone else pays 200. Test with <code>age = 65</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>age = 65
+if age &lt; 12:
+    price = 100
+elif age &gt;= 60:
+    price = 120
+else:
+    price = 200
+print(&quot;Ticket price:&quot;, price)</code></pre><p class="olbl">Output</p><pre class="out">Ticket price: 120</pre></figure></details></li><li><p>From the theater billing system: give a 10% discount when 5 or more tickets are bought. Tickets cost 250 each and the customer buys 6.</p><details><summary>Hint</summary><p>Set <code>discount = 0</code> first, then change it only if the condition is True. No else needed.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>num_tickets = 6
+subtotal = num_tickets * 250
+discount = 0
+if num_tickets &gt;= 5:
+    discount = subtotal * 0.1
+print(&quot;Subtotal:&quot;, subtotal)
+print(&quot;Discount:&quot;, discount)
+print(&quot;Total:&quot;, subtotal - discount)</code></pre><p class="olbl">Output</p><pre class="out">Subtotal: 1500
+Discount: 150.0
+Total: 1350.0</pre></figure></details></li><li><p>Rewrite as a ternary: if <code>temp &gt; 30</code> the label is &quot;Hot&quot;, otherwise &quot;Pleasant&quot;. Use <code>temp = 34</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>temp = 34
+label = &quot;Hot&quot; if temp &gt; 30 else &quot;Pleasant&quot;
+print(label)</code></pre><p class="olbl">Output</p><pre class="out">Hot</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>if condition:</code> then an indented block. <code>else:</code> runs when the condition is False.</li><li>In an <code>if-elif-else</code> chain, only the <b>first</b> True branch runs. Put the strictest check first.</li><li>Combine with <code>and</code>, <code>or</code>, <code>not</code>. Never write <code>x == 1 or 2</code>. Write <code>x in (1, 2)</code>.</li><li>Falsy: <code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code>, <code>[]</code>, <code>()</code>, <code>{}</code>, <code>set()</code>, <code>None</code>, <code>False</code>. Everything else is truthy.</li><li><code>a if cond else b</code> picks between two values. <code>pass</code> is an empty placeholder.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Print Adult when age is 18 or more.</p><figure class="code"><pre><code>age = 20
+___ age &gt;= 18:
+    print(&quot;Adult&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>if</code> — <code>if</code> runs the indented block only when the condition is True.</p><p>Output:</p><pre class="out">Adult</pre></details></li><li><p>Insert the keyword for the second check.</p><figure class="code"><pre><code>score = 65
+if score &gt;= 80:
+    print(&quot;A&quot;)
+___ score &gt;= 60:
+    print(&quot;B&quot;)
+else:
+    print(&quot;C&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>elif</code> — <code>elif</code> is checked only when the conditions above it were False.</p><p>Output:</p><pre class="out">B</pre></details></li><li><p>Print Weekend when the day is Saturday or Sunday.</p><figure class="code"><pre><code>day = &quot;Sunday&quot;
+if day == &quot;Saturday&quot; ___ day == &quot;Sunday&quot;:
+    print(&quot;Weekend&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>or</code> — <code>or</code> is True when at least one side is True.</p><p>Output:</p><pre class="out">Weekend</pre></details></li><li><p>Finish the one-line if-else (ternary).</p><figure class="code"><pre><code>marks = 45
+status = &quot;Pass&quot; ___ marks &gt;= 40 ___ &quot;Fail&quot;
+print(status)</code></pre></figure><details><summary>Answer</summary><p><code>if</code>, <code>else</code> — The pattern is <code>value_if_true if condition else value_if_false</code>.</p><p>Output:</p><pre class="out">Pass</pre></details></li><li><p>Keep the empty block valid with a placeholder.</p><figure class="code"><pre><code>stock = 0
+if stock &gt; 0:
+    ___
+else:
+    print(&quot;Sold out&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>pass</code> — A block cannot be empty. <code>pass</code> does nothing and keeps the code valid.</p><p>Output:</p><pre class="out">Sold out</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>score = 85
+if score &gt;= 90:
+    print(&quot;A&quot;)
+elif score &gt;= 80:
+    print(&quot;B&quot;)
+elif score &gt;= 70:
+    print(&quot;C&quot;)</code></pre></figure><ol type="A"><li><code>B</code></li><li><code>B</code> and <code>C</code></li><li><code>A</code></li><li>Nothing</li></ol><details><summary>Answer</summary><p><b><code>B</code></b>. The first True branch (<code>&gt;= 80</code>) runs and the rest of the chain is skipped.</p></details></li><li><p>Which symbol must end an <code>if</code> line?</p><ol type="A"><li><code>;</code></li><li><code>:</code></li><li><code>{</code></li><li>Nothing</li></ol><details><summary>Answer</summary><p><b><code>:</code></b>. A colon starts the indented block.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>x = 0
+if x:
+    print(&quot;yes&quot;)
+else:
+    print(&quot;no&quot;)</code></pre></figure><ol type="A"><li><code>yes</code></li><li><code>no</code></li><li>An error</li><li><code>0</code></li></ol><details><summary>Answer</summary><p><b><code>no</code></b>. 0 is falsy, so the else block runs.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>choice = 9
+if choice == 1 or 2:
+    print(&quot;one or two&quot;)
+else:
+    print(&quot;other&quot;)</code></pre></figure><ol type="A"><li><code>other</code></li><li><code>one or two</code></li><li>An error</li><li>Nothing</li></ol><details><summary>Answer</summary><p><b><code>one or two</code></b>. It is read as <code>(choice == 1) or 2</code>, and 2 is truthy, so the condition is always True.</p></details></li><li><p>Which value is truthy?</p><ol type="A"><li><code>0</code></li><li><code>&quot;&quot;</code></li><li><code>[]</code></li><li><code>&quot;0&quot;</code></li></ol><details><summary>Answer</summary><p><b><code>&quot;0&quot;</code></b>. &quot;0&quot; is a non-empty string, so it is truthy. The others are empty or zero.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>age = 16
+print(&quot;Adult&quot; if age &gt;= 18 else &quot;Minor&quot;)</code></pre></figure><ol type="A"><li><code>Adult</code></li><li><code>Minor</code></li><li><code>True</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>Minor</code></b>. The condition is False, so the value after <code>else</code> is chosen.</p></details></li><li><p>What is <code>pass</code> used for?</p><ol type="A"><li>To skip to the next loop</li><li>As a placeholder where a block is required but you have nothing to write yet</li><li>To exit the program</li><li>To pass a value to a function</li></ol><details><summary>Answer</summary><p><b>As a placeholder where a block is required but you have nothing to write yet</b>. <code>pass</code> does nothing. It fills an empty block so Python does not raise an error.</p></details></li><li><p>In a nested if, when is the inner <code>if</code> checked?</p><ol type="A"><li>Always</li><li>Only when the outer condition is True</li><li>Only when the outer condition is False</li><li>Before the outer one</li></ol><details><summary>Answer</summary><p><b>Only when the outer condition is True</b>. The inner if is inside the outer block, so it only runs when the outer condition is True.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>day = &quot;Sun&quot;
+match day:
+    case &quot;Sat&quot; | &quot;Sun&quot;:
+        print(&quot;Weekend&quot;)
+    case _:
+        print(&quot;Weekday&quot;)</code></pre></figure><ol type="A"><li><code>Weekday</code></li><li><code>Weekend</code></li><li>Both</li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>Weekend</code></b>. <code>|</code> in a case means &quot;or&quot;. &quot;Sun&quot; matches the first case.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Syntax of if-elif-else</dt><dd><figure class="code"><pre><code>if a &gt; b:
+    print(&quot;a&quot;)
+elif a == b:
+    print(&quot;equal&quot;)
+else:
+    print(&quot;b&quot;)</code></pre></figure></dd><dt>In an elif chain, how many branches run?</dt><dd>At most <b>one</b>: the first one whose condition is True. If none are True, <code>else</code> runs (if there is one).</dd><dt>Why does order matter in an elif chain?</dt><dd>The first True condition wins. Put the strictest condition (like <code>&gt;= 90</code>) before looser ones (like <code>&gt;= 45</code>).</dd><dt>List the falsy values</dt><dd><code>0</code>, <code>0.0</code>, <code>&quot;&quot;</code>, <code>[]</code>, <code>()</code>, <code>{}</code>, <code>set()</code>, <code>None</code> and <code>False</code>. Everything else is truthy.</dd><dt>What is wrong with <code>if x == 1 or 2:</code>?</dt><dd>It is always True, because <code>2</code> alone is truthy. Write <code>if x == 1 or x == 2:</code> or <code>if x in (1, 2):</code>.</dd><dt>What is a ternary expression?</dt><dd>A one-line if/else that picks a value: <code>status = &quot;Adult&quot; if age &gt;= 18 else &quot;Minor&quot;</code>.</dd><dt>What does <code>pass</code> do?</dt><dd>Nothing. It is a placeholder for a block you will fill in later.</dd><dt>What does <code>case _:</code> mean in match-case?</dt><dd>The default case. It matches anything not matched above, like <code>else</code>.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>if x &gt; 0:
+    ...
+elif x == 0:
+    ...
+else:
+    ...</code></td><td>Choose one of several paths</td></tr><tr><td><code>if 18 &lt;= age &lt; 60:</code></td><td>Chained comparison</td></tr><tr><td><code>if x in (1, 2, 3):</code></td><td>Match any of several values</td></tr><tr><td><code>if not items:</code></td><td>True when the list is empty</td></tr><tr><td><code>v = &quot;A&quot; if ok else &quot;B&quot;</code></td><td>Ternary (one-line if/else)</td></tr><tr><td><code>pass</code></td><td>Do-nothing placeholder</td></tr><tr><td><code>match x:
+    case 1: ...
+    case _: ...</code></td><td>match-case (Python 3.10+)</td></tr></tbody></table></div></section><nav class="pn"><a href="overview1.html">← Part 1 overview</a><a href="forloops.html">For loops &amp; range →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>File handling | Python Study Hub</title>
+<meta name="description" content="Save results to files and load data back in. Plain text, CSV, JSON and pickle: the four ways you will move data in and out of Python.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/files.html">
+<meta property="og:title" content="File handling | Python Study Hub">
+<meta property="og:description" content="Save results to files and load data back in. Plain text, CSV, JSON and pickle: the four ways you will move data in and out of Python.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#files">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#files">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 5 · Real-world Python · Chapter 17</p><h1>File handling</h1><p class="lead">Save results to files and load data back in. Plain text, CSV, JSON and pickle: the four ways you will move data in and out of Python.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Open files with the right mode: <code>r</code>, <code>w</code>, <code>a</code>, <code>x</code>, and the binary <code>b</code> versions</li><li>Read with <code>read()</code>, <code>readline()</code>, <code>readlines()</code> and a <code>for</code> loop</li><li>Write and append text, and remember <code>write()</code> only takes strings</li><li>Always use <code>with open(...)</code> so files close automatically</li><li>Save and load data with <code>csv</code>, <code>json</code> and <code>pickle</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=Uh2ebFW8OYM">Python Tutorial: File Objects - Reading and Writing to Files</a> by Corey Schafer (about 25 min)</li></ul></section><h2>Why files?</h2>
+<p>Variables disappear when your program stops. <mark>Files</mark> keep data on your disk, so you can save results, load data from other people, and share work. The basic recipe is always: <b>open</b> the file, <b>read or write</b>, <b>close</b> it.</p>
+<h2>Opening a file: the modes</h2>
+<p><code>open(filename, mode)</code> returns a file object. The <b>mode</b> tells Python what you plan to do.</p>
+<div class="tbl"><table><thead><tr><th>Mode</th><th>Meaning</th><th>If the file exists</th><th>If it does not exist</th></tr></thead><tbody><tr><td><code>&quot;r&quot;</code></td><td>Read (the default)</td><td>Reads it</td><td><b>FileNotFoundError</b></td></tr><tr><td><code>&quot;w&quot;</code></td><td>Write</td><td><b>Wipes it clean</b> first</td><td>Creates it</td></tr><tr><td><code>&quot;a&quot;</code></td><td>Append</td><td>Adds to the end</td><td>Creates it</td></tr><tr><td><code>&quot;x&quot;</code></td><td>Create</td><td><b>FileExistsError</b></td><td>Creates it</td></tr><tr><td><code>&quot;rb&quot;</code>, <code>&quot;wb&quot;</code></td><td>Read / write <b>binary</b> data</td><td>Used for pickle, images</td><td></td></tr><tr><td><code>&quot;r+&quot;</code></td><td>Read and write</td><td>Keeps content</td><td>FileNotFoundError</td></tr></tbody></table></div>
+<section class="anim"><h3>Animated explainer: What each mode does to a file</h3><ol><li>Here is <code>demo.txt</code> with two lines in it. Let us see what each mode does.</li><li><b>r (read)</b>: you can read the contents. The file is not changed. This is the default mode.</li><li><b>w (write)</b>: the moment you open with &quot;w&quot;, the old content is <b>deleted</b>. Then your new text is written. Be careful!</li><li><b>a (append)</b>: old content stays, and new text is added at the end. Notice we had to write <code>\n</code> ourselves to start a new line.</li><li><b>x (create)</b>: only works if the file does <b>not</b> exist yet. A safe way to avoid overwriting something by accident.</li></ol></section>
+<aside class="note trap"><strong>Trap! &quot;w&quot; deletes what was there</strong><p>Opening an existing file in <code>&quot;w&quot;</code> mode empties it immediately, even if you never call <code>write()</code>. If you want to add to a file, use <code>&quot;a&quot;</code>.</p></aside>
+<h2>Writing to a file</h2>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>file = open(&quot;demo.txt&quot;, &quot;w&quot;)
+file.write(&quot;This is a sample file.&quot;)
+file.close()                          # always close when you open this way
+
+file = open(&quot;demo.txt&quot;, &quot;a&quot;)
+file.write(&quot;\nThis is an extra line.&quot;)
+file.close()
+
+file = open(&quot;demo.txt&quot;, &quot;r&quot;)
+print(file.read())
+file.close()</code></pre><p class="olbl">Output</p><pre class="out">This is a sample file.
+This is an extra line.</pre></figure>
+<aside class="note trap"><strong>Trap from the course: write() only accepts strings</strong><p>The notebook tried <code>f.write(2000)</code> and got an error. Convert numbers first with <code>str()</code> or an f-string.</p><figure class="code"><pre><code>with open(&quot;demo.txt&quot;, &quot;a&quot;) as f:
+    f.write(2000)</code></pre><p class="olbl">Error</p><pre class="out">TypeError: write() argument must be str, not int</pre></figure></aside>
+<figure class="code"><figcaption>Writing several lines</figcaption><pre><code>lines = [&quot;rice\n&quot;, &quot;dal\n&quot;, &quot;oil\n&quot;]
+with open(&quot;shopping.txt&quot;, &quot;w&quot;) as f:
+    f.writelines(lines)              # no newlines added for you
+    f.write(f&quot;total items: {len(lines)}\n&quot;)
+
+with open(&quot;shopping.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">rice
+dal
+oil
+total items: 3</pre></figure>
+<h2>The with statement (always use it)</h2>
+<p><code>with open(...) as f:</code> opens the file and <b>closes it automatically</b> when the indented block ends, even if an error happens inside. No forgotten <code>close()</code>, no locked files.</p>
+<div class="cmp"><div><h4>Manual: easy to forget close()</h4><figure class="code"><pre><code>f = open(&quot;demo.txt&quot;, &quot;r&quot;)
+data = f.read()
+f.close()</code></pre></figure></div><div><h4>with: closes for you (recommended)</h4><figure class="code"><pre><code>with open(&quot;demo.txt&quot;, &quot;r&quot;) as f:
+    data = f.read()
+# file is already closed here</code></pre></figure></div></div>
+<h2>Reading a file</h2>
+<div class="tbl"><table><thead><tr><th>Method</th><th>Gives you</th></tr></thead><tbody><tr><td><code>f.read()</code></td><td>The <b>whole file</b> as one string</td></tr><tr><td><code>f.readline()</code></td><td>The <b>next line</b> as a string (including its <code>\n</code>)</td></tr><tr><td><code>f.readlines()</code></td><td>A <b>list</b> of all lines. Each keeps its <code>\n</code> (the last line may not have one)</td></tr><tr><td><code>for line in f:</code></td><td>One line at a time. Best for big files</td></tr></tbody></table></div>
+<figure class="code"><figcaption>The course example</figcaption><pre><code>with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Hi, Good Evening!!\nHello World&quot;)
+
+with open(&quot;demo.txt&quot;, &quot;r&quot;) as f:
+    print(f.readlines())
+
+with open(&quot;demo.txt&quot;) as f:
+    print(f.readline().strip())       # strip() removes the trailing \n
+    print(f.readline().strip())
+
+with open(&quot;demo.txt&quot;) as f:
+    for line in f:
+        print(&quot;-&gt;&quot;, line.strip())</code></pre><p class="olbl">Output</p><pre class="out">['Hi, Good Evening!!\n', 'Hello World']
+Hi, Good Evening!!
+Hello World
+-&gt; Hi, Good Evening!!
+-&gt; Hello World</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Each line you read keeps its <code>\n</code> at the end. If you print it directly, you get an extra blank line. <code>line.strip()</code> removes it. This is why almost every file loop uses <code>.strip()</code>.</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>with open(&quot;count.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;one\ntwo\nthree\n&quot;)
+with open(&quot;count.txt&quot;) as f:
+    print(len(f.readlines()))</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>3</code></li><li><code>4</code></li><li><code>13</code></li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. Three lines, each ending with \n. The final \n does not start a fourth line.</p></details></section>
+<section class="deck"><h3>Slides: Working with a text file</h3><ol><li><p><b>Open, read or write, close. with does the closing for you.</b></p></li><li><p><b>Write a file</b></p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Asha,82\nRavi,67\n&quot;)
+print(&quot;saved&quot;)</code></pre><p class="olbl">Output</p><pre class="out">saved</pre></figure></li><li><p><b>Read it back</b></p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Asha,82\nRavi,67\n&quot;)
+with open(&quot;notes.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">Asha,82
+Ravi,67</pre></figure></li><li><p><b>Add a line</b></p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Asha,82\nRavi,67\n&quot;)
+with open(&quot;notes.txt&quot;, &quot;a&quot;) as f:
+    f.write(&quot;Neha,91\n&quot;)
+with open(&quot;notes.txt&quot;) as f:
+    print(len(f.readlines()), &quot;lines&quot;)</code></pre><p class="olbl">Output</p><pre class="out">3 lines</pre></figure></li><li><p><b>Turn lines into data</b></p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Asha,82\nRavi,67\n&quot;)
+marks = {}
+with open(&quot;notes.txt&quot;) as f:
+    for line in f:
+        name, mark = line.strip().split(&quot;,&quot;)
+        marks[name] = int(mark)
+print(marks)</code></pre><p class="olbl">Output</p><pre class="out">{'Asha': 82, 'Ravi': 67}</pre></figure></li></ol></section>
+<h2>Paths, and checking or deleting files</h2>
+<p>A file name like <code>&quot;demo.txt&quot;</code> is a <b>relative path</b>: Python looks in the current folder (in Jupyter, the folder the notebook is in). A <b>full path</b> like <code>C:\Users\Raman\data.csv</code> works from anywhere. On Windows, put <code>r</code> before the string so the backslashes are not treated as escape characters: <code>r&quot;C:\Users\Raman\data.csv&quot;</code>.</p>
+<figure class="code"><pre><code>import os
+
+with open(&quot;temp.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;delete me&quot;)
+
+print(os.path.exists(&quot;temp.txt&quot;))
+os.remove(&quot;temp.txt&quot;)                 # delete the file
+print(os.path.exists(&quot;temp.txt&quot;))</code></pre><p class="olbl">Output</p><pre class="out">True
+False</pre></figure>
+<figure class="code"><figcaption>The two errors you will meet most</figcaption><pre><code>open(&quot;missing.txt&quot;)</code></pre><p class="olbl">Error</p><pre class="out">FileNotFoundError: [Errno 2] No such file or directory: 'missing.txt'</pre></figure>
+<figure class="code"><pre><code>with open(&quot;report.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;v1&quot;)
+open(&quot;report.txt&quot;, &quot;x&quot;)</code></pre><p class="olbl">Error</p><pre class="out">FileExistsError: [Errno 17] File exists: 'report.txt'</pre></figure>
+<h2>CSV files</h2>
+<p>A <mark>CSV</mark> (comma-separated values) file is a table saved as text: one row per line, columns separated by commas. Excel opens it, and it is the most common data file you will receive. Python's built-in <code>csv</code> module handles the commas and quotes for you.</p>
+<figure class="code"><pre><code>import csv
+
+rows = [[&quot;name&quot;, &quot;city&quot;, &quot;amount&quot;],
+        [&quot;Asha&quot;, &quot;Pune&quot;, 1200],
+        [&quot;Ravi&quot;, &quot;Delhi&quot;, 950]]
+with open(&quot;sales.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    csv.writer(f).writerows(rows)
+
+with open(&quot;sales.csv&quot;, newline=&quot;&quot;) as f:
+    reader = csv.DictReader(f)        # each row becomes a dict
+    total = 0
+    for row in reader:
+        print(row[&quot;name&quot;], row[&quot;amount&quot;])
+        total += float(row[&quot;amount&quot;])  # values are read back as text
+print(&quot;Total:&quot;, total)</code></pre><p class="olbl">Output</p><pre class="out">Asha 1200
+Ravi 950
+Total: 2150.0</pre></figure>
+<aside class="note why"><strong>Why analysts care</strong><p>In real projects you will usually load CSVs with pandas: <code>pd.read_csv(&quot;sales.csv&quot;)</code>. It does all of this in one line. But it helps to know that underneath, a CSV is just text, and every value comes in as a string until something converts it.</p></aside>
+<h2>JSON files</h2>
+<p><mark>JSON</mark> is the text format the web uses to send data. It looks almost exactly like Python dictionaries and lists. The <code>json</code> module converts between the two.</p>
+<figure class="code"><pre><code>import json
+
+settings = {&quot;name&quot;: &quot;Asha&quot;, &quot;scores&quot;: [82, 91], &quot;member&quot;: True, &quot;coupon&quot;: None}
+with open(&quot;settings.json&quot;, &quot;w&quot;) as f:
+    json.dump(settings, f, indent=2)      # dict -&gt; JSON file
+
+with open(&quot;settings.json&quot;) as f:
+    print(f.read())
+
+with open(&quot;settings.json&quot;) as f:
+    loaded = json.load(f)                 # JSON file -&gt; dict
+print(loaded[&quot;scores&quot;][1])
+
+text = json.dumps({&quot;a&quot;: 1, &quot;ok&quot;: False})  # dict -&gt; JSON string
+print(text)
+print(json.loads(text)[&quot;a&quot;])              # JSON string -&gt; dict</code></pre><p class="olbl">Output</p><pre class="out">{
+  &quot;name&quot;: &quot;Asha&quot;,
+  &quot;scores&quot;: [
+    82,
+    91
+  ],
+  &quot;member&quot;: true,
+  &quot;coupon&quot;: null
+}
+91
+{&quot;a&quot;: 1, &quot;ok&quot;: false}
+1</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Notice how Python's <code>True</code> became <code>true</code> and <code>None</code> became <code>null</code>. That is JSON's spelling. The <code>s</code> in <code>dumps</code> and <code>loads</code> stands for <b>string</b>: those versions work with text in memory instead of a file.</p></aside>
+<h2>pickle: save any Python object</h2>
+<p><code>pickle</code> saves a Python object to a <b>binary</b> file and loads it back exactly as it was. It works for dicts, lists and even objects of your own classes. Saving is called <mark>serialization</mark>, loading is <mark>deserialization</mark>. Pickle needs binary modes: <code>&quot;wb&quot;</code> and <code>&quot;rb&quot;</code>.</p>
+<figure class="code"><figcaption>Saving the course movie database</figcaption><pre><code>import pickle
+
+movie_db = {
+    &quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20},
+    &quot;Drishyam&quot;: {&quot;price&quot;: 500, &quot;seats&quot;: 40},
+}
+
+with open(&quot;movie_db.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump(movie_db, f)          # save
+
+with open(&quot;movie_db.pkl&quot;, &quot;rb&quot;) as f:
+    data = pickle.load(f)             # load
+
+print(data)
+print(type(data))
+print(data[&quot;Drishyam&quot;][&quot;seats&quot;])</code></pre><p class="olbl">Output</p><pre class="out">{'Ramayan': {'price': 1000, 'seats': 20}, 'Drishyam': {'price': 500, 'seats': 40}}
+&lt;class 'dict'&gt;
+40</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The course notebook saved its pickle into <code>movie_ticket_db.txt</code>. It works, because the extension is only a label, but if you open that file in Notepad you will see gibberish. Use <code>.pkl</code> so everyone knows it is a pickle.</p></aside>
+<aside class="note trap"><strong>Never unpickle files you do not trust</strong><p>Loading a pickle can run code hidden inside it. Only load pickles you created yourself. For sharing data with others, use CSV or JSON.</p></aside>
+<div class="tbl"><table><thead><tr><th>Format</th><th>Module</th><th>Human readable?</th><th>Best for</th></tr></thead><tbody><tr><td>Plain text</td><td>built-in <code>open()</code></td><td>Yes</td><td>Logs, notes, simple lists</td></tr><tr><td>CSV</td><td><code>csv</code> (or pandas)</td><td>Yes, opens in Excel</td><td>Tables of data</td></tr><tr><td>JSON</td><td><code>json</code></td><td>Yes</td><td>Nested data, settings, web APIs</td></tr><tr><td>Pickle</td><td><code>pickle</code></td><td>No (binary)</td><td>Saving Python objects for your own later use</td></tr></tbody></table></div>
+<ol class="tasks"><li><p>Save three to-do items to <code>todo.txt</code>, one per line, then read them back into a list without the <code>\n</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>todos = [&quot;Finish SQL module&quot;, &quot;Practise slicing&quot;, &quot;Revise dictionaries&quot;]
+with open(&quot;todo.txt&quot;, &quot;w&quot;) as f:
+    for t in todos:
+        f.write(t + &quot;\n&quot;)
+
+with open(&quot;todo.txt&quot;) as f:
+    loaded = [line.strip() for line in f]
+print(loaded)</code></pre><p class="olbl">Output</p><pre class="out">['Finish SQL module', 'Practise slicing', 'Revise dictionaries']</pre></figure></details></li><li><p>Count the lines and the words in a file that contains <code>&quot;the cat sat\non the mat\n&quot;</code>.</p><details><summary>Solution</summary><figure class="code"><pre><code>with open(&quot;story.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;the cat sat\non the mat\n&quot;)
+
+lines = 0
+words = 0
+with open(&quot;story.txt&quot;) as f:
+    for line in f:
+        lines += 1
+        words += len(line.split())
+print(lines, &quot;lines,&quot;, words, &quot;words&quot;)</code></pre><p class="olbl">Output</p><pre class="out">2 lines, 6 words</pre></figure></details></li><li><p>Save <code>scores = {&quot;Asha&quot;: 82, &quot;Ravi&quot;: 67}</code> as JSON, load it back, add &quot;Neha&quot;: 91, and save again. Print the final file contents.</p><details><summary>Solution</summary><figure class="code"><pre><code>import json
+scores = {&quot;Asha&quot;: 82, &quot;Ravi&quot;: 67}
+with open(&quot;scores.json&quot;, &quot;w&quot;) as f:
+    json.dump(scores, f)
+
+with open(&quot;scores.json&quot;) as f:
+    scores = json.load(f)
+scores[&quot;Neha&quot;] = 91
+with open(&quot;scores.json&quot;, &quot;w&quot;) as f:
+    json.dump(scores, f)
+
+with open(&quot;scores.json&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">{&quot;Asha&quot;: 82, &quot;Ravi&quot;: 67, &quot;Neha&quot;: 91}</pre></figure></details></li><li><p>Course task: keep both the movie seats and a book count in one pickle file. Save a dict with two keys, <code>&quot;movies&quot;</code> and <code>&quot;books&quot;</code>, then load it and print the number of books.</p><details><summary>Solution</summary><figure class="code"><pre><code>import pickle
+db = {
+    &quot;movies&quot;: {&quot;Ramayan&quot;: {&quot;price&quot;: 1000, &quot;seats&quot;: 20}},
+    &quot;books&quot;: {&quot;Python Basics&quot;: 5, &quot;SQL Guide&quot;: 3},
+}
+with open(&quot;library.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump(db, f)
+
+with open(&quot;library.pkl&quot;, &quot;rb&quot;) as f:
+    db = pickle.load(f)
+print(sum(db[&quot;books&quot;].values()), &quot;books in stock&quot;)</code></pre><p class="olbl">Output</p><pre class="out">8 books in stock</pre></figure></details></li></ol>
+<h2>Real data practice: hotel bookings</h2>
+<p>The runner has a real-looking file ready for you: **<code>hotel_bookings.csv</code>**, 41 bookings from a 3-star hotel. It is messy on purpose, just like real data: extra spaces, mixed capitals (<code>deluxe</code>, <code>DELUXE </code>), money written as <code>&quot;₹5,200&quot;</code>, a few blank cells, two date formats and one booking that appears twice. Every time you press Run, the file is fresh again, so you can't break it.</p>
+<div class="tbl"><table><thead><tr><th>Column</th><th>Example</th><th>Watch out for</th></tr></thead><tbody><tr><td><code>booking_id</code></td><td><code>B1012</code></td><td>One ID appears twice</td></tr><tr><td><code>guest_name</code></td><td><code>Asha Reddy</code></td><td>Extra spaces, ALL CAPS</td></tr><tr><td><code>room_type</code></td><td><code>Deluxe</code></td><td><code>deluxe</code>, <code>DELUXE </code>, <code> standard</code></td></tr><tr><td><code>check_in</code></td><td><code>2026-08-26</code></td><td>Some are <code>19/08/2026</code></td></tr><tr><td><code>nights</code></td><td><code>2</code></td><td>Two cells are blank</td></tr><tr><td><code>rate</code></td><td><code>2600</code></td><td>Price per night</td></tr><tr><td><code>channel</code></td><td><code>Goibibo</code></td><td>Mixed capitals and spaces</td></tr><tr><td><code>status</code></td><td><code>Confirmed</code></td><td><code>confirmed</code>, <code>CONFIRMED</code>, <code>No-show</code></td></tr><tr><td><code>amount</code></td><td><code>5200</code></td><td><code>&quot;₹5,200&quot;</code> as text, one blank</td></tr></tbody></table></div><p class="cap">The columns in hotel_bookings.csv</p>
+<aside class="note why"><strong>Why analysts care</strong><p>Real data is never clean. Analysts spend most of their time on exactly these steps: read the file, fix the text, skip or repair bad rows, then count and add up.</p></aside>
+<ol class="tasks"><li><p>Open <code>hotel_bookings.csv</code> with <code>csv.DictReader</code>. Print how many rows it has and the list of column names.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv</code></pre></figure><details><summary>Hint</summary><p><code>list(csv.DictReader(f))</code> gives one dict per row. <code>rows[0].keys()</code> are the column names.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))
+print(len(rows), &quot;rows&quot;)
+print(list(rows[0].keys()))</code></pre><p class="olbl">Output</p><pre class="out">41 rows
+['booking_id', 'guest_name', 'room_type', 'check_in', 'nights', 'rate', 'channel', 'status', 'amount']</pre></figure><p>Each row becomes a dictionary, so you can read any cell by its column name, like <code>row[&quot;amount&quot;]</code>.</p></details></li><li><p>Count the bookings for each room type. Clean the names first (<code>&quot; deluxe&quot;</code> and <code>&quot;DELUXE &quot;</code> are both Deluxe) and skip the duplicate booking ID. Print the dictionary.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))</code></pre></figure><details><summary>Hint</summary><p>Keep a <code>seen</code> set of booking IDs. Clean with <code>.strip().title()</code>, then count with <code>counts.get(room, 0) + 1</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))
+seen = set()
+counts = {}
+for r in rows:
+    if r[&quot;booking_id&quot;] in seen:      # skip the duplicate booking
+        continue
+    seen.add(r[&quot;booking_id&quot;])
+    room = r[&quot;room_type&quot;].strip().title()
+    counts[room] = counts.get(room, 0) + 1
+print(counts)</code></pre><p class="olbl">Output</p><pre class="out">{'Standard': 17, 'Deluxe': 18, 'Suite': 5}</pre></figure><p>Without <code>.strip().title()</code> you would get five different &quot;room types&quot; for only three real ones.</p></details></li><li><p>Add up the revenue from <b>confirmed</b> bookings only. The <code>amount</code> column has text like <code>&quot;₹5,200&quot;</code> and one blank cell: turn the text into numbers and count the blank one instead of crashing.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))</code></pre></figure><details><summary>Hint</summary><p>Write a small <code>to_number(text)</code> function that removes <code>₹</code> and <code>,</code>. Wrap the conversion in <code>try / except ValueError</code>. Compare <code>status</code> with <code>.strip().lower() == &quot;confirmed&quot;</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+
+def to_number(text):
+    return int(text.replace(&quot;₹&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;).strip())
+
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))
+
+total, skipped, seen = 0, 0, set()
+for r in rows:
+    if r[&quot;booking_id&quot;] in seen:
+        continue
+    seen.add(r[&quot;booking_id&quot;])
+    if r[&quot;status&quot;].strip().lower() != &quot;confirmed&quot;:
+        continue
+    try:
+        total += to_number(r[&quot;amount&quot;])
+    except ValueError:
+        skipped += 1
+print(f&quot;Confirmed revenue: ₹{total:,}&quot;)
+print(&quot;Confirmed rows with no amount:&quot;, skipped)</code></pre><p class="olbl">Output</p><pre class="out">Confirmed revenue: ₹185,800
+Confirmed rows with no amount: 1</pre></figure><p><code>int(&quot;&quot;)</code> raises a ValueError, so the blank cell is counted as skipped instead of stopping the program.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>open(name, mode)</code>: <code>r</code> read, <code>w</code> overwrite, <code>a</code> append, <code>x</code> create new. Add <code>b</code> for binary.</li><li><code>&quot;w&quot;</code> wipes the file the moment it opens. Use <code>&quot;a&quot;</code> to add.</li><li>Use <code>with open(...) as f:</code> so the file always closes.</li><li><code>write()</code> needs a string and does not add <code>\n</code>. Read lines with <code>for line in f:</code> and <code>.strip()</code>.</li><li>CSV for tables, JSON for nested data, pickle (<code>wb</code>/<code>rb</code>) for Python objects you made yourself.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Open the file for writing.</p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, ___) as f:
+    f.write(&quot;Hello&quot;)
+with open(&quot;notes.txt&quot;) as f:
+    print(f.read())</code></pre></figure><details><summary>Answer</summary><p><code>&quot;w&quot;</code> — Mode <code>&quot;w&quot;</code> writes, and replaces the file if it exists.</p><p>Output:</p><pre class="out">Hello</pre></details></li><li><p>Add a line at the end without deleting what is there.</p><figure class="code"><pre><code>with open(&quot;log.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;one\n&quot;)
+with open(&quot;log.txt&quot;, ___) as f:
+    f.write(&quot;two\n&quot;)
+with open(&quot;log.txt&quot;) as f:
+    print(f.read().splitlines())</code></pre></figure><details><summary>Answer</summary><p><code>&quot;a&quot;</code> — Mode <code>&quot;a&quot;</code> (append) adds to the end and keeps the old text.</p><p>Output:</p><pre class="out">['one', 'two']</pre></details></li><li><p>Use the keyword that closes the file for you.</p><figure class="code"><pre><code>___ open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;saved&quot;)
+print(f.closed)</code></pre></figure><details><summary>Answer</summary><p><code>with</code> — <code>with</code> closes the file at the end of the block, even after an error.</p><p>Output:</p><pre class="out">True</pre></details></li><li><p>Read all the lines into a list.</p><figure class="code"><pre><code>with open(&quot;notes.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;a\nb\n&quot;)
+with open(&quot;notes.txt&quot;) as f:
+    print(f.___())</code></pre></figure><details><summary>Answer</summary><p><code>readlines</code> — <code>readlines()</code> gives a list with one string per line, each ending in <code>\n</code>.</p><p>Output:</p><pre class="out">['a\n', 'b\n']</pre></details></li><li><p>Read the CSV rows as dictionaries.</p><figure class="code"><pre><code>import csv
+with open(&quot;people.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    f.write(&quot;name,city\nAsha,Pune\n&quot;)
+with open(&quot;people.csv&quot;) as f:
+    for row in csv.___(f):
+        print(row[&quot;name&quot;], row[&quot;city&quot;])</code></pre></figure><details><summary>Answer</summary><p><code>DictReader</code> — <code>csv.DictReader</code> uses the first line as keys, so you can write <code>row[&quot;name&quot;]</code>.</p><p>Output:</p><pre class="out">Asha Pune</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>Which mode adds text to the end of a file without deleting what is there?</p><ol type="A"><li><code>&quot;r&quot;</code></li><li><code>&quot;w&quot;</code></li><li><code>&quot;a&quot;</code></li><li><code>&quot;x&quot;</code></li></ol><details><summary>Answer</summary><p><b><code>&quot;a&quot;</code></b>. a means append.</p></details></li><li><p>What happens when you open an existing file with <code>&quot;w&quot;</code>?</p><ol type="A"><li>It adds to the end</li><li>Its old content is deleted</li><li>FileExistsError</li><li>Nothing until you call write()</li></ol><details><summary>Answer</summary><p><b>Its old content is deleted</b>. w mode empties the file as soon as it opens.</p></details></li><li><p>What does <code>f.readlines()</code> return?</p><ol type="A"><li>One string</li><li>A list of lines, each keeping its \n</li><li>The first line</li><li>The number of lines</li></ol><details><summary>Answer</summary><p><b>A list of lines, each keeping its \n</b>. readlines() gives a list with one string per line.</p></details></li><li><p>Why use <code>with open(...) as f:</code>?</p><ol type="A"><li>It is faster</li><li>It closes the file automatically, even after an error</li><li>It is the only way to read</li><li>It creates a backup</li></ol><details><summary>Answer</summary><p><b>It closes the file automatically, even after an error</b>. The with block closes the file when it ends.</p></details></li><li><p>What does <code>f.write(2000)</code> do?</p><ol type="A"><li>Writes 2000</li><li>Writes &quot;2000\n&quot;</li><li>Raises TypeError</li><li>Writes nothing</li></ol><details><summary>Answer</summary><p><b>Raises TypeError</b>. write() only accepts strings. Use <code>f.write(str(2000))</code>.</p></details></li><li><p>Which modes does pickle need?</p><ol type="A"><li><code>&quot;r&quot;</code> and <code>&quot;w&quot;</code></li><li><code>&quot;rb&quot;</code> and <code>&quot;wb&quot;</code></li><li><code>&quot;a&quot;</code> and <code>&quot;x&quot;</code></li><li>Any mode</li></ol><details><summary>Answer</summary><p><b><code>&quot;rb&quot;</code> and <code>&quot;wb&quot;</code></b>. Pickle stores binary data, so it needs binary modes.</p></details></li><li><p>What does <code>json.dumps({&quot;a&quot;: True})</code> return?</p><ol type="A"><li>A dict</li><li>The string <code>{&quot;a&quot;: true}</code></li><li>A file</li><li><code>{'a': True}</code></li></ol><details><summary>Answer</summary><p><b>The string <code>{&quot;a&quot;: true}</code></b>. dumps converts to a JSON <b>string</b>. Note True becomes true.</p></details></li><li><p>Which mode fails if the file already exists?</p><ol type="A"><li><code>&quot;w&quot;</code></li><li><code>&quot;a&quot;</code></li><li><code>&quot;x&quot;</code></li><li><code>&quot;r&quot;</code></li></ol><details><summary>Answer</summary><p><b><code>&quot;x&quot;</code></b>. x is for creating a brand-new file only.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>The four main file modes</dt><dd><code>r</code> read, <code>w</code> write (wipes first), <code>a</code> append, <code>x</code> create (error if it exists). Add <code>b</code> for binary.</dd><dt>Safest way to open a file</dt><dd><figure class="code"><pre><code>with open(&quot;data.txt&quot;, &quot;r&quot;) as f:
+    text = f.read()</code></pre></figure></dd><dt><code>read()</code> vs <code>readline()</code> vs <code>readlines()</code></dt><dd>Whole file as one string / next line / list of all lines.</dd><dt>Why use <code>.strip()</code> when reading lines?</dt><dd>Each line ends with <code>\n</code>. strip() removes it so you do not get blank lines or messy values.</dd><dt>What does <code>write()</code> need?</dt><dd>A string. It does not add a newline, so add <code>\n</code> yourself.</dd><dt>How do you check if a file exists and delete it?</dt><dd><code>os.path.exists(&quot;f.txt&quot;)</code> and <code>os.remove(&quot;f.txt&quot;)</code> (after <code>import os</code>).</dd><dt>Save and load with pickle</dt><dd><figure class="code"><pre><code>with open(&quot;d.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump(obj, f)
+with open(&quot;d.pkl&quot;, &quot;rb&quot;) as f:
+    obj = pickle.load(f)</code></pre></figure></dd><dt><code>json.dump</code> vs <code>json.dumps</code></dt><dd><code>dump</code> writes to a file. <code>dumps</code> returns a string. Same for <code>load</code> / <code>loads</code>.</dd><dt>CSV vs JSON vs pickle</dt><dd>CSV: tables. JSON: nested data, readable, shareable. Pickle: any Python object, binary, only for your own trusted files.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>with open(&quot;f.txt&quot;) as f:
+    text = f.read()</code></td><td>Read a whole file</td></tr><tr><td><code>for line in f:
+    line = line.strip()</code></td><td>Read line by line</td></tr><tr><td><code>with open(&quot;f.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;hi\n&quot;)</code></td><td>Write (overwrite)</td></tr><tr><td><code>open(&quot;f.txt&quot;, &quot;a&quot;)</code></td><td>Append</td></tr><tr><td><code>os.path.exists(p)  os.remove(p)</code></td><td>Check / delete a file</td></tr><tr><td><code>csv.DictReader(f)</code></td><td>Read CSV rows as dicts</td></tr><tr><td><code>json.dump(d, f)  json.load(f)</code></td><td>Save / load JSON</td></tr><tr><td><code>pickle.dump(obj, f)  pickle.load(f)</code></td><td>Save / load any object (wb / rb)</td></tr></tbody></table></div></section><nav class="pn"><a href="errors.html">← Errors &amp; try/except</a><a href="modules.html">Modules &amp; libraries →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

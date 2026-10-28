@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions: the basics | Python Study Hub</title>
+<meta name="description" content="A function is a named, reusable block of code. Write it once, call it whenever you need it. This is how you stop copying and pasting code.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/functions.html">
+<meta property="og:title" content="Functions: the basics | Python Study Hub">
+<meta property="og:description" content="A function is a named, reusable block of code. Write it once, call it whenever you need it. This is how you stop copying and pasting code.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#functions">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#functions">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 4 · Functions · Chapter 14</p><h1>Functions: the basics</h1><p class="lead">A function is a named, reusable block of code. Write it once, call it whenever you need it. This is how you stop copying and pasting code.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Define a function with <code>def</code> and call it</li><li>Tell <b>parameters</b> and <b>arguments</b> apart</li><li>Understand <code>return</code>, and why it is not the same as <code>print</code></li><li>Use default values and keyword arguments</li><li>Return several values and write docstrings</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=9Os0o3wzS_I">Python Tutorial for Beginners 8: Functions</a> by Corey Schafer (about 22 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=KK3W0cMXArg">Python Tutorials for Beginners in Telugu - Tutorial 13 - Functions</a> by Telugu Computer World (about 39 min)</li></ul></section><h2>What is a function?</h2>
+<p>A <mark>function</mark> is a block of code that does one specific job. It only runs when you <b>call</b> it. You have already used many functions: <code>print()</code>, <code>len()</code>, <code>type()</code>, <code>input()</code>. Now you will write your own.</p>
+<aside class="note like"><strong>Think of it like this</strong><p>A function is like a <b>recipe</b>. Instead of explaining every step of making tea each time, you just say &quot;make tea&quot;. The recipe is written once. You can follow it as many times as you like, with different ingredients (2 cups, less sugar).</p></aside>
+<div class="tbl"><table><thead><tr><th>Why use functions?</th><th>What it means</th></tr></thead><tbody><tr><td><b>Reusability</b></td><td>Write once, use many times. No copy-paste.</td></tr><tr><td><b>Modularity</b></td><td>Split a big program into small named pieces.</td></tr><tr><td><b>Readability</b></td><td><code>calculate_gst(price)</code> explains itself.</td></tr><tr><td><b>Maintainability</b></td><td>Fix a bug in one place and it is fixed everywhere.</td></tr></tbody></table></div><p class="cap">The four benefits from your PDF.</p>
+<h2>Defining and calling a function</h2>
+<figure class="code"><pre><code>def say_hello():                         # define: nothing runs yet
+    print(&quot;Hello! Welcome to Python.&quot;)
+
+say_hello()                              # call: now it runs
+say_hello()                              # and again</code></pre><p class="olbl">Output</p><pre class="out">Hello! Welcome to Python.
+Hello! Welcome to Python.</pre></figure>
+<p class="cap">Diagram: The parts of a function.</p>
+<aside class="note trap"><strong>Trap! Define before you call</strong><p>Python runs top to bottom. If you call a function on a line <b>above</b> its <code>def</code>, Python has not seen it yet. In Jupyter this often happens when you restart and run cells out of order.</p><figure class="code"><pre><code>say_hi()
+def say_hi():
+    print(&quot;hi&quot;)</code></pre><p class="olbl">Error</p><pre class="out">NameError: name 'say_hi' is not defined</pre></figure></aside>
+<h2>Parameters and arguments</h2>
+<p>These two words confuse many beginners. Here is the difference.</p>
+<div class="cmp"><div><h4>Parameter</h4><ul><li>The <b>name</b> in the function definition</li><li>A placeholder, like an empty box</li><li><code>name</code> in <code>def greet(name):</code></li></ul></div><div><h4>Argument</h4><ul><li>The <b>actual value</b> you pass when calling</li><li>What goes into the box</li><li><code>&quot;Ravi&quot;</code> in <code>greet(&quot;Ravi&quot;)</code></li></ul></div></div>
+<figure class="code"><pre><code>def greet(name):            # name is a parameter
+    print(&quot;Hello&quot;, name)
+
+greet(&quot;Ravi&quot;)               # &quot;Ravi&quot; is an argument
+greet(&quot;Asha&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Hello Ravi
+Hello Asha</pre></figure>
+<figure class="code"><figcaption>Wrong number of arguments</figcaption><pre><code>def greet(name):
+    print(&quot;Hello&quot;, name)
+
+greet()</code></pre><p class="olbl">Error</p><pre class="out">TypeError: greet() missing 1 required positional argument: 'name'</pre></figure>
+<h2>return: sending a result back</h2>
+<p><code>return</code> ends the function and <b>hands a value back</b> to the line that called it. You can store that value, print it, or use it in maths.</p>
+<section class="anim"><h3>Animated explainer: Watch a function call jump in and out</h3><figure class="code"><pre><code>def add(a, b):
+    result = a + b
+    return result
+
+total = add(5, 7)
+print(&quot;Total:&quot;, total)</code></pre></figure><ol><li><code>def</code> only <b>creates</b> the function and gives it the name <code>add</code>. The code inside does not run yet.</li><li>Line 5 calls <code>add(5, 7)</code>. Python pauses this line and <b>jumps into the function</b>.</li><li>The arguments are copied into the parameters: <code>a = 5</code>, <code>b = 7</code>. These are <b>local</b> variables. They only exist inside this call.</li><li>The body runs: <code>result</code> is 12.</li><li><code>return result</code> sends 12 back to the line that called the function, and the function ends.</li><li>Back on line 5, <code>add(5, 7)</code> is replaced by 12, so <code>total = 12</code>. The local variables <code>a</code>, <code>b</code> and <code>result</code> are gone.</li><li>Line 6 prints the total.</li></ol></section>
+<h3>print vs return</h3>
+<p>Your course notebook has a whole cell on this, because it is the most common functions mistake.</p>
+<div class="cmp"><div><h4><code>print()</code> inside a function</h4><ul><li><b>Shows</b> a value on the screen</li><li>The caller gets <b>nothing</b> back (<code>None</code>)</li><li>Good for messages to a human</li></ul><figure class="code"><pre><code>def double(n):
+    print(n * 2)
+
+result = double(4)
+print(result)</code></pre><p class="olbl">Output</p><pre class="out">8
+None</pre></figure></div><div><h4><code>return</code> inside a function</h4><ul><li><b>Gives</b> the value back to the caller</li><li>Nothing appears on screen by itself</li><li>Good for results you want to use later</li></ul><figure class="code"><pre><code>def double(n):
+    return n * 2
+
+result = double(4)
+print(result + 1)</code></pre><p class="olbl">Output</p><pre class="out">9</pre></figure></div></div>
+<aside class="note key"><strong>Remember this</strong><p>A function with no <code>return</code> (or a bare <code>return</code>) gives back <code>None</code>. If you see <code>None</code> printed where you expected a number, you probably used <code>print</code> instead of <code>return</code> inside the function.</p></aside>
+<aside class="note trap"><strong>Trap! Code after return never runs</strong><p><code>return</code> ends the function immediately. In the course's <code>check_age</code> example, the print after each <code>return</code> is never reached.</p><figure class="code"><pre><code>def check_age(age):
+    if age &gt;= 18:
+        return True
+        print(&quot;Hi, you're an adult&quot;)     # never runs
+    else:
+        return False
+
+print(check_age(21))</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure></aside>
+<figure class="code"><figcaption>Using a returned value to make a decision (course notebook)</figcaption><pre><code>def check_age(age):
+    return age &gt;= 18
+
+if check_age(21):
+    print(&quot;Make a choice: 1 to vote, 2 to play outdoor games&quot;)
+else:
+    print(&quot;Make a choice: 1 to learn alphabets, 2 to play indoor games&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Make a choice: 1 to vote, 2 to play outdoor games</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>def f(x):
+    if x &gt; 0:
+        return &quot;positive&quot;
+    return &quot;not positive&quot;
+
+print(f(5), f(-2))</code></pre></figure><ol type="A"><li><code>positive not positive</code></li><li><code>positive positive</code></li><li><code>not positive</code></li><li><code>None None</code></li></ol><details><summary>Answer</summary><p><b><code>positive not positive</code></b>. f(5) returns at the first return. f(-2) skips the if and reaches the second return.</p></details></section>
+<h2>Default values and keyword arguments</h2>
+<p>A <mark>default value</mark> is used when the caller leaves that argument out. A <mark>keyword argument</mark> passes a value by naming the parameter, so the order does not matter.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>def multiply(a=1, b=1):
+    product = a * b
+    print(f&quot;The product of {a} and {b} is {product}&quot;)
+
+multiply(5, 11)          # positional: a=5, b=11
+multiply(b=100, a=20)    # keyword: any order
+multiply(34)             # b uses its default, 1
+multiply()               # both use defaults</code></pre><p class="olbl">Output</p><pre class="out">The product of 5 and 11 is 55
+The product of 20 and 100 is 2000
+The product of 34 and 1 is 34
+The product of 1 and 1 is 1</pre></figure>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>def greet(name=&quot;Guest&quot;):
+    print(&quot;Hello&quot;, name)
+
+greet()
+greet(&quot;Aman&quot;)
+
+def intro(name, age):
+    print(name, &quot;is&quot;, age, &quot;years old.&quot;)
+
+intro(age=21, name=&quot;Rahul&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Hello Guest
+Hello Aman
+Rahul is 21 years old.</pre></figure>
+<aside class="note trap"><strong>Trap! Defaults go last</strong><p>Parameters with defaults must come <b>after</b> parameters without defaults.</p><figure class="code"><pre><code>def bill(tax=0.18, amount):
+    pass</code></pre><p class="olbl">Error</p><pre class="out">SyntaxError: parameter without a default follows parameter with a default</pre></figure></aside>
+<aside class="note tip"><strong>Easy tip</strong><p>When you call with both styles, positional arguments must come first: <code>bill(500, tax=0.05)</code> works, <code>bill(tax=0.05, 500)</code> does not.</p></aside>
+<h2>Returning several values</h2>
+<figure class="code"><pre><code>def bill_summary(prices, tax_rate=0.18):
+    subtotal = sum(prices)
+    tax = round(subtotal * tax_rate, 2)
+    return subtotal, tax, subtotal + tax      # packed into a tuple
+
+sub, tax, total = bill_summary([120, 45, 80])  # unpacked
+print(sub, tax, total)</code></pre><p class="olbl">Output</p><pre class="out">245 44.1 289.1</pre></figure>
+<h2>Docstrings and help()</h2>
+<p>A <mark>docstring</mark> is a triple-quoted string on the first line inside a function, right under <code>def</code>. It explains what the function does. <code>help()</code> shows it, and Jupyter shows it when you press <b>Shift + Tab</b> inside the brackets.</p>
+<figure class="code"><pre><code>def area_of_circle(radius):
+    &quot;&quot;&quot;Return the area of a circle with the given radius.&quot;&quot;&quot;
+    return 3.14159 * radius ** 2
+
+print(area_of_circle(2))
+print(area_of_circle.__doc__)</code></pre><p class="olbl">Output</p><pre class="out">12.56636
+Return the area of a circle with the given radius.</pre></figure>
+<h2>Built-in vs your own functions</h2>
+<div class="tbl"><table><thead><tr><th>Built-in functions</th><th>User-defined functions</th></tr></thead><tbody><tr><td>Come with Python: <code>print</code>, <code>len</code>, <code>sum</code>, <code>max</code>, <code>sorted</code>, <code>round</code>, <code>type</code>...</td><td>Written by you with <code>def</code></td></tr><tr><td>Just call them</td><td>Define first, then call</td></tr><tr><td><code>len(&quot;Data Analytics&quot;)</code> gives 14</td><td><code>grade_system(63)</code> gives &quot;C&quot;</td></tr></tbody></table></div>
+<figure class="code"><figcaption>A grade function, used in a loop (course notebook)</figcaption><pre><code>def grade_system(marks):
+    if marks &gt; 90:
+        return &quot;A+&quot;
+    elif marks &gt; 75:
+        return &quot;A&quot;
+    elif marks &gt; 65:
+        return &quot;B&quot;
+    elif marks &gt; 55:
+        return &quot;C&quot;
+    elif marks &gt; 45:
+        return &quot;D&quot;
+    elif marks &gt; 33:
+        return &quot;E&quot;
+    else:
+        return &quot;Fail&quot;
+
+for m in [95, 63, 30]:
+    print(m, grade_system(m))</code></pre><p class="olbl">Output</p><pre class="out">95 A+
+63 C
+30 Fail</pre></figure>
+<section class="deck"><h3>Slides: Writing a good function in 5 steps</h3><ol><li><p><b>Good functions do one job, have a clear name, and return their result.</b></p></li><li><p><b>1. Name it with a verb</b></p><p>Say what it does: <code>calculate_total</code>, <code>clean_name</code>, <code>is_weekend</code>. Avoid <code>func1</code> or <code>do_stuff</code>.</p></li><li><p><b>2. Decide the inputs</b></p><p>What does it need to do its job? Those are the parameters. Give sensible defaults where you can.</p><figure class="code"><pre><code>def calculate_total(prices, tax_rate=0.18):</code></pre></figure></li><li><p><b>3. Write the body and return the answer</b></p><figure class="code"><pre><code>def calculate_total(prices, tax_rate=0.18):
+    &quot;&quot;&quot;Return the total of prices plus tax.&quot;&quot;&quot;
+    subtotal = sum(prices)
+    return round(subtotal * (1 + tax_rate), 2)
+
+print(calculate_total([100, 200]))</code></pre><p class="olbl">Output</p><pre class="out">354.0</pre></figure></li><li><p><b>4. Test with a few inputs</b></p><p>Try a normal case, an edge case (an empty list), and a different tax rate.</p><figure class="code"><pre><code>def calculate_total(prices, tax_rate=0.18):
+    subtotal = sum(prices)
+    return round(subtotal * (1 + tax_rate), 2)
+
+print(calculate_total([100, 200]))
+print(calculate_total([]))
+print(calculate_total([100], tax_rate=0.05))</code></pre><p class="olbl">Output</p><pre class="out">354.0
+0.0
+105.0</pre></figure></li><li><p><b>5. Reuse it everywhere</b></p><p>Now every bill in your program uses the same tested logic. If GST changes, you change one default value.</p></li></ol></section>
+<ol class="tasks"><li><p>Write <code>even_odd(n)</code> that <b>returns</b> &quot;EVEN&quot; or &quot;ODD&quot;. Print the result for 21 and 56.</p><details><summary>Solution</summary><figure class="code"><pre><code>def even_odd(n):
+    if n % 2 == 0:
+        return &quot;EVEN&quot;
+    return &quot;ODD&quot;
+
+print(21, even_odd(21))
+print(56, even_odd(56))</code></pre><p class="olbl">Output</p><pre class="out">21 ODD
+56 EVEN</pre></figure></details></li><li><p>Write <code>apply_discount(price, percent=10)</code> that returns the discounted price. Test it with and without a percent.</p><details><summary>Solution</summary><figure class="code"><pre><code>def apply_discount(price, percent=10):
+    return price - price * percent / 100
+
+print(apply_discount(500))
+print(apply_discount(500, 25))</code></pre><p class="olbl">Output</p><pre class="out">450.0
+375.0</pre></figure></details></li><li><p>Write <code>bmi(weight_kg, height_m)</code> that returns the BMI rounded to 1 decimal (weight divided by height squared). Then print a label using the course's BMI rules.</p><details><summary>Solution</summary><figure class="code"><pre><code>def bmi(weight_kg, height_m):
+    return round(weight_kg / height_m ** 2, 1)
+
+value = bmi(70, 1.75)
+if 18 &lt; value &lt; 25:
+    label = &quot;Healthy&quot;
+elif value &gt;= 25:
+    label = &quot;Overweight&quot;
+else:
+    label = &quot;Underweight&quot;
+print(value, label)</code></pre><p class="olbl">Output</p><pre class="out">22.9 Healthy</pre></figure></details></li><li><p>Write <code>stats(nums)</code> that returns the minimum, maximum and average of a list. Unpack the result.</p><details><summary>Solution</summary><figure class="code"><pre><code>def stats(nums):
+    return min(nums), max(nums), sum(nums) / len(nums)
+
+low, high, avg = stats([12000, 15000, 18000, 14000])
+print(low, high, avg)</code></pre><p class="olbl">Output</p><pre class="out">12000 18000 14750.0</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>def name(params):</code> creates a function. It runs only when called: <code>name(args)</code>.</li><li>Parameters are the names in the definition. Arguments are the values you pass.</li><li><code>return</code> gives a value back and ends the function. No return means <code>None</code>.</li><li><code>print</code> shows. <code>return</code> hands back. Use return for results you want to use.</li><li>Defaults: <code>def f(a, b=1)</code>. Keyword arguments: <code>f(b=2, a=1)</code>. Defaults go last.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Define a function called greet.</p><figure class="code"><pre><code>___ greet():
+    print(&quot;Hello!&quot;)
+greet()</code></pre></figure><details><summary>Answer</summary><p><code>def</code> — <code>def name():</code> defines a function. Calling it with <code>greet()</code> runs it.</p><p>Output:</p><pre class="out">Hello!</pre></details></li><li><p>Send the result back from the function.</p><figure class="code"><pre><code>def add(a, b):
+    ___ a + b
+print(add(5, 7))</code></pre></figure><details><summary>Answer</summary><p><code>return</code> — <code>return</code> sends a value back to where the function was called.</p><p>Output:</p><pre class="out">12</pre></details></li><li><p>Give name the default value Guest.</p><figure class="code"><pre><code>def welcome(name___&quot;Guest&quot;):
+    print(&quot;Welcome,&quot;, name)
+welcome()</code></pre></figure><details><summary>Answer</summary><p><code>=</code> — <code>name=&quot;Guest&quot;</code> is used when no argument is given.</p><p>Output:</p><pre class="out">Welcome, Guest</pre></details></li><li><p>Pass w by keyword.</p><figure class="code"><pre><code>def area(w, h):
+    return w * h
+print(area(h=3, ___=4))</code></pre></figure><details><summary>Answer</summary><p><code>w</code> — Keyword arguments use the parameter's name, so their order does not matter.</p><p>Output:</p><pre class="out">12</pre></details></li><li><p>Return the smallest and the largest value.</p><figure class="code"><pre><code>def min_max(nums):
+    return min(nums), ___(nums)
+lo, hi = min_max([4, 9, 1])
+print(lo, hi)</code></pre></figure><details><summary>Answer</summary><p><code>max</code> — Returning two values gives back a tuple, which you can unpack.</p><p>Output:</p><pre class="out">1 9</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What keyword starts a function definition?</p><ol type="A"><li><code>function</code></li><li><code>def</code></li><li><code>fun</code></li><li><code>define</code></li></ol><details><summary>Answer</summary><p><b><code>def</code></b>. Python uses <code>def</code>.</p></details></li><li><p>In <code>def greet(name):</code> and <code>greet(&quot;Asha&quot;)</code>, what is &quot;Asha&quot;?</p><ol type="A"><li>A parameter</li><li>An argument</li><li>A docstring</li><li>A return value</li></ol><details><summary>Answer</summary><p><b>An argument</b>. The value passed in a call is an argument. <code>name</code> is the parameter.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f():
+    print(&quot;hi&quot;)
+
+x = f()
+print(x)</code></pre></figure><ol type="A"><li><code>hi</code> then <code>hi</code></li><li><code>hi</code> then <code>None</code></li><li><code>None</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>hi</code> then <code>None</code></b>. The function prints &quot;hi&quot; and returns nothing, so x is None.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def add(a, b=10):
+    return a + b
+
+print(add(5))</code></pre></figure><ol type="A"><li><code>5</code></li><li><code>15</code></li><li><code>10</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>15</code></b>. b uses its default value of 10.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def area(w, h):
+    return w * h
+
+print(area(h=2, w=5))</code></pre></figure><ol type="A"><li><code>10</code></li><li><code>7</code></li><li><code>25</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>10</code></b>. Keyword arguments match by name, so order does not matter.</p></details></li><li><p>What happens after a <code>return</code> line runs?</p><ol type="A"><li>The next line in the function runs</li><li>The function ends and sends the value back</li><li>The program stops</li><li>Python returns to the top of the function</li></ol><details><summary>Answer</summary><p><b>The function ends and sends the value back</b>. return immediately ends the function.</p></details></li><li><p>Which definition is valid?</p><ol type="A"><li><code>def f(a=1, b):</code></li><li><code>def f(a, b=1):</code></li><li><code>def f(a=1, b, c=2):</code></li><li><code>def f(=1, b):</code></li></ol><details><summary>Answer</summary><p><b><code>def f(a, b=1):</code></b>. Parameters without defaults must come before parameters with defaults.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def mm(nums):
+    return min(nums), max(nums)
+
+lo, hi = mm([4, 9, 1])
+print(hi - lo)</code></pre></figure><ol type="A"><li><code>8</code></li><li><code>5</code></li><li><code>(1, 9)</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>8</code></b>. The function returns (1, 9). 9 - 1 = 8.</p></details></li><li><p>What does <code>help(my_function)</code> show?</p><ol type="A"><li>The source code</li><li>The function's docstring</li><li>Its return value</li><li>Nothing</li></ol><details><summary>Answer</summary><p><b>The function's docstring</b>. help() displays the docstring, the triple-quoted text at the top of the function.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Syntax to define and call a function</dt><dd><figure class="code"><pre><code>def greet(name):
+    return &quot;Hello &quot; + name
+
+print(greet(&quot;Asha&quot;))</code></pre></figure></dd><dt>Parameter vs argument</dt><dd>Parameter: the name in the <code>def</code> line. Argument: the actual value passed in the call.</dd><dt>What does <code>return</code> do?</dt><dd>Sends a value back to the caller and <b>ends</b> the function immediately.</dd><dt>What does a function return if it has no <code>return</code>?</dt><dd><code>None</code>.</dd><dt>print vs return</dt><dd><code>print</code> shows a value on screen. <code>return</code> gives it back so you can store or use it.</dd><dt>What is a default parameter?</dt><dd>A value used when the caller leaves the argument out: <code>def greet(name=&quot;Guest&quot;)</code>.</dd><dt>What is a keyword argument?</dt><dd>Passing a value by naming the parameter: <code>intro(age=21, name=&quot;Rahul&quot;)</code>. Order does not matter.</dd><dt>How do you return two values?</dt><dd><code>return a, b</code> returns a tuple. Unpack with <code>x, y = f()</code>.</dd><dt>What is a docstring?</dt><dd>A triple-quoted description on the first line inside a function, right under <code>def</code>. Shown by <code>help()</code>.</dd><dt>Why might you get <code>NameError</code> when calling your function?</dt><dd>You called it before the <code>def</code> line ran (or there is a typo in the name).</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>def f(a, b):
+    return a + b</code></td><td>Define a function</td></tr><tr><td><code>f(2, 3)</code></td><td>Call it</td></tr><tr><td><code>def f(name=&quot;Guest&quot;):</code></td><td>Default value</td></tr><tr><td><code>f(b=2, a=1)</code></td><td>Keyword arguments</td></tr><tr><td><code>return x, y</code></td><td>Return two values (a tuple)</td></tr><tr><td><code>&quot;&quot;&quot;What it does.&quot;&quot;&quot;</code></td><td>Docstring, first line of the body</td></tr><tr><td><code>help(f)</code></td><td>Show the docstring</td></tr></tbody></table></div></section><nav class="pn"><a href="overview3.html">← Part 3 overview</a><a href="functions2.html">Functions advanced →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

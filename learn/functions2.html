@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions: advanced tools | Python Study Hub</title>
+<meta name="description" content="The tools that make functions flexible: any number of arguments, scope rules, lambda, recursion, generators and decorators. Several of these are classic interview questions.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/functions2.html">
+<meta property="og:title" content="Functions: advanced tools | Python Study Hub">
+<meta property="og:description" content="The tools that make functions flexible: any number of arguments, scope rules, lambda, recursion, generators and decorators. Several of these are classic interview questions.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#functions2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#functions2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 4 · Functions · Chapter 15</p><h1>Functions: advanced tools</h1><p class="lead">The tools that make functions flexible: any number of arguments, scope rules, lambda, recursion, generators and decorators. Several of these are classic interview questions.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Accept any number of arguments with <code>*args</code> and <code>**kwargs</code></li><li>Understand local vs global scope, and the LEGB rule</li><li>Avoid the mutable default argument trap</li><li>Write <code>lambda</code> functions and use them with <code>sorted</code>, <code>map</code> and <code>filter</code></li><li>Understand recursion, iterators, generators and decorators</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=Vh__2V2tXUM">Python *args &amp; **kwargs</a> by Bro Code (about 15 min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=nSPb2lStuDk">#85 Lambda Function in Python in Telugu</a> by Meme Programmers Telugu (about 16 min)</li></ul></section><h2>The advanced toolkit</h2>
+<section class="mm"><h3>Mind map: Advanced function tools</h3><ul><li><b>Functions</b><ul><li>Flexible inputs<ul><li>*args: extra positional</li><li>**kwargs: extra keyword</li><li>f(*list), f(**dict)</li></ul></li><li>Scope<ul><li>local vs global</li><li>LEGB rule</li><li>global, nonlocal</li></ul></li><li>Small functions<ul><li>lambda x: x * 2</li><li>sorted(key=...)</li><li>map(), filter()</li></ul></li><li>Recursion<ul><li>function calls itself</li><li>needs a base case</li></ul></li><li>Lazy values<ul><li>iter(), next()</li><li>yield: generators</li></ul></li><li>Decorators<ul><li>wrap a function</li><li>@decorator syntax</li></ul></li></ul></li></ul></section>
+<h2>*args: any number of positional arguments</h2>
+<p>Put <code>*</code> before a parameter name and it collects <b>all extra positional arguments into a tuple</b>. The name <code>args</code> is just a convention.</p>
+<figure class="code"><pre><code>def add(*numbers):
+    print(numbers)
+    return sum(numbers)
+
+print(add(11, 12))
+print(add(23, 45, 67, 12, 34, 21))
+print(add())</code></pre><p class="olbl">Output</p><pre class="out">(11, 12)
+23
+(23, 45, 67, 12, 34, 21)
+202
+()
+0</pre></figure>
+<aside class="note trap"><strong>A note on the course notebook</strong><p>The notebook called <code>add([11, 12])</code>, passing <b>one list</b>, and then used <code>sum(*args)</code>. It works, but by accident: <code>args</code> becomes <code>([11, 12],)</code>, a tuple holding one list, and <code>*args</code> unpacks it again. The normal way is to pass separate values, <code>add(11, 12)</code>, and use <code>sum(args)</code>. If you already have a list, unpack it in the call: <code>add(*my_list)</code>.</p></aside>
+<figure class="code"><figcaption>Unpacking a list into arguments</figcaption><pre><code>def add(*numbers):
+    return sum(numbers)
+
+values = [11, 12, 45]
+print(add(*values))      # same as add(11, 12, 45)</code></pre><p class="olbl">Output</p><pre class="out">68</pre></figure>
+<h2>**kwargs: any number of keyword arguments</h2>
+<p>Put <code>**</code> before a parameter name and it collects <b>all extra keyword arguments into a dictionary</b>.</p>
+<figure class="code"><pre><code>def get_detail(**info):
+    print(info)
+    for key, value in info.items():
+        print(f&quot;{key}: {value}&quot;)
+
+get_detail(name=&quot;Raman&quot;, grade=&quot;X&quot;, sec=&quot;A&quot;)
+
+student = {&quot;name&quot;: &quot;Asha&quot;, &quot;grade&quot;: &quot;XII&quot;}
+get_detail(**student)     # unpack a dict into keyword arguments</code></pre><p class="olbl">Output</p><pre class="out">{'name': 'Raman', 'grade': 'X', 'sec': 'A'}
+name: Raman
+grade: X
+sec: A
+{'name': 'Asha', 'grade': 'XII'}
+name: Asha
+grade: XII</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The course notebook wrote <code>def getDetail(*kwargs)</code> with <b>one</b> star. One star always means a tuple of positional values, whatever you name it. For keyword arguments you need <b>two</b> stars: <code>**kwargs</code>.</p></aside>
+<figure class="code"><figcaption>The full order of parameters</figcaption><pre><code>def order(item, qty=1, *extras, **notes):
+    print(item, qty, extras, notes)
+
+order(&quot;Pizza&quot;)
+order(&quot;Pizza&quot;, 2, &quot;olives&quot;, &quot;jalapeno&quot;, spicy=True, table=4)</code></pre><p class="olbl">Output</p><pre class="out">Pizza 1 () {}
+Pizza 2 ('olives', 'jalapeno') {'spicy': True, 'table': 4}</pre></figure>
+<p>The usual order is: normal parameters, then defaults, then <code>*args</code>, then <code>**kwargs</code>.</p>
+<h2>Scope: where a variable lives</h2>
+<p>A variable created <b>inside</b> a function is <mark>local</mark>: it only exists while the function runs. A variable created <b>outside</b> all functions is <mark>global</mark>: it can be read anywhere.</p>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>x = 100                      # global
+
+def demo():
+    x = 50                   # a NEW local x, the global one is untouched
+    print(&quot;Inside function:&quot;, x)
+
+demo()
+print(&quot;Outside function:&quot;, x)</code></pre><p class="olbl">Output</p><pre class="out">Inside function: 50
+Outside function: 100</pre></figure>
+<p class="cap">Diagram: The LEGB rule: Python searches Local, then Enclosing, then Global, then Built-in. The first match wins.</p>
+<aside class="note trap"><strong>Trap! Changing a global inside a function</strong><p>Reading a global inside a function is fine. But as soon as you <b>assign</b> to a name inside a function, Python treats it as local for the whole function. So <code>count += 1</code> tries to read a local <code>count</code> that does not exist yet.</p><figure class="code"><pre><code>count = 0
+def increment():
+    count += 1
+increment()</code></pre><p class="olbl">Error</p><pre class="out">UnboundLocalError: cannot access local variable 'count' where it is not associated with a value</pre></figure></aside>
+<div class="cmp"><div><h4>Fix 1: global keyword</h4><p>Works, but makes code harder to follow. Use sparingly.</p><figure class="code"><pre><code>count = 0
+def increment():
+    global count
+    count += 1
+increment()
+increment()
+print(count)</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure></div><div><h4>Fix 2 (better): pass in, return out</h4><p>The function gets what it needs as a parameter and returns the result.</p><figure class="code"><pre><code>def increment(n):
+    return n + 1
+
+count = 0
+count = increment(count)
+count = increment(count)
+print(count)</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure></div></div>
+<figure class="code"><figcaption>nonlocal: change a variable from the enclosing function</figcaption><pre><code>def outer():
+    total = 0
+    def add(n):
+        nonlocal total
+        total += n
+    add(5)
+    add(10)
+    return total
+
+print(outer())</code></pre><p class="olbl">Output</p><pre class="out">15</pre></figure>
+<section class="deck"><h3>Slides: Scope in 5 slides</h3><ol><li><p><b>Where a variable is created decides where it can be seen.</b></p></li><li><p><b>Local variables stay inside</b></p><figure class="code"><pre><code>def f():
+    local_var = 5
+
+f()
+print(local_var)</code></pre><p class="olbl">Error</p><pre class="out">NameError: name 'local_var' is not defined</pre></figure></li><li><p><b>Globals can be read inside</b></p><figure class="code"><pre><code>rate = 0.18
+
+def tax(x):
+    return x * rate
+
+print(tax(100))</code></pre><p class="olbl">Output</p><pre class="out">18.0</pre></figure></li><li><p><b>Assigning inside makes a new local</b></p><figure class="code"><pre><code>count = 0
+
+def reset():
+    count = 5      # a new local count
+
+reset()
+print(count)</code></pre><p class="olbl">Output</p><pre class="out">0</pre></figure></li><li><p><b>Best habit: pass in, return out</b></p><figure class="code"><pre><code>def add_bonus(score, bonus):
+    return score + bonus
+
+s = 70
+s = add_bonus(s, 5)
+print(s)</code></pre><p class="olbl">Output</p><pre class="out">75</pre></figure></li></ol></section>
+<h2>The mutable default argument trap</h2>
+<p>This is a famous Python interview question. A default value is created <b>once</b>, when the function is defined, not each time it is called. If the default is a list, every call shares the same list.</p>
+<figure class="code"><pre><code>def add_item(item, basket=[]):
+    basket.append(item)
+    return basket
+
+print(add_item(&quot;apple&quot;))
+print(add_item(&quot;milk&quot;))          # expected ['milk'] ... but no!</code></pre><p class="olbl">Output</p><pre class="out">['apple']
+['apple', 'milk']</pre></figure>
+<figure class="code"><figcaption>The fix: use None as the default</figcaption><pre><code>def add_item(item, basket=None):
+    if basket is None:
+        basket = []              # a fresh list every call
+    basket.append(item)
+    return basket
+
+print(add_item(&quot;apple&quot;))
+print(add_item(&quot;milk&quot;))</code></pre><p class="olbl">Output</p><pre class="out">['apple']
+['milk']</pre></figure>
+<h2>lambda: tiny one-line functions</h2>
+<p>A <mark>lambda</mark> is a small function with no name, written in one line: <code>lambda parameters: expression</code>. It automatically returns the expression.</p>
+<figure class="code"><figcaption>From your course notebook</figcaption><pre><code>add = lambda x, y: x + y
+sqr = lambda a: a * a
+
+print(add(11, 21))
+print(sqr(5))</code></pre><p class="olbl">Output</p><pre class="out">32
+25</pre></figure>
+<p>Lambdas shine when another function needs a small &quot;rule&quot;, like <code>key=</code> in <code>sorted()</code>, <code>max()</code> and <code>min()</code>.</p>
+<figure class="code"><pre><code>students = [
+    {&quot;name&quot;: &quot;Asha&quot;, &quot;marks&quot;: 82},
+    {&quot;name&quot;: &quot;Ravi&quot;, &quot;marks&quot;: 67},
+    {&quot;name&quot;: &quot;Neha&quot;, &quot;marks&quot;: 91},
+]
+by_marks = sorted(students, key=lambda s: s[&quot;marks&quot;], reverse=True)
+print([s[&quot;name&quot;] for s in by_marks])
+
+top = max(students, key=lambda s: s[&quot;marks&quot;])
+print(top[&quot;name&quot;])
+
+sales = [(&quot;Mon&quot;, 1200), (&quot;Tue&quot;, 900), (&quot;Wed&quot;, 1500)]
+print(sorted(sales, key=lambda pair: pair[1]))</code></pre><p class="olbl">Output</p><pre class="out">['Neha', 'Asha', 'Ravi']
+Neha
+[('Tue', 900), ('Mon', 1200), ('Wed', 1500)]</pre></figure>
+<h3>map() and filter()</h3>
+<figure class="code"><pre><code>nums = [3, -1, 8, -5, 2]
+
+doubled = list(map(lambda x: x * 2, nums))         # apply to every item
+positives = list(filter(lambda x: x &gt; 0, nums))    # keep items that pass
+
+print(doubled)
+print(positives)
+print(list(map(str.upper, [&quot;a&quot;, &quot;b&quot;])))             # any function works</code></pre><p class="olbl">Output</p><pre class="out">[6, -2, 16, -10, 4]
+[3, 8, 2]
+['A', 'B']</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>map</code> and <code>filter</code> do the same jobs as list comprehensions. <code>[x * 2 for x in nums]</code> and <code>[x for x in nums if x &gt; 0]</code> are usually easier to read. Know both, because you will see both in other people's code.</p></aside>
+<h2>Recursion: a function that calls itself</h2>
+<p>A <mark>recursive</mark> function solves a problem by calling itself on a <b>smaller</b> version of the same problem. It must have a <mark>base case</mark>: a simple case it can answer directly, which stops the calls.</p>
+<figure class="code"><figcaption>Factorial, from your course notebook</figcaption><pre><code>def fact(n):
+    if n == 1:            # base case: stop here
+        return 1
+    return n * fact(n - 1)
+
+print(fact(5))</code></pre><p class="olbl">Output</p><pre class="out">120</pre></figure>
+<section class="anim"><h3>Animated explainer: The call stack for fact(4)</h3><ol><li>fact(4) cannot answer yet. It needs fact(3), so it <b>pauses</b> and calls it.</li><li>fact(3) also needs help, so it pauses and calls fact(2). The paused calls pile up like a stack of plates.</li><li>fact(2) calls fact(1).</li><li>fact(1) is the <b>base case</b>. It returns 1 straight away, with no more calls.</li><li>Now the stack unwinds. fact(2) gets its answer: 2 x 1 = 2.</li><li>fact(3) gets 2 back: 3 x 2 = 6.</li><li>fact(4) gets 6 back: 4 x 6 = 24. Every paused call finished in reverse order.</li></ol></section>
+<aside class="note trap"><strong>Trap! No base case means no end</strong><p>The course notebook shows a <code>greet()</code> that calls itself forever. Python stops it after about 1,000 calls with <code>RecursionError: maximum recursion depth exceeded</code>. Always check that each call moves closer to the base case.</p><figure class="code"><pre><code>def greet():
+    print(&quot;Good Morning!!&quot;)
+    greet()          # no base case: never stops</code></pre></figure></aside>
+<figure class="code"><figcaption>Another example: sum of digits</figcaption><pre><code>def digit_sum(n):
+    if n &lt; 10:
+        return n
+    return n % 10 + digit_sum(n // 10)
+
+print(digit_sum(4567))</code></pre><p class="olbl">Output</p><pre class="out">22</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Anything you can do with recursion, you can also do with a loop. For data analysis you will rarely need recursion, but it is common in interviews and for tree-shaped data like folders inside folders.</p></aside>
+<h2>Iterators</h2>
+<p>An <mark>iterator</mark> hands out items one at a time. <code>for</code> loops use them behind the scenes. <code>iter()</code> makes an iterator, and <code>next()</code> asks it for the next item. When it runs out, it raises <code>StopIteration</code>, which is how a <code>for</code> loop knows to stop.</p>
+<figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;]
+it = iter(fruits)
+print(next(it))
+print(next(it))
+print(next(it))</code></pre><p class="olbl">Error</p><pre class="out">apple
+banana
+StopIteration</pre></figure>
+<h2>Generators and yield</h2>
+<p>A <mark>generator</mark> is an easy way to make an iterator. It looks like a function, but uses <code>yield</code> instead of <code>return</code>. Each <code>yield</code> hands out one value and <b>pauses</b> the function until the next value is requested.</p>
+<figure class="code"><pre><code>def count_up_to(n):
+    i = 1
+    while i &lt;= n:
+        yield i            # hand out i, then pause here
+        i += 1
+
+for num in count_up_to(3):
+    print(num)
+
+gen = count_up_to(2)
+print(next(gen), next(gen))</code></pre><p class="olbl">Output</p><pre class="out">1
+2
+3
+1 2</pre></figure>
+<aside class="note why"><strong>Why analysts care</strong><p>Generators produce values <b>on demand</b>, so they use almost no memory. Reading a 5 GB log file line by line works the same way. <code>sum(x for x in range(10_000_000))</code> never builds a 10-million-item list.</p></aside>
+<h2>Decorators</h2>
+<p>In Python, functions are objects: you can store them in variables and pass them to other functions. A <mark>decorator</mark> is a function that <b>wraps</b> another function to add extra behaviour, without changing its code. The <code>@</code> line applies it.</p>
+<figure class="code"><pre><code>def log_call(func):
+    def wrapper(*args, **kwargs):
+        print(f&quot;Calling {func.__name__} with {args} {kwargs}&quot;)
+        result = func(*args, **kwargs)
+        print(f&quot;{func.__name__} returned {result}&quot;)
+        return result
+    return wrapper
+
+@log_call                    # same as: add = log_call(add)
+def add(a, b):
+    return a + b
+
+total = add(2, b=3)</code></pre><p class="olbl">Output</p><pre class="out">Calling add with (2,) {'b': 3}
+add returned 5</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>You will use other people's decorators more than you write your own. You will see <code>@property</code> and <code>@classmethod</code> in the OOP chapter, and <code>@app.route</code> in Flask. Recognising the pattern is enough for now.</p></aside>
+<ol class="tasks"><li><p>Write <code>average(*nums)</code> that returns the average of any number of values, or 0 if none are given.</p><details><summary>Solution</summary><figure class="code"><pre><code>def average(*nums):
+    if not nums:
+        return 0
+    return sum(nums) / len(nums)
+
+print(average(10, 20, 30))
+print(average())</code></pre><p class="olbl">Output</p><pre class="out">20.0
+0</pre></figure></details></li><li><p>Write <code>make_profile(name, **details)</code> that prints the name and then each detail on its own line.</p><details><summary>Solution</summary><figure class="code"><pre><code>def make_profile(name, **details):
+    print(&quot;Name:&quot;, name)
+    for k, v in details.items():
+        print(f&quot;  {k}: {v}&quot;)
+
+make_profile(&quot;Raman&quot;, city=&quot;Jaipur&quot;, role=&quot;Analyst&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Name: Raman
+  city: Jaipur
+  role: Analyst</pre></figure></details></li><li><p>Sort <code>products = [(&quot;Tea&quot;, 20), (&quot;Coffee&quot;, 45), (&quot;Juice&quot;, 35)]</code> by price, highest first, using a lambda.</p><details><summary>Solution</summary><figure class="code"><pre><code>products = [(&quot;Tea&quot;, 20), (&quot;Coffee&quot;, 45), (&quot;Juice&quot;, 35)]
+print(sorted(products, key=lambda p: p[1], reverse=True))</code></pre><p class="olbl">Output</p><pre class="out">[('Coffee', 45), ('Juice', 35), ('Tea', 20)]</pre></figure></details></li><li><p>Write a recursive <code>power(base, exp)</code> that returns base to the power exp (exp is 0 or more).</p><details><summary>Hint</summary><p>Base case: anything to the power 0 is 1.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>def power(base, exp):
+    if exp == 0:
+        return 1
+    return base * power(base, exp - 1)
+
+print(power(2, 10))</code></pre><p class="olbl">Output</p><pre class="out">1024</pre></figure></details></li><li><p>Write a generator <code>evens(limit)</code> that yields even numbers from 0 up to limit. Print them as a list for limit 10.</p><details><summary>Solution</summary><figure class="code"><pre><code>def evens(limit):
+    n = 0
+    while n &lt;= limit:
+        yield n
+        n += 2
+
+print(list(evens(10)))</code></pre><p class="olbl">Output</p><pre class="out">[0, 2, 4, 6, 8, 10]</pre></figure></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>*args</code> collects extra positional arguments into a tuple. <code>**kwargs</code> collects keyword arguments into a dict.</li><li>Use <code>f(*list)</code> and <code>f(**dict)</code> to unpack when calling.</li><li>Local variables live inside a function. LEGB: Local, Enclosing, Global, Built-in.</li><li>Assigning inside a function makes a name local. Prefer passing values in and returning them out.</li><li>Never use a list as a default value. Use <code>None</code> and create the list inside.</li><li><code>lambda x: ...</code> for small rules in <code>sorted(key=...)</code>, <code>map</code>, <code>filter</code>.</li><li>Recursion needs a base case. Generators use <code>yield</code>. Decorators wrap functions with <code>@</code>.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Accept any number of positional arguments.</p><figure class="code"><pre><code>def total(___nums):
+    return sum(nums)
+print(total(1, 2, 3))</code></pre></figure><details><summary>Answer</summary><p><code>*</code> — <code>*nums</code> collects the arguments into a tuple.</p><p>Output:</p><pre class="out">6</pre></details></li><li><p>Accept any number of keyword arguments.</p><figure class="code"><pre><code>def show(___info):
+    print(info)
+show(name=&quot;Asha&quot;, city=&quot;Pune&quot;)</code></pre></figure><details><summary>Answer</summary><p><code>**</code> — <code>**info</code> collects keyword arguments into a dictionary.</p><p>Output:</p><pre class="out">{'name': 'Asha', 'city': 'Pune'}</pre></details></li><li><p>Write a lambda that doubles x.</p><figure class="code"><pre><code>double = ___ x: x * 2
+print(double(8))</code></pre></figure><details><summary>Answer</summary><p><code>lambda</code> — <code>lambda x: x * 2</code> is a tiny function without a name.</p><p>Output:</p><pre class="out">16</pre></details></li><li><p>Sort the names by their length.</p><figure class="code"><pre><code>names = [&quot;Ravi&quot;, &quot;Al&quot;, &quot;Asha K&quot;]
+print(sorted(names, ___=lambda n: len(n)))</code></pre></figure><details><summary>Answer</summary><p><code>key</code> — <code>key</code> tells <code>sorted()</code> what to compare. <code>key=len</code> works too.</p><p>Output:</p><pre class="out">['Al', 'Ravi', 'Asha K']</pre></details></li><li><p>Give back values one at a time (a generator).</p><figure class="code"><pre><code>def countdown(n):
+    while n &gt; 0:
+        ___ n
+        n -= 1
+print(list(countdown(3)))</code></pre></figure><details><summary>Answer</summary><p><code>yield</code> — <code>yield</code> pauses the function and hands out one value each time.</p><p>Output:</p><pre class="out">[3, 2, 1]</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>def f(*args):
+    return len(args)
+
+print(f(4, 5, 6))</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>3</code></li><li><code>15</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. args is the tuple (4, 5, 6), which has 3 items.</p></details></li><li><p>What type is <code>kwargs</code> inside <code>def f(**kwargs)</code>?</p><ol type="A"><li>list</li><li>tuple</li><li>dict</li><li>set</li></ol><details><summary>Answer</summary><p><b>dict</b>. Two stars collect keyword arguments into a dictionary.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>x = 5
+def change():
+    x = 10
+change()
+print(x)</code></pre></figure><ol type="A"><li><code>5</code></li><li><code>10</code></li><li><code>None</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>5</code></b>. x = 10 inside the function creates a new local variable. The global x is untouched.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def f(item, bag=[]):
+    bag.append(item)
+    return bag
+
+f(1)
+print(f(2))</code></pre></figure><ol type="A"><li><code>[2]</code></li><li><code>[1, 2]</code></li><li><code>[1]</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>[1, 2]</code></b>. The default list is created once and shared between calls. Use <code>bag=None</code> instead.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>square = lambda n: n * n
+print(square(6))</code></pre></figure><ol type="A"><li><code>12</code></li><li><code>36</code></li><li><code>66</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>36</code></b>. The lambda returns n * n.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>print(list(filter(lambda x: x % 2, [1, 2, 3, 4, 5])))</code></pre></figure><ol type="A"><li><code>[2, 4]</code></li><li><code>[1, 3, 5]</code></li><li><code>[1, 0, 1, 0, 1]</code></li><li><code>[True, False]</code></li></ol><details><summary>Answer</summary><p><b><code>[1, 3, 5]</code></b>. x % 2 is 1 (truthy) for odd numbers, so filter keeps the odd ones.</p></details></li><li><p>What does every recursive function need?</p><ol type="A"><li>A loop</li><li>A base case that stops the calls</li><li>A global variable</li><li>A lambda</li></ol><details><summary>Answer</summary><p><b>A base case that stops the calls</b>. Without a base case it calls itself until Python raises RecursionError.</p></details></li><li><p>What does <code>yield</code> do?</p><ol type="A"><li>Ends the function for good</li><li>Hands out a value and pauses the function until the next value is requested</li><li>Prints a value</li><li>Raises an error</li></ol><details><summary>Answer</summary><p><b>Hands out a value and pauses the function until the next value is requested</b>. That pause-and-resume behaviour is what makes a generator.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>def g():
+    yield &quot;a&quot;
+    yield &quot;b&quot;
+
+print(list(g()))</code></pre></figure><ol type="A"><li><code>['a']</code></li><li><code>['a', 'b']</code></li><li><code>'ab'</code></li><li><code>None</code></li></ol><details><summary>Answer</summary><p><b><code>['a', 'b']</code></b>. list() asks the generator for every value until it runs out.</p></details></li><li><p>What is a decorator?</p><ol type="A"><li>A comment above a function</li><li>A function that wraps another function to add behaviour</li><li>A type of loop</li><li>A way to format output</li></ol><details><summary>Answer</summary><p><b>A function that wraps another function to add behaviour</b>. <code>@decorator</code> above a def replaces the function with a wrapped version.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What does <code>*args</code> do?</dt><dd>Collects any number of extra positional arguments into a <b>tuple</b>.</dd><dt>What does <code>**kwargs</code> do?</dt><dd>Collects any number of extra keyword arguments into a <b>dictionary</b>.</dd><dt>How do you pass a list as separate arguments?</dt><dd>Unpack it with a star: <code>f(*my_list)</code>. For a dict of keyword arguments: <code>f(**my_dict)</code>.</dd><dt>What is the LEGB rule?</dt><dd>Python looks up names in this order: <b>L</b>ocal, <b>E</b>nclosing, <b>G</b>lobal, <b>B</b>uilt-in.</dd><dt>Why does <code>count += 1</code> inside a function raise UnboundLocalError?</dt><dd>Assigning makes <code>count</code> local, but it has no local value yet. Use <code>global count</code>, or better, pass it in and return it.</dd><dt>The mutable default trap</dt><dd><code>def f(x, lst=[])</code> shares one list across calls. Use <code>lst=None</code> and create the list inside.</dd><dt>Write a lambda that doubles a number</dt><dd><code>double = lambda x: x * 2</code></dd><dt>Sort a list of dicts by a field</dt><dd><code>sorted(rows, key=lambda r: r[&quot;marks&quot;])</code></dd><dt><code>map</code> vs <code>filter</code></dt><dd><code>map(f, items)</code> applies f to every item. <code>filter(f, items)</code> keeps items where f is truthy.</dd><dt>What is a base case?</dt><dd>The simple input a recursive function answers directly, without calling itself. It stops the recursion.</dd><dt>Generator vs normal function</dt><dd>A generator uses <code>yield</code>, hands out values one at a time, and pauses between them. It saves memory.</dd><dt>What does <code>@log_call</code> above a function do?</dt><dd>Replaces the function with <code>log_call(function)</code>, a wrapped version with extra behaviour.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>def f(*args):</code></td><td>Any number of positional args (tuple)</td></tr><tr><td><code>def f(**kwargs):</code></td><td>Any number of keyword args (dict)</td></tr><tr><td><code>f(*lst)  f(**d)</code></td><td>Unpack into arguments</td></tr><tr><td><code>global x</code></td><td>Assign to a global inside a function</td></tr><tr><td><code>def f(x, lst=None):</code></td><td>Safe default for a list</td></tr><tr><td><code>lambda x: x * 2</code></td><td>Tiny anonymous function</td></tr><tr><td><code>sorted(items, key=lambda r: r[1])</code></td><td>Sort by a field</td></tr><tr><td><code>list(map(f, items))</code></td><td>Apply f to every item</td></tr><tr><td><code>list(filter(f, items))</code></td><td>Keep items where f is truthy</td></tr><tr><td><code>yield value</code></td><td>Make a generator</td></tr><tr><td><code>next(it)</code></td><td>Next value from an iterator</td></tr><tr><td><code>@decorator</code></td><td>Wrap the function below</td></tr></tbody></table></div></section><nav class="pn"><a href="functions.html">← Functions basics</a><a href="overview4.html">Part 4 overview →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NumPy operations for analysis | Python Study Hub</title>
+<meta name="description" content="This is where NumPy pays off: maths on whole columns in one line, summary statistics, picking rows and columns, the famous axis argument, and filtering with conditions.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/numpy2.html">
+<meta property="og:title" content="NumPy operations for analysis | Python Study Hub">
+<meta property="og:description" content="This is where NumPy pays off: maths on whole columns in one line, summary statistics, picking rows and columns, the famous axis argument, and filtering with conditions.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#numpy2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#numpy2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 7 · NumPy · Chapter 21</p><h1>NumPy operations for analysis</h1><p class="lead">This is where NumPy pays off: maths on whole columns in one line, summary statistics, picking rows and columns, the famous <code>axis</code> argument, and filtering with conditions.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Do maths on whole arrays at once (vectorisation) and understand broadcasting</li><li>Calculate statistics: mean, sum, max, min, std, median</li><li>Index and slice 1D and 2D arrays</li><li>Master <code>axis=0</code> and <code>axis=1</code></li><li>Filter with boolean masks, combine conditions with <code>&amp;</code> and <code>|</code>, and use <code>np.where</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=P67wiuTx7l0">Learn NumPy broadcasting in 6 minutes</a> by Bro Code (about 6 min)</li></ul></section><h2>Vectorisation: maths on the whole array</h2>
+<p>With NumPy you write the maths <b>once</b> and it applies to <b>every element</b>. No loop needed. This is called <mark>vectorisation</mark>, and it is both shorter and much faster.</p>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>import numpy as np
+prices = np.array([10, 20, 30, 40])
+
+discounted_prices = prices * 0.9     # 10% discount
+tax_included = prices * 1.08         # add 8% tax
+price_increase = prices + 5          # add 5 to each
+
+print(f&quot;Original: {prices}&quot;)
+print(f&quot;Discounted: {discounted_prices}&quot;)
+print(f&quot;With tax: {tax_included}&quot;)
+print(f&quot;Increased: {price_increase}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Original: [10 20 30 40]
+Discounted: [ 9. 18. 27. 36.]
+With tax: [10.8 21.6 32.4 43.2]
+Increased: [15 25 35 45]</pre></figure>
+<aside class="note trap"><strong>Trap! Lists and arrays react differently to maths</strong><p>Multiplying a <b>list</b> repeats it. Multiplying an <b>array</b> multiplies every value. Same symbol, completely different result.</p><figure class="code"><pre><code>import numpy as np
+print([1, 2, 3] * 2)
+print(np.array([1, 2, 3]) * 2)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3, 1, 2, 3]
+[2 4 6]</pre></figure></aside>
+<figure class="code"><figcaption>Two arrays: element by element</figcaption><pre><code>import numpy as np
+price = np.array([120, 45, 80])
+qty = np.array([2, 10, 3])
+revenue = price * qty            # 120*2, 45*10, 80*3
+print(revenue)
+print(revenue.sum())</code></pre><p class="olbl">Output</p><pre class="out">[240 450 240]
+930</pre></figure>
+<h2>Broadcasting</h2>
+<p>When shapes differ, NumPy tries to <mark>broadcast</mark>: it stretches the smaller array to match the bigger one, without actually copying data. A single number works with any array. A row works with every row of a matrix.</p>
+<section class="anim"><h3>Animated explainer: How broadcasting stretches a row</h3><ol><li>We want to add a 1D row of 3 values to a 2 x 3 matrix. The shapes are (2, 3) and (3,).</li><li>NumPy lines the shapes up from the right. The last dimensions match (3 and 3), so it <b>stretches</b> the row down to cover both rows.</li><li>Now it adds element by element. Every row got 10, 20 and 30 added.</li><li>If the sizes do not line up (3 vs 2), NumPy cannot stretch either one, and you get an error.</li></ol></section>
+<figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2, 3],
+              [4, 5, 6]])
+print(m + np.array([10, 20, 30]))        # row applied to every row
+print(m * np.array([[10], [100]]))       # column applied to every column</code></pre><p class="olbl">Output</p><pre class="out">[[11 22 33]
+ [14 25 36]]
+[[ 10  20  30]
+ [400 500 600]]</pre></figure>
+<h2>Statistics</h2>
+<figure class="code"><figcaption>From the PDF, plus extras</figcaption><pre><code>import numpy as np
+monthly_sales = np.array([12000, 15000, 18000, 14000, 16000, 20000])
+
+print(f&quot;Average sales: {monthly_sales.mean():.2f}&quot;)
+print(f&quot;Total sales: {monthly_sales.sum()}&quot;)
+print(f&quot;Highest month: {monthly_sales.max()}&quot;)
+print(f&quot;Lowest month: {monthly_sales.min()}&quot;)
+print(f&quot;Standard deviation: {monthly_sales.std():.2f}&quot;)
+print(f&quot;Median: {np.median(monthly_sales)}&quot;)
+print(f&quot;Best month is index {monthly_sales.argmax()}&quot;)
+print(f&quot;Running total: {monthly_sales.cumsum()}&quot;)
+print(f&quot;75th percentile: {np.percentile(monthly_sales, 75)}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Average sales: 15833.33
+Total sales: 95000
+Highest month: 20000
+Lowest month: 12000
+Standard deviation: 2608.75
+Median: 15500.0
+Best month is index 5
+Running total: [12000 27000 45000 59000 75000 95000]
+75th percentile: 17500.0</pre></figure>
+<aside class="note trap"><strong>Trap! Two different standard deviations</strong><p>NumPy's <code>.std()</code> gives the <b>population</b> standard deviation (2608.75 here). The <code>statistics.stdev()</code> function and pandas' <code>.std()</code> give the <b>sample</b> standard deviation (2857.74). Neither is wrong, they answer slightly different questions. To make NumPy match pandas, write <code>arr.std(ddof=1)</code>.</p></aside>
+<div class="tbl"><table><thead><tr><th>Function</th><th>Gives</th></tr></thead><tbody><tr><td><code>a.sum()</code> <code>a.mean()</code></td><td>Total, average</td></tr><tr><td><code>a.min()</code> <code>a.max()</code></td><td>Smallest, largest</td></tr><tr><td><code>a.argmin()</code> <code>a.argmax()</code></td><td><b>Index</b> of the smallest / largest</td></tr><tr><td><code>np.median(a)</code></td><td>Middle value</td></tr><tr><td><code>a.std()</code> <code>a.var()</code></td><td>Spread (population)</td></tr><tr><td><code>a.cumsum()</code></td><td>Running total</td></tr><tr><td><code>np.percentile(a, 90)</code></td><td>90th percentile</td></tr><tr><td><code>np.round(a, 2)</code></td><td>Round every value</td></tr><tr><td><code>np.sqrt(a)</code> <code>np.abs(a)</code> <code>np.log(a)</code></td><td>Maths on every value</td></tr></tbody></table></div>
+<h2>Indexing and slicing</h2>
+<p>1D arrays work exactly like lists. 2D arrays take <b>two</b> positions separated by a comma: <code>[row, column]</code>. A colon <code>:</code> on its own means &quot;all&quot;.</p>
+<figure class="code"><figcaption>1D, from the PDF</figcaption><pre><code>import numpy as np
+quarterly_revenue = np.array([50000, 65000, 72000, 58000])
+
+print(quarterly_revenue[0])       # first quarter
+print(quarterly_revenue[-1])      # last quarter
+print(quarterly_revenue[0:2])     # first half
+print(quarterly_revenue[2:])      # second half</code></pre><p class="olbl">Output</p><pre class="out">50000
+58000
+[50000 65000]
+[72000 58000]</pre></figure>
+<div class="tbl"><table><thead><tr><th>Code</th><th>Selects</th><th>Picture</th></tr></thead><tbody><tr><td><code>m[0, 1]</code></td><td>Row 0, column 1: one value</td><td>one cell</td></tr><tr><td><code>m[0, :]</code> or <code>m[0]</code></td><td>All of row 0</td><td>a whole row</td></tr><tr><td><code>m[:, 1]</code></td><td>All of column 1</td><td>a whole column</td></tr><tr><td><code>m[0:2, 1:3]</code></td><td>Rows 0 to 1, columns 1 to 2</td><td>a 2 x 2 block</td></tr><tr><td><code>m[-1]</code></td><td>The last row</td><td>bottom row</td></tr></tbody></table></div>
+<p class="cap">Diagram: <code>sales_matrix[:, 1]</code>: every row (<code>:</code>), column 1. All of Product B: 150, 140, 160.</p>
+<p class="cap">Diagram: <code>sales_matrix[0, :]</code>: row 0, every column. All of January: 100, 150, 200.</p>
+<figure class="code"><figcaption>2D, from the PDF</figcaption><pre><code>import numpy as np
+# rows = months, columns = products
+sales_matrix = np.array([[100, 150, 200],    # January
+                         [120, 140, 180],    # February
+                         [110, 160, 220]])   # March
+
+print(sales_matrix[0, :])        # all January data
+print(sales_matrix[:, 1])        # all Product B data
+print(sales_matrix[2, 2])        # March, Product C
+print(sales_matrix[0:2, 1:3])    # Jan-Feb, Products B-C</code></pre><p class="olbl">Output</p><pre class="out">[100 150 200]
+[150 140 160]
+220
+[[150 200]
+ [140 180]]</pre></figure>
+<h2>axis: the most confusing argument in NumPy</h2>
+<p>When you call <code>sum()</code>, <code>mean()</code> or <code>max()</code> on a 2D array, <code>axis</code> decides <b>which direction to collapse</b>. Without it, you get one number for the whole table.</p>
+<section class="anim"><h3>Animated explainer: axis=1 vs axis=0 on the sales table</h3><ol><li>With no axis, <code>sum()</code> adds every value: 1380. Now let us collapse in one direction only.</li><li><b>axis=1</b> moves <b>across</b> each row, left to right. January: 100 + 150 + 200 = 450.</li><li>February: 120 + 140 + 180 = 440.</li><li>March: 490. One answer <b>per row</b>: these are the monthly totals.</li><li><b>axis=0</b> moves <b>down</b> each column, top to bottom. Product A: 100 + 120 + 110 = 330.</li><li>One answer <b>per column</b>: the product totals. The rows were squashed together.</li></ol></section>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>import numpy as np
+sales_matrix = np.array([[100, 150, 200],
+                         [120, 140, 180],
+                         [110, 160, 220]])
+
+monthly_totals = sales_matrix.sum(axis=1)   # sum each row (month)
+product_totals = sales_matrix.sum(axis=0)   # sum each column (product)
+print(f&quot;Monthly totals: {monthly_totals}&quot;)
+print(f&quot;Product totals: {product_totals}&quot;)
+print(f&quot;Average per product: {sales_matrix.mean(axis=0)}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Monthly totals: [450 440 490]
+Product totals: [330 450 600]
+Average per product: [110. 150. 200.]</pre></figure>
+<section class="deck"><h3>Slides: Axis without tears</h3><ol><li><p><b>axis tells NumPy which direction to squash.</b></p><p>The axis you name is the one that <b>disappears</b>.</p></li><li><p><b>axis=0 squashes the rows</b></p><p>It goes <b>down</b> the columns. A (3, 3) table becomes 3 values: <b>one per column</b>.</p></li><li><p><b>axis=1 squashes the columns</b></p><p>It goes <b>across</b> the rows. A (3, 3) table becomes 3 values: <b>one per row</b>.</p></li><li><p><b>A memory trick</b></p><ul><li><b>axis=0</b>: think &quot;0 is a tall stick&quot; → go <b>down</b></li><li><b>axis=1</b>: think &quot;1 lies flat&quot; → go <b>across</b></li><li>Shape <code>(rows, cols)</code>: axis 0 is rows, axis 1 is cols. Naming one makes it vanish.</li></ul></li><li><p><b>Same idea in pandas</b></p><p><code>df.sum(axis=0)</code> gives a total per column (the default). <code>df.drop(&quot;col&quot;, axis=1)</code> drops a <b>column</b>. Learn axis once here and it works there too.</p></li></ol></section>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4], [5, 6]])
+print(m.max(axis=0), m.max(axis=1))</code></pre></figure><ol type="A"><li><code>[5 6] [2 4 6]</code></li><li><code>[2 4 6] [5 6]</code></li><li><code>6 6</code></li><li><code>[5 6] [5 6]</code></li></ol><details><summary>Answer</summary><p><b><code>[5 6] [2 4 6]</code></b>. axis=0 goes down each column: max of (1, 3, 5) is 5, max of (2, 4, 6) is 6. axis=1 goes across each row: 2, 4, 6.</p></details></section>
+<h2>Filtering with boolean masks</h2>
+<p>A comparison on an array gives back an array of <code>True</code>/<code>False</code>, called a <mark>mask</mark>. Put the mask inside square brackets and you keep only the <code>True</code> positions. This is how you filter data.</p>
+<section class="anim"><h3>Animated explainer: Filtering salaries above 50,000</h3><ol><li>Six salaries. We want only the high earners: above 50,000.</li><li>The comparison checks <b>every</b> value at once and gives a mask of True/False.</li><li>Using the mask as an index keeps only the True positions: 55000, 72000 and 65000.</li><li>Bonus trick: True counts as 1 and False as 0, so summing a mask <b>counts</b> the matches.</li></ol></section>
+<figure class="code"><figcaption>From the PDF</figcaption><pre><code>import numpy as np
+employee_salaries = np.array([45000, 55000, 38000, 72000, 41000, 65000])
+
+print(employee_salaries &gt; 50000)
+high_earners = employee_salaries[employee_salaries &gt; 50000]
+print(f&quot;High earners: {high_earners}&quot;)
+
+high_earner_count = np.sum(employee_salaries &gt; 50000)
+print(f&quot;Number of high earners: {high_earner_count}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">[False  True False  True False  True]
+High earners: [55000 72000 65000]
+Number of high earners: 3</pre></figure>
+<h3>Combining conditions: &amp; and |</h3>
+<figure class="code"><pre><code>import numpy as np
+sal = np.array([45000, 55000, 38000, 72000, 41000, 65000])
+
+print(sal[(sal &gt; 40000) &amp; (sal &lt; 60000)])      # and
+print(sal[(sal &lt; 40000) | (sal &gt; 70000)])      # or
+print(sal[~(sal &gt; 50000)])                     # not</code></pre><p class="olbl">Output</p><pre class="out">[45000 55000 41000]
+[38000 72000]
+[45000 38000 41000]</pre></figure>
+<aside class="note trap"><strong>Trap! Use &amp; | ~ with brackets, never and / or</strong><p>Python's <code>and</code> and <code>or</code> cannot work on a whole array, and you get a famous confusing error. Use <code>&amp;</code> (and), <code>|</code> (or), <code>~</code> (not), and wrap <b>each</b> condition in brackets, because <code>&amp;</code> binds tighter than <code>&gt;</code>. The same rule applies in pandas.</p><figure class="code"><pre><code>import numpy as np
+sal = np.array([45000, 55000, 38000])
+print(sal[sal &gt; 40000 and sal &lt; 60000])</code></pre><p class="olbl">Error</p><pre class="out">ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()</pre></figure></aside>
+<figure class="code"><figcaption>np.where: label every value</figcaption><pre><code>import numpy as np
+sal = np.array([45000, 55000, 38000, 72000, 41000, 65000])
+labels = np.where(sal &gt; 50000, &quot;High&quot;, &quot;Normal&quot;)    # if, then, else
+print(labels)
+
+capped = np.where(sal &gt; 60000, 60000, sal)          # cap values at 60000
+print(capped)</code></pre><p class="olbl">Output</p><pre class="out">['Normal' 'High' 'Normal' 'High' 'Normal' 'High']
+[45000 55000 38000 60000 41000 60000]</pre></figure>
+<h2>Views vs copies</h2>
+<aside class="note trap"><strong>Trap! A slice is a view, not a copy</strong><p>Slicing a list makes a new list. Slicing a NumPy array does <b>not</b> copy the data: it gives a <b>view</b> onto the same memory. Change the slice and the original changes too. Use <code>.copy()</code> when you need a separate array.</p><figure class="code"><pre><code>import numpy as np
+x = np.array([1, 2, 3, 4, 5])
+part = x[1:4]
+part[0] = 99
+print(x)                  # the original changed!
+
+y = np.array([1, 2, 3, 4, 5])
+safe = y[1:4].copy()
+safe[0] = 99
+print(y)                  # untouched</code></pre><p class="olbl">Output</p><pre class="out">[ 1 99  3  4  5]
+[1 2 3 4 5]</pre></figure></aside>
+<h2>Sorting and unique values</h2>
+<figure class="code"><pre><code>import numpy as np
+a = np.array([3, 1, 3, 2, 1, 3])
+print(np.sort(a))
+values, counts = np.unique(a, return_counts=True)
+print(values, counts)
+print(np.argsort(np.array([30, 10, 20])))    # positions that would sort it</code></pre><p class="olbl">Output</p><pre class="out">[1 1 2 3 3 3]
+[1 2 3] [2 1 3]
+[1 2 0]</pre></figure>
+<aside class="note why"><strong>Why analysts care</strong><p>Everything in this chapter carries straight over to pandas. A pandas column is a NumPy array with labels. <code>df[df[&quot;salary&quot;] &gt; 50000]</code>, <code>df.sum(axis=0)</code> and <code>np.where(...)</code> are daily tools in analyst work.</p></aside>
+<ol class="tasks"><li><p>Prices are <code>[499, 1299, 299, 899]</code> and quantities sold are <code>[10, 3, 25, 6]</code>. Find the revenue for each product, the total revenue, and the index of the best seller by revenue.</p><details><summary>Solution</summary><figure class="code"><pre><code>import numpy as np
+price = np.array([499, 1299, 299, 899])
+qty = np.array([10, 3, 25, 6])
+revenue = price * qty
+print(revenue)
+print(revenue.sum())
+print(revenue.argmax())</code></pre><p class="olbl">Output</p><pre class="out">[4990 3897 7475 5394]
+21756
+2</pre></figure></details></li><li><p>Room occupancy for 2 weeks is <code>[[60, 72, 75, 80, 95, 98, 90], [58, 70, 74, 79, 93, 99, 88]]</code> (percent, Monday to Sunday). Find the average for each week and the average for each weekday.</p><details><summary>Hint</summary><p>Each week is a row. Average per week goes across: axis=1.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import numpy as np
+occ = np.array([[60, 72, 75, 80, 95, 98, 90],
+                [58, 70, 74, 79, 93, 99, 88]])
+print(np.round(occ.mean(axis=1), 1))     # per week
+print(occ.mean(axis=0))                  # per weekday</code></pre><p class="olbl">Output</p><pre class="out">[81.4 80.1]
+[59.  71.  74.5 79.5 94.  98.5 89. ]</pre></figure></details></li><li><p>From <code>scores = np.array([35, 78, 92, 41, 66, 88, 29])</code>, count how many passed (40 or more), and list the scores between 60 and 90.</p><details><summary>Solution</summary><figure class="code"><pre><code>import numpy as np
+scores = np.array([35, 78, 92, 41, 66, 88, 29])
+print(np.sum(scores &gt;= 40))
+print(scores[(scores &gt;= 60) &amp; (scores &lt;= 90)])</code></pre><p class="olbl">Output</p><pre class="out">5
+[78 66 88]</pre></figure></details></li><li><p>Replace every negative value in <code>np.array([5, -3, 8, -1, 0])</code> with 0.</p><details><summary>Solution</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([5, -3, 8, -1, 0])
+print(np.where(a &lt; 0, 0, a))</code></pre><p class="olbl">Output</p><pre class="out">[5 0 8 0 0]</pre></figure></details></li><li><p>Add a 5% price rise to every product in a 2 x 3 price table <code>[[100, 200, 300], [150, 250, 350]]</code>, then add a delivery charge of <code>[10, 20, 30]</code> per column.</p><details><summary>Solution</summary><figure class="code"><pre><code>import numpy as np
+prices = np.array([[100, 200, 300], [150, 250, 350]])
+new = prices * 1.05 + np.array([10, 20, 30])
+print(new)</code></pre><p class="olbl">Output</p><pre class="out">[[115.  230.  345. ]
+ [167.5 282.5 397.5]]</pre></figure></details></li></ol>
+<h2>Real data practice: hotel bookings with NumPy</h2>
+<p>Same messy hotel file as in the Files chapter: **<code>hotel_bookings.csv</code>**. This time you load the numbers into arrays and let NumPy do the maths. The first lines drop the duplicate booking with a handy trick: a dict keeps only one row per booking ID.</p>
+<ol class="tasks"><li><p>Load the <code>nights</code> column into a NumPy array (skip the blank cells). Print how many values you have, the average stay (2 decimals) and how many stays were longer than 3 nights.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list({r[&quot;booking_id&quot;]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking</code></pre></figure><details><summary>Hint</summary><p><code>np.array([int(r[&quot;nights&quot;]) for r in rows if r[&quot;nights&quot;].strip()])</code>, then <code>.mean()</code> and <code>np.sum(nights &gt; 3)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list(csv.DictReader(f))
+rows = list({r[&quot;booking_id&quot;]: r for r in rows}.values())   # drop the duplicate booking
+nights = np.array([int(r[&quot;nights&quot;]) for r in rows if r[&quot;nights&quot;].strip()])
+print(len(nights), &quot;rows have nights filled in&quot;)
+print(&quot;Average nights:&quot;, round(float(nights.mean()), 2))
+print(&quot;Stays longer than 3 nights:&quot;, int(np.sum(nights &gt; 3)))</code></pre><p class="olbl">Output</p><pre class="out">38 rows have nights filled in
+Average nights: 2.18
+Stays longer than 3 nights: 5</pre></figure><p><code>nights &gt; 3</code> makes a True/False mask, and <code>np.sum</code> counts the True values.</p></details></li><li><p>Work out the revenue for each booking channel. Build <code>nights</code>, <code>rates</code> and <code>channels</code> arrays (skip rows with blank nights), multiply to get <code>amounts</code>, then use a mask per channel. Print one line per channel.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list({r[&quot;booking_id&quot;]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r[&quot;nights&quot;].strip()]</code></pre></figure><details><summary>Hint</summary><p>Clean channels with <code>.strip().lower()</code>. Loop over <code>np.unique(channels)</code> and add up <code>amounts[channels == ch]</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list({r[&quot;booking_id&quot;]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r[&quot;nights&quot;].strip()]
+nights = np.array([int(r[&quot;nights&quot;]) for r in rows])
+rates = np.array([int(r[&quot;rate&quot;]) for r in rows])
+channels = np.array([r[&quot;channel&quot;].strip().lower() for r in rows])
+amounts = nights * rates
+for ch in np.unique(channels):
+    print(f&quot;{ch:12} ₹{int(amounts[channels == ch].sum()):,}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">booking.com  ₹66,200
+goibibo      ₹67,600
+makemytrip   ₹47,400
+walk-in      ₹38,800</pre></figure><p>One mask per channel picks only that channel's bookings, with no <code>if</code> inside a loop.</p></details></li><li><p>Find the single biggest booking (nights × rate). Print its booking ID, the guest's cleaned name, the amount, the nights and the room type.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list({r[&quot;booking_id&quot;]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r[&quot;nights&quot;].strip()]</code></pre></figure><details><summary>Hint</summary><p><code>amounts.argmax()</code> gives the position of the largest amount. Use that position in <code>rows</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import csv
+import numpy as np
+with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:
+    rows = list({r[&quot;booking_id&quot;]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r[&quot;nights&quot;].strip()]
+amounts = np.array([int(r[&quot;nights&quot;]) * int(r[&quot;rate&quot;]) for r in rows])
+best = amounts.argmax()
+r = rows[best]
+print(&quot;Biggest booking:&quot;, r[&quot;booking_id&quot;], r[&quot;guest_name&quot;].strip().title())
+print(f&quot;Amount: ₹{int(amounts[best]):,} for {r['nights']} nights in a {r['room_type'].strip().title()}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Biggest booking: B1017 Divya Sharma
+Amount: ₹19,200 for 4 nights in a Suite</pre></figure><p><code>argmax()</code> gives a position, not a value, so you can use it to find the matching row.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Maths on arrays applies to every value: <code>prices * 0.9</code>. Lists repeat instead.</li><li>Broadcasting stretches a number, row or column to match the bigger array.</li><li><code>mean</code>, <code>sum</code>, <code>max</code>, <code>min</code>, <code>std</code>, <code>argmax</code>, <code>cumsum</code>, <code>np.median</code>, <code>np.percentile</code>.</li><li>2D indexing: <code>m[row, col]</code>, <code>m[0, :]</code> a row, <code>m[:, 1]</code> a column.</li><li><code>axis=0</code> goes down (one result per column). <code>axis=1</code> goes across (one result per row).</li><li>Filter with masks: <code>a[a &gt; 50]</code>. Combine with <code>&amp;</code>, <code>|</code>, <code>~</code> and brackets. Count with <code>np.sum(mask)</code>.</li><li>Slices are views. Use <code>.copy()</code> to get a separate array.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Add 18% GST to every price at once.</p><figure class="code"><pre><code>import numpy as np
+prices = np.array([100, 200])
+print(prices ___ 1.18)</code></pre></figure><details><summary>Answer</summary><p><code>*</code> — Maths on an array works on every value. No loop needed.</p><p>Output:</p><pre class="out">[118. 236.]</pre></details></li><li><p>Get the total of each column.</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+print(m.sum(axis=___))</code></pre></figure><details><summary>Answer</summary><p><code>0</code> — <code>axis=0</code> goes down the rows, giving one result per column.</p><p>Output:</p><pre class="out">[4 6]</pre></details></li><li><p>Keep only the values above 50.</p><figure class="code"><pre><code>import numpy as np
+a = np.array([30, 60, 90])
+print(a[a ___ 50])</code></pre></figure><details><summary>Answer</summary><p><code>&gt;</code> — <code>a &gt; 50</code> is a mask of True/False. Using it inside <code>[ ]</code> keeps the True values.</p><p>Output:</p><pre class="out">[60 90]</pre></details></li><li><p>Combine two conditions on an array.</p><figure class="code"><pre><code>import numpy as np
+a = np.array([5, 15, 25])
+print(a[(a &gt; 10) ___ (a &lt; 20)])</code></pre></figure><details><summary>Answer</summary><p><code>&amp;</code> — Arrays need <code>&amp;</code> instead of <code>and</code>, with brackets around each condition.</p><p>Output:</p><pre class="out">[15]</pre></details></li><li><p>Find the position of the largest value.</p><figure class="code"><pre><code>import numpy as np
+sales = np.array([40, 90, 70])
+print(sales.___())</code></pre></figure><details><summary>Answer</summary><p><code>argmax</code> — <code>argmax()</code> gives the position. <code>max()</code> would give the value.</p><p>Output:</p><pre class="out">1</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+print(np.array([1, 2, 3]) + 10)</code></pre></figure><ol type="A"><li><code>[11 12 13]</code></li><li><code>[1, 2, 3, 10]</code></li><li><code>16</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>[11 12 13]</code></b>. The number is broadcast to every element.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2, 3], [4, 5, 6]])
+print(m[1, 0])</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>4</code></li><li><code>[4 5 6]</code></li><li><code>1</code></li></ol><details><summary>Answer</summary><p><b><code>4</code></b>. Row 1, column 0.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2, 3], [4, 5, 6]])
+print(m[:, 2])</code></pre></figure><ol type="A"><li><code>[3 6]</code></li><li><code>[4 5 6]</code></li><li><code>[1 2 3]</code></li><li><code>6</code></li></ol><details><summary>Answer</summary><p><b><code>[3 6]</code></b>. All rows, column 2.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+print(m.sum(axis=0))</code></pre></figure><ol type="A"><li><code>[3 7]</code></li><li><code>[4 6]</code></li><li><code>10</code></li><li><code>[1 3]</code></li></ol><details><summary>Answer</summary><p><b><code>[4 6]</code></b>. axis=0 goes down each column: 1 + 3 = 4 and 2 + 4 = 6.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+print(m.sum(axis=1))</code></pre></figure><ol type="A"><li><code>[3 7]</code></li><li><code>[4 6]</code></li><li><code>10</code></li><li><code>[2 4]</code></li></ol><details><summary>Answer</summary><p><b><code>[3 7]</code></b>. axis=1 goes across each row: 1 + 2 = 3 and 3 + 4 = 7.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+a = np.array([5, 12, 8, 20])
+print(a[a &gt; 7])</code></pre></figure><ol type="A"><li><code>[12  8 20]</code></li><li><code>[False  True  True  True]</code></li><li><code>3</code></li><li><code>[12 20]</code></li></ol><details><summary>Answer</summary><p><b><code>[12  8 20]</code></b>. The mask keeps the values greater than 7.</p></details></li><li><p>Which is the correct way to keep values between 10 and 20?</p><ol type="A"><li><code>a[a &gt; 10 and a &lt; 20]</code></li><li><code>a[(a &gt; 10) &amp; (a &lt; 20)]</code></li><li><code>a[a &gt; 10 &amp; a &lt; 20]</code></li><li><code>a[(a &gt; 10) and (a &lt; 20)]</code></li></ol><details><summary>Answer</summary><p><b><code>a[(a &gt; 10) &amp; (a &lt; 20)]</code></b>. Use &amp; with brackets around each condition.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+a = np.array([3, 9, 4])
+print(a.argmax())</code></pre></figure><ol type="A"><li><code>9</code></li><li><code>1</code></li><li><code>2</code></li><li><code>3</code></li></ol><details><summary>Answer</summary><p><b><code>1</code></b>. argmax gives the <b>position</b> of the largest value, not the value.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import numpy as np
+x = np.array([1, 2, 3])
+y = x[:2]
+y[0] = 100
+print(x[0])</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>100</code></li><li>An error</li><li><code>[100 2]</code></li></ol><details><summary>Answer</summary><p><b><code>100</code></b>. A slice of an array is a view on the same data. Use .copy() to avoid this.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What is vectorisation?</dt><dd>Applying an operation to every element at once without a loop, e.g. <code>prices * 0.9</code>.</dd><dt><code>[1, 2] * 2</code> vs <code>np.array([1, 2]) * 2</code></dt><dd>List: <code>[1, 2, 1, 2]</code> (repeats). Array: <code>[2 4]</code> (multiplies).</dd><dt>What is broadcasting?</dt><dd>NumPy stretching a smaller array (a number, a row, a column) to match a bigger one so element-wise maths works.</dd><dt>How do you select a whole column in a 2D array?</dt><dd><code>m[:, col]</code>, e.g. <code>m[:, 1]</code>. A whole row is <code>m[row, :]</code> or <code>m[row]</code>.</dd><dt>What does <code>axis=0</code> do in <code>sum(axis=0)</code>?</dt><dd>Goes <b>down</b> the rows, giving <b>one result per column</b>.</dd><dt>What does <code>axis=1</code> do in <code>sum(axis=1)</code>?</dt><dd>Goes <b>across</b> the columns, giving <b>one result per row</b>.</dd><dt>What is a boolean mask?</dt><dd>An array of True/False from a comparison, like <code>a &gt; 50</code>. <code>a[mask]</code> keeps the True positions.</dd><dt>How do you count values that meet a condition?</dt><dd><code>np.sum(a &gt; 50)</code>. True counts as 1.</dd><dt>How do you combine conditions in NumPy?</dt><dd><code>&amp;</code> (and), <code>|</code> (or), <code>~</code> (not), with brackets: <code>a[(a &gt; 10) &amp; (a &lt; 20)]</code>.</dd><dt>What does <code>np.where(cond, x, y)</code> do?</dt><dd>For each element: x where cond is True, y where it is False.</dd><dt>argmax vs max</dt><dd>max gives the largest <b>value</b>. argmax gives its <b>index</b>.</dd><dt>Is an array slice a copy?</dt><dd>No, it is a <b>view</b> on the same data. Use <code>.copy()</code> for an independent array.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>a * 2  a + b</code></td><td>Element-wise maths</td></tr><tr><td><code>a.sum()  a.mean()  a.max()  a.std()</code></td><td>Statistics</td></tr><tr><td><code>a.argmax()</code></td><td>Index of the largest value</td></tr><tr><td><code>np.median(a)  np.percentile(a, 90)</code></td><td>Median, percentile</td></tr><tr><td><code>m[r, c]  m[r, :]  m[:, c]</code></td><td>Cell, row, column</td></tr><tr><td><code>m[0:2, 1:3]</code></td><td>Block of rows and columns</td></tr><tr><td><code>m.sum(axis=0)</code></td><td>Total per column</td></tr><tr><td><code>m.sum(axis=1)</code></td><td>Total per row</td></tr><tr><td><code>a[a &gt; 50]</code></td><td>Filter</td></tr><tr><td><code>a[(a &gt; 10) &amp; (a &lt; 20)]</code></td><td>Filter with two conditions</td></tr><tr><td><code>np.sum(a &gt; 50)</code></td><td>Count matches</td></tr><tr><td><code>np.where(a &gt; 50, &quot;Hi&quot;, &quot;Lo&quot;)</code></td><td>Label each value</td></tr><tr><td><code>a[1:3].copy()</code></td><td>Independent copy of a slice</td></tr><tr><td><code>np.unique(a, return_counts=True)</code></td><td>Unique values and counts</td></tr></tbody></table></div></section><nav class="pn"><a href="numpy1.html">← NumPy: arrays</a><a href="numpy3.html">NumPy extras →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>
