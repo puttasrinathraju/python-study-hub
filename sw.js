@@ -1,5 +1,5 @@
 /* Offline support: the site and the Python runner keep working after your first visit. */
-var VERSION = 'pyhub-v5';
+var VERSION = 'pyhub-v6';
 var CORE = ['./', 'index.html', 'py-worker.js', 'data/hotel_bookings.csv'];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(VERSION).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
