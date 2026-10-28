@@ -1,5 +1,6 @@
 /* Python runner: Pyodide in a Web Worker so long or endless loops never freeze the page. */
 var py = null, runner = null, loading = null;
+var DATA = {};   /* practice files, written fresh into Python's folder before each run that uses them */
 
 var RUNNER_SRC = [
   "import sys, io, traceback, builtins, linecache",
@@ -47,17 +48,25 @@ var RUNNER_SRC = [
   "    return [status, out.getvalue(), err]"
 ].join("\n");
 
-async function init(indexURL) {
+async function loadData(files) {
+  await Promise.all((files || []).map(function (name) {
+    return fetch("data/" + name).then(function (r) { return r.ok ? r.text() : null; }).then(function (t) { if (t != null) DATA[name] = t; }).catch(function () {});
+  }));
+}
+
+async function init(indexURL, files) {
+  var dataReady = loadData(files);
   importScripts(indexURL + "pyodide.js");
   py = await loadPyodide({ indexURL: indexURL });
   py.runPython(RUNNER_SRC);
   runner = py.globals.get("_hub_run");
+  await dataReady;
 }
 
 self.onmessage = async function (e) {
   var m = e.data;
   if (m.type === "init") {
-    loading = init(m.indexURL);
+    loading = init(m.indexURL, m.data);
     try { await loading; self.postMessage({ type: "ready", version: py.runPython("import sys; sys.version.split()[0]") }); }
     catch (err) { self.postMessage({ type: "fatal", error: String(err && err.message || err) }); }
     return;
@@ -68,6 +77,7 @@ self.onmessage = async function (e) {
       if (/\b(import|from)\s+numpy\b/.test(m.code)) {
         self.postMessage({ type: "status", id: m.id, text: "Loading NumPy (first time only, a few seconds)..." });
       }
+      Object.keys(DATA).forEach(function (name) { if (m.code.indexOf(name) > -1) py.FS.writeFile(name, DATA[name]); });
       try { await py.loadPackagesFromImports(m.code); } catch (ignore) { /* syntax errors are reported by the runner */ }
       var res = runner(m.code, py.toPy(m.inputs || []));
       var arr = res.toJs();

@@ -146,7 +146,20 @@ ol.list{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px;ma
 .goals{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px}
 .goals h3{font-size:16px;margin-bottom:8px}
 .goals ul{margin:0;padding-left:20px;display:grid;gap:4px}
-.toc{display:flex;gap:6px;flex-wrap:wrap}
+.toc{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:30;background:var(--bg);padding:8px 0;margin:-8px 0;box-shadow:0 8px 10px -10px rgba(0,0,0,.25)}
+.toc::-webkit-scrollbar{display:none}
+.toc button{flex:none}
+.toc .foldall{border-style:dashed;color:var(--accent)}
+@media (max-width:960px){.toc{top:calc(57px + env(safe-area-inset-top,0px))}}
+.sec>h2{display:flex;align-items:center;gap:10px}
+.fold{margin-left:auto;flex:none;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);position:relative}
+.fold::before{content:"";position:absolute;left:10px;top:9px;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+.sec.folded .fold::before{transform:rotate(-45deg);left:8px;top:11px}
+.sec.folded>:not(h2){display:none!important}
+.sec.folded>h2{opacity:.8}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;box-shadow:var(--shadow);z-index:50}
+.totop svg{width:20px;height:20px}
+.totop[hidden]{display:none}
 .toc button{font-size:13px;border:1px solid var(--line);border-radius:99px;padding:4px 11px;background:var(--surface);color:var(--muted)}
 .toc button:hover{color:var(--ink);border-color:var(--accent)}
 .srcs{font-size:13px;color:var(--muted)}
@@ -351,6 +364,14 @@ details.reveal[open] summary{margin-bottom:6px}
 .flip .fa{font-size:18px;line-height:1.55}
 .flip .fa pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;margin-top:6px;font-size:14px}
 .flip .hint{font-size:13px;color:var(--muted)}
+.fcmodes{gap:6px}.fcmodes .btn{padding:6px 11px;font-size:14px}
+.rate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.rate .btn{flex-direction:column;gap:0;padding:8px 6px;justify-content:center}
+.rate .btn small{font-size:12px;font-weight:600;color:var(--muted)}
+.rate .again{border-color:color-mix(in srgb,var(--trap) 50%,var(--line))}.rate .again b{color:var(--trap)}
+.rate .good{border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}.rate .good b{color:var(--accent)}
+.rate .easy{border-color:color-mix(in srgb,var(--tip) 50%,var(--line))}.rate .easy b{color:var(--tip)}
+.fc .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
 .flip .from{font-size:12px;color:var(--muted)}
 
 /* ---------- Home ---------- */
@@ -368,6 +389,29 @@ details.reveal[open] summary{margin-bottom:6px}
 .stat b{font-family:var(--display);font-size:28px;display:block;font-variant-numeric:tabular-nums;line-height:1.1}
 .stat span{font-size:13px;color:var(--muted)}
 @media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.vtabs{gap:6px;margin-bottom:8px}.vtabs .btn{padding:6px 12px;font-size:14px}
+.vbox{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;max-width:760px}
+.vbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vthumb{position:absolute;inset:0;width:100%;height:100%;padding:0}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vplay{position:absolute;left:50%;top:50%;width:68px;height:48px;margin:-24px 0 0 -34px;border-radius:14px;background:#E3242B;display:grid;place-items:center;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.vplay svg{width:24px;height:24px}
+.vthumb:hover .vplay{transform:scale(1.06)}
+.vmeta{display:flex;flex-direction:column;gap:2px;margin-top:8px;font-size:15px;max-width:760px}
+.vmeta span{color:var(--muted);font-size:13px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.vcard{display:flex;flex-direction:column;gap:8px}
+.vcard .btn{align-self:flex-start;font-size:14px;padding:6px 12px}
+.gloss{display:flex;flex-direction:column;gap:8px}
+.gloss .gl{font-size:22px;color:var(--accent);margin-top:10px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.gitem{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.gt{font-family:var(--display);font-weight:600}
+.gd{font-size:15px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.gd pre{margin:0;font-family:var(--mono);font-size:13px;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;overflow-x:auto}
+.gl2 button{font-size:13px;font-weight:700;color:var(--accent)}
+@media (max-width:640px){.gitem{grid-template-columns:minmax(0,1fr);gap:4px}}
+.progio{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:15px}
+.progio label.btn{cursor:pointer}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .pcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .pcard h3{font-size:18px}
@@ -417,6 +461,16 @@ details.reveal[open] summary{margin-bottom:6px}
 .rout .lbl2{font-family:var(--mono);font-size:12px;color:var(--tip);padding:6px 14px 0;font-weight:600}
 .rtext{padding-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}
 .rtext.dim{color:var(--muted)}
+.rnote{font-size:13px;color:var(--muted);padding:0 14px 10px;margin:0}
+.rchk{padding:10px 14px;border-top:1px solid var(--line);font-size:15px}
+.rchk.ok{background:var(--tip-soft);color:var(--ink)}.rchk.ok b{color:var(--tip)}
+.rchk.almost{background:var(--key-soft)}.rchk.almost b{color:var(--key)}
+.rchk.no{background:var(--trap-soft)}.rchk.no b{color:var(--trap)}
+.rchk pre{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;background:var(--surface);border-radius:8px;padding:8px 10px}
+.rchkb svg{width:15px;height:15px}
+.task.solved{border-color:color-mix(in srgb,var(--tip) 55%,var(--line))}
+.task.solved .tn{background:var(--tip)}
+.task.solved .tn::after{content:" ✓"}
 .rerr{color:var(--trap);padding-top:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .inrow{display:flex;gap:8px;padding:0 14px 12px}
 .inbox{flex:1;min-width:0;border:1px solid var(--accent);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:14px;background:var(--surface)}
@@ -1035,7 +1089,7 @@ chapter({
   body: [
     { t: "h", text: "What is Python?" },
     { t: "p", b: "Python is a ==programming language==. A programming language is a way to give instructions to a computer. You type the instructions as plain text, and Python carries them out." },
-    { t: "p", b: "It was created by Guido van Rossum and released in 1991. Today it is one of the most popular languages in the world, because it is **easy to read**, **free**, and works on Windows, Mac and Linux." },
+    { t: "p", b: "It was created by Guido van Rossum and released in 1991. Today it is one of the most popular languages in the world. It is **easy to read**, **free**, and works on Windows, Mac and Linux." },
     { t: "note", k: "like", b: "Python is like a very obedient assistant. It does exactly what you write, in the order you write it. It never guesses what you meant, so small typos matter." },
     { t: "deck", title: "Python in 5 slides", s: [
       { big: "Python is a language for giving instructions to a computer.", b: "You write instructions as text. Python reads them and does them, one line at a time." },
@@ -1057,7 +1111,7 @@ if age >= 18:
     ]},
     { t: "note", k: "why", b: "Excel is great up to a point. Python takes over when data gets large, messy or repetitive. Most data analyst job posts ask for SQL, Excel and Python together." },
     { t: "h", text: "How Python runs your code" },
-    { t: "p", b: "Python is an ==interpreted== language. A program called the **interpreter** reads your code from the **top to the bottom**, one line at a time, and runs each line before moving to the next." },
+    { t: "p", b: "Python is an ==interpreted== language. A program called the **interpreter** reads your code from **top to bottom**. It runs one line, then moves to the next. One exception: a SyntaxError anywhere stops the whole cell before any line runs." },
     { t: "anim", title: "Watch Python run a program line by line", trace: { code: R`
 print("Good morning!")
 city = "Jaipur"
@@ -1080,7 +1134,7 @@ print("Later:", temp)`, steps: [
       ["**VS Code / PyCharm**", "A full code editor.", "Bigger projects with many files."],
       ["**Python file (.py)**", "A plain text file you run with `python file.py`.", "Scripts and automation."]
     ]},
-    { t: "note", k: "tip", h: "Running a cell", b: "In Jupyter or Colab, click inside a cell and press **Shift + Enter** to run it. The number in `In [3]:` tells you the order cells were run in. If you run cells out of order, your variables can get confusing. When in doubt, use **Kernel > Restart & Run All** (Jupyter) or **Runtime > Restart and run all** (Colab)." },
+    { t: "note", k: "tip", h: "Running a cell", b: "In Jupyter or Colab, click inside a cell and press **Shift + Enter** to run it. The number in `In [3]:` tells you the order cells were run in. If you run cells out of order, your variables can get confusing. When in doubt, use **Kernel > Restart Kernel and Run All Cells** (Jupyter) or **Runtime > Restart session and run all** (Colab)." },
     { t: "h", text: "Your first program: print()" },
     { t: "p", b: "`print()` shows something on the screen. Put text inside quotes. Numbers do not need quotes." },
     { t: "code", c: R`
@@ -1106,7 +1160,7 @@ print("Welcome to Python")   # comment at the end of a line
 
 """
 Text inside triple quotes that is not stored anywhere
-is also ignored. People use it as a multi-line note.
+is also ignored. People use it as a multi-line note. It is really a string, not a comment, so do not make it the last line of a cell (Jupyter would show it).
 """
 print("Done")`, o: R`
 Welcome to Python
@@ -1126,7 +1180,7 @@ if 5 > 2:
     print("Five is bigger")`, o: R`Five is bigger` }, r: { h: "Error: no indentation", c: R`
 if 5 > 2:
 print("Five is bigger")`, o: R`IndentationError: expected an indented block after 'if' statement on line 1`, err: true } },
-    { t: "note", k: "trap", b: "Mixing tabs and spaces, or using 3 spaces on one line and 4 on the next, causes `IndentationError`. Jupyter and Colab insert 4 spaces when you press Tab, so just press Tab and let the editor do it." },
+    { t: "note", k: "trap", b: "Mixing tabs and spaces, or using 3 spaces on one line and 4 on the next, causes `IndentationError`. Jupyter inserts 4 spaces when you press Tab. Colab inserts 2 by default. Both work, as long as you stay consistent, so just press Tab and let the editor do it." },
     { t: "h", text: "Errors are normal" },
     { t: "p", b: "Every programmer sees errors every day. An error message is Python telling you **what** went wrong and **where**. Read the **last line** first. It names the error type." },
     { t: "code", c: R`Print("Hello")`, o: R`NameError: name 'Print' is not defined. Did you mean: 'print'?`, err: true },
@@ -1287,7 +1341,7 @@ False` },
 big = 1_000_000          # underscores just make it easier to read
 print(big)
 print(2 ** 100)          # ints can be as big as you like
-print(7 / 2)             # dividing always gives a float
+print(7 / 2)             # / always gives a float
 print(type(10 / 2))`, o: R`
 1000000
 1267650600228229401496703205376
@@ -1501,7 +1555,7 @@ It's her birthday today!
 She said "Hi"
 This text
 spans two lines` },
-    { t: "p", b: "An ==escape character== is a backslash `\\` followed by a letter. It lets you put special characters inside text." },
+    { t: "p", b: "An ==escape character== is a backslash `\\` followed by another character. It lets you put special characters inside text." },
     { t: "table", head: ["Code", "Means", "Example", "Shows"], rows: [
       ["`\\n`", "New line", "`\"Hi\\nBye\"`", "Hi, then Bye on the next line"],
       ["`\\t`", "Tab (a wide space)", "`\"Name:\\tRaman\"`", "Name:    Raman"],
@@ -1629,7 +1683,7 @@ print("Bye")`, o: ["`Hi Bye`", "`Hi!Bye`", "`Hi!` and `Bye` on two lines", "`Hi!
 rate = 3499.5
 nights = 3
 print(f"Total: ₹{rate * nights:,.2f}")`, out: R`Total: ₹10,498.50` },
-      { q: "Print a simple bill: a line of 30 dashes, then `Item` left-aligned in 15 spaces and `Price` right-aligned in 10, then two items, then dashes again.", sol: R`
+      { q: "Print a simple bill. Start with 30 dashes. Then print `Item` left-aligned in 15 spaces and `Price` right-aligned in 10. Add two items, then the dashes again.", sol: R`
 print("-" * 30)
 print(f"{'Item':<15}{'Price':>10}")
 print(f"{'Masala Dosa':<15}{120:>10.2f}")
@@ -1792,7 +1846,7 @@ print(2 ** -1)`, o: R`
       { html: "<div class=\"bigcode\">(2 + 3) * 4 ** 2 // 5</div><div class=\"res\">= 5 * 16 // 5 = 80 // 5 = 16</div>", c: "Brackets change everything. When in doubt, add brackets. They make your code easier to read too." }
     ]},
     { t: "deck", title: "The precedence ladder", s: [
-      { big: "Highest priority runs first.", b: "Read this ladder from the top. When two operators are on the same rung, Python goes left to right. The only exception is `**`, which goes right to left." },
+      { big: "Highest priority runs first.", b: "Read this ladder from the top. When two operators are on the same rung, Python goes left to right. Two exceptions: `**` goes right to left, and comparisons chain (`1 < x < 10` means `1 < x and x < 10`)." },
       { h: "Rung 1: Brackets ( )", b: "Anything in brackets is worked out first.", c: R`print((2 + 3) * 4)`, o: R`20` },
       { h: "Rung 2: Power **", b: "Powers beat a minus sign in front. So `-2 ** 2` is `-(2 ** 2)`.", c: R`
 print(-2 ** 2)
@@ -1872,7 +1926,7 @@ print(amount)`, o: R`
 -4000
 -1000.0` },
     { t: "h", text: "Membership operators: in, not in" },
-    { t: "p", b: "`in` checks whether a value is **inside** a list, string, tuple, set or dictionary." },
+    { t: "p", b: "`in` checks whether a value is **inside** a list, string, tuple, set or dictionary. For a dictionary, `in` checks the **keys**, not the values." },
     { t: "code", c: R`
 fruits = ["apple", "banana", "cherry"]
 print("banana" in fruits)
@@ -1901,9 +1955,17 @@ False
 True` },
     { t: "fig", svg: V.refs({ vars: [["a", 0], ["b", 1], ["c", 0]], objs: [{ v: "[1, 2, 3]", t: "object 1" }, { v: "[1, 2, 3]", t: "object 2" }], label: "a and c point at the same list, b points at a different list with the same values" }), cap: "`a` and `c` point at the same list. `b` is a separate list that happens to hold the same values." },
     { t: "note", k: "like", b: "Two people both have a red Activa scooter. `==` asks \"are the scooters the same model and colour?\" (yes). `is` asks \"is it the same scooter?\" (no, there are two)." },
-    { t: "note", k: "trap", h: "Trap! Do not use is to compare numbers or text", b: "Python secretly reuses small numbers (from -5 to 256), so `5 is 5` happens to be True, but `1000 is 1000` may be False. Results depend on how the code runs. Use `==` for values. Use `is` only for `None`: write `if result is None:`." },
+    { t: "code", ttl: "id(): every object has an ID number. `is` compares IDs", c: R`
+a = [1, 2]
+b = [1, 2]
+c = a
+print(id(a) == id(c), id(a) == id(b))
+print(a is c, a is b)`, o: R`
+True False
+True False` },
+    { t: "note", k: "trap", h: "Trap! Do not use is to compare numbers or text", b: "Python secretly reuses small numbers (from -5 to 256), so two variables holding 5 are always the same object, but two variables holding 1000 may not be. Results depend on how the code runs. Use `==` for values. Use `is` only for `None`: write `if result is None:`." },
     { t: "h", text: "Bitwise operators (just know they exist)" },
-    { t: "p", b: "These work on the binary digits of whole numbers. You will rarely use them for plain numbers, but `&`, `|` and `~` come back in **NumPy and pandas**, where they mean **and**, **or** and **not** for whole columns of data." },
+    { t: "p", b: "These work on the binary digits of whole numbers. You will rarely use them on plain numbers. But `&`, `|` and `~` come back in **NumPy and pandas**. There they mean **and**, **or** and **not** for whole columns. Wrap each condition in brackets: `(a > 1) & (b < 5)`." },
     { t: "code", c: R`
 print(6 & 3)    # 110 AND 011 = 010
 print(6 | 3)    # 110 OR  011 = 111
@@ -2018,7 +2080,7 @@ if age >= 18:
 print("This line always runs")`, o: R`
 You are an adult
 This line always runs` },
-    { t: "note", k: "key", b: "Three things to get right every time: the **colon** at the end of the `if` line, the **4-space indent** for the lines inside, and going **back to the left** when the block ends." },
+    { t: "note", k: "key", b: "Get three things right every time. Put a **colon** at the end of the `if` line. Indent the lines inside by **4 spaces**. Go **back to the left** when the block ends." },
     { t: "h", text: "if-else: two paths" },
     { t: "p", b: "`else` gives Python something to do when the condition is False. Exactly one of the two blocks runs, never both." },
     { t: "fig", svg: (function(){
@@ -2140,7 +2202,7 @@ Username is correct
 Password is incorrect!!` },
     { t: "note", k: "tip", b: "Deep nesting gets hard to read. If you are three levels deep, try combining conditions with `and`, or use `elif`." },
     { t: "h", text: "Truthy and falsy values" },
-    { t: "p", b: "A condition does not have to be a comparison. Python can treat **any value** as True or False. These values count as ==falsy== (False): `0`, `0.0`, `\"\"` (empty text), `[]`, `()`, `{}`, `set()` and `None`. **Everything else is truthy.**" },
+    { t: "p", b: "A condition does not have to be a comparison. Python can treat **any value** as True or False. These values count as ==falsy== (False): `0`, `0.0`, `\"\"` (empty text), `[]`, `()`, `{}`, `set()`, `None` and `False`. **Everything else is truthy.**" },
     { t: "code", c: R`
 print(bool(0), bool(0.0), bool(""), bool([]), bool({}), bool(None))
 print(bool(1), bool(-5), bool("0"), bool([0]), bool(" "))`, o: R`
@@ -2223,7 +2285,7 @@ print(label)`, out: R`Hot` }
     "`if condition:` then an indented block. `else:` runs when the condition is False.",
     "In an `if-elif-else` chain, only the **first** True branch runs. Put the strictest check first.",
     "Combine with `and`, `or`, `not`. Never write `x == 1 or 2`. Write `x in (1, 2)`.",
-    "Falsy: `0`, `\"\"`, `[]`, `{}`, `None`. Everything else is truthy.",
+    "Falsy: `0`, `0.0`, `\"\"`, `[]`, `()`, `{}`, `set()`, `None`, `False`. Everything else is truthy.",
     "`a if cond else b` picks between two values. `pass` is an empty placeholder."
   ],
   quiz: [
@@ -2494,7 +2556,7 @@ for i in range(1, 6):          # rows
  4  8 12 16 20
  5 10 15 20 25` },
     { t: "h", text: "for-else" },
-    { t: "p", b: "A `for` loop can have an `else` block. It runs when the loop finishes **normally**, meaning it was not stopped by `break` (you will learn `break` in the next chapter). This example is from your course notebook." },
+    { t: "p", b: "A `for` loop can have an `else` block. It runs when the loop finishes **normally**, meaning it was not stopped by `break` (you will learn `break` and `continue` in the next chapter; `continue` skips to the next round). This example is from your course notebook." },
     { t: "code", c: R`
 for i in range(5):
     if i % 2 == 0:
@@ -2636,8 +2698,8 @@ print("Finished")`, o: R`
 4. Hello
 5. Hello
 Finished` },
-    { t: "p", b: "Every while loop needs three parts: a **starting value** (`no = 1`), a **condition** (`no <= 5`), and an **update** inside the loop (`no += 1`) that eventually makes the condition False." },
-    { t: "note", k: "trap", h: "Trap! The infinite loop", b: "Forget the update and the condition never becomes False, so the loop runs forever. In Jupyter, press the square **Stop** button (or Kernel > Interrupt). In Colab, click the stop icon on the cell.", c: R`
+    { t: "p", b: "Every while loop needs three parts: a **starting value** (`no = 1`), a **condition** (`no <= 5`), and an **update** (`no += 1`). The update makes the condition False in the end." },
+    { t: "note", k: "trap", h: "Trap! The infinite loop", b: "Forget the update and the condition never becomes False, so the loop runs forever. In Jupyter, press the square **Stop** button (or **Kernel > Interrupt Kernel**). In Colab, click the stop icon on the cell.", c: R`
 count = 1
 while count <= 5:
     print(count)
@@ -2900,7 +2962,7 @@ print(n)`, o: ["`1`", "`-2`", "`0`", "`10`"], a: 1, chk: 1, e: "10, 7, 4, 1, the
   ],
   cards: [
     ["Three parts every while loop needs", "A starting value, a condition, and an update inside the loop that eventually makes the condition False."],
-    ["What is an infinite loop and how do you stop one in Jupyter?", "A loop whose condition never becomes False. Press the Stop button or Kernel > Interrupt."],
+    ["What is an infinite loop and how do you stop one in Jupyter?", "A loop whose condition never becomes False. Press the Stop button or Kernel > Interrupt Kernel."],
     ["The `while True` pattern", "", R`
 while True:
     answer = input("Again? ")
@@ -3001,14 +3063,14 @@ gnimmargorP nohtyP` },
       ["`s[:]`", "A full copy", "`\"Python\"`"]
     ]},
     { t: "note", k: "tip", b: "Slicing never gives an index error. If stop is past the end, Python just stops at the end. `\"Python\"[2:100]` is `\"thon\"`." },
-    { t: "note", k: "like", b: "Think of the index numbers as sitting **between** the characters, like the marks on a ruler. `s[2:5]` cuts at mark 2 and mark 5 and gives you what is in between: 3 characters. This is why stop is not included, and why `stop - start` is always the length of the slice." },
+    { t: "note", k: "like", b: "Think of the index numbers as sitting **between** the characters, like the marks on a ruler. `s[2:5]` cuts at mark 2 and mark 5 and gives you what is in between: 3 characters. This is why stop is not included, and why, with a step of 1, `stop - start` is the length of the slice (when stop is inside the string)." },
     { t: "pred", chk: 1, c: R`print("Data Analytics"[::-1][:4])`, o: ["`Data`", "`scit`", "`atad`", "`tics`"], a: 1, e: "First `[::-1]` reverses it to \"scitylanA ataD\". Then `[:4]` takes the first 4 characters of that: \"scit\"." },
     { t: "h", text: "Strings are immutable" },
     { t: "p", b: "==Immutable== means **cannot be changed after it is created**. You cannot replace one character inside a string." },
     { t: "code", c: R`
 name = "Raman"
 name[0] = "P"`, o: R`TypeError: 'str' object does not support item assignment`, err: true },
-    { t: "p", b: "So every string method gives you a **new** string and leaves the original alone. This example from your course notebook shows it clearly." },
+    { t: "p", b: "So methods that change text, like `upper()` and `replace()`, give you a **new** string and leave the original alone. This example from your course notebook shows it clearly." },
     { t: "code", c: R`
 city = "Jaipur"
 print(city.replace("Jai", "Udai"))
@@ -3132,7 +3194,7 @@ True
 False
 True
 True` },
-    { t: "note", k: "tip", b: "The PDF says `text.count(\"a\")` is 4, but if you run it you get 5: amazing has two a's, plus one each in and, easy and learn. Always run the code yourself. The output is the truth." },
+    { t: "note", k: "tip", b: "The PDF says `text.count(\"a\")` is 4. Run it and you get 5. \"amazing\" has two a's, and \"and\", \"easy\" and \"learn\" have one each. Always run the code yourself. The output is the truth." },
     { t: "note", k: "trap", h: "find() vs index()", b: "Both return the position. When the text is **not found**, `find()` returns `-1` but `index()` raises an error. Use `find()` (or `in`) when the text might be missing.", c: R`print("Python".index("Java"))`, o: R`ValueError: substring not found`, err: true },
     { t: "h", text: "Checking what a string contains" },
     { t: "code", ttl: "From your course notebook", c: R`
@@ -3153,7 +3215,7 @@ False False True False` },
       ["`isnumeric()`", "a number character", "Same as above for everyday use"],
       ["`isalnum()`", "a letter or digit", "\"WsCube Tech\" is False because of the space"],
       ["`isspace()`", "whitespace", ""],
-      ["`isupper()` / `islower()`", "upper / lower case letters", "Digits and spaces are ignored"]
+      ["`isupper()` / `islower()`", "upper / lower case letters", "Digits and spaces are ignored, but there must be at least one letter"]
     ]},
     { t: "h", text: "Looping over a string" },
     { t: "code", c: R`
@@ -3246,7 +3308,7 @@ print(city)`, o: ["`JAIPUR`", "`jaipur`", "`Jaipur`", "An error"], a: 1, chk: 1,
     ["What does immutable mean for strings?", "A string cannot be changed in place. `s[0] = \"X\"` is an error. Methods return a **new** string."],
     ["Why does `name.upper()` alone not change `name`?", "It returns a new string. You must store it: `name = name.upper()`."],
     ["`strip()` vs `replace()`", "`strip()` removes characters only from the two ends. `replace(old, new)` changes every match anywhere."],
-    ["`capitalize()` vs `title()`", "`capitalize()`: first letter of the whole string. `title()`: first letter of every word."],
+    ["`capitalize()` vs `title()`", "`capitalize()`: capital first letter, every other letter small (`\"raman Sharma\"` becomes `\"Raman sharma\"`). `title()`: capital first letter of every word."],
     ["What do `split()` and `join()` do?", "`\"a,b\".split(\",\")` gives `['a', 'b']`. `\",\".join(['a', 'b'])` gives `\"a,b\"`."],
     ["`find()` vs `index()` when text is missing", "`find()` returns `-1`. `index()` raises `ValueError`."],
     ["How do you count a word ignoring case?", "`text.lower().count(\"data\")`"],
@@ -3413,7 +3475,7 @@ False` },
     { t: "cmp", l: { h: "`list.sort()`", items: ["Sorts the list **in place** (changes it)", "Returns `None`", "Only works on lists"], c: R`
 nums = [3, 1, 4, 1, 5]
 nums.sort()
-print(nums)`, o: R`[1, 1, 3, 4, 5]` }, r: { h: "`sorted(list)`", items: ["Makes a **new** sorted list", "The original is untouched", "Works on any sequence: tuples, strings, sets"], c: R`
+print(nums)`, o: R`[1, 1, 3, 4, 5]` }, r: { h: "`sorted(list)`", items: ["Makes a **new** sorted list", "The original is untouched", "Works on any collection: tuples, strings, sets, dict keys"], c: R`
 original = [3, 1, 4, 1, 5]
 new = sorted(original)
 print(new)
@@ -3426,7 +3488,7 @@ nums = nums.sort()
 print(nums)`, o: R`None` },
     { t: "code", ttl: "More sorting options", c: R`
 colors = ["Orange", "Blue", "Yellow", "Brown"]
-colors.sort(reverse=True)               # largest first
+colors.sort(reverse=True)               # Z to A (reverse order)
 print(colors)
 
 words = ["banana", "apple", "Cherry", "fig"]
@@ -3820,14 +3882,12 @@ John 25 New York
     { t: "ul", items: [
       "**Fixed records** that should not change by accident: a date `(2026, 10, 25)`, a GPS point `(17.38, 78.48)`, an RGB colour.",
       "**Returning several values** from a function: `return (1920, 1080)`.",
-      "**Dictionary keys**: tuples can be keys, lists cannot (keys must be unchangeable).",
+      "**Dictionary keys**: tuples can be keys if everything inside them is also unchangeable. Lists cannot.",
       "**Slightly faster and smaller** than lists."
     ]},
     { t: "code", c: R`
-def get_dimensions():
-    return (1920, 1080)
-
-width, height = get_dimensions()
+screen = (1920, 1080)          # a fixed pair of values
+width, height = screen
 print(width, height)
 
 student_grades = {
@@ -3856,11 +3916,9 @@ print(f"{day}/{month}/{year}")`, out: R`25/10/2026` },
 scores = (55, 72, 90, 64, 81)
 first, *rest, last = scores
 print(first, rest, last)`, out: R`55 [72, 90, 64] 81` },
-      { q: "Write a function `min_max(nums)` that returns the smallest and largest value as a tuple. Unpack the result.", sol: R`
-def min_max(nums):
-    return min(nums), max(nums)
-
-low, high = min_max([45, 12, 78, 34])
+      { q: "Make a tuple `(min(nums), max(nums))` from `nums = [45, 12, 78, 34]` and unpack it into `low` and `high`. Print them.", sol: R`
+nums = [45, 12, 78, 34]
+low, high = (min(nums), max(nums))
 print(low, high)`, out: R`12 78` },
       { q: "\"Add\" the colour \"green\" to `colors = (\"red\", \"blue\")` and print the new tuple.", hint: "You cannot append to a tuple, but you can join two tuples with `+`.", sol: R`
 colors = ("red", "blue")
@@ -3948,7 +4006,7 @@ print(sorted(set("hello")))        # unique letters (sorted so the order is fixe
 print(set([1, 2, 2, 3, 3, 3]))     # unique numbers from a list`, o: R`
 ['e', 'h', 'l', 'o']
 {1, 2, 3}` },
-    { t: "note", k: "tip", b: "Sets of strings print in a different order each time you restart Python. That is normal. If you need a fixed order, wrap the set in `sorted()`." },
+    { t: "note", k: "tip", b: "Sets of strings can print in a different order after you restart Python. That is normal. If you need a fixed order, wrap the set in `sorted()`." },
     { t: "code", ttl: "No indexing", c: R`
 fruits = {"apple", "banana", "cherry"}
 print("banana" in fruits)       # membership works, and is very fast
@@ -3988,7 +4046,7 @@ KeyError: 99`, err: true },
       { html: V.venn({ a: "a", b: "b", ao: ["3", "4", "9"], ab: ["2", "7", "8"], bo: ["1", "5", "10"], shade: "ab", op: "a & b  →  {2, 7, 8}" }), c: "**Intersection** `a & b`: only items in both. \"Customers who came back.\"" },
       { html: V.venn({ a: "a", b: "b", ao: ["3", "4", "9"], ab: ["2", "7", "8"], bo: ["1", "5", "10"], shade: "aonly", op: "a - b  →  {3, 4, 9}" }), c: "**Difference** `a - b`: in a but not in b. \"Customers we lost.\" Order matters: `b - a` is a different answer." },
       { html: V.venn({ a: "a", b: "b", ao: ["3", "4", "9"], ab: ["2", "7", "8"], bo: ["1", "5", "10"], shade: "bonly", op: "b - a  →  {1, 5, 10}" }), c: "`b - a`: in b but not in a. \"New customers this month.\"" },
-      { html: V.venn({ a: "a", b: "b", ao: ["3", "4", "9"], ab: ["2", "7", "8"], bo: ["1", "5", "10"], shade: "sym", op: "a ^ b  →  {1, 3, 4, 5, 9, 10}" }), c: "**Symmetric difference** `a ^ b`: in one set or the other, but **not both**. \"Customers who only came once.\"" }
+      { html: V.venn({ a: "a", b: "b", ao: ["3", "4", "9"], ab: ["2", "7", "8"], bo: ["1", "5", "10"], shade: "sym", op: "a ^ b  →  {1, 3, 4, 5, 9, 10}" }), c: "**Symmetric difference** `a ^ b`: in one set or the other, but **not both**. \"Customers who came in only one of the two months.\"" }
     ]},
     { t: "code", ttl: "From your course notebook", c: R`
 a = {2, 4, 3, 7, 8, 9}
@@ -4038,6 +4096,14 @@ True True
 True
 True True
 True` },
+    { t: "code", ttl: "Proper superset, and changing a set in place", c: R`
+A = {1, 2}
+B = {1, 2, 3}
+print(B > A, A > A)    # B has all of A and more; A is not bigger than itself
+A ^= {2, 5}            # same as A = A ^ {2, 5}
+print(A)`, o: R`
+True False
+{1, 5}` },
     { t: "h", text: "Set comprehensions and frozenset" },
     { t: "code", c: R`
 squares = {x ** 2 for x in range(-3, 4)}     # -3..3 squared, duplicates drop out
@@ -4067,7 +4133,7 @@ Came back: ['Neha', 'Ravi']
 Lost:      ['Asha', 'Kiran']
 New:       ['Imran', 'Sara']
 Total unique customers: 6` },
-    { t: "code", ttl: "Remove duplicates from a list (course exercise)", c: R`
+    { t: "code", ttl: "Remove duplicates from a list (course exercise). `def` makes a function: you will learn it in Part 4", c: R`
 def remove_duplicates(data):
     return list(set(data))
 
@@ -4147,7 +4213,7 @@ chapter({
   src: ["PDF: Python Advanced Data Types (Dictionaries)", "Course notebook dict_exp.ipynb", "W3Schools: Dictionaries and its sub-pages"],
   body: [
     { t: "h", text: "What is a dictionary?" },
-    { t: "p", b: "A ==dictionary== (`dict`) is a collection of **key: value** pairs inside curly brackets. You look up a value by its **key**, just like you look up a word in a real dictionary to find its meaning, or a name in your phone to find the number." },
+    { t: "p", b: "A ==dictionary== (`dict`) is a collection of **key: value** pairs inside curly brackets. You look up a value by its **key**. It works like a real dictionary: you look up a word to find its meaning, or a name in your phone to find the number." },
     { t: "mm", title: "Dictionary mind map", root: "Dictionary", kids: [
       { t: "Create", k: ["{\"name\": \"Raman\"}", "dict(name=\"Raman\")", "dict(zip(keys, values))"] },
       { t: "Read", k: ["d[\"name\"]  (KeyError if missing)", "d.get(\"name\", default)"] },
@@ -4608,7 +4674,7 @@ print(sum(x * x for x in range(5)))                # generator: no brackets need
 ['data', 'python']
 {'tea': 3, 'coffee': 6}
 30` },
-    { t: "p", b: "A ==generator expression== looks like a list comprehension with round brackets, or no brackets at all inside a function call. It produces values one at a time without building a whole list, which saves memory on big data. You will learn more about generators in the advanced functions chapter." },
+    { t: "p", b: "A ==generator expression== looks like a list comprehension with round brackets, or with only the function\'s own brackets: `sum(x * x for x in nums)`. It produces values one at a time without building a whole list, which saves memory on big data. You will learn more about generators in the advanced functions chapter." },
     { t: "note", k: "tip", h: "When not to use a comprehension", b: "If it no longer fits comfortably on one line, or needs more than one `if`, write a normal loop. Readable code beats clever code." },
     { t: "h", text: "Choosing the right collection" },
     { t: "mm", title: "The five collections", root: "Collections", kids: [
@@ -4634,7 +4700,7 @@ print(sum(x * x for x in range(5)))                # generator: no brackets need
       { h: "3. Should the values never change?", b: "**Yes: use a tuple.** A date, a coordinate, a database row, a function returning two values.", c: R`location = (17.38, 78.48)` },
       { h: "4. Otherwise: use a list.", b: "An ordered collection you will add to, remove from, sort and loop over. This is the default choice.", c: R`cart = ["rice", "dal"]
 cart.append("oil")` },
-      { h: "Real programs mix them", b: "The PDF's inventory system uses a **dict** of items, a **set** of categories, a **list** of transactions, a **tuple** for each item's fixed properties, and **strings** for names and IDs. You will build it in the Projects chapter." }
+      { h: "Real programs mix them", b: "The PDF's inventory system mixes them all. It uses a **dict** of items, a **set** of categories and a **list** of transactions. Each item's fixed facts are a **tuple**, and names and IDs are **strings**. You will build it in the Projects chapter." }
     ]},
     { t: "h", text: "Mutable, immutable and hashable" },
     { t: "table", head: ["Word", "Means", "Types"], rows: [
@@ -4642,7 +4708,7 @@ cart.append("oil")` },
       ["Immutable", "Cannot be changed. \"Changing\" it creates a new object", "`int`, `float`, `str`, `bool`, `tuple`, `frozenset`"],
       ["Hashable", "Has a fixed hash, so it can be a dict key or set item. In practice: immutable", "`int`, `str`, `tuple`, `frozenset`"]
     ]},
-    { t: "note", k: "key", b: "Rule of thumb: **only immutable things can be dictionary keys or set items**. And **only mutable things can surprise you through aliasing** (`b = a` then changing `b`). Numbers and strings can never surprise you that way." },
+    { t: "note", k: "key", b: "Rule of thumb: **only hashable things (immutable all the way through) can be dictionary keys or set items**. And **only mutable things can surprise you through aliasing** (`b = a` then changing `b`). Numbers and strings can never surprise you that way." },
     { t: "prac", items: [
       { q: "Add 18% GST to `prices = [100, 250, 80]` and round each to 2 decimals, in one line.", sol: R`
 prices = [100, 250, 80]
@@ -4872,7 +4938,7 @@ def bill_summary(prices, tax_rate=0.18):
 sub, tax, total = bill_summary([120, 45, 80])  # unpacked
 print(sub, tax, total)`, o: R`245 44.1 289.1` },
     { t: "h", text: "Docstrings and help()" },
-    { t: "p", b: "A ==docstring== is a triple-quoted string on the first line of a function. It explains what the function does. `help()` shows it, and Jupyter shows it when you press **Shift + Tab** inside the brackets." },
+    { t: "p", b: "A ==docstring== is a triple-quoted string on the first line inside a function, right under `def`. It explains what the function does. `help()` shows it, and Jupyter shows it when you press **Shift + Tab** inside the brackets." },
     { t: "code", c: R`
 def area_of_circle(radius):
     """Return the area of a circle with the given radius."""
@@ -4886,7 +4952,7 @@ Return the area of a circle with the given radius.` },
     { t: "table", head: ["Built-in functions", "User-defined functions"], rows: [
       ["Come with Python: `print`, `len`, `sum`, `max`, `sorted`, `round`, `type`...", "Written by you with `def`"],
       ["Just call them", "Define first, then call"],
-      ["`len(\"Data Analytics\")` gives 14", "`gradeSystem(63)` gives \"C\""]
+      ["`len(\"Data Analytics\")` gives 14", "`grade_system(63)` gives \"C\""]
     ]},
     { t: "code", ttl: "A grade function, used in a loop (course notebook)", c: R`
 def grade_system(marks):
@@ -5022,7 +5088,7 @@ print(greet("Asha"))`],
     ["What is a default parameter?", "A value used when the caller leaves the argument out: `def greet(name=\"Guest\")`."],
     ["What is a keyword argument?", "Passing a value by naming the parameter: `intro(age=21, name=\"Rahul\")`. Order does not matter."],
     ["How do you return two values?", "`return a, b` returns a tuple. Unpack with `x, y = f()`."],
-    ["What is a docstring?", "A triple-quoted description on the first line of a function. Shown by `help()`."],
+    ["What is a docstring?", "A triple-quoted description on the first line inside a function, right under `def`. Shown by `help()`."],
     ["Why might you get `NameError` when calling your function?", "You called it before the `def` line ran (or there is a typo in the name)."]
   ],
   cheat: [
@@ -5109,7 +5175,7 @@ order("Pizza")
 order("Pizza", 2, "olives", "jalapeno", spicy=True, table=4)`, o: R`
 Pizza 1 () {}
 Pizza 2 ('olives', 'jalapeno') {'spicy': True, 'table': 4}` },
-    { t: "p", b: "The order is always: normal parameters, then defaults, then `*args`, then `**kwargs`." },
+    { t: "p", b: "The usual order is: normal parameters, then defaults, then `*args`, then `**kwargs`." },
     { t: "h", text: "Scope: where a variable lives" },
     { t: "p", b: "A variable created **inside** a function is ==local==: it only exists while the function runs. A variable created **outside** all functions is ==global==: it can be read anywhere." },
     { t: "code", ttl: "From the PDF", c: R`
@@ -5305,7 +5371,7 @@ def add(a, b):
 total = add(2, b=3)`, o: R`
 Calling add with (2,) {'b': 3}
 add returned 5` },
-    { t: "note", k: "tip", b: "You will meet decorators written by others more than you write your own: `@property` and `@classmethod` in the OOP chapter, and in web frameworks like Flask (`@app.route`). Recognising the pattern is enough for now." },
+    { t: "note", k: "tip", b: "You will use other people\'s decorators more than you write your own. You will see `@property` and `@classmethod` in the OOP chapter, and `@app.route` in Flask. Recognising the pattern is enough for now." },
     { t: "prac", items: [
       { q: "Write `average(*nums)` that returns the average of any number of values, or 0 if none are given.", sol: R`
 def average(*nums):
@@ -5413,7 +5479,7 @@ print(list(g()))`, o: ["`['a']`", "`['a', 'b']`", "`'ab'`", "`None`"], a: 1, chk
     ["lambda x: x * 2", "Tiny anonymous function"],
     ["sorted(items, key=lambda r: r[1])", "Sort by a field"],
     ["list(map(f, items))", "Apply f to every item"],
-    ["list(filter(f, items))", "Keep items where f is True"],
+    ["list(filter(f, items))", "Keep items where f is truthy"],
     ["yield value", "Make a generator"],
     ["next(it)", "Next value from an iterator"],
     ["@decorator", "Wrap the function below"]
@@ -5447,7 +5513,7 @@ ZeroDivisionError: division by zero`, err: true } },
       { big: "Read it from the bottom up.", b: "The last line tells you **what** went wrong. The lines above tell you **where**." },
       { h: "Here is a real traceback", svg: "<pre style=\"text-align:left;font-size:13px;padding:6px\">KeyError                         Traceback (most recent call last)\nCell In[4], line 5\n      2     return menu[item]\n      4 menu = {\"tea\": 20}\n----> 5 print(get_price(menu, \"coffee\"))\n\nCell In[4], line 2, in get_price(menu, item)\n      1 def get_price(menu, item):\n----> 2     return menu[item]\n\nKeyError: 'coffee'</pre>" },
       { h: "Step 1: the last line", b: "`KeyError: 'coffee'`. The **type** is KeyError, so a dictionary key is missing. The **message** says which key: 'coffee'. Often this is all you need." },
-      { h: "Step 2: the arrows", b: "`---->` points at the exact line that failed. The lowest arrow is the line that actually broke: `return menu[item]` inside `get_price`." },
+      { h: "Step 2: the arrows", b: "In Jupyter, `---->` points at the exact line that failed (plain Python shows `File ..., line 5` and `^^^` instead). The lowest arrow is the line that actually broke: `return menu[item]` inside `get_price`." },
       { h: "Step 3: read upwards for context", b: "The block above shows **who called** that function: line 5, `get_price(menu, \"coffee\")`. So the fix is either to add \"coffee\" to the menu, or to use `menu.get(item)` to handle missing items." },
       { h: "Step 4: still stuck?", items: ["Print the variables just before the failing line", "Copy the last line of the error into a search engine", "Explain the code out loud, line by line (it really works)"] }
     ]},
@@ -5521,7 +5587,7 @@ Bad input: unsupported operand type(s) for /: 'int' and 'str'` },
     { t: "h", text: "else and finally" },
     { t: "table", head: ["Block", "Runs when"], rows: [
       ["`try:`", "Always, first"],
-      ["`except:`", "Only if an error happened in try"],
+      ["`except:`", "Only if a matching error happened in try"],
       ["`else:`", "Only if **no** error happened in try"],
       ["`finally:`", "**Always**, error or not. Used for clean-up like closing files"]
     ]},
@@ -5535,7 +5601,7 @@ Bad input: unsupported operand type(s) for /: 'int' and 'str'` },
       s += '<path d="M130 144 L250 190" class="sv-ln" marker-end="url(#arw)"/><path d="M430 144 L310 190" class="sv-ln" marker-end="url(#arw)"/>';
       s += '<rect x="215" y="194" width="130" height="40" rx="10" class="sv-hl"/><text x="280" y="219" text-anchor="middle" class="sv-tm">finally</text>';
       return s + '</svg>';
-    })(), cap: "Exactly one of except or else runs. finally always runs." },
+    })(), cap: "If a matching error happens, except runs. If no error happens, else runs. finally always runs." },
     { t: "code", c: R`
 def divide(a, b):
     try:
@@ -5596,6 +5662,7 @@ for r in raw:
 print(clean)`, o: R`[120.0, 85.5, 42.0]` },
     { t: "note", k: "why", b: "Real files always contain some junk: \"N/A\", blanks, \"1,200\" with a comma. `try/except` lets your script skip or log the bad rows instead of dying on row 40,000 of 50,000." },
     { t: "note", k: "trap", h: "Trap! The bare except", b: "`except:` with nothing after it catches **every** error, including typos in your own code. Your bug is silently hidden. Always name the error you expect, like `except ValueError:`." },
+    { t: "p", b: "`assert` checks that something is True. If it is False, Python stops with `AssertionError` and your message." },
     { t: "code", ttl: "assert: a quick sanity check", c: R`
 total = sum([10, 20, 30])
 assert total == 60, "Total should be 60"
@@ -5667,7 +5734,7 @@ except ValueError as e:
   ],
   cards: [
     ["Syntax error vs exception", "Syntax error: bad grammar, found before running, nothing runs. Exception: happens while running and can be caught with try/except."],
-    ["How do you read a traceback?", "From the bottom: last line = error type and message. The `---->` arrows show the failing line. Read upward for who called it."],
+    ["How do you read a traceback?", "From the bottom: last line = error type and message. In Jupyter, the `---->` arrows show the failing line. Read upward for who called it."],
     ["TypeError vs ValueError", "TypeError: wrong **type** (`\"a\" + 1`). ValueError: right type, bad **value** (`int(\"abc\")`)."],
     ["IndexError vs KeyError", "IndexError: list position past the end. KeyError: dictionary key missing."],
     ["try/except syntax", "", R`
@@ -5779,7 +5846,7 @@ with open("demo.txt", "r") as f:
     { t: "table", head: ["Method", "Gives you"], rows: [
       ["`f.read()`", "The **whole file** as one string"],
       ["`f.readline()`", "The **next line** as a string (including its `\\n`)"],
-      ["`f.readlines()`", "A **list** of all lines, each ending in `\\n`"],
+      ["`f.readlines()`", "A **list** of all lines. Each keeps its `\\n` (the last line may not have one)"],
       ["`for line in f:`", "One line at a time. Best for big files"]
     ]},
     { t: "code", ttl: "The course example", c: R`
@@ -5880,7 +5947,7 @@ print(json.loads(text)["a"])              # JSON string -> dict`, o: R`
 1` },
     { t: "note", k: "tip", b: "Notice how Python's `True` became `true` and `None` became `null`. That is JSON's spelling. The `s` in `dumps` and `loads` stands for **string**: those versions work with text in memory instead of a file." },
     { t: "h", text: "pickle: save any Python object" },
-    { t: "p", b: "`pickle` saves a Python object (a dict, a list, even objects of your own classes) to a **binary** file and loads it back exactly as it was. Saving is called ==serialization==, loading is ==deserialization==. Pickle needs binary modes: `\"wb\"` and `\"rb\"`." },
+    { t: "p", b: "`pickle` saves a Python object to a **binary** file and loads it back exactly as it was. It works for dicts, lists and even objects of your own classes. Saving is called ==serialization==, loading is ==deserialization==. Pickle needs binary modes: `\"wb\"` and `\"rb\"`." },
     { t: "code", ttl: "Saving the course movie database", c: R`
 import pickle
 
@@ -5968,7 +6035,7 @@ print(sum(db["books"].values()), "books in stock")`, out: R`8 books in stock` }
   quiz: [
     { q: "Which mode adds text to the end of a file without deleting what is there?", o: ["`\"r\"`", "`\"w\"`", "`\"a\"`", "`\"x\"`"], a: 2, e: "a means append." },
     { q: "What happens when you open an existing file with `\"w\"`?", o: ["It adds to the end", "Its old content is deleted", "FileExistsError", "Nothing until you call write()"], a: 1, e: "w mode empties the file as soon as it opens." },
-    { q: "What does `f.readlines()` return?", o: ["One string", "A list of lines, each ending with \\n", "The first line", "The number of lines"], a: 1, e: "readlines() gives a list with one string per line." },
+    { q: "What does `f.readlines()` return?", o: ["One string", "A list of lines, each keeping its \\n", "The first line", "The number of lines"], a: 1, e: "readlines() gives a list with one string per line." },
     { q: "Why use `with open(...) as f:`?", o: ["It is faster", "It closes the file automatically, even after an error", "It is the only way to read", "It creates a backup"], a: 1, e: "The with block closes the file when it ends." },
     { q: "What does `f.write(2000)` do?", o: ["Writes 2000", "Writes \"2000\\n\"", "Raises TypeError", "Writes nothing"], a: 2, e: "write() only accepts strings. Use `f.write(str(2000))`." },
     { q: "Which modes does pickle need?", o: ["`\"r\"` and `\"w\"`", "`\"rb\"` and `\"wb\"`", "`\"a\"` and `\"x\"`", "Any mode"], a: 1, e: "Pickle stores binary data, so it needs binary modes." },
@@ -5985,8 +6052,10 @@ with open("data.txt", "r") as f:
     ["What does `write()` need?", "A string. It does not add a newline, so add `\\n` yourself."],
     ["How do you check if a file exists and delete it?", "`os.path.exists(\"f.txt\")` and `os.remove(\"f.txt\")` (after `import os`)."],
     ["Save and load with pickle", "", R`
-pickle.dump(obj, open("d.pkl", "wb"))
-obj = pickle.load(open("d.pkl", "rb"))`],
+with open("d.pkl", "wb") as f:
+    pickle.dump(obj, f)
+with open("d.pkl", "rb") as f:
+    obj = pickle.load(f)`],
     ["`json.dump` vs `json.dumps`", "`dump` writes to a file. `dumps` returns a string. Same for `load` / `loads`."],
     ["CSV vs JSON vs pickle", "CSV: tables. JSON: nested data, readable, shareable. Pickle: any Python object, binary, only for your own trusted files."]
   ],
@@ -6205,7 +6274,7 @@ PIN ####
       ["Upgrade a library", "`pip install --upgrade pandas`"]
     ]},
     { t: "code", ttl: "If a library is missing (or misspelled)", c: R`import pandsa`, o: R`ModuleNotFoundError: No module named 'pandsa'`, err: true },
-    { t: "note", k: "tip", h: "Virtual environments, in one paragraph", b: "Different projects can need different versions of the same library. A ==virtual environment== is a private folder of libraries for one project: create it with `python -m venv myenv`, switch it on (`myenv\\Scripts\\activate` on Windows), then `pip install` only affects that project. Colab and Anaconda handle this for you, so you can skip it while learning." },
+    { t: "note", k: "tip", h: "Virtual environments, in one paragraph", b: "Different projects can need different versions of the same library. A ==virtual environment== is a private folder of libraries for one project. Create it with `python -m venv myenv`. Switch it on with `myenv\\Scripts\\activate` on Windows. Then `pip install` only affects that project. Colab and Anaconda handle this for you, so you can skip it while learning." },
     { t: "h", text: "Making your own module" },
     { t: "p", b: "Save some functions in a `.py` file, put it in the same folder as your notebook, and import it by its file name (without `.py`)." },
     { t: "cmp", l: { h: "File: billing.py", c: R`
@@ -6536,7 +6605,7 @@ Circle 12.57
 Rectangle 12` },
     { t: "note", k: "like", b: "`len()` is polymorphic too: `len(\"hello\")`, `len([1, 2])` and `len({\"a\": 1})` all work, even though each type counts differently." },
     { t: "h", text: "Encapsulation: protecting data" },
-    { t: "p", b: "==Encapsulation== means keeping an object's data safe and only changing it through methods that check the rules. Python marks private attributes by convention: one underscore `_balance` means \"internal, please don't touch\". Two underscores `__balance` makes Python hide the name." },
+    { t: "p", b: "==Encapsulation== means keeping an object's data safe and only changing it through methods that check the rules. Python marks private attributes by convention: one underscore `_balance` means \"internal, please don't touch\". Two underscores (`__balance`) make Python hide the name." },
     { t: "code", c: R`
 class BankAccount:
     def __init__(self, owner, balance=0):
@@ -7413,7 +7482,7 @@ chapter({
       { t: "Book borrowing", k: ["your turn", "dict of lists", "pickle"], go: "files" }
     ]},
     { t: "h", text: "Project 1: Movie ticket booking system" },
-    { t: "p", b: "Your course notebook builds this with one big `while True` loop. Here it is rebuilt with **functions**, so each part is short, testable and reusable, and the data is **saved with pickle** so bookings survive a restart." },
+    { t: "p", b: "Your course notebook builds this with one big `while True` loop. Here it is rebuilt with **functions**, so each part is short and easy to test. The data is **saved with pickle**, so bookings survive a restart." },
     { t: "deck", title: "Movie ticket system: walkthrough", s: [
       { big: "Data first: one dictionary of movies.", b: "Each movie name is a key. Its value is another dictionary with the price and seats left.", c: R`
 movie_db = {
@@ -7859,7 +7928,7 @@ while True:
   ],
   cheat: [
     ["while True:\n    choice = input(...)\n    if choice == \"3\": break", "Menu loop"],
-    ["try:\n    db = pickle.load(f)\nexcept FileNotFoundError:\n    db = default", "Load saved data or start fresh"],
+    ["try:\n    with open(\"db.pkl\", \"rb\") as f:\n        db = pickle.load(f)\nexcept FileNotFoundError:\n    db = default", "Load saved data or start fresh"],
     ["d.setdefault(k, []).append(x)", "Group items under a key"],
     ["f\"ITEM{n:04d}\"", "Make IDs like ITEM0001"],
     ["sorted(d.items(), key=lambda x: x[1], reverse=True)", "Sort a dict by value, biggest first"]
@@ -8092,6 +8161,188 @@ print(m.shape)`, o: R`(3, 2)` },
 import numpy as np
 print(np.array([1, 2, 3.5]).dtype)`, o: R`float64` }
   ]});
+})();
+
+/* ---------- Real data practice: a messy hotel bookings file (data/hotel_bookings.csv) ---------- */
+(function(){
+  function addEnd(id, blocks){ var ch = CHAPTERS.filter(function(c){ return c.id === id; })[0]; ch.body = ch.body.concat(blocks); }
+  addEnd("files", [
+    { t: "h", text: "Real data practice: hotel bookings" },
+    { t: "p", b: "The runner has a real-looking file ready for you: **`hotel_bookings.csv`**, 41 bookings from a 3-star hotel. It is messy on purpose, just like real data: extra spaces, mixed capitals (`deluxe`, `DELUXE `), money written as `\"\u20b95,200\"`, a few blank cells, two date formats and one booking that appears twice. Every time you press Run, the file is fresh again, so you can't break it." },
+    { t: "table", head: ["Column", "Example", "Watch out for"], rows: [["`booking_id`", "`B1012`", "One ID appears twice"], ["`guest_name`", "`Asha Reddy`", "Extra spaces, ALL CAPS"], ["`room_type`", "`Deluxe`", "`deluxe`, `DELUXE `, ` standard`"], ["`check_in`", "`2026-08-26`", "Some are `19/08/2026`"], ["`nights`", "`2`", "Two cells are blank"], ["`rate`", "`2600`", "Price per night"], ["`channel`", "`Goibibo`", "Mixed capitals and spaces"], ["`status`", "`Confirmed`", "`confirmed`, `CONFIRMED`, `No-show`"], ["`amount`", "`5200`", "`\"\u20b95,200\"` as text, one blank"]], cap: "The columns in hotel_bookings.csv" },
+    { t: "note", k: "why", b: "Real data is never clean. Analysts spend most of their time on exactly these steps: read the file, fix the text, skip or repair bad rows, then count and add up." },
+    { t: "prac", items: [
+      { q: "Open `hotel_bookings.csv` with `csv.DictReader`. Print how many rows it has and the list of column names.", hint: "`list(csv.DictReader(f))` gives one dict per row. `rows[0].keys()` are the column names.", starter: "import csv\n", sol: R`
+import csv
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+print(len(rows), "rows")
+print(list(rows[0].keys()))`, out: R`
+41 rows
+['booking_id', 'guest_name', 'room_type', 'check_in', 'nights', 'rate', 'channel', 'status', 'amount']`, why: "Each row becomes a dictionary, so you can read any cell by its column name, like `row[\"amount\"]`." },
+      { q: "Count the bookings for each room type. Clean the names first (`\" deluxe\"` and `\"DELUXE \"` are both Deluxe) and skip the duplicate booking ID. Print the dictionary.", hint: "Keep a `seen` set of booking IDs. Clean with `.strip().title()`, then count with `counts.get(room, 0) + 1`.", starter: "import csv\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list(csv.DictReader(f))\n", sol: R`
+import csv
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+seen = set()
+counts = {}
+for r in rows:
+    if r["booking_id"] in seen:      # skip the duplicate booking
+        continue
+    seen.add(r["booking_id"])
+    room = r["room_type"].strip().title()
+    counts[room] = counts.get(room, 0) + 1
+print(counts)`, out: R`
+{'Standard': 17, 'Deluxe': 18, 'Suite': 5}`, why: "Without `.strip().title()` you would get five different \"room types\" for only three real ones." },
+      { q: "Add up the revenue from **confirmed** bookings only. The `amount` column has text like `\"\u20b95,200\"` and one blank cell: turn the text into numbers and count the blank one instead of crashing.", hint: "Write a small `to_number(text)` function that removes `\u20b9` and `,`. Wrap the conversion in `try / except ValueError`. Compare `status` with `.strip().lower() == \"confirmed\"`.", starter: "import csv\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list(csv.DictReader(f))\n", sol: R`
+import csv
+
+def to_number(text):
+    return int(text.replace("₹", "").replace(",", "").strip())
+
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+
+total, skipped, seen = 0, 0, set()
+for r in rows:
+    if r["booking_id"] in seen:
+        continue
+    seen.add(r["booking_id"])
+    if r["status"].strip().lower() != "confirmed":
+        continue
+    try:
+        total += to_number(r["amount"])
+    except ValueError:
+        skipped += 1
+print(f"Confirmed revenue: ₹{total:,}")
+print("Confirmed rows with no amount:", skipped)`, out: R`
+Confirmed revenue: ₹185,800
+Confirmed rows with no amount: 1`, why: "`int(\"\")` raises a ValueError, so the blank cell is counted as skipped instead of stopping the program." },
+    ]}
+  ]);
+  addEnd("numpy2", [
+    { t: "h", text: "Real data practice: hotel bookings with NumPy" },
+    { t: "p", b: "Same messy hotel file as in the Files chapter: **`hotel_bookings.csv`**. This time you load the numbers into arrays and let NumPy do the maths. The first lines drop the duplicate booking with a handy trick: a dict keeps only one row per booking ID." },
+    { t: "prac", items: [
+      { q: "Load the `nights` column into a NumPy array (skip the blank cells). Print how many values you have, the average stay (2 decimals) and how many stays were longer than 3 nights.", hint: "`np.array([int(r[\"nights\"]) for r in rows if r[\"nights\"].strip()])`, then `.mean()` and `np.sum(nights > 3)`.", starter: "import csv\nimport numpy as np\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list({r[\"booking_id\"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking\n", sol: R`
+import csv
+import numpy as np
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+rows = list({r["booking_id"]: r for r in rows}.values())   # drop the duplicate booking
+nights = np.array([int(r["nights"]) for r in rows if r["nights"].strip()])
+print(len(nights), "rows have nights filled in")
+print("Average nights:", round(float(nights.mean()), 2))
+print("Stays longer than 3 nights:", int(np.sum(nights > 3)))`, out: R`
+38 rows have nights filled in
+Average nights: 2.18
+Stays longer than 3 nights: 5`, why: "`nights > 3` makes a True/False mask, and `np.sum` counts the True values." },
+      { q: "Work out the revenue for each booking channel. Build `nights`, `rates` and `channels` arrays (skip rows with blank nights), multiply to get `amounts`, then use a mask per channel. Print one line per channel.", hint: "Clean channels with `.strip().lower()`. Loop over `np.unique(channels)` and add up `amounts[channels == ch]`.", starter: "import csv\nimport numpy as np\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list({r[\"booking_id\"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking\nrows = [r for r in rows if r[\"nights\"].strip()]\n", sol: R`
+import csv
+import numpy as np
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list({r["booking_id"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r["nights"].strip()]
+nights = np.array([int(r["nights"]) for r in rows])
+rates = np.array([int(r["rate"]) for r in rows])
+channels = np.array([r["channel"].strip().lower() for r in rows])
+amounts = nights * rates
+for ch in np.unique(channels):
+    print(f"{ch:12} ₹{int(amounts[channels == ch].sum()):,}")`, out: R`
+booking.com  ₹66,200
+goibibo      ₹67,600
+makemytrip   ₹47,400
+walk-in      ₹38,800`, why: "One mask per channel picks only that channel's bookings, with no `if` inside a loop." },
+      { q: "Find the single biggest booking (nights \u00d7 rate). Print its booking ID, the guest's cleaned name, the amount, the nights and the room type.", hint: "`amounts.argmax()` gives the position of the largest amount. Use that position in `rows`.", starter: "import csv\nimport numpy as np\nwith open(\"hotel_bookings.csv\", encoding=\"utf-8\") as f:\n    rows = list({r[\"booking_id\"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking\nrows = [r for r in rows if r[\"nights\"].strip()]\n", sol: R`
+import csv
+import numpy as np
+with open("hotel_bookings.csv", encoding="utf-8") as f:
+    rows = list({r["booking_id"]: r for r in csv.DictReader(f)}.values())   # drop the duplicate booking
+rows = [r for r in rows if r["nights"].strip()]
+amounts = np.array([int(r["nights"]) * int(r["rate"]) for r in rows])
+best = amounts.argmax()
+r = rows[best]
+print("Biggest booking:", r["booking_id"], r["guest_name"].strip().title())
+print(f"Amount: ₹{int(amounts[best]):,} for {r['nights']} nights in a {r['room_type'].strip().title()}")`, out: R`
+Biggest booking: B1017 Divya Sharma
+Amount: ₹19,200 for 4 nights in a Suite`, why: "`argmax()` gives a position, not a value, so you can use it to find the matching row." },
+    ]}
+  ]);
+  addEnd("projects", [
+    { t: "h", text: "Mini project: hotel booking report" },
+    { t: "p", b: "One small project that does what a data analyst does every week: **load** a messy file, **clean** it, **analyse** it, **report** the results and **save** them. It uses the same **`hotel_bookings.csv`** file and skills from every Part of the course." },
+    { t: "ol", items: ["**Load** the file and drop the duplicate booking (Part 3: dicts)", "**Clean** each row: spaces, capitals, `₹` text and blank cells (Parts 3 and 5)", "**Analyse**: confirmed bookings, revenue, revenue per room type, average stay, top channel (Parts 2, 3 and 7)", "**Report** it neatly with f-strings (Part 1)", "**Save** the summary to `report.json` (Part 5)"] },
+    { t: "prac", items: [
+      { q: "Build the full report. Your output should match the solution: 33 confirmed bookings, the revenue, revenue per room type (largest first), the average stay and the top channel, then save it all to `report.json`.", hint: "Write `load(path)` and `clean(row)` first and test them with `print()`. When a booking has no amount, use `rate \u00d7 nights`. Sort the room totals with `sorted(by_room.items(), key=lambda x: x[1], reverse=True)`.", starter: "import csv\nimport json\nimport numpy as np\n\n# 1. Load: read the file and drop the duplicate booking\ndef load(path):\n    pass\n\n# 2. Clean: fix spaces, capitals and money text in one booking\ndef clean(r):\n    pass\n\n# 3. Analyse  4. Report  5. Save\n", sol: R`
+import csv
+import json
+import numpy as np
+
+# 1. Load: read the file and drop the duplicate booking
+def load(path):
+    with open(path, encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    return list({r["booking_id"]: r for r in rows}.values())
+
+# 2. Clean: fix spaces, capitals and money text in one booking
+def clean(r):
+    amount = r["amount"].replace("₹", "").replace(",", "").strip()
+    nights = r["nights"].strip()
+    return {
+        "guest": r["guest_name"].strip().title(),
+        "room": r["room_type"].strip().title(),
+        "channel": r["channel"].strip().lower(),
+        "status": r["status"].strip().lower(),
+        "nights": int(nights) if nights else None,
+        "amount": int(amount) if amount else int(r["rate"]) * int(nights or 0),
+    }
+
+bookings = [clean(r) for r in load("hotel_bookings.csv")]
+confirmed = [b for b in bookings if b["status"] == "confirmed"]
+
+# 3. Analyse
+revenue = sum(b["amount"] for b in confirmed)
+by_room = {}
+by_channel = {}
+for b in confirmed:
+    by_room[b["room"]] = by_room.get(b["room"], 0) + b["amount"]
+    by_channel[b["channel"]] = by_channel.get(b["channel"], 0) + 1
+nights = np.array([b["nights"] for b in confirmed if b["nights"] is not None])
+
+report = {
+    "confirmed_bookings": len(confirmed),
+    "revenue": revenue,
+    "revenue_by_room": by_room,
+    "average_nights": round(float(nights.mean()), 1),
+    "top_channel": max(by_channel, key=by_channel.get),
+}
+
+# 4. Report
+print("HOTEL REPORT")
+print("-" * 30)
+print(f"Confirmed bookings: {report['confirmed_bookings']}")
+print(f"Revenue:            ₹{revenue:,}")
+for room, amt in sorted(by_room.items(), key=lambda x: x[1], reverse=True):
+    print(f"  {room:9} ₹{amt:,}")
+print(f"Average stay:       {report['average_nights']} nights")
+print(f"Top channel:        {report['top_channel']}")
+
+# 5. Save
+with open("report.json", "w") as f:
+    json.dump(report, f, indent=2)
+print("Saved report.json")`, out: R`
+HOTEL REPORT
+------------------------------
+Confirmed bookings: 33
+Revenue:            ₹187,600
+  Deluxe    ₹98,800
+  Suite     ₹52,800
+  Standard  ₹36,000
+Average stay:       2.1 nights
+Top channel:        goibibo
+Saved report.json`, why: "Each step is its own small piece, so you can test it on its own. That is how every real project in this course was built." }
+    ]}
+  ]);
 })();
 
 /* ---------- Revision posters: Part 1 and 2 ---------- */
@@ -8860,7 +9111,7 @@ print(f"Total: {total:,.2f}")`, o: R`Total: 1,234.50`, go: "output" },
     { t: "table", master: true, title: "The operator families", head: ["Family", "Operators", "Gives back", "Example", "Result", "Use it for"], rows: [
       ["Arithmetic", "`+ - * / // % **`", "A number", "`7 // 2`", "`3`", "Maths on numbers"],
       ["Comparison", "`== != < > <= >=`", "`True` or `False`", "`5 >= 5`", "`True`", "Checking values in `if` and loops"],
-      ["Logical", "`and or not`", "`True` or `False`", "`5 > 3 and 2 > 4`", "`False`", "Combining conditions"],
+      ["Logical", "`and or not`", "`not`: `True` or `False`. `and` / `or`: one of the two values (True/False when both sides are comparisons)", "`5 > 3 and 2 > 4`", "`False`", "Combining conditions"],
       ["Assignment", "`= += -= *= /=`", "Nothing, it stores a value", "`x = 5` then `x += 2`", "`x` is now `7`", "Creating and updating variables"],
       ["Membership", "`in`, `not in`", "`True` or `False`", "`\"a\" in \"data\"`", "`True`", "Is this item inside that text or list?"],
       ["Identity", "`is`, `is not`", "`True` or `False`", "`x is None`", "`True` when x is None", "Checking for `None`"],
@@ -9021,7 +9272,7 @@ overview({
   lead: "Everything from Part 2 side by side: how code chooses with `if`, and how it repeats with `for` and `while`. The tables below show exactly where beginners mix these up.",
   five: [
     "`if` runs a block only when its condition is True. In an `if / elif / else` chain only the **first** True branch runs.",
-    "Falsy values are `0`, `\"\"`, `[]`, `{}`, `None` and `False`. Everything else counts as True.",
+    "Falsy values are `0`, `0.0`, `\"\"`, `[]`, `()`, `{}`, `set()`, `None` and `False`. Everything else counts as True.",
     "`for` takes one item per round from a sequence. `range(start, stop, step)` **never** includes stop.",
     "`while` repeats while its condition stays True, so something inside must change. `while True` plus `break` is the menu pattern.",
     "`break` leaves the loop, `continue` skips to the next round and `pass` does nothing. A loop's `else` runs only when no `break` happened."
@@ -9185,7 +9436,7 @@ print(list(range(1, 6)))
 print(list(range(10, 0, -2)))`, o: R`
 [0, 1, 2, 3, 4]
 [1, 2, 3, 4, 5]
-[10, 8, 6, 4, 2]`, rule: "Stop is never included. Count the numbers with `(stop - start) / step`." },
+[10, 8, 6, 4, 2]`, rule: "Stop is never included. Count the numbers with `(stop - start) / step`, rounded up: `range(2, 10, 3)` gives 3 numbers (2, 5, 8)." },
     { t: "vs", title: "`x == 1 or 2` vs `x == 1 or x == 2` vs `x in (1, 2)`", head: ["", "`day == \"Sat\" or \"Sun\"`", "`day == \"Sat\" or day == \"Sun\"`", "`day in (\"Sat\", \"Sun\")`"], rows: [
       ["What Python reads", "`(day == \"Sat\")` or `\"Sun\"`", "Two full comparisons", "Is `day` one of these?"],
       ["Result when `day = \"Mon\"`", "`'Sun'`, which is truthy, so the `if` **always** runs", "`False`", "`False`"],
@@ -9347,9 +9598,9 @@ overview({
   keys: "string list tuple set dictionary dict mutable immutable ordered duplicates index slice append extend sort sorted remove discard get copy comprehension hashable",
   lead: "The five collections side by side: what each one is, when to use it, and the methods people confuse. Start with the big table, then work through the \"don't mix these up\" pairs.",
   five: [
-    "Python has five built-in collections: **string** (text), **list**, **tuple**, **set** and **dictionary**.",
+    "Python has five main built-in collections: **string** (text), **list**, **tuple**, **set** and **dictionary**.",
     "Strings, lists and tuples are ==ordered== and use index numbers from 0. Sets have no order. Dictionaries look values up by **key**.",
-    "Lists, sets and dicts are ==mutable== (you can change them). Strings and tuples are ==immutable==, so their methods give you a new value.",
+    "Lists, sets and dicts are ==mutable== (you can change them). Strings and tuples are ==immutable==. String methods like `upper()` give you a new string instead of changing the old one.",
     "Sets keep only unique items, and dict keys are unique too. Lists, tuples and strings allow duplicates.",
     "Comprehensions build a new list, set or dict in one line: `[x * 2 for x in nums if x > 0]`."
   ],
@@ -9434,7 +9685,7 @@ print(a)`, o: R`[1, 2, 3]`, go: "lists" },
       ["`len(x)`", "[[ok:Yes]] characters", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] keys"],
       ["`x[0]`", "[[ok:Yes]]", "[[ok:Yes]]", "[[ok:Yes]]", "[[no:TypeError]]", "Only if `0` is a key"],
       ["Slicing `x[1:3]`", "[[ok:Yes]]", "[[ok:Yes]]", "[[ok:Yes]]", "[[no:No]]", "[[no:No]]"],
-      ["`item in x`", "Is it a substring?", "Is it an item?", "Is it an item?", "Is it an item? (fastest)", "Is it a **key**?"],
+      ["`item in x`", "Is it a substring?", "Is it an item?", "Is it an item?", "Is it an item? (fast)", "Is it a **key**? (fast)"],
       ["Add", "`s + \"!\"` makes a new string", "`append()`, `insert()`, `extend()`", "[[no:No]] Build a new tuple", "`add()`, `update()`", "`d[key] = value`"],
       ["Remove", "`replace(\"a\", \"\")` makes a new string", "`remove()`, `pop()`, `del`", "[[no:No]]", "`remove()`, `discard()`", "`pop(key)`, `del d[key]`"],
       ["Change one item", "[[no:No]]", "`l[0] = 5`", "[[no:No]]", "Remove one, add another", "`d[key] = new`"],
@@ -9630,10 +9881,14 @@ counts = {}
 for f in fruits:
     counts[f] = counts.get(f, 0) + 1
 print(counts)`, out: R`{'apple': 3, 'mango': 2, 'kiwi': 1}`, why: "`get(f, 0)` gives 0 the first time a fruit appears, so there is no KeyError." },
-      { q: "`students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]` is a list of tuples. Print the top student as `Neha 91`.", hint: "Use `max()` with `key=lambda s: s[1]`, then unpack the tuple into two names.", starter: "students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n", sol: R`
+      { q: "`students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]` is a list of tuples. Print the top student as `Neha 91`.", hint: "Start with `best = students[0]`. Loop over the list and keep the tuple with the higher mark (`s[1] > best[1]`). Then unpack `best` into two names.", starter: "students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n", sol: R`
 students = [("Asha", 82), ("Ravi", 67), ("Neha", 91)]
-name, mark = max(students, key=lambda s: s[1])
-print(name, mark)`, out: R`Neha 91`, why: "Each record is a tuple because it is fixed. The list holds the records, and `key=` tells `max()` to compare the marks." },
+best = students[0]
+for s in students:
+    if s[1] > best[1]:
+        best = s
+name, mark = best
+print(name, mark)`, out: R`Neha 91`, why: "Each record is a tuple because it is fixed. The list holds the records, and `s[1]` reads the mark from each one. (In Part 4 you will learn a shortcut: `max(students, key=lambda s: s[1])`.)" },
       { q: "`a = {\"Asha\", \"Ravi\", \"Neha\"}` joined the morning class and `b = {\"Ravi\", \"Kiran\"}` the evening class. Print who came to both and who came only in the morning, each as a sorted list.", hint: "`&` gives the people in both sets, `-` gives the people only in the first.", starter: "a = {\"Asha\", \"Ravi\", \"Neha\"}\nb = {\"Ravi\", \"Kiran\"}\n", sol: R`
 a = {"Asha", "Ravi", "Neha"}
 b = {"Ravi", "Kiran"}
@@ -9825,7 +10080,7 @@ print(hi())`, o: R`HI`, go: "functions2" }
       ["`def` function", "A named, reusable block", "`def f(x):` … `return …`", "`def double(x): return x * 2` then `double(4)`", "`8`"],
       ["`lambda`", "A one-expression function with no name", "`lambda x: x * 2`", "`(lambda x: x * 2)(4)`", "`8`"],
       ["`map()`", "Applies a function to every item", "`map(func, items)`", "`list(map(str, [1, 2]))`", "`['1', '2']`"],
-      ["`filter()`", "Keeps items where the function is True", "`filter(func, items)`", "`list(filter(lambda x: x > 1, [1, 2, 3]))`", "`[2, 3]`"],
+      ["`filter()`", "Keeps items where the function gives a truthy value (like True or 1)", "`filter(func, items)`", "`list(filter(lambda x: x > 1, [1, 2, 3]))`", "`[2, 3]`"],
       ["Recursion", "A function calling itself", "A base case plus a smaller call", "`fact(5)`", "`120`"],
       ["Generator", "A function with `yield`", "`def g(): yield …`", "`list(count_up(3))`", "`[1, 2, 3]`"],
       ["Decorator", "A function that wraps another", "`@wrapper` above a `def`", "`@shout` on `hi()`", "`'HI'`"]
@@ -9917,7 +10172,7 @@ print(squares_list(4))
 g = squares_gen(4)
 print(next(g), next(g), list(g))`, o: R`
 [0, 1, 4, 9]
-0 1 [4, 9]`, rule: "A generator can be used up only once. Wrap it in `list()` if you need all the values again." },
+0 1 [4, 9]`, rule: "A generator can be used up only once. Need the values more than once? Save them first: `vals = list(gen)`." },
     { t: "vs", title: "Default `[]` vs default `None`", head: ["", "`def f(x, bag=[]):`", "`def f(x, bag=None):`"], rows: [
       ["The default is made", "Once, when the function is defined", "A fresh list on every call (inside the function)"],
       ["Second call", "Still holds items from the first call", "Starts empty"],
@@ -9938,7 +10193,7 @@ print(add_good("a"), add_good("b"))`, o: R`
 ['a', 'b'] ['a', 'b']
 ['a'] ['b']`, rule: "Never use a list or dict as a default value. Use `None` and create it inside." },
     { t: "vs", title: "`map()` vs `filter()` vs a comprehension", head: ["", "`map(f, items)`", "`filter(f, items)`", "Comprehension"], rows: [
-      ["Does", "Changes **every** item", "**Keeps** items where `f` is True", "Either, or both at once"],
+      ["Does", "Changes **every** item", "**Keeps** items where `f` gives a truthy value", "Either, or both at once"],
       ["Result length", "Same as the input", "Same or shorter", "Your choice"],
       ["Gives you", "A map object: wrap it in `list()`", "A filter object: wrap it in `list()`", "A list straight away"]
     ], c: R`
@@ -10066,7 +10321,11 @@ print(list(g()))`, o: ["`[1]`", "`[1, 2]`", "`2`", "`<generator>`"], a: 1, chk: 
     ["`return` vs `yield`", "`return` gives one value and ends. `yield` gives values one at a time and pauses, making a generator."],
     ["What does every recursive function need?", "A **base case** that stops it from calling itself forever."],
     ["What is a decorator?", "A function that wraps another to add behaviour. You apply it with `@name` above the `def`."],
-    ["Return several values", "Separate them with commas. You get a tuple that you can unpack.", R`lo, hi = min(xs), max(xs)`]
+    ["Return several values", "Separate them with commas. You get a tuple that you can unpack.", R`
+def lo_hi(xs):
+    return min(xs), max(xs)
+
+lo, hi = lo_hi([4, 9, 1])`]
   ]
 });
 
@@ -10265,7 +10524,7 @@ except FileExistsError:
 x refuses: the file exists`, rule: "Adding to a file? Always `\"a\"`. Opening with `\"w\"` deletes what was there." },
     { t: "vs", title: "`read()` vs `readline()` vs `readlines()` vs `for line in f`", head: ["", "`f.read()`", "`f.readline()`", "`f.readlines()`", "`for line in f:`"], rows: [
       ["Gives you", "The whole file as **one string**", "The **next line**", "A **list** of all lines", "One line per round"],
-      ["Keeps `\\n`?", "Yes", "Yes", "Yes, on each line", "Yes: use `line.strip()`"],
+      ["Keeps `\\n`?", "Yes", "Yes", "Yes (the last line may not have one)", "Yes: use `line.strip()`"],
       ["Memory", "Whole file", "One line", "Whole file", "One line at a time (best for big files)"]
     ], c: R`
 with open("notes.txt", "w") as f:
@@ -10543,7 +10802,7 @@ print(Circle(2).area)`, o: R`12.57`, go: "oop" }
     { t: "h", text: "The big comparison tables" },
     { t: "table", master: true, title: "Every part of a class", head: ["Part", "What it is", "Written as", "Belongs to", "You use it with"], rows: [
       ["Class", "The blueprint", "`class Student:`", "Your program", "`Student`"],
-      ["Object", "One thing built from the class", "`s = Student(\"Asha\", 82)`", "The class", "`s`"],
+      ["Object", "One thing built from the class", "`s = Student(\"Asha\", 82)`", "Your program (made from the class)", "`s`"],
       ["`__init__`", "Set-up code that runs on creation", "`def __init__(self, name, marks):`", "Each new object", "Runs automatically"],
       ["Instance attribute", "Data for **one** object", "`self.name = name`", "One object", "`s.name`"],
       ["Class attribute", "Data **shared** by all objects", "`school = \"DPS\"` in the class body", "The class", "`Student.school` or `s.school`"],
@@ -10557,7 +10816,7 @@ print(Circle(2).area)`, o: R`12.57`, go: "oop" }
       ["**Encapsulation**", "Keep data inside and change it only through methods", "`_name`, `__name`, methods, `@property`", "`acct.deposit(500)` instead of `acct.balance = -9`", "The rules cannot be broken by accident"],
       ["**Inheritance**", "A child class reuses a parent class", "`class Child(Parent):` and `super().__init__()`", "`class Student(Person):`", "Shared code is written once"],
       ["**Polymorphism**", "Same method name, different behaviour", "Each class defines its own version", "`for s in shapes: print(s.area())`", "One loop works for every type"],
-      ["**Abstraction**", "Hide the details behind simple methods", "Clear method names. `abc.ABC` for formal ones", "`df.groupby(\"city\")`", "You can use it without knowing how it works inside"]
+      ["**Abstraction**", "Hide the details behind simple methods", "Clear, simple method names that hide the steps inside", "`df.groupby(\"city\")`", "You can use it without knowing how it works inside"]
     ]},
     { t: "table", master: true, title: "Magic methods and what triggers them", head: ["Method", "Python calls it when you write", "Return"], rows: [
       ["`__init__(self, …)`", "`Student(\"Asha\", 82)`", "Nothing (it sets up the object)"],
@@ -10602,7 +10861,7 @@ print(s.name, s.passed())`, o: R`Asha True`, rule: "Forgot the brackets on a met
     { t: "vs", title: "Instance attribute vs class attribute", head: ["", "Instance attribute", "Class attribute"], rows: [
       ["Written", "Inside a method: `self.number = number`", "In the class body: `hotel = \"Taj\"`"],
       ["Belongs to", "One object", "The class, shared by every object"],
-      ["Change it", "Only that object changes", "Every object sees the change"],
+      ["Change it", "Only that object changes", "Change it on the class (`Room.hotel = ...`) and every object sees it"],
       ["Use it for", "Name, marks, balance", "Settings or counters for the whole class"]
     ], c: R`
 class Room:
@@ -10885,7 +11144,7 @@ print(np.zeros((2, 3)).shape)`, o: R`(2, 3)`, go: "numpy1" },
       { t: "size", d: "The total number of values in the array: rows × columns.", c: R`
 import numpy as np
 print(np.zeros((2, 3)).size)`, o: R`6`, go: "numpy1" },
-      { t: "dtype", d: "The one data type every value shares, such as `float64`. Whole numbers show as `int64` in Jupyter, but as `int32` in this browser runner. Both are fine.", c: R`
+      { t: "dtype", d: "The one data type every value shares, such as `float64`. Whole numbers usually show as `int64` in Jupyter (older NumPy on Windows shows `int32`), and as `int32` in this browser runner. Both are fine.", c: R`
 import numpy as np
 print(np.array([1, 2, 3.5]).dtype)`, o: R`float64`, go: "numpy1" },
       { t: "Upcasting", d: "When you mix types, NumPy converts everything to the type that can hold them all. One string makes the whole array text.", c: R`
@@ -11188,10 +11447,10 @@ overview({
   part: 8, title: "The whole course on one page", nav: "Whole-course overview", time: "40 min",
   fiveTitle: "The whole course in 5 lines",
   keys: "course summary revision all topics data types collections functions errors files modules classes numpy projects which tool mix-ups",
-  lead: "Everything from Part 1 to Part 8 in one place: the key definitions, one table per big idea, the tool to use for each job, and the mix-ups that cost the most marks. Use it the night before an exam or an interview.",
+  lead: "Everything from Part 1 to Part 8 in one place. You get the key definitions, one table per big idea, the right tool for each job, and the mix-ups that cost the most marks. Use it the night before an exam or an interview.",
   five: [
     "**Basics (Parts 1–2):** values have types, variables name them, operators combine them, and `if`, `for` and `while` decide what runs and how often.",
-    "**Collections (Part 3):** text goes in a string, an ordered group that changes in a list, a fixed record in a tuple, unique items in a set, and lookups by name in a dict.",
+    "**Collections (Part 3):** text goes in a string, and a changing ordered group in a list. A fixed record goes in a tuple, unique items in a set, and lookups by name in a dict.",
     "**Functions (Part 4):** wrap each job in a `def` that takes parameters and `return`s a result you can reuse.",
     "**Real-world tools (Parts 5–6):** catch bad input with `try / except`, save data to files, import modules, and model real things with classes.",
     "**NumPy and projects (Parts 7–8):** arrays do fast maths on whole datasets, and every program is data structures plus functions plus a loop."
@@ -11267,7 +11526,7 @@ print(np.array([10, 20, 30]).mean())`, o: R`20.0`, go: "overview7" }
     { t: "h", text: "The big comparison tables" },
     { t: "table", master: true, title: "The whole course in one table", head: ["Part", "The big idea", "Key syntax", "The mistake most people make"], rows: [
       ["**1. Basics**", "Values, types, variables, printing and operators", "`x = 5`, `type(x)`, `f\"{x:.2f}\"`, `/ // %`", "Doing maths on text from `input()`, or `=` instead of `==`"],
-      ["**2. Decide & loop**", "Choose a path, repeat work", "`if / elif / else`, `for x in items:`, `while cond:`", "`range(1, 10)` stops at 9, and a `while` loop that never ends"],
+      ["**2. Decide & loop**", "Choose a path, repeat work", "`if / elif / else`, `for x in items:`, `while cond:`", "Forgetting that `range(1, 10)` stops at 9, and a `while` loop that never ends"],
       ["**3. Collections**", "Hold many values in the right container", "`\"\"`, `[]`, `()`, `set()`, `{}`", "`{}` is a dict, `x = lst.sort()` is `None`, `b = a` is not a copy"],
       ["**4. Functions**", "Write a job once, use it everywhere", "`def f(a, b=1, *args, **kwargs): return …`", "Printing instead of returning, and a list as a default value"],
       ["**5. Real-world**", "Handle errors, save files, reuse modules", "`try / except`, `with open(...)`, `import x as y`", "Opening with `\"w\"` and wiping the file, or a bare `except:` that hides bugs"],
@@ -11643,7 +11902,7 @@ SHEETS[5] = {
     ]},
     { h: "Saving data: which format?", cols: ["Readable by people?", "Holds", "Module", "Open the file with", "Best for"], rows: [
       { name: "CSV", c: "purple", img: "ov5-csv", sym: ".csv", symName: "Comma-separated",
-        facts: [["yes", "Yes"], ["txt", "Rows and columns"], ["big", "csv"], ["big", "\"w\", newline=\"\""], ["txt", "Tables, Excel"]],
+        facts: [["yes", "Yes"], ["txt", "Rows and columns"], ["big", "csv"], ["big", "\"w\" / \"r\", newline=\"\""], ["txt", "Tables, Excel"]],
         cap: "A spreadsheet grid: one row per line, commas between the columns.", ex: "csv.DictReader(f)" },
       { name: "JSON", c: "orange", img: "ov5-json", sym: ".json", symName: "Nested text",
         facts: [["yes", "Yes"], ["txt", "Dicts and lists"], ["big", "json"], ["big", "\"w\" / \"r\""], ["txt", "APIs, settings"]],
@@ -11728,7 +11987,7 @@ SHEETS[8] = {
       facts: [["big", "def f(x): return x"], ["txt", "Reusing a job"], ["warn", "print is not return"]],
       cap: "A boomerang: send values in, and the result comes back with return." },
     { name: "Real-world", c: "yellow", img: "ov5-pkl", sym: "try / with", symName: "Part 5",
-      facts: [["big", "with open(f, \"a\") as f:"], ["txt", "Bad input, saving data"], ["warn", "\"w\" wipes the file"]],
+      facts: [["big", "with open(\"log.txt\", \"a\") as f:"], ["txt", "Bad input, saving data"], ["warn", "\"w\" wipes the file"]],
       cap: "A sealed jar: your data stays safe after the program ends." },
     { name: "OOP", c: "purple", img: "ov6-inh", sym: "class", symName: "Part 6",
       facts: [["big", "self.x"], ["txt", "Things with data and actions"], ["warn", "Every method needs self"]],
@@ -11741,6 +12000,270 @@ SHEETS[8] = {
       cap: "A control panel: one button per job, plus a quit button." }
   ]}],
   foot: "Every program is the same shape: choose the data structure, write one function per job, loop over a menu, save the data."
+};
+
+/* One real teacher video per chapter (checked: exists, plays inside other sites). te = Telugu where a good one exists. */
+var VIDEOS = {
+ "intro": {
+  "en": {
+   "id": "YYXdXT2l-Gg",
+   "title": "Python Tutorial for Beginners 1: Install and Setup for Mac and Windows",
+   "channel": "Corey Schafer",
+   "mins": 15
+  },
+  "te": {
+   "id": "PkKr4J9WW38",
+   "title": "Python for beginners in Telugu: Hello world program",
+   "channel": "VTR Coding Telugu",
+   "mins": 3
+  }
+ },
+ "variables": {
+  "en": {
+   "id": "LKFrQXaoSMQ",
+   "title": "Python variables for beginners",
+   "channel": "Bro Code",
+   "mins": 14
+  },
+  "te": {
+   "id": "R3vuYBWQcxI",
+   "title": "#65 Python Type Casting vs Type Conversion in Telugu",
+   "channel": "Meme Programmers Telugu",
+   "mins": 12
+  }
+ },
+ "output": {
+  "en": {
+   "id": "nghuHvKLhJA",
+   "title": "Python Quick Tip: F-Strings - How to Use Them and Advanced String Formatting",
+   "channel": "Corey Schafer",
+   "mins": 14
+  }
+ },
+ "operators": {
+  "en": {
+   "id": "-wDaVLkKOiU",
+   "title": "Operators in Python (Arithmetic, Assignment, Comparison, Logical, Identity, Membership)",
+   "channel": "Digital Academy",
+   "mins": 10
+  }
+ },
+ "conditions": {
+  "en": {
+   "id": "DZwmZ8Usvnk",
+   "title": "Python Tutorial for Beginners 6: Conditionals and Booleans - If, Else, and Elif",
+   "channel": "Corey Schafer",
+   "mins": 16
+  },
+  "te": {
+   "id": "tXcHON6gwWU",
+   "title": "Python IF ELIF ELSE Statement in Telugu",
+   "channel": "The Software Services",
+   "mins": 20
+  }
+ },
+ "forloops": {
+  "en": {
+   "id": "6iF8Xb7Z3wQ",
+   "title": "Python Tutorial for Beginners 7: Loops and Iterations - For/While Loops",
+   "channel": "Corey Schafer",
+   "mins": 10
+  },
+  "te": {
+   "id": "WFeS0m3RqlY",
+   "title": "#71 Python For Loop in Telugu",
+   "channel": "Meme Programmers Telugu",
+   "mins": 19
+  }
+ },
+ "whileloops": {
+  "en": {
+   "id": "rP4p0luqvR8",
+   "title": "Python while loop",
+   "channel": "Bro Code",
+   "mins": 4
+  },
+  "te": {
+   "id": "TZuz7Cecgnw",
+   "title": "#72 Python While Loop in Telugu",
+   "channel": "Meme Programmers Telugu",
+   "mins": 16
+  }
+ },
+ "strings": {
+  "en": {
+   "id": "k9TUPpGqYTo",
+   "title": "Python Tutorial for Beginners 2: Strings - Working with Textual Data",
+   "channel": "Corey Schafer",
+   "mins": 21
+  },
+  "te": {
+   "id": "o82zQ2DrIss",
+   "title": "Python String Slicing: Access Characters & Substrings (Telugu)",
+   "channel": "Tutor Things",
+   "mins": 10
+  }
+ },
+ "lists": {
+  "en": {
+   "id": "ohCDWZgNIU0",
+   "title": "Python Lists",
+   "channel": "Socratica",
+   "mins": 6
+  },
+  "te": {
+   "id": "orVZ4MS5YxY",
+   "title": "Python Tutorials for Beginners in Telugu - Tutorial 4 - Lists",
+   "channel": "Telugu Computer World",
+   "mins": 33
+  }
+ },
+ "tuples": {
+  "en": {
+   "id": "NI26dqhs2Rk",
+   "title": "Python Tuples",
+   "channel": "Socratica",
+   "mins": 8
+  },
+  "te": {
+   "id": "xWyn8eZHqSs",
+   "title": "Master Tuples in Python in Telugu",
+   "channel": "College Coders",
+   "mins": 10
+  }
+ },
+ "sets": {
+  "en": {
+   "id": "sBvaPopWOmQ",
+   "title": "Sets in Python",
+   "channel": "Socratica",
+   "mins": 7
+  },
+  "te": {
+   "id": "pQdZo_e6Q0Y",
+   "title": "Python Sets - W3Schools Python Tutorial Telugu",
+   "channel": "Tutor Things",
+   "mins": 15
+  }
+ },
+ "dicts": {
+  "en": {
+   "id": "daefaLgNkw0",
+   "title": "Python Tutorial for Beginners 5: Dictionaries - Working with Key-Value Pairs",
+   "channel": "Corey Schafer",
+   "mins": 10
+  },
+  "te": {
+   "id": "5ghvM8MOiJM",
+   "title": "Python - Access Dictionary Items - W3Schools Python Tutorial Telugu",
+   "channel": "Tutor Things",
+   "mins": 15
+  }
+ },
+ "comprehensions": {
+  "en": {
+   "id": "YlY2g2xrl6Q",
+   "title": "Learn Python list comprehensions in 10 minutes",
+   "channel": "Bro Code",
+   "mins": 10
+  }
+ },
+ "functions": {
+  "en": {
+   "id": "9Os0o3wzS_I",
+   "title": "Python Tutorial for Beginners 8: Functions",
+   "channel": "Corey Schafer",
+   "mins": 22
+  },
+  "te": {
+   "id": "KK3W0cMXArg",
+   "title": "Python Tutorials for Beginners in Telugu - Tutorial 13 - Functions",
+   "channel": "Telugu Computer World",
+   "mins": 39
+  }
+ },
+ "functions2": {
+  "en": {
+   "id": "Vh__2V2tXUM",
+   "title": "Python *args & **kwargs",
+   "channel": "Bro Code",
+   "mins": 15
+  },
+  "te": {
+   "id": "nSPb2lStuDk",
+   "title": "#85 Lambda Function in Python in Telugu",
+   "channel": "Meme Programmers Telugu",
+   "mins": 16
+  }
+ },
+ "errors": {
+  "en": {
+   "id": "NIWwJbo-9_8",
+   "title": "Python Tutorial: Using Try/Except Blocks for Error Handling",
+   "channel": "Corey Schafer",
+   "mins": 11
+  }
+ },
+ "files": {
+  "en": {
+   "id": "Uh2ebFW8OYM",
+   "title": "Python Tutorial: File Objects - Reading and Writing to Files",
+   "channel": "Corey Schafer",
+   "mins": 25
+  }
+ },
+ "modules": {
+  "en": {
+   "id": "XcfxkHrHTVE",
+   "title": "What are Python modules?",
+   "channel": "Bro Code",
+   "mins": 7
+  },
+  "te": {
+   "id": "KHkZWX2bPn4",
+   "title": "How to import modules in Python in Telugu",
+   "channel": "Coding Tricks by Swetha",
+   "mins": 17
+  }
+ },
+ "oop": {
+  "en": {
+   "id": "ZDa-Z5JzLYM",
+   "title": "Python OOP Tutorial 1: Classes and Instances",
+   "channel": "Corey Schafer",
+   "mins": 15
+  },
+  "te": {
+   "id": "BShab6E2gfI",
+   "title": "Object oriented programming in Python, in Telugu",
+   "channel": "Jp NaN",
+   "mins": 38
+  }
+ },
+ "numpy1": {
+  "en": {
+   "id": "xECXZ3tyONo",
+   "title": "Learn NumPy in 5 minutes",
+   "channel": "Python Programmer",
+   "mins": 14
+  }
+ },
+ "numpy2": {
+  "en": {
+   "id": "P67wiuTx7l0",
+   "title": "Learn NumPy broadcasting in 6 minutes",
+   "channel": "Bro Code",
+   "mins": 6
+  }
+ },
+ "projects": {
+  "en": {
+   "id": "8aW3tkIul-8",
+   "title": "Let's code a beginner's Python banking program",
+   "channel": "Bro Code",
+   "mins": 15
+  }
+ }
 };
 
 /* ---------- Study hub engine ---------- */
@@ -11909,8 +12432,8 @@ function block(b, i, ctx){
     case 'cmp': return '<div class="cmp">' + cmpSide(b.l) + cmpSide(b.r) + '</div>';
     case 'prac':
       return '<div class="prac">' + b.items.map(function(t, j){
-        var h = '<div class="task"><div class="tq"><span class="tn">Task ' + (j + 1) + '</span><div class="prose">' + md(t.q) + '</div></div>';
-        ctx.mounts.push({ t: 'run', key: ctx.cid + ':' + i + ':' + j, starter: t.starter });
+        var h = '<div class="task' + ((store.get('solved', {}))[ctx.cid + ':' + i + ':' + j] ? ' solved' : '') + '"><div class="tq"><span class="tn">Task ' + (j + 1) + '</span><div class="prose">' + md(t.q) + '</div></div>';
+        ctx.mounts.push({ t: 'run', key: ctx.cid + ':' + i + ':' + j, starter: t.starter, expect: (t.out != null && t.sol && !/input\(|random/.test(t.sol) && !t.nocheck) ? t.out : null });
         h += '<div class="mount" data-m="' + (ctx.mounts.length - 1) + '"></div>';
         if (t.hint) h += '<details class="reveal"><summary>Show hint</summary><div class="prose">' + md(t.hint) + '</div></details>';
         if (t.sol) h += '<details class="reveal"><summary>Show solution</summary>' + cell(t.sol, t.out) + (t.why ? '<p class="prose" style="margin-top:8px">' + md(t.why) + '</p>' : '') + '</details>';
@@ -12168,38 +12691,56 @@ function Quiz(el, qs, key, opts){
   render();
 }
 
-/* ---------- Flashcards ---------- */
+/* ---------- Flashcards with spaced repetition ----------
+   Again = see it again today, Good = next box, Easy = skip a box. Boxes wait 0, 1, 3, 7, 16, 35 days. */
+var SRS_DAYS = [0, 1, 3, 7, 16, 35];
+function dayNo(){ var d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000); }
+function dueCount(cards){ var srs = store.get('srs', {}), t = dayNo(); return cards.filter(function(c){ return srs[c.id] && srs[c.id].due <= t; }).length; }
 function Deck(el, cards, opts){
   opts = opts || {};
-  var known = store.get('known', {});
-  var order = cards.map(function(_, j){ return j; }), idx = 0, flipped = false, onlyNew = false;
-  function list(){ return order.filter(function(j){ return !onlyNew || !known[cards[j].id]; }); }
+  var known = store.get('known', {}), srs = store.get('srs', {});
+  var order = cards.map(function(_, j){ return j; }), idx = 0, flipped = false;
+  var mode = opts.mode || 'all';
+  function isDue(c){ return srs[c.id] && srs[c.id].due <= dayNo(); }
+  function list(){ return order.filter(function(j){ var c = cards[j]; return mode === 'due' ? isDue(c) : mode === 'new' ? !srs[c.id] : true; }); }
+  function nextBox(c, g){ var bx = (srs[c.id] || { box: 0 }).box || 0; return g === 0 ? 0 : Math.min(5, bx + g); }
+  function when(c, g){ var d = g === 0 ? 0 : SRS_DAYS[nextBox(c, g)]; return d === 0 ? 'today' : d === 1 ? 'tomorrow' : 'in ' + d + ' days'; }
+  function rate(j, g){
+    var c = cards[j], bx = nextBox(c, g);
+    srs[c.id] = { box: bx, due: dayNo() + (g === 0 ? 0 : SRS_DAYS[bx]) };
+    if (g === 0) delete known[c.id]; else known[c.id] = 1;
+    store.set('srs', srs); store.set('known', known); updateSide();
+    if (g === 0) { order.splice(order.indexOf(j), 1); order.push(j); }
+    else if (mode === 'all') idx++;
+    flipped = false; render();
+  }
   function render(){
-    var L = list(), kc = cards.filter(function(c){ return known[c.id]; }).length;
+    var L = list(), nd = cards.filter(isDue).length, nn = cards.filter(function(c){ return !srs[c.id]; }).length;
+    var modes = '<span class="row fcmodes"><button class="btn' + (mode === 'due' ? ' pri' : '') + '" type="button" data-mode="due">Due today (' + nd + ')</button><button class="btn' + (mode === 'new' ? ' pri' : '') + '" type="button" data-mode="new">New (' + nn + ')</button><button class="btn' + (mode === 'all' ? ' pri' : '') + '" type="button" data-mode="all">All (' + cards.length + ')</button><button class="btn sh" type="button">Shuffle</button></span>';
     if (!L.length) {
-      el.innerHTML = '<div class="fc"><div class="card"><h3 class="h2">All cards known</h3><p class="muted" style="margin-top:6px">You marked all ' + cards.length + ' cards in this deck as known.</p><div class="row" style="margin-top:12px"><button class="btn pri all" type="button">Show all cards</button><button class="btn rst" type="button">Reset this deck</button></div></div></div>';
-      $('.all', el).onclick = function(){ onlyNew = false; idx = 0; render(); };
-      $('.rst', el).onclick = function(){ cards.forEach(function(c){ delete known[c.id]; }); store.set('known', known); onlyNew = false; idx = 0; render(); updateSide(); };
-      return;
+      var msg = mode === 'due' ? '<h3 class="h2">Nothing due today 🎉</h3><p class="muted" style="margin-top:6px">You have reviewed every card that was due. Come back tomorrow, or learn some new cards.</p>'
+        : '<h3 class="h2">No new cards left</h3><p class="muted" style="margin-top:6px">You have seen every card in this deck. Review the ones due today.</p>';
+      el.innerHTML = '<div class="fc"><div class="fcbar">' + modes + '</div><div class="card">' + msg + '</div></div>';
+    } else {
+      if (idx >= L.length) idx = 0;
+      var j = L[idx], c = cards[j], e = srs[c.id];
+      var h = '<div class="fc"><div class="fcbar">' + modes + '<span>Card ' + (idx + 1) + ' of ' + L.length + (e ? ' · seen before' : ' · new card') + '</span></div>';
+      h += '<button class="flip' + (flipped ? ' back' : '') + '" type="button" aria-label="Flip card">';
+      if (flipped) h += '<span class="fside">Answer</span><span class="fa">' + md(c.b) + (c.c ? '<pre>' + hl(c.c) + '</pre>' : '') + '</span><span class="hint">How well did you know it?</span>';
+      else h += '<span class="fside">Question</span><span class="fq">' + md(c.f) + '</span><span class="hint">Say the answer out loud, then tap to flip</span>' + (c.from ? '<span class="from">' + esc(c.from) + '</span>' : '');
+      h += '</button>';
+      if (flipped) h += '<div class="row rate"><button class="btn again" type="button" data-g="0"><b>Again</b><small>' + when(c, 0) + '</small></button><button class="btn good" type="button" data-g="1"><b>Good</b><small>' + when(c, 1) + '</small></button><button class="btn easy" type="button" data-g="2"><b>Easy</b><small>' + when(c, 2) + '</small></button></div>';
+      else h += '<div class="row"><button class="btn pv" type="button">Previous</button><button class="btn pri fl" type="button">Show answer</button><button class="btn nx" type="button">Skip</button></div>';
+      el.innerHTML = h + '</div>';
+      $('.flip', el).onclick = function(){ flipped = !flipped; render(); var f = $('.flip', el); if (f) f.focus({ preventScroll: true }); };
+      if (flipped) $$('.rate button', el).forEach(function(bt){ bt.onclick = function(){ rate(j, +bt.getAttribute('data-g')); }; });
+      else {
+        $('.fl', el).onclick = function(){ flipped = true; render(); };
+        $('.nx', el).onclick = function(){ idx = (idx + 1) % L.length; render(); };
+        $('.pv', el).onclick = function(){ idx = (idx - 1 + L.length) % L.length; render(); };
+      }
     }
-    if (idx >= L.length) idx = 0;
-    var c = cards[L[idx]];
-    var h = '<div class="fc"><div class="fcbar"><span>Card ' + (idx + 1) + ' of ' + L.length + ' · ' + kc + ' of ' + cards.length + ' known</span><span class="row"><button class="btn md" type="button">' + (onlyNew ? 'Show all' : 'Only unknown') + '</button><button class="btn sh" type="button">Shuffle</button></span></div>';
-    h += '<button class="flip' + (flipped ? ' back' : '') + '" type="button" aria-label="Flip card">';
-    if (flipped) h += '<span class="fside">Answer</span><span class="fa">' + md(c.b) + (c.c ? '<pre>' + hl(c.c) + '</pre>' : '') + '</span><span class="hint">Tap to see the question</span>';
-    else h += '<span class="fside">Question</span><span class="fq">' + md(c.f) + '</span><span class="hint">Tap to flip</span>' + (c.from ? '<span class="from">' + esc(c.from) + '</span>' : '');
-    h += '</button><div class="row"><button class="btn pv" type="button">Previous</button><button class="btn kn' + (known[c.id] ? ' good' : '') + '" type="button">' + (known[c.id] ? 'Known ✓' : 'I know this') + '</button><button class="btn pri nx" type="button">Next</button></div></div>';
-    el.innerHTML = h;
-    $('.flip', el).onclick = function(){ flipped = !flipped; render(); $('.flip', el).focus(); };
-    $('.nx', el).onclick = function(){ idx = (idx + 1) % L.length; flipped = false; render(); };
-    $('.pv', el).onclick = function(){ idx = (idx - 1 + L.length) % L.length; flipped = false; render(); };
-    $('.kn', el).onclick = function(){
-      if (known[c.id]) delete known[c.id]; else known[c.id] = 1;
-      store.set('known', known); updateSide();
-      if (known[c.id]) { flipped = false; if (!onlyNew) idx = (idx + 1) % L.length; }
-      render();
-    };
-    $('.md', el).onclick = function(){ onlyNew = !onlyNew; idx = 0; flipped = false; render(); };
+    $$('[data-mode]', el).forEach(function(bt){ bt.onclick = function(){ mode = bt.getAttribute('data-mode'); idx = 0; flipped = false; render(); }; });
     $('.sh', el).onclick = function(){ for (var k = order.length - 1; k > 0; k--) { var r = Math.floor(Math.random() * (k + 1)); var t = order[k]; order[k] = order[r]; order[r] = t; } idx = 0; flipped = false; render(); };
   }
   render();
@@ -12224,7 +12765,7 @@ function pyBoot(){
       else if (m.type === 'done') { var d = PY.cb[m.id]; delete PY.cb[m.id]; if (d) d.done(m); }
     };
     PY.worker.onerror = function(){ pySetState('fail', 'Python could not load. Check your internet connection and refresh.'); PY.boot = null; reject(new Error('worker error')); };
-    PY.worker.postMessage({ type: 'init', indexURL: PY_INDEX });
+    PY.worker.postMessage({ type: 'init', indexURL: PY_INDEX, data: ['hotel_bookings.csv'] });
   });
   return PY.boot;
 }
@@ -12252,12 +12793,13 @@ function CodeBox(el, b){
   el.innerHTML = '<div class="runner"><div class="rbar"><span class="rlbl">' + esc(b.label || 'Try it yourself') + '</span><span class="rstat" aria-live="polite"></span></div>' +
     '<div class="ed"><pre class="edhl" aria-hidden="true"></pre><textarea class="edta" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Python code editor"></textarea></div>' +
     '<div class="ract"><button class="btn pri rrun" type="button"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg>Run</button>' +
+    (b.expect != null ? '<button class="btn rchkb" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Check my answer</button>' : '') +
     '<button class="btn rstop" type="button" hidden>Stop</button><button class="btn rreset" type="button">Reset</button><span class="muted rhint">Ctrl + Enter runs your code</span></div>' +
     '<div class="rout" hidden><div class="lbl2">Output</div><pre class="rtext"></pre><pre class="rerr" hidden></pre>' +
-    '<form class="inrow" hidden><input class="inbox" type="text" autocomplete="off" aria-label="Your answer for input()"><button class="btn pri" type="submit">Enter</button></form></div></div>';
+    '<form class="inrow" hidden><input class="inbox" type="text" autocomplete="off" aria-label="Your answer for input()"><button class="btn pri" type="submit">Enter</button></form><p class="rnote" hidden></p></div><div class="rchk" hidden aria-live="polite"></div></div>';
   var ta = $('.edta', el), pre = $('.edhl', el), stat = $('.rstat', el), runB = $('.rrun', el), stopB = $('.rstop', el);
   var out = $('.rout', el), otext = $('.rtext', el), oerr = $('.rerr', el), inrow = $('.inrow', el), inbox = $('.inbox', el);
-  var inputs = [], running = false;
+  var inputs = [], running = false, checking = false, chk = $('.rchk', el), note = $('.rnote', el);
   ta.value = saved != null ? saved : starter;
   function paint(){ pre.innerHTML = hl(ta.value) + '\n'; }
   function save(){ store.set(key, ta.value); }
@@ -12306,12 +12848,37 @@ function CodeBox(el, b){
       if (r.status === 'error') { oerr.hidden = false; oerr.textContent = r.err; } else { oerr.hidden = true; }
       if (r.status === 'input') { inrow.hidden = false; inbox.value = ''; inbox.focus({ preventScroll: true }); }
       else inrow.hidden = true;
+      note.hidden = !(/\bnumpy\b/.test(code) && /int32/.test(r.out || ''));
+      note.textContent = 'Note: this browser runner stores NumPy whole numbers as int32. Jupyter on your laptop shows int64. Both are normal.';
+      if (checking) { checking = false; showCheck(r); }
     }, function(){
       setRunning(false);
       oerr.hidden = false; oerr.textContent = 'Python could not start. Check your internet connection, then refresh the page.';
     });
   }
-  function start(){ if (running) return; inputs = []; otext.textContent = ''; oerr.hidden = true; inrow.hidden = true; exec(); }
+  function norm(t){ return String(t || '').replace(/\r/g, '').split('\n').map(function(l){ return l.replace(/\s+$/, ''); }).join('\n').replace(/^\n+/, '').replace(/\n+$/, ''); }
+  function showCheck(r){
+    var want = norm(b.expect), got = norm(r.out), h;
+    chk.hidden = false;
+    if (r.status === 'error') { chk.className = 'rchk no'; chk.innerHTML = '<b>Your code stopped with an error.</b> Fix the red message above, then check again.'; return; }
+    if (r.status !== 'ok') { chk.className = 'rchk no'; chk.innerHTML = '<b>Your code is waiting for input.</b> Type it in the box above.'; return; }
+    if (got === want) {
+      chk.className = 'rchk ok'; chk.innerHTML = '<b>Correct!</b> Your output matches the expected output exactly.';
+      var sv = store.get('solved', {}); sv[b.key] = 1; store.set('solved', sv);
+      var tk = el.closest('.task'); if (tk) tk.classList.add('solved');
+      return;
+    }
+    if (got.replace(/\s+/g, '') === want.replace(/\s+/g, '')) { chk.className = 'rchk almost'; chk.innerHTML = '<b>Almost!</b> The values are right. Only the spaces or line breaks are different. Compare with the expected output below.'; }
+    else {
+      var gl = got.split('\n'), wl = want.split('\n'), i = 0;
+      while (i < wl.length && gl[i] === wl[i]) i++;
+      chk.className = 'rchk no';
+      chk.innerHTML = '<b>Not yet.</b> ' + (got === '' ? 'Your code printed nothing. Add <code>print()</code>.' : 'Line ' + (i + 1) + ' is different: you printed <code>' + esc(gl[i] == null ? '(nothing)' : gl[i]) + '</code>, expected <code>' + esc(wl[i] == null ? '(nothing)' : wl[i]) + '</code>.');
+    }
+    chk.innerHTML += '<div class="lbl2" style="padding:8px 0 2px">Expected output</div><pre>' + esc(want) + '</pre>';
+  }
+  function start(){ if (running) return; inputs = []; otext.textContent = ''; oerr.hidden = true; inrow.hidden = true; chk.hidden = true; exec(); }
+  var cb = $('.rchkb', el); if (cb) cb.onclick = function(){ if (running) return; checking = true; start(); };
   runB.onclick = start;
   stopB.onclick = function(){ pyStop(); };
   $('.rreset', el).onclick = function(){ ta.value = starter; paint(); save(); out.hidden = true; inputs = []; };
@@ -12413,7 +12980,7 @@ function mountAll(root, mounts){
 /* ---------- Sidebar ---------- */
 var view = $('#view'), side = $('#side');
 function buildSide(){
-  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov]];
+  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
   $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + t[1] + '</button>'; }).join('');
   $('#parts').innerHTML = PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
@@ -12464,13 +13031,14 @@ function vHome(){
     '<div class="row"><button class="btn pri" type="button" data-go="' + go.id + '">' + (dn ? 'Continue: ' : 'Start: ') + esc(go.nav || go.title) + '</button><button class="btn" type="button" data-go="flashcards">Flashcards</button></div></div>' +
     '<div class="hero-term" aria-hidden="true"><div class="tb"><i></i><i></i><i></i></div><pre>' + hl('>>> name = "Python"\n>>> print(f"Hello, {name}!")') + '\nHello, Python!\n' + hl('>>> import numpy as np\n>>> np.array([1, 2, 3]) * 10') + '\narray([10, 20, 30])</pre></div></section>';
   h += '<div class="stats"><div class="stat"><b>' + dn + '/' + CH.length + '</b><span>chapters done</span></div><div class="stat"><b>' + kc + '/' + allCards.length + '</b><span>flashcards known</span></div><div class="stat"><b>' + (exam == null ? '–' : exam + '/25') + '</b><span>best exam score</span></div><div class="stat"><b>' + Math.round(mins / 60) + ' hrs</b><span>total study time</span></div></div>';
+  h += '<div class="progio"><div><b>Your progress lives in this browser.</b> <span class="muted">Save it as a file to keep a backup or to continue on another device.</span></div><div class="row"><button class="btn" type="button" id="pgSave">Save my progress</button><label class="btn" for="pgLoad">Load progress</label><input type="file" id="pgLoad" accept=".json,application/json" hidden></div><p class="muted" id="pgMsg" hidden></p></div>';
   h += '<div class="mount" data-m="0"></div>';
   h += '<section class="sec"><h2>All chapters</h2><p class="prose muted">Go in order. Chapters marked <span class="pill trap">tricky</span> have concepts that confuse most beginners, so they get extra explainers and practice.</p><div class="pgrid">' + PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
     return '<div class="pcard"><div class="pn">Part ' + p.n + '</div><h3>' + esc(p.title) + '</h3><p class="muted" style="font-size:14px">' + esc(p.sub || '') + '</p><ul>' + chs.map(function(c){ return '<li><button type="button" data-go="' + c.id + '"><span class="st' + (done[c.id] ? ' d' : '') + '"></span>' + c.num + '. ' + esc(c.nav || c.title) + (c.tricky ? ' <span class="pill trap" style="padding:0 6px;font-size:11px">tricky</span>' : '') + '</button></li>'; }).join('') +
       (ov ? '<li class="ovli"><button type="button" data-go="' + ov.id + '"><span class="st ov' + (done[ov.id] ? ' d' : '') + '"></span>★ ' + esc(ov.nav) + '</button></li>' : '') + '</ul></div>';
   }).join('') + '</div></section>';
-  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards from every chapter. Mark the ones you know.</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button><button class="tool" type="button" data-go="posters"><b>Revision posters</b><span>' + Object.keys(window.POSTERS || {}).length + ' one-page infographics, one per chapter.</span></button><button class="tool" type="button" data-go="overviews"><b>Part overviews</b><span>' + OVS.length + ' summary pages with key definitions, big comparison tables and "don\'t mix these up" tables.</span></button></div></section>';
+  h += '<section class="sec"><h2>Study tools</h2><div class="tools3"><button class="tool" type="button" data-go="flashcards"><b>Flashcards</b><span>' + allCards.length + ' cards with smart review. ' + (dueCount(allCards) ? '<b style="font-size:inherit;color:var(--accent)">' + dueCount(allCards) + ' due today.</b>' : 'Rate each card and it comes back on the right day.') + '</span></button><button class="tool" type="button" data-go="exam"><b>Final exam</b><span>25 random questions from a bank of ' + nQ + '.</span></button><button class="tool" type="button" data-go="cheatsheet"><b>Cheat sheet</b><span>Every key command on one searchable page.</span></button><button class="tool" type="button" data-go="posters"><b>Revision posters</b><span>' + Object.keys(window.POSTERS || {}).length + ' one-page infographics, one per chapter.</span></button><button class="tool" type="button" data-go="overviews"><b>Part overviews</b><span>' + OVS.length + ' summary pages with key definitions, big comparison tables and "don\'t mix these up" tables.</span></button></div></section>';
   h += '<section class="sec"><h2>How to study with this hub</h2><div class="how">' +
     '<div><b>1. Read the notes</b>Short sections with pictures. Yellow highlights are words to remember.</div>' +
     '<div><b>2. Play the explainers</b>' + nAnim + ' animated explainers show code running line by line. Pause any time.</div>' +
@@ -12484,6 +13052,26 @@ function vHome(){
   view.innerHTML = h;
   var parts = PARTS.map(function(p){ var ov = ovOf(p.n); return { t: 'Part ' + p.n + ': ' + p.title, k: CH.filter(function(c){ return c.part === p.n; }).map(function(c){ return { t: c.num + '. ' + (c.nav || c.title), go: c.id }; }).concat(ov ? [{ t: '★ ' + ov.nav, go: ov.id }] : []) }; });
   mountAll(view, [{ t: 'mm', title: 'Course mind map', root: 'Python', hint: 'Tap any chapter to open it', kids: parts }]);
+  $('#pgSave').onclick = function(){
+    var data = {}; try { for (var k = 0; k < localStorage.length; k++) { var key = localStorage.key(k); if (key.indexOf(LS) === 0) data[key] = localStorage.getItem(key); } } catch(e){}
+    var blob = new Blob([JSON.stringify({ app: 'python-study-hub', saved: new Date().toISOString(), data: data }, null, 1)], { type: 'application/json' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'python-study-hub-progress-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    toast('Progress saved as a file');
+  };
+  $('#pgLoad').onchange = function(){
+    var f = this.files && this.files[0], msg = $('#pgMsg'); if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var j = JSON.parse(rd.result); if (j.app !== 'python-study-hub' || !j.data) throw new Error('not a progress file');
+        var n = 0; Object.keys(j.data).forEach(function(k){ if (k.indexOf(LS) === 0) { localStorage.setItem(k, j.data[k]); n++; } });
+        toast('Progress loaded'); render('home');
+        var m2 = $('#pgMsg'); if (m2) { m2.hidden = false; m2.textContent = 'Loaded ' + n + ' saved items from ' + String(j.saved || '').slice(0, 10) + '.'; }
+      } catch(e){ msg.hidden = false; msg.textContent = 'That file is not a Python Study Hub progress file.'; }
+    };
+    rd.readAsText(f);
+  };
 }
 
 function vChapter(c){
@@ -12494,12 +13082,14 @@ function vChapter(c){
   if (OV && (window.SHEETS || {})[c.part]) h += sheetHTML(window.SHEETS[c.part], c.part);
   if (c.goals) h += '<div class="goals"><h3>In this chapter you will learn</h3><ul>' + c.goals.map(function(g){ return '<li>' + md(g) + '</li>'; }).join('') + '</ul></div>';
   h += '<div class="toc" id="toc"></div>';
+  var VID = (window.VIDEOS || {})[c.id], vMount = null;
+  if (VID && VID.en) { vMount = { t: 'video', v: VID }; h += '<section class="sec"><h2 id="' + c.id + '-video">Watch it explained</h2><p class="prose muted">Prefer to watch first? This is a short video by a real teacher on this chapter\'s topic' + (VID.te ? ', in English or Telugu' : '') + '. Then read the notes below.</p><div class="vmount"></div></section>'; }
   var body = '', open = false, ctx = { mounts: mounts, cid: c.id };
   (c.body || []).forEach(function(b, i){
     if (b.t === 'h') {
       if (open) body += '</section>';
       toc.push(b.text);
-      body += '<section class="sec"><h2 id="' + c.id + '-s' + toc.length + '">' + md(b.text) + '</h2>';
+      body += '<section class="sec"><h2 id="' + c.id + '-s' + toc.length + '">' + md(b.text) + '<button class="fold" type="button" aria-label="Fold or open this section" aria-expanded="true"></button></h2>';
       open = true; return;
     }
     if (!open) { body += '<section class="sec">'; open = true; }
@@ -12511,7 +13101,7 @@ function vChapter(c){
   if (PST[c.id]) h += '<section class="sec"><h2 id="' + c.id + '-poster">Revision poster</h2><p class="prose muted">The whole chapter on one page. Use it to revise before the quiz, or come back to it a week later.</p>' + posterHTML(PST[c.id], c.num) + '<div class="row"><button class="btn" type="button" data-poster="' + c.id + '">Open in the poster gallery (wide view)</button></div></section>';
   if (c.take) h += '<div class="take"><h3>Key takeaways</h3><ul>' + c.take.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></div>';
   if (c.quiz && c.quiz.length) h += '<section class="sec"><h2 id="' + c.id + '-quiz">' + (OV ? 'Mixed quiz for the whole Part' : 'Chapter quiz') + '</h2>' + (OV ? '<p class="prose muted">Questions mix every chapter of this Part, with extra focus on the differences above.</p>' : '') + '<div id="quizBox"></div></section>';
-  if (c.cards && c.cards.length) h += '<section class="sec"><h2 id="' + c.id + '-cards">' + (OV ? 'Flashcards for the whole Part' : 'Flashcards') + '</h2><p class="prose muted">Say the answer out loud before you flip. Mark the cards you know and they drop out of "Only unknown".</p><div id="deckBox"></div></section>';
+  if (c.cards && c.cards.length) h += '<section class="sec"><h2 id="' + c.id + '-cards">' + (OV ? 'Flashcards for the whole Part' : 'Flashcards') + '</h2><p class="prose muted">Say the answer out loud, flip, then rate it. <b>Again</b> brings the card back today. <b>Good</b> and <b>Easy</b> bring it back in a few days.</p><div id="deckBox"></div></section>';
   var done = store.get('done', {});
   h += '<div class="donebox"><div><b style="font-family:var(--display)">Finished this ' + (OV ? 'overview' : 'chapter') + '?</b><div class="muted" style="font-size:15px">Mark it done to track your progress.</div></div><button class="btn ' + (done[c.id] ? 'good' : 'pri') + '" id="doneBtn" type="button">' + (done[c.id] ? 'Done ✓' : 'Mark as done') + '</button></div>';
   var prev = SEQ[c.seq - 1], next = SEQ[c.seq + 1];
@@ -12521,12 +13111,17 @@ function vChapter(c){
   view.innerHTML = h;
   var tocEl = $('#toc');
   var chips = toc.map(function(t, j){ return '<button type="button" data-s="' + c.id + '-s' + (j + 1) + '">' + md(t) + '</button>'; });
+  if (vMount) chips.unshift('<button type="button" data-s="' + c.id + '-video">Video</button>');
   if ((window.POSTERS || {})[c.id]) chips.push('<button type="button" data-s="' + c.id + '-poster">Poster</button>');
   if (c.quiz && c.quiz.length) chips.push('<button type="button" data-s="' + c.id + '-quiz">Quiz</button>');
   if (c.cards && c.cards.length) chips.push('<button type="button" data-s="' + c.id + '-cards">Flashcards</button>');
+  if (toc.length > 3) chips.unshift('<button type="button" class="foldall" data-f="1">Fold all</button>');
   tocEl.innerHTML = chips.join('');
-  $$('button', tocEl).forEach(function(b){ b.onclick = function(){ var t = document.getElementById(b.getAttribute('data-s')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; });
+  var fa = $('.foldall', tocEl);
+  if (fa) fa.onclick = function(e){ e.stopPropagation(); var f = fa.getAttribute('data-f') === '1'; $$('.sec', view).forEach(function(sc){ if ($('h2 .fold', sc)) { sc.classList.toggle('folded', f); $('h2 .fold', sc).setAttribute('aria-expanded', String(!f)); } }); fa.setAttribute('data-f', f ? '0' : '1'); fa.textContent = f ? 'Open all' : 'Fold all'; };
+  $$('button[data-s]', tocEl).forEach(function(b){ b.onclick = function(){ var t = document.getElementById(b.getAttribute('data-s')); if (!t) return; var sc = t.closest('.sec'); if (sc && sc.classList.contains('folded')) { sc.classList.remove('folded'); var fb = $('h2 .fold', sc); if (fb) fb.setAttribute('aria-expanded', 'true'); } t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }; });
   mountAll(view, mounts);
+  if (vMount) VideoBox($('.vmount', view), vMount.v);
   if (c.quiz && c.quiz.length) Quiz($('#quizBox'), c.quiz, c.id);
   if (c.cards && c.cards.length) Deck($('#deckBox'), chCards(c));
   $('#doneBtn').onclick = function(){
@@ -12543,14 +13138,14 @@ function vChapter(c){
 
 function vFlash(){
   var sel = store.get('fcSel', 'all');
-  var h = '<header class="chead"><div class="num">Study tool</div><h1>Flashcards</h1><p class="lead">Every flashcard from every chapter and Part overview. Pick a part, flip, and mark what you know.</p></header>' +
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Flashcards</h1><p class="lead">Every flashcard from every chapter and Part overview. Flip a card, then rate it: <b>Again</b>, <b>Good</b> or <b>Easy</b>. Each card comes back just before you would forget it, so a few minutes a day is enough.</p></header>' +
     '<div class="row" id="fcf"><button class="btn" type="button" data-p="all">All parts</button>' + PARTS.map(function(p){ return '<button class="btn" type="button" data-p="' + p.n + '">Part ' + p.n + '</button>'; }).join('') + '</div><div id="fcBox"></div>';
   view.className = 'col'; view.innerHTML = h;
   function load(){
     $$('#fcf button').forEach(function(b){ b.classList.toggle('pri', b.getAttribute('data-p') === String(sel)); });
     var cards = [];
     SEQ.forEach(function(c){ if (sel === 'all' || String(c.part) === String(sel)) cards = cards.concat(chCards(c)); });
-    Deck($('#fcBox'), cards);
+    Deck($('#fcBox'), cards, { mode: dueCount(cards) ? 'due' : 'all' });
   }
   $$('#fcf button').forEach(function(b){ b.onclick = function(){ sel = b.getAttribute('data-p'); store.set('fcSel', sel); load(); }; });
   load();
@@ -12644,15 +13239,70 @@ function vOverviews(){
   draw('');
 }
 
+/* ---------- Real teacher videos (YouTube, loaded only when tapped) ---------- */
+function VideoBox(el, v){
+  var lang = v.te && store.get('vidLang', 'en') === 'te' ? 'te' : 'en';
+  function draw(){
+    var x = v[lang];
+    var h = (v.te ? '<div class="row vtabs"><button class="btn' + (lang === 'en' ? ' pri' : '') + '" type="button" data-l="en">English</button><button class="btn' + (lang === 'te' ? ' pri' : '') + '" type="button" data-l="te">తెలుగు Telugu</button></div>' : '');
+    h += '<div class="vbox"><button class="vthumb" type="button" aria-label="Play video: ' + esc(x.title) + '"><img src="https://i.ytimg.com/vi/' + esc(x.id) + '/hqdefault.jpg" alt="" loading="lazy"><span class="vplay"><svg viewBox="0 0 16 16"><path d="M5 3l8 5-8 5z" fill="#fff"/></svg></span></button></div>';
+    h += '<p class="vmeta"><b>' + esc(x.title) + '</b><span>' + esc(x.channel) + (x.mins ? ' · about ' + x.mins + ' min' : '') + ' · YouTube · needs internet</span></p>';
+    el.innerHTML = h;
+    $$('[data-l]', el).forEach(function(b){ b.onclick = function(){ lang = b.getAttribute('data-l'); store.set('vidLang', lang); draw(); }; });
+    $('.vthumb', el).onclick = function(){
+      $('.vbox', el).innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.id) + '?autoplay=1&rel=0" title="' + esc(x.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>';
+    };
+  }
+  draw();
+}
+function vVideos(){
+  var V = window.VIDEOS || {};
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Videos</h1><p class="lead">One short video by a real teacher for every chapter, plus a Telugu video where a good one exists. They also appear at the top of each chapter.</p></header>';
+  h += PARTS.map(function(p){
+    var chs = CH.filter(function(c){ return c.part === p.n && V[c.id]; });
+    if (!chs.length) return '';
+    return '<section class="sec"><h2>Part ' + p.n + ' · ' + esc(p.title) + '</h2><div class="vgrid">' + chs.map(function(c){
+      var v = V[c.id];
+      return '<div class="vcard"><div class="vmount" data-v="' + c.id + '"></div><button class="btn" type="button" data-go="' + c.id + '">Open chapter ' + c.num + ': ' + esc(c.nav || c.title) + ' →</button></div>';
+    }).join('') + '</div></section>';
+  }).join('');
+  view.className = 'col wide'; view.innerHTML = h;
+  $$('[data-v]', view).forEach(function(m){ VideoBox(m, V[m.getAttribute('data-v')]); });
+}
+function vGlossary(){
+  var seen = {}, all = [];
+  OVS.forEach(function(o){ (o.body || []).forEach(function(b){ if (b.t !== 'defs') return; b.items.forEach(function(d){
+    var k = d.t.toLowerCase(); if (seen[k]) return; seen[k] = 1; all.push({ t: d.t, d: d.d, c: d.c, go: d.go, part: o.part });
+  }); }); });
+  var key = function(x){ return x.t.replace(/^[^A-Za-z]+/, '').toLowerCase(); };
+  all.sort(function(a, b){ return key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0; });
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Glossary</h1><p class="lead">Every key word in the course, explained in one or two lines with a tiny example. ' + all.length + ' terms, A to Z.</p></header>' +
+    '<label for="gq" class="eyebrow">Search the glossary</label><input id="gq" class="search" type="search" placeholder="e.g. tuple, scope, axis" autocomplete="off"><div id="gBox" class="gloss"></div>';
+  view.className = 'col'; view.innerHTML = h;
+  function draw(q){
+    q = (q || '').toLowerCase().trim();
+    var L = all.filter(function(x){ return !q || (x.t + ' ' + x.d).toLowerCase().indexOf(q) > -1; }), out = '', last = '';
+    L.forEach(function(x){
+      var letter = key(x).charAt(0).toUpperCase();
+      if (letter !== last) { out += '<h3 class="gl">' + letter + '</h3>'; last = letter; }
+      out += '<div class="gitem"><div class="gt">' + md(x.t) + '</div><div class="gd">' + md(x.d) + (x.c ? '<pre>' + hl(trimC(x.c)) + '</pre>' : '') +
+        '<span class="gl2">' + (x.go && byId[x.go] ? '<button type="button" data-go="' + x.go + '">' + (byId[x.go].ov ? esc(byId[x.go].nav) : 'Chapter ' + byId[x.go].num + ': ' + esc(byId[x.go].nav || byId[x.go].title)) + ' →</button>' : '') + '</span></div></div>';
+    });
+    $('#gBox').innerHTML = out || '<p class="muted">No term matches that search.</p>';
+  }
+  $('#gq').addEventListener('input', function(){ draw(this.value); });
+  draw('');
+}
+
 /* ---------- Router ---------- */
-var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews };
+var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos };
 function render(id){
   stopAll(); COPY = []; cellNo = 0;
   if (!TOOLS[id] && !byId[id]) id = 'home';
   if (TOOLS[id]) TOOLS[id](); else vChapter(byId[id]);
   updateSide(id);
   var c = byId[id];
-  $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews' })[id];
+  $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos' })[id];
   closeDrawer();
   window.scrollTo(0, 0);
   if (PENDING) {
@@ -12666,6 +13316,8 @@ function route(id){
 }
 window.addEventListener('hashchange', function(){ render(location.hash.slice(1) || 'home'); });
 view.addEventListener('click', function(e){
+  var fb = e.target.closest('.fold');
+  if (fb) { var sc = fb.closest('.sec'); var f = !sc.classList.contains('folded'); sc.classList.toggle('folded', f); fb.setAttribute('aria-expanded', String(!f)); return; }
   var p = e.target.closest('[data-poster]');
   if (p) { store.set('posterSel', p.getAttribute('data-poster')); route('posters'); return; }
   var j = e.target.closest('[data-jump]');
@@ -12673,8 +13325,17 @@ view.addEventListener('click', function(e){
   var b = e.target.closest('[data-go]'); if (b && !b.closest('.mm')) route(b.getAttribute('data-go'));
 });
 
+var toTop = document.createElement('button');
+toTop.type = 'button'; toTop.className = 'totop'; toTop.hidden = true; toTop.setAttribute('aria-label', 'Back to top');
+toTop.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg>';
+toTop.onclick = function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); };
+document.body.appendChild(toTop);
+window.addEventListener('scroll', function(){ toTop.hidden = window.scrollY < 900; }, { passive: true });
 buildSide();
 render(location.hash.slice(1) || 'home');
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
 })();
 
 </script>

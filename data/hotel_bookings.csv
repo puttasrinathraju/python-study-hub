@@ -1,0 +1,42 @@
+booking_id,guest_name,room_type,check_in,nights,rate,channel,status,amount
+B1001,Rohit Rao,Standard,2026-08-26,2,1800,Walk-in,Confirmed,3600
+B1002,Anil Iyer,Standard,2026-09-28,1,1800,Goibibo,Confirmed,1800
+B1003,Kiran Naidu, standard,2026-09-05,1,1800,Goibibo,Cancelled,1800
+B1004,Vikram Reddy,Deluxe,2026-09-06,1,2600,goibibo,Confirmed,2600
+B1005,Swathi Kumar,Deluxe,19/08/2026,2,2600,Goibibo,Confirmed,5200
+B1006,Sai Rao,DELUXE ,2026-08-07,2,2600,Goibibo,Confirmed,5200
+B1007,Rohit Iyer,Deluxe,2026-09-06,1,2600,MakeMyTrip,confirmed,2600
+B1008,Vikram Sharma,Deluxe,2026-09-07,4,2600,Booking.com,Confirmed,10400
+B1009,Meena Varma,Deluxe,2026-08-06,2,2600,Goibibo,Confirmed,"₹5,200"
+B1010,Meena Sharma,standard,2026-08-08,1,1800,Goibibo,Confirmed,1800
+B1011,  rohit gupta,Suite,2026-08-03,3,4800,Booking.com,Confirmed,14400
+B1012,Swathi Varma,Deluxe,2026-08-22,3,2600, Walk-in,Confirmed,7800
+B1012,Swathi Varma,Deluxe,2026-08-22,3,2600, Walk-in,Confirmed,7800
+B1013,Neha Reddy,Standard,2026-09-30,1,1800,MakeMyTrip,Confirmed,1800
+B1014,Pooja Kumar,deluxe ,2026-09-11,2,2600,Goibibo,Confirmed,5200
+B1015,Manoj Rao,Deluxe,2026-08-02,3,2600,Booking.com,Confirmed,7800
+B1016,Lakshmi Iyer,Standard,2026-09-19,2,1800,MakeMyTrip,Cancelled,"₹3,600"
+B1017,Divya Sharma,Suite,2026-08-06,4,4800,MakeMyTrip,Confirmed,19200
+B1018,Lakshmi Naidu,Deluxe,2026-08-18,5,2600,Walk-in ,No-show,13000
+B1019,Suresh Gupta,Standard,2026-08-10,2,1800,MakeMyTrip,Confirmed,3600
+B1020,Manoj Gupta,Standard,2026-08-01,,1800,MakeMyTrip,Confirmed,3600
+B1021,Ravi Varma,Standard,2026-09-14,2,1800,Booking.com,No-show,3600
+B1022,Suresh Iyer,Deluxe,2026-08-26,5,2600,Goibibo,CONFIRMED,13000
+B1023,Manoj Reddy,Standard,2026-08-14,1,1800,Goibibo,Confirmed,1800
+B1024,Asha Rao,Standard,04/09/2026,2,1800,MakeMyTrip,Confirmed,3600
+B1025,Manoj Patel,Deluxe,2026-08-10,3,2600,Goibibo,No-show,7800
+B1026,Suresh Varma,Standard,2026-09-24,1,1800,Goibibo,Confirmed,
+B1027,Suresh Sharma,Standard,2026-08-07,2,1800,Walk-in,Cancelled,3600
+B1028,Rohit Reddy,Deluxe,2026-09-30,2,2600,Booking.com,Confirmed,5200
+B1029,Divya Chowdary,Deluxe,2026-09-11,,2600,Booking.com,Confirmed,5200
+B1030,Kavya Patel,Standard,2026-08-23,2,1800,Walk-in,Confirmed,3600
+B1031,VIKRAM NAIDU,Deluxe,2026-09-21,2,2600,MakeMyTrip,Confirmed,5200
+B1032,Divya Varma,deluxe,2026-09-16,3,2600,MakeMyTrip,Confirmed,7800
+B1033,Sai Patel,Standard,2026-08-29,3,1800,Walk-in,Confirmed,5400
+B1034,Suresh Gupta,Standard,2026-08-15,1,1800,Goibibo,Confirmed,1800
+B1035,Neha Rao,Suite,2026-08-31,1,4800,Booking.com,Confirmed,4800
+B1036,Meena Rao,Suite,2026-08-31,2,4800,Booking.com,Confirmed,9600
+B1037,Arjun Sharma,Deluxe,2026-08-30,3,2600,Goibibo,No-show,7800
+B1038,Priya Gupta,Suite,2026-08-10,1,4800,Goibibo,Confirmed,4800
+B1039,Rohit Sharma,Deluxe,2026-09-12,4,2600,Booking.com,Confirmed,10400
+B1040,Sneha Naidu,Standard,2026-09-03,1,1800,Walk-in,Confirmed,1800
