@@ -101,6 +101,21 @@ kbd{font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-b
 .chlink .tk{margin-left:auto;font-size:10px;font-family:var(--mono);color:var(--trap);border:1px solid var(--trap);border-radius:99px;padding:0 5px;flex:none}
 .chlink[hidden]{display:none}
 .topbar{display:none}
+.sidetog{position:absolute;top:22px;right:10px;width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--muted);z-index:2}
+.sidetog:hover{color:var(--accent);border-color:var(--accent)}
+.sidetog svg{width:16px;height:16px;transition:transform .2s}
+.sidetog-l{display:none}
+.side .brand{padding-right:28px}
+@media (min-width:961px){
+  .app{transition:grid-template-columns .2s}
+  .app.mini{grid-template-columns:58px minmax(0,1fr)}
+  .app.mini .side{padding:14px 8px;overflow:hidden}
+  .app.mini .side>*:not(.sidetog){display:none}
+  .app.mini .sidetog{position:static;width:40px;height:auto;padding:10px 0;gap:10px;margin:0 auto;color:var(--accent)}
+  .app.mini .sidetog svg{transform:rotate(180deg)}
+  .app.mini .sidetog-l{display:block;writing-mode:vertical-rl;font-size:13px;font-weight:700;letter-spacing:.04em}
+}
+@media (max-width:960px){.sidetog{display:none}.side .brand{padding-right:0}}
 .scrim{display:none}
 
 .main{min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 80px}
@@ -734,6 +749,7 @@ details.xtra>.mount>.deck,details.xtra>.mount>.mm{margin:0}
 <div class="scrim" id="scrim"></div>
 <div class="app">
   <aside class="side" id="side" aria-label="Course map">
+    <button class="sidetog" id="sideTog" type="button" aria-controls="side" aria-expanded="true" aria-label="Hide the sidebar" title="Hide the sidebar"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg><span class="sidetog-l">Chapters</span></button>
     <div class="brand">
       <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="10" fill="var(--accent)"/><text x="20" y="26" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="700" fill="var(--accent-ink)">&gt;&gt;&gt;</text></svg>
       <div><b>Python Study Hub</b><small>Basics to NumPy, step by step</small></div>
@@ -16861,6 +16877,10 @@ function buildSide(){
   });
   $('#menuBtn').onclick = function(){ side.classList.add('open'); $('#scrim').classList.add('open'); };
   $('#scrim').onclick = closeDrawer;
+  var app = $('.app'), tog = $('#sideTog');
+  function setMini(mini){ app.classList.toggle('mini', mini); tog.setAttribute('aria-expanded', String(!mini)); tog.setAttribute('aria-label', mini ? 'Show the sidebar' : 'Hide the sidebar'); tog.title = mini ? 'Show the sidebar' : 'Hide the sidebar'; }
+  setMini(!!store.get('sideMini', 0));
+  tog.onclick = function(){ var mini = !app.classList.contains('mini'); setMini(mini); store.set('sideMini', mini ? 1 : 0); };
 }
 function closeDrawer(){ side.classList.remove('open'); $('#scrim').classList.remove('open'); }
 function updateSide(cur){
