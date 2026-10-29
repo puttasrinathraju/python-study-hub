@@ -23,7 +23,7 @@
   --hl:#FFD43B; --hl-soft:#FFF3BF;
   --trap:#C03A26; --trap-soft:#FCE5E0; --tip:#1C7A50; --tip-soft:#DDF2E6; --key:#8A5A00; --key-soft:#FFF1CC;
   --code-bg:#F7F9FC; --out-bg:#FBFCFE;
-  --sy-kw:#8B3DB8; --sy-str:#1D7A4E; --sy-num:#B4501A; --sy-com:#7A8698; --sy-fn:#2C68B0; --sy-bi:#9A5B05; --sy-dec:#C03A26;
+  --sy-kw:#8B3DB8; --sy-str:#1D7A4E; --sy-num:#B4235A; --sy-com:#6E7A8C; --sy-fn:#1F5FAD; --sy-bi:#B35400; --sy-dec:#C03A26;
   --c1:#2C68B0; --c1s:#E2ECF8; --c2:#1C7A50; --c2s:#DDF2E6; --c3:#B4501A; --c3s:#FBE6D8; --c4:#8B3DB8; --c4s:#F1E4F8;
   --c5:#A07800; --c5s:#FFF1CC; --c6:#C03A26; --c6s:#FCE5E0; --c7:#0E7C86; --c7s:#D9F1F2; --c8:#5B5FC7; --c8s:#E6E7FA;
   --shadow:0 1px 2px rgba(22,32,51,.06),0 8px 24px -14px rgba(22,32,51,.25);
@@ -39,7 +39,7 @@
     --hl:#F2CC3D; --hl-soft:#3B3313;
     --trap:#F2876F; --trap-soft:#3A1E18; --tip:#5ECB95; --tip-soft:#12301F; --key:#F2CC3D; --key-soft:#352D10;
     --code-bg:#111823; --out-bg:#121A25;
-    --sy-kw:#C99BF0; --sy-str:#8FD3A8; --sy-num:#F5A66E; --sy-com:#76839A; --sy-fn:#8CB8F5; --sy-bi:#E8C27A; --sy-dec:#F2876F;
+    --sy-kw:#C99BF0; --sy-str:#8FD3A8; --sy-num:#F28CB1; --sy-com:#8693A9; --sy-fn:#7DB4F5; --sy-bi:#F0A35E; --sy-dec:#F2876F;
     --c1:#72A9EE; --c1s:#18304D; --c2:#5ECB95; --c2s:#12301F; --c3:#F5A66E; --c3s:#3A2416; --c4:#C99BF0; --c4s:#2E1E3D;
     --c5:#F2CC3D; --c5s:#352D10; --c6:#F2876F; --c6s:#3A1E18; --c7:#5BD0D8; --c7s:#0F3134; --c8:#A3A6F5; --c8s:#22244A;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.7);
@@ -53,7 +53,7 @@
   --hl:#F2CC3D; --hl-soft:#3B3313;
   --trap:#F2876F; --trap-soft:#3A1E18; --tip:#5ECB95; --tip-soft:#12301F; --key:#F2CC3D; --key-soft:#352D10;
   --code-bg:#111823; --out-bg:#121A25;
-  --sy-kw:#C99BF0; --sy-str:#8FD3A8; --sy-num:#F5A66E; --sy-com:#76839A; --sy-fn:#8CB8F5; --sy-bi:#E8C27A; --sy-dec:#F2876F;
+  --sy-kw:#C99BF0; --sy-str:#8FD3A8; --sy-num:#F28CB1; --sy-com:#8693A9; --sy-fn:#7DB4F5; --sy-bi:#F0A35E; --sy-dec:#F2876F;
   --c1:#72A9EE; --c1s:#18304D; --c2:#5ECB95; --c2s:#12301F; --c3:#F5A66E; --c3s:#3A2416; --c4:#C99BF0; --c4s:#2E1E3D;
   --c5:#F2CC3D; --c5s:#352D10; --c6:#F2876F; --c6s:#3A1E18; --c7:#5BD0D8; --c7s:#0F3134; --c8:#A3A6F5; --c8s:#22244A;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.7);
@@ -205,7 +205,7 @@ pre{margin:0;font-family:var(--mono);font-size:14px;line-height:1.6;overflow-x:a
 .out pre{padding-top:4px;color:var(--ink)}
 .out.err .lbl2{color:var(--trap)}
 .out.err pre{color:var(--trap)}
-.k{color:var(--sy-kw);font-weight:600}.s{color:var(--sy-str)}.n{color:var(--sy-num)}.c{color:var(--sy-com);font-style:italic}.f{color:var(--sy-fn)}.b{color:var(--sy-bi)}.d{color:var(--sy-dec)}
+.k{color:var(--sy-kw);font-weight:600}.s{color:var(--sy-str)}.n{color:var(--sy-num)}.c{color:var(--sy-com);font-style:italic}.f{color:var(--sy-fn);font-weight:700}.m{color:var(--sy-fn)}.sf{font-style:italic;color:var(--sy-kw)}.b{color:var(--sy-bi)}.d{color:var(--sy-dec)}
 
 /* ---------- Callouts ---------- */
 .call{border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;border:1px solid transparent}
@@ -452,6 +452,9 @@ details.reveal[open] summary{margin-bottom:6px}
 .refex pre{flex:1;min-width:0}
 .refo{background:var(--out-bg);border-style:dashed}
 .refn{color:var(--muted);font-size:14px}
+.synkey{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:13px;color:var(--muted);margin:0}
+.synkey b{color:var(--ink);font-weight:600}
+.synkey code{font-size:12.5px;background:var(--code-bg)}
 .exq{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:12px 0;background:var(--surface)}
 .exh{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted)}
 .exst{color:var(--tip);font-weight:700}
@@ -16099,14 +16102,14 @@ var store = {
 function md(s){
   if (s == null) return '';
   return String(s).split(/(`[^`]+`)/).map(function(part){
-    if (part.length > 1 && part[0] === '`' && part[part.length - 1] === '`') return '<code>' + esc(part.slice(1, -1)) + '</code>';
+    if (part.length > 1 && part[0] === '`' && part[part.length - 1] === '`') return '<code>' + hl(part.slice(1, -1)) + '</code>';
     return esc(part).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/==([^=]+)==/g, '<mark>$1</mark>').replace(/\[\[(ok|no|warn|acc):([^\]]+)\]\]/g, '<span class="t-$1">$2</span>').replace(/\n/g, '<br>');
   }).join('');
 }
 
 /* ---------- Python syntax highlighter ---------- */
 var KW = {}; 'False None True and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield match case'.split(' ').forEach(function(k){ KW[k] = 1; });
-var BI = {}; 'print len range type int float str bool list tuple set dict input open sum min max abs round sorted reversed enumerate zip map filter isinstance id super object frozenset any all iter next help dir chr ord format repr hash divmod pow self np math random datetime pickle json os re Counter timedelta'.split(' ').forEach(function(k){ BI[k] = 1; });
+var BI = {}; 'ArithmeticError AssertionError AttributeError BaseException BaseExceptionGroup BlockingIOError BrokenPipeError BufferError BytesWarning ChildProcessError ConnectionAbortedError ConnectionError ConnectionRefusedError ConnectionResetError DeprecationWarning EOFError EncodingWarning EnvironmentError Exception ExceptionGroup FileExistsError FileNotFoundError FloatingPointError FutureWarning GeneratorExit IOError ImportError ImportWarning IndentationError IndexError InterruptedError IsADirectoryError KeyError KeyboardInterrupt LookupError MemoryError ModuleNotFoundError NameError NotADirectoryError NotImplementedError OSError OverflowError PendingDeprecationWarning PermissionError ProcessLookupError PythonFinalizationError RecursionError ReferenceError ResourceWarning RuntimeError RuntimeWarning StopAsyncIteration StopIteration SyntaxError SyntaxWarning SystemError SystemExit TabError TimeoutError TypeError UnboundLocalError UnicodeDecodeError UnicodeEncodeError UnicodeError UnicodeTranslateError UnicodeWarning UserWarning ValueError Warning ZeroDivisionError abs aiter all anext any ascii bin bool breakpoint bytearray bytes callable chr classmethod compile complex delattr dict dir divmod enumerate eval exec filter float format frozenset getattr globals hasattr hash help hex id input int isinstance issubclass iter len list locals map max memoryview min next object oct open ord pow print property range repr reversed round set setattr slice sorted staticmethod str sum super tuple type vars zip'.split(' ').forEach(function(k){ BI[k] = 1; });
 function hl(code){
   var re = /(#[^\n]*)|([rRbBfFuU]{0,2}(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'))|(\b\d[\d_]*(?:\.\d*)?(?:[eE][+-]?\d+)?j?\b)|(@[A-Za-z_][\w.]*)|([A-Za-z_]\w*)|(\s+)|([\s\S])/g;
   var out = '', m, prev = '';
@@ -16119,7 +16122,9 @@ function hl(code){
     else if (m[5]) {
       if (KW[t]) out += '<span class="k">' + t + '</span>';
       else if (prev === 'def' || prev === 'class') out += '<span class="f">' + t + '</span>';
-      else if (BI[t]) out += '<span class="b">' + t + '</span>';
+      else if (prev !== '.' && BI[t]) out += '<span class="b">' + t + '</span>';
+      else if (/^\s*\(/.test(code.slice(re.lastIndex))) out += '<span class="m">' + t + '</span>';
+      else if (t === 'self' || t === 'cls') out += '<span class="sf">' + t + '</span>';
       else out += esc(t);
       prev = t; continue;
     } else out += esc(t);
@@ -17268,6 +17273,8 @@ function vExercises(){
   $$('details.exch', view).forEach(function(d){ d.addEventListener('toggle', function(){ if (!d.open || d.getAttribute('data-m')) return; d.setAttribute('data-m', '1'); var cid = d.getAttribute('data-c'); $('.exlist', d).innerHTML = EXS[cid].map(function(x, i){ return '<div class="exmount" data-c="' + cid + '" data-i="' + i + '"></div>'; }).join(''); mountEx(d); }); });
 }
 
+var SYNKEY = '<p class="synkey"><b>Code colours:</b> <span><code><span class="k">if</span></code> keyword</span> <span><code><span class="b">print</span>()</code> built-in function</span> <span><code><span class="m">append</span>()</code> other function or method</span> <span><code><span class="s">"text"</span></code> text</span> <span><code><span class="n">42</span></code> number</span> <span><code><span class="c"># note</span></code> comment</span></p>';
+
 /* ---------- Chip rows: arrows and mouse-wheel scrolling when the chips do not fit ---------- */
 function tocArrows(el){
   if (el.parentNode.classList.contains('tocw')) return;
@@ -17294,6 +17301,8 @@ function render(id){
   if (!TOOLS[id] && !byId[id]) id = 'home';
   if (TOOLS[id]) TOOLS[id](); else vChapter(byId[id]);
   $$('.toc', view).forEach(tocArrows);
+  var fc = $$('.cell, .refsec', view).filter(function(x){ return !x.closest('details'); })[0];
+  if (fc) fc.insertAdjacentHTML('beforebegin', SYNKEY);
   updateSide(id);
   var c = byId[id];
   $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises' })[id];
