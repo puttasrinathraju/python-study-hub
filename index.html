@@ -169,7 +169,16 @@ ol.list{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px;ma
 .toc::-webkit-scrollbar{display:none}
 .toc button{flex:none}
 .toc .foldall{border-style:dashed;color:var(--accent)}
-@media (max-width:960px){.toc{top:calc(57px + env(safe-area-inset-top,0px))}}
+@media (max-width:960px){.toc,.tocw{top:calc(57px + env(safe-area-inset-top,0px))}}
+.tocw{position:sticky;top:0;z-index:30;background:var(--bg);margin:-8px 0;box-shadow:0 8px 10px -10px rgba(0,0,0,.25)}
+.tocw>.toc{position:static;margin:0;box-shadow:none}
+.tocar{position:absolute;top:0;bottom:0;width:52px;display:flex;align-items:center;border:0;padding:0;z-index:1;cursor:pointer}
+.tocar.l{left:0;justify-content:flex-start;background:linear-gradient(90deg,var(--bg) 50%,transparent)}
+.tocar.r{right:0;justify-content:flex-end;background:linear-gradient(270deg,var(--bg) 50%,transparent)}
+.tocar[hidden]{display:none}
+.tocar span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--accent);box-shadow:var(--shadow)}
+.tocar:hover span{border-color:var(--accent)}
+.tocar svg{width:15px;height:15px}
 .sec>h2{display:flex;align-items:center;gap:10px}
 .fold{margin-left:auto;flex:none;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);position:relative}
 .fold::before{content:"";position:absolute;left:10px;top:9px;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
@@ -17259,12 +17268,32 @@ function vExercises(){
   $$('details.exch', view).forEach(function(d){ d.addEventListener('toggle', function(){ if (!d.open || d.getAttribute('data-m')) return; d.setAttribute('data-m', '1'); var cid = d.getAttribute('data-c'); $('.exlist', d).innerHTML = EXS[cid].map(function(x, i){ return '<div class="exmount" data-c="' + cid + '" data-i="' + i + '"></div>'; }).join(''); mountEx(d); }); });
 }
 
+/* ---------- Chip rows: arrows and mouse-wheel scrolling when the chips do not fit ---------- */
+function tocArrows(el){
+  if (el.parentNode.classList.contains('tocw')) return;
+  var w = document.createElement('div'); w.className = 'tocw';
+  el.parentNode.insertBefore(w, el); w.appendChild(el);
+  var mk = function(dir){ var b = document.createElement('button'); b.type = 'button'; b.className = 'tocar ' + dir; b.setAttribute('aria-label', dir === 'l' ? 'Scroll the list left' : 'Scroll the list right'); b.innerHTML = '<span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + (dir === 'l' ? 'M10 3L5 8l5 5' : 'M6 3l5 5-5 5') + '"/></svg></span>'; w.appendChild(b); return b; };
+  var L = mk('l'), R = mk('r');
+  function upd(){ var max = el.scrollWidth - el.clientWidth; L.hidden = el.scrollLeft <= 2; R.hidden = max <= 2 || el.scrollLeft >= max - 2; }
+  L.onclick = function(){ el.scrollBy({ left: -Math.max(160, el.clientWidth * 0.7), behavior: 'smooth' }); };
+  R.onclick = function(){ el.scrollBy({ left: Math.max(160, el.clientWidth * 0.7), behavior: 'smooth' }); };
+  el.addEventListener('scroll', upd, { passive: true });
+  el.addEventListener('wheel', function(e){
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || el.scrollWidth <= el.clientWidth) return;
+    var before = el.scrollLeft; el.scrollLeft += e.deltaY; if (el.scrollLeft !== before) e.preventDefault();
+  }, { passive: false });
+  if (window.ResizeObserver) new ResizeObserver(upd).observe(el);
+  upd();
+}
+
 /* ---------- Router ---------- */
 var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises };
 function render(id){
   stopAll(); COPY = []; TRY = []; cellNo = 0;
   if (!TOOLS[id] && !byId[id]) id = 'home';
   if (TOOLS[id]) TOOLS[id](); else vChapter(byId[id]);
+  $$('.toc', view).forEach(tocArrows);
   updateSide(id);
   var c = byId[id];
   $('#topTitle').textContent = c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises' })[id];
