@@ -21319,12 +21319,264 @@ var BIGTESTS = {
    "want": "3.0",
    "got": "ModuleNotFoundError: No module named 'Math'"
   }
+ ],
+ "oop": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Class vs object",
+   "q": "Type exactly what this code prints.",
+   "c": "class Room:\n    pass\n\nr1 = Room()\nr2 = Room()\nprint(type(r1).__name__, r1 is r2)",
+   "e": "A class is the blueprint and each call `Room()` makes a new, separate object, so `r1` and `r2` are not the same object.",
+   "ans": "Room False"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "__init__ and self",
+   "q": "Write a class `Product` whose `__init__(self, name, price)` stores both values. Create `Product(\"Pen\", 10)` and print its name and price with one `print()`.",
+   "starter": "# class Product:\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\np = Product(\"Pen\", 10)\nprint(p.name, p.price)",
+   "e": "`__init__` runs when the object is created. `self.name = name` stores the value inside that object.",
+   "out": "Pen 10"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "Write a class `Circle` that stores a radius and has a method `area()` returning `round(3.14159 * radius ** 2, 2)`. Print `Circle(2).area()`.",
+   "starter": "# class Circle:\n",
+   "sol": "class Circle:\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        return round(3.14159 * self.radius ** 2, 2)\n\nprint(Circle(2).area())",
+   "e": "A method is a function inside the class. It reads the object's data through `self`.",
+   "out": "12.57"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "The starter has a `Student` class. Create `Student(\"Asha\", 70)`, change its marks to 82, and print `Asha 82`.",
+   "starter": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n",
+   "sol": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\ns = Student(\"Asha\", 70)\ns.marks = 82\nprint(s.name, s.marks)",
+   "e": "Attributes are like variables that belong to one object. You can read and change them with a dot.",
+   "out": "Asha 82"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` a `__str__` method so that `print(Product(\"Pen\", 10))` prints `Pen: Rs 10`.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.name}: Rs {self.price}\"\n\nprint(Product(\"Pen\", 10))",
+   "e": "`print()` calls `__str__` to get the text for an object. It must **return** a string.",
+   "out": "Pen: Rs 10"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "__init__ and self",
+   "q": "This code should print `Tata`, but it crashes. Fix it.",
+   "c": "class Car:\n    def __init__(brand):\n        self.brand = brand\n\nc = Car(\"Tata\")\nprint(c.brand)",
+   "fixed": "class Car:\n    def __init__(self, brand):\n        self.brand = brand\n\nc = Car(\"Tata\")\nprint(c.brand)",
+   "e": "Every method needs `self` as its first parameter. Python passes the object in automatically.",
+   "want": "Tata",
+   "got": "TypeError: Car.__init__() takes 1 positional argument but 2 were given"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Type exactly what this code prints.",
+   "c": "class Student:\n    school = \"WsCube\"\n    def __init__(self, name):\n        self.name = name\n\na = Student(\"Asha\")\nb = Student(\"Ravi\")\nb.school = \"Other\"\nprint(a.school, b.school, Student.school)",
+   "e": "`b.school = ...` creates an instance attribute on `b` only. `a` and the class still share the class attribute.",
+   "ans": "WsCube Other WsCube"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Attributes and methods",
+   "q": "This code should print `500`, but it crashes. Fix the method.",
+   "c": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def show(self):\n        print(balance)\n\nAccount(500).show()",
+   "fixed": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def show(self):\n        print(self.balance)\n\nAccount(500).show()",
+   "e": "Inside a method, the object's data is `self.balance`. A plain `balance` is an unknown local name.",
+   "want": "500",
+   "got": "NameError: name 'balance' is not defined. Did you mean: 'self.balance'?"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Inheritance: building on another class",
+   "q": "Write `Person` with `introduce()` returning `\"Hi, I am <name>\"`. Write `Employee(Person)` that also stores a company and overrides `introduce()` to add `\" from <company>\"`, using `super().introduce()`. Print `Employee(\"Asha\", \"TCS\").introduce()`.",
+   "starter": "# class Person:\n# class Employee(Person):\n",
+   "sol": "class Person:\n    def __init__(self, name):\n        self.name = name\n\n    def introduce(self):\n        return f\"Hi, I am {self.name}\"\n\nclass Employee(Person):\n    def __init__(self, name, company):\n        super().__init__(name)\n        self.company = company\n\n    def introduce(self):\n        return super().introduce() + f\" from {self.company}\"\n\nprint(Employee(\"Asha\", \"TCS\").introduce())",
+   "e": "The child class reuses the parent's code with `super()` and only adds what is new.",
+   "out": "Hi, I am Asha from TCS"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Polymorphism: same method name, different behaviour",
+   "q": "Write classes `Circle(r)` and `Square(side)`, each with an `area()` method (circle: `round(3.14159 * r ** 2, 2)`). Loop over `[Circle(1), Square(3)]` and print each area.",
+   "starter": "# class Circle:\n# class Square:\n",
+   "sol": "class Circle:\n    def __init__(self, r):\n        self.r = r\n\n    def area(self):\n        return round(3.14159 * self.r ** 2, 2)\n\nclass Square:\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\nfor shape in [Circle(1), Square(3)]:\n    print(shape.area())",
+   "e": "Polymorphism: the loop calls `area()` on every shape without caring which class it is. Each class does its own maths.",
+   "out": "3.14\n9"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Inheritance: building on another class",
+   "q": "Type exactly what this code prints.",
+   "c": "class A:\n    def hello(self):\n        return \"A\"\n\nclass B(A):\n    pass\n\nclass C(A):\n    def hello(self):\n        return \"C\"\n\nprint(B().hello(), C().hello(), isinstance(C(), A))",
+   "e": "`B` inherits `hello()` from `A`. `C` overrides it. A `C` object is still an `A`, so `isinstance` is `True`.",
+   "ans": "A C True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Encapsulation: protecting data",
+   "q": "Write `BankAccount` with a private `__balance`, a `deposit(amount)` that raises `ValueError(\"Deposit must be positive\")` for 0 or less, and `get_balance()`. Deposit 500, then try to deposit -50 (catch it and print the message), then print the balance.",
+   "starter": "# class BankAccount:\n",
+   "sol": "class BankAccount:\n    def __init__(self, balance=0):\n        self.__balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.__balance += amount\n\n    def get_balance(self):\n        return self.__balance\n\nacc = BankAccount()\nacc.deposit(500)\ntry:\n    acc.deposit(-50)\nexcept ValueError as e:\n    print(e)\nprint(acc.get_balance())",
+   "e": "The balance can only change through `deposit()`, which checks the amount first. That is encapsulation.",
+   "out": "Deposit must be positive\n500"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` an `__eq__` method so two products are equal when their prices are equal. Print `Product(\"Pen\", 10) == Product(\"Pencil\", 10)`.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __eq__(self, other):\n        return self.price == other.price\n\nprint(Product(\"Pen\", 10) == Product(\"Pencil\", 10))",
+   "e": "`a == b` calls `a.__eq__(b)`. Without it, two different objects are never equal.",
+   "out": "True"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "This code should print `Item: Pen` once, but it crashes. Fix `__str__`.",
+   "c": "class Item:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        print(\"Item:\", self.name)\n\nprint(Item(\"Pen\"))",
+   "fixed": "class Item:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return f\"Item: {self.name}\"\n\nprint(Item(\"Pen\"))",
+   "e": "`__str__` must **return** the text. Printing inside it returns `None`, and `print()` then fails.",
+   "want": "Item: Pen",
+   "got": "Item: Pen\nTypeError: __str__ returned non-string (type NoneType)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Write `Booking` with a class attribute `count = 0` that goes up by 1 every time a booking is created. Create 3 bookings and print `Booking.count`.",
+   "starter": "# class Booking:\n",
+   "sol": "class Booking:\n    count = 0\n\n    def __init__(self, guest):\n        self.guest = guest\n        Booking.count += 1\n\nBooking(\"Asha\")\nBooking(\"Ravi\")\nBooking(\"Neha\")\nprint(Booking.count)",
+   "e": "A class attribute is shared by all objects. Change it through the class name, `Booking.count`.",
+   "out": "3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Class methods and static methods",
+   "q": "Write `Booking(guest, amount)` with a class method `from_text(cls, text)` that makes a booking from text like `\"Asha,4500\"` (amount as an int). Create one with `Booking.from_text(\"Asha,4500\")` and print its guest and amount.",
+   "starter": "# class Booking:\n",
+   "sol": "class Booking:\n    def __init__(self, guest, amount):\n        self.guest = guest\n        self.amount = amount\n\n    @classmethod\n    def from_text(cls, text):\n        guest, amount = text.split(\",\")\n        return cls(guest, int(amount))\n\nb = Booking.from_text(\"Asha,4500\")\nprint(b.guest, b.amount)",
+   "e": "A class method gets the class as `cls`, so it can build and return a new object: another way to create one.",
+   "out": "Asha 4500"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Encapsulation: protecting data",
+   "q": "Type exactly what this code prints.",
+   "c": "class Room:\n    def __init__(self, rate):\n        self._rate = rate\n\n    @property\n    def rate(self):\n        return self._rate\n\n    @rate.setter\n    def rate(self, value):\n        if value < 0:\n            raise ValueError(\"Rate cannot be negative\")\n        self._rate = value\n\nr = Room(2000)\nr.rate = 2500\ntry:\n    r.rate = -5\nexcept ValueError as e:\n    print(e)\nprint(r.rate)",
+   "e": "The setter runs on every `r.rate = ...`. It accepts 2500 and rejects -5, so the rate stays 2500.",
+   "ans": "Rate cannot be negative\n2500"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Inheritance: building on another class",
+   "q": "This code should print `Asha 90`, but it crashes. Fix `Student.__init__`.",
+   "c": "class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, marks):\n        self.marks = marks\n\ns = Student(\"Asha\", 90)\nprint(s.name, s.marks)",
+   "fixed": "class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, marks):\n        super().__init__(name)\n        self.marks = marks\n\ns = Student(\"Asha\", 90)\nprint(s.name, s.marks)",
+   "e": "When a child class has its own `__init__`, the parent's `__init__` does not run unless you call `super().__init__(...)`.",
+   "want": "Asha 90",
+   "got": "AttributeError: 'Student' object has no attribute 'name'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` a `__lt__` method that compares prices, so `sorted()` works on products. Sort `[Product(\"Pen\", 10), Product(\"Bag\", 450), Product(\"Ink\", 45)]` and print the list of names, cheapest first.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __lt__(self, other):\n        return self.price < other.price\n\nitems = sorted([Product(\"Pen\", 10), Product(\"Bag\", 450), Product(\"Ink\", 45)])\nprint([p.name for p in items])",
+   "e": "`sorted()` compares objects with `<`, which calls `__lt__`. Now your own objects can be sorted.",
+   "out": "['Pen', 'Ink', 'Bag']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Polymorphism: same method name, different behaviour",
+   "q": "Write `Employee(name, salary)` with `pay()` returning the salary. `Manager(Employee)` also has a bonus and `pay()` returns salary + bonus. `Intern(name, stipend)` has `pay()` returning the stipend. Print the total of `pay()` for `[Employee(\"Asha\", 40000), Manager(\"Ravi\", 60000, 15000), Intern(\"Neha\", 12000)]`.",
+   "starter": "# class Employee:\n# class Manager(Employee):\n# class Intern:\n",
+   "sol": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n\n    def pay(self):\n        return self.salary\n\nclass Manager(Employee):\n    def __init__(self, name, salary, bonus):\n        super().__init__(name, salary)\n        self.bonus = bonus\n\n    def pay(self):\n        return super().pay() + self.bonus\n\nclass Intern:\n    def __init__(self, name, stipend):\n        self.name = name\n        self.stipend = stipend\n\n    def pay(self):\n        return self.stipend\n\nstaff = [Employee(\"Asha\", 40000), Manager(\"Ravi\", 60000, 15000), Intern(\"Neha\", 12000)]\nprint(sum(person.pay() for person in staff))",
+   "e": "Every class answers `pay()` in its own way, so one line can add up the whole payroll.",
+   "out": "127000"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "Write a `Cart` class: `add(item, price, qty=1)` stores a line, `total()` returns the sum of price × qty, and `count()` returns the number of units. Add `(\"Pen\", 10, 3)` and `(\"Bag\", 450)`, then print the total and the count.",
+   "starter": "# class Cart:\n",
+   "sol": "class Cart:\n    def __init__(self):\n        self.lines = []\n\n    def add(self, item, price, qty=1):\n        self.lines.append((item, price, qty))\n\n    def total(self):\n        return sum(price * qty for item, price, qty in self.lines)\n\n    def count(self):\n        return sum(qty for item, price, qty in self.lines)\n\ncart = Cart()\ncart.add(\"Pen\", 10, 3)\ncart.add(\"Bag\", 450)\nprint(cart.total(), cart.count())",
+   "e": "The object keeps its own list of lines, and the methods work on that list.",
+   "out": "480 4"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Type exactly what this code prints.",
+   "c": "class Team:\n    def __init__(self, *names):\n        self.names = list(names)\n\n    def __len__(self):\n        return len(self.names)\n\n    def __contains__(self, name):\n        return name in self.names\n\nt = Team(\"Asha\", \"Ravi\")\nprint(len(t), \"Ravi\" in t, \"Neha\" in t)",
+   "e": "`len(t)` calls `__len__` and `x in t` calls `__contains__`, so your object works like a built-in collection.",
+   "ans": "2 True False"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Each basket should have its own items, so this code should print `[]`. Fix it.",
+   "c": "class Basket:\n    items = []\n\n    def add(self, x):\n        self.items.append(x)\n\na = Basket()\nb = Basket()\na.add(\"apple\")\nprint(b.items)",
+   "fixed": "class Basket:\n    def __init__(self):\n        self.items = []\n\n    def add(self, x):\n        self.items.append(x)\n\na = Basket()\nb = Basket()\na.add(\"apple\")\nprint(b.items)",
+   "e": "A list made as a class attribute is shared by every basket. Make a new list per object in `__init__`.",
+   "want": "[]",
+   "got": "['apple']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Class methods and static methods",
+   "q": "Write a class `GST` with a static method `add(amount, rate=18)` that returns the amount plus GST, rounded to 2 decimals. Print `GST.add(1000)` and `GST.add(250, 5)` with one `print()`.",
+   "starter": "# class GST:\n",
+   "sol": "class GST:\n    @staticmethod\n    def add(amount, rate=18):\n        return round(amount + amount * rate / 100, 2)\n\nprint(GST.add(1000), GST.add(250, 5))",
+   "e": "A static method needs no object and no `self`. It is a plain function kept inside the class it belongs to.",
+   "out": "1180.0 262.5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "`rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]`. Write `Student(name, marks)` with `grade()` returning `\"A\"` for 75 or more, else `\"B\"`. Make the objects with a list comprehension and print the names of the A-grade students.",
+   "starter": "rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n",
+   "sol": "rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n\nclass Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def grade(self):\n        return \"A\" if self.marks >= 75 else \"B\"\n\nstudents = [Student(name, marks) for name, marks in rows]\nprint([s.name for s in students if s.grade() == \"A\"])",
+   "e": "Turning rows of data into objects lets every record carry its own logic, like `grade()`.",
+   "out": "['Asha', 'Neha']"
+  }
  ]
 };
 
 /* Projects: 3 per Part. Generated by gen/gen_projects.py: every expected line was checked against the model answer in real Python. */
-var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):\n            # variables you store values in (loop and comprehension variables like i or w are not checked)\n            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):\n                for sub in ast.walk(target):\n                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:\n                        res['names'].append(sub.id)\n        if isinstance(node, ast.ExceptHandler) and node.type is not None:\n            for sub in ast.walk(node.type):\n                if isinstance(sub, ast.Name):\n                    add('exc:' + sub.id)\n        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):\n            res['defs'].append(node.name)\n            if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):\n                res['comments'] += 1  # a docstring explains the code too\n            add('def:' + node.name)\n        if isinstance(node, ast.FunctionDef):\n            if node.args.defaults or any(d is not None for d in node.args.kw_defaults):\n                add('def:default')\n            if node.args.vararg:\n                add('def:varargs')\n            if node.args.kwarg:\n                add('def:kwargs')\n            if node.decorator_list:\n                add('def:decorated')\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
-var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}, "3": {"ban": [{"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all"]}, "4": {"ban": [{"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help"]}, "5": {"ban": [{"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError"]}};
+var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):\n            # variables you store values in (loop and comprehension variables like i or w are not checked)\n            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):\n                for sub in ast.walk(target):\n                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:\n                        res['names'].append(sub.id)\n        if isinstance(node, ast.ExceptHandler) and node.type is not None:\n            for sub in ast.walk(node.type):\n                if isinstance(sub, ast.Name):\n                    add('exc:' + sub.id)\n        if isinstance(node, ast.ClassDef) and node.bases:\n            add('class:inherit')\n        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):\n            res['defs'].append(node.name)\n            if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):\n                res['comments'] += 1  # a docstring explains the code too\n            add('def:' + node.name)\n        if isinstance(node, ast.FunctionDef):\n            if node.args.defaults or any(d is not None for d in node.args.kw_defaults):\n                add('def:default')\n            if node.args.vararg:\n                add('def:varargs')\n            if node.args.kwarg:\n                add('def:kwargs')\n            if node.decorator_list:\n                add('def:decorated')\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
+var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}, "3": {"ban": [{"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all"]}, "4": {"ban": [{"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help"]}, "5": {"ban": [{"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError"]}, "6": {"ban": [], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError", "super", "property", "staticmethod", "classmethod", "hasattr", "getattr", "setattr"]}};
 var PJ_PARTS = {
  "1": {
   "title": "Part 1 projects: Python basics",
@@ -21369,6 +21621,15 @@ var PJ_PARTS = {
    "p5-1",
    "p5-2",
    "p5-3"
+  ]
+ },
+ "6": {
+  "title": "Part 6 projects: classes and objects",
+  "intro": "Three small systems built from classes, the way business software is organised: an inventory, bank accounts, and a hotel booking desk. Each brief names the classes and methods to write. NumPy is not needed yet.",
+  "ids": [
+   "p6-1",
+   "p6-2",
+   "p6-3"
   ]
  }
 };
@@ -25980,6 +26241,901 @@ var PROJECTS = {
     ],
     "setup": "# hotel_bookings.csv\nimport os as _o, json as _j\nfor _n in _j.loads(\"[\\\"report_2026-12.txt\\\"]\"):\n    if _o.path.exists(_n): _o.remove(_n)\nfor _n, _t in _j.loads(\"{\\\"budget.json\\\": \\\"{\\\\\\\"Food\\\\\\\": 6000, \\\\\\\"Travel\\\\\\\": 4000, \\\\\\\"Bills\\\\\\\": 3000}\\\", \\\"expenses.csv\\\": \\\"date,category,amount,note\\\\n2026-10-02,Food,1250.50,groceries\\\\n2026-10-05,travel,3200,train to Hyderabad\\\\n2026-10-07,Bills,2850,electricity\\\\n2026-10-12,Food,980,restaurant\\\\n2026-10-15,Shopping,2150,shoes\\\\n2026-10-18,Travel,1400,cab\\\\n2026-09-28,Food,700,snacks\\\\n2026-10-20,Food,abc,typo\\\\n31/10/2026,Bills,500,wrong date\\\\n2026-10-25,Food,-50,refund\\\\n2026-10-30, food ,2000,party\\\\n\\\"}\").items():\n    with open(_n, \"w\") as _f: _f.write(_t)\n",
     "post": "import os as _o\nprint(\"--- report_2026-12.txt ---\")\nprint(open(\"report_2026-12.txt\").read() if _o.path.exists(\"report_2026-12.txt\") else \"(file not written)\", end=\"\")"
+   }
+  ]
+ },
+ "p6-1": {
+  "id": "p6-1",
+  "part": 6,
+  "n": 1,
+  "level": 1,
+  "levelName": "Beginner",
+  "title": "Stock inventory with a class",
+  "short": "Model each product as an object with its own methods, then report on the stock.",
+  "story": "Ramesh runs a stationery shop in Warangal and keeps his stock in a notebook. He wants a small program where every product is an **object** that knows its own price and quantity, can work out its own stock value, and can say whether it is running low.\nWrite a `Product` class, read the products until `done`, and print a stock report.",
+  "objectives": [
+   "Write a class with `__init__` and `self`",
+   "Give objects their own methods",
+   "Use `__str__` to print an object nicely",
+   "Work with a list of objects"
+  ],
+  "may": [
+   "everything from Parts 1-5",
+   "`class`, `__init__`, `self`",
+   "methods and default values",
+   "`__str__`"
+  ],
+  "mustnot": [
+   "NumPy (Part 7)"
+  ],
+  "tasks": [
+   "Write `class Product` with `__init__(self, name, price, qty)` that stores the three values.",
+   "Add `value(self)` that returns price × qty.",
+   "Add `is_low(self, limit=10)` that returns `True` when qty is **below** the limit.",
+   "Add `__str__(self)` that returns text like `Pen: 120 x ₹10.00 = ₹1,200.00` (name, qty, price, value).",
+   "Read rows `name,price,qty` until `done` (any capitals). Strip each part; the price can have paise (`float`), the qty is whole (`int`). Make a `Product` for each row and keep them in a list.",
+   "If there are no products, print `No products`. Otherwise print each product (just `print(product)`), in the order they came.",
+   "Then print `Products`, `Stock value` (the sum of every `value()`), `Low stock` (names joined with `, `, or `none`) and `Most valuable` (the product with the highest value; the first one if tied)."
+  ],
+  "lines": [
+   "<Name>: <qty> x ₹<price> = ₹<value>",
+   "Products: <count>",
+   "Stock value: ₹<amount>",
+   "Low stock: <names> or none",
+   "Most valuable: <Name> (₹<amount>)",
+   "No products"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals (`:,.2f`). Names are printed as typed, without the spaces around them.",
+  "sample": {},
+  "edge": [
+   "`done` straight away: no products.",
+   "A quantity of **exactly 10** is not low (below 10 is low).",
+   "The most valuable product is about **price × qty**, not the highest price.",
+   "Prices with paise.",
+   "Only one product."
+  ],
+  "hints": [
+   "Inside the class, every method starts with `self`, and every stored value is `self.something`. For example `def value(self): return self.price * self.qty`.",
+   "Make the objects in the loop: `name, price, qty = [part.strip() for part in row.split(\",\")]`, then `products.append(Product(name, float(price), int(qty)))`.",
+   "After the loop: `sum(p.value() for p in products)` for the stock value, `[p.name for p in products if p.is_low()]` for the low ones, and keep the best product so far with `if p.value() > best.value():`."
+  ],
+  "starter": "# Project 6.1: Stock inventory with a class\n",
+  "sol": "# Project 6.1: Stock inventory with a class\nclass Product:\n    \"\"\"One product in the shop.\"\"\"\n\n    def __init__(self, name, price, qty):\n        self.name = name\n        self.price = price\n        self.qty = qty\n\n    def value(self):\n        \"\"\"Return the stock value of this product.\"\"\"\n        return self.price * self.qty\n\n    def is_low(self, limit=10):\n        \"\"\"Return True when the quantity is below the limit.\"\"\"\n        return self.qty < limit\n\n    def __str__(self):\n        return f\"{self.name}: {self.qty} x ₹{self.price:,.2f} = ₹{self.value():,.2f}\"\n\n\nproducts = []\nwhile True:\n    row = input(\"Product (name,price,qty) or done: \")\n    if row.strip().lower() == \"done\":\n        break\n    name, price, qty = [part.strip() for part in row.split(\",\")]\n    products.append(Product(name, float(price), int(qty)))\n\nif not products:\n    print(\"No products\")\nelse:\n    for product in products:\n        print(product)\n    low = [p.name for p in products if p.is_low()]\n    best = products[0]\n    for product in products:\n        if product.value() > best.value():\n            best = product\n    print(f\"Products: {len(products)}\")\n    print(f\"Stock value: ₹{sum(p.value() for p in products):,.2f}\")\n    print(\"Low stock: \" + (\", \".join(low) or \"none\"))\n    print(f\"Most valuable: {best.name} (₹{best.value():,.2f})\")",
+  "need": [
+   {
+    "any": [
+     "node:ClassDef"
+    ],
+    "min": 1,
+    "label": "a `class`"
+   },
+   {
+    "any": [
+     "def:__init__"
+    ],
+    "min": 1,
+    "label": "`__init__` to store the values"
+   },
+   {
+    "any": [
+     "def:value"
+    ],
+    "min": 1,
+    "label": "a `value()` method"
+   },
+   {
+    "any": [
+     "def:is_low"
+    ],
+    "min": 1,
+    "label": "an `is_low()` method"
+   },
+   {
+    "any": [
+     "def:__str__"
+    ],
+    "min": 1,
+    "label": "`__str__` so `print(product)` works"
+   },
+   {
+    "any": [
+     "def:default"
+    ],
+    "min": 1,
+    "label": "a default value (`limit=10`)"
+   },
+   {
+    "any": [
+     "spec:money"
+    ],
+    "min": 1,
+    "label": "the `:,.2f` format for money"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "Pen,10,120",
+    "Notebook,45,30",
+    "Ink,25,8",
+    "done"
+   ],
+   "out": "Product (name,price,qty) or done: Pen,10,120\nProduct (name,price,qty) or done: Notebook,45,30\nProduct (name,price,qty) or done: Ink,25,8\nProduct (name,price,qty) or done: done\nPen: 120 x ₹10.00 = ₹1,200.00\nNotebook: 30 x ₹45.00 = ₹1,350.00\nInk: 8 x ₹25.00 = ₹200.00\nProducts: 3\nStock value: ₹2,750.00\nLow stock: Ink\nMost valuable: Notebook (₹1,350.00)"
+  },
+  "tests": [
+   {
+    "name": "A small shop",
+    "kind": "main",
+    "inputs": [
+     "Pen,10,120",
+     "Notebook,45,30",
+     "Ink,25,8",
+     "done"
+    ],
+    "expect": [
+     "Pen: 120 x ₹10.00 = ₹1,200.00",
+     "Notebook: 30 x ₹45.00 = ₹1,350.00",
+     "Ink: 8 x ₹25.00 = ₹200.00",
+     "Products: 3",
+     "Stock value: ₹2,750.00",
+     "Low stock: Ink",
+     "Most valuable: Notebook (₹1,350.00)"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Big and small stock",
+    "kind": "main",
+    "inputs": [
+     "School bag,899.5,12",
+     "Eraser,5,400",
+     "Geometry box,150,9",
+     "Glue,30,15",
+     "DONE"
+    ],
+    "expect": [
+     "School bag: 12 x ₹899.50 = ₹10,794.00",
+     "Eraser: 400 x ₹5.00 = ₹2,000.00",
+     "Geometry box: 9 x ₹150.00 = ₹1,350.00",
+     "Glue: 15 x ₹30.00 = ₹450.00",
+     "Products: 4",
+     "Stock value: ₹14,594.00",
+     "Low stock: Geometry box",
+     "Most valuable: School bag (₹10,794.00)"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "One product",
+    "kind": "main",
+    "inputs": [
+     "Stapler,120,4",
+     "done"
+    ],
+    "expect": [
+     "Stapler: 4 x ₹120.00 = ₹480.00",
+     "Products: 1",
+     "Stock value: ₹480.00",
+     "Low stock: Stapler",
+     "Most valuable: Stapler (₹480.00)"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Exactly 10 is not low",
+    "kind": "logic",
+    "inputs": [
+     "A4 paper,250,10",
+     "Marker,40,9",
+     "done"
+    ],
+    "expect": [
+     "Low stock: Marker"
+    ],
+    "tip": "Low means **below** the limit: `qty < 10`. A quantity of exactly 10 is fine."
+   },
+   {
+    "name": "Most valuable is price × qty",
+    "kind": "logic",
+    "inputs": [
+     "Calculator,700,2",
+     "Pencil,5,500",
+     "done"
+    ],
+    "expect": [
+     "Most valuable: Pencil (₹2,500.00)"
+    ],
+    "tip": "Compare `value()` (price × qty): 500 pencils at ₹5 (₹2,500) beat 2 calculators at ₹700 (₹1,400)."
+   },
+   {
+    "name": "Prices with paise",
+    "kind": "logic",
+    "inputs": [
+     "Clip,2.75,40",
+     "Tape,18.5,6",
+     "done"
+    ],
+    "expect": [
+     "Clip: 40 x ₹2.75 = ₹110.00",
+     "Tape: 6 x ₹18.50 = ₹111.00",
+     "Stock value: ₹221.00"
+    ],
+    "tip": "Convert the price with `float()`, so `2.75` keeps its paise."
+   },
+   {
+    "name": "No products",
+    "kind": "edge",
+    "inputs": [
+     "done"
+    ],
+    "expect": [
+     "No products"
+    ],
+    "tip": "When `done` comes first, print `No products` and nothing else."
+   },
+   {
+    "name": "Spaces around the parts",
+    "kind": "edge",
+    "inputs": [
+     "  Pen , 10 , 120 ",
+     " done "
+    ],
+    "expect": [
+     "Pen: 120 x ₹10.00 = ₹1,200.00",
+     "Products: 1",
+     "Stock value: ₹1,200.00",
+     "Low stock: none",
+     "Most valuable: Pen (₹1,200.00)"
+    ],
+    "tip": "Strip every part of the row, and strip the row before comparing it with `done`."
+   },
+   {
+    "name": "Two products with the same value",
+    "kind": "edge",
+    "inputs": [
+     "Ruler,20,10",
+     "Scale,10,20",
+     "done"
+    ],
+    "expect": [
+     "Low stock: none",
+     "Most valuable: Ruler (₹200.00)"
+    ],
+    "tip": "When two products have the same value, keep the first one: replace the best only when a value is strictly bigger."
+   }
+  ]
+ },
+ "p6-2": {
+  "id": "p6-2",
+  "part": 6,
+  "n": 2,
+  "level": 2,
+  "levelName": "Intermediate",
+  "title": "Bank accounts with rules",
+  "short": "Build an Account class and a SavingsAccount that inherits from it, with rules that protect the balance.",
+  "story": "A cooperative bank in Guntur wants a teaching version of its account system. Every account can take deposits and withdrawals, but money must never go wrong: no negative amounts, no withdrawing more than the balance. A **savings** account has two extra rules: it must keep at least **₹1,000**, and it earns monthly interest at **4% a year**.\nWrite the classes, then a small command loop where a clerk types commands like `deposit 500` until `done`.",
+  "objectives": [
+   "Protect data inside a class with checks and `raise`",
+   "Build a child class with inheritance and `super()`",
+   "Override a method to add a rule",
+   "Catch the errors in the main program"
+  ],
+  "may": [
+   "everything from Parts 1-5",
+   "`class`, inheritance, `super()`",
+   "`raise` and `try` / `except`",
+   "class attributes, properties"
+  ],
+  "mustnot": [
+   "NumPy (Part 7)"
+  ],
+  "tasks": [
+   "Write `class Account` with `__init__(self, owner, balance=0)`. Keep the balance **private** (`self.__balance` or `self._balance`) and give a `balance` property or method to read it.",
+   "`deposit(amount)` and `withdraw(amount)` raise `ValueError(\"Amount must be positive\")` for 0 or less. `withdraw` raises `ValueError(\"Insufficient funds\")` when the amount is more than the balance. Both return the new balance.",
+   "Write `class SavingsAccount(Account)` with a class attribute `rate = 4` (percent a year). Override `withdraw` so it raises `ValueError(\"Minimum balance is ₹1,000.00\")` if the balance would go below ₹1,000, otherwise it calls `super().withdraw(amount)`.",
+   "Add `add_interest()` to `SavingsAccount`: interest = balance × rate ÷ 100 ÷ 12, rounded to 2 decimals; add it and return it.",
+   "Ask for the owner's name, the account type (`savings` or `current`, any capitals) and the opening balance, then create the right object (`current` uses plain `Account`).",
+   "Read commands until `done`: `deposit <amount>`, `withdraw <amount>`, `interest`. After each, print `Deposited ₹500.00. Balance: ₹1,500.00` (or `Withdrew ...`, `Interest ...`), or `Error: <message>`. Other messages: `Error: Amount must be a number`, `Error: Amount missing`, `Error: Interest is only for savings accounts`, `Error: Unknown command`.",
+   "At the end print `Account: <owner> (<type>)`, `Transactions: <successful commands>` and `Final balance`."
+  ],
+  "lines": [
+   "Deposited ₹<amount>. Balance: ₹<amount>",
+   "Withdrew ₹<amount>. Balance: ₹<amount>",
+   "Interest ₹<amount>. Balance: ₹<amount>",
+   "Error: <message>",
+   "Account: <owner> (<type>)",
+   "Transactions: <count>",
+   "Final balance: ₹<amount>"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals. The account type is printed in small letters. The checks happen in this order: amount missing, not a number, 0 or less, more than the balance, then the savings minimum.",
+  "sample": {},
+  "edge": [
+   "A withdrawal of **more than the balance**: `Insufficient funds` (for both kinds of account).",
+   "A savings withdrawal that would leave **less than ₹1,000**.",
+   "Interest on a **current** account.",
+   "Amounts that are **words**, **0** or **negative**, or missing.",
+   "An unknown command, and `DONE` in capitals."
+  ],
+  "hints": [
+   "In `Account.withdraw`: `if amount <= 0: raise ValueError(\"Amount must be positive\")`, then `if amount > self._balance: raise ValueError(\"Insufficient funds\")`, then subtract and return the balance.",
+   "In `SavingsAccount.withdraw`: check `amount > 0` and the balance first by letting the order match the rules, then `if self.balance - amount < 1000: raise ValueError(...)`, else `return super().withdraw(amount)`. Read the balance through the property, not the private name.",
+   "In the loop: `parts = command.split()`, `action = parts[0].lower()`. Convert the amount with `float()` inside `try` / `except ValueError` (for words), and call the method inside another `try` that prints `f\"Error: {e}\"`."
+  ],
+  "starter": "# Project 6.2: Bank accounts with rules\n",
+  "sol": "# Project 6.2: Bank accounts with rules\nclass Account:\n    \"\"\"A bank account whose balance can only change through its methods.\"\"\"\n\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self._balance = balance\n\n    @property\n    def balance(self):\n        return self._balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Amount must be positive\")\n        self._balance += amount\n        return self._balance\n\n    def withdraw(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Amount must be positive\")\n        if amount > self._balance:\n            raise ValueError(\"Insufficient funds\")\n        self._balance -= amount\n        return self._balance\n\n\nclass SavingsAccount(Account):\n    \"\"\"An account that keeps ₹1,000 and earns interest.\"\"\"\n    rate = 4\n\n    def withdraw(self, amount):\n        if 0 < amount <= self.balance and self.balance - amount < 1000:\n            raise ValueError(\"Minimum balance is ₹1,000.00\")\n        return super().withdraw(amount)\n\n    def add_interest(self):\n        interest = round(self.balance * SavingsAccount.rate / 100 / 12, 2)\n        self.deposit(interest)\n        return interest\n\n\nowner = input(\"Owner: \").strip()\nkind = input(\"Account type (savings or current): \").strip().lower()\nopening = float(input(\"Opening balance: \"))\naccount = SavingsAccount(owner, opening) if kind == \"savings\" else Account(owner, opening)\n\ntransactions = 0\nwhile True:\n    command = input(\"Command: \").strip()\n    if command.lower() == \"done\":\n        break\n    parts = command.split()\n    action = parts[0].lower() if parts else \"\"\n    try:\n        if action in (\"deposit\", \"withdraw\"):\n            if len(parts) != 2:\n                raise ValueError(\"Amount missing\")\n            try:\n                amount = float(parts[1])\n            except ValueError:\n                raise ValueError(\"Amount must be a number\")\n            if action == \"deposit\":\n                account.deposit(amount)\n                print(f\"Deposited ₹{amount:,.2f}. Balance: ₹{account.balance:,.2f}\")\n            else:\n                account.withdraw(amount)\n                print(f\"Withdrew ₹{amount:,.2f}. Balance: ₹{account.balance:,.2f}\")\n        elif action == \"interest\":\n            if not isinstance(account, SavingsAccount):\n                raise ValueError(\"Interest is only for savings accounts\")\n            interest = account.add_interest()\n            print(f\"Interest ₹{interest:,.2f}. Balance: ₹{account.balance:,.2f}\")\n        else:\n            raise ValueError(\"Unknown command\")\n        transactions += 1\n    except ValueError as e:\n        print(f\"Error: {e}\")\n\nprint(f\"Account: {owner} ({kind})\")\nprint(f\"Transactions: {transactions}\")\nprint(f\"Final balance: ₹{account.balance:,.2f}\")",
+  "need": [
+   {
+    "any": [
+     "node:ClassDef"
+    ],
+    "min": 2,
+    "label": "two classes, `Account` and `SavingsAccount`"
+   },
+   {
+    "any": [
+     "class:inherit"
+    ],
+    "min": 1,
+    "label": "inheritance: `class SavingsAccount(Account)`"
+   },
+   {
+    "any": [
+     "call:super"
+    ],
+    "min": 1,
+    "label": "`super()` to reuse the parent's method"
+   },
+   {
+    "any": [
+     "node:Raise"
+    ],
+    "min": 2,
+    "label": "`raise ValueError(...)` inside the methods"
+   },
+   {
+    "any": [
+     "exc:ValueError"
+    ],
+    "min": 1,
+    "label": "`except ValueError` in the command loop"
+   },
+   {
+    "any": [
+     "def:add_interest"
+    ],
+    "min": 1,
+    "label": "an `add_interest()` method"
+   },
+   {
+    "any": [
+     "def:withdraw"
+    ],
+    "min": 2,
+    "label": "a `withdraw()` that the savings account overrides"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "Asha",
+    "savings",
+    "5000",
+    "deposit 2500",
+    "withdraw 1200",
+    "interest",
+    "done"
+   ],
+   "out": "Owner: Asha\nAccount type (savings or current): savings\nOpening balance: 5000\nCommand: deposit 2500\nDeposited ₹2,500.00. Balance: ₹7,500.00\nCommand: withdraw 1200\nWithdrew ₹1,200.00. Balance: ₹6,300.00\nCommand: interest\nInterest ₹21.00. Balance: ₹6,321.00\nCommand: done\nAccount: Asha (savings)\nTransactions: 3\nFinal balance: ₹6,321.00"
+  },
+  "tests": [
+   {
+    "name": "A savings account",
+    "kind": "main",
+    "inputs": [
+     "Asha",
+     "savings",
+     "5000",
+     "deposit 2500",
+     "withdraw 1200",
+     "interest",
+     "done"
+    ],
+    "expect": [
+     "Deposited ₹2,500.00. Balance: ₹7,500.00",
+     "Withdrew ₹1,200.00. Balance: ₹6,300.00",
+     "Interest ₹21.00. Balance: ₹6,321.00",
+     "Account: Asha (savings)",
+     "Transactions: 3",
+     "Final balance: ₹6,321.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A current account",
+    "kind": "main",
+    "inputs": [
+     "Ravi Traders",
+     "Current",
+     "20000",
+     "withdraw 18500",
+     "deposit 750.50",
+     "withdraw 3000",
+     "done"
+    ],
+    "expect": [
+     "Withdrew ₹18,500.00. Balance: ₹1,500.00",
+     "Deposited ₹750.50. Balance: ₹2,250.50",
+     "Error: Insufficient funds",
+     "Account: Ravi Traders (current)",
+     "Transactions: 2",
+     "Final balance: ₹2,250.50"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A busy day",
+    "kind": "main",
+    "inputs": [
+     "Neha",
+     "SAVINGS",
+     "1500",
+     "deposit 100000",
+     "interest",
+     "withdraw 50000",
+     "interest",
+     "DONE"
+    ],
+    "expect": [
+     "Deposited ₹100,000.00. Balance: ₹101,500.00",
+     "Interest ₹338.33. Balance: ₹101,838.33",
+     "Withdrew ₹50,000.00. Balance: ₹51,838.33",
+     "Interest ₹172.79. Balance: ₹52,011.12",
+     "Account: Neha (savings)",
+     "Transactions: 4",
+     "Final balance: ₹52,011.12"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Savings keeps ₹1,000",
+    "kind": "logic",
+    "inputs": [
+     "Imran",
+     "savings",
+     "3000",
+     "withdraw 2500",
+     "withdraw 2000",
+     "done"
+    ],
+    "expect": [
+     "Error: Minimum balance is ₹1,000.00",
+     "Withdrew ₹2,000.00. Balance: ₹1,000.00",
+     "Account: Imran (savings)",
+     "Transactions: 1",
+     "Final balance: ₹1,000.00"
+    ],
+    "tip": "A savings withdrawal must leave at least ₹1,000: ₹3,000 − ₹2,500 would leave ₹500. Override `withdraw` in `SavingsAccount` and call `super().withdraw()` when it is allowed."
+   },
+   {
+    "name": "Too much is insufficient funds",
+    "kind": "logic",
+    "inputs": [
+     "Zoya",
+     "savings",
+     "3000",
+     "withdraw 4000",
+     "done"
+    ],
+    "expect": [
+     "Error: Insufficient funds",
+     "Account: Zoya (savings)",
+     "Transactions: 0",
+     "Final balance: ₹3,000.00"
+    ],
+    "tip": "When the amount is more than the whole balance, the error is `Insufficient funds`, even for a savings account."
+   },
+   {
+    "name": "Interest only for savings",
+    "kind": "logic",
+    "inputs": [
+     "Kiran",
+     "current",
+     "12000",
+     "interest",
+     "deposit 0",
+     "done"
+    ],
+    "expect": [
+     "Error: Interest is only for savings accounts",
+     "Error: Amount must be positive",
+     "Account: Kiran (current)",
+     "Transactions: 0",
+     "Final balance: ₹12,000.00"
+    ],
+    "tip": "A current account has no `add_interest()`: print `Error: Interest is only for savings accounts`. A deposit of 0 is `Amount must be positive`. Failed commands are not transactions."
+   },
+   {
+    "name": "Words and missing amounts",
+    "kind": "edge",
+    "inputs": [
+     "Priya",
+     "savings",
+     "2000",
+     "deposit abc",
+     "withdraw",
+     "withdraw -50",
+     "done"
+    ],
+    "expect": [
+     "Error: Amount must be a number",
+     "Error: Amount missing",
+     "Error: Amount must be positive",
+     "Account: Priya (savings)",
+     "Transactions: 0",
+     "Final balance: ₹2,000.00"
+    ],
+    "tip": "Convert the amount inside `try`: a word gives `Amount must be a number`, a missing amount `Amount missing`, and a negative one `Amount must be positive`."
+   },
+   {
+    "name": "Unknown commands",
+    "kind": "edge",
+    "inputs": [
+     "Suresh",
+     "current",
+     "100",
+     "transfer 50",
+     "",
+     "done"
+    ],
+    "expect": [
+     "Error: Unknown command",
+     "Error: Unknown command",
+     "Account: Suresh (current)",
+     "Transactions: 0",
+     "Final balance: ₹100.00"
+    ],
+    "tip": "Any other command, even an empty line, prints `Error: Unknown command` and the loop carries on."
+   },
+   {
+    "name": "No commands at all",
+    "kind": "edge",
+    "inputs": [
+     "Meena",
+     "savings",
+     "1000",
+     "done"
+    ],
+    "expect": [
+     "Account: Meena (savings)",
+     "Transactions: 0",
+     "Final balance: ₹1,000.00"
+    ],
+    "tip": "With no commands, print the three summary lines with 0 transactions."
+   }
+  ]
+ },
+ "p6-3": {
+  "id": "p6-3",
+  "part": 6,
+  "n": 3,
+  "level": 3,
+  "levelName": "Challenging",
+  "title": "Hotel booking desk",
+  "short": "Model rooms, suites and a hotel as classes, and run the front desk from typed commands.",
+  "story": "A heritage hotel in Mysuru has 5 rooms: two Standard (₹1,800 a night), two Deluxe (₹3,000) and one Suite (₹5,000). The front desk types short commands all day: `book 201 Asha 3` and `checkout 201`. At closing time, the manager wants a summary of bookings, mistakes, occupancy and revenue per room type.\nPricing rules: a stay of **7 nights or more gets 10% off** the room price, and the **Suite adds a ₹1,000 service charge** to every booking. Build it with classes so that each kind of room knows its own price: that is **polymorphism**.",
+  "objectives": [
+   "Design several classes that work together",
+   "Use inheritance and override a method for a special case",
+   "Raise clear errors for invalid actions and handle them at the desk",
+   "Keep state (who is in which room) inside an object"
+  ],
+  "may": [
+   "everything from Parts 1-5",
+   "`class`, inheritance, `super()`",
+   "polymorphism and magic methods",
+   "`raise`, `try` / `except`"
+  ],
+  "mustnot": [
+   "NumPy (Part 7)"
+  ],
+  "tasks": [
+   "Write `class Room` with `number`, `kind`, `rate` and `guest` (`None` when empty), and a method `price(nights)`: rate × nights, with 10% off for 7 nights or more.",
+   "Write `class Suite(Room)` that overrides `price(nights)`: `super().price(nights)` plus ₹1,000.",
+   "Write `class Hotel` that builds its rooms from the starter's `ROOMS` list (use `Suite` for the suite) and has `book(number, guest, nights)` and `checkout(number)`. They raise `ValueError` with these messages: `Room 999 does not exist`, `Nights must be at least 1`, `Room 201 is occupied`, `Room 201 is empty`.",
+   "`book` returns the price; `checkout` returns the guest's name. The hotel also keeps the number of bookings and the revenue per room kind.",
+   "Read commands until `done`: `book <room> <guest> <nights>` and `checkout <room>`. Print `Booked 201 (Deluxe) for Asha, 3 nights: ₹9,000.00` (`1 night` for one) or `Checked out 201 (Asha)`.",
+   "For any problem print `Error: <message>` and count it. Extra messages: `Error: Room and nights must be numbers` and `Error: Unknown command` (also for a wrong number of words). The checks go in this order: room exists, nights, occupied.",
+   "At `done`, print `Bookings`, `Errors`, `Occupied: <n> of 5 rooms (<percent>%)`, `Revenue`, and one line per kind: `Standard revenue`, `Deluxe revenue`, `Suite revenue`."
+  ],
+  "lines": [
+   "Booked <room> (<Kind>) for <guest>, <n> nights: ₹<amount>",
+   "Checked out <room> (<guest>)",
+   "Error: <message>",
+   "Bookings: <count>",
+   "Errors: <count>",
+   "Occupied: <n> of 5 rooms (<percent>%)",
+   "Revenue: ₹<amount>",
+   "Standard revenue: ₹<amount>",
+   "Deluxe revenue: ₹<amount>",
+   "Suite revenue: ₹<amount>"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals. The occupancy percent has 1 decimal. Guest names are one word as typed. Revenue is counted when a room is booked.",
+  "sample": {},
+  "edge": [
+   "Booking a room that is **already occupied**, or a room number that **does not exist**.",
+   "Checking out of an **empty** room.",
+   "**7 nights or more**: 10% off. The **Suite** always adds ₹1,000, also after the discount.",
+   "0 nights, a word instead of a number, or a wrong number of words.",
+   "A room can be booked again after checkout."
+  ],
+  "hints": [
+   "`Room.price`: `total = self.rate * nights`, then `if nights >= 7: total = total * 0.9`, `return total`. `Suite.price` is one line: `return super().price(nights) + 1000`.",
+   "In `Hotel.__init__`, build a dictionary `self.rooms = {}` from `ROOMS`: `self.rooms[number] = Suite(...) if kind == \"Suite\" else Room(...)`. Then `book` looks up `self.rooms.get(number)` and raises the right `ValueError`.",
+   "In the desk loop, `parts = command.split()`; check the first word and `len(parts)`, convert the numbers with `int()`, and wrap the hotel call in `try` / `except ValueError as e:` to print `f\"Error: {e}\"` and count the error."
+  ],
+  "starter": "# Project 6.3: Hotel booking desk\nROOMS = [(101, \"Standard\", 1800), (102, \"Standard\", 1800), (201, \"Deluxe\", 3000),\n         (202, \"Deluxe\", 3000), (301, \"Suite\", 5000)]\n",
+  "sol": "# Project 6.3: Hotel booking desk\nROOMS = [(101, \"Standard\", 1800), (102, \"Standard\", 1800), (201, \"Deluxe\", 3000),\n         (202, \"Deluxe\", 3000), (301, \"Suite\", 5000)]\n\n\nclass Room:\n    \"\"\"A hotel room that knows its own price.\"\"\"\n\n    def __init__(self, number, kind, rate):\n        self.number = number\n        self.kind = kind\n        self.rate = rate\n        self.guest = None\n\n    def price(self, nights):\n        total = self.rate * nights\n        if nights >= 7:\n            total = total * 0.9  # long-stay discount\n        return total\n\n\nclass Suite(Room):\n    \"\"\"A suite: same as a room, plus a service charge.\"\"\"\n\n    def price(self, nights):\n        return super().price(nights) + 1000\n\n\nclass Hotel:\n    \"\"\"The rooms, who is in them, and the takings.\"\"\"\n\n    def __init__(self, room_list):\n        self.rooms = {}\n        for number, kind, rate in room_list:\n            room_class = Suite if kind == \"Suite\" else Room\n            self.rooms[number] = room_class(number, kind, rate)\n        self.bookings = 0\n        self.revenue = {\"Standard\": 0, \"Deluxe\": 0, \"Suite\": 0}\n\n    def find(self, number):\n        if number not in self.rooms:\n            raise ValueError(f\"Room {number} does not exist\")\n        return self.rooms[number]\n\n    def book(self, number, guest, nights):\n        room = self.find(number)\n        if nights < 1:\n            raise ValueError(\"Nights must be at least 1\")\n        if room.guest is not None:\n            raise ValueError(f\"Room {number} is occupied\")\n        room.guest = guest\n        amount = room.price(nights)\n        self.bookings += 1\n        self.revenue[room.kind] += amount\n        return amount\n\n    def checkout(self, number):\n        room = self.find(number)\n        if room.guest is None:\n            raise ValueError(f\"Room {number} is empty\")\n        guest = room.guest\n        room.guest = None\n        return guest\n\n    def occupied(self):\n        return sum(1 for room in self.rooms.values() if room.guest is not None)\n\n\nhotel = Hotel(ROOMS)\nerrors = 0\nwhile True:\n    command = input(\"Desk command: \")\n    if command.strip().lower() == \"done\":\n        break\n    parts = command.split()\n    action = parts[0].lower() if parts else \"\"\n    try:\n        if action == \"book\" and len(parts) == 4:\n            try:\n                number, nights = int(parts[1]), int(parts[3])\n            except ValueError:\n                raise ValueError(\"Room and nights must be numbers\")\n            amount = hotel.book(number, parts[2], nights)\n            kind = hotel.rooms[number].kind\n            word = \"night\" if nights == 1 else \"nights\"\n            print(f\"Booked {number} ({kind}) for {parts[2]}, {nights} {word}: ₹{amount:,.2f}\")\n        elif action == \"checkout\" and len(parts) == 2:\n            try:\n                number = int(parts[1])\n            except ValueError:\n                raise ValueError(\"Room and nights must be numbers\")\n            print(f\"Checked out {number} ({hotel.checkout(number)})\")\n        else:\n            raise ValueError(\"Unknown command\")\n    except ValueError as e:\n        print(f\"Error: {e}\")\n        errors += 1\n\noccupied = hotel.occupied()\nprint(f\"Bookings: {hotel.bookings}\")\nprint(f\"Errors: {errors}\")\npercent = occupied / len(hotel.rooms) * 100\nprint(f\"Occupied: {occupied} of {len(hotel.rooms)} rooms ({percent:.1f}%)\")\nprint(f\"Revenue: ₹{sum(hotel.revenue.values()):,.2f}\")\nfor kind, amount in hotel.revenue.items():\n    print(f\"{kind} revenue: ₹{amount:,.2f}\")",
+  "need": [
+   {
+    "any": [
+     "node:ClassDef"
+    ],
+    "min": 3,
+    "label": "three classes: `Room`, `Suite` and `Hotel`"
+   },
+   {
+    "any": [
+     "class:inherit"
+    ],
+    "min": 1,
+    "label": "inheritance: `class Suite(Room)`"
+   },
+   {
+    "any": [
+     "call:super"
+    ],
+    "min": 1,
+    "label": "`super()` in `Suite.price`"
+   },
+   {
+    "any": [
+     "def:price"
+    ],
+    "min": 2,
+    "label": "a `price()` method that `Suite` overrides (polymorphism)"
+   },
+   {
+    "any": [
+     "def:book"
+    ],
+    "min": 1,
+    "label": "a `book()` method"
+   },
+   {
+    "any": [
+     "def:checkout"
+    ],
+    "min": 1,
+    "label": "a `checkout()` method"
+   },
+   {
+    "any": [
+     "node:Raise"
+    ],
+    "min": 3,
+    "label": "`raise ValueError(...)` for invalid actions"
+   },
+   {
+    "any": [
+     "exc:ValueError"
+    ],
+    "min": 1,
+    "label": "`except ValueError` at the desk"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "book 201 Asha 3",
+    "book 101 Ravi 1",
+    "checkout 201",
+    "book 301 Neha 2",
+    "done"
+   ],
+   "out": "Desk command: book 201 Asha 3\nBooked 201 (Deluxe) for Asha, 3 nights: ₹9,000.00\nDesk command: book 101 Ravi 1\nBooked 101 (Standard) for Ravi, 1 night: ₹1,800.00\nDesk command: checkout 201\nChecked out 201 (Asha)\nDesk command: book 301 Neha 2\nBooked 301 (Suite) for Neha, 2 nights: ₹11,000.00\nDesk command: done\nBookings: 3\nErrors: 0\nOccupied: 2 of 5 rooms (40.0%)\nRevenue: ₹21,800.00\nStandard revenue: ₹1,800.00\nDeluxe revenue: ₹9,000.00\nSuite revenue: ₹11,000.00"
+  },
+  "tests": [
+   {
+    "name": "A normal day",
+    "kind": "main",
+    "inputs": [
+     "book 201 Asha 3",
+     "book 101 Ravi 1",
+     "checkout 201",
+     "book 301 Neha 2",
+     "done"
+    ],
+    "expect": [
+     "Booked 201 (Deluxe) for Asha, 3 nights: ₹9,000.00",
+     "Booked 101 (Standard) for Ravi, 1 night: ₹1,800.00",
+     "Checked out 201 (Asha)",
+     "Booked 301 (Suite) for Neha, 2 nights: ₹11,000.00",
+     "Bookings: 3",
+     "Errors: 0",
+     "Occupied: 2 of 5 rooms (40.0%)",
+     "Revenue: ₹21,800.00",
+     "Standard revenue: ₹1,800.00",
+     "Deluxe revenue: ₹9,000.00",
+     "Suite revenue: ₹11,000.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A full house",
+    "kind": "main",
+    "inputs": [
+     "book 101 A 2",
+     "book 102 B 2",
+     "book 201 C 1",
+     "book 202 D 4",
+     "book 301 E 1",
+     "checkout 102",
+     "book 102 F 3",
+     "DONE"
+    ],
+    "expect": [
+     "Booked 101 (Standard) for A, 2 nights: ₹3,600.00",
+     "Booked 102 (Standard) for B, 2 nights: ₹3,600.00",
+     "Booked 201 (Deluxe) for C, 1 night: ₹3,000.00",
+     "Booked 202 (Deluxe) for D, 4 nights: ₹12,000.00",
+     "Booked 301 (Suite) for E, 1 night: ₹6,000.00",
+     "Checked out 102 (B)",
+     "Booked 102 (Standard) for F, 3 nights: ₹5,400.00",
+     "Bookings: 6",
+     "Errors: 0",
+     "Occupied: 5 of 5 rooms (100.0%)",
+     "Revenue: ₹33,600.00",
+     "Standard revenue: ₹12,600.00",
+     "Deluxe revenue: ₹15,000.00",
+     "Suite revenue: ₹6,000.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A long stay",
+    "kind": "main",
+    "inputs": [
+     "book 202 Kiran 10",
+     "book 101 Meena 7",
+     "checkout 101",
+     "done"
+    ],
+    "expect": [
+     "Booked 202 (Deluxe) for Kiran, 10 nights: ₹27,000.00",
+     "Booked 101 (Standard) for Meena, 7 nights: ₹11,340.00",
+     "Checked out 101 (Meena)",
+     "Bookings: 2",
+     "Errors: 0",
+     "Occupied: 1 of 5 rooms (20.0%)",
+     "Revenue: ₹38,340.00",
+     "Standard revenue: ₹11,340.00",
+     "Deluxe revenue: ₹27,000.00",
+     "Suite revenue: ₹0.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "The suite adds ₹1,000",
+    "kind": "logic",
+    "inputs": [
+     "book 301 Imran 1",
+     "checkout 301",
+     "book 301 Zoya 7",
+     "done"
+    ],
+    "expect": [
+     "Booked 301 (Suite) for Imran, 1 night: ₹6,000.00",
+     "Booked 301 (Suite) for Zoya, 7 nights: ₹32,500.00",
+     "Suite revenue: ₹38,500.00"
+    ],
+    "tip": "`Suite.price` is the normal room price plus ₹1,000. For 7 nights the room part gets 10% off first: ₹31,500 + ₹1,000 = ₹32,500."
+   },
+   {
+    "name": "Occupied rooms cannot be booked",
+    "kind": "logic",
+    "inputs": [
+     "book 201 Asha 2",
+     "book 201 Ravi 1",
+     "checkout 201",
+     "book 201 Ravi 1",
+     "done"
+    ],
+    "expect": [
+     "Booked 201 (Deluxe) for Asha, 2 nights: ₹6,000.00",
+     "Error: Room 201 is occupied",
+     "Booked 201 (Deluxe) for Ravi, 1 night: ₹3,000.00",
+     "Bookings: 2",
+     "Errors: 1"
+    ],
+    "tip": "Check `room.guest is not None` and raise `Room 201 is occupied`. After checkout the room is free again."
+   },
+   {
+    "name": "Discount from 7 nights",
+    "kind": "logic",
+    "inputs": [
+     "book 101 A 6",
+     "book 102 B 7",
+     "done"
+    ],
+    "expect": [
+     "Booked 101 (Standard) for A, 6 nights: ₹10,800.00",
+     "Booked 102 (Standard) for B, 7 nights: ₹11,340.00"
+    ],
+    "tip": "7 nights or more gets 10% off (`>= 7`): 7 × ₹1,800 = ₹12,600, less 10% = ₹11,340."
+   },
+   {
+    "name": "Mistakes at the desk",
+    "kind": "edge",
+    "inputs": [
+     "book 999 X 2",
+     "book 101 Y 0",
+     "checkout 102",
+     "book two A 1",
+     "cancel 101",
+     "book 101 Z",
+     "done"
+    ],
+    "expect": [
+     "Error: Room 999 does not exist",
+     "Error: Nights must be at least 1",
+     "Error: Room 102 is empty",
+     "Error: Room and nights must be numbers",
+     "Error: Unknown command",
+     "Error: Unknown command",
+     "Bookings: 0",
+     "Errors: 6",
+     "Occupied: 0 of 5 rooms (0.0%)",
+     "Revenue: ₹0.00",
+     "Standard revenue: ₹0.00",
+     "Deluxe revenue: ₹0.00",
+     "Suite revenue: ₹0.00"
+    ],
+    "tip": "Each mistake prints its own `Error:` line and is counted: a missing room, 0 nights, an empty room, a word instead of a number, and unknown or incomplete commands."
+   },
+   {
+    "name": "Nothing happened",
+    "kind": "edge",
+    "inputs": [
+     "done"
+    ],
+    "expect": [
+     "Bookings: 0",
+     "Errors: 0",
+     "Occupied: 0 of 5 rooms (0.0%)",
+     "Revenue: ₹0.00",
+     "Standard revenue: ₹0.00",
+     "Deluxe revenue: ₹0.00",
+     "Suite revenue: ₹0.00"
+    ],
+    "tip": "With no commands, every count is 0 and the occupancy is 0.0%. The hotel always has 5 rooms, so the division is safe."
+   },
+   {
+    "name": "Capitals in commands",
+    "kind": "edge",
+    "inputs": [
+     "BOOK 102 Asha 1",
+     "Checkout 102",
+     "done"
+    ],
+    "expect": [
+     "Booked 102 (Standard) for Asha, 1 night: ₹1,800.00",
+     "Checked out 102 (Asha)",
+     "Bookings: 1",
+     "Errors: 0",
+     "Occupied: 0 of 5 rooms (0.0%)",
+     "Revenue: ₹1,800.00",
+     "Standard revenue: ₹1,800.00",
+     "Deluxe revenue: ₹0.00",
+     "Suite revenue: ₹0.00"
+    ],
+    "tip": "Compare the first word in small letters (`parts[0].lower()`), so `BOOK` and `Checkout` work too."
    }
   ]
  }

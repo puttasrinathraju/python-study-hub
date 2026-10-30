@@ -4535,5 +4535,257 @@ var BIGTESTS = {
    "want": "3.0",
    "got": "ModuleNotFoundError: No module named 'Math'"
   }
+ ],
+ "oop": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Class vs object",
+   "q": "Type exactly what this code prints.",
+   "c": "class Room:\n    pass\n\nr1 = Room()\nr2 = Room()\nprint(type(r1).__name__, r1 is r2)",
+   "e": "A class is the blueprint and each call `Room()` makes a new, separate object, so `r1` and `r2` are not the same object.",
+   "ans": "Room False"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "__init__ and self",
+   "q": "Write a class `Product` whose `__init__(self, name, price)` stores both values. Create `Product(\"Pen\", 10)` and print its name and price with one `print()`.",
+   "starter": "# class Product:\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\np = Product(\"Pen\", 10)\nprint(p.name, p.price)",
+   "e": "`__init__` runs when the object is created. `self.name = name` stores the value inside that object.",
+   "out": "Pen 10"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "Write a class `Circle` that stores a radius and has a method `area()` returning `round(3.14159 * radius ** 2, 2)`. Print `Circle(2).area()`.",
+   "starter": "# class Circle:\n",
+   "sol": "class Circle:\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        return round(3.14159 * self.radius ** 2, 2)\n\nprint(Circle(2).area())",
+   "e": "A method is a function inside the class. It reads the object's data through `self`.",
+   "out": "12.57"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "The starter has a `Student` class. Create `Student(\"Asha\", 70)`, change its marks to 82, and print `Asha 82`.",
+   "starter": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n",
+   "sol": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\ns = Student(\"Asha\", 70)\ns.marks = 82\nprint(s.name, s.marks)",
+   "e": "Attributes are like variables that belong to one object. You can read and change them with a dot.",
+   "out": "Asha 82"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` a `__str__` method so that `print(Product(\"Pen\", 10))` prints `Pen: Rs 10`.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.name}: Rs {self.price}\"\n\nprint(Product(\"Pen\", 10))",
+   "e": "`print()` calls `__str__` to get the text for an object. It must **return** a string.",
+   "out": "Pen: Rs 10"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "__init__ and self",
+   "q": "This code should print `Tata`, but it crashes. Fix it.",
+   "c": "class Car:\n    def __init__(brand):\n        self.brand = brand\n\nc = Car(\"Tata\")\nprint(c.brand)",
+   "fixed": "class Car:\n    def __init__(self, brand):\n        self.brand = brand\n\nc = Car(\"Tata\")\nprint(c.brand)",
+   "e": "Every method needs `self` as its first parameter. Python passes the object in automatically.",
+   "want": "Tata",
+   "got": "TypeError: Car.__init__() takes 1 positional argument but 2 were given"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Type exactly what this code prints.",
+   "c": "class Student:\n    school = \"WsCube\"\n    def __init__(self, name):\n        self.name = name\n\na = Student(\"Asha\")\nb = Student(\"Ravi\")\nb.school = \"Other\"\nprint(a.school, b.school, Student.school)",
+   "e": "`b.school = ...` creates an instance attribute on `b` only. `a` and the class still share the class attribute.",
+   "ans": "WsCube Other WsCube"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Attributes and methods",
+   "q": "This code should print `500`, but it crashes. Fix the method.",
+   "c": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def show(self):\n        print(balance)\n\nAccount(500).show()",
+   "fixed": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def show(self):\n        print(self.balance)\n\nAccount(500).show()",
+   "e": "Inside a method, the object's data is `self.balance`. A plain `balance` is an unknown local name.",
+   "want": "500",
+   "got": "NameError: name 'balance' is not defined. Did you mean: 'self.balance'?"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Inheritance: building on another class",
+   "q": "Write `Person` with `introduce()` returning `\"Hi, I am <name>\"`. Write `Employee(Person)` that also stores a company and overrides `introduce()` to add `\" from <company>\"`, using `super().introduce()`. Print `Employee(\"Asha\", \"TCS\").introduce()`.",
+   "starter": "# class Person:\n# class Employee(Person):\n",
+   "sol": "class Person:\n    def __init__(self, name):\n        self.name = name\n\n    def introduce(self):\n        return f\"Hi, I am {self.name}\"\n\nclass Employee(Person):\n    def __init__(self, name, company):\n        super().__init__(name)\n        self.company = company\n\n    def introduce(self):\n        return super().introduce() + f\" from {self.company}\"\n\nprint(Employee(\"Asha\", \"TCS\").introduce())",
+   "e": "The child class reuses the parent's code with `super()` and only adds what is new.",
+   "out": "Hi, I am Asha from TCS"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Polymorphism: same method name, different behaviour",
+   "q": "Write classes `Circle(r)` and `Square(side)`, each with an `area()` method (circle: `round(3.14159 * r ** 2, 2)`). Loop over `[Circle(1), Square(3)]` and print each area.",
+   "starter": "# class Circle:\n# class Square:\n",
+   "sol": "class Circle:\n    def __init__(self, r):\n        self.r = r\n\n    def area(self):\n        return round(3.14159 * self.r ** 2, 2)\n\nclass Square:\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\nfor shape in [Circle(1), Square(3)]:\n    print(shape.area())",
+   "e": "Polymorphism: the loop calls `area()` on every shape without caring which class it is. Each class does its own maths.",
+   "out": "3.14\n9"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Inheritance: building on another class",
+   "q": "Type exactly what this code prints.",
+   "c": "class A:\n    def hello(self):\n        return \"A\"\n\nclass B(A):\n    pass\n\nclass C(A):\n    def hello(self):\n        return \"C\"\n\nprint(B().hello(), C().hello(), isinstance(C(), A))",
+   "e": "`B` inherits `hello()` from `A`. `C` overrides it. A `C` object is still an `A`, so `isinstance` is `True`.",
+   "ans": "A C True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Encapsulation: protecting data",
+   "q": "Write `BankAccount` with a private `__balance`, a `deposit(amount)` that raises `ValueError(\"Deposit must be positive\")` for 0 or less, and `get_balance()`. Deposit 500, then try to deposit -50 (catch it and print the message), then print the balance.",
+   "starter": "# class BankAccount:\n",
+   "sol": "class BankAccount:\n    def __init__(self, balance=0):\n        self.__balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.__balance += amount\n\n    def get_balance(self):\n        return self.__balance\n\nacc = BankAccount()\nacc.deposit(500)\ntry:\n    acc.deposit(-50)\nexcept ValueError as e:\n    print(e)\nprint(acc.get_balance())",
+   "e": "The balance can only change through `deposit()`, which checks the amount first. That is encapsulation.",
+   "out": "Deposit must be positive\n500"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` an `__eq__` method so two products are equal when their prices are equal. Print `Product(\"Pen\", 10) == Product(\"Pencil\", 10)`.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __eq__(self, other):\n        return self.price == other.price\n\nprint(Product(\"Pen\", 10) == Product(\"Pencil\", 10))",
+   "e": "`a == b` calls `a.__eq__(b)`. Without it, two different objects are never equal.",
+   "out": "True"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "This code should print `Item: Pen` once, but it crashes. Fix `__str__`.",
+   "c": "class Item:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        print(\"Item:\", self.name)\n\nprint(Item(\"Pen\"))",
+   "fixed": "class Item:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return f\"Item: {self.name}\"\n\nprint(Item(\"Pen\"))",
+   "e": "`__str__` must **return** the text. Printing inside it returns `None`, and `print()` then fails.",
+   "want": "Item: Pen",
+   "got": "Item: Pen\nTypeError: __str__ returned non-string (type NoneType)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Write `Booking` with a class attribute `count = 0` that goes up by 1 every time a booking is created. Create 3 bookings and print `Booking.count`.",
+   "starter": "# class Booking:\n",
+   "sol": "class Booking:\n    count = 0\n\n    def __init__(self, guest):\n        self.guest = guest\n        Booking.count += 1\n\nBooking(\"Asha\")\nBooking(\"Ravi\")\nBooking(\"Neha\")\nprint(Booking.count)",
+   "e": "A class attribute is shared by all objects. Change it through the class name, `Booking.count`.",
+   "out": "3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Class methods and static methods",
+   "q": "Write `Booking(guest, amount)` with a class method `from_text(cls, text)` that makes a booking from text like `\"Asha,4500\"` (amount as an int). Create one with `Booking.from_text(\"Asha,4500\")` and print its guest and amount.",
+   "starter": "# class Booking:\n",
+   "sol": "class Booking:\n    def __init__(self, guest, amount):\n        self.guest = guest\n        self.amount = amount\n\n    @classmethod\n    def from_text(cls, text):\n        guest, amount = text.split(\",\")\n        return cls(guest, int(amount))\n\nb = Booking.from_text(\"Asha,4500\")\nprint(b.guest, b.amount)",
+   "e": "A class method gets the class as `cls`, so it can build and return a new object: another way to create one.",
+   "out": "Asha 4500"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Encapsulation: protecting data",
+   "q": "Type exactly what this code prints.",
+   "c": "class Room:\n    def __init__(self, rate):\n        self._rate = rate\n\n    @property\n    def rate(self):\n        return self._rate\n\n    @rate.setter\n    def rate(self, value):\n        if value < 0:\n            raise ValueError(\"Rate cannot be negative\")\n        self._rate = value\n\nr = Room(2000)\nr.rate = 2500\ntry:\n    r.rate = -5\nexcept ValueError as e:\n    print(e)\nprint(r.rate)",
+   "e": "The setter runs on every `r.rate = ...`. It accepts 2500 and rejects -5, so the rate stays 2500.",
+   "ans": "Rate cannot be negative\n2500"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Inheritance: building on another class",
+   "q": "This code should print `Asha 90`, but it crashes. Fix `Student.__init__`.",
+   "c": "class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, marks):\n        self.marks = marks\n\ns = Student(\"Asha\", 90)\nprint(s.name, s.marks)",
+   "fixed": "class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, marks):\n        super().__init__(name)\n        self.marks = marks\n\ns = Student(\"Asha\", 90)\nprint(s.name, s.marks)",
+   "e": "When a child class has its own `__init__`, the parent's `__init__` does not run unless you call `super().__init__(...)`.",
+   "want": "Asha 90",
+   "got": "AttributeError: 'Student' object has no attribute 'name'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Give `Product` a `__lt__` method that compares prices, so `sorted()` works on products. Sort `[Product(\"Pen\", 10), Product(\"Bag\", 450), Product(\"Ink\", 45)]` and print the list of names, cheapest first.",
+   "starter": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n",
+   "sol": "class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __lt__(self, other):\n        return self.price < other.price\n\nitems = sorted([Product(\"Pen\", 10), Product(\"Bag\", 450), Product(\"Ink\", 45)])\nprint([p.name for p in items])",
+   "e": "`sorted()` compares objects with `<`, which calls `__lt__`. Now your own objects can be sorted.",
+   "out": "['Pen', 'Ink', 'Bag']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Polymorphism: same method name, different behaviour",
+   "q": "Write `Employee(name, salary)` with `pay()` returning the salary. `Manager(Employee)` also has a bonus and `pay()` returns salary + bonus. `Intern(name, stipend)` has `pay()` returning the stipend. Print the total of `pay()` for `[Employee(\"Asha\", 40000), Manager(\"Ravi\", 60000, 15000), Intern(\"Neha\", 12000)]`.",
+   "starter": "# class Employee:\n# class Manager(Employee):\n# class Intern:\n",
+   "sol": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n\n    def pay(self):\n        return self.salary\n\nclass Manager(Employee):\n    def __init__(self, name, salary, bonus):\n        super().__init__(name, salary)\n        self.bonus = bonus\n\n    def pay(self):\n        return super().pay() + self.bonus\n\nclass Intern:\n    def __init__(self, name, stipend):\n        self.name = name\n        self.stipend = stipend\n\n    def pay(self):\n        return self.stipend\n\nstaff = [Employee(\"Asha\", 40000), Manager(\"Ravi\", 60000, 15000), Intern(\"Neha\", 12000)]\nprint(sum(person.pay() for person in staff))",
+   "e": "Every class answers `pay()` in its own way, so one line can add up the whole payroll.",
+   "out": "127000"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "Write a `Cart` class: `add(item, price, qty=1)` stores a line, `total()` returns the sum of price × qty, and `count()` returns the number of units. Add `(\"Pen\", 10, 3)` and `(\"Bag\", 450)`, then print the total and the count.",
+   "starter": "# class Cart:\n",
+   "sol": "class Cart:\n    def __init__(self):\n        self.lines = []\n\n    def add(self, item, price, qty=1):\n        self.lines.append((item, price, qty))\n\n    def total(self):\n        return sum(price * qty for item, price, qty in self.lines)\n\n    def count(self):\n        return sum(qty for item, price, qty in self.lines)\n\ncart = Cart()\ncart.add(\"Pen\", 10, 3)\ncart.add(\"Bag\", 450)\nprint(cart.total(), cart.count())",
+   "e": "The object keeps its own list of lines, and the methods work on that list.",
+   "out": "480 4"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Magic methods: __str__ and friends",
+   "q": "Type exactly what this code prints.",
+   "c": "class Team:\n    def __init__(self, *names):\n        self.names = list(names)\n\n    def __len__(self):\n        return len(self.names)\n\n    def __contains__(self, name):\n        return name in self.names\n\nt = Team(\"Asha\", \"Ravi\")\nprint(len(t), \"Ravi\" in t, \"Neha\" in t)",
+   "e": "`len(t)` calls `__len__` and `x in t` calls `__contains__`, so your object works like a built-in collection.",
+   "ans": "2 True False"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Class attributes vs instance attributes",
+   "q": "Each basket should have its own items, so this code should print `[]`. Fix it.",
+   "c": "class Basket:\n    items = []\n\n    def add(self, x):\n        self.items.append(x)\n\na = Basket()\nb = Basket()\na.add(\"apple\")\nprint(b.items)",
+   "fixed": "class Basket:\n    def __init__(self):\n        self.items = []\n\n    def add(self, x):\n        self.items.append(x)\n\na = Basket()\nb = Basket()\na.add(\"apple\")\nprint(b.items)",
+   "e": "A list made as a class attribute is shared by every basket. Make a new list per object in `__init__`.",
+   "want": "[]",
+   "got": "['apple']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Class methods and static methods",
+   "q": "Write a class `GST` with a static method `add(amount, rate=18)` that returns the amount plus GST, rounded to 2 decimals. Print `GST.add(1000)` and `GST.add(250, 5)` with one `print()`.",
+   "starter": "# class GST:\n",
+   "sol": "class GST:\n    @staticmethod\n    def add(amount, rate=18):\n        return round(amount + amount * rate / 100, 2)\n\nprint(GST.add(1000), GST.add(250, 5))",
+   "e": "A static method needs no object and no `self`. It is a plain function kept inside the class it belongs to.",
+   "out": "1180.0 262.5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Attributes and methods",
+   "q": "`rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]`. Write `Student(name, marks)` with `grade()` returning `\"A\"` for 75 or more, else `\"B\"`. Make the objects with a list comprehension and print the names of the A-grade students.",
+   "starter": "rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n",
+   "sol": "rows = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n\nclass Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def grade(self):\n        return \"A\" if self.marks >= 75 else \"B\"\n\nstudents = [Student(name, marks) for name, marks in rows]\nprint([s.name for s in students if s.grade() == \"A\"])",
+   "e": "Turning rows of data into objects lets every record carry its own logic, like `grade()`.",
+   "out": "['Asha', 'Neha']"
+  }
  ]
 };

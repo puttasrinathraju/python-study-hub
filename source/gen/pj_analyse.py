@@ -56,6 +56,8 @@ def analyse(src, starter=''):
             for sub in ast.walk(node.type):
                 if isinstance(sub, ast.Name):
                     add('exc:' + sub.id)
+        if isinstance(node, ast.ClassDef) and node.bases:
+            add('class:inherit')
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             res['defs'].append(node.name)
             if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):

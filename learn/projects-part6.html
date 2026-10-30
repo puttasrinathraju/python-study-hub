@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 6 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 6 (Object-oriented Python), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part6.html">
+<meta property="og:title" content="Part 6 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 6 (Object-oriented Python), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part6">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part6">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 6 · Object-oriented Python · Projects</p><h1>Part 6 projects: classes and objects</h1><p class="lead">Three small systems built from classes, the way business software is organised: an inventory, bank accounts, and a hotel booking desk. Each brief names the classes and methods to write. NumPy is not needed yet.</p><p>In the <a href="../#projects-6">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 6.1 (Beginner): Stock inventory with a class</h2><p><b>Model each product as an object with its own methods, then report on the stock.</b></p><p>Ramesh runs a stationery shop in Warangal and keeps his stock in a notebook. He wants a small program where every product is an <b>object</b> that knows its own price and quantity, can work out its own stock value, and can say whether it is running low.</p><p>Write a <code>Product</code> class, read the products until <code>done</code>, and print a stock report.</p><h3>What you will practise</h3><ul><li>Write a class with <code>__init__</code> and <code>self</code></li><li>Give objects their own methods</li><li>Use <code>__str__</code> to print an object nicely</li><li>Work with a list of objects</li></ul><p><b>You may use:</b> everything from Parts 1-5, <code>class</code>, <code>__init__</code>, <code>self</code>, methods and default values, <code>__str__</code>.<br><b>Do not use yet:</b> NumPy (Part 7).</p><h3>Your tasks</h3><ol><li>Write <code>class Product</code> with <code>__init__(self, name, price, qty)</code> that stores the three values.</li><li>Add <code>value(self)</code> that returns price × qty.</li><li>Add <code>is_low(self, limit=10)</code> that returns <code>True</code> when qty is <b>below</b> the limit.</li><li>Add <code>__str__(self)</code> that returns text like <code>Pen: 120 x ₹10.00 = ₹1,200.00</code> (name, qty, price, value).</li><li>Read rows <code>name,price,qty</code> until <code>done</code> (any capitals). Strip each part; the price can have paise (<code>float</code>), the qty is whole (<code>int</code>). Make a <code>Product</code> for each row and keep them in a list.</li><li>If there are no products, print <code>No products</code>. Otherwise print each product (just <code>print(product)</code>), in the order they came.</li><li>Then print <code>Products</code>, <code>Stock value</code> (the sum of every <code>value()</code>), <code>Low stock</code> (names joined with <code>, </code>, or <code>none</code>) and <code>Most valuable</code> (the product with the highest value; the first one if tied).</li></ol><h3>Lines your output must contain</h3><pre class="out">&lt;Name&gt;: &lt;qty&gt; x ₹&lt;price&gt; = ₹&lt;value&gt;
+Products: &lt;count&gt;
+Stock value: ₹&lt;amount&gt;
+Low stock: &lt;names&gt; or none
+Most valuable: &lt;Name&gt; (₹&lt;amount&gt;)
+No products</pre><p>Money has <code>₹</code>, commas and 2 decimals (<code>:,.2f</code>). Names are printed as typed, without the spaces around them.</p><h3>Example run</h3><p>Typed values: <code>Pen,10,120</code>, <code>Notebook,45,30</code>, <code>Ink,25,8</code>, <code>done</code>.</p><pre class="out">Product (name,price,qty) or done: Pen,10,120
+Product (name,price,qty) or done: Notebook,45,30
+Product (name,price,qty) or done: Ink,25,8
+Product (name,price,qty) or done: done
+Pen: 120 x ₹10.00 = ₹1,200.00
+Notebook: 30 x ₹45.00 = ₹1,350.00
+Ink: 8 x ₹25.00 = ₹200.00
+Products: 3
+Stock value: ₹2,750.00
+Low stock: Ink
+Most valuable: Notebook (₹1,350.00)</pre><h3>Edge cases to think about</h3><ul><li><code>done</code> straight away: no products.</li><li>A quantity of <b>exactly 10</b> is not low (below 10 is low).</li><li>The most valuable product is about <b>price × qty</b>, not the highest price.</li><li>Prices with paise.</li><li>Only one product.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Inside the class, every method starts with <code>self</code>, and every stored value is <code>self.something</code>. For example <code>def value(self): return self.price * self.qty</code>.</p></details><details><summary>Hint 2</summary><p>Make the objects in the loop: <code>name, price, qty = [part.strip() for part in row.split(&quot;,&quot;)]</code>, then <code>products.append(Product(name, float(price), int(qty)))</code>.</p></details><details><summary>Hint 3</summary><p>After the loop: <code>sum(p.value() for p in products)</code> for the stock value, <code>[p.name for p in products if p.is_low()]</code> for the low ones, and keep the best product so far with <code>if p.value() &gt; best.value():</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 6.1: Stock inventory with a class
+class Product:
+    &quot;&quot;&quot;One product in the shop.&quot;&quot;&quot;
+
+    def __init__(self, name, price, qty):
+        self.name = name
+        self.price = price
+        self.qty = qty
+
+    def value(self):
+        &quot;&quot;&quot;Return the stock value of this product.&quot;&quot;&quot;
+        return self.price * self.qty
+
+    def is_low(self, limit=10):
+        &quot;&quot;&quot;Return True when the quantity is below the limit.&quot;&quot;&quot;
+        return self.qty &lt; limit
+
+    def __str__(self):
+        return f&quot;{self.name}: {self.qty} x ₹{self.price:,.2f} = ₹{self.value():,.2f}&quot;
+
+
+products = []
+while True:
+    row = input(&quot;Product (name,price,qty) or done: &quot;)
+    if row.strip().lower() == &quot;done&quot;:
+        break
+    name, price, qty = [part.strip() for part in row.split(&quot;,&quot;)]
+    products.append(Product(name, float(price), int(qty)))
+
+if not products:
+    print(&quot;No products&quot;)
+else:
+    for product in products:
+        print(product)
+    low = [p.name for p in products if p.is_low()]
+    best = products[0]
+    for product in products:
+        if product.value() &gt; best.value():
+            best = product
+    print(f&quot;Products: {len(products)}&quot;)
+    print(f&quot;Stock value: ₹{sum(p.value() for p in products):,.2f}&quot;)
+    print(&quot;Low stock: &quot; + (&quot;, &quot;.join(low) or &quot;none&quot;))
+    print(f&quot;Most valuable: {best.name} (₹{best.value():,.2f})&quot;)</code></pre></figure></details></section><section><h2>Project 6.2 (Intermediate): Bank accounts with rules</h2><p><b>Build an Account class and a SavingsAccount that inherits from it, with rules that protect the balance.</b></p><p>A cooperative bank in Guntur wants a teaching version of its account system. Every account can take deposits and withdrawals, but money must never go wrong: no negative amounts, no withdrawing more than the balance. A <b>savings</b> account has two extra rules: it must keep at least <b>₹1,000</b>, and it earns monthly interest at <b>4% a year</b>.</p><p>Write the classes, then a small command loop where a clerk types commands like <code>deposit 500</code> until <code>done</code>.</p><h3>What you will practise</h3><ul><li>Protect data inside a class with checks and <code>raise</code></li><li>Build a child class with inheritance and <code>super()</code></li><li>Override a method to add a rule</li><li>Catch the errors in the main program</li></ul><p><b>You may use:</b> everything from Parts 1-5, <code>class</code>, inheritance, <code>super()</code>, <code>raise</code> and <code>try</code> / <code>except</code>, class attributes, properties.<br><b>Do not use yet:</b> NumPy (Part 7).</p><h3>Your tasks</h3><ol><li>Write <code>class Account</code> with <code>__init__(self, owner, balance=0)</code>. Keep the balance <b>private</b> (<code>self.__balance</code> or <code>self._balance</code>) and give a <code>balance</code> property or method to read it.</li><li><code>deposit(amount)</code> and <code>withdraw(amount)</code> raise <code>ValueError(&quot;Amount must be positive&quot;)</code> for 0 or less. <code>withdraw</code> raises <code>ValueError(&quot;Insufficient funds&quot;)</code> when the amount is more than the balance. Both return the new balance.</li><li>Write <code>class SavingsAccount(Account)</code> with a class attribute <code>rate = 4</code> (percent a year). Override <code>withdraw</code> so it raises <code>ValueError(&quot;Minimum balance is ₹1,000.00&quot;)</code> if the balance would go below ₹1,000, otherwise it calls <code>super().withdraw(amount)</code>.</li><li>Add <code>add_interest()</code> to <code>SavingsAccount</code>: interest = balance × rate ÷ 100 ÷ 12, rounded to 2 decimals; add it and return it.</li><li>Ask for the owner's name, the account type (<code>savings</code> or <code>current</code>, any capitals) and the opening balance, then create the right object (<code>current</code> uses plain <code>Account</code>).</li><li>Read commands until <code>done</code>: <code>deposit &lt;amount&gt;</code>, <code>withdraw &lt;amount&gt;</code>, <code>interest</code>. After each, print <code>Deposited ₹500.00. Balance: ₹1,500.00</code> (or <code>Withdrew ...</code>, <code>Interest ...</code>), or <code>Error: &lt;message&gt;</code>. Other messages: <code>Error: Amount must be a number</code>, <code>Error: Amount missing</code>, <code>Error: Interest is only for savings accounts</code>, <code>Error: Unknown command</code>.</li><li>At the end print <code>Account: &lt;owner&gt; (&lt;type&gt;)</code>, <code>Transactions: &lt;successful commands&gt;</code> and <code>Final balance</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Deposited ₹&lt;amount&gt;. Balance: ₹&lt;amount&gt;
+Withdrew ₹&lt;amount&gt;. Balance: ₹&lt;amount&gt;
+Interest ₹&lt;amount&gt;. Balance: ₹&lt;amount&gt;
+Error: &lt;message&gt;
+Account: &lt;owner&gt; (&lt;type&gt;)
+Transactions: &lt;count&gt;
+Final balance: ₹&lt;amount&gt;</pre><p>Money has <code>₹</code>, commas and 2 decimals. The account type is printed in small letters. The checks happen in this order: amount missing, not a number, 0 or less, more than the balance, then the savings minimum.</p><h3>Example run</h3><p>Typed values: <code>Asha</code>, <code>savings</code>, <code>5000</code>, <code>deposit 2500</code>, <code>withdraw 1200</code>, <code>interest</code>, <code>done</code>.</p><pre class="out">Owner: Asha
+Account type (savings or current): savings
+Opening balance: 5000
+Command: deposit 2500
+Deposited ₹2,500.00. Balance: ₹7,500.00
+Command: withdraw 1200
+Withdrew ₹1,200.00. Balance: ₹6,300.00
+Command: interest
+Interest ₹21.00. Balance: ₹6,321.00
+Command: done
+Account: Asha (savings)
+Transactions: 3
+Final balance: ₹6,321.00</pre><h3>Edge cases to think about</h3><ul><li>A withdrawal of <b>more than the balance</b>: <code>Insufficient funds</code> (for both kinds of account).</li><li>A savings withdrawal that would leave <b>less than ₹1,000</b>.</li><li>Interest on a <b>current</b> account.</li><li>Amounts that are <b>words</b>, <b>0</b> or <b>negative</b>, or missing.</li><li>An unknown command, and <code>DONE</code> in capitals.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>In <code>Account.withdraw</code>: <code>if amount &lt;= 0: raise ValueError(&quot;Amount must be positive&quot;)</code>, then <code>if amount &gt; self._balance: raise ValueError(&quot;Insufficient funds&quot;)</code>, then subtract and return the balance.</p></details><details><summary>Hint 2</summary><p>In <code>SavingsAccount.withdraw</code>: check <code>amount &gt; 0</code> and the balance first by letting the order match the rules, then <code>if self.balance - amount &lt; 1000: raise ValueError(...)</code>, else <code>return super().withdraw(amount)</code>. Read the balance through the property, not the private name.</p></details><details><summary>Hint 3</summary><p>In the loop: <code>parts = command.split()</code>, <code>action = parts[0].lower()</code>. Convert the amount with <code>float()</code> inside <code>try</code> / <code>except ValueError</code> (for words), and call the method inside another <code>try</code> that prints <code>f&quot;Error: {e}&quot;</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 6.2: Bank accounts with rules
+class Account:
+    &quot;&quot;&quot;A bank account whose balance can only change through its methods.&quot;&quot;&quot;
+
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self._balance = balance
+
+    @property
+    def balance(self):
+        return self._balance
+
+    def deposit(self, amount):
+        if amount &lt;= 0:
+            raise ValueError(&quot;Amount must be positive&quot;)
+        self._balance += amount
+        return self._balance
+
+    def withdraw(self, amount):
+        if amount &lt;= 0:
+            raise ValueError(&quot;Amount must be positive&quot;)
+        if amount &gt; self._balance:
+            raise ValueError(&quot;Insufficient funds&quot;)
+        self._balance -= amount
+        return self._balance
+
+
+class SavingsAccount(Account):
+    &quot;&quot;&quot;An account that keeps ₹1,000 and earns interest.&quot;&quot;&quot;
+    rate = 4
+
+    def withdraw(self, amount):
+        if 0 &lt; amount &lt;= self.balance and self.balance - amount &lt; 1000:
+            raise ValueError(&quot;Minimum balance is ₹1,000.00&quot;)
+        return super().withdraw(amount)
+
+    def add_interest(self):
+        interest = round(self.balance * SavingsAccount.rate / 100 / 12, 2)
+        self.deposit(interest)
+        return interest
+
+
+owner = input(&quot;Owner: &quot;).strip()
+kind = input(&quot;Account type (savings or current): &quot;).strip().lower()
+opening = float(input(&quot;Opening balance: &quot;))
+account = SavingsAccount(owner, opening) if kind == &quot;savings&quot; else Account(owner, opening)
+
+transactions = 0
+while True:
+    command = input(&quot;Command: &quot;).strip()
+    if command.lower() == &quot;done&quot;:
+        break
+    parts = command.split()
+    action = parts[0].lower() if parts else &quot;&quot;
+    try:
+        if action in (&quot;deposit&quot;, &quot;withdraw&quot;):
+            if len(parts) != 2:
+                raise ValueError(&quot;Amount missing&quot;)
+            try:
+                amount = float(parts[1])
+            except ValueError:
+                raise ValueError(&quot;Amount must be a number&quot;)
+            if action == &quot;deposit&quot;:
+                account.deposit(amount)
+                print(f&quot;Deposited ₹{amount:,.2f}. Balance: ₹{account.balance:,.2f}&quot;)
+            else:
+                account.withdraw(amount)
+                print(f&quot;Withdrew ₹{amount:,.2f}. Balance: ₹{account.balance:,.2f}&quot;)
+        elif action == &quot;interest&quot;:
+            if not isinstance(account, SavingsAccount):
+                raise ValueError(&quot;Interest is only for savings accounts&quot;)
+            interest = account.add_interest()
+            print(f&quot;Interest ₹{interest:,.2f}. Balance: ₹{account.balance:,.2f}&quot;)
+        else:
+            raise ValueError(&quot;Unknown command&quot;)
+        transactions += 1
+    except ValueError as e:
+        print(f&quot;Error: {e}&quot;)
+
+print(f&quot;Account: {owner} ({kind})&quot;)
+print(f&quot;Transactions: {transactions}&quot;)
+print(f&quot;Final balance: ₹{account.balance:,.2f}&quot;)</code></pre></figure></details></section><section><h2>Project 6.3 (Challenging): Hotel booking desk</h2><p><b>Model rooms, suites and a hotel as classes, and run the front desk from typed commands.</b></p><p>A heritage hotel in Mysuru has 5 rooms: two Standard (₹1,800 a night), two Deluxe (₹3,000) and one Suite (₹5,000). The front desk types short commands all day: <code>book 201 Asha 3</code> and <code>checkout 201</code>. At closing time, the manager wants a summary of bookings, mistakes, occupancy and revenue per room type.</p><p>Pricing rules: a stay of <b>7 nights or more gets 10% off</b> the room price, and the <b>Suite adds a ₹1,000 service charge</b> to every booking. Build it with classes so that each kind of room knows its own price: that is <b>polymorphism</b>.</p><h3>What you will practise</h3><ul><li>Design several classes that work together</li><li>Use inheritance and override a method for a special case</li><li>Raise clear errors for invalid actions and handle them at the desk</li><li>Keep state (who is in which room) inside an object</li></ul><p><b>You may use:</b> everything from Parts 1-5, <code>class</code>, inheritance, <code>super()</code>, polymorphism and magic methods, <code>raise</code>, <code>try</code> / <code>except</code>.<br><b>Do not use yet:</b> NumPy (Part 7).</p><h3>Your tasks</h3><ol><li>Write <code>class Room</code> with <code>number</code>, <code>kind</code>, <code>rate</code> and <code>guest</code> (<code>None</code> when empty), and a method <code>price(nights)</code>: rate × nights, with 10% off for 7 nights or more.</li><li>Write <code>class Suite(Room)</code> that overrides <code>price(nights)</code>: <code>super().price(nights)</code> plus ₹1,000.</li><li>Write <code>class Hotel</code> that builds its rooms from the starter's <code>ROOMS</code> list (use <code>Suite</code> for the suite) and has <code>book(number, guest, nights)</code> and <code>checkout(number)</code>. They raise <code>ValueError</code> with these messages: <code>Room 999 does not exist</code>, <code>Nights must be at least 1</code>, <code>Room 201 is occupied</code>, <code>Room 201 is empty</code>.</li><li><code>book</code> returns the price; <code>checkout</code> returns the guest's name. The hotel also keeps the number of bookings and the revenue per room kind.</li><li>Read commands until <code>done</code>: <code>book &lt;room&gt; &lt;guest&gt; &lt;nights&gt;</code> and <code>checkout &lt;room&gt;</code>. Print <code>Booked 201 (Deluxe) for Asha, 3 nights: ₹9,000.00</code> (<code>1 night</code> for one) or <code>Checked out 201 (Asha)</code>.</li><li>For any problem print <code>Error: &lt;message&gt;</code> and count it. Extra messages: <code>Error: Room and nights must be numbers</code> and <code>Error: Unknown command</code> (also for a wrong number of words). The checks go in this order: room exists, nights, occupied.</li><li>At <code>done</code>, print <code>Bookings</code>, <code>Errors</code>, <code>Occupied: &lt;n&gt; of 5 rooms (&lt;percent&gt;%)</code>, <code>Revenue</code>, and one line per kind: <code>Standard revenue</code>, <code>Deluxe revenue</code>, <code>Suite revenue</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Booked &lt;room&gt; (&lt;Kind&gt;) for &lt;guest&gt;, &lt;n&gt; nights: ₹&lt;amount&gt;
+Checked out &lt;room&gt; (&lt;guest&gt;)
+Error: &lt;message&gt;
+Bookings: &lt;count&gt;
+Errors: &lt;count&gt;
+Occupied: &lt;n&gt; of 5 rooms (&lt;percent&gt;%)
+Revenue: ₹&lt;amount&gt;
+Standard revenue: ₹&lt;amount&gt;
+Deluxe revenue: ₹&lt;amount&gt;
+Suite revenue: ₹&lt;amount&gt;</pre><p>Money has <code>₹</code>, commas and 2 decimals. The occupancy percent has 1 decimal. Guest names are one word as typed. Revenue is counted when a room is booked.</p><h3>Example run</h3><p>Typed values: <code>book 201 Asha 3</code>, <code>book 101 Ravi 1</code>, <code>checkout 201</code>, <code>book 301 Neha 2</code>, <code>done</code>.</p><pre class="out">Desk command: book 201 Asha 3
+Booked 201 (Deluxe) for Asha, 3 nights: ₹9,000.00
+Desk command: book 101 Ravi 1
+Booked 101 (Standard) for Ravi, 1 night: ₹1,800.00
+Desk command: checkout 201
+Checked out 201 (Asha)
+Desk command: book 301 Neha 2
+Booked 301 (Suite) for Neha, 2 nights: ₹11,000.00
+Desk command: done
+Bookings: 3
+Errors: 0
+Occupied: 2 of 5 rooms (40.0%)
+Revenue: ₹21,800.00
+Standard revenue: ₹1,800.00
+Deluxe revenue: ₹9,000.00
+Suite revenue: ₹11,000.00</pre><h3>Edge cases to think about</h3><ul><li>Booking a room that is <b>already occupied</b>, or a room number that <b>does not exist</b>.</li><li>Checking out of an <b>empty</b> room.</li><li><b>7 nights or more</b>: 10% off. The <b>Suite</b> always adds ₹1,000, also after the discount.</li><li>0 nights, a word instead of a number, or a wrong number of words.</li><li>A room can be booked again after checkout.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>Room.price</code>: <code>total = self.rate * nights</code>, then <code>if nights &gt;= 7: total = total * 0.9</code>, <code>return total</code>. <code>Suite.price</code> is one line: <code>return super().price(nights) + 1000</code>.</p></details><details><summary>Hint 2</summary><p>In <code>Hotel.__init__</code>, build a dictionary <code>self.rooms = {}</code> from <code>ROOMS</code>: <code>self.rooms[number] = Suite(...) if kind == &quot;Suite&quot; else Room(...)</code>. Then <code>book</code> looks up <code>self.rooms.get(number)</code> and raises the right <code>ValueError</code>.</p></details><details><summary>Hint 3</summary><p>In the desk loop, <code>parts = command.split()</code>; check the first word and <code>len(parts)</code>, convert the numbers with <code>int()</code>, and wrap the hotel call in <code>try</code> / <code>except ValueError as e:</code> to print <code>f&quot;Error: {e}&quot;</code> and count the error.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 6.3: Hotel booking desk
+ROOMS = [(101, &quot;Standard&quot;, 1800), (102, &quot;Standard&quot;, 1800), (201, &quot;Deluxe&quot;, 3000),
+         (202, &quot;Deluxe&quot;, 3000), (301, &quot;Suite&quot;, 5000)]
+
+
+class Room:
+    &quot;&quot;&quot;A hotel room that knows its own price.&quot;&quot;&quot;
+
+    def __init__(self, number, kind, rate):
+        self.number = number
+        self.kind = kind
+        self.rate = rate
+        self.guest = None
+
+    def price(self, nights):
+        total = self.rate * nights
+        if nights &gt;= 7:
+            total = total * 0.9  # long-stay discount
+        return total
+
+
+class Suite(Room):
+    &quot;&quot;&quot;A suite: same as a room, plus a service charge.&quot;&quot;&quot;
+
+    def price(self, nights):
+        return super().price(nights) + 1000
+
+
+class Hotel:
+    &quot;&quot;&quot;The rooms, who is in them, and the takings.&quot;&quot;&quot;
+
+    def __init__(self, room_list):
+        self.rooms = {}
+        for number, kind, rate in room_list:
+            room_class = Suite if kind == &quot;Suite&quot; else Room
+            self.rooms[number] = room_class(number, kind, rate)
+        self.bookings = 0
+        self.revenue = {&quot;Standard&quot;: 0, &quot;Deluxe&quot;: 0, &quot;Suite&quot;: 0}
+
+    def find(self, number):
+        if number not in self.rooms:
+            raise ValueError(f&quot;Room {number} does not exist&quot;)
+        return self.rooms[number]
+
+    def book(self, number, guest, nights):
+        room = self.find(number)
+        if nights &lt; 1:
+            raise ValueError(&quot;Nights must be at least 1&quot;)
+        if room.guest is not None:
+            raise ValueError(f&quot;Room {number} is occupied&quot;)
+        room.guest = guest
+        amount = room.price(nights)
+        self.bookings += 1
+        self.revenue[room.kind] += amount
+        return amount
+
+    def checkout(self, number):
+        room = self.find(number)
+        if room.guest is None:
+            raise ValueError(f&quot;Room {number} is empty&quot;)
+        guest = room.guest
+        room.guest = None
+        return guest
+
+    def occupied(self):
+        return sum(1 for room in self.rooms.values() if room.guest is not None)
+
+
+hotel = Hotel(ROOMS)
+errors = 0
+while True:
+    command = input(&quot;Desk command: &quot;)
+    if command.strip().lower() == &quot;done&quot;:
+        break
+    parts = command.split()
+    action = parts[0].lower() if parts else &quot;&quot;
+    try:
+        if action == &quot;book&quot; and len(parts) == 4:
+            try:
+                number, nights = int(parts[1]), int(parts[3])
+            except ValueError:
+                raise ValueError(&quot;Room and nights must be numbers&quot;)
+            amount = hotel.book(number, parts[2], nights)
+            kind = hotel.rooms[number].kind
+            word = &quot;night&quot; if nights == 1 else &quot;nights&quot;
+            print(f&quot;Booked {number} ({kind}) for {parts[2]}, {nights} {word}: ₹{amount:,.2f}&quot;)
+        elif action == &quot;checkout&quot; and len(parts) == 2:
+            try:
+                number = int(parts[1])
+            except ValueError:
+                raise ValueError(&quot;Room and nights must be numbers&quot;)
+            print(f&quot;Checked out {number} ({hotel.checkout(number)})&quot;)
+        else:
+            raise ValueError(&quot;Unknown command&quot;)
+    except ValueError as e:
+        print(f&quot;Error: {e}&quot;)
+        errors += 1
+
+occupied = hotel.occupied()
+print(f&quot;Bookings: {hotel.bookings}&quot;)
+print(f&quot;Errors: {errors}&quot;)
+percent = occupied / len(hotel.rooms) * 100
+print(f&quot;Occupied: {occupied} of {len(hotel.rooms)} rooms ({percent:.1f}%)&quot;)
+print(f&quot;Revenue: ₹{sum(hotel.revenue.values()):,.2f}&quot;)
+for kind, amount in hotel.revenue.items():
+    print(f&quot;{kind} revenue: ₹{amount:,.2f}&quot;)</code></pre></figure></details></section><nav class="pn"><a href="overview6.html">← Part 6 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

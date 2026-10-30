@@ -60,7 +60,8 @@ BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinst
             3: ['len', 'list', 'tuple', 'set', 'dict', 'frozenset', 'sum', 'min', 'max', 'sorted', 'any', 'all'],
             4: ['map', 'filter', 'iter', 'next', 'help'],
             5: ['open', 'dir', 'Exception', 'ValueError', 'TypeError', 'KeyError', 'IndexError', 'ZeroDivisionError',
-                'FileNotFoundError', 'AssertionError', 'AttributeError']}
+                'FileNotFoundError', 'AssertionError', 'AttributeError'],
+            6: ['super', 'property', 'staticmethod', 'classmethod', 'hasattr', 'getattr', 'setattr']}
 def rules(part):
     r = {'ban': [dict(label=l, where=w, **m) for p, l, w, m in FEATURES if p > part]}
     if part in BUILTINS: r['allow'] = [f for k in sorted(BUILTINS) if k <= part for f in BUILTINS[k]]
