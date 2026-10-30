@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 2 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 2 (Decisions and loops), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part2.html">
+<meta property="og:title" content="Part 2 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 2 (Decisions and loops), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 2 · Decisions and loops · Projects</p><h1>Part 2 projects: decisions and loops</h1><p class="lead">Three programs that keep asking for data until the work is done, make decisions with <code>if</code>, and summarise the results. They use Part 1 and Part 2 only: no lists, no string methods and no functions yet.</p><p>In the <a href="../#projects-2">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 2.1 (Beginner): Daily bills summary</h2><p><b>Read any number of bills and summarise the day.</b></p><p>Kiran runs a small electronics repair shop in Vijayawada. Every customer gets a bill, and some days there are 3 bills, other days 30. At closing time he wants a quick summary: how many bills, the total, the average, the biggest and smallest bill, and how many big bills (₹1,000 or more) there were.</p><p>Write a program that first asks how many bills there were today, then asks for each bill amount with a loop, and prints the summary.</p><h3>What you will practise</h3><ul><li>Repeat a question with a <code>for</code> loop and <code>range()</code></li><li>Keep running totals and counts inside a loop</li><li>Track the highest and lowest value with <code>if</code></li><li>Handle the &quot;no data&quot; case before dividing</li></ul><p><b>You may use:</b> everything from Part 1, <code>if</code> / <code>elif</code> / <code>else</code>, <code>for</code> loops with <code>range()</code>, <code>+=</code> to add up and count.<br><b>Do not use yet:</b> lists <code>[ ]</code>, string methods like <code>.lower()</code>, indexing <code>[0]</code>, your own functions, <code>import</code>, <code>max()</code>, <code>min()</code>, <code>sum()</code>.</p><h3>Your tasks</h3><ol><li>Ask <code>How many bills today? </code> with <code>input()</code> and convert it with <code>int()</code>.</li><li>If there are 0 bills, print <code>Bills entered: 0</code> and <code>No bills today</code>, and nothing else.</li><li>Otherwise, use a <code>for</code> loop with <code>range()</code> to ask for each bill amount (<code>Bill 1 amount: </code>, <code>Bill 2 amount: </code> ...). Amounts can have paise, so use <code>float()</code>.</li><li>Inside the loop, add each amount to a running total, and count the big bills (₹1,000 or more).</li><li>Inside the loop, also keep the highest and the lowest bill seen so far. The first bill is both the highest and the lowest so far.</li><li>After the loop, work out the average: the total divided by the number of bills.</li><li>Print the summary lines exactly as shown below, with money as <code>₹</code> + <code>:,.2f</code>.</li><li>Add comments that explain your steps.</li></ol><h3>Lines your output must contain</h3><pre class="out">Bills entered: &lt;count&gt;
+Total: ₹&lt;amount&gt;
+Average bill: ₹&lt;amount&gt;
+Highest bill: ₹&lt;amount&gt;
+Lowest bill: ₹&lt;amount&gt;
+Big bills (₹1,000 or more): &lt;count&gt;</pre><p><code>&lt;amount&gt;</code> means money with commas and 2 decimals (<code>:,.2f</code>), like <code>4,350.50</code>. <code>&lt;count&gt;</code> is a plain whole number. With 0 bills, print only <code>Bills entered: 0</code> and <code>No bills today</code>.</p><h3>Example run</h3><p>Typed values: <code>5</code>, <code>1200</code>, <code>350.50</code>, <code>800</code>, <code>1800</code>, <code>200</code>.</p><pre class="out">How many bills today? 5
+Bill 1 amount: 1200
+Bill 2 amount: 350.50
+Bill 3 amount: 800
+Bill 4 amount: 1800
+Bill 5 amount: 200
+Bills entered: 5
+Total: ₹4,350.50
+Average bill: ₹870.10
+Highest bill: ₹1,800.00
+Lowest bill: ₹200.00
+Big bills (₹1,000 or more): 2</pre><h3>Edge cases to think about</h3><ul><li><b>0 bills</b>: you cannot divide by 0, so check for it before working out the average.</li><li><b>Just 1 bill</b>: it is the total, the average, the highest and the lowest.</li><li>A bill of <b>exactly ₹1,000</b> counts as big (<code>&gt;=</code>).</li><li>The <b>first bill is the biggest</b> (or the smallest): make sure your highest and lowest still come out right.</li><li>A bill of ₹0, big amounts, and numbers typed with spaces.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Read the count first: <code>bill_count = int(input(&quot;How many bills today? &quot;))</code>. Then <code>if bill_count == 0:</code> print the two lines, and put everything else under <code>else:</code>.</p></details><details><summary>Hint 2</summary><p>Inside <code>for number in range(1, bill_count + 1):</code> ask with <code>float(input(f&quot;Bill {number} amount: &quot;))</code>, then do <code>total += amount</code>. Count big bills with <code>if amount &gt;= 1000: big_bills += 1</code>.</p></details><details><summary>Hint 3</summary><p>For the highest and lowest: <code>if number == 1:</code> set both <code>highest = amount</code> and <code>lowest = amount</code>. Otherwise use <code>if amount &gt; highest:</code> and <code>if amount &lt; lowest:</code> to replace them.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 1: Daily bills summary
+bill_count = int(input(&quot;How many bills today? &quot;))
+
+if bill_count == 0:
+    # Nothing to summarise, and we must not divide by 0
+    print(&quot;Bills entered: 0&quot;)
+    print(&quot;No bills today&quot;)
+else:
+    total = 0
+    big_bills = 0
+    for number in range(1, bill_count + 1):
+        amount = float(input(f&quot;Bill {number} amount: &quot;))
+        total += amount
+        if amount &gt;= 1000:
+            big_bills += 1
+        # The first bill is both the highest and the lowest so far
+        if number == 1:
+            highest = amount
+            lowest = amount
+        elif amount &gt; highest:
+            highest = amount
+        elif amount &lt; lowest:
+            lowest = amount
+
+    average = total / bill_count
+    print(f&quot;Bills entered: {bill_count}&quot;)
+    print(f&quot;Total: ₹{total:,.2f}&quot;)
+    print(f&quot;Average bill: ₹{average:,.2f}&quot;)
+    print(f&quot;Highest bill: ₹{highest:,.2f}&quot;)
+    print(f&quot;Lowest bill: ₹{lowest:,.2f}&quot;)
+    print(f&quot;Big bills (₹1,000 or more): {big_bills}&quot;)</code></pre></figure></details></section><section><h2>Project 2.2 (Intermediate): Class marks and grades</h2><p><b>Grade every student as the marks come in, then summarise the class.</b></p><p>Mrs. Lakshmi teaches a Python batch at a training institute in Hyderabad. After each test she types the marks into a spreadsheet and works out the grades by hand.</p><p>Write a program that keeps asking for marks until she types <code>done</code>. Each valid mark gets a grade at once. Marks below 0 or above 100 are typing mistakes: the program says so and skips them. At the end it prints a class summary: how many students, the average, how many passed, how many got each grade, and the highest and lowest marks.</p><h3>What you will practise</h3><ul><li>Keep a <code>while True</code> loop going until the user types a stop word</li><li>Skip bad data with <code>continue</code></li><li>Choose one of five grades with <code>if</code> / <code>elif</code> / <code>else</code></li><li>Count per category and summarise after the loop</li></ul><p><b>You may use:</b> everything from Part 1, <code>if</code> / <code>elif</code> / <code>else</code>, <code>while True</code>, <code>break</code>, <code>continue</code>, <code>for</code> loops.<br><b>Do not use yet:</b> lists <code>[ ]</code>, string methods like <code>.lower()</code>, indexing <code>[0]</code>, your own functions, <code>import</code>, <code>max()</code>, <code>min()</code>, <code>sum()</code>.</p><h3>Your tasks</h3><ol><li>In a <code>while True</code> loop, ask for the next student's marks with <code>input()</code>. The question can be like <code>Marks for student 1 (or done): </code>.</li><li>If the user typed <code>done</code> (exactly, small letters), leave the loop with <code>break</code>.</li><li>Otherwise convert the text to a whole number with <code>int()</code>.</li><li>If the marks are below 0 or above 100, print <code>Invalid marks, skipped</code> and go to the next round with <code>continue</code>. Skipped entries do not get a student number.</li><li>For a valid mark, give a grade: A for 90 or more, B for 75 or more, C for 60 or more, D for 35 or more, F below 35. Print <code>Student 1: 78 -&gt; Grade B</code>.</li><li>Keep a count of students, the total of the marks, the number passed (35 or more), a count for each grade, and the highest and lowest marks.</li><li>After the loop: if no valid marks were entered, print <code>No marks entered</code>. Otherwise print the summary lines shown below.</li><li>Use clear names and add comments.</li></ol><h3>Lines your output must contain</h3><pre class="out">Student &lt;n&gt;: &lt;marks&gt; -&gt; Grade &lt;letter&gt;
+Invalid marks, skipped
+Students: &lt;count&gt;
+Class average: &lt;number&gt;
+Passed: &lt;count&gt; of &lt;count&gt;
+Grades: A=&lt;count&gt; B=&lt;count&gt; C=&lt;count&gt; D=&lt;count&gt; F=&lt;count&gt;
+Highest: &lt;marks&gt;
+Lowest: &lt;marks&gt;</pre><p><code>&lt;number&gt;</code> has 2 decimals (<code>:.2f</code>), like <code>61.80</code>. Marks and counts are plain whole numbers. Print <code>Invalid marks, skipped</code> only when an entry is out of range, and <code>No marks entered</code> (instead of the summary) when there were no valid marks.</p><h3>Example run</h3><p>Typed values: <code>78</code>, <code>92</code>, <code>45</code>, <code>28</code>, <code>66</code>, <code>done</code>.</p><pre class="out">Marks for student 1 (or done): 78
+Student 1: 78 -&gt; Grade B
+Marks for student 2 (or done): 92
+Student 2: 92 -&gt; Grade A
+Marks for student 3 (or done): 45
+Student 3: 45 -&gt; Grade D
+Marks for student 4 (or done): 28
+Student 4: 28 -&gt; Grade F
+Marks for student 5 (or done): 66
+Student 5: 66 -&gt; Grade C
+Marks for student 6 (or done): done
+Students: 5
+Class average: 61.80
+Passed: 4 of 5
+Grades: A=1 B=1 C=1 D=1 F=1
+Highest: 92
+Lowest: 28</pre><h3>Edge cases to think about</h3><ul><li>The user types <code>done</code> <b>straight away</b>: no students, so no average (do not divide by 0).</li><li><b>Boundary marks</b> like 90, 75, 60 and 35 get the higher grade (<code>&gt;=</code>).</li><li>Marks of <b>0 and 100</b> are valid. <b>-5 or 101</b> are not.</li><li>Only <b>one student</b>: they are the highest and the lowest.</li><li>Marks typed with <b>spaces</b>, like <code> 78 </code>: <code>int()</code> ignores the spaces. (<code>done</code> is always typed exactly.)</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Start your counters before the loop: <code>count = 0</code>, <code>total = 0</code>, <code>passed = 0</code>, and one per grade like <code>grade_a = 0</code>. Inside <code>while True:</code> read <code>entry = input(...)</code> and check <code>if entry == &quot;done&quot;: break</code> before you call <code>int()</code>.</p></details><details><summary>Hint 2</summary><p>For bad marks: <code>if marks &lt; 0 or marks &gt; 100:</code> print the message and <code>continue</code>. Then <code>count += 1</code>, and pick the grade with <code>if marks &gt;= 90:</code> ... <code>elif marks &gt;= 75:</code> ... down to <code>else:</code>.</p></details><details><summary>Hint 3</summary><p>Track highest and lowest like this: <code>if count == 1:</code> set both to <code>marks</code>; <code>elif marks &gt; highest:</code> and <code>elif marks &lt; lowest:</code> replace them. After the loop, <code>if count == 0:</code> print <code>No marks entered</code>, <code>else:</code> print the summary.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 2: Class marks and grades
+count = 0
+total = 0
+passed = 0
+grade_a = grade_b = grade_c = grade_d = grade_f = 0
+
+while True:
+    entry = input(f&quot;Marks for student {count + 1} (or done): &quot;)
+    if entry == &quot;done&quot;:
+        break
+    marks = int(entry)
+    # Marks outside 0-100 are typing mistakes
+    if marks &lt; 0 or marks &gt; 100:
+        print(&quot;Invalid marks, skipped&quot;)
+        continue
+
+    count += 1
+    total += marks
+    if marks &gt;= 35:
+        passed += 1
+    # Pick the grade: the first true test wins
+    if marks &gt;= 90:
+        grade = &quot;A&quot;
+        grade_a += 1
+    elif marks &gt;= 75:
+        grade = &quot;B&quot;
+        grade_b += 1
+    elif marks &gt;= 60:
+        grade = &quot;C&quot;
+        grade_c += 1
+    elif marks &gt;= 35:
+        grade = &quot;D&quot;
+        grade_d += 1
+    else:
+        grade = &quot;F&quot;
+        grade_f += 1
+    print(f&quot;Student {count}: {marks} -&gt; Grade {grade}&quot;)
+
+    # The first student is both the highest and the lowest so far
+    if count == 1:
+        highest = marks
+        lowest = marks
+    elif marks &gt; highest:
+        highest = marks
+    elif marks &lt; lowest:
+        lowest = marks
+
+if count == 0:
+    print(&quot;No marks entered&quot;)
+else:
+    print(f&quot;Students: {count}&quot;)
+    print(f&quot;Class average: {total / count:.2f}&quot;)
+    print(f&quot;Passed: {passed} of {count}&quot;)
+    print(f&quot;Grades: A={grade_a} B={grade_b} C={grade_c} D={grade_d} F={grade_f}&quot;)
+    print(f&quot;Highest: {highest}&quot;)
+    print(f&quot;Lowest: {lowest}&quot;)</code></pre></figure></details></section><section><h2>Project 2.3 (Challenging): Loan repayment schedule</h2><p><b>Simulate a loan month by month and catch the cases that never end.</b></p><p>A small finance company in Guntur gives business loans to shop owners. Before a loan is signed, the analyst prints a <b>repayment schedule</b>: month by month, the interest added, the amount paid (the EMI) and the balance left.</p><p>To keep the numbers simple, the company works in <b>whole rupees</b>: each month the interest is the balance × the monthly rate ÷ 100, <b>rounded down</b> with <code>//</code>. The interest is added first, then the EMI is paid. In the last month the customer pays only what is left.</p><p>Some requests are impossible: if the EMI is not bigger than the first month's interest, the loan would grow or stay the same forever. And the company never schedules more than 120 months.</p><h3>What you will practise</h3><ul><li>Simulate a process month by month with a <code>while</code> loop</li><li>Stop a loop on two conditions (paid off, or 120 months)</li><li>Catch the inputs that would make a loop run forever</li><li>Print a clean schedule with comma formats</li></ul><p><b>You may use:</b> everything from Part 1, <code>if</code> / <code>elif</code> / <code>else</code>, <code>while</code> loops, <code>break</code>, <code>//</code> for rounding down, <code>:,</code> for commas.<br><b>Do not use yet:</b> lists <code>[ ]</code>, string methods like <code>.lower()</code>, indexing <code>[0]</code>, your own functions, <code>import</code>, <code>max()</code>, <code>min()</code>.</p><h3>Your tasks</h3><ol><li>Ask for 3 whole numbers with <code>input()</code>, <b>in this order</b>: the loan amount, the monthly interest rate in % (like <code>1</code> or <code>2</code>), the monthly EMI. Convert each with <code>int()</code>.</li><li>If the loan is 0, print <code>Nothing to repay</code> and stop.</li><li>If the EMI is not more than the first month's interest (loan × rate // 100), print <code>EMI too low: the loan would never be repaid</code> and stop.</li><li>Otherwise repeat, month by month, while there is a balance left and fewer than 120 months have passed: interest = balance × rate // 100; add it to the balance; pay the EMI, or only the balance if that is smaller; take the payment off the balance.</li><li>Print one line per month: <code>Month 1: interest ₹1,000, paid ₹10,000, balance ₹91,000</code>.</li><li>Add up the total interest and the total paid as you go.</li><li>After the loop: if the balance is 0, print <code>Months to repay: &lt;months&gt;</code>. If not, print <code>Not repaid in 120 months. Balance left: ₹&lt;amount&gt;</code>. Then print <code>Total interest</code> and <code>Total paid</code>.</li><li>Use clear names and comments: other analysts will read your code.</li></ol><h3>Lines your output must contain</h3><pre class="out">Month &lt;n&gt;: interest ₹&lt;amount&gt;, paid ₹&lt;amount&gt;, balance ₹&lt;amount&gt;
+Months to repay: &lt;n&gt;
+Not repaid in 120 months. Balance left: ₹&lt;amount&gt;
+Total interest: ₹&lt;amount&gt;
+Total paid: ₹&lt;amount&gt;
+Nothing to repay
+EMI too low: the loan would never be repaid</pre><p>All amounts are whole rupees with commas (<code>:,</code>), like <code>₹91,000</code>. Print only the lines that apply: <code>Months to repay</code> when the loan is paid off, <code>Not repaid in 120 months...</code> when it is not, and the two stop messages only for those cases.</p><h3>Example run</h3><p>Typed values: <code>100000</code>, <code>1</code>, <code>10000</code>.</p><pre class="out">Loan amount: 100000
+Monthly interest rate (%): 1
+Monthly EMI: 10000
+Month 1: interest ₹1,000, paid ₹10,000, balance ₹91,000
+Month 2: interest ₹910, paid ₹10,000, balance ₹81,910
+Month 3: interest ₹819, paid ₹10,000, balance ₹72,729
+Month 4: interest ₹727, paid ₹10,000, balance ₹63,456
+Month 5: interest ₹634, paid ₹10,000, balance ₹54,090
+Month 6: interest ₹540, paid ₹10,000, balance ₹44,630
+Month 7: interest ₹446, paid ₹10,000, balance ₹35,076
+Month 8: interest ₹350, paid ₹10,000, balance ₹25,426
+Month 9: interest ₹254, paid ₹10,000, balance ₹15,680
+Month 10: interest ₹156, paid ₹10,000, balance ₹5,836
+Month 11: interest ₹58, paid ₹5,894, balance ₹0
+Months to repay: 11
+Total interest: ₹5,894
+Total paid: ₹105,894</pre><h3>Edge cases to think about</h3><ul><li>Allowed values: whole numbers, loan 0 or more, rate 0 or more, EMI more than 0.</li><li>A <b>loan of 0</b>: nothing to schedule.</li><li>An EMI that <b>only covers the interest</b> (or less): the loop would run forever. Catch it before the loop.</li><li>An EMI just above the interest: the loan takes more than <b>120 months</b>, so stop at 120.</li><li>The <b>last payment</b> is smaller than the EMI: pay only what is left, so the balance ends at exactly 0.</li><li>A <b>0% rate</b> loan: no interest at all.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Do the two special cases first with <code>if</code> / <code>elif</code>, and put the schedule under <code>else:</code>. The first month's interest is <code>loan * rate // 100</code>, so the EMI is too low when <code>emi &lt;= loan * rate // 100</code>.</p></details><details><summary>Hint 2</summary><p>Loop with <code>while balance &gt; 0 and month &lt; 120:</code>. Inside: <code>month += 1</code>, <code>interest = balance * rate // 100</code>, <code>balance += interest</code>, then <code>payment = emi</code> and <code>if payment &gt; balance: payment = balance</code>, then <code>balance -= payment</code>.</p></details><details><summary>Hint 3</summary><p>Keep <code>total_interest += interest</code> and <code>total_paid += payment</code> inside the loop and print each month with <code>{balance:,}</code>. After the loop, <code>if balance == 0:</code> print the months, <code>else:</code> the &quot;Not repaid&quot; line.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 3: Loan repayment schedule
+loan = int(input(&quot;Loan amount: &quot;))
+rate = int(input(&quot;Monthly interest rate (%): &quot;))
+emi = int(input(&quot;Monthly EMI: &quot;))
+
+if loan == 0:
+    print(&quot;Nothing to repay&quot;)
+elif emi &lt;= loan * rate // 100:
+    # The EMI does not even cover the first month's interest
+    print(&quot;EMI too low: the loan would never be repaid&quot;)
+else:
+    balance = loan
+    month = 0
+    total_interest = 0
+    total_paid = 0
+    # One round per month, for at most 120 months
+    while balance &gt; 0 and month &lt; 120:
+        month += 1
+        interest = balance * rate // 100
+        balance += interest
+        payment = emi
+        if payment &gt; balance:
+            payment = balance  # the last payment is only what is left
+        balance -= payment
+        total_interest += interest
+        total_paid += payment
+        print(f&quot;Month {month}: interest ₹{interest:,}, paid ₹{payment:,}, balance ₹{balance:,}&quot;)
+
+    if balance == 0:
+        print(f&quot;Months to repay: {month}&quot;)
+    else:
+        print(f&quot;Not repaid in 120 months. Balance left: ₹{balance:,}&quot;)
+    print(f&quot;Total interest: ₹{total_interest:,}&quot;)
+    print(f&quot;Total paid: ₹{total_paid:,}&quot;)</code></pre></figure></details></section><nav class="pn"><a href="overview2.html">← Part 2 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

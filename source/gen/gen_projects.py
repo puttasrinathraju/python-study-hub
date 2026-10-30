@@ -32,11 +32,13 @@ FEATURES = [
     (5, '`import`', 'Part 5 (Modules)', dict(any=['node:Import', 'node:ImportFrom'])),
     (6, 'classes', 'Part 6 (OOP)', dict(any=['node:ClassDef'])),
 ]
-# Built-in functions taught so far, by Part (cumulative). Parts without a list skip the built-in check.
-BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinstance', 'round', 'id']}
+# Built-in functions each Part adds (read from the chapter sources). A project may use those of its Part and earlier ones.
+# Parts without an entry skip the built-in check.
+BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinstance', 'round', 'id'],
+            2: ['range', 'enumerate', 'zip']}
 def rules(part):
     r = {'ban': [dict(label=l, where=w, **m) for p, l, w, m in FEATURES if p > part]}
-    if part in BUILTINS: r['allow'] = BUILTINS[part]
+    if part in BUILTINS: r['allow'] = [f for k in sorted(BUILTINS) if k <= part for f in BUILTINS[k]]
     return r
 def banned_found(feat, rule):
     if 'any' in rule: return [k for k in rule['any'] if feat.get(k)]

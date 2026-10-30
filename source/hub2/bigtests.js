@@ -1008,6 +1008,762 @@ var BIGTESTS = {
    "got": "-30"
   }
  ],
+ "conditions": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "The basic if",
+   "q": "Type exactly what this code prints.",
+   "c": "stock = 4\nif stock < 5:\n    print(\"Reorder\")\nprint(\"Checked\")",
+   "e": "4 is less than 5, so the indented line runs. The last line is not indented, so it always runs.",
+   "ans": "Reorder\nChecked"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "if-else: two paths",
+   "q": "`n = 37`. Use if-else to print `37 is odd` or `37 is even`.",
+   "starter": "n = 37\n",
+   "sol": "n = 37\nif n % 2 == 0:\n    print(f\"{n} is even\")\nelse:\n    print(f\"{n} is odd\")",
+   "e": "`n % 2 == 0` is `True` for even numbers. `else` catches every other case.",
+   "out": "37 is odd"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "The basic if",
+   "q": "`balance = 1500` and `withdraw = 2000`. If `withdraw` is more than `balance`, print `Not enough balance`. At the end, always print `Done`.",
+   "starter": "balance = 1500\nwithdraw = 2000\n",
+   "sol": "balance = 1500\nwithdraw = 2000\nif withdraw > balance:\n    print(\"Not enough balance\")\nprint(\"Done\")",
+   "e": "Only the indented line belongs to the `if`. The `Done` line is not indented, so it runs every time.",
+   "out": "Not enough balance\nDone"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "The basic if",
+   "q": "This code should print `Heat alert`, but it crashes. Fix it.",
+   "c": "temp = 41\nif temp > 40\n    print(\"Heat alert\")",
+   "fixed": "temp = 41\nif temp > 40:\n    print(\"Heat alert\")",
+   "e": "Every `if` line must end with a colon `:`.",
+   "want": "Heat alert",
+   "got": "SyntaxError: expected ':'"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "if-else: two paths",
+   "q": "`price = 899`. If the price is 500 or more, print `Free delivery`. Otherwise print `Delivery: ₹40`.",
+   "starter": "price = 899\n",
+   "sol": "price = 899\nif price >= 500:\n    print(\"Free delivery\")\nelse:\n    print(\"Delivery: ₹40\")",
+   "e": "`>=` means \"500 or more\", so 500 itself also gets free delivery.",
+   "out": "Free delivery"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "if-elif-else: many paths",
+   "q": "Type exactly what this code prints.",
+   "c": "score = 72\nif score >= 90:\n    grade = \"A\"\nelif score >= 75:\n    grade = \"B\"\nelif score >= 60:\n    grade = \"C\"\nelse:\n    grade = \"D\"\nprint(grade)",
+   "e": "Python checks from the top. 72 fails `>= 90` and `>= 75`, then passes `>= 60`, so the grade is C and the rest is skipped.",
+   "ans": "C"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "if-elif-else: many paths",
+   "q": "`temp = 15`. Print `Cold` if it is below 18, `Pleasant` if it is from 18 to 30, and `Hot` if it is above 30.",
+   "starter": "temp = 15\n",
+   "sol": "temp = 15\nif temp < 18:\n    print(\"Cold\")\nelif temp <= 30:\n    print(\"Pleasant\")\nelse:\n    print(\"Hot\")",
+   "e": "Once the first test fails, we already know `temp` is 18 or more, so the `elif` only needs to check `<= 30`.",
+   "out": "Cold"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Combining conditions",
+   "q": "`temp = 28` and `humidity = 70`. Print `Good day for a walk` if the temperature is from 20 to 30 AND the humidity is below 80. Otherwise print `Stay in`.",
+   "starter": "temp = 28\nhumidity = 70\n",
+   "sol": "temp = 28\nhumidity = 70\nif 20 <= temp <= 30 and humidity < 80:\n    print(\"Good day for a walk\")\nelse:\n    print(\"Stay in\")",
+   "e": "`and` needs both parts `True`. A chained comparison like `20 <= temp <= 30` checks a range in one go.",
+   "out": "Good day for a walk"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "if-elif-else: many paths",
+   "q": "`order_value = 2600`. Discount: 20% for 5000 or more, 10% for 2000 or more, 5% for 1000 or more, otherwise none. Print the amount to pay.",
+   "starter": "order_value = 2600\n",
+   "sol": "order_value = 2600\nif order_value >= 5000:\n    discount = 20\nelif order_value >= 2000:\n    discount = 10\nelif order_value >= 1000:\n    discount = 5\nelse:\n    discount = 0\nprint(order_value - order_value * discount / 100)",
+   "e": "Check the biggest slab first. 2600 fails `>= 5000` and then matches `>= 2000`, so the discount is 10%.",
+   "out": "2340.0"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "if-elif-else: many paths",
+   "q": "Sales of 120000 should print `Gold`, but this code prints `Silver`. Fix it.",
+   "c": "sales = 120000\nif sales >= 50000:\n    print(\"Silver\")\nelif sales >= 100000:\n    print(\"Gold\")",
+   "fixed": "sales = 120000\nif sales >= 100000:\n    print(\"Gold\")\nelif sales >= 50000:\n    print(\"Silver\")",
+   "e": "Python stops at the first `True` test. 120000 is also `>= 50000`, so the bigger limit must be checked first.",
+   "want": "Gold",
+   "got": "Silver"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Combining conditions",
+   "q": "Type exactly what this code prints.",
+   "c": "choice = 3\nif choice == 1 or 2:\n    print(\"one or two\")\nelse:\n    print(\"other\")",
+   "e": "`choice == 1 or 2` means `(choice == 1) or 2`. The `2` on its own is truthy, so the `if` is always `True`. Write `choice == 1 or choice == 2`.",
+   "ans": "one or two"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Nested if",
+   "q": "`is_member = True` and `amount = 1200`. Members get 10% off when the amount is 1000 or more, and 5% off otherwise. Non-members get no discount. Use a nested if and print the amount to pay.",
+   "starter": "is_member = True\namount = 1200\n",
+   "sol": "is_member = True\namount = 1200\nif is_member:\n    if amount >= 1000:\n        amount = amount * 0.9\n    else:\n        amount = amount * 0.95\nprint(amount)",
+   "e": "The outer `if` checks membership. Only members reach the inner `if`, which picks the discount.",
+   "out": "1080.0"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Truthy and falsy values",
+   "q": "Type exactly what this code prints.",
+   "c": "name = \"\"\ncity = \"Pune\"\nif name:\n    print(\"Hi\", name)\nelse:\n    print(\"No name\")\nif city:\n    print(\"City:\", city)",
+   "e": "Empty text is falsy, so the first `if` goes to `else`. Text with letters is truthy.",
+   "ans": "No name\nCity: Pune"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Short forms: one-line if and ternary",
+   "q": "`stock = 0`. Use the ternary operator to store `\"In stock\"` or `\"Out of stock\"` in `status`, then print `status`.",
+   "starter": "stock = 0\n",
+   "sol": "stock = 0\nstatus = \"In stock\" if stock > 0 else \"Out of stock\"\nprint(status)",
+   "e": "`A if condition else B` picks one of two values in a single line.",
+   "out": "Out of stock"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "match-case (Python 3.10 and newer)",
+   "q": "`day = 6`. Use match-case to print `Weekday` for 1 to 5, `Weekend` for 6 or 7, and `Invalid day` for anything else.",
+   "starter": "day = 6\n",
+   "sol": "day = 6\nmatch day:\n    case 1 | 2 | 3 | 4 | 5:\n        print(\"Weekday\")\n    case 6 | 7:\n        print(\"Weekend\")\n    case _:\n        print(\"Invalid day\")",
+   "e": "`|` joins several values in one case. `case _:` catches everything else, like `else`.",
+   "out": "Weekend"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Combining conditions",
+   "q": "This code should print `Working age`, but it crashes. Fix it.",
+   "c": "age = 25\nif age > 18 and < 60:\n    print(\"Working age\")",
+   "fixed": "age = 25\nif age > 18 and age < 60:\n    print(\"Working age\")",
+   "e": "Each side of `and` must be a full comparison: `age > 18 and age < 60` (or `18 < age < 60`).",
+   "want": "Working age",
+   "got": "SyntaxError: invalid syntax"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Truthy and falsy values",
+   "q": "`remarks = \"\"`. Print `No remarks` if it is empty, otherwise print the remarks. Use the truthiness of the text: do not compare it with `\"\"`.",
+   "starter": "remarks = \"\"\n",
+   "sol": "remarks = \"\"\nif remarks:\n    print(remarks)\nelse:\n    print(\"No remarks\")",
+   "e": "Empty text is falsy, so `if remarks:` is `False` and the `else` runs.",
+   "out": "No remarks"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "pass: an empty placeholder",
+   "q": "`amount = 600`. The discount rule is not decided yet. Write `if amount > 500:` with `pass` inside, then print `Bill printed` after the if.",
+   "starter": "amount = 600\n",
+   "sol": "amount = 600\nif amount > 500:\n    pass\nprint(\"Bill printed\")",
+   "e": "A block cannot be empty. `pass` is a placeholder that does nothing, so the code runs without an error.",
+   "out": "Bill printed"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "if-elif-else: many paths",
+   "q": "`year = 1900`. A year is a leap year if it divides by 400, or if it divides by 4 but not by 100. Print `1900 is a leap year` or `1900 is not a leap year`, using if-elif-else.",
+   "starter": "year = 1900\n",
+   "sol": "year = 1900\nif year % 400 == 0:\n    print(year, \"is a leap year\")\nelif year % 100 == 0:\n    print(year, \"is not a leap year\")\nelif year % 4 == 0:\n    print(year, \"is a leap year\")\nelse:\n    print(year, \"is not a leap year\")",
+   "e": "Order matters: test 400 first, then 100, then 4. 1900 divides by 100 but not by 400, so it is not a leap year.",
+   "out": "1900 is not a leap year"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested if",
+   "q": "`a, b, c = 5, 5, 8` are the sides of a triangle. Print `Not a triangle` if any side is as long as the other two together or longer. Otherwise print `Equilateral`, `Isosceles` or `Scalene`.",
+   "starter": "a, b, c = 5, 5, 8\n",
+   "sol": "a, b, c = 5, 5, 8\nif a >= b + c or b >= a + c or c >= a + b:\n    print(\"Not a triangle\")\nelif a == b == c:\n    print(\"Equilateral\")\nelif a == b or b == c or a == c:\n    print(\"Isosceles\")\nelse:\n    print(\"Scalene\")",
+   "e": "Check the impossible case first with `or`. Then all equal, then any two equal. Here two sides are 5, so it is isosceles.",
+   "out": "Isosceles"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "if-elif-else: many paths",
+   "q": "`units = 260`. The electricity bill charges ₹3 per unit for the first 100 units, ₹5 per unit for the next 100, and ₹8 per unit for the rest. Print `Bill: ₹1280`.",
+   "starter": "units = 260\n",
+   "sol": "units = 260\nif units <= 100:\n    bill = units * 3\nelif units <= 200:\n    bill = 100 * 3 + (units - 100) * 5\nelse:\n    bill = 100 * 3 + 100 * 5 + (units - 200) * 8\nprint(f\"Bill: ₹{bill}\")",
+   "e": "Each slab adds its own part: 300 for the first 100, 500 for the next 100, and 60 × 8 = 480 for the rest.",
+   "out": "Bill: ₹1280"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Nested if",
+   "q": "Type exactly what this code prints.",
+   "c": "a = 7\nb = 3\nif a > 5:\n    if b > 5:\n        print(\"both\")\n    else:\n        print(\"only a\")\nelse:\n    print(\"a small\")\nif a > b: print(\"a wins\")",
+   "e": "The outer test is `True`, the inner one is `False`, so `only a` prints. The last line is a one-line if, and 7 > 3.",
+   "ans": "only a\na wins"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Nested if",
+   "q": "`user` is not `admin`, so this code should print only `Unknown user`. It prints `Welcome` instead. Fix it with a nested if.",
+   "c": "user = \"guest\"\npin = \"1234\"\nif user == \"admin\":\n    print(\"User OK\")\nif pin == \"1234\":\n    print(\"Welcome\")\nelse:\n    print(\"Unknown user\")",
+   "fixed": "user = \"guest\"\npin = \"1234\"\nif user == \"admin\":\n    print(\"User OK\")\n    if pin == \"1234\":\n        print(\"Welcome\")\nelse:\n    print(\"Unknown user\")",
+   "e": "The PIN check must sit inside the user check, and the `else` must belong to the user check.",
+   "want": "Unknown user",
+   "got": "Welcome"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "match-case (Python 3.10 and newer)",
+   "q": "Code 3 should print `Refund`, but this code crashes. Fix it.",
+   "c": "code = 3\nmatch code:\n    case 1:\n        print(\"Paid\")\n    case 2:\n        print(\"Pending\")\n    case 3 or 4:\n        print(\"Refund\")\n    case _:\n        print(\"Unknown\")",
+   "fixed": "code = 3\nmatch code:\n    case 1:\n        print(\"Paid\")\n    case 2:\n        print(\"Pending\")\n    case 3 | 4:\n        print(\"Refund\")\n    case _:\n        print(\"Unknown\")",
+   "e": "Inside `case`, several values are joined with `|`, not with `or`.",
+   "want": "Refund",
+   "got": "SyntaxError: invalid syntax"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Truthy and falsy values",
+   "q": "A form has `email = \"asha@mail.com\"` and `phone = \"\"`. Print `Complete` if both are filled, `Partial` if only one is filled, and `Empty` if neither is. Use truthiness with `and` / `or`.",
+   "starter": "email = \"asha@mail.com\"\nphone = \"\"\n",
+   "sol": "email = \"asha@mail.com\"\nphone = \"\"\nif email and phone:\n    print(\"Complete\")\nelif email or phone:\n    print(\"Partial\")\nelse:\n    print(\"Empty\")",
+   "e": "Filled text is truthy. Check `and` (both) first, then `or` (at least one). What is left is empty.",
+   "out": "Partial"
+  }
+ ],
+ "forloops": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "range(): loops over numbers",
+   "q": "Type exactly what this code prints.",
+   "c": "for i in range(2, 11, 3):\n    print(i, end=\" \")\nprint(\"end\")",
+   "e": "`range(2, 11, 3)` starts at 2 and adds 3 each time: 2, 5, 8. 11 is never reached. `end=\" \"` keeps everything on one line.",
+   "ans": "2 5 8 end"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "range(): loops over numbers",
+   "q": "Use a for loop to print the numbers 1 to 10 on one line, with a space after each.",
+   "starter": "# Use range() and end=\" \"\n",
+   "sol": "for i in range(1, 11):\n    print(i, end=\" \")",
+   "e": "The stop number is not included, so 1 to 10 needs `range(1, 11)`.",
+   "out": "1 2 3 4 5 6 7 8 9 10 "
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Why loops?",
+   "q": "`cities = [\"Delhi\", \"Pune\", \"Goa\"]`. Print each city on its own line with `Visit ` before it, like `Visit Delhi`.",
+   "starter": "cities = [\"Delhi\", \"Pune\", \"Goa\"]\n",
+   "sol": "cities = [\"Delhi\", \"Pune\", \"Goa\"]\nfor city in cities:\n    print(\"Visit\", city)",
+   "e": "The loop variable `city` holds one item per round, from the first to the last.",
+   "out": "Visit Delhi\nVisit Pune\nVisit Goa"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Looping over a string",
+   "q": "Loop over the word `\"Python\"` and print each letter followed by a dash, all on one line: `P-y-t-h-o-n-`.",
+   "starter": "# Loop over the letters\n",
+   "sol": "for letter in \"Python\":\n    print(letter, end=\"-\")",
+   "e": "A for loop over a string visits one character at a time. `end=\"-\"` puts a dash after each one instead of a new line.",
+   "out": "P-y-t-h-o-n-"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "The 5 loop patterns you will use forever",
+   "q": "Use a loop to add up the numbers from 1 to 100 and print the total.",
+   "starter": "total = 0\n",
+   "sol": "total = 0\nfor n in range(1, 101):\n    total += n\nprint(total)",
+   "e": "The sum pattern: start at 0, add each number with `+=`, and print after the loop (not inside it).",
+   "out": "5050"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "range(): loops over numbers",
+   "q": "This code should print 1 to 5, but it stops at 4. Fix it.",
+   "c": "for i in range(1, 5):\n    print(i)",
+   "fixed": "for i in range(1, 6):\n    print(i)",
+   "e": "`range()` stops **before** the stop number. To include 5, the stop must be 6.",
+   "want": "1\n2\n3\n4\n5",
+   "got": "1\n2\n3\n4"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Looping over a string",
+   "q": "Type exactly what this code prints.",
+   "c": "count = 0\nfor ch in \"banana\":\n    if ch == \"a\":\n        count += 1\nprint(count)",
+   "e": "The loop checks each letter of \"banana\". Three of them are `a`.",
+   "ans": "3"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Why loops?",
+   "q": "This code should print `250`, but it crashes. Fix it.",
+   "c": "total = 0\nfor price in [120, 80, 50]\n    total += price\nprint(total)",
+   "fixed": "total = 0\nfor price in [120, 80, 50]:\n    total += price\nprint(total)",
+   "e": "A `for` line must end with a colon `:`, just like `if`.",
+   "want": "250",
+   "got": "SyntaxError: expected ':'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The 5 loop patterns you will use forever",
+   "q": "`marks = [45, 78, 32, 90, 66, 28]`. Count how many marks are 40 or more and print `Passed: 4`.",
+   "starter": "marks = [45, 78, 32, 90, 66, 28]\n",
+   "sol": "marks = [45, 78, 32, 90, 66, 28]\npassed = 0\nfor m in marks:\n    if m >= 40:\n        passed += 1\nprint(\"Passed:\", passed)",
+   "e": "The count pattern: start a counter at 0 and add 1 only when the condition is `True`.",
+   "out": "Passed: 4"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The 5 loop patterns you will use forever",
+   "q": "`sales = [3200, 4500, 2800, 5100, 3900]`. Find the highest value with a loop (do not use `max()`) and print it.",
+   "starter": "sales = [3200, 4500, 2800, 5100, 3900]\n",
+   "sol": "sales = [3200, 4500, 2800, 5100, 3900]\nhighest = 0\nfor s in sales:\n    if s > highest:\n        highest = s\nprint(highest)",
+   "e": "The best-so-far pattern: keep the biggest value seen so far and replace it whenever you see a bigger one.",
+   "out": "5100"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "enumerate() and zip()",
+   "q": "Type exactly what this code prints.",
+   "c": "for i, c in enumerate(\"abc\", start=1):\n    print(i, c)",
+   "e": "`enumerate()` gives a number and an item each round. `start=1` makes the numbers begin at 1.",
+   "ans": "1 a\n2 b\n3 c"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "enumerate() and zip()",
+   "q": "`items = [\"Tea\", \"Coffee\", \"Juice\"]`. Print a numbered menu that starts at 1: `1. Tea`, `2. Coffee`, `3. Juice`.",
+   "starter": "items = [\"Tea\", \"Coffee\", \"Juice\"]\n",
+   "sol": "items = [\"Tea\", \"Coffee\", \"Juice\"]\nfor num, item in enumerate(items, start=1):\n    print(f\"{num}. {item}\")",
+   "e": "`enumerate(items, start=1)` gives the position and the item together, so you do not need your own counter.",
+   "out": "1. Tea\n2. Coffee\n3. Juice"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "enumerate() and zip()",
+   "q": "`names = [\"Asha\", \"Ravi\", \"Meena\"]` and `scores = [88, 72, 95]`. Use `zip()` to print `Asha: 88`, `Ravi: 72` and `Meena: 95`.",
+   "starter": "names = [\"Asha\", \"Ravi\", \"Meena\"]\nscores = [88, 72, 95]\n",
+   "sol": "names = [\"Asha\", \"Ravi\", \"Meena\"]\nscores = [88, 72, 95]\nfor name, score in zip(names, scores):\n    print(f\"{name}: {score}\")",
+   "e": "`zip()` walks two lists side by side and gives one item from each per round.",
+   "out": "Asha: 88\nRavi: 72\nMeena: 95"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "The 5 loop patterns you will use forever",
+   "q": "This code should print the total `60`, but it prints `30`. Fix it.",
+   "c": "for n in [10, 20, 30]:\n    total = 0\n    total += n\nprint(total)",
+   "fixed": "total = 0\nfor n in [10, 20, 30]:\n    total += n\nprint(total)",
+   "e": "`total = 0` inside the loop resets the total every round. Start the total once, before the loop.",
+   "want": "60",
+   "got": "30"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Nested loops",
+   "q": "Type exactly what this code prints.",
+   "c": "for i in range(1, 4):\n    for j in range(i):\n        print(\"*\", end=\"\")\n    print()",
+   "e": "The inner loop runs `i` times: 1, then 2, then 3 stars. The empty `print()` ends each row.",
+   "ans": "*\n**\n***"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "range(): loops over numbers",
+   "q": "Use `range()` with a negative step to print the even numbers from 20 down to 2 on one line, with a space after each.",
+   "starter": "# Count down in steps of 2\n",
+   "sol": "for n in range(20, 0, -2):\n    print(n, end=\" \")",
+   "e": "With a negative step, `range()` counts down. The stop (0) is not included, so the last number is 2.",
+   "out": "20 18 16 14 12 10 8 6 4 2 "
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "for-else",
+   "q": "Type exactly what this code prints.",
+   "c": "for n in [3, 5, 7]:\n    if n % 2 == 0:\n        print(\"even found\")\n        break\nelse:\n    print(\"all odd\")",
+   "e": "No number is even, so `break` never runs. The `else` of a for loop runs when the loop ends without a `break`.",
+   "ans": "all odd"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Loops with conditions: a course exercise",
+   "q": "`words = [\"level\", \"data\", \"noon\", \"python\"]`. Count the words whose first and last letters are the same, and print the count.",
+   "starter": "words = [\"level\", \"data\", \"noon\", \"python\"]\n",
+   "sol": "words = [\"level\", \"data\", \"noon\", \"python\"]\ncount = 0\nfor w in words:\n    if w[0] == w[-1]:\n        count += 1\nprint(count)",
+   "e": "`w[0]` is the first letter and `w[-1]` the last. Only \"level\" and \"noon\" match.",
+   "out": "2"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested loops",
+   "q": "Print a 4 x 4 multiplication table: one row per line, each number right-aligned in 3 characters (use `:3` in an f-string).",
+   "starter": "# Rows 1-4, columns 1-4\n",
+   "sol": "for i in range(1, 5):\n    for j in range(1, 5):\n        print(f\"{i * j:3}\", end=\"\")\n    print()",
+   "e": "The outer loop picks the row and the inner loop fills the columns. `:3` pads each number to 3 characters so the columns line up.",
+   "out": "  1  2  3  4\n  2  4  6  8\n  3  6  9 12\n  4  8 12 16"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Looping over a string",
+   "q": "Count the vowels (a, e, i, o, u, small or capital) in `\"Hyderabad Biryani\"` and print the count. Check each letter with `in \"aeiouAEIOU\"`.",
+   "starter": "text = \"Hyderabad Biryani\"\n",
+   "sol": "text = \"Hyderabad Biryani\"\ncount = 0\nfor ch in text:\n    if ch in \"aeiouAEIOU\":\n        count += 1\nprint(count)",
+   "e": "`in` checks whether a letter is one of the vowels. Putting both small and capital vowels in the text catches both.",
+   "out": "6"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "for-else",
+   "q": "`bookings = [\"R101\", \"R205\", \"R309\"]`. Search for `\"R205\"`. When you find it, print `Found at position 2` (counting from 1) and stop. If it is not there, print `Not found`. Use enumerate, break and for-else.",
+   "starter": "bookings = [\"R101\", \"R205\", \"R309\"]\n",
+   "sol": "bookings = [\"R101\", \"R205\", \"R309\"]\nfor pos, b in enumerate(bookings, start=1):\n    if b == \"R205\":\n        print(\"Found at position\", pos)\n        break\nelse:\n    print(\"Not found\")",
+   "e": "`break` stops the search as soon as it succeeds. The `else` only runs if the loop finished without finding it.",
+   "out": "Found at position 2"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "for-else",
+   "q": "This code should print only `Found 12`. Fix it.",
+   "c": "for n in [4, 9, 12]:\n    if n > 10:\n        print(\"Found\", n)\n        break\n    else:\n        print(\"None above 10\")",
+   "fixed": "for n in [4, 9, 12]:\n    if n > 10:\n        print(\"Found\", n)\n        break\nelse:\n    print(\"None above 10\")",
+   "e": "Here the `else` belongs to the `if`, so it runs for every small number. Move it left so it lines up with `for`: then it runs only when no `break` happened.",
+   "want": "Found 12",
+   "got": "None above 10\nNone above 10\nFound 12"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The 5 loop patterns you will use forever",
+   "q": "`daily = [1200, 800, 1500, 900]`. Print the running total after each day: `Day 1: 1200`, `Day 2: 2000`, `Day 3: 3500`, `Day 4: 4400`.",
+   "starter": "daily = [1200, 800, 1500, 900]\n",
+   "sol": "daily = [1200, 800, 1500, 900]\ntotal = 0\nfor day, amount in enumerate(daily, start=1):\n    total += amount\n    print(f\"Day {day}: {total}\")",
+   "e": "Add first, then print inside the loop, so each line shows the total so far.",
+   "out": "Day 1: 1200\nDay 2: 2000\nDay 3: 3500\nDay 4: 4400"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested loops",
+   "q": "Print this number triangle with nested loops (a space after each number is fine):\n`1`\n`1 2`\n`1 2 3`\n`1 2 3 4`",
+   "starter": "# Row r prints the numbers 1 to r\n",
+   "sol": "for row in range(1, 5):\n    for n in range(1, row + 1):\n        print(n, end=\" \")\n    print()",
+   "e": "The inner loop depends on the outer one: row 3 counts from 1 to 3, so its stop is `row + 1`.",
+   "out": "1 \n1 2 \n1 2 3 \n1 2 3 4 "
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "range(): loops over numbers",
+   "q": "This code should print `5 4 3 2 1 Go!`, but it only prints `Go!`. Fix it.",
+   "c": "for i in range(5, 0):\n    print(i, end=\" \")\nprint(\"Go!\")",
+   "fixed": "for i in range(5, 0, -1):\n    print(i, end=\" \")\nprint(\"Go!\")",
+   "e": "`range(5, 0)` counts up by 1, and you cannot count up from 5 to 0, so it is empty. A step of `-1` counts down.",
+   "want": "5 4 3 2 1 Go!",
+   "got": "Go!"
+  }
+ ],
+ "whileloops": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "The while loop",
+   "q": "Type exactly what this code prints.",
+   "c": "n = 1\nwhile n <= 3:\n    print(n * 10)\n    n += 1",
+   "e": "The loop runs while `n <= 3`: for n = 1, 2 and 3. Each round prints n × 10, then adds 1.",
+   "ans": "10\n20\n30"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "The while loop",
+   "q": "Use a while loop to print 5, 4, 3, 2, 1 on separate lines, then `Lift off!`.",
+   "starter": "count = 5\n",
+   "sol": "count = 5\nwhile count >= 1:\n    print(count)\n    count -= 1\nprint(\"Lift off!\")",
+   "e": "Start at 5, print, then take 1 away each round. When `count` reaches 0 the condition is `False` and the loop stops.",
+   "out": "5\n4\n3\n2\n1\nLift off!"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "for or while?",
+   "q": "`amount = 1000` grows by 10% each year. Use a while loop to count the years until it reaches at least 2000, and print the number of years.",
+   "starter": "amount = 1000\nyears = 0\n",
+   "sol": "amount = 1000\nyears = 0\nwhile amount < 2000:\n    amount *= 1.1\n    years += 1\nprint(years)",
+   "e": "You do not know the number of rounds in advance, so `while` fits better than `for`. It keeps going while the amount is still below 2000.",
+   "out": "8"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "The while loop",
+   "q": "This code should print `1 2 3 4 5`, but it stops at 4. Fix it.",
+   "c": "n = 1\nwhile n < 5:\n    print(n, end=\" \")\n    n += 1",
+   "fixed": "n = 1\nwhile n <= 5:\n    print(n, end=\" \")\n    n += 1",
+   "e": "With `n < 5` the loop stops when n is 5. Use `<=` to include 5.",
+   "want": "1 2 3 4 5 ",
+   "got": "1 2 3 4 "
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "break, continue and pass",
+   "q": "Print the numbers 1 to 10 on one line, but skip every multiple of 3 using `continue`.",
+   "starter": "# Skip 3, 6 and 9\n",
+   "sol": "for i in range(1, 11):\n    if i % 3 == 0:\n        continue\n    print(i, end=\" \")",
+   "e": "`continue` jumps straight to the next round, so the `print()` is skipped for 3, 6 and 9.",
+   "out": "1 2 4 5 7 8 10 "
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "break, continue and pass",
+   "q": "Type exactly what this code prints.",
+   "c": "for i in range(1, 10):\n    if i == 4:\n        break\n    print(i, end=\" \")\nprint(\"stop\")",
+   "e": "`break` leaves the loop the moment `i` is 4, before 4 is printed. Then the line after the loop runs.",
+   "ans": "1 2 3 stop"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "while True with break",
+   "q": "Start with `n = 1`. In a `while True` loop, double `n` each round, and `break` as soon as it is more than 100. Then print `n`.",
+   "starter": "n = 1\n",
+   "sol": "n = 1\nwhile True:\n    n *= 2\n    if n > 100:\n        break\nprint(n)",
+   "e": "`while True` repeats until a `break`. The values go 2, 4, 8, ... 64, 128, and 128 is the first one above 100.",
+   "out": "128"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "break, continue and pass",
+   "q": "This code should print `1 2 4 5` (skipping only 3), but it stops early. Fix it.",
+   "c": "for n in range(1, 6):\n    if n == 3:\n        break\n    print(n, end=\" \")",
+   "fixed": "for n in range(1, 6):\n    if n == 3:\n        continue\n    print(n, end=\" \")",
+   "e": "`break` ends the whole loop. `continue` only skips the current round, which is what we need.",
+   "want": "1 2 4 5 ",
+   "got": "1 2 "
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The while loop",
+   "q": "`n = 907215`. Count its digits with a while loop that keeps doing `n //= 10`, and print the count.",
+   "starter": "n = 907215\ndigits = 0\n",
+   "sol": "n = 907215\ndigits = 0\nwhile n > 0:\n    n //= 10\n    digits += 1\nprint(digits)",
+   "e": "Each `//= 10` removes the last digit. Count the rounds until nothing is left.",
+   "out": "6"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "The while loop",
+   "q": "Type exactly what this code prints.",
+   "c": "x = 50\nsteps = 0\nwhile x > 1:\n    x //= 2\n    steps += 1\nprint(x, steps)",
+   "e": "x goes 50, 25, 12, 6, 3, 1. That is 5 halvings, and the loop stops when x is 1.",
+   "ans": "1 5"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "while-else",
+   "q": "`n = 29`. Check if it is prime: try divisors `d` from 2 while `d * d <= n`. If one divides `n`, print `29 is not prime` and break. Use while-else to print `29 is prime` when no divisor was found.",
+   "starter": "n = 29\nd = 2\n",
+   "sol": "n = 29\nd = 2\nwhile d * d <= n:\n    if n % d == 0:\n        print(n, \"is not prime\")\n        break\n    d += 1\nelse:\n    print(n, \"is prime\")",
+   "e": "The `else` of a while loop runs only when the loop ends without `break`, which here means no divisor was found.",
+   "out": "29 is prime"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "while True with break",
+   "q": "This code should print 1, 2 and 3 on separate lines, but it prints only `1`. Fix it.",
+   "c": "n = 1\nwhile True:\n    if n > 3:\n        break\n    print(n)\n    n += 1\n    break",
+   "fixed": "n = 1\nwhile True:\n    if n > 3:\n        break\n    print(n)\n    n += 1",
+   "e": "The last `break` ends the loop after the first round. The `if n > 3: break` at the top is enough.",
+   "want": "1\n2\n3",
+   "got": "1"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "break, continue and pass",
+   "q": "Add up the odd numbers from 1 to 20 and print the total. Use `continue` to skip the even ones.",
+   "starter": "total = 0\n",
+   "sol": "total = 0\nfor n in range(1, 21):\n    if n % 2 == 0:\n        continue\n    total += n\nprint(total)",
+   "e": "`continue` skips the `+=` for even numbers, so only 1, 3, 5, ..., 19 are added.",
+   "out": "100"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "break, continue and pass",
+   "q": "Type exactly what this code prints.",
+   "c": "for i in range(1, 3):\n    for j in range(1, 4):\n        if j == 3:\n            break\n        print(i, j)",
+   "e": "`break` leaves only the inner loop. The outer loop carries on with the next `i`.",
+   "ans": "1 1\n1 2\n2 1\n2 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "while True with break",
+   "q": "`stock = 23`. Orders of 5 units keep coming. In a `while True` loop: if the stock is below 5, print `Stopped: only 3 left` (with the real number) and break. Otherwise take 5 away and print `Shipped 5, left 18` (with the real number).",
+   "starter": "stock = 23\n",
+   "sol": "stock = 23\nwhile True:\n    if stock < 5:\n        print(f\"Stopped: only {stock} left\")\n        break\n    stock -= 5\n    print(f\"Shipped 5, left {stock}\")",
+   "e": "Check the stop condition first in each round, then do the work. The loop ships 4 times: 18, 13, 8, 3.",
+   "out": "Shipped 5, left 18\nShipped 5, left 13\nShipped 5, left 8\nShipped 5, left 3\nStopped: only 3 left"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "while-else",
+   "q": "Count down from 3 with a while loop, printing each number. Add a while-else that prints `Countdown finished` when the loop ends normally.",
+   "starter": "n = 3\n",
+   "sol": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nelse:\n    print(\"Countdown finished\")",
+   "e": "There is no `break`, so the loop ends normally and the `else` runs once.",
+   "out": "3\n2\n1\nCountdown finished"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Real code from your course",
+   "q": "A bill has `prices = [250, 120, 80]` and `qtys = [2, 1, 5]`. Use a while loop with a position `i` (0, 1, 2) to add price × quantity to a total. Print `Total: ₹1020`.",
+   "starter": "prices = [250, 120, 80]\nqtys = [2, 1, 5]\n",
+   "sol": "prices = [250, 120, 80]\nqtys = [2, 1, 5]\ni = 0\ntotal = 0\nwhile i < 3:\n    total += prices[i] * qtys[i]\n    i += 1\nprint(f\"Total: ₹{total}\")",
+   "e": "This is the course billing loop without `input()`: one round per product, adding its price × quantity to the running total.",
+   "out": "Total: ₹1020"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "while-else",
+   "q": "This code should print `Card blocked` only once, after all 3 tries. Fix it.",
+   "c": "attempt = 0\nwhile attempt < 3:\n    attempt += 1\n    if attempt == 5:\n        print(\"found\")\n        break\n    else:\n        print(\"Card blocked\")",
+   "fixed": "attempt = 0\nwhile attempt < 3:\n    attempt += 1\n    if attempt == 5:\n        print(\"found\")\n        break\nelse:\n    print(\"Card blocked\")",
+   "e": "The `else` should belong to the `while`, not the `if`. Move it left so it lines up with `while`.",
+   "want": "Card blocked",
+   "got": "Card blocked\nCard blocked\nCard blocked"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The while loop",
+   "q": "Start with `n = 6`. While `n` is not 1: if it is even, halve it with `//`, otherwise make it `3 * n + 1`. Count the steps and print the count.",
+   "starter": "n = 6\nsteps = 0\n",
+   "sol": "n = 6\nsteps = 0\nwhile n != 1:\n    if n % 2 == 0:\n        n //= 2\n    else:\n        n = 3 * n + 1\n    steps += 1\nprint(steps)",
+   "e": "The values go 6, 3, 10, 5, 16, 8, 4, 2, 1. That is 8 steps.",
+   "out": "8"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The while loop",
+   "q": "`n = 4705`. Reverse its digits with a while loop, using `% 10` and `// 10`, and print the reversed number.",
+   "starter": "n = 4705\nreverse = 0\n",
+   "sol": "n = 4705\nreverse = 0\nwhile n > 0:\n    reverse = reverse * 10 + n % 10\n    n //= 10\nprint(reverse)",
+   "e": "Each round takes the last digit with `% 10` and adds it to the end of `reverse`. The result is 5074.",
+   "out": "5074"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "while True with break",
+   "q": "Find the smallest number greater than 1000 that divides exactly by both 7 and 13. Use `while True` and `break`, then print it.",
+   "starter": "n = 1000\n",
+   "sol": "n = 1000\nwhile True:\n    n += 1\n    if n % 7 == 0 and n % 13 == 0:\n        break\nprint(n)",
+   "e": "Move to the next number first, then test it. The first one that passes both checks is 1001.",
+   "out": "1001"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "break, continue and pass",
+   "q": "Loop over 1 to 30. Skip the numbers that are not multiples of 3, skip the multiples of 5 too, and stop completely at 25. Print the kept numbers on one line.",
+   "starter": "# continue to skip, break to stop\n",
+   "sol": "for n in range(1, 31):\n    if n == 25:\n        break\n    if n % 3 != 0 or n % 5 == 0:\n        continue\n    print(n, end=\" \")",
+   "e": "Check the stop first, then the skips. 15 is skipped (a multiple of 5), and the loop stops before 27 and 30.",
+   "out": "3 6 9 12 18 21 24 "
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "break, continue and pass",
+   "q": "This code should print only the odd numbers `1 3 5`. Fix it.",
+   "c": "for i in range(1, 6):\n    if i % 2 == 0:\n        pass\n    print(i, end=\" \")",
+   "fixed": "for i in range(1, 6):\n    if i % 2 == 0:\n        continue\n    print(i, end=\" \")",
+   "e": "`pass` does nothing, so the `print()` still runs. `continue` skips the rest of the round.",
+   "want": "1 3 5 ",
+   "got": "1 2 3 4 5 "
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "while-else",
+   "q": "Type exactly what this code prints.",
+   "c": "n = 10\nwhile n > 0:\n    if n == 4:\n        print(\"break at\", n)\n        break\n    n -= 3\nelse:\n    print(\"no break\")",
+   "e": "n goes 10, 7, 4. At 4 the `break` runs, so the `else` is skipped.",
+   "ans": "break at 4"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "for or while?",
+   "q": "A loan of `loan = 10000` gets 2% interest added each month, and then 2000 is paid. Count the months until the loan is 0 or less. Print the months and the final loan rounded to 2 decimals, with one `print()`.",
+   "starter": "loan = 10000\nmonths = 0\n",
+   "sol": "loan = 10000\nmonths = 0\nwhile loan > 0:\n    loan *= 1.02\n    loan -= 2000\n    months += 1\nprint(months, round(loan, 2))",
+   "e": "The number of months is unknown in advance, so use `while`. The final loan is negative: that is the overpayment in the last month.",
+   "out": "6 -1354.62"
+  }
+ ],
  "strings": [
   {
    "lv": 1,

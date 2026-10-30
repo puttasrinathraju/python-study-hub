@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5.1 Big Test: If / elif / else | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on If, elif and else, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-conditions.html">
+<meta property="og:title" content="5.1 Big Test: If / elif / else | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on If, elif and else, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-conditions">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-conditions">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>5.1 Big Test: If / elif / else</h1><p class="lead">25 questions on If, elif and else only, from basic to challenge. Try each one first, then open the answer. <a href="conditions.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>stock = 4
+if stock &lt; 5:
+    print(&quot;Reorder&quot;)
+print(&quot;Checked&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">Reorder
+Checked</pre><p>4 is less than 5, so the indented line runs. The last line is not indented, so it always runs.</p></details></li><li><p><b>Basic.</b> <code>n = 37</code>. Use if-else to print <code>37 is odd</code> or <code>37 is even</code>.</p><p>Your code should print exactly:</p><pre class="out">37 is odd</pre><details><summary>Answer</summary><figure class="code"><pre><code>n = 37
+if n % 2 == 0:
+    print(f&quot;{n} is even&quot;)
+else:
+    print(f&quot;{n} is odd&quot;)</code></pre><p class="olbl">Output</p><pre class="out">37 is odd</pre></figure><p><code>n % 2 == 0</code> is <code>True</code> for even numbers. <code>else</code> catches every other case.</p></details></li><li><p><b>Basic.</b> <code>balance = 1500</code> and <code>withdraw = 2000</code>. If <code>withdraw</code> is more than <code>balance</code>, print <code>Not enough balance</code>. At the end, always print <code>Done</code>.</p><p>Your code should print exactly:</p><pre class="out">Not enough balance
+Done</pre><details><summary>Answer</summary><figure class="code"><pre><code>balance = 1500
+withdraw = 2000
+if withdraw &gt; balance:
+    print(&quot;Not enough balance&quot;)
+print(&quot;Done&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Not enough balance
+Done</pre></figure><p>Only the indented line belongs to the <code>if</code>. The <code>Done</code> line is not indented, so it runs every time.</p></details></li><li><p><b>Basic.</b> This code should print <code>Heat alert</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>temp = 41
+if temp &gt; 40
+    print(&quot;Heat alert&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Heat alert</pre><details><summary>Answer</summary><figure class="code"><pre><code>temp = 41
+if temp &gt; 40:
+    print(&quot;Heat alert&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Heat alert</pre></figure><p>Every <code>if</code> line must end with a colon <code>:</code>.</p></details></li><li><p><b>Basic.</b> <code>price = 899</code>. If the price is 500 or more, print <code>Free delivery</code>. Otherwise print <code>Delivery: ₹40</code>.</p><p>Your code should print exactly:</p><pre class="out">Free delivery</pre><details><summary>Answer</summary><figure class="code"><pre><code>price = 899
+if price &gt;= 500:
+    print(&quot;Free delivery&quot;)
+else:
+    print(&quot;Delivery: ₹40&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Free delivery</pre></figure><p><code>&gt;=</code> means &quot;500 or more&quot;, so 500 itself also gets free delivery.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>score = 72
+if score &gt;= 90:
+    grade = &quot;A&quot;
+elif score &gt;= 75:
+    grade = &quot;B&quot;
+elif score &gt;= 60:
+    grade = &quot;C&quot;
+else:
+    grade = &quot;D&quot;
+print(grade)</code></pre></figure><details><summary>Answer</summary><pre class="out">C</pre><p>Python checks from the top. 72 fails <code>&gt;= 90</code> and <code>&gt;= 75</code>, then passes <code>&gt;= 60</code>, so the grade is C and the rest is skipped.</p></details></li><li><p><b>Basic.</b> <code>temp = 15</code>. Print <code>Cold</code> if it is below 18, <code>Pleasant</code> if it is from 18 to 30, and <code>Hot</code> if it is above 30.</p><p>Your code should print exactly:</p><pre class="out">Cold</pre><details><summary>Answer</summary><figure class="code"><pre><code>temp = 15
+if temp &lt; 18:
+    print(&quot;Cold&quot;)
+elif temp &lt;= 30:
+    print(&quot;Pleasant&quot;)
+else:
+    print(&quot;Hot&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Cold</pre></figure><p>Once the first test fails, we already know <code>temp</code> is 18 or more, so the <code>elif</code> only needs to check <code>&lt;= 30</code>.</p></details></li><li><p><b>Basic.</b> <code>temp = 28</code> and <code>humidity = 70</code>. Print <code>Good day for a walk</code> if the temperature is from 20 to 30 AND the humidity is below 80. Otherwise print <code>Stay in</code>.</p><p>Your code should print exactly:</p><pre class="out">Good day for a walk</pre><details><summary>Answer</summary><figure class="code"><pre><code>temp = 28
+humidity = 70
+if 20 &lt;= temp &lt;= 30 and humidity &lt; 80:
+    print(&quot;Good day for a walk&quot;)
+else:
+    print(&quot;Stay in&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Good day for a walk</pre></figure><p><code>and</code> needs both parts <code>True</code>. A chained comparison like <code>20 &lt;= temp &lt;= 30</code> checks a range in one go.</p></details></li><li><p><b>Medium.</b> <code>order_value = 2600</code>. Discount: 20% for 5000 or more, 10% for 2000 or more, 5% for 1000 or more, otherwise none. Print the amount to pay.</p><p>Your code should print exactly:</p><pre class="out">2340.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>order_value = 2600
+if order_value &gt;= 5000:
+    discount = 20
+elif order_value &gt;= 2000:
+    discount = 10
+elif order_value &gt;= 1000:
+    discount = 5
+else:
+    discount = 0
+print(order_value - order_value * discount / 100)</code></pre><p class="olbl">Output</p><pre class="out">2340.0</pre></figure><p>Check the biggest slab first. 2600 fails <code>&gt;= 5000</code> and then matches <code>&gt;= 2000</code>, so the discount is 10%.</p></details></li><li><p><b>Medium.</b> Sales of 120000 should print <code>Gold</code>, but this code prints <code>Silver</code>. Fix it.</p><figure class="code"><pre><code>sales = 120000
+if sales &gt;= 50000:
+    print(&quot;Silver&quot;)
+elif sales &gt;= 100000:
+    print(&quot;Gold&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Gold</pre><details><summary>Answer</summary><figure class="code"><pre><code>sales = 120000
+if sales &gt;= 100000:
+    print(&quot;Gold&quot;)
+elif sales &gt;= 50000:
+    print(&quot;Silver&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Gold</pre></figure><p>Python stops at the first <code>True</code> test. 120000 is also <code>&gt;= 50000</code>, so the bigger limit must be checked first.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>choice = 3
+if choice == 1 or 2:
+    print(&quot;one or two&quot;)
+else:
+    print(&quot;other&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">one or two</pre><p><code>choice == 1 or 2</code> means <code>(choice == 1) or 2</code>. The <code>2</code> on its own is truthy, so the <code>if</code> is always <code>True</code>. Write <code>choice == 1 or choice == 2</code>.</p></details></li><li><p><b>Medium.</b> <code>is_member = True</code> and <code>amount = 1200</code>. Members get 10% off when the amount is 1000 or more, and 5% off otherwise. Non-members get no discount. Use a nested if and print the amount to pay.</p><p>Your code should print exactly:</p><pre class="out">1080.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>is_member = True
+amount = 1200
+if is_member:
+    if amount &gt;= 1000:
+        amount = amount * 0.9
+    else:
+        amount = amount * 0.95
+print(amount)</code></pre><p class="olbl">Output</p><pre class="out">1080.0</pre></figure><p>The outer <code>if</code> checks membership. Only members reach the inner <code>if</code>, which picks the discount.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>name = &quot;&quot;
+city = &quot;Pune&quot;
+if name:
+    print(&quot;Hi&quot;, name)
+else:
+    print(&quot;No name&quot;)
+if city:
+    print(&quot;City:&quot;, city)</code></pre></figure><details><summary>Answer</summary><pre class="out">No name
+City: Pune</pre><p>Empty text is falsy, so the first <code>if</code> goes to <code>else</code>. Text with letters is truthy.</p></details></li><li><p><b>Medium.</b> <code>stock = 0</code>. Use the ternary operator to store <code>&quot;In stock&quot;</code> or <code>&quot;Out of stock&quot;</code> in <code>status</code>, then print <code>status</code>.</p><p>Your code should print exactly:</p><pre class="out">Out of stock</pre><details><summary>Answer</summary><figure class="code"><pre><code>stock = 0
+status = &quot;In stock&quot; if stock &gt; 0 else &quot;Out of stock&quot;
+print(status)</code></pre><p class="olbl">Output</p><pre class="out">Out of stock</pre></figure><p><code>A if condition else B</code> picks one of two values in a single line.</p></details></li><li><p><b>Medium.</b> <code>day = 6</code>. Use match-case to print <code>Weekday</code> for 1 to 5, <code>Weekend</code> for 6 or 7, and <code>Invalid day</code> for anything else.</p><p>Your code should print exactly:</p><pre class="out">Weekend</pre><details><summary>Answer</summary><figure class="code"><pre><code>day = 6
+match day:
+    case 1 | 2 | 3 | 4 | 5:
+        print(&quot;Weekday&quot;)
+    case 6 | 7:
+        print(&quot;Weekend&quot;)
+    case _:
+        print(&quot;Invalid day&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Weekend</pre></figure><p><code>|</code> joins several values in one case. <code>case _:</code> catches everything else, like <code>else</code>.</p></details></li><li><p><b>Medium.</b> This code should print <code>Working age</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>age = 25
+if age &gt; 18 and &lt; 60:
+    print(&quot;Working age&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Working age</pre><details><summary>Answer</summary><figure class="code"><pre><code>age = 25
+if age &gt; 18 and age &lt; 60:
+    print(&quot;Working age&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Working age</pre></figure><p>Each side of <code>and</code> must be a full comparison: <code>age &gt; 18 and age &lt; 60</code> (or <code>18 &lt; age &lt; 60</code>).</p></details></li><li><p><b>Medium.</b> <code>remarks = &quot;&quot;</code>. Print <code>No remarks</code> if it is empty, otherwise print the remarks. Use the truthiness of the text: do not compare it with <code>&quot;&quot;</code>.</p><p>Your code should print exactly:</p><pre class="out">No remarks</pre><details><summary>Answer</summary><figure class="code"><pre><code>remarks = &quot;&quot;
+if remarks:
+    print(remarks)
+else:
+    print(&quot;No remarks&quot;)</code></pre><p class="olbl">Output</p><pre class="out">No remarks</pre></figure><p>Empty text is falsy, so <code>if remarks:</code> is <code>False</code> and the <code>else</code> runs.</p></details></li><li><p><b>Medium.</b> <code>amount = 600</code>. The discount rule is not decided yet. Write <code>if amount &gt; 500:</code> with <code>pass</code> inside, then print <code>Bill printed</code> after the if.</p><p>Your code should print exactly:</p><pre class="out">Bill printed</pre><details><summary>Answer</summary><figure class="code"><pre><code>amount = 600
+if amount &gt; 500:
+    pass
+print(&quot;Bill printed&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Bill printed</pre></figure><p>A block cannot be empty. <code>pass</code> is a placeholder that does nothing, so the code runs without an error.</p></details></li><li><p><b>Challenge.</b> <code>year = 1900</code>. A year is a leap year if it divides by 400, or if it divides by 4 but not by 100. Print <code>1900 is a leap year</code> or <code>1900 is not a leap year</code>, using if-elif-else.</p><p>Your code should print exactly:</p><pre class="out">1900 is not a leap year</pre><details><summary>Answer</summary><figure class="code"><pre><code>year = 1900
+if year % 400 == 0:
+    print(year, &quot;is a leap year&quot;)
+elif year % 100 == 0:
+    print(year, &quot;is not a leap year&quot;)
+elif year % 4 == 0:
+    print(year, &quot;is a leap year&quot;)
+else:
+    print(year, &quot;is not a leap year&quot;)</code></pre><p class="olbl">Output</p><pre class="out">1900 is not a leap year</pre></figure><p>Order matters: test 400 first, then 100, then 4. 1900 divides by 100 but not by 400, so it is not a leap year.</p></details></li><li><p><b>Challenge.</b> <code>a, b, c = 5, 5, 8</code> are the sides of a triangle. Print <code>Not a triangle</code> if any side is as long as the other two together or longer. Otherwise print <code>Equilateral</code>, <code>Isosceles</code> or <code>Scalene</code>.</p><p>Your code should print exactly:</p><pre class="out">Isosceles</pre><details><summary>Answer</summary><figure class="code"><pre><code>a, b, c = 5, 5, 8
+if a &gt;= b + c or b &gt;= a + c or c &gt;= a + b:
+    print(&quot;Not a triangle&quot;)
+elif a == b == c:
+    print(&quot;Equilateral&quot;)
+elif a == b or b == c or a == c:
+    print(&quot;Isosceles&quot;)
+else:
+    print(&quot;Scalene&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Isosceles</pre></figure><p>Check the impossible case first with <code>or</code>. Then all equal, then any two equal. Here two sides are 5, so it is isosceles.</p></details></li><li><p><b>Challenge.</b> <code>units = 260</code>. The electricity bill charges ₹3 per unit for the first 100 units, ₹5 per unit for the next 100, and ₹8 per unit for the rest. Print <code>Bill: ₹1280</code>.</p><p>Your code should print exactly:</p><pre class="out">Bill: ₹1280</pre><details><summary>Answer</summary><figure class="code"><pre><code>units = 260
+if units &lt;= 100:
+    bill = units * 3
+elif units &lt;= 200:
+    bill = 100 * 3 + (units - 100) * 5
+else:
+    bill = 100 * 3 + 100 * 5 + (units - 200) * 8
+print(f&quot;Bill: ₹{bill}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Bill: ₹1280</pre></figure><p>Each slab adds its own part: 300 for the first 100, 500 for the next 100, and 60 × 8 = 480 for the rest.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>a = 7
+b = 3
+if a &gt; 5:
+    if b &gt; 5:
+        print(&quot;both&quot;)
+    else:
+        print(&quot;only a&quot;)
+else:
+    print(&quot;a small&quot;)
+if a &gt; b: print(&quot;a wins&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">only a
+a wins</pre><p>The outer test is <code>True</code>, the inner one is <code>False</code>, so <code>only a</code> prints. The last line is a one-line if, and 7 &gt; 3.</p></details></li><li><p><b>Challenge.</b> <code>user</code> is not <code>admin</code>, so this code should print only <code>Unknown user</code>. It prints <code>Welcome</code> instead. Fix it with a nested if.</p><figure class="code"><pre><code>user = &quot;guest&quot;
+pin = &quot;1234&quot;
+if user == &quot;admin&quot;:
+    print(&quot;User OK&quot;)
+if pin == &quot;1234&quot;:
+    print(&quot;Welcome&quot;)
+else:
+    print(&quot;Unknown user&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Unknown user</pre><details><summary>Answer</summary><figure class="code"><pre><code>user = &quot;guest&quot;
+pin = &quot;1234&quot;
+if user == &quot;admin&quot;:
+    print(&quot;User OK&quot;)
+    if pin == &quot;1234&quot;:
+        print(&quot;Welcome&quot;)
+else:
+    print(&quot;Unknown user&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Unknown user</pre></figure><p>The PIN check must sit inside the user check, and the <code>else</code> must belong to the user check.</p></details></li><li><p><b>Challenge.</b> Code 3 should print <code>Refund</code>, but this code crashes. Fix it.</p><figure class="code"><pre><code>code = 3
+match code:
+    case 1:
+        print(&quot;Paid&quot;)
+    case 2:
+        print(&quot;Pending&quot;)
+    case 3 or 4:
+        print(&quot;Refund&quot;)
+    case _:
+        print(&quot;Unknown&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Refund</pre><details><summary>Answer</summary><figure class="code"><pre><code>code = 3
+match code:
+    case 1:
+        print(&quot;Paid&quot;)
+    case 2:
+        print(&quot;Pending&quot;)
+    case 3 | 4:
+        print(&quot;Refund&quot;)
+    case _:
+        print(&quot;Unknown&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Refund</pre></figure><p>Inside <code>case</code>, several values are joined with <code>|</code>, not with <code>or</code>.</p></details></li><li><p><b>Challenge.</b> A form has <code>email = &quot;asha@mail.com&quot;</code> and <code>phone = &quot;&quot;</code>. Print <code>Complete</code> if both are filled, <code>Partial</code> if only one is filled, and <code>Empty</code> if neither is. Use truthiness with <code>and</code> / <code>or</code>.</p><p>Your code should print exactly:</p><pre class="out">Partial</pre><details><summary>Answer</summary><figure class="code"><pre><code>email = &quot;asha@mail.com&quot;
+phone = &quot;&quot;
+if email and phone:
+    print(&quot;Complete&quot;)
+elif email or phone:
+    print(&quot;Partial&quot;)
+else:
+    print(&quot;Empty&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Partial</pre></figure><p>Filled text is truthy. Check <code>and</code> (both) first, then <code>or</code> (at least one). What is left is empty.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>
