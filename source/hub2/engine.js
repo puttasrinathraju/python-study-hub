@@ -1350,6 +1350,8 @@ function vProject(id){
   h += '<section class="sec"><h2>Your tasks</h2><ol class="list">' + P.tasks.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ol></section>';
   h += '<section class="sec"><h2>Lines your output must contain</h2><p class="prose">The checker looks for each of these as a <b>whole line</b> of your output. Extra spaces at the ends do not matter, but the words, signs and number formats must match. You may print extra lines too, like dividers.</p><pre class="pjlines">' + esc(P.lines.join('\n')) + '</pre><p class="prose">' + md(P.rules) + '</p></section>';
   h += '<section class="sec"><h2>Example run</h2><p class="prose muted">The <b class="pjin">blue</b> values are what the user typed. Your questions inside <code>input()</code> can use any words.</p>' + pjRunHTML(P.example) + '</section>';
+  var smp = P.sample || {}, sn = Object.keys(smp);
+  if (sn.length) h += '<section class="sec"><h2>Files for this project</h2><p class="prose muted">The tests give your program files like these (each test uses its own version). Press the button to create them in the Python runner, then press <b>Run</b> and type a file name.</p>' + sn.map(function(n){ return '<div class="pjfile"><b>' + esc(n) + '</b><pre class="pjlines">' + esc(smp[n]) + '</pre></div>'; }).join('') + '<div class="row"><button class="btn" type="button" id="pjFiles">Create these files in the Python runner</button><span class="muted" id="pjFilesMsg" aria-live="polite" style="font-size:14.5px"></span></div></section>';
   h += '<section class="sec"><h2>Edge cases to think about</h2><ul class="list">' + P.edge.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></section>';
   h += '<section class="sec"><h2>How your score is worked out</h2><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody>' + PJ_W.map(function(w){ return '<tr><td><b>' + w[1] + '</b></td><td>' + w[2] + '</td><td>' + esc(w[3]) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="prose muted">Tools this project needs: ' + P.need.map(function(n){ return md(n.label); }).join('; ') + '.</p></section>';
   h += '<section class="sec"><h2>Hints</h2><p class="prose muted">Try on your own first. Each hint gives a little more help.</p><div id="pjHints"></div></section>';
@@ -1367,6 +1369,14 @@ function vProject(id){
     var b = $('#pjHintB'); if (b) b.onclick = function(){ pjSave(id, function(r){ r.hints = Math.min(P.hints.length, (r.hints || 0) + 1); }); hints(); };
   }
   hints();
+  var fb = $('#pjFiles');
+  if (fb) fb.onclick = function(){
+    var real = {}; Object.keys(smp).forEach(function(n){ if (smp[n].charAt(0) !== '(') real[n] = smp[n]; });
+    $('#pjFilesMsg').textContent = 'Creating the files...';
+    pyRun('# hotel_bookings.csv\nimport json as _j\nfor _n, _t in _j.loads(' + JSON.stringify(JSON.stringify(real)) + ').items():\n    with open(_n, "w") as _f:\n        _f.write(_t)\n', [], function(){}).then(function(r){
+      $('#pjFilesMsg').textContent = r.status === 'ok' ? 'Done: the files are ready. Now press Run.' : 'Could not create the files.';
+    }, function(){ $('#pjFilesMsg').textContent = 'Python could not start.'; });
+  };
   function model(){
     if (!((pjRec(id) || {}).attempts)) { $('#pjModel').innerHTML = ''; return; }
     $('#pjModel').innerHTML = '<section class="sec"><h2>Model answer</h2><p class="prose muted">Try to reach ' + PJ_READY + ' on your own first: you learn far more from fixing your own code. The model answer is one good way to solve it, not the only way.</p><details class="reveal"><summary>Show a model answer</summary>' + cell(P.sol, null) + '</details></section>';
@@ -1385,16 +1395,20 @@ function vProject(id){
   };
 }
 function pjTest(code, t){
-  return pyBoot().then(function(){
+  return pyBoot().then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
     return new Promise(function(resolve){
       var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
       pyRun(code, t.inputs.slice(), function(){}).then(function(r){
         clearTimeout(timer);
-        var out = r.out || '', got = {}, lines = out.split('\n');
-        lines.forEach(function(l){ got[pjNorm(l)] = 1; });
-        var miss = t.expect.filter(function(l){ return !got[pjNorm(l)]; });
-        resolve({ t: t, status: late ? 'timeout' : r.status, out: out, err: r.err || '', miss: miss, pass: r.status === 'ok' && !late && !miss.length, lines: lines });
-      }, function(){ clearTimeout(timer); resolve({ t: t, status: 'error', out: '', err: 'Python could not start. Check your internet connection.', miss: t.expect.slice(), pass: false, lines: [] }); });
+        var after = t.post && !late && r.status !== 'stopped' ? pyRun(t.post, [], function(){}) : Promise.resolve(null);
+        after.then(function(pr){
+          var out = r.out || '', got = {}, fgot = {}, lines = out.split('\n'), ftext = pr ? (pr.out || '').replace(/\n+$/, '') : null, flines = ftext == null ? [] : ftext.split('\n').slice(1);
+          lines.forEach(function(l){ got[pjNorm(l)] = 1; });
+          flines.forEach(function(l){ fgot[pjNorm(l)] = 1; });
+          var miss = t.expect.filter(function(l){ return !got[pjNorm(l)]; }).concat((t.fexpect || []).filter(function(l){ return !fgot[pjNorm(l)]; }));
+          resolve({ t: t, status: late ? 'timeout' : r.status, out: out, err: r.err || '', miss: miss, pass: r.status === 'ok' && !late && !miss.length, lines: lines, flines: flines, ftext: ftext });
+        });
+      }, function(){ clearTimeout(timer); resolve({ t: t, status: 'error', out: '', err: 'Python could not start. Check your internet connection.', miss: t.expect.slice(), pass: false, lines: [], flines: [], ftext: null }); });
     });
   });
 }
@@ -1451,11 +1465,11 @@ function pjShow(P, code, res, an){
     if (r.pass) return;
     keys.push(P.title + ': test "' + r.t.name + '"');
     var m = '';
-    if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same numbers, and read the error to find the line.'; } }).n.push(i + 1); }
+    if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same input, and read the error to find the line.'; } }).n.push(i + 1); }
     else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Check that it asks only for the values in the tasks, in the same order, and that it stops reading when it should (for example at the stop word).'; } }).n.push(i + 1);
     else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
     else if (r.t.tip) m = r.t.tip;
-    else if (nDiff++ < 2) { var ml = r.miss[0], nr = pjNear(r.lines, ml); m = 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
+    else if (nDiff++ < 2) { var ml = r.miss[0], inFile = r.t.expect.indexOf(ml) < 0, nr = pjNear(inFile ? r.flines : r.lines, ml); m = inFile ? 'Test ' + (i + 1) + ' (' + r.t.name + '): the file `' + r.t.outfile + '` should contain the line `' + ml + '`' + (r.ftext == null || /\(file not written\)/.test(r.ftext) ? ', but the file was not written.' : nr ? '. It has `' + nr + '` instead.' : ', and no line in it starts like that.') : 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
     if (m && !seen[m]) { seen[m] = 1; todo.push(m); }
   });
   Object.keys(grp).forEach(function(g){ var n = grp[g].n; todo.unshift(grp[g].t((n.length > 1 ? 'tests ' : 'test ') + (n.length > 2 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n.join(' and ')))); });
@@ -1478,8 +1492,10 @@ function pjShow(P, code, res, an){
   h += '<div class="pjfb"><div class="pjgood"><h3>What you did well</h3>' + (good.length ? '<ul class="list">' + good.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Keep going: every test you pass will show up here.</p>') + '</div>' +
     '<div class="pjtodo"><h3>What to improve</h3>' + (todo.length ? '<ul class="list">' + todo.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Nothing! Every check passed. 🎉</p>') + '</div></div>';
   h += '<section class="sec"><h2>Every test</h2><div class="tbl pjtests"><table><thead><tr><th>Test</th><th>Input given</th><th>Lines expected</th><th>Your output</th><th>Result</th></tr></thead><tbody>' + res.map(function(r, i){
-    var exp = r.t.expect.map(function(l){ var miss = r.miss.indexOf(l) > -1; return '<span class="' + (miss ? 'pjmiss' : 'pjhit') + '">' + esc(l) + '</span>'; }).join('\n');
+    var mark = function(l){ var miss = r.miss.indexOf(l) > -1; return '<span class="' + (miss ? 'pjmiss' : 'pjhit') + '">' + esc(l) + '</span>'; };
+    var exp = r.t.expect.map(mark).join('\n') + (r.t.fexpect ? '\n<b>--- ' + esc(r.t.outfile) + ' ---</b>\n' + r.t.fexpect.map(mark).join('\n') : '');
     var yo = r.status === 'error' ? r.out + (r.out ? '\n' : '') + r.err.trim().split('\n').pop() : r.status === 'input' ? r.out + '\n(waiting for more input)' : (r.status === 'timeout' || r.status === 'stopped') ? '(stopped after ' + PJ_TIMEOUT / 1000 + ' seconds)' : r.out || '(nothing printed)';
+    if (r.ftext != null) yo += '\n' + r.ftext;
     var why = r.pass ? '✓ Pass' : r.status === 'ok' ? '✗ ' + r.miss.length + ' line' + (r.miss.length > 1 ? 's' : '') + ' missing' : r.status === 'error' ? '✗ Error' : r.status === 'input' ? '✗ Asked for more input' : '✗ Too slow';
     return '<tr class="' + (r.pass ? 'ok' : 'no') + '"><td data-l="Test"><b>' + (i + 1) + '. ' + esc(r.t.name) + '</b><br><span class="pill">' + { main: 'main', logic: 'logic', edge: 'edge case' }[r.t.kind] + '</span></td><td data-l="Input given"><pre class="pjinp">' + esc(r.t.inputs.map(function(v){ return JSON.stringify(v); }).join('\n')) + '</pre></td><td data-l="Lines expected"><pre>' + exp + '</pre></td><td data-l="Your output"><pre class="pjyo">' + esc(yo) + '</pre></td><td class="pjr" data-l="Result">' + why + '</td></tr>';
   }).join('') + '</tbody></table></div><p class="prose muted" style="font-size:14px">Inputs are shown in quotes so you can see any spaces. Expected lines in <span class="pjmiss">red</span> were not found in your output.</p></section>';

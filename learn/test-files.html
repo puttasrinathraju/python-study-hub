@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>17.1 Big Test: Files, CSV, JSON &amp; pickle | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on File handling, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-files.html">
+<meta property="og:title" content="17.1 Big Test: Files, CSV, JSON &amp; pickle | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on File handling, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-files">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-files">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>17.1 Big Test: Files, CSV, JSON &amp; pickle</h1><p class="lead">25 questions on File handling only, from basic to challenge. Try each one first, then open the answer. <a href="files.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>with open(&quot;t1.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;one\ntwo&quot;)
+with open(&quot;t1.txt&quot;) as f:
+    print(f.read())</code></pre></figure><details><summary>Answer</summary><pre class="out">one
+two</pre><p>The <code>\n</code> written into the file is a real new line, so reading the file back gives two lines.</p></details></li><li><p><b>Basic.</b> Write <code>Hello File</code> into <code>note.txt</code>, then open it again, read it and print what is inside.</p><p>Your code should print exactly:</p><pre class="out">Hello File</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;note.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Hello File&quot;)
+with open(&quot;note.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">Hello File</pre></figure><p>Mode <code>&quot;w&quot;</code> writes (and replaces the file). Opening with no mode reads.</p></details></li><li><p><b>Basic.</b> Write three lines, <code>a</code>, <code>b</code> and <code>c</code>, into <code>abc.txt</code> (each ending with <code>\n</code>). Then print how many lines <code>readlines()</code> gives.</p><p>Your code should print exactly:</p><pre class="out">3</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;abc.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;a\nb\nc\n&quot;)
+with open(&quot;abc.txt&quot;) as f:
+    print(len(f.readlines()))</code></pre><p class="olbl">Output</p><pre class="out">3</pre></figure><p><code>readlines()</code> gives a list with one string per line.</p></details></li><li><p><b>Basic.</b> Write <code>Day 1</code> into <code>log.txt</code> with mode <code>&quot;w&quot;</code>. Then add <code>Day 2</code> on a new line with mode <code>&quot;a&quot;</code>. Then print the whole file.</p><p>Your code should print exactly:</p><pre class="out">Day 1
+Day 2</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;log.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Day 1&quot;)
+with open(&quot;log.txt&quot;, &quot;a&quot;) as f:
+    f.write(&quot;\nDay 2&quot;)
+with open(&quot;log.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">Day 1
+Day 2</pre></figure><p><code>&quot;a&quot;</code> (append) adds to the end and keeps what is there. <code>&quot;w&quot;</code> would wipe it first.</p></details></li><li><p><b>Basic.</b> This code should save the number and print <code>2000</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>with open(&quot;n.txt&quot;, &quot;w&quot;) as f:
+    f.write(2000)
+with open(&quot;n.txt&quot;) as f:
+    print(f.read())</code></pre></figure><p>It should print:</p><pre class="out">2000</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;n.txt&quot;, &quot;w&quot;) as f:
+    f.write(str(2000))
+with open(&quot;n.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">2000</pre></figure><p><code>write()</code> only takes text. Convert numbers with <code>str()</code> (or an f-string) first.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>with open(&quot;t6.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Hi\nBye\n&quot;)
+with open(&quot;t6.txt&quot;) as f:
+    print(f.readline().strip())
+    print(f.readline().strip())</code></pre></figure><details><summary>Answer</summary><pre class="out">Hi
+Bye</pre><p>Each <code>readline()</code> reads the next line. <code>strip()</code> removes the <code>\n</code> at its end.</p></details></li><li><p><b>Basic.</b> Write <code>Asha</code> and <code>Ravi</code> on two lines into <code>names.txt</code>. Read them back with a <code>for</code> loop over the file and print a list of the names without the <code>\n</code>.</p><p>Your code should print exactly:</p><pre class="out">['Asha', 'Ravi']</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;names.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Asha\nRavi\n&quot;)
+names = []
+with open(&quot;names.txt&quot;) as f:
+    for line in f:
+        names.append(line.strip())
+print(names)</code></pre><p class="olbl">Output</p><pre class="out">['Asha', 'Ravi']</pre></figure><p>Looping over a file gives one line at a time, each still ending with <code>\n</code>, so <code>strip()</code> it.</p></details></li><li><p><b>Basic.</b> This code should print <code>data</code>, but it crashes. Fix the second <code>open()</code>.</p><figure class="code"><pre><code>with open(&quot;m.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;data&quot;)
+with open(&quot;m.txt&quot;, &quot;w&quot;) as f:
+    print(f.read())</code></pre></figure><p>It should print:</p><pre class="out">data</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;m.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;data&quot;)
+with open(&quot;m.txt&quot;, &quot;r&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">data</pre></figure><p>A file opened with <code>&quot;w&quot;</code> can only be written, and opening it with <code>&quot;w&quot;</code> also empties it. Read with <code>&quot;r&quot;</code>.</p></details></li><li><p><b>Medium.</b> Write the rows <code>[[&quot;name&quot;, &quot;marks&quot;], [&quot;Asha&quot;, 82], [&quot;Ravi&quot;, 67]]</code> to <code>marks.csv</code> with <code>csv.writer</code>. Read it back with <code>csv.DictReader</code> and print one line per student: <code>Asha: 82</code>.</p><p>Your code should print exactly:</p><pre class="out">Asha: 82
+Ravi: 67</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+rows = [[&quot;name&quot;, &quot;marks&quot;], [&quot;Asha&quot;, 82], [&quot;Ravi&quot;, 67]]
+with open(&quot;marks.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    csv.writer(f).writerows(rows)
+with open(&quot;marks.csv&quot;, newline=&quot;&quot;) as f:
+    for row in csv.DictReader(f):
+        print(f&quot;{row['name']}: {row['marks']}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Asha: 82
+Ravi: 67</pre></figure><p><code>DictReader</code> uses the first row as column names, so each row is a dictionary like <code>{&quot;name&quot;: &quot;Asha&quot;, &quot;marks&quot;: &quot;82&quot;}</code>.</p></details></li><li><p><b>Medium.</b> Save <code>{&quot;name&quot;: &quot;Asha&quot;, &quot;scores&quot;: [82, 91]}</code> to <code>s.json</code> with <code>json.dump</code>. Load it back with <code>json.load</code> and print the sum of the scores.</p><p>Your code should print exactly:</p><pre class="out">173</pre><details><summary>Answer</summary><figure class="code"><pre><code>import json
+with open(&quot;s.json&quot;, &quot;w&quot;) as f:
+    json.dump({&quot;name&quot;: &quot;Asha&quot;, &quot;scores&quot;: [82, 91]}, f)
+with open(&quot;s.json&quot;) as f:
+    data = json.load(f)
+print(sum(data[&quot;scores&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">173</pre></figure><p>JSON keeps the structure: the list comes back as a real list of numbers.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import json
+print(json.dumps({&quot;ok&quot;: True, &quot;coupon&quot;: None}))</code></pre></figure><details><summary>Answer</summary><pre class="out">{&quot;ok&quot;: true, &quot;coupon&quot;: null}</pre><p>In JSON, Python's <code>True</code> becomes <code>true</code> and <code>None</code> becomes <code>null</code>. JSON always uses double quotes.</p></details></li><li><p><b>Medium.</b> Use <code>os.path.exists()</code> to print whether <code>&quot;hotel_bookings.csv&quot;</code> exists and whether <code>&quot;missing.csv&quot;</code> exists, with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">True False</pre><details><summary>Answer</summary><figure class="code"><pre><code>import os
+print(os.path.exists(&quot;hotel_bookings.csv&quot;), os.path.exists(&quot;missing.csv&quot;))</code></pre><p class="olbl">Output</p><pre class="out">True False</pre></figure><p><code>os.path.exists()</code> checks for a file without opening it, so nothing can crash.</p></details></li><li><p><b>Medium.</b> This code should print <code>File missing</code> instead of crashing. Fix it with <code>try</code> / <code>except</code>.</p><figure class="code"><pre><code>with open(&quot;no_such_file.txt&quot;) as f:
+    print(f.read())</code></pre></figure><p>It should print:</p><pre class="out">File missing</pre><details><summary>Answer</summary><figure class="code"><pre><code>try:
+    with open(&quot;no_such_file.txt&quot;) as f:
+        print(f.read())
+except FileNotFoundError:
+    print(&quot;File missing&quot;)</code></pre><p class="olbl">Output</p><pre class="out">File missing</pre></figure><p>Opening a file that is not there raises <code>FileNotFoundError</code>, which you can catch like any error.</p></details></li><li><p><b>Medium.</b> Read <code>hotel_bookings.csv</code> with <code>csv.DictReader</code> and print how many bookings (data rows) it has.</p><p>Your code should print exactly:</p><pre class="out">41</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, newline=&quot;&quot;) as f:
+    rows = list(csv.DictReader(f))
+print(len(rows))</code></pre><p class="olbl">Output</p><pre class="out">41</pre></figure><p>The header row becomes the keys, so it is not counted as a booking.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>lines = [&quot;x\n&quot;, &quot;y\n&quot;]
+with open(&quot;w15.txt&quot;, &quot;w&quot;) as f:
+    f.writelines(lines)
+    f.write(&quot;z&quot;)
+with open(&quot;w15.txt&quot;) as f:
+    print(len(f.read()))</code></pre></figure><details><summary>Answer</summary><pre class="out">5</pre><p>The file holds <code>x</code>, new line, <code>y</code>, new line, <code>z</code>: 5 characters. <code>writelines()</code> adds no extra new lines.</p></details></li><li><p><b>Medium.</b> Write <code>data is the new oil and data is power</code> into <code>quote.txt</code>. Read it back and print the number of words and how many times <code>data</code> appears, with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">9 2</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;quote.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;data is the new oil and data is power&quot;)
+with open(&quot;quote.txt&quot;) as f:
+    words = f.read().split()
+print(len(words), words.count(&quot;data&quot;))</code></pre><p class="olbl">Output</p><pre class="out">9 2</pre></figure><p>Once the text is read into a string, all the string and list tools work on it.</p></details></li><li><p><b>Medium.</b> Write <code>{&quot;theme&quot;: &quot;light&quot;, &quot;font&quot;: 14}</code> to <code>settings.json</code>. Then load it, change <code>theme</code> to <code>&quot;dark&quot;</code>, save it again, load it once more and print the dictionary.</p><p>Your code should print exactly:</p><pre class="out">{'theme': 'dark', 'font': 14}</pre><details><summary>Answer</summary><figure class="code"><pre><code>import json
+with open(&quot;settings.json&quot;, &quot;w&quot;) as f:
+    json.dump({&quot;theme&quot;: &quot;light&quot;, &quot;font&quot;: 14}, f)
+with open(&quot;settings.json&quot;) as f:
+    settings = json.load(f)
+settings[&quot;theme&quot;] = &quot;dark&quot;
+with open(&quot;settings.json&quot;, &quot;w&quot;) as f:
+    json.dump(settings, f)
+with open(&quot;settings.json&quot;) as f:
+    print(json.load(f))</code></pre><p class="olbl">Output</p><pre class="out">{'theme': 'dark', 'font': 14}</pre></figure><p>Load, change, save: the usual way to update a settings file.</p></details></li><li><p><b>Medium.</b> This code should print <code>{'a': 1}</code>, but it crashes. Fix the line that saves the file.</p><figure class="code"><pre><code>import json
+data = {&quot;a&quot;: 1}
+with open(&quot;d.json&quot;, &quot;w&quot;) as f:
+    json.dumps(data, f)
+with open(&quot;d.json&quot;) as f:
+    print(json.load(f))</code></pre></figure><p>It should print:</p><pre class="out">{'a': 1}</pre><details><summary>Answer</summary><figure class="code"><pre><code>import json
+data = {&quot;a&quot;: 1}
+with open(&quot;d.json&quot;, &quot;w&quot;) as f:
+    json.dump(data, f)
+with open(&quot;d.json&quot;) as f:
+    print(json.load(f))</code></pre><p class="olbl">Output</p><pre class="out">{'a': 1}</pre></figure><p><code>dumps()</code> (with an s, for string) only makes text. <code>dump()</code> writes into a file.</p></details></li><li><p><b>Challenge.</b> From <code>hotel_bookings.csv</code>, add up <code>amount</code> per <code>channel</code> for confirmed bookings only. The data is messy: clean <code>status</code> with <code>strip().title()</code> and <code>channel</code> with <code>strip().lower()</code>; some amounts look like <code>₹5,200</code> (remove <code>₹</code> and <code>,</code>) and some are empty (skip them). Print the channels sorted by total, highest first, as <code>Channel: ₹amount</code> (with commas).</p><p>Your code should print exactly:</p><pre class="out">booking.com: ₹67,800
+goibibo: ₹48,400
+makemytrip: ₹47,400
+walk-in: ₹30,000</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+totals = {}
+with open(&quot;hotel_bookings.csv&quot;, newline=&quot;&quot;) as f:
+    for row in csv.DictReader(f):
+        amount = row[&quot;amount&quot;].replace(&quot;₹&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;).strip()
+        if row[&quot;status&quot;].strip().title() == &quot;Confirmed&quot; and amount:
+            channel = row[&quot;channel&quot;].strip().lower()
+            totals[channel] = totals.get(channel, 0) + int(amount)
+for channel in sorted(totals, key=totals.get, reverse=True):
+    print(f&quot;{channel}: ₹{totals[channel]:,}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">booking.com: ₹67,800
+goibibo: ₹48,400
+makemytrip: ₹47,400
+walk-in: ₹30,000</pre></figure><p>Real files are messy: <code> Walk-in</code>, <code>Walk-in </code> and <code>goibibo</code> must be cleaned before grouping, and amounts must be turned into plain digits before <code>int()</code>.</p></details></li><li><p><b>Challenge.</b> From <code>hotel_bookings.csv</code>, write a file <code>summary.txt</code> with three lines: <code>Bookings: &lt;all rows&gt;</code>, <code>Nights: &lt;total nights&gt;</code> and <code>Revenue: ₹&lt;total amount with commas&gt;</code>. Skip empty nights or amounts, and remove <code>₹</code> and <code>,</code> from amounts like <code>₹5,200</code>. Then print the file.</p><p>Your code should print exactly:</p><pre class="out">Bookings: 41
+Nights: 86
+Revenue: ₹234,800</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+with open(&quot;hotel_bookings.csv&quot;, newline=&quot;&quot;) as f:
+    rows = list(csv.DictReader(f))
+nights = sum(int(r[&quot;nights&quot;]) for r in rows if r[&quot;nights&quot;].strip())
+amounts = [r[&quot;amount&quot;].replace(&quot;₹&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;).strip() for r in rows]
+revenue = sum(int(a) for a in amounts if a)
+with open(&quot;summary.txt&quot;, &quot;w&quot;) as f:
+    f.write(f&quot;Bookings: {len(rows)}\n&quot;)
+    f.write(f&quot;Nights: {nights}\n&quot;)
+    f.write(f&quot;Revenue: ₹{revenue:,}\n&quot;)
+with open(&quot;summary.txt&quot;) as f:
+    print(f.read().strip())</code></pre><p class="olbl">Output</p><pre class="out">Bookings: 41
+Nights: 86
+Revenue: ₹234,800</pre></figure><p>Read, clean, calculate, then write a small report file that others can open.</p></details></li><li><p><b>Challenge.</b> Save <code>{&quot;Ramayan&quot;: 1000, &quot;Drishyam&quot;: 500}</code> with <code>pickle</code>, load it back, and print whether the loaded dict equals the original, and the loaded dict itself.</p><p>Your code should print exactly:</p><pre class="out">True {'Ramayan': 1000, 'Drishyam': 500}</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pickle
+original = {&quot;Ramayan&quot;: 1000, &quot;Drishyam&quot;: 500}
+with open(&quot;movies.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump(original, f)
+with open(&quot;movies.pkl&quot;, &quot;rb&quot;) as f:
+    loaded = pickle.load(f)
+print(loaded == original, loaded)</code></pre><p class="olbl">Output</p><pre class="out">True {'Ramayan': 1000, 'Drishyam': 500}</pre></figure><p>pickle files are binary, so use <code>&quot;wb&quot;</code> and <code>&quot;rb&quot;</code>. The object comes back exactly as it was.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import csv
+with open(&quot;t22.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    f.write(&quot;name,amount\nAsha,1200\nRavi,950\n&quot;)
+with open(&quot;t22.csv&quot;, newline=&quot;&quot;) as f:
+    rows = list(csv.DictReader(f))
+print(rows[1][&quot;name&quot;], int(rows[0][&quot;amount&quot;]) + int(rows[1][&quot;amount&quot;]))</code></pre></figure><details><summary>Answer</summary><pre class="out">Ravi 2150</pre><p>CSV values are always read as text, so <code>int()</code> is needed before adding.</p></details></li><li><p><b>Challenge.</b> Write <code>apple</code>, <code>banana</code> and <code>cherry</code> on three lines into <code>fruits.txt</code>. Read it back as a list of clean names using a list comprehension over the file, and print the list.</p><p>Your code should print exactly:</p><pre class="out">['apple', 'banana', 'cherry']</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;fruits.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;apple\nbanana\ncherry\n&quot;)
+with open(&quot;fruits.txt&quot;) as f:
+    fruits = [line.strip() for line in f]
+print(fruits)</code></pre><p class="olbl">Output</p><pre class="out">['apple', 'banana', 'cherry']</pre></figure><p>A file is a sequence of lines, so it works directly in a comprehension.</p></details></li><li><p><b>Challenge.</b> Save this list of orders to <code>orders.json</code>: <code>[{&quot;customer&quot;: &quot;Asha&quot;, &quot;amount&quot;: 1200}, {&quot;customer&quot;: &quot;Ravi&quot;, &quot;amount&quot;: 3400}, {&quot;customer&quot;: &quot;Neha&quot;, &quot;amount&quot;: 800}]</code>. Load it back, then print the total amount and the customer of the biggest order (use <code>max()</code> with <code>key=lambda</code>).</p><p>Your code should print exactly:</p><pre class="out">5400 Ravi</pre><details><summary>Answer</summary><figure class="code"><pre><code>import json
+orders = [{&quot;customer&quot;: &quot;Asha&quot;, &quot;amount&quot;: 1200}, {&quot;customer&quot;: &quot;Ravi&quot;, &quot;amount&quot;: 3400}, {&quot;customer&quot;: &quot;Neha&quot;, &quot;amount&quot;: 800}]
+with open(&quot;orders.json&quot;, &quot;w&quot;) as f:
+    json.dump(orders, f)
+with open(&quot;orders.json&quot;) as f:
+    loaded = json.load(f)
+total = sum(o[&quot;amount&quot;] for o in loaded)
+biggest = max(loaded, key=lambda o: o[&quot;amount&quot;])
+print(total, biggest[&quot;customer&quot;])</code></pre><p class="olbl">Output</p><pre class="out">5400 Ravi</pre></figure><p>A JSON file can hold a whole list of records, ready for the usual list and dictionary tools.</p></details></li><li><p><b>Challenge.</b> This code should write <code>onetwo</code> and print it, but it crashes. Fix it.</p><figure class="code"><pre><code>with open(&quot;f25.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;one&quot;)
+f.write(&quot;two&quot;)
+with open(&quot;f25.txt&quot;) as f:
+    print(f.read())</code></pre></figure><p>It should print:</p><pre class="out">onetwo</pre><details><summary>Answer</summary><figure class="code"><pre><code>with open(&quot;f25.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;one&quot;)
+    f.write(&quot;two&quot;)
+with open(&quot;f25.txt&quot;) as f:
+    print(f.read())</code></pre><p class="olbl">Output</p><pre class="out">onetwo</pre></figure><p>The file closes as soon as the <code>with</code> block ends. Every write must be indented inside the block.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

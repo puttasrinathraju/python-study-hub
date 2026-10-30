@@ -1,7 +1,7 @@
 # Projects: 3 per Part (Beginner, Intermediate, Challenging). Writes hub2/projects.js.
 # Every test is run against the model answer in real Python, with the inputs fed in the same way the
 # browser runner does it (the prompt and the typed value are echoed into the output).
-import subprocess, sys, json, tempfile, os, re, importlib.util, glob
+import subprocess, sys, json, tempfile, os, re, importlib.util, glob, shutil
 here = os.path.dirname(os.path.abspath(__file__)); hub = os.path.join(here, '..', 'hub2')
 WORK = tempfile.mkdtemp()
 AN_SRC = open(os.path.join(here, 'pj_analyse.py'), encoding='utf-8').read()
@@ -10,13 +10,34 @@ ns = {}; exec(AN_SRC, ns); analyse = ns['analyse']
 def prelude(inputs):
     return ('_hub_inputs = ' + repr(list(inputs)) + '\n'
             'def input(prompt=""):\n    value = _hub_inputs.pop(0)\n    print(str(prompt) + value)\n    return value\n')
-def run(code, inputs):
-    p = subprocess.run([sys.executable, '-c', prelude(inputs) + code], capture_output=True, text=True, cwd=WORK, timeout=30)
+DATA = glob.glob(os.path.join(hub, 'data', '*.csv'))
+SEP = '--- %s ---'
+def setup(t):
+    """Python that prepares the folder for a test: remove old files, write the test's files (the browser runs the same code first)."""
+    if not (t.get('files') or t.get('remove') or t.get('outfile') or t.get('data')): return ''
+    gone = list(t.get('remove', [])) + ([t['outfile']] if t.get('outfile') else [])
+    return ('# hotel_bookings.csv\nimport os as _o, json as _j\nfor _n in _j.loads(%s):\n    if _o.path.exists(_n): _o.remove(_n)\n'
+            'for _n, _t in _j.loads(%s).items():\n    with open(_n, "w") as _f: _f.write(_t)\n') % (json.dumps(json.dumps(gone)), json.dumps(json.dumps(t.get('files', {}))))
+def post(t):
+    """Python that shows the file the program had to write (after a separator line)."""
+    if not t.get('outfile'): return ''
+    n = json.dumps(t['outfile'])
+    return '\nimport os as _o\nprint(%s)\nprint(open(%s).read() if _o.path.exists(%s) else "(file not written)", end="")\n' % (json.dumps(SEP % t['outfile']), n, n)
+def full(t, code): return setup(t) + prelude(t['inputs']) + code + post(t)
+def run(code, t):
+    work = tempfile.mkdtemp(dir=WORK)
+    for f in DATA: shutil.copy(f, work)
+    p = subprocess.run([sys.executable, '-c', full(t, code)], capture_output=True, text=True, cwd=work, timeout=30)
     return p.returncode == 0 and not p.stderr.strip(), p.stdout.rstrip('\n'), p.stderr.strip()
 def norm(s): return re.sub(r'\s+', ' ', s.strip())
-def has_lines(out, lines):
-    got = set(norm(l) for l in out.split('\n'))
-    return [l for l in lines if norm(l) not in got]
+def split_out(out, t):
+    if t.get('outfile') and (SEP % t['outfile']) in out.split('\n'):
+        L = out.split('\n'); k = L.index(SEP % t['outfile']); return L[:k], L[k + 1:]
+    return out.split('\n'), []
+def has_lines(out, t, lines, flines=()):
+    so, fo = split_out(out, t)
+    got, fgot = set(norm(l) for l in so), set(norm(l) for l in fo)
+    return [l for l in lines if norm(l) not in got] + [l for l in flines if norm(l) not in fgot]
 
 # What each Part may use. A feature is "not allowed yet" in a project whose Part is smaller than the Part that teaches it.
 FEATURES = [
@@ -37,7 +58,9 @@ FEATURES = [
 BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinstance', 'round', 'id'],
             2: ['range', 'enumerate', 'zip'],
             3: ['len', 'list', 'tuple', 'set', 'dict', 'frozenset', 'sum', 'min', 'max', 'sorted', 'any', 'all'],
-            4: ['map', 'filter', 'iter', 'next', 'help']}
+            4: ['map', 'filter', 'iter', 'next', 'help'],
+            5: ['open', 'dir', 'Exception', 'ValueError', 'TypeError', 'KeyError', 'IndexError', 'ZeroDivisionError',
+                'FileNotFoundError', 'AssertionError', 'AttributeError']}
 def rules(part):
     r = {'ban': [dict(label=l, where=w, **m) for p, l, w, m in FEATURES if p > part]}
     if part in BUILTINS: r['allow'] = [f for k in sorted(BUILTINS) if k <= part for f in BUILTINS[k]]
@@ -59,15 +82,23 @@ for f in sorted(glob.glob(os.path.join(here, 'pj', 'pj_part*.py'))):
         for k in ('main', 'logic', 'edge'): assert any(t['kind'] == k for t in P['tests']), (pid, 'no test of kind', k)
         # 1. every test: the model answer must print every expected line
         for t in P['tests']:
-            exp = P['expect'](t['inputs'])
+            exp = P['expect'](t['inputs'], t) if P['expect'].__code__.co_argcount == 2 else P['expect'](t['inputs'])
+            fexp = []
+            if isinstance(exp, tuple): exp, fexp = exp
             if t.get('check'): exp = [l for l in exp if any(l.startswith(c) for c in t['check'])]
             assert exp, (pid, t['name'], 'no lines to check')
-            ok, out, err = run(P['sol'], t['inputs']); assert ok, (pid, t['name'], err)
-            miss = has_lines(out, exp); assert not miss, (pid, t['name'], 'missing', miss, out)
-            tests.append(dict(name=t['name'], kind=t['kind'], inputs=t['inputs'], expect=exp, tip=t.get('tip', ''), out=out))
-        assert len(set(json.dumps(t['inputs']) for t in tests)) == len(tests), (pid, 'two tests have the same inputs')
+            ok, out, err = run(P['sol'], t); assert ok, (pid, t['name'], err)
+            miss = has_lines(out, t, exp, fexp); assert not miss, (pid, t['name'], 'missing', miss, out)
+            rec = dict(name=t['name'], kind=t['kind'], inputs=t['inputs'], expect=exp, tip=t.get('tip', ''), out=out)
+            for k in ('files', 'remove', 'outfile', 'data'):
+                if t.get(k): rec[k] = t[k]
+            if fexp: rec['fexpect'] = fexp
+            if setup(t): rec['setup'] = setup(t)
+            if post(t): rec['post'] = post(t).strip()
+            tests.append(rec)
+        assert len(set(json.dumps([t['inputs'], t.get('files')]) for t in tests)) == len(tests), (pid, 'two tests are the same')
         # 2. the starter must not pass, and the weak answer must pass fewer tests than the model answer
-        def passed(code): return sum(1 for t in tests if (lambda r: r[0] and not has_lines(r[1], t['expect']))(run(code, t['inputs'])))
+        def passed(code): return sum(1 for t in tests if (lambda r: r[0] and not has_lines(r[1], t, t['expect'], t.get('fexpect', [])))(run(code, t)))
         assert passed(P['starter']) == 0, (pid, 'starter passes a test')
         nw = passed(P['weak']); assert nw < len(tests), (pid, 'weak answer passes everything')
         # 3. the model answer uses every required feature, nothing from later Parts, and passes every readability check
@@ -82,10 +113,10 @@ for f in sorted(glob.glob(os.path.join(here, 'pj', 'pj_part*.py'))):
         ex = tests[0]
         OUT[pid] = dict(id=pid, part=part, n=m.PROJECTS.index(P) + 1, level=P['level'], levelName=LEVEL[P['level']], title=P['title'], short=P['short'],
                         story=P['story'], objectives=P['objectives'], may=P['may'], mustnot=P['mustnot'], tasks=P['tasks'], lines=P['lines'],
-                        rules=P['rules'], edge=P['edge'], hints=P['hints'], starter=P['starter'], sol=P['sol'], need=P['need'],
+                        rules=P['rules'], sample=P.get('sample', {}), edge=P['edge'], hints=P['hints'], starter=P['starter'], sol=P['sol'], need=P['need'],
                         example=dict(inputs=ex['inputs'], out=ex['out']),
                         tests=[{k: v for k, v in t.items() if k != 'out'} for t in tests])
-        ITEMS.extend(dict(id='pj:%s:%d' % (pid, j), code=prelude(t['inputs']) + P['sol'], out=t['out'], err=False) for j, t in enumerate(tests))
+        ITEMS.extend(dict(id='pj:%s:%d' % (pid, j), code=full(t, P['sol']), out=t['out'], err=False) for j, t in enumerate(tests))
         print(pid, 'tests', len(tests), 'weak passes', nw)
 js = ('/* Projects: 3 per Part. Generated by gen/gen_projects.py: every expected line was checked against the model answer in real Python. */\n'
       'var PJ_AN = ' + json.dumps(AN_SRC, ensure_ascii=False) + ';\n'

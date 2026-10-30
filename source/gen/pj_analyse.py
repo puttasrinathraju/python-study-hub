@@ -50,8 +50,12 @@ def analyse(src, starter=''):
             # variables you store values in (loop and comprehension variables like i or w are not checked)
             for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):
                 for sub in ast.walk(target):
-                    if isinstance(sub, ast.Name) and sub.id not in res['names']:
+                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:
                         res['names'].append(sub.id)
+        if isinstance(node, ast.ExceptHandler) and node.type is not None:
+            for sub in ast.walk(node.type):
+                if isinstance(sub, ast.Name):
+                    add('exc:' + sub.id)
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             res['defs'].append(node.name)
             if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):

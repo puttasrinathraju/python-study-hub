@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>18.1 Big Test: Modules &amp; libraries | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Modules and libraries, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-modules.html">
+<meta property="og:title" content="18.1 Big Test: Modules &amp; libraries | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Modules and libraries, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-modules">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-modules">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>18.1 Big Test: Modules &amp; libraries</h1><p class="lead">25 questions on Modules and libraries only, from basic to challenge. Try each one first, then open the answer. <a href="modules.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import math
+print(math.ceil(9.1), math.floor(9.9), math.sqrt(49))</code></pre></figure><details><summary>Answer</summary><pre class="out">10 9 7.0</pre><p><code>ceil</code> always rounds up, <code>floor</code> always rounds down, and <code>sqrt</code> always gives a float.</p></details></li><li><p><b>Basic.</b> A van carries 12 boxes per trip. Use <code>math.ceil</code> to print how many trips are needed for 50 boxes.</p><p>Your code should print exactly:</p><pre class="out">5</pre><details><summary>Answer</summary><figure class="code"><pre><code>import math
+print(math.ceil(50 / 12))</code></pre><p class="olbl">Output</p><pre class="out">5</pre></figure><p>50 / 12 is about 4.17, and a part trip is still a trip, so round up: 5.</p></details></li><li><p><b>Basic.</b> Import <code>sqrt</code> and <code>pi</code> from <code>math</code> with one <code>from ... import</code> line. Print <code>sqrt(81)</code> and <code>pi</code> rounded to 2 decimals, with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">9.0 3.14</pre><details><summary>Answer</summary><figure class="code"><pre><code>from math import sqrt, pi
+print(sqrt(81), round(pi, 2))</code></pre><p class="olbl">Output</p><pre class="out">9.0 3.14</pre></figure><p><code>from math import sqrt, pi</code> lets you use the names without the <code>math.</code> in front.</p></details></li><li><p><b>Basic.</b> Import <code>statistics</code> as <code>st</code>. Print the mean and the median of <code>[12, 15, 20, 14, 16]</code> with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">15.4 15</pre><details><summary>Answer</summary><figure class="code"><pre><code>import statistics as st
+sales = [12, 15, 20, 14, 16]
+print(st.mean(sales), st.median(sales))</code></pre><p class="olbl">Output</p><pre class="out">15.4 15</pre></figure><p>The mean adds and divides (15.4). The median is the middle value after sorting (15).</p></details></li><li><p><b>Basic.</b> Use <code>datetime</code> to make the date 25 October 2026 and print it as <code>25/10/2026</code> with <code>strftime</code>.</p><p>Your code should print exactly:</p><pre class="out">25/10/2026</pre><details><summary>Answer</summary><figure class="code"><pre><code>from datetime import date
+d = date(2026, 10, 25)
+print(d.strftime(&quot;%d/%m/%Y&quot;))</code></pre><p class="olbl">Output</p><pre class="out">25/10/2026</pre></figure><p><code>%d</code>, <code>%m</code> and <code>%Y</code> are the day, month and 4-digit year.</p></details></li><li><p><b>Basic.</b> This code should print <code>4.0</code>, but it crashes. Fix the print line.</p><figure class="code"><pre><code>import math
+print(sqrt(16))</code></pre></figure><p>It should print:</p><pre class="out">4.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import math
+print(math.sqrt(16))</code></pre><p class="olbl">Output</p><pre class="out">4.0</pre></figure><p><code>import math</code> brings in the module, so its functions need the <code>math.</code> prefix.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>from collections import Counter
+c = Counter(&quot;banana&quot;)
+print(c[&quot;a&quot;], c.most_common(1))</code></pre></figure><details><summary>Answer</summary><pre class="out">3 [('a', 3)]</pre><p><code>Counter</code> counts each item. <code>most_common(1)</code> gives a list with the top (item, count) pair.</p></details></li><li><p><b>Basic.</b> This code should print <code>4</code>, but it crashes. Fix the print line.</p><figure class="code"><pre><code>import statistics as st
+print(statistics.mean([2, 4, 6]))</code></pre></figure><p>It should print:</p><pre class="out">4</pre><details><summary>Answer</summary><figure class="code"><pre><code>import statistics as st
+print(st.mean([2, 4, 6]))</code></pre><p class="olbl">Output</p><pre class="out">4</pre></figure><p>With <code>as st</code>, the module is known only by its short name <code>st</code>.</p></details></li><li><p><b>Medium.</b> A guest checks in on 30 October 2026 for 4 nights. Use <code>date</code> and <code>timedelta</code> to print the checkout day like <code>Tuesday, 03 November 2026</code> (<code>&quot;%A, %d %B %Y&quot;</code>).</p><p>Your code should print exactly:</p><pre class="out">Tuesday, 03 November 2026</pre><details><summary>Answer</summary><figure class="code"><pre><code>from datetime import date, timedelta
+checkin = date(2026, 10, 30)
+checkout = checkin + timedelta(days=4)
+print(checkout.strftime(&quot;%A, %d %B %Y&quot;))</code></pre><p class="olbl">Output</p><pre class="out">Tuesday, 03 November 2026</pre></figure><p>Adding a <code>timedelta</code> moves the date forward, across month ends too.</p></details></li><li><p><b>Medium.</b> Print the number of days from 15 August 2026 to 2 October 2026 by subtracting two dates.</p><p>Your code should print exactly:</p><pre class="out">48</pre><details><summary>Answer</summary><figure class="code"><pre><code>from datetime import date
+print((date(2026, 10, 2) - date(2026, 8, 15)).days)</code></pre><p class="olbl">Output</p><pre class="out">48</pre></figure><p>Subtracting dates gives a <code>timedelta</code>, and <code>.days</code> is the number of days in it.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import random
+random.seed(7)
+a = random.randint(1, 100)
+random.seed(7)
+b = random.randint(1, 100)
+print(a == b, 1 &lt;= a &lt;= 100)</code></pre></figure><details><summary>Answer</summary><pre class="out">True True</pre><p>The same seed gives the same &quot;random&quot; numbers, so <code>a</code> and <code>b</code> are equal. <code>randint(1, 100)</code> includes both ends.</p></details></li><li><p><b>Medium.</b> <code>text = &quot;Order 12 shipped, order 7 pending, order 105 cancelled&quot;</code>. Use <code>re.findall</code> to get every number, and print them as a list of ints.</p><p>Your code should print exactly:</p><pre class="out">[12, 7, 105]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import re
+text = &quot;Order 12 shipped, order 7 pending, order 105 cancelled&quot;
+print([int(n) for n in re.findall(r&quot;\d+&quot;, text)])</code></pre><p class="olbl">Output</p><pre class="out">[12, 7, 105]</pre></figure><p><code>\d+</code> means one or more digits. <code>findall</code> returns the matches as text, so convert them.</p></details></li><li><p><b>Medium.</b> Group <code>words = [&quot;apple&quot;, &quot;avocado&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;blueberry&quot;]</code> by their first letter with <code>defaultdict(list)</code>, and print <code>dict(groups)</code>.</p><p>Your code should print exactly:</p><pre class="out">{'a': ['apple', 'avocado'], 'b': ['banana', 'blueberry'], 'c': ['cherry']}</pre><details><summary>Answer</summary><figure class="code"><pre><code>from collections import defaultdict
+words = [&quot;apple&quot;, &quot;avocado&quot;, &quot;banana&quot;, &quot;cherry&quot;, &quot;blueberry&quot;]
+groups = defaultdict(list)
+for w in words:
+    groups[w[0]].append(w)
+print(dict(groups))</code></pre><p class="olbl">Output</p><pre class="out">{'a': ['apple', 'avocado'], 'b': ['banana', 'blueberry'], 'c': ['cherry']}</pre></figure><p>A <code>defaultdict(list)</code> makes an empty list the first time a key is used, so you can <code>append</code> straight away.</p></details></li><li><p><b>Medium.</b> This code should print <code>2026</code>, but it crashes. Fix the format.</p><figure class="code"><pre><code>from datetime import datetime
+d = datetime.strptime(&quot;25/10/2026&quot;, &quot;%Y-%m-%d&quot;)
+print(d.year)</code></pre></figure><p>It should print:</p><pre class="out">2026</pre><details><summary>Answer</summary><figure class="code"><pre><code>from datetime import datetime
+d = datetime.strptime(&quot;25/10/2026&quot;, &quot;%d/%m/%Y&quot;)
+print(d.year)</code></pre><p class="olbl">Output</p><pre class="out">2026</pre></figure><p><code>strptime</code> needs a format that matches the text exactly: day, slash, month, slash, year.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import math
+print(math.pow(2, 3), 2 ** 3, math.factorial(4))</code></pre></figure><details><summary>Answer</summary><pre class="out">8.0 8 24</pre><p><code>math.pow</code> always gives a float, while <code>**</code> keeps whole numbers whole. 4! = 24.</p></details></li><li><p><b>Medium.</b> Shuffle a copy of <code>[1, 2, 3, 4, 5]</code> with <code>random.shuffle</code>. Print the sorted shuffled list, and whether it still has the same items as the original.</p><p>Your code should print exactly:</p><pre class="out">[1, 2, 3, 4, 5] True</pre><details><summary>Answer</summary><figure class="code"><pre><code>import random
+nums = [1, 2, 3, 4, 5]
+mixed = nums.copy()
+random.shuffle(mixed)
+print(sorted(mixed), sorted(mixed) == nums)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3, 4, 5] True</pre></figure><p><code>shuffle()</code> changes the order in place but keeps every item. Sorting proves it without printing a random order.</p></details></li><li><p><b>Medium.</b> Write <code>main()</code> that prints <code>Report ready</code>, and call it only under <code>if __name__ == &quot;__main__&quot;:</code>.</p><p>Your code should print exactly:</p><pre class="out">Report ready</pre><details><summary>Answer</summary><figure class="code"><pre><code>def main():
+    print(&quot;Report ready&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre><p class="olbl">Output</p><pre class="out">Report ready</pre></figure><p>When you run a file directly, <code>__name__</code> is <code>&quot;__main__&quot;</code>. When it is imported, the block does not run.</p></details></li><li><p><b>Medium.</b> Use <code>dir()</code> to print whether <code>&quot;sqrt&quot;</code> and <code>&quot;mean&quot;</code> are names inside the <code>math</code> module, with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">True False</pre><details><summary>Answer</summary><figure class="code"><pre><code>import math
+print(&quot;sqrt&quot; in dir(math), &quot;mean&quot; in dir(math))</code></pre><p class="olbl">Output</p><pre class="out">True False</pre></figure><p><code>dir(module)</code> lists everything a module has. <code>mean</code> lives in <code>statistics</code>, not in <code>math</code>.</p></details></li><li><p><b>Challenge.</b> From <code>hotel_bookings.csv</code> (use <code>csv.DictReader</code>), print the mean amount rounded to 2 decimals and the median amount. Clean the amounts first: remove <code>₹</code> and <code>,</code>, and skip empty ones. Then use <code>Counter</code> on the room types (cleaned with <code>strip().title()</code>) to print the most common room type and its count.</p><p>Your code should print exactly:</p><pre class="out">5870 5200.0
+Deluxe 19</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+import statistics as st
+from collections import Counter
+with open(&quot;hotel_bookings.csv&quot;, newline=&quot;&quot;) as f:
+    rows = list(csv.DictReader(f))
+cleaned = [r[&quot;amount&quot;].replace(&quot;₹&quot;, &quot;&quot;).replace(&quot;,&quot;, &quot;&quot;).strip() for r in rows]
+amounts = [int(a) for a in cleaned if a]
+print(round(st.mean(amounts), 2), st.median(amounts))
+room, count = Counter(r[&quot;room_type&quot;].strip().title() for r in rows).most_common(1)[0]
+print(room, count)</code></pre><p class="olbl">Output</p><pre class="out">5870 5200.0
+Deluxe 19</pre></figure><p>Modules work together: <code>csv</code> reads, <code>statistics</code> summarises, and <code>Counter</code> counts the cleaned categories.</p></details></li><li><p><b>Challenge.</b> From <code>hotel_bookings.csv</code>, count the bookings per weekday of <code>check_in</code>. Most dates look like <code>2026-08-26</code>, but some look like <code>19/08/2026</code>: try <code>&quot;%Y-%m-%d&quot;</code> with <code>strptime</code>, and on <code>ValueError</code> use <code>&quot;%d/%m/%Y&quot;</code>. Name the day with <code>strftime(&quot;%A&quot;)</code>. Print the weekday with the most bookings and its count.</p><p>Your code should print exactly:</p><pre class="out">Monday 10</pre><details><summary>Answer</summary><figure class="code"><pre><code>import csv
+from datetime import datetime
+from collections import Counter
+days = []
+with open(&quot;hotel_bookings.csv&quot;, newline=&quot;&quot;) as f:
+    for row in csv.DictReader(f):
+        try:
+            d = datetime.strptime(row[&quot;check_in&quot;], &quot;%Y-%m-%d&quot;)
+        except ValueError:
+            d = datetime.strptime(row[&quot;check_in&quot;], &quot;%d/%m/%Y&quot;)
+        days.append(d.strftime(&quot;%A&quot;))
+day, count = Counter(days).most_common(1)[0]
+print(day, count)</code></pre><p class="olbl">Output</p><pre class="out">Monday 10</pre></figure><p>Turn the text into a real date first (two formats, so <code>try</code> the common one), then into a weekday name, then count.</p></details></li><li><p><b>Challenge.</b> <code>text = &quot;Invoices: INV-2041, INV-0007 and INV-1300 were paid; inv-99 was not.&quot;</code> Use <code>re.findall(r&quot;INV-\d{4}&quot;, text)</code> to get the 4-digit invoice codes. Print the list, then the total of their numbers.</p><p>Your code should print exactly:</p><pre class="out">['INV-2041', 'INV-0007', 'INV-1300']
+3348</pre><details><summary>Answer</summary><figure class="code"><pre><code>import re
+text = &quot;Invoices: INV-2041, INV-0007 and INV-1300 were paid; inv-99 was not.&quot;
+codes = re.findall(r&quot;INV-\d{4}&quot;, text)
+print(codes)
+print(sum(int(c[4:]) for c in codes))</code></pre><p class="olbl">Output</p><pre class="out">['INV-2041', 'INV-0007', 'INV-1300']
+3348</pre></figure><p><code>\d{4}</code> means exactly 4 digits, and the pattern is case-sensitive, so <code>inv-99</code> is left out.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>from datetime import date
+d = date(2026, 10, 25)
+print(d.strftime(&quot;%d %b %Y&quot;), d.weekday())</code></pre></figure><details><summary>Answer</summary><pre class="out">25 Oct 2026 6</pre><p><code>%b</code> is the short month name. <code>weekday()</code> counts Monday as 0, so Sunday is 6.</p></details></li><li><p><b>Challenge.</b> This code should print <code>('red', 2)</code>, the most common colour. Fix it.</p><figure class="code"><pre><code>from collections import Counter
+words = &quot;red blue red green&quot;.split()
+print(Counter(words).most_common(1)[1])</code></pre></figure><p>It should print:</p><pre class="out">('red', 2)</pre><details><summary>Answer</summary><figure class="code"><pre><code>from collections import Counter
+words = &quot;red blue red green&quot;.split()
+print(Counter(words).most_common(1)[0])</code></pre><p class="olbl">Output</p><pre class="out">('red', 2)</pre></figure><p><code>most_common(1)</code> is a list with ONE pair, at index 0. Index 1 does not exist.</p></details></li><li><p><b>Challenge.</b> After <code>random.seed(1)</code>, roll a dice 1000 times with <code>random.randint(1, 6)</code>. Print whether every roll was from 1 to 6, and whether all 6 faces appeared (use a set).</p><p>Your code should print exactly:</p><pre class="out">True True</pre><details><summary>Answer</summary><figure class="code"><pre><code>import random
+random.seed(1)
+rolls = [random.randint(1, 6) for _ in range(1000)]
+print(all(1 &lt;= r &lt;= 6 for r in rolls), set(rolls) == {1, 2, 3, 4, 5, 6})</code></pre><p class="olbl">Output</p><pre class="out">True True</pre></figure><p>Check properties of random data instead of exact values: the range, and that every face shows up.</p></details></li><li><p><b>Challenge.</b> This code should print <code>3.0</code>, but it crashes. Fix the import.</p><figure class="code"><pre><code>import Math
+print(Math.sqrt(9))</code></pre></figure><p>It should print:</p><pre class="out">3.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import math
+print(math.sqrt(9))</code></pre><p class="olbl">Output</p><pre class="out">3.0</pre></figure><p>Module names are case-sensitive: the module is <code>math</code> in small letters.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

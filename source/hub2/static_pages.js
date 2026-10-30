@@ -102,6 +102,7 @@ for (const [n, P] of Object.entries(ctx.D.PJP)) {
       '<h3>Your tasks</h3><ol>' + x.tasks.map(t => '<li>' + md(t) + '</li>').join('') + '</ol>' +
       '<h3>Lines your output must contain</h3><pre class="out">' + esc(x.lines.join('\n')) + '</pre><p>' + md(x.rules) + '</p>' +
       '<h3>Example run</h3><p>Typed values: ' + x.example.inputs.map(v => '<code>' + esc(v) + '</code>').join(', ') + '.</p><pre class="out">' + esc(x.example.out) + '</pre>' +
+      (Object.keys(x.sample || {}).length ? '<h3>Files for this project</h3>' + Object.entries(x.sample).map(([n, t]) => '<p><b>' + esc(n) + '</b></p><pre class="out">' + esc(t) + '</pre>').join('') : '') +
       '<h3>Edge cases to think about</h3><ul>' + x.edge.map(t => '<li>' + md(t) + '</li>').join('') + '</ul>' +
       '<h3>How your score is worked out</h3>' + table(['Part', 'Points', 'How it is checked'], PJW.map(w => ['**' + w[0] + '**', String(w[1]), w[2]])) +
       '<h3>Hints</h3>' + x.hints.map((t, i) => '<details><summary>Hint ' + (i + 1) + '</summary><p>' + md(t) + '</p></details>').join('') +

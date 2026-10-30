@@ -3779,5 +3779,761 @@ var BIGTESTS = {
    "want": "[1, 4, 9]",
    "got": "TypeError: 'int' object is not iterable"
   }
+ ],
+ "errors": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "try and except",
+   "q": "Type exactly what this code prints.",
+   "c": "try:\n    print(int(\"42\") + 1)\nexcept ValueError:\n    print(\"bad\")",
+   "e": "Nothing goes wrong inside `try`, so the `except` block is skipped.",
+   "ans": "43"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "try and except",
+   "q": "`text = \"abc\"`. Convert it to an int inside `try`. If that gives a `ValueError`, print `Not a number`.",
+   "starter": "text = \"abc\"\n",
+   "sol": "text = \"abc\"\ntry:\n    print(int(text))\nexcept ValueError:\n    print(\"Not a number\")",
+   "e": "`int(\"abc\")` raises `ValueError`. The `except ValueError:` block catches it and the program carries on.",
+   "out": "Not a number"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "try and except",
+   "q": "`d = 0`. Print `10 / d` inside `try`, and print `Cannot divide by zero` if a `ZeroDivisionError` happens.",
+   "starter": "d = 0\n",
+   "sol": "d = 0\ntry:\n    print(10 / d)\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero\")",
+   "e": "Name the exact error you expect after `except`.",
+   "out": "Cannot divide by zero"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "The common exceptions",
+   "q": "The starter has three small functions that each fail in a different way. Call each one inside `try`, and in `except Exception as e:` print the name of the error with `type(e).__name__`.",
+   "starter": "tests = [lambda: int(\"x\"), lambda: [1, 2][5], lambda: {\"a\": 1}[\"b\"]]\n",
+   "sol": "tests = [lambda: int(\"x\"), lambda: [1, 2][5], lambda: {\"a\": 1}[\"b\"]]\nfor t in tests:\n    try:\n        t()\n    except Exception as e:\n        print(type(e).__name__)",
+   "e": "`Exception` catches almost every error. `type(e).__name__` gives its name: a bad conversion, an index past the end, a missing key.",
+   "out": "ValueError\nIndexError\nKeyError"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "try and except",
+   "q": "This code should print `Cannot divide`, but it crashes. Fix the except line.",
+   "c": "try:\n    print(10 / 0)\nexcept ValueError:\n    print(\"Cannot divide\")",
+   "fixed": "try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print(\"Cannot divide\")",
+   "e": "`except ValueError` only catches a `ValueError`. Dividing by 0 raises `ZeroDivisionError`, so name that one.",
+   "want": "Cannot divide",
+   "got": "ZeroDivisionError: division by zero"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "else and finally",
+   "q": "Type exactly what this code prints.",
+   "c": "try:\n    x = 5\nexcept ValueError:\n    print(\"error\")\nelse:\n    print(\"ok\", x)\nfinally:\n    print(\"done\")",
+   "e": "`else` runs when there was no error. `finally` runs every time, error or not.",
+   "ans": "ok 5\ndone"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "raise: create your own errors",
+   "q": "Write `set_price(p)` that raises `ValueError(\"Price must be positive\")` when `p` is 0 or less, and returns `p` otherwise. Call `set_price(0)` inside `try` and print `Error: Price must be positive`.",
+   "starter": "# def set_price(p):\n",
+   "sol": "def set_price(p):\n    if p <= 0:\n        raise ValueError(\"Price must be positive\")\n    return p\n\ntry:\n    set_price(0)\nexcept ValueError as e:\n    print(\"Error:\", e)",
+   "e": "`raise` creates the error yourself. `except ... as e` gives you the error, and printing `e` shows its message.",
+   "out": "Error: Price must be positive"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Two kinds of errors",
+   "q": "This code should print `hi`. The `try` does not help here. Fix the real problem.",
+   "c": "try:\n    print(\"hi\"\nexcept SyntaxError:\n    print(\"fixed\")",
+   "fixed": "try:\n    print(\"hi\")\nexcept SyntaxError:\n    print(\"fixed\")",
+   "e": "A syntax error stops Python before anything runs, so `try` cannot catch it. Only runtime errors can be caught. Close the bracket.",
+   "want": "hi",
+   "got": "SyntaxError: '(' was never closed"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Real uses",
+   "q": "`readings = [\"12.5\", \"x\", \"13\", \"--\", \"11.5\"]`. Convert each with `float()` inside `try`, skip the bad ones, and print the clean list and how many were skipped.",
+   "starter": "readings = [\"12.5\", \"x\", \"13\", \"--\", \"11.5\"]\n",
+   "sol": "readings = [\"12.5\", \"x\", \"13\", \"--\", \"11.5\"]\nclean = []\nskipped = 0\nfor r in readings:\n    try:\n        clean.append(float(r))\n    except ValueError:\n        skipped += 1\nprint(clean, skipped)",
+   "e": "A `try` inside the loop handles each value on its own, so one bad value does not stop the rest.",
+   "out": "[12.5, 13.0, 11.5] 2"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "else and finally",
+   "q": "Type exactly what this code prints.",
+   "c": "def f(n):\n    try:\n        r = 10 / n\n    except ZeroDivisionError:\n        return \"zero\"\n    else:\n        return r\n    finally:\n        print(\"checked\", n)\n\nprint(f(2))\nprint(f(0))",
+   "e": "`finally` runs just before the function returns, so `checked` is printed before each result.",
+   "ans": "checked 2\n5.0\nchecked 0\nzero"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "try and except",
+   "q": "Try `int(\"12a\")`, catch it with `except ValueError as e`, and print `Error:` followed by the message.",
+   "starter": "# try / except ValueError as e\n",
+   "sol": "try:\n    int(\"12a\")\nexcept ValueError as e:\n    print(\"Error:\", e)",
+   "e": "The error object carries Python's own message, which is handy in logs.",
+   "out": "Error: invalid literal for int() with base 10: '12a'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "try and except",
+   "q": "Write `safe_get(d, key)` that returns `d[key]`, or `\"missing\"` if that raises a `KeyError`. Print `safe_get({\"a\": 1}, \"a\")` and `safe_get({\"a\": 1}, \"b\")` with one `print()`.",
+   "starter": "# def safe_get(d, key):\n",
+   "sol": "def safe_get(d, key):\n    try:\n        return d[key]\n    except KeyError:\n        return \"missing\"\n\nprint(safe_get({\"a\": 1}, \"a\"), safe_get({\"a\": 1}, \"b\"))",
+   "e": "A `try` inside a function can turn an error into a normal return value.",
+   "out": "1 missing"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Real uses",
+   "q": "This check should pass and print `Check passed`, because the total really is 60. Fix the assert.",
+   "c": "total = sum([10, 20, 30])\nassert total == 50, \"Total should be 60\"\nprint(\"Check passed\")",
+   "fixed": "total = sum([10, 20, 30])\nassert total == 60, \"Total should be 60\"\nprint(\"Check passed\")",
+   "e": "`assert` stops the program with an `AssertionError` when its check is `False`. The check itself was wrong.",
+   "want": "Check passed",
+   "got": "AssertionError: Total should be 60"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "try and except",
+   "q": "Type exactly what this code prints.",
+   "c": "try:\n    print(\"A\")\n    x = {\"a\": 1}[\"b\"]\n    print(\"B\")\nexcept KeyError:\n    print(\"C\")\nprint(\"D\")",
+   "e": "The error happens on the second line, so `B` is skipped. After the `except` block, the program carries on.",
+   "ans": "A\nC\nD"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "raise: create your own errors",
+   "q": "Write `withdraw(balance, amount)` that raises `ValueError(\"Insufficient funds\")` when `amount` is more than `balance`, and returns the new balance otherwise. For the pairs `(500, 200)` and `(500, 800)`, print the result or `Error: Insufficient funds`.",
+   "starter": "# def withdraw(balance, amount):\n",
+   "sol": "def withdraw(balance, amount):\n    if amount > balance:\n        raise ValueError(\"Insufficient funds\")\n    return balance - amount\n\nfor balance, amount in [(500, 200), (500, 800)]:\n    try:\n        print(withdraw(balance, amount))\n    except ValueError as e:\n        print(\"Error:\", e)",
+   "e": "The function only reports the problem. The caller decides what to do with it.",
+   "out": "300\nError: Insufficient funds"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The common exceptions",
+   "q": "For each value in `[\"5\", \"x\", None]`, try `int(value)` and print `ok` or `bad`. Catch both `ValueError` and `TypeError` in ONE `except`.",
+   "starter": "values = [\"5\", \"x\", None]\n",
+   "sol": "values = [\"5\", \"x\", None]\nfor v in values:\n    try:\n        int(v)\n        print(\"ok\")\n    except (ValueError, TypeError):\n        print(\"bad\")",
+   "e": "`int(\"x\")` is a `ValueError` and `int(None)` is a `TypeError`. A tuple after `except` catches both.",
+   "out": "ok\nbad\nbad"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "raise: create your own errors",
+   "q": "This code should print `Error: Negative age`. Fix the raise line.",
+   "c": "def check(age):\n    if age < 0:\n        raise \"Negative age\"\n\ntry:\n    check(-1)\nexcept Exception as e:\n    print(\"Error:\", e)",
+   "fixed": "def check(age):\n    if age < 0:\n        raise ValueError(\"Negative age\")\n\ntry:\n    check(-1)\nexcept Exception as e:\n    print(\"Error:\", e)",
+   "e": "You can only raise an error object, like `ValueError(\"message\")`, not plain text.",
+   "want": "Error: Negative age",
+   "got": "Error: exceptions must derive from BaseException"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reading a traceback",
+   "q": "`menu = {\"tea\": 20}`. A traceback showed `KeyError: 'coffee'` from `menu[item]`. Write `get_price(item)` that returns the price, or 0 when the item is missing, using `get()` instead of `try`. Print `get_price(\"tea\")` and `get_price(\"coffee\")`.",
+   "starter": "menu = {\"tea\": 20}\n",
+   "sol": "menu = {\"tea\": 20}\n\ndef get_price(item):\n    return menu.get(item, 0)\n\nprint(get_price(\"tea\"), get_price(\"coffee\"))",
+   "e": "Reading the traceback tells you the line and the cause. Often the best fix avoids the error altogether.",
+   "out": "20 0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Real uses",
+   "q": "Pretend the user typed `typed = [\"\", \"abc\", \"-3\", \"7\"]`. Go through them and find the first whole number from 1 to 10, using `try/except ValueError` and a range check. Print `Invalid entry` for each bad one, then `OK: 7`.",
+   "starter": "typed = [\"\", \"abc\", \"-3\", \"7\"]\n",
+   "sol": "typed = [\"\", \"abc\", \"-3\", \"7\"]\nfor raw in typed:\n    try:\n        n = int(raw)\n        if 1 <= n <= 10:\n            print(\"OK:\", n)\n            break\n        print(\"Invalid entry\")\n    except ValueError:\n        print(\"Invalid entry\")",
+   "e": "Two kinds of bad input: text that is not a number (caught by `except`) and numbers out of range (caught by the `if`).",
+   "out": "Invalid entry\nInvalid entry\nInvalid entry\nOK: 7"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "else and finally",
+   "q": "For each item in `[\"10\", \"20\", \"x\", \"30\"]`: convert it in `try`, count it as bad in `except`, and add it to the total in `else`. Then print the total, the number of bad items and the average of the good ones.",
+   "starter": "items = [\"10\", \"20\", \"x\", \"30\"]\n",
+   "sol": "items = [\"10\", \"20\", \"x\", \"30\"]\ntotal = 0\ngood = 0\nbad = 0\nfor item in items:\n    try:\n        n = int(item)\n    except ValueError:\n        bad += 1\n    else:\n        total += n\n        good += 1\nprint(total, bad, total / good)",
+   "e": "Keep the `try` block small (only the risky line). The work that should happen only on success goes in `else`.",
+   "out": "60 1 20.0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "raise: create your own errors",
+   "q": "Write `parse_score(text)`: convert it with `int()` (let its `ValueError` happen), then raise `ValueError(\"Out of range\")` if it is not from 0 to 100. For `[\"85\", \"105\", \"abc\"]`, print the score or `Error:` with the message.",
+   "starter": "# def parse_score(text):\n",
+   "sol": "def parse_score(text):\n    score = int(text)\n    if not 0 <= score <= 100:\n        raise ValueError(\"Out of range\")\n    return score\n\nfor text in [\"85\", \"105\", \"abc\"]:\n    try:\n        print(parse_score(text))\n    except ValueError as e:\n        print(\"Error:\", e)",
+   "e": "Both problems come out as a `ValueError`, so one `except` handles them, and the message says which one it was.",
+   "out": "85\nError: Out of range\nError: invalid literal for int() with base 10: 'abc'"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "else and finally",
+   "q": "Type exactly what this code prints.",
+   "c": "def f():\n    try:\n        return \"try\"\n    finally:\n        print(\"finally runs\")\n\nprint(f())",
+   "e": "Even when `try` returns, `finally` still runs first. Then the returned value is printed.",
+   "ans": "finally runs\ntry"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "try and except",
+   "q": "This code should print `25.0`, `cannot divide by zero` and `not a number`. Fix it so every value is handled.",
+   "c": "nums = [\"4\", \"0\", \"x\"]\nfor n in nums:\n    try:\n        print(100 / int(n))\n    except ValueError:\n        print(\"not a number\")",
+   "fixed": "nums = [\"4\", \"0\", \"x\"]\nfor n in nums:\n    try:\n        print(100 / int(n))\n    except ZeroDivisionError:\n        print(\"cannot divide by zero\")\n    except ValueError:\n        print(\"not a number\")",
+   "e": "One `try` can have several `except` blocks, one per kind of error.",
+   "want": "25.0\ncannot divide by zero\nnot a number",
+   "got": "25.0\nZeroDivisionError: division by zero"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The common exceptions",
+   "q": "Write `to_number(text)` that returns an int if it can, otherwise a float if it can, otherwise `None` (use a `try` inside an `except`). Print `[to_number(x) for x in [\"7\", \"7.5\", \"seven\"]]`.",
+   "starter": "# def to_number(text):\n",
+   "sol": "def to_number(text):\n    try:\n        return int(text)\n    except ValueError:\n        try:\n            return float(text)\n        except ValueError:\n            return None\n\nprint([to_number(x) for x in [\"7\", \"7.5\", \"seven\"]])",
+   "e": "Try the strictest conversion first. If it fails, fall back to the next one.",
+   "out": "[7, 7.5, None]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Real uses",
+   "q": "Write `average(values)` that uses `assert` to check the list is not empty (message `No values`), then returns the average. Call `average([])` in `try/except AssertionError as e` and print `Error: No values`. Then print `average([4, 6])`.",
+   "starter": "# def average(values):\n",
+   "sol": "def average(values):\n    assert len(values) > 0, \"No values\"\n    return sum(values) / len(values)\n\ntry:\n    average([])\nexcept AssertionError as e:\n    print(\"Error:\", e)\nprint(average([4, 6]))",
+   "e": "`assert` is a quick way to state what must be true. When it fails, it raises `AssertionError` with your message.",
+   "out": "Error: No values\n5.0"
+  }
+ ],
+ "files": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Writing to a file",
+   "q": "Type exactly what this code prints.",
+   "c": "with open(\"t1.txt\", \"w\") as f:\n    f.write(\"one\\ntwo\")\nwith open(\"t1.txt\") as f:\n    print(f.read())",
+   "e": "The `\\n` written into the file is a real new line, so reading the file back gives two lines.",
+   "ans": "one\ntwo"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Writing to a file",
+   "q": "Write `Hello File` into `note.txt`, then open it again, read it and print what is inside.",
+   "starter": "# Write first, then read\n",
+   "sol": "with open(\"note.txt\", \"w\") as f:\n    f.write(\"Hello File\")\nwith open(\"note.txt\") as f:\n    print(f.read())",
+   "e": "Mode `\"w\"` writes (and replaces the file). Opening with no mode reads.",
+   "out": "Hello File"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Reading a file",
+   "q": "Write three lines, `a`, `b` and `c`, into `abc.txt` (each ending with `\\n`). Then print how many lines `readlines()` gives.",
+   "starter": "# Write, then count the lines\n",
+   "sol": "with open(\"abc.txt\", \"w\") as f:\n    f.write(\"a\\nb\\nc\\n\")\nwith open(\"abc.txt\") as f:\n    print(len(f.readlines()))",
+   "e": "`readlines()` gives a list with one string per line.",
+   "out": "3"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "The with statement (always use it)",
+   "q": "Write `Day 1` into `log.txt` with mode `\"w\"`. Then add `Day 2` on a new line with mode `\"a\"`. Then print the whole file.",
+   "starter": "# \"w\" first, then \"a\"\n",
+   "sol": "with open(\"log.txt\", \"w\") as f:\n    f.write(\"Day 1\")\nwith open(\"log.txt\", \"a\") as f:\n    f.write(\"\\nDay 2\")\nwith open(\"log.txt\") as f:\n    print(f.read())",
+   "e": "`\"a\"` (append) adds to the end and keeps what is there. `\"w\"` would wipe it first.",
+   "out": "Day 1\nDay 2"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Writing to a file",
+   "q": "This code should save the number and print `2000`, but it crashes. Fix it.",
+   "c": "with open(\"n.txt\", \"w\") as f:\n    f.write(2000)\nwith open(\"n.txt\") as f:\n    print(f.read())",
+   "fixed": "with open(\"n.txt\", \"w\") as f:\n    f.write(str(2000))\nwith open(\"n.txt\") as f:\n    print(f.read())",
+   "e": "`write()` only takes text. Convert numbers with `str()` (or an f-string) first.",
+   "want": "2000",
+   "got": "TypeError: write() argument must be str, not int"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Reading a file",
+   "q": "Type exactly what this code prints.",
+   "c": "with open(\"t6.txt\", \"w\") as f:\n    f.write(\"Hi\\nBye\\n\")\nwith open(\"t6.txt\") as f:\n    print(f.readline().strip())\n    print(f.readline().strip())",
+   "e": "Each `readline()` reads the next line. `strip()` removes the `\\n` at its end.",
+   "ans": "Hi\nBye"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Reading a file",
+   "q": "Write `Asha` and `Ravi` on two lines into `names.txt`. Read them back with a `for` loop over the file and print a list of the names without the `\\n`.",
+   "starter": "# Write, then loop over the file\n",
+   "sol": "with open(\"names.txt\", \"w\") as f:\n    f.write(\"Asha\\nRavi\\n\")\nnames = []\nwith open(\"names.txt\") as f:\n    for line in f:\n        names.append(line.strip())\nprint(names)",
+   "e": "Looping over a file gives one line at a time, each still ending with `\\n`, so `strip()` it.",
+   "out": "['Asha', 'Ravi']"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Opening a file: the modes",
+   "q": "This code should print `data`, but it crashes. Fix the second `open()`.",
+   "c": "with open(\"m.txt\", \"w\") as f:\n    f.write(\"data\")\nwith open(\"m.txt\", \"w\") as f:\n    print(f.read())",
+   "fixed": "with open(\"m.txt\", \"w\") as f:\n    f.write(\"data\")\nwith open(\"m.txt\", \"r\") as f:\n    print(f.read())",
+   "e": "A file opened with `\"w\"` can only be written, and opening it with `\"w\"` also empties it. Read with `\"r\"`.",
+   "want": "data",
+   "got": "io.UnsupportedOperation: not readable"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "CSV files",
+   "q": "Write the rows `[[\"name\", \"marks\"], [\"Asha\", 82], [\"Ravi\", 67]]` to `marks.csv` with `csv.writer`. Read it back with `csv.DictReader` and print one line per student: `Asha: 82`.",
+   "starter": "import csv\nrows = [[\"name\", \"marks\"], [\"Asha\", 82], [\"Ravi\", 67]]\n",
+   "sol": "import csv\nrows = [[\"name\", \"marks\"], [\"Asha\", 82], [\"Ravi\", 67]]\nwith open(\"marks.csv\", \"w\", newline=\"\") as f:\n    csv.writer(f).writerows(rows)\nwith open(\"marks.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        print(f\"{row['name']}: {row['marks']}\")",
+   "e": "`DictReader` uses the first row as column names, so each row is a dictionary like `{\"name\": \"Asha\", \"marks\": \"82\"}`.",
+   "out": "Asha: 82\nRavi: 67"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "JSON files",
+   "q": "Save `{\"name\": \"Asha\", \"scores\": [82, 91]}` to `s.json` with `json.dump`. Load it back with `json.load` and print the sum of the scores.",
+   "starter": "import json\n",
+   "sol": "import json\nwith open(\"s.json\", \"w\") as f:\n    json.dump({\"name\": \"Asha\", \"scores\": [82, 91]}, f)\nwith open(\"s.json\") as f:\n    data = json.load(f)\nprint(sum(data[\"scores\"]))",
+   "e": "JSON keeps the structure: the list comes back as a real list of numbers.",
+   "out": "173"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "JSON files",
+   "q": "Type exactly what this code prints.",
+   "c": "import json\nprint(json.dumps({\"ok\": True, \"coupon\": None}))",
+   "e": "In JSON, Python's `True` becomes `true` and `None` becomes `null`. JSON always uses double quotes.",
+   "ans": "{\"ok\": true, \"coupon\": null}"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Paths, and checking or deleting files",
+   "q": "Use `os.path.exists()` to print whether `\"hotel_bookings.csv\"` exists and whether `\"missing.csv\"` exists, with one `print()`.",
+   "starter": "import os\n",
+   "sol": "import os\nprint(os.path.exists(\"hotel_bookings.csv\"), os.path.exists(\"missing.csv\"))",
+   "e": "`os.path.exists()` checks for a file without opening it, so nothing can crash.",
+   "out": "True False"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Paths, and checking or deleting files",
+   "q": "This code should print `File missing` instead of crashing. Fix it with `try` / `except`.",
+   "c": "with open(\"no_such_file.txt\") as f:\n    print(f.read())",
+   "fixed": "try:\n    with open(\"no_such_file.txt\") as f:\n        print(f.read())\nexcept FileNotFoundError:\n    print(\"File missing\")",
+   "e": "Opening a file that is not there raises `FileNotFoundError`, which you can catch like any error.",
+   "want": "File missing",
+   "got": "FileNotFoundError: [Errno 2] No such file or directory: 'no_such_file.txt'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "CSV files",
+   "q": "Read `hotel_bookings.csv` with `csv.DictReader` and print how many bookings (data rows) it has.",
+   "starter": "import csv\n",
+   "sol": "import csv\nwith open(\"hotel_bookings.csv\", newline=\"\") as f:\n    rows = list(csv.DictReader(f))\nprint(len(rows))",
+   "e": "The header row becomes the keys, so it is not counted as a booking.",
+   "out": "41"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Writing to a file",
+   "q": "Type exactly what this code prints.",
+   "c": "lines = [\"x\\n\", \"y\\n\"]\nwith open(\"w15.txt\", \"w\") as f:\n    f.writelines(lines)\n    f.write(\"z\")\nwith open(\"w15.txt\") as f:\n    print(len(f.read()))",
+   "e": "The file holds `x`, new line, `y`, new line, `z`: 5 characters. `writelines()` adds no extra new lines.",
+   "ans": "5"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reading a file",
+   "q": "Write `data is the new oil and data is power` into `quote.txt`. Read it back and print the number of words and how many times `data` appears, with one `print()`.",
+   "starter": "# Write, then read and count\n",
+   "sol": "with open(\"quote.txt\", \"w\") as f:\n    f.write(\"data is the new oil and data is power\")\nwith open(\"quote.txt\") as f:\n    words = f.read().split()\nprint(len(words), words.count(\"data\"))",
+   "e": "Once the text is read into a string, all the string and list tools work on it.",
+   "out": "9 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "JSON files",
+   "q": "Write `{\"theme\": \"light\", \"font\": 14}` to `settings.json`. Then load it, change `theme` to `\"dark\"`, save it again, load it once more and print the dictionary.",
+   "starter": "import json\n",
+   "sol": "import json\nwith open(\"settings.json\", \"w\") as f:\n    json.dump({\"theme\": \"light\", \"font\": 14}, f)\nwith open(\"settings.json\") as f:\n    settings = json.load(f)\nsettings[\"theme\"] = \"dark\"\nwith open(\"settings.json\", \"w\") as f:\n    json.dump(settings, f)\nwith open(\"settings.json\") as f:\n    print(json.load(f))",
+   "e": "Load, change, save: the usual way to update a settings file.",
+   "out": "{'theme': 'dark', 'font': 14}"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "JSON files",
+   "q": "This code should print `{'a': 1}`, but it crashes. Fix the line that saves the file.",
+   "c": "import json\ndata = {\"a\": 1}\nwith open(\"d.json\", \"w\") as f:\n    json.dumps(data, f)\nwith open(\"d.json\") as f:\n    print(json.load(f))",
+   "fixed": "import json\ndata = {\"a\": 1}\nwith open(\"d.json\", \"w\") as f:\n    json.dump(data, f)\nwith open(\"d.json\") as f:\n    print(json.load(f))",
+   "e": "`dumps()` (with an s, for string) only makes text. `dump()` writes into a file.",
+   "want": "{'a': 1}",
+   "got": "TypeError: dumps() takes 1 positional argument but 2 were given"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "CSV files",
+   "q": "From `hotel_bookings.csv`, add up `amount` per `channel` for confirmed bookings only. The data is messy: clean `status` with `strip().title()` and `channel` with `strip().lower()`; some amounts look like `₹5,200` (remove `₹` and `,`) and some are empty (skip them). Print the channels sorted by total, highest first, as `Channel: ₹amount` (with commas).",
+   "starter": "import csv\n",
+   "sol": "import csv\ntotals = {}\nwith open(\"hotel_bookings.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        amount = row[\"amount\"].replace(\"₹\", \"\").replace(\",\", \"\").strip()\n        if row[\"status\"].strip().title() == \"Confirmed\" and amount:\n            channel = row[\"channel\"].strip().lower()\n            totals[channel] = totals.get(channel, 0) + int(amount)\nfor channel in sorted(totals, key=totals.get, reverse=True):\n    print(f\"{channel}: ₹{totals[channel]:,}\")",
+   "e": "Real files are messy: ` Walk-in`, `Walk-in ` and `goibibo` must be cleaned before grouping, and amounts must be turned into plain digits before `int()`.",
+   "out": "booking.com: ₹67,800\ngoibibo: ₹48,400\nmakemytrip: ₹47,400\nwalk-in: ₹30,000"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Writing to a file",
+   "q": "From `hotel_bookings.csv`, write a file `summary.txt` with three lines: `Bookings: <all rows>`, `Nights: <total nights>` and `Revenue: ₹<total amount with commas>`. Skip empty nights or amounts, and remove `₹` and `,` from amounts like `₹5,200`. Then print the file.",
+   "starter": "import csv\n",
+   "sol": "import csv\nwith open(\"hotel_bookings.csv\", newline=\"\") as f:\n    rows = list(csv.DictReader(f))\nnights = sum(int(r[\"nights\"]) for r in rows if r[\"nights\"].strip())\namounts = [r[\"amount\"].replace(\"₹\", \"\").replace(\",\", \"\").strip() for r in rows]\nrevenue = sum(int(a) for a in amounts if a)\nwith open(\"summary.txt\", \"w\") as f:\n    f.write(f\"Bookings: {len(rows)}\\n\")\n    f.write(f\"Nights: {nights}\\n\")\n    f.write(f\"Revenue: ₹{revenue:,}\\n\")\nwith open(\"summary.txt\") as f:\n    print(f.read().strip())",
+   "e": "Read, clean, calculate, then write a small report file that others can open.",
+   "out": "Bookings: 41\nNights: 86\nRevenue: ₹234,800"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "pickle: save any Python object",
+   "q": "Save `{\"Ramayan\": 1000, \"Drishyam\": 500}` with `pickle`, load it back, and print whether the loaded dict equals the original, and the loaded dict itself.",
+   "starter": "import pickle\noriginal = {\"Ramayan\": 1000, \"Drishyam\": 500}\n",
+   "sol": "import pickle\noriginal = {\"Ramayan\": 1000, \"Drishyam\": 500}\nwith open(\"movies.pkl\", \"wb\") as f:\n    pickle.dump(original, f)\nwith open(\"movies.pkl\", \"rb\") as f:\n    loaded = pickle.load(f)\nprint(loaded == original, loaded)",
+   "e": "pickle files are binary, so use `\"wb\"` and `\"rb\"`. The object comes back exactly as it was.",
+   "out": "True {'Ramayan': 1000, 'Drishyam': 500}"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "CSV files",
+   "q": "Type exactly what this code prints.",
+   "c": "import csv\nwith open(\"t22.csv\", \"w\", newline=\"\") as f:\n    f.write(\"name,amount\\nAsha,1200\\nRavi,950\\n\")\nwith open(\"t22.csv\", newline=\"\") as f:\n    rows = list(csv.DictReader(f))\nprint(rows[1][\"name\"], int(rows[0][\"amount\"]) + int(rows[1][\"amount\"]))",
+   "e": "CSV values are always read as text, so `int()` is needed before adding.",
+   "ans": "Ravi 2150"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reading a file",
+   "q": "Write `apple`, `banana` and `cherry` on three lines into `fruits.txt`. Read it back as a list of clean names using a list comprehension over the file, and print the list.",
+   "starter": "# Write, then read with a comprehension\n",
+   "sol": "with open(\"fruits.txt\", \"w\") as f:\n    f.write(\"apple\\nbanana\\ncherry\\n\")\nwith open(\"fruits.txt\") as f:\n    fruits = [line.strip() for line in f]\nprint(fruits)",
+   "e": "A file is a sequence of lines, so it works directly in a comprehension.",
+   "out": "['apple', 'banana', 'cherry']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "JSON files",
+   "q": "Save this list of orders to `orders.json`: `[{\"customer\": \"Asha\", \"amount\": 1200}, {\"customer\": \"Ravi\", \"amount\": 3400}, {\"customer\": \"Neha\", \"amount\": 800}]`. Load it back, then print the total amount and the customer of the biggest order (use `max()` with `key=lambda`).",
+   "starter": "import json\norders = [{\"customer\": \"Asha\", \"amount\": 1200}, {\"customer\": \"Ravi\", \"amount\": 3400}, {\"customer\": \"Neha\", \"amount\": 800}]\n",
+   "sol": "import json\norders = [{\"customer\": \"Asha\", \"amount\": 1200}, {\"customer\": \"Ravi\", \"amount\": 3400}, {\"customer\": \"Neha\", \"amount\": 800}]\nwith open(\"orders.json\", \"w\") as f:\n    json.dump(orders, f)\nwith open(\"orders.json\") as f:\n    loaded = json.load(f)\ntotal = sum(o[\"amount\"] for o in loaded)\nbiggest = max(loaded, key=lambda o: o[\"amount\"])\nprint(total, biggest[\"customer\"])",
+   "e": "A JSON file can hold a whole list of records, ready for the usual list and dictionary tools.",
+   "out": "5400 Ravi"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "The with statement (always use it)",
+   "q": "This code should write `onetwo` and print it, but it crashes. Fix it.",
+   "c": "with open(\"f25.txt\", \"w\") as f:\n    f.write(\"one\")\nf.write(\"two\")\nwith open(\"f25.txt\") as f:\n    print(f.read())",
+   "fixed": "with open(\"f25.txt\", \"w\") as f:\n    f.write(\"one\")\n    f.write(\"two\")\nwith open(\"f25.txt\") as f:\n    print(f.read())",
+   "e": "The file closes as soon as the `with` block ends. Every write must be indented inside the block.",
+   "want": "onetwo",
+   "got": "ValueError: I/O operation on closed file."
+  }
+ ],
+ "modules": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "math",
+   "q": "Type exactly what this code prints.",
+   "c": "import math\nprint(math.ceil(9.1), math.floor(9.9), math.sqrt(49))",
+   "e": "`ceil` always rounds up, `floor` always rounds down, and `sqrt` always gives a float.",
+   "ans": "10 9 7.0"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "math",
+   "q": "A van carries 12 boxes per trip. Use `math.ceil` to print how many trips are needed for 50 boxes.",
+   "starter": "import math\n",
+   "sol": "import math\nprint(math.ceil(50 / 12))",
+   "e": "50 / 12 is about 4.17, and a part trip is still a trip, so round up: 5.",
+   "out": "5"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Ways to import",
+   "q": "Import `sqrt` and `pi` from `math` with one `from ... import` line. Print `sqrt(81)` and `pi` rounded to 2 decimals, with one `print()`.",
+   "starter": "# from math import ...\n",
+   "sol": "from math import sqrt, pi\nprint(sqrt(81), round(pi, 2))",
+   "e": "`from math import sqrt, pi` lets you use the names without the `math.` in front.",
+   "out": "9.0 3.14"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "statistics and collections",
+   "q": "Import `statistics` as `st`. Print the mean and the median of `[12, 15, 20, 14, 16]` with one `print()`.",
+   "starter": "import statistics as st\nsales = [12, 15, 20, 14, 16]\n",
+   "sol": "import statistics as st\nsales = [12, 15, 20, 14, 16]\nprint(st.mean(sales), st.median(sales))",
+   "e": "The mean adds and divides (15.4). The median is the middle value after sorting (15).",
+   "out": "15.4 15"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "datetime",
+   "q": "Use `datetime` to make the date 25 October 2026 and print it as `25/10/2026` with `strftime`.",
+   "starter": "from datetime import date\n",
+   "sol": "from datetime import date\nd = date(2026, 10, 25)\nprint(d.strftime(\"%d/%m/%Y\"))",
+   "e": "`%d`, `%m` and `%Y` are the day, month and 4-digit year.",
+   "out": "25/10/2026"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Ways to import",
+   "q": "This code should print `4.0`, but it crashes. Fix the print line.",
+   "c": "import math\nprint(sqrt(16))",
+   "fixed": "import math\nprint(math.sqrt(16))",
+   "e": "`import math` brings in the module, so its functions need the `math.` prefix.",
+   "want": "4.0",
+   "got": "NameError: name 'sqrt' is not defined"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "statistics and collections",
+   "q": "Type exactly what this code prints.",
+   "c": "from collections import Counter\nc = Counter(\"banana\")\nprint(c[\"a\"], c.most_common(1))",
+   "e": "`Counter` counts each item. `most_common(1)` gives a list with the top (item, count) pair.",
+   "ans": "3 [('a', 3)]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Ways to import",
+   "q": "This code should print `4`, but it crashes. Fix the print line.",
+   "c": "import statistics as st\nprint(statistics.mean([2, 4, 6]))",
+   "fixed": "import statistics as st\nprint(st.mean([2, 4, 6]))",
+   "e": "With `as st`, the module is known only by its short name `st`.",
+   "want": "4",
+   "got": "NameError: name 'statistics' is not defined. Did you forget to import 'statistics'?"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "datetime",
+   "q": "A guest checks in on 30 October 2026 for 4 nights. Use `date` and `timedelta` to print the checkout day like `Tuesday, 03 November 2026` (`\"%A, %d %B %Y\"`).",
+   "starter": "from datetime import date, timedelta\n",
+   "sol": "from datetime import date, timedelta\ncheckin = date(2026, 10, 30)\ncheckout = checkin + timedelta(days=4)\nprint(checkout.strftime(\"%A, %d %B %Y\"))",
+   "e": "Adding a `timedelta` moves the date forward, across month ends too.",
+   "out": "Tuesday, 03 November 2026"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "datetime",
+   "q": "Print the number of days from 15 August 2026 to 2 October 2026 by subtracting two dates.",
+   "starter": "from datetime import date\n",
+   "sol": "from datetime import date\nprint((date(2026, 10, 2) - date(2026, 8, 15)).days)",
+   "e": "Subtracting dates gives a `timedelta`, and `.days` is the number of days in it.",
+   "out": "48"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "random",
+   "q": "Type exactly what this code prints.",
+   "c": "import random\nrandom.seed(7)\na = random.randint(1, 100)\nrandom.seed(7)\nb = random.randint(1, 100)\nprint(a == b, 1 <= a <= 100)",
+   "e": "The same seed gives the same \"random\" numbers, so `a` and `b` are equal. `randint(1, 100)` includes both ends.",
+   "ans": "True True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "re: finding patterns in text",
+   "q": "`text = \"Order 12 shipped, order 7 pending, order 105 cancelled\"`. Use `re.findall` to get every number, and print them as a list of ints.",
+   "starter": "import re\ntext = \"Order 12 shipped, order 7 pending, order 105 cancelled\"\n",
+   "sol": "import re\ntext = \"Order 12 shipped, order 7 pending, order 105 cancelled\"\nprint([int(n) for n in re.findall(r\"\\d+\", text)])",
+   "e": "`\\d+` means one or more digits. `findall` returns the matches as text, so convert them.",
+   "out": "[12, 7, 105]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "statistics and collections",
+   "q": "Group `words = [\"apple\", \"avocado\", \"banana\", \"cherry\", \"blueberry\"]` by their first letter with `defaultdict(list)`, and print `dict(groups)`.",
+   "starter": "from collections import defaultdict\nwords = [\"apple\", \"avocado\", \"banana\", \"cherry\", \"blueberry\"]\n",
+   "sol": "from collections import defaultdict\nwords = [\"apple\", \"avocado\", \"banana\", \"cherry\", \"blueberry\"]\ngroups = defaultdict(list)\nfor w in words:\n    groups[w[0]].append(w)\nprint(dict(groups))",
+   "e": "A `defaultdict(list)` makes an empty list the first time a key is used, so you can `append` straight away.",
+   "out": "{'a': ['apple', 'avocado'], 'b': ['banana', 'blueberry'], 'c': ['cherry']}"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "datetime",
+   "q": "This code should print `2026`, but it crashes. Fix the format.",
+   "c": "from datetime import datetime\nd = datetime.strptime(\"25/10/2026\", \"%Y-%m-%d\")\nprint(d.year)",
+   "fixed": "from datetime import datetime\nd = datetime.strptime(\"25/10/2026\", \"%d/%m/%Y\")\nprint(d.year)",
+   "e": "`strptime` needs a format that matches the text exactly: day, slash, month, slash, year.",
+   "want": "2026",
+   "got": "ValueError: time data '25/10/2026' does not match format '%Y-%m-%d'"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "math",
+   "q": "Type exactly what this code prints.",
+   "c": "import math\nprint(math.pow(2, 3), 2 ** 3, math.factorial(4))",
+   "e": "`math.pow` always gives a float, while `**` keeps whole numbers whole. 4! = 24.",
+   "ans": "8.0 8 24"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "random",
+   "q": "Shuffle a copy of `[1, 2, 3, 4, 5]` with `random.shuffle`. Print the sorted shuffled list, and whether it still has the same items as the original.",
+   "starter": "import random\nnums = [1, 2, 3, 4, 5]\n",
+   "sol": "import random\nnums = [1, 2, 3, 4, 5]\nmixed = nums.copy()\nrandom.shuffle(mixed)\nprint(sorted(mixed), sorted(mixed) == nums)",
+   "e": "`shuffle()` changes the order in place but keeps every item. Sorting proves it without printing a random order.",
+   "out": "[1, 2, 3, 4, 5] True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Making your own module",
+   "q": "Write `main()` that prints `Report ready`, and call it only under `if __name__ == \"__main__\":`.",
+   "starter": "# def main():\n",
+   "sol": "def main():\n    print(\"Report ready\")\n\nif __name__ == \"__main__\":\n    main()",
+   "e": "When you run a file directly, `__name__` is `\"__main__\"`. When it is imported, the block does not run.",
+   "out": "Report ready"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Module, package, library",
+   "q": "Use `dir()` to print whether `\"sqrt\"` and `\"mean\"` are names inside the `math` module, with one `print()`.",
+   "starter": "import math\n",
+   "sol": "import math\nprint(\"sqrt\" in dir(math), \"mean\" in dir(math))",
+   "e": "`dir(module)` lists everything a module has. `mean` lives in `statistics`, not in `math`.",
+   "out": "True False"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "statistics and collections",
+   "q": "From `hotel_bookings.csv` (use `csv.DictReader`), print the mean amount rounded to 2 decimals and the median amount. Clean the amounts first: remove `₹` and `,`, and skip empty ones. Then use `Counter` on the room types (cleaned with `strip().title()`) to print the most common room type and its count.",
+   "starter": "import csv\nimport statistics as st\nfrom collections import Counter\n",
+   "sol": "import csv\nimport statistics as st\nfrom collections import Counter\nwith open(\"hotel_bookings.csv\", newline=\"\") as f:\n    rows = list(csv.DictReader(f))\ncleaned = [r[\"amount\"].replace(\"₹\", \"\").replace(\",\", \"\").strip() for r in rows]\namounts = [int(a) for a in cleaned if a]\nprint(round(st.mean(amounts), 2), st.median(amounts))\nroom, count = Counter(r[\"room_type\"].strip().title() for r in rows).most_common(1)[0]\nprint(room, count)",
+   "e": "Modules work together: `csv` reads, `statistics` summarises, and `Counter` counts the cleaned categories.",
+   "out": "5870 5200.0\nDeluxe 19"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "datetime",
+   "q": "From `hotel_bookings.csv`, count the bookings per weekday of `check_in`. Most dates look like `2026-08-26`, but some look like `19/08/2026`: try `\"%Y-%m-%d\"` with `strptime`, and on `ValueError` use `\"%d/%m/%Y\"`. Name the day with `strftime(\"%A\")`. Print the weekday with the most bookings and its count.",
+   "starter": "import csv\nfrom datetime import datetime\nfrom collections import Counter\n",
+   "sol": "import csv\nfrom datetime import datetime\nfrom collections import Counter\ndays = []\nwith open(\"hotel_bookings.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        try:\n            d = datetime.strptime(row[\"check_in\"], \"%Y-%m-%d\")\n        except ValueError:\n            d = datetime.strptime(row[\"check_in\"], \"%d/%m/%Y\")\n        days.append(d.strftime(\"%A\"))\nday, count = Counter(days).most_common(1)[0]\nprint(day, count)",
+   "e": "Turn the text into a real date first (two formats, so `try` the common one), then into a weekday name, then count.",
+   "out": "Monday 10"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "re: finding patterns in text",
+   "q": "`text = \"Invoices: INV-2041, INV-0007 and INV-1300 were paid; inv-99 was not.\"` Use `re.findall(r\"INV-\\d{4}\", text)` to get the 4-digit invoice codes. Print the list, then the total of their numbers.",
+   "starter": "import re\ntext = \"Invoices: INV-2041, INV-0007 and INV-1300 were paid; inv-99 was not.\"\n",
+   "sol": "import re\ntext = \"Invoices: INV-2041, INV-0007 and INV-1300 were paid; inv-99 was not.\"\ncodes = re.findall(r\"INV-\\d{4}\", text)\nprint(codes)\nprint(sum(int(c[4:]) for c in codes))",
+   "e": "`\\d{4}` means exactly 4 digits, and the pattern is case-sensitive, so `inv-99` is left out.",
+   "out": "['INV-2041', 'INV-0007', 'INV-1300']\n3348"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "datetime",
+   "q": "Type exactly what this code prints.",
+   "c": "from datetime import date\nd = date(2026, 10, 25)\nprint(d.strftime(\"%d %b %Y\"), d.weekday())",
+   "e": "`%b` is the short month name. `weekday()` counts Monday as 0, so Sunday is 6.",
+   "ans": "25 Oct 2026 6"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "statistics and collections",
+   "q": "This code should print `('red', 2)`, the most common colour. Fix it.",
+   "c": "from collections import Counter\nwords = \"red blue red green\".split()\nprint(Counter(words).most_common(1)[1])",
+   "fixed": "from collections import Counter\nwords = \"red blue red green\".split()\nprint(Counter(words).most_common(1)[0])",
+   "e": "`most_common(1)` is a list with ONE pair, at index 0. Index 1 does not exist.",
+   "want": "('red', 2)",
+   "got": "IndexError: list index out of range"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "random",
+   "q": "After `random.seed(1)`, roll a dice 1000 times with `random.randint(1, 6)`. Print whether every roll was from 1 to 6, and whether all 6 faces appeared (use a set).",
+   "starter": "import random\nrandom.seed(1)\n",
+   "sol": "import random\nrandom.seed(1)\nrolls = [random.randint(1, 6) for _ in range(1000)]\nprint(all(1 <= r <= 6 for r in rolls), set(rolls) == {1, 2, 3, 4, 5, 6})",
+   "e": "Check properties of random data instead of exact values: the range, and that every face shows up.",
+   "out": "True True"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Module, package, library",
+   "q": "This code should print `3.0`, but it crashes. Fix the import.",
+   "c": "import Math\nprint(Math.sqrt(9))",
+   "fixed": "import math\nprint(math.sqrt(9))",
+   "e": "Module names are case-sensitive: the module is `math` in small letters.",
+   "want": "3.0",
+   "got": "ModuleNotFoundError: No module named 'Math'"
+  }
  ]
 };

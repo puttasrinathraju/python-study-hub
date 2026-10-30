@@ -1,6 +1,8 @@
 # Big Tests: 25 questions per chapter (Parts 1-4). Every code answer is run in real Python here.
 import subprocess, sys, json, tempfile, os, re, importlib.util, glob
 WORK = tempfile.mkdtemp()
+import shutil
+for _f in glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'hub2', 'data', '*.csv')): shutil.copy(_f, WORK)  # sample data, also in the browser runner
 def run(code):
     p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=30, input='')
     ok = p.returncode == 0 and not p.stderr.strip()
