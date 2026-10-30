@@ -473,6 +473,9 @@ details.reveal[open] summary{margin-bottom:6px}
 .btwant span{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:4px}
 .btwant pre{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;background:var(--out-bg);border:1px dashed var(--line);border-radius:8px;padding:7px 10px}
 .btfb .rchk{border:1px solid var(--line);border-radius:10px}
+.btinl{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.btin{font-family:var(--mono);font-size:14px;text-transform:none;letter-spacing:0;font-weight:400;color:var(--ink);background:var(--code-bg);border:1.5px dashed var(--accent);border-radius:8px;padding:8px 10px;resize:vertical;width:100%}
+.btin:focus{outline:2px solid var(--accent);outline-offset:1px;border-style:solid}
 .btsum{border-radius:16px;padding:18px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;border:1.5px solid}
 .btsum.pass{background:var(--tip-soft);border-color:var(--tip)}.btsum.fail{background:var(--key-soft);border-color:var(--key)}
 .btbig{display:flex;align-items:baseline;gap:6px;font-family:var(--display)}.btbig b{font-size:46px;line-height:1}.btbig span{font-size:20px;color:var(--muted)}.btbig em{font-style:normal;font-weight:700;font-size:20px;margin-left:8px}
@@ -16706,108 +16709,41 @@ var BIGTESTS = {
  "strings": [
   {
    "lv": 1,
-   "ty": "mc",
-   "sec": "A string is a row of characters",
-   "q": "Which of these is a string?",
-   "o": [
-    "`\"42\"`",
-    "`42`",
-    "`42.0`",
-    "`True`"
-   ],
-   "a": 0,
-   "v": "print(type(\"42\") is str and type(42) is int)",
-   "e": "Anything inside quotes is a string, even digits. `42` is an int, `42.0` is a float and `True` is a bool."
-  },
-  {
-   "lv": 1,
-   "ty": "out",
-   "sec": "A string is a row of characters",
-   "q": "What does this print?",
-   "c": "print(len(\"Hi there\"))",
-   "o": [
-    "`7`",
-    "`8`",
-    "`9`",
-    "`2`"
-   ],
-   "a": 1,
-   "e": "`len()` counts every character, and the space counts too: H, i, space, t, h, e, r, e = 8."
-  },
-  {
-   "lv": 1,
-   "ty": "out",
-   "sec": "Indexing: one character at a time",
-   "q": "What does this print?",
-   "c": "word = \"Python\"\nprint(word[0], word[-1])",
-   "o": [
-    "`P n`",
-    "`P o`",
-    "`y n`",
-    "An error"
-   ],
-   "a": 0,
-   "e": "Index `0` is the first character and `-1` is the last one."
-  },
-  {
-   "lv": 1,
-   "ty": "out",
-   "sec": "Slicing: cut out a piece",
-   "q": "What does this print?",
-   "c": "print(\"data\"[1:3])",
-   "o": [
-    "`at`",
-    "`ata`",
-    "`da`",
-    "`dat`"
-   ],
-   "a": 0,
-   "e": "The start (1) is included and the stop (3) is not, so you get indexes 1 and 2: `a` and `t`."
-  },
-  {
-   "lv": 1,
-   "ty": "out",
+   "ty": "type",
    "sec": "Changing case",
-   "q": "What does this print?",
+   "q": "Type exactly what this code prints.",
    "c": "print(\"Hello\".upper(), \"Hello\".lower())",
-   "o": [
-    "`HELLO hello`",
-    "`Hello hello`",
-    "`HELLO HELLO`",
-    "`hello HELLO`"
-   ],
-   "a": 0,
-   "e": "`upper()` makes every letter capital and `lower()` makes every letter small."
+   "e": "`upper()` makes every letter capital and `lower()` makes every letter small.",
+   "ans": "HELLO hello"
   },
   {
    "lv": 1,
-   "ty": "mc",
-   "sec": "Cleaning: strip and replace",
-   "q": "Which method removes the spaces at both ends of `\"  hi  \"`?",
-   "o": [
-    "`strip()`",
-    "`split()`",
-    "`replace()`",
-    "`trim()`"
-   ],
-   "a": 0,
-   "v": "print(\"  hi  \".strip() == \"hi\")",
-   "e": "`strip()` cleans both ends. `lstrip()` and `rstrip()` clean one side. Python has no `trim()`."
+   "ty": "code",
+   "sec": "Indexing: one character at a time",
+   "q": "`word = \"Python\"`. Print its first and its last character.",
+   "starter": "word = \"Python\"\n",
+   "sol": "word = \"Python\"\nprint(word[0], word[-1])",
+   "e": "Index `0` is the first character and `-1` is always the last one.",
+   "out": "P n"
   },
   {
    "lv": 1,
-   "ty": "mc",
-   "sec": "split() and join()",
-   "q": "What do you get from `\"a,b,c\".split(\",\")`?",
-   "o": [
-    "A list of strings: `['a', 'b', 'c']`",
-    "One string: `'a b c'`",
-    "A number: `3`",
-    "Nothing: it changes the original string"
-   ],
-   "a": 0,
-   "v": "s = \"a,b,c\"\nprint(s.split(\",\") == [\"a\", \"b\", \"c\"] and s == \"a,b,c\")",
-   "e": "`split()` cuts the text at every comma and gives back a list. The original string does not change."
+   "ty": "code",
+   "sec": "Slicing: cut out a piece",
+   "q": "`s = \"data\"`. Use a slice to print the two middle letters.",
+   "starter": "s = \"data\"\n",
+   "sol": "s = \"data\"\nprint(s[1:3])",
+   "e": "`[1:3]` starts at index 1 and stops **before** index 3.",
+   "out": "at"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Checking what a string contains",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"2024\".isdigit(), \"20.5\".isdigit())",
+   "e": "`isdigit()` is `True` only when **every** character is a digit. The dot in `20.5` is not a digit.",
+   "ans": "True False"
   },
   {
    "lv": 1,
@@ -16820,132 +16756,105 @@ var BIGTESTS = {
    "out": "PYTHON 6"
   },
   {
-   "lv": 2,
-   "ty": "out",
-   "sec": "Slicing: cut out a piece",
-   "q": "What does this print?",
-   "c": "s = \"Python\"\nprint(s[-3:])",
-   "o": [
-    "`hon`",
-    "`Pyt`",
-    "`ho`",
-    "`n`"
-   ],
-   "a": 0,
-   "e": "`-3` starts three characters from the end. With no stop, the slice goes to the end."
-  },
-  {
-   "lv": 2,
-   "ty": "out",
-   "sec": "Slicing: cut out a piece",
-   "q": "What does this print?",
-   "c": "print(\"abcdefgh\"[::3])",
-   "o": [
-    "`adg`",
-    "`abc`",
-    "`cfh`",
-    "`beh`"
-   ],
-   "a": 0,
-   "e": "A step of 3 takes every third character: indexes 0, 3 and 6, which are `a`, `d` and `g`."
-  },
-  {
-   "lv": 2,
-   "ty": "out",
-   "sec": "Searching inside a string",
-   "q": "What does this print?",
-   "c": "print(\"banana\".count(\"a\"), \"banana\".find(\"n\"), \"banana\".find(\"z\"))",
-   "o": [
-    "`3 2 -1`",
-    "`3 2 0`",
-    "`2 2 -1`",
-    "`3 3 -1`"
-   ],
-   "a": 0,
-   "e": "There are 3 a's. The first `n` is at index 2. `find()` gives `-1` when the text is not there."
-  },
-  {
-   "lv": 2,
-   "ty": "bug",
-   "sec": "Strings are immutable",
-   "line": 2,
-   "want": "Asha",
-   "q": "This code should print `Asha`, but it crashes. Which line should replace **line 2**?",
-   "c": "name = \"asha\"\nname[0] = \"A\"\nprint(name)",
-   "o": [
-    "`name = \"A\" + name[1:]`",
-    "`name[0] = name[0].upper()`",
-    "`name[0].upper()`",
-    "`name.upper()`"
-   ],
-   "a": 0,
-   "e": "Strings cannot be changed in place: they are immutable. Build a **new** string and store it back in `name`. (`name = name.capitalize()` also works.)",
-   "got": "TypeError: 'str' object does not support item assignment",
-   "fixed": "name = \"asha\"\nname = \"A\" + name[1:]\nprint(name)"
-  },
-  {
-   "lv": 2,
-   "ty": "out",
-   "sec": "Searching inside a string",
-   "q": "What does this print?",
-   "c": "print(\"report.csv\".endswith(\".csv\"), \"Report\".startswith(\"r\"))",
-   "o": [
-    "`True False`",
-    "`True True`",
-    "`False False`",
-    "`False True`"
-   ],
-   "a": 0,
-   "e": "`startswith()` and `endswith()` care about capitals. `Report` starts with a capital `R`, not `r`."
-  },
-  {
-   "lv": 2,
-   "ty": "out",
-   "sec": "split() and join()",
-   "q": "What does this print?",
-   "c": "print(\"-\".join(\"2026 10 30\".split()))",
-   "o": [
-    "`2026-10-30`",
-    "`2026 - 10 - 30`",
-    "`-2026-10-30`",
-    "`2026-10-30-`"
-   ],
-   "a": 0,
-   "e": "`split()` cuts at the spaces, then `join()` puts `-` **between** the pieces, never at the ends."
-  },
-  {
-   "lv": 2,
-   "ty": "bug",
+   "lv": 1,
+   "ty": "code",
    "sec": "Cleaning: strip and replace",
-   "line": 2,
-   "want": "1300",
-   "q": "This code should print `1300`, but it crashes. Which line should replace **line 2**?",
-   "c": "price = \"1,250\"\ntotal = int(price) + 50\nprint(total)",
-   "o": [
-    "`total = int(price.replace(\",\", \"\")) + 50`",
-    "`total = int(price.strip()) + 50`",
-    "`total = price + 50`",
-    "`total = int(price) + \"50\"`"
-   ],
-   "a": 0,
-   "e": "`int()` cannot read the comma. Remove it first with `replace(\",\", \"\")`, then convert.",
-   "got": "ValueError: invalid literal for int() with base 10: '1,250'",
-   "fixed": "price = \"1,250\"\ntotal = int(price.replace(\",\", \"\")) + 50\nprint(total)"
+   "q": "`city = \"  goa  \"`. Print it with the spaces removed from both ends, inside square brackets.",
+   "starter": "city = \"  goa  \"\n",
+   "sol": "city = \"  goa  \"\nprint(\"[\" + city.strip() + \"]\")",
+   "e": "`strip()` removes the spaces at both ends. The brackets show that no spaces are left.",
+   "out": "[goa]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Indexing: one character at a time",
+   "q": "This code should print the last letter of the name, but it crashes. Fix it.",
+   "c": "name = \"Asha\"\nprint(name[4])",
+   "fixed": "name = \"Asha\"\nprint(name[-1])",
+   "e": "\"Asha\" has 4 letters, at indexes 0 to 3, so index 4 does not exist. `name[-1]` (or `name[3]`) is the last letter.",
+   "want": "a",
+   "got": "IndexError: string index out of range"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "split() and join()",
+   "q": "`line = \"red,green,blue\"`. Split it at the commas and print the list you get.",
+   "starter": "line = \"red,green,blue\"\n",
+   "sol": "line = \"red,green,blue\"\nprint(line.split(\",\"))",
+   "e": "`split(\",\")` cuts the text at every comma and gives a list of strings.",
+   "out": "['red', 'green', 'blue']"
   },
   {
    "lv": 2,
-   "ty": "mc",
-   "sec": "Checking what a string contains",
-   "q": "`qty` is text typed by a user, like `\"12\"` or `\"12a\"`. Which check makes sure it has only digits before you use `int(qty)`?",
-   "o": [
-    "`qty.isdigit()`",
-    "`qty.isalpha()`",
-    "`qty.isupper()`",
-    "`len(qty) > 0`"
-   ],
-   "a": 0,
-   "v": "print(\"12\".isdigit() and not \"12a\".isdigit())",
-   "e": "`isdigit()` is `True` only when every character is a digit, so `int()` will not crash."
+   "ty": "code",
+   "sec": "Slicing: cut out a piece",
+   "q": "`s = \"Python\"`. Print its last 3 characters using a negative slice.",
+   "starter": "s = \"Python\"\n",
+   "sol": "s = \"Python\"\nprint(s[-3:])",
+   "e": "`-3` starts three characters from the end. With no stop, the slice runs to the end.",
+   "out": "hon"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Slicing: cut out a piece",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"abcdefgh\"[::3])",
+   "e": "A step of 3 takes every third character: indexes 0, 3 and 6.",
+   "ans": "adg"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Slicing: cut out a piece",
+   "q": "`s = \"Python\"`. Print it backwards.",
+   "starter": "s = \"Python\"\n",
+   "sol": "s = \"Python\"\nprint(s[::-1])",
+   "e": "A step of `-1` walks from the end to the start: `[::-1]` reverses any string.",
+   "out": "nohtyP"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Strings are immutable",
+   "q": "This code should print `Asha`, but it crashes. Fix it.",
+   "c": "name = \"asha\"\nname[0] = \"A\"\nprint(name)",
+   "fixed": "name = \"asha\"\nname = \"A\" + name[1:]\nprint(name)",
+   "e": "Strings cannot be changed in place: they are immutable. Build a **new** string and store it back. (`name = name.capitalize()` also works.)",
+   "want": "Asha",
+   "got": "TypeError: 'str' object does not support item assignment"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Searching inside a string",
+   "q": "`text = \"banana\"`. Print how many times `a` appears, then the position of the first `n`.",
+   "starter": "text = \"banana\"\n",
+   "sol": "text = \"banana\"\nprint(text.count(\"a\"), text.find(\"n\"))",
+   "e": "`count()` counts the matches. `find()` gives the position of the first match (and `-1` if there is none).",
+   "out": "3 2"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Searching inside a string",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"report.csv\".endswith(\".csv\"), \"Report\".startswith(\"r\"))",
+   "e": "`startswith()` and `endswith()` care about capitals. `Report` starts with a capital `R`.",
+   "ans": "True False"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Cleaning: strip and replace",
+   "q": "This code should print `1300`, but it crashes. Fix it.",
+   "c": "price = \"1,250\"\ntotal = int(price) + 50\nprint(total)",
+   "fixed": "price = \"1,250\"\ntotal = int(price.replace(\",\", \"\")) + 50\nprint(total)",
+   "e": "`int()` cannot read the comma. Remove it first with `replace(\",\", \"\")`, then convert.",
+   "want": "1300",
+   "got": "ValueError: invalid literal for int() with base 10: '1,250'"
   },
   {
    "lv": 2,
@@ -16954,7 +16863,7 @@ var BIGTESTS = {
    "q": "`raw = \"  aSHA reddy \"`. Print the name cleaned up: no extra spaces, and a capital first letter on each word.",
    "starter": "raw = \"  aSHA reddy \"\n",
    "sol": "raw = \"  aSHA reddy \"\nprint(raw.strip().title())",
-   "e": "`strip()` removes the spaces and `title()` fixes the capitals. You can chain them: `raw.strip().title()`.",
+   "e": "`strip()` removes the spaces and `title()` fixes the capitals. You can chain them.",
    "out": "Asha Reddy"
   },
   {
@@ -16964,91 +16873,59 @@ var BIGTESTS = {
    "q": "`word = \"education\"`. Use a loop to count the vowels (a, e, i, o, u) and print the count.",
    "starter": "word = \"education\"\n",
    "sol": "word = \"education\"\ncount = 0\nfor ch in word:\n    if ch in \"aeiou\":\n        count += 1\nprint(count)",
-   "e": "A loop visits one character at a time. `ch in \"aeiou\"` checks if it is a vowel.",
+   "e": "A loop visits one character at a time, and `ch in \"aeiou\"` checks if it is a vowel.",
    "out": "5"
   },
   {
-   "lv": 3,
-   "ty": "mc",
-   "sec": "Slicing: cut out a piece",
-   "q": "`s = \"Python\"`. What happens with `s[10]` and with `s[2:10]`?",
-   "o": [
-    "`s[10]` gives an IndexError, `s[2:10]` gives `'thon'`",
-    "Both give an IndexError",
-    "Both give `''`",
-    "`s[10]` gives `''` and `s[2:10]` gives an error"
-   ],
-   "a": 0,
-   "v": "s = \"Python\"\ntry:\n    s[10]\n    print(False)\nexcept IndexError:\n    print(s[2:10] == \"thon\")",
-   "e": "One index must exist, or you get an IndexError. A slice is forgiving: it just stops at the end of the string."
-  },
-  {
-   "lv": 3,
-   "ty": "bug",
+   "lv": 2,
+   "ty": "code",
    "sec": "split() and join()",
-   "line": 2,
-   "want": "['learn', 'python', 'every', 'day']",
-   "q": "This code should print the list of words, but it prints something strange. Which line should replace **line 2**?",
+   "q": "`date = \"2026 10 30\"`. Print it as `2026-10-30` using `split()` and `join()`.",
+   "starter": "date = \"2026 10 30\"\n",
+   "sol": "date = \"2026 10 30\"\nprint(\"-\".join(date.split()))",
+   "e": "`split()` cuts at the spaces, then `\"-\".join(...)` glues the pieces with `-` between them.",
+   "out": "2026-10-30"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Searching inside a string",
+   "q": "`email = \"raman@company.in\"`. Use `find()` and slicing to print the name, then the domain in capitals.",
+   "starter": "email = \"raman@company.in\"\n",
+   "sol": "email = \"raman@company.in\"\nat = email.find(\"@\")\nprint(email[:at], email[at + 1:].upper())",
+   "e": "`find(\"@\")` gives the position of `@`. `[:at]` stops before it and `[at + 1:]` starts just after it.",
+   "out": "raman COMPANY.IN"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "split() and join()",
+   "q": "This code should print the list of words, but it prints something strange. Fix it.",
    "c": "text = \"learn python every day\"\nwords = text.split\nprint(words)",
-   "o": [
-    "`words = text.split()`",
-    "`words = text.split(\",\")`",
-    "`words = text.join()`",
-    "`words = split(text)`"
-   ],
-   "a": 0,
+   "fixed": "text = \"learn python every day\"\nwords = text.split()\nprint(words)",
    "e": "Without brackets, `text.split` is the method itself, not its result. Add `()` to run it.",
-   "got": "<built-in method split of str object at 0x...>",
-   "fixed": "text = \"learn python every day\"\nwords = text.split()\nprint(words)"
+   "want": "['learn', 'python', 'every', 'day']",
+   "got": "<built-in method split of str object at 0x...>"
   },
   {
    "lv": 3,
-   "ty": "bug",
-   "sec": "Searching inside a string",
-   "line": 2,
-   "want": "found",
-   "q": "This code should print `found`, because \"FUN\" is in the text. Which line should replace **line 2**?",
-   "c": "text = \"Python is FUN\"\nif \"fun\" in text:\n    print(\"found\")\nelse:\n    print(\"missing\")",
-   "o": [
-    "`if \"fun\" in text.lower():`",
-    "`if \"fun\".upper() in text.lower():`",
-    "`if text.lower() in \"fun\":`",
-    "`if \"Fun\" in text:`"
-   ],
-   "a": 0,
-   "e": "`in` cares about capitals. Make the text small with `lower()` first, then search for the small word.",
-   "got": "missing",
-   "fixed": "text = \"Python is FUN\"\nif \"fun\" in text.lower():\n    print(\"found\")\nelse:\n    print(\"missing\")"
-  },
-  {
-   "lv": 3,
-   "ty": "out",
-   "sec": "Searching inside a string",
-   "q": "What does this print?",
-   "c": "email = \"raman@company.in\"\nat = email.find(\"@\")\nprint(email[:at], email[at + 1:].upper())",
-   "o": [
-    "`raman COMPANY.IN`",
-    "`raman@ COMPANY.IN`",
-    "`raman @COMPANY.IN`",
-    "`ramanCOMPANY.IN`"
-   ],
-   "a": 0,
-   "e": "`find()` gives the position of `@` (5). `[:at]` stops before it and `[at + 1:]` starts just after it."
-  },
-  {
-   "lv": 3,
-   "ty": "out",
+   "ty": "type",
    "sec": "Cleaning: strip and replace",
-   "q": "What does this print?",
+   "q": "Type exactly what this code prints.",
    "c": "s = \"  Data Analyst  \"\nprint(s.strip().lower().replace(\" \", \"_\"))",
-   "o": [
-    "`data_analyst`",
-    "`_data_analyst_`",
-    "`__data_analyst__`",
-    "`Data_Analyst`"
-   ],
-   "a": 0,
-   "e": "Chained methods run left to right. `strip()` goes first, so only the middle space becomes `_`."
+   "e": "Chained methods run left to right. `strip()` goes first, so only the middle space becomes `_`.",
+   "ans": "data_analyst"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Searching inside a string",
+   "q": "This code should print `found`, because \"FUN\" is in the text. Fix it.",
+   "c": "text = \"Python is FUN\"\nif \"fun\" in text:\n    print(\"found\")\nelse:\n    print(\"missing\")",
+   "fixed": "text = \"Python is FUN\"\nif \"fun\" in text.lower():\n    print(\"found\")\nelse:\n    print(\"missing\")",
+   "e": "`in` cares about capitals. Make the text small with `lower()` first, then search for the small word.",
+   "want": "found",
+   "got": "missing"
   },
   {
    "lv": 3,
@@ -17062,18 +16939,23 @@ var BIGTESTS = {
   },
   {
    "lv": 3,
-   "ty": "out",
+   "ty": "code",
    "sec": "Slicing: cut out a piece",
-   "q": "What does this print?",
-   "c": "word = \"Level\"\nprint(word.lower() == word.lower()[::-1])",
-   "o": [
-    "`True`",
-    "`False`",
-    "`level`",
-    "An error"
-   ],
-   "a": 0,
-   "e": "`lower()` makes it `level`, and `level` reversed is still `level`, so they are equal: a palindrome."
+   "q": "`word = \"Level\"`. Print `True` if it reads the same backwards (a palindrome), ignoring capital letters.",
+   "starter": "word = \"Level\"\n",
+   "sol": "word = \"Level\"\nw = word.lower()\nprint(w == w[::-1])",
+   "e": "Make it small first, so `L` and `l` match. Then compare it with its reversed copy.",
+   "out": "True"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Slicing: cut out a piece",
+   "q": "`phone = \"9848012345\"`. Hide every digit except the last 4 with `*`.",
+   "starter": "phone = \"9848012345\"\n",
+   "sol": "phone = \"9848012345\"\nprint(\"*\" * (len(phone) - 4) + phone[-4:])",
+   "e": "`phone[-4:]` keeps the last 4 digits. `\"*\" * n` repeats the star once for every hidden digit.",
+   "out": "******2345"
   }
  ]
 };
@@ -18292,7 +18174,10 @@ function tocArrows(el){
 
 /* ---------- Big Tests: one per chapter, exam mode (answer all, then see the score) ---------- */
 var BT = window.BIGTESTS || {}, BT_PASS = 80;
-var BT_LV = { 1: 'Basic', 2: 'Medium', 3: 'Challenge' }, BT_TY = { mc: 'Choose', out: 'Predict the output', bug: 'Find the fix', code: 'Write code' };
+var BT_LV = { 1: 'Basic', 2: 'Medium', 3: 'Challenge' }, BT_TY = { mc: 'Choose', out: 'Predict the output', bug: 'Find the fix', code: '✍️ Write code', fix: '🔧 Fix the code', type: '🔮 Type the output' };
+function btEdit(x){ return x.ty === 'code' || x.ty === 'fix'; }
+function btWant(x){ return x.ty === 'fix' ? x.want : x.out; }
+function btLoose(t){ return btNorm(t).split('\n').map(function(l){ return l.trim().replace(/\s+/g, ' '); }).join('\n'); }
 function btScore(cid){ return store.get('bt', {})[cid] || null; }
 function btSecId(cid, sec){ var k = byId[cid].body.filter(function(b){ return b.t === 'h'; }).findIndex(function(b){ return b.text === sec; }); return k < 0 ? null : cid + '-s' + (k + 1); }
 function btNorm(t){ return String(t || '').replace(/\r/g, '').split('\n').map(function(l){ return l.replace(/\s+$/, ''); }).join('\n').replace(/^\n+/, '').replace(/\n+$/, ''); }
@@ -18304,14 +18189,16 @@ function vBigTest(cid){
   var c = byId[cid], L = BT[cid], ans = {}, finished = false, warned = false, s = btScore(cid);
   var nLv = { 1: 0, 2: 0, 3: 0 }; L.forEach(function(x){ nLv[x.lv]++; });
   var h = '<header class="chead"><div class="num">Part ' + c.part + ' · Big Test ' + c.num + '.1</div><h1>' + c.num + '.1 Big Test: ' + esc(c.nav || c.title) + '</h1>' +
-    '<p class="lead">' + L.length + ' questions on <b>' + esc(c.title) + '</b> only, from basic to challenge. Answer them all, then press <b>Finish</b> to see your score and every explanation. Score ' + BT_PASS + '% or more to pass.</p>' +
+    '<p class="lead">' + L.length + ' questions on <b>' + esc(c.title) + '</b> only, from basic to challenge. You <b>type every answer yourself</b>: no options to pick from, so the test shows what you really remember. Press <b>Finish</b> at the end to see your score and every explanation. Score ' + BT_PASS + '% or more to pass.</p><p class="prose muted" style="margin:0">Tip: use the tools from the chapter in your code. Typing the answer straight into <code>print()</code> would pass the check but teach you nothing.</p>' +
     '<div class="meta"><span class="pill lv1">' + nLv[1] + ' Basic</span><span class="pill lv2">' + nLv[2] + ' Medium</span><span class="pill lv3">' + nLv[3] + ' Challenge</span><span class="pill">about ' + Math.round(L.length * 1.4) + ' min</span>' + (s ? '<span class="pill">Your best: ' + s.best + '%</span>' : '') + '</div></header>' +
     '<div id="btSum"></div><div class="btbar" id="btBar"><span id="btCount"></span><button class="btn pri" type="button" id="btFin">Finish and see my score</button></div><div class="btlist">';
   L.forEach(function(x, i){
     h += '<div class="btq" id="btq-' + i + '"><div class="btqh"><span class="btn-n">' + (i + 1) + '</span><span class="pill lv' + x.lv + '">' + BT_LV[x.lv] + '</span><span class="pill">' + BT_TY[x.ty] + '</span></div><p class="btqq">' + md(x.q) + '</p>';
     if (x.ty === 'bug') h += cell(x.c, null, { ttl: 'Line ' + x.line + ' has the bug' }) + '<div class="btwant"><div><span>It should print</span><pre>' + esc(x.want) + '</pre></div><div><span>But it gives</span><pre>' + esc(x.got) + '</pre></div></div><p class="btqq" style="margin-top:4px">Replace line ' + x.line + ' with:</p>';
-    else if (x.c) h += cell(x.c, null);
-    if (x.ty === 'code') h += '<div class="btwant"><div><span>Your code should print exactly</span><pre>' + esc(x.out) + '</pre></div></div><div class="btcode"></div>';
+    else if (x.c && x.ty !== 'fix') h += cell(x.c, null);
+    if (x.ty === 'fix') h += '<div class="btwant"><div><span>It should print</span><pre>' + esc(x.want) + '</pre></div><div><span>But it gives</span><pre>' + esc(x.got) + '</pre></div></div><div class="btcode"></div>';
+    else if (x.ty === 'code') h += '<div class="btwant"><div><span>Your code should print exactly</span><pre>' + esc(x.out) + '</pre></div></div><div class="btcode"></div>';
+    else if (x.ty === 'type') h += '<label class="btinl">Your answer<textarea class="btin" rows="' + Math.max(1, x.ans.split("\n").length) + '" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Type exactly what it prints"></textarea></label>';
     else h += '<div class="opts">' + x.o.map(function(o, j){ return '<button class="opt" type="button" data-q="' + i + '" data-j="' + j + '"><span class="l">' + 'ABCD'.charAt(j) + '</span><span class="t">' + md(o) + '</span></button>'; }).join('') + '</div>';
     h += '<div class="btfb" hidden></div></div>';
   });
@@ -18320,11 +18207,12 @@ function vBigTest(cid){
   h += '<nav class="endnav"><button class="btn" type="button" data-go="' + c.id + '">← Back to Chapter ' + c.num + '</button>' + (nx ? '<button class="btn pri" type="button" data-go="' + nx.id + '">' + esc(nx.nav || nx.title) + ' →</button>' : '<span></span>') + '</nav>';
   view.className = 'col'; view.innerHTML = h;
   L.forEach(function(x, i){
-    if (x.ty !== 'code') return;
-    var box = $('#btq-' + i + ' .btcode'); CodeBox(box, { key: 'bt:' + cid + ':' + i, starter: x.starter, label: 'Your code' });
+    if (x.ty === 'type') { $('#btq-' + i + ' .btin').addEventListener('input', function(){ count(true); }); return; }
+    if (!btEdit(x)) return;
+    var box = $('#btq-' + i + ' .btcode'); CodeBox(box, { key: 'bt:' + cid + ':' + i, starter: x.ty === 'fix' ? x.c + '\n' : x.starter, label: x.ty === 'fix' ? 'Fix this code' : 'Your code' });
     $('.edta', box).addEventListener('input', function(){ count(true); });
   });
-  function answered(i){ var x = L[i]; if (x.ty !== 'code') return ans[i] != null; var ta = $('#btq-' + i + ' .edta'); return !!ta && ta.value.trim() !== '' && ta.value.trim() !== (x.starter || '').trim(); }
+  function answered(i){ var x = L[i]; if (x.ty === 'type') return $('#btq-' + i + ' .btin').value.trim() !== ''; if (!btEdit(x)) return ans[i] != null; var ta = $('#btq-' + i + ' .edta'); return !!ta && ta.value.trim() !== '' && ta.value.trim() !== (x.ty === 'fix' ? x.c : (x.starter || '')).trim(); }
   function count(changed){ var n = L.filter(function(x, i){ return answered(i); }).length; $('#btCount').innerHTML = '<b>' + n + '</b> of ' + L.length + ' answered'; if (changed) warned = false; return n; }
   count();
   $$('.btlist .opt', view).forEach(function(b){ b.onclick = function(){
@@ -18338,10 +18226,11 @@ function vBigTest(cid){
     finished = true; $('#btFin').disabled = $('#btFin2').disabled = true; $('#btFin').textContent = 'Checking your code...';
     var res = {}, p = Promise.resolve();
     L.forEach(function(x, i){
-      if (x.ty !== 'code') { res[i] = { ok: ans[i] === x.a }; return; }
+      if (x.ty === 'type') { var tv = $('#btq-' + i + ' .btin').value; res[i] = { ok: tv.trim() !== '' && btLoose(tv) === btLoose(x.ans), empty: !tv.trim() }; return; }
+      if (!btEdit(x)) { res[i] = { ok: ans[i] === x.a }; return; }
       p = p.then(function(){
         if (!answered(i)) { res[i] = { ok: false, empty: true }; return; }
-        return pyRun($('#btq-' + i + ' .edta').value, [], function(){}).then(function(r){ res[i] = { ok: r.status === 'ok' && btNorm(r.out) === btNorm(x.out), out: r.out, err: r.err, status: r.status }; });
+        return pyRun($('#btq-' + i + ' .edta').value, [], function(){}).then(function(r){ res[i] = { ok: r.status === 'ok' && btNorm(r.out) === btNorm(btWant(x)), out: r.out, err: r.err, status: r.status }; });
       });
     });
     p.then(function(){ show(res); }, function(){ L.forEach(function(x, i){ if (!res[i]) res[i] = { ok: false, nopy: true }; }); show(res); });
@@ -18354,10 +18243,11 @@ function vBigTest(cid){
       if (r.ok) { score++; lv[x.lv][0]++; } else weak[x.sec] = (weak[x.sec] || 0) + 1;
       q.classList.add(r.ok ? 'ok' : 'no');
       $$('.opt', q).forEach(function(o){ var j = +o.getAttribute('data-j'); o.disabled = true; if (j === x.a) o.classList.add('right'); else if (j === ans[i]) o.classList.add('wrong'); });
-      var fb = $('.btfb', q), t = '<div class="rchk ' + (r.ok ? 'ok' : 'no') + '"><b>' + (r.ok ? '✓ Correct.' : (x.ty === 'code' ? (r.empty ? '✗ Not answered.' : r.nopy ? '✗ Python could not start, so this was not checked.' : '✗ Not right yet.') : (ans[i] == null ? '✗ Not answered.' : '✗ Not right.'))) + '</b> ' + md(x.e);
-      if (x.ty === 'code' && !r.ok && !r.empty && !r.nopy) t += '<div class="lbl2" style="padding:8px 0 2px">Your output</div><pre>' + esc(r.status === 'error' ? (r.err || '').trim().split('\n').pop() : r.status === 'input' ? 'Your code waited for input()' : (r.out || '(nothing)')) + '</pre>';
+      var fb = $('.btfb', q), t = '<div class="rchk ' + (r.ok ? 'ok' : 'no') + '"><b>' + (r.ok ? '✓ Correct.' : (btEdit(x) || x.ty === 'type' ? (r.empty ? '✗ Not answered.' : r.nopy ? '✗ Python could not start, so this was not checked.' : '✗ Not right yet.') : (ans[i] == null ? '✗ Not answered.' : '✗ Not right.'))) + '</b> ' + md(x.e);
+      if (x.ty === 'type') { $('#btq-' + i + ' .btin').readOnly = true; if (!r.ok) t += '<div class="lbl2" style="padding:8px 0 2px">It prints</div><pre>' + esc(x.ans) + '</pre>'; }
+      if (btEdit(x) && !r.ok && !r.empty && !r.nopy) t += '<div class="lbl2" style="padding:8px 0 2px">Your output</div><pre>' + esc(r.status === 'error' ? (r.err || '').trim().split('\n').pop() : r.status === 'input' ? 'Your code waited for input()' : (r.out || '(nothing)')) + '</pre>';
       t += '</div>';
-      if (x.ty === 'code') t += '<details class="reveal"><summary>Show a model answer</summary>' + cell(x.sol, x.out) + '</details>';
+      if (btEdit(x)) t += '<details class="reveal"><summary>Show a model answer</summary>' + (x.ty === 'fix' ? cell(x.fixed, x.want) : cell(x.sol, x.out)) + '</details>';
       fb.innerHTML = t; fb.hidden = false;
     });
     var pct = Math.round(score / L.length * 100), all = store.get('bt', {}), prev = all[cid];
@@ -18369,7 +18259,7 @@ function vBigTest(cid){
       (tp.length ? '<div class="bttop"><span>Topics to review:</span>' + tp.map(function(sec){ var sid = btSecId(cid, sec); return sid ? '<button class="btn" type="button" data-jump="' + sid + '" data-ov="' + cid + '">' + md(sec) + (weak[sec] > 1 ? ' (' + weak[sec] + ')' : '') + '</button>' : ''; }).join('') + '</div>' : '') +
       '<div class="row"><button class="btn pri" type="button" id="btAgain">Try again</button><span class="muted" style="font-size:14px">Scroll down to see every answer and explanation.</span></div></div></div>';
     $('#btBar').hidden = true; $('#btFin2').closest('.row').hidden = true;
-    $('#btAgain').onclick = function(){ L.forEach(function(x, i){ if (x.ty === 'code') store.set('bt:' + cid + ':' + i, null); }); render('test-' + cid); };
+    $('#btAgain').onclick = function(){ L.forEach(function(x, i){ if (btEdit(x)) store.set('bt:' + cid + ':' + i, null); }); render('test-' + cid); };
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
