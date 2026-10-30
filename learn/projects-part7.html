@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 7 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 7 (NumPy), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part7.html">
+<meta property="og:title" content="Part 7 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 7 (NumPy), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part7">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part7">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 7 · NumPy · Projects</p><h1>Part 7 projects: NumPy for analysis</h1><p class="lead">Three analysis jobs where NumPy does the heavy lifting: a weekly sales summary, a store-by-month sales matrix, and a discount what-if table built with broadcasting. Use arrays and vectorised maths instead of loops wherever you can.</p><p>In the <a href="../#projects-7">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 7.1 (Beginner): Weekly sales with NumPy</h2><p><b>Summarise a week of sales with arrays, argmax and a boolean mask.</b></p><p>Sunita manages a bakery in Kochi. Every Sunday night she types the 7 daily sales totals of the week into her laptop and wants a quick summary: the total, the average, the best and worst day, which days beat the average, and how much of the week's money came in at the weekend.</p><p>Write it with <b>NumPy</b>: put the 7 numbers in an array and let NumPy do the maths, with no loops for the calculations.</p><h3>What you will practise</h3><ul><li>Turn typed text into a NumPy array</li><li>Use <code>sum()</code>, <code>mean()</code>, <code>argmax()</code> and <code>argmin()</code></li><li>Filter with a boolean mask</li><li>Check the input and handle bad values</li></ul><p><b>You may use:</b> everything from Parts 1-6, <code>numpy</code> arrays and their methods, boolean masks, <code>try</code> / <code>except</code>.<br><b>Do not use yet:</b> pandas (not in this course yet).</p><h3>Your tasks</h3><ol><li>The starter imports NumPy and gives you <code>DAYS</code>, the 7 day names from Monday to Sunday.</li><li>Ask <code>Sales for Mon to Sun (7 numbers): </code> and split the line at the spaces. If there are not exactly 7 parts, print <code>Please enter exactly 7 numbers</code> and stop.</li><li>Convert the parts with <code>float()</code> inside <code>try</code>. If one is not a number, print <code>Please enter numbers only</code> and stop.</li><li>Make a NumPy array of the 7 values. Print <code>Total</code> and <code>Average</code>.</li><li>Print the best day and the worst day with their sales, using <code>argmax()</code> and <code>argmin()</code> (on a tie, the earlier day).</li><li>Print the days whose sales are <b>above</b> the average, using a boolean mask on an array of the day names (or <code>none</code>).</li><li>Print the weekend share: Saturday + Sunday as a percent of the total, with 1 decimal. If the total is 0, the share is <code>0.0%</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Total: ₹&lt;amount&gt;
+Average: ₹&lt;amount&gt;
+Best day: &lt;Day&gt; (₹&lt;amount&gt;)
+Worst day: &lt;Day&gt; (₹&lt;amount&gt;)
+Days above average: &lt;Day&gt;, &lt;Day&gt; or none
+Weekend share: &lt;percent&gt;%
+Please enter exactly 7 numbers
+Please enter numbers only</pre><p>Money has <code>₹</code>, commas and 2 decimals. The weekend share has 1 decimal and a <code>%</code> sign. Day names are the 3-letter names from <code>DAYS</code>.</p><h3>Example run</h3><p>Typed values: <code>1200 1350 980 1500 1720 2400 2100</code>.</p><pre class="out">Sales for Mon to Sun (7 numbers): 1200 1350 980 1500 1720 2400 2100
+Total: ₹11,250.00
+Average: ₹1,607.14
+Best day: Sat (₹2,400.00)
+Worst day: Wed (₹980.00)
+Days above average: Fri, Sat, Sun
+Weekend share: 40.0%</pre><h3>Edge cases to think about</h3><ul><li><b>Not 7 numbers</b>, or a <b>word</b> in the list.</li><li>Two days with the <b>same</b> best or worst sales: the earlier day.</li><li>Every day the <b>same</b>: no day is above the average.</li><li>A week with <b>no sales</b>: the total is 0, so the share must not divide by it.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>parts = input(...).split()</code> then <code>if len(parts) != 7:</code>. Inside <code>try:</code> build <code>sales = np.array([float(p) for p in parts])</code>, and <code>except ValueError:</code> print the message.</p></details><details><summary>Hint 2</summary><p><code>sales.argmax()</code> gives the position of the best day, so <code>DAYS[sales.argmax()]</code> is its name and <code>sales[sales.argmax()]</code> (or <code>sales.max()</code>) its value.</p></details><details><summary>Hint 3</summary><p>For the mask, make the names an array too: <code>names = np.array(DAYS)</code>, then <code>names[sales &gt; sales.mean()]</code>. Join them with <code>&quot;, &quot;.join(...)</code>. The weekend is <code>sales[5:].sum()</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 7.1: Weekly sales with NumPy
+import numpy as np
+
+DAYS = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]
+
+parts = input(&quot;Sales for Mon to Sun (7 numbers): &quot;).split()
+if len(parts) != 7:
+    print(&quot;Please enter exactly 7 numbers&quot;)
+else:
+    try:
+        sales = np.array([float(p) for p in parts])
+    except ValueError:
+        print(&quot;Please enter numbers only&quot;)
+    else:
+        total = sales.sum()
+        average = sales.mean()
+        best = sales.argmax()
+        worst = sales.argmin()
+        # Boolean mask: the day names where sales beat the average
+        above = np.array(DAYS)[sales &gt; average]
+        weekend_share = sales[5:].sum() / total * 100 if total &gt; 0 else 0
+        print(f&quot;Total: ₹{total:,.2f}&quot;)
+        print(f&quot;Average: ₹{average:,.2f}&quot;)
+        print(f&quot;Best day: {DAYS[best]} (₹{sales[best]:,.2f})&quot;)
+        print(f&quot;Worst day: {DAYS[worst]} (₹{sales[worst]:,.2f})&quot;)
+        print(&quot;Days above average: &quot; + (&quot;, &quot;.join(above) or &quot;none&quot;))
+        print(f&quot;Weekend share: {weekend_share:.1f}%&quot;)</code></pre></figure></details></section><section><h2>Project 7.2 (Intermediate): Store sales matrix</h2><p><b>Load a stores-by-months table into a 2D array and analyse it with axis.</b></p><p>Vikram is the regional analyst for a chain of mobile shops in Hyderabad. Each quarter he gets the sales of every store for January, February and March, and his manager always asks the same questions: what was the total, which month was best, how do the stores rank and what share does each bring, and which stores grew every single month?</p><p>Build the answers from one <b>2D NumPy array</b>: one row per store, one column per month. Most answers are one line with <code>axis=</code>.</p><h3>What you will practise</h3><ul><li>Build a 2D array from typed rows</li><li>Use <code>sum(axis=0)</code> and <code>sum(axis=1)</code> correctly</li><li>Rank rows by their totals</li><li>Test a condition on every month with <code>np.diff</code> and <code>np.all</code></li></ul><p><b>You may use:</b> everything from Parts 1-6, NumPy arrays, <code>axis</code>, masks, <code>np.diff</code>, <code>np.all</code>, <code>argmax</code>, <code>sorted()</code> with <code>key=</code>.<br><b>Do not use yet:</b> pandas (not in this course yet).</p><h3>Your tasks</h3><ol><li>The starter imports NumPy and gives you <code>MONTHS = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;]</code>.</li><li>Ask <code>How many stores? </code>. It must be a whole number from 1 to 10; otherwise print <code>Number of stores must be 1 to 10</code> and stop.</li><li>Then ask for each store's row: <code>name, jan, feb, mar</code>. A row is invalid if it does not have 4 parts, the name is empty, or a sales value is not a number: print <code>Invalid row, try again</code> and ask for that store again.</li><li>Put the sales in a 2D array (stores × 3 months) and keep the names in a list. Print <code>Total sales</code>.</li><li>Print the monthly totals (<code>axis=0</code>) like <code>Monthly totals: Jan ₹X, Feb ₹X, Mar ₹X</code>, and the best month (the first one on a tie).</li><li>Rank the stores by their total (<code>axis=1</code>), highest first; equal totals keep the order they were typed. Print <code>1. Ameerpet: ₹X (34.5%)</code> with each store's share of the total sales (<code>0.0%</code> if the total is 0).</li><li>Print the stores that grew every month (Jan &lt; Feb &lt; Mar), using <code>np.diff(..., axis=1)</code> and <code>np.all(..., axis=1)</code>, or <code>none</code>.</li><li>Print the average sales per store per month (the mean of the whole array).</li></ol><h3>Lines your output must contain</h3><pre class="out">Total sales: ₹&lt;amount&gt;
+Monthly totals: Jan ₹&lt;amount&gt;, Feb ₹&lt;amount&gt;, Mar ₹&lt;amount&gt;
+Best month: &lt;Mon&gt;
+&lt;rank&gt;. &lt;Store&gt;: ₹&lt;amount&gt; (&lt;percent&gt;%)
+Growing every month: &lt;stores&gt; or none
+Average per store per month: ₹&lt;amount&gt;
+Invalid row, try again
+Number of stores must be 1 to 10</pre><p>Money has <code>₹</code>, commas and 2 decimals. Shares have 1 decimal and a <code>%</code> sign. Store names are printed without the spaces around them.</p><h3>Example run</h3><p>Typed values: <code>4</code>, <code>Ameerpet, 120000, 135000, 150000</code>, <code>Kukatpally, 98000, 97000, 110000</code>, <code>Dilsukhnagar, 140000, 152000, 161000</code>, <code>Gachibowli, 87000, 90500, 90500</code>.</p><pre class="out">How many stores? 4
+Store row (name, jan, feb, mar): Ameerpet, 120000, 135000, 150000
+Store row (name, jan, feb, mar): Kukatpally, 98000, 97000, 110000
+Store row (name, jan, feb, mar): Dilsukhnagar, 140000, 152000, 161000
+Store row (name, jan, feb, mar): Gachibowli, 87000, 90500, 90500
+Total sales: ₹1,431,000.00
+Monthly totals: Jan ₹445,000.00, Feb ₹474,500.00, Mar ₹511,500.00
+Best month: Mar
+1. Dilsukhnagar: ₹453,000.00 (31.7%)
+2. Ameerpet: ₹405,000.00 (28.3%)
+3. Kukatpally: ₹305,000.00 (21.3%)
+4. Gachibowli: ₹268,000.00 (18.7%)
+Growing every month: Ameerpet, Dilsukhnagar
+Average per store per month: ₹119,250.00</pre><h3>Edge cases to think about</h3><ul><li>A number of stores that is <b>not 1 to 10</b>, or not a number.</li><li>A row with a <b>word</b> or the <b>wrong number</b> of values: ask again.</li><li><b>Equal</b> totals: keep the typed order.</li><li>Flat months (equal sales) are <b>not</b> growth.</li><li>All sales <b>0</b>: shares are 0.0%.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Read rows in <code>while len(rows) &lt; store_count:</code>. Split at commas and strip; check <code>len(parts) == 4</code>, then convert the three values inside <code>try</code> / <code>except ValueError</code>.</p></details><details><summary>Hint 2</summary><p>With <code>sales = np.array(rows)</code>: <code>sales.sum(axis=0)</code> gives the 3 monthly totals and <code>sales.sum(axis=1)</code> one total per store. <code>MONTHS[monthly.argmax()]</code> is the best month.</p></details><details><summary>Hint 3</summary><p>Rank with <code>order = sorted(range(len(names)), key=lambda s: -totals[s])</code> (Python's sort keeps ties in order). Growth: <code>growing = np.all(np.diff(sales, axis=1) &gt; 0, axis=1)</code>, then use it as a mask on <code>np.array(names)</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 7.2: Store sales matrix
+import numpy as np
+
+MONTHS = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;]
+
+try:
+    store_count = int(input(&quot;How many stores? &quot;))
+except ValueError:
+    store_count = 0
+
+if not 1 &lt;= store_count &lt;= 10:
+    print(&quot;Number of stores must be 1 to 10&quot;)
+else:
+    names = []
+    rows = []
+    while len(rows) &lt; store_count:
+        parts = [p.strip() for p in input(&quot;Store row (name, jan, feb, mar): &quot;).split(&quot;,&quot;)]
+        try:
+            if len(parts) != 4 or parts[0] == &quot;&quot;:
+                raise ValueError(&quot;wrong shape&quot;)
+            values = [float(v) for v in parts[1:]]
+        except ValueError:
+            print(&quot;Invalid row, try again&quot;)
+            continue
+        names.append(parts[0])
+        rows.append(values)
+
+    sales = np.array(rows)  # one row per store, one column per month
+    grand_total = sales.sum()
+    monthly = sales.sum(axis=0)
+    store_totals = sales.sum(axis=1)
+    print(f&quot;Total sales: ₹{grand_total:,.2f}&quot;)
+    month_text = &quot;, &quot;.join(f&quot;{m} ₹{t:,.2f}&quot; for m, t in zip(MONTHS, monthly))
+    print(f&quot;Monthly totals: {month_text}&quot;)
+    print(f&quot;Best month: {MONTHS[monthly.argmax()]}&quot;)
+
+    order = sorted(range(store_count), key=lambda s: -store_totals[s])
+    for rank, s in enumerate(order, start=1):
+        share = store_totals[s] / grand_total * 100 if grand_total &gt; 0 else 0
+        print(f&quot;{rank}. {names[s]}: ₹{store_totals[s]:,.2f} ({share:.1f}%)&quot;)
+
+    growing = np.all(np.diff(sales, axis=1) &gt; 0, axis=1)
+    grown = np.array(names)[growing]
+    print(&quot;Growing every month: &quot; + (&quot;, &quot;.join(grown) or &quot;none&quot;))
+    print(f&quot;Average per store per month: ₹{sales.mean():,.2f}&quot;)</code></pre></figure></details></section><section><h2>Project 7.3 (Challenging): Discount what-if planner</h2><p><b>Use broadcasting to test every discount on every product in one go.</b></p><p>Before Diwali, a kirana and gifts store in Vijayawada wants to choose a discount. A bigger discount sells more units but earns less on each one. The owner wants a <b>what-if table</b>: for each discount level, the total revenue and profit, which discount gives the most revenue, which gives the most profit, and which products stay profitable at every discount.</p><p>Assume each 1% discount sells 1.5% more units (<code>ELASTICITY</code>), and each unit costs 60% of its normal price (<code>COST_SHARE</code>). With NumPy <b>broadcasting</b>, a column of discounts and a row of products become a full table without a single loop over the numbers.</p><h3>What you will practise</h3><ul><li>Parse structured input and validate every part</li><li>Turn a 1D array into a column with <code>[:, None]</code> for broadcasting</li><li>Build scenario × product tables with vectorised maths</li><li>Summarise along an axis and pick the best scenario with <code>argmax</code></li></ul><p><b>You may use:</b> everything from Parts 1-6, NumPy arrays and broadcasting, <code>axis</code>, <code>argmax</code>, <code>np.all</code>, functions and <code>try</code> / <code>except</code>.<br><b>Do not use yet:</b> pandas (not in this course yet).</p><h3>Your tasks</h3><ol><li>The starter gives <code>ELASTICITY = 1.5</code> and <code>COST_SHARE = 0.6</code>. Keep them.</li><li>Ask <code>Products (name:price:units, ...): </code>, split at commas, then each product at <code>:</code> (strip every part). Each needs a name, a price above 0 and units of 0 or more; otherwise print <code>Invalid product: &lt;the product text&gt;</code> and stop.</li><li>Ask <code>Discounts in % (for example 0 5 10): </code> and split at spaces. Each must be a whole number from 0 to 90; otherwise print <code>Invalid discount: &lt;text&gt;</code> and stop. If there are none, print <code>Please enter at least one discount</code>.</li><li>Make arrays: <code>prices</code> and <code>units</code> (one value per product) and <code>discounts</code> (one per scenario). Make <code>d = discounts[:, None] / 100</code>, a column.</li><li>With broadcasting: new price = prices × (1 − d); new units = units × (1 + ELASTICITY × d); revenue = new price × new units; profit = (new price − prices × COST_SHARE) × new units. Each is a table: one row per discount, one column per product.</li><li>Print one line per discount with the totals of its row (<code>sum(axis=1)</code>): <code>Discount 10%: revenue ₹X, profit ₹Y</code>.</li><li>Print the best discount for revenue and for profit (<code>argmax</code>; the first one on a tie).</li><li>Print the products whose profit is above 0 at <b>every</b> discount (<code>np.all(profit &gt; 0, axis=0)</code>), or <code>none</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Discount &lt;d&gt;%: revenue ₹&lt;amount&gt;, profit ₹&lt;amount&gt;
+Best discount for revenue: &lt;d&gt;%
+Best discount for profit: &lt;d&gt;%
+Profitable at every discount: &lt;names&gt; or none
+Invalid product: &lt;text&gt;
+Invalid discount: &lt;text&gt;
+Please enter at least one discount</pre><p>Money has <code>₹</code>, commas and 2 decimals. Discounts are whole numbers printed with a <code>%</code> sign. Product names are printed without the spaces around them.</p><h3>Example run</h3><p>Typed values: <code>Tea:20:300, Coffee:45:120, Juice:60:80</code>, <code>0 5 10 15 20</code>.</p><pre class="out">Products (name:price:units, ...): Tea:20:300, Coffee:45:120, Juice:60:80
+Discounts in % (for example 0 5 10): 0 5 10 15 20
+Discount 0%: revenue ₹16,200.00, profit ₹6,480.00
+Discount 5%: revenue ₹16,544.25, profit ₹6,095.25
+Discount 10%: revenue ₹16,767.00, profit ₹5,589.00
+Discount 15%: revenue ₹16,868.25, profit ₹4,961.25
+Discount 20%: revenue ₹16,848.00, profit ₹4,212.00
+Best discount for revenue: 15%
+Best discount for profit: 0%
+Profitable at every discount: Tea, Coffee, Juice</pre><h3>Edge cases to think about</h3><ul><li>A product with a <b>missing part</b> (<code>Tea:20</code>), a word as the price, or a price of 0.</li><li>A discount that is a word, a decimal, <b>above 90</b> or negative.</li><li>A big discount where the new price falls <b>below the cost</b>: the profit turns negative.</li><li>Only <b>one</b> discount: it is the best for both.</li><li>Spaces everywhere in the input.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Validate first, then build arrays: collect names, prices and units in three lists inside a loop with <code>try</code> / <code>except ValueError</code>, and only then call <code>np.array()</code> on each list.</p></details><details><summary>Hint 2</summary><p>Broadcasting: <code>d = discounts[:, None] / 100</code> has shape (scenarios, 1); <code>prices</code> has shape (products,). Then <code>new_price = prices * (1 - d)</code> is a full (scenarios, products) table. Do the same for <code>new_units</code>.</p></details><details><summary>Hint 3</summary><p>Row totals: <code>revenue.sum(axis=1)</code>. Best scenario: <code>discounts[revenue.sum(axis=1).argmax()]</code>. Profitable everywhere: <code>np.array(names)[np.all(profit &gt; 0, axis=0)]</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 7.3: Discount what-if planner
+import numpy as np
+
+ELASTICITY = 1.5   # each 1% discount sells 1.5% more units
+COST_SHARE = 0.6   # each unit costs 60% of its normal price
+
+
+def read_products(text):
+    &quot;&quot;&quot;Return names, prices, units lists, or raise ValueError with the bad product.&quot;&quot;&quot;
+    names, prices, units = [], [], []
+    for item in text.split(&quot;,&quot;):
+        parts = [p.strip() for p in item.split(&quot;:&quot;)]
+        try:
+            if len(parts) != 3 or parts[0] == &quot;&quot;:
+                raise ValueError
+            price, qty = float(parts[1]), float(parts[2])
+            if price &lt;= 0 or qty &lt; 0:
+                raise ValueError
+        except ValueError:
+            raise ValueError(f&quot;Invalid product: {item.strip()}&quot;)
+        names.append(parts[0])
+        prices.append(price)
+        units.append(qty)
+    return names, prices, units
+
+
+def read_discounts(text):
+    &quot;&quot;&quot;Return a list of whole-number discounts from 0 to 90, or raise ValueError.&quot;&quot;&quot;
+    discounts = []
+    for token in text.split():
+        if not token.isdigit() or int(token) &gt; 90:
+            raise ValueError(f&quot;Invalid discount: {token}&quot;)
+        discounts.append(int(token))
+    if not discounts:
+        raise ValueError(&quot;Please enter at least one discount&quot;)
+    return discounts
+
+
+try:
+    names, prices, units = read_products(input(&quot;Products (name:price:units, ...): &quot;))
+    discount_list = read_discounts(input(&quot;Discounts in % (for example 0 5 10): &quot;))
+except ValueError as e:
+    print(e)
+else:
+    prices = np.array(prices)
+    units = np.array(units)
+    discounts = np.array(discount_list)
+    cut = discounts[:, None] / 100  # a column: one row per scenario
+
+    # Broadcasting builds (scenarios x products) tables
+    new_price = prices * (1 - cut)
+    new_units = units * (1 + ELASTICITY * cut)
+    revenue = new_price * new_units
+    profit = (new_price - prices * COST_SHARE) * new_units
+
+    revenue_totals = revenue.sum(axis=1)
+    profit_totals = profit.sum(axis=1)
+    for disc, rev, prof in zip(discount_list, revenue_totals, profit_totals):
+        print(f&quot;Discount {disc}%: revenue ₹{rev:,.2f}, profit ₹{prof:,.2f}&quot;)
+    print(f&quot;Best discount for revenue: {discount_list[revenue_totals.argmax()]}%&quot;)
+    print(f&quot;Best discount for profit: {discount_list[profit_totals.argmax()]}%&quot;)
+    safe = np.array(names)[np.all(profit &gt; 0, axis=0)]
+    print(&quot;Profitable at every discount: &quot; + (&quot;, &quot;.join(safe) or &quot;none&quot;))</code></pre></figure></details></section><nav class="pn"><a href="overview7.html">← Part 7 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -26,6 +26,10 @@ def analyse(src, starter=''):
             if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):
                 if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):
                     add('strrepeat')
+        elif isinstance(node, ast.Subscript) and (isinstance(node.slice, (ast.Compare, ast.UnaryOp)) or (isinstance(node.slice, ast.BinOp) and isinstance(node.slice.op, (ast.BitAnd, ast.BitOr)))):
+            add('mask')  # boolean mask, like a[a > 5]
+        elif isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Tuple) and any(isinstance(x, ast.Constant) and x.value is None for x in node.slice.elts):
+            add('newaxis')  # a[:, None] adds an axis for broadcasting
         elif isinstance(node, ast.Compare):
             for op in node.ops:
                 add('cmp:' + type(op).__name__)

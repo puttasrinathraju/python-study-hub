@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>22.1 Big Test: NumPy extras | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on NumPy extras: iterate, split, search, random and ufuncs, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-numpy3.html">
+<meta property="og:title" content="22.1 Big Test: NumPy extras | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on NumPy extras: iterate, split, search, random and ufuncs, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-numpy3">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-numpy3">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>22.1 Big Test: NumPy extras</h1><p class="lead">25 questions on NumPy extras: iterate, split, search, random and ufuncs only, from basic to challenge. Try each one first, then open the answer. <a href="numpy3.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+for row in m:
+    print(row.sum())</code></pre></figure><details><summary>Answer</summary><pre class="out">3
+7</pre><p>Looping over a 2D array gives one row at a time, and each row is itself an array.</p></details></li><li><p><b>Basic.</b> Split <code>np.arange(1, 10)</code> into 3 equal parts with <code>np.split</code>, and print each part on its own line.</p><p>Your code should print exactly:</p><pre class="out">[1 2 3]
+[4 5 6]
+[7 8 9]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+for part in np.split(np.arange(1, 10), 3):
+    print(part)</code></pre><p class="olbl">Output</p><pre class="out">[1 2 3]
+[4 5 6]
+[7 8 9]</pre></figure><p><code>np.split(a, 3)</code> cuts the array into 3 equal pieces. 9 values make 3 pieces of 3.</p></details></li><li><p><b>Basic.</b> <code>a = np.array([4, 7, 4, 9, 4])</code>. Print the positions of every 4, using <code>np.where</code>.</p><p>Your code should print exactly:</p><pre class="out">[0 2 4]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([4, 7, 4, 9, 4])
+print(np.where(a == 4)[0])</code></pre><p class="olbl">Output</p><pre class="out">[0 2 4]</pre></figure><p><code>np.where(condition)</code> gives a tuple with one array of positions per dimension. <code>[0]</code> takes the positions.</p></details></li><li><p><b>Basic.</b> <code>a = np.array([10, 20, 30])</code> and <code>b = np.array([3, 4, 5])</code>. Print <code>np.add(a, b)</code> and <code>np.mod(a, b)</code> with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">[13 24 35] [1 0 0]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([10, 20, 30])
+b = np.array([3, 4, 5])
+print(np.add(a, b), np.mod(a, b))</code></pre><p class="olbl">Output</p><pre class="out">[13 24 35] [1 0 0]</pre></figure><p>ufuncs work value by value, like <code>+</code> and <code>%</code> on arrays.</p></details></li><li><p><b>Basic.</b> <code>sales = np.array([120, 80, 150])</code>. Print the running total with <code>np.cumsum</code>.</p><p>Your code should print exactly:</p><pre class="out">[120 200 350]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+sales = np.array([120, 80, 150])
+print(np.cumsum(sales))</code></pre><p class="olbl">Output</p><pre class="out">[120 200 350]</pre></figure><p><code>cumsum</code> adds up as it goes: each value is the total so far.</p></details></li><li><p><b>Basic.</b> This code should split 7 numbers into 3 parts (3, 2 and 2 values), but it crashes. Fix it.</p><figure class="code"><pre><code>import numpy as np
+for part in np.split(np.arange(7), 3):
+    print(part)</code></pre></figure><p>It should print:</p><pre class="out">[0 1 2]
+[3 4]
+[5 6]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+for part in np.array_split(np.arange(7), 3):
+    print(part)</code></pre><p class="olbl">Output</p><pre class="out">[0 1 2]
+[3 4]
+[5 6]</pre></figure><p><code>np.split</code> needs parts of exactly equal size. <code>np.array_split</code> allows unequal parts.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+print(np.around([0.5, 1.5, 2.5, 3.5]))</code></pre></figure><details><summary>Answer</summary><pre class="out">[0. 2. 2. 4.]</pre><p>NumPy rounds halves to the nearest even number, like Python's <code>round()</code>: 0, 2, 2, 4.</p></details></li><li><p><b>Basic.</b> This code should print how many 3s there are: <code>2</code>. Fix it.</p><figure class="code"><pre><code>import numpy as np
+a = np.array([3, 8, 3])
+print(len(np.where(a == 3)))</code></pre></figure><p>It should print:</p><pre class="out">2</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([3, 8, 3])
+print(len(np.where(a == 3)[0]))</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure><p><code>np.where</code> returns a tuple (one item per dimension), so its length is 1. Count the positions inside it with <code>[0]</code>.</p></details></li><li><p><b>Medium.</b> <code>m = np.array([[10, 20], [30, 40]])</code>. Print each position and its value with <code>np.ndenumerate</code>, one per line.</p><p>Your code should print exactly:</p><pre class="out">(0, 0) 10
+(0, 1) 20
+(1, 0) 30
+(1, 1) 40</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+m = np.array([[10, 20], [30, 40]])
+for pos, value in np.ndenumerate(m):
+    print(pos, value)</code></pre><p class="olbl">Output</p><pre class="out">(0, 0) 10
+(0, 1) 20
+(1, 0) 30
+(1, 1) 40</pre></figure><p><code>ndenumerate</code> is <code>enumerate</code> for arrays: it gives the (row, column) position with each value.</p></details></li><li><p><b>Medium.</b> Price slabs start at <code>slabs = np.array([100, 250, 400, 900])</code>. For the new prices <code>[50, 300, 1000]</code>, print the positions where they would be inserted to keep the order, using <code>np.searchsorted</code>.</p><p>Your code should print exactly:</p><pre class="out">[0 2 4]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+slabs = np.array([100, 250, 400, 900])
+print(np.searchsorted(slabs, [50, 300, 1000]))</code></pre><p class="olbl">Output</p><pre class="out">[0 2 4]</pre></figure><p><code>searchsorted</code> finds where each value fits in a sorted array: before 100, between 250 and 400, and after 900.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+np.random.seed(42)
+rolls = np.random.randint(1, 7, size=500)
+print(rolls.min(), rolls.max(), len(rolls))</code></pre></figure><details><summary>Answer</summary><pre class="out">1 6 500</pre><p><code>randint(1, 7)</code> gives 1 to 6 (7 is not included). With 500 rolls, both 1 and 6 surely appear.</p></details></li><li><p><b>Medium.</b> <code>a = np.array([1, 2, 3, 4, 5])</code>. Make a shuffled copy with <code>np.random.permutation</code>. Print whether the sorted copy equals <code>a</code> (use <code>np.array_equal</code>), then print <code>a</code> itself.</p><p>Your code should print exactly:</p><pre class="out">True
+[1 2 3 4 5]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([1, 2, 3, 4, 5])
+p = np.random.permutation(a)
+print(np.array_equal(np.sort(p), a))
+print(a)</code></pre><p class="olbl">Output</p><pre class="out">True
+[1 2 3 4 5]</pre></figure><p><code>permutation</code> returns a new shuffled array and leaves <code>a</code> alone. Checking the sorted copy avoids printing random values.</p></details></li><li><p><b>Medium.</b> <code>readings = np.array([100, 120, 90, 130])</code>. Print the day-to-day changes with <code>np.diff</code>, then the biggest rise.</p><p>Your code should print exactly:</p><pre class="out">[ 20 -30  40]
+40</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+readings = np.array([100, 120, 90, 130])
+changes = np.diff(readings)
+print(changes)
+print(changes.max())</code></pre><p class="olbl">Output</p><pre class="out">[ 20 -30  40]
+40</pre></figure><p><code>np.diff</code> subtracts each value from the next one, so the result has one value fewer.</p></details></li><li><p><b>Medium.</b> This code should print the greatest common divisor of 12 and 18, <code>6</code>. Fix it.</p><figure class="code"><pre><code>import numpy as np
+print(np.lcm(12, 18))</code></pre></figure><p>It should print:</p><pre class="out">6</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+print(np.gcd(12, 18))</code></pre><p class="olbl">Output</p><pre class="out">6</pre></figure><p><code>lcm</code> is the lowest common multiple (36). The greatest common divisor is <code>gcd</code>.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+print([len(p) for p in np.array_split(np.arange(11), 4)])</code></pre></figure><details><summary>Answer</summary><pre class="out">[3, 3, 3, 2]</pre><p>11 values into 4 parts: the first parts get one extra value each, so 3, 3, 3 and 2.</p></details></li><li><p><b>Medium.</b> After <code>np.random.seed(3)</code>, make 100000 values from a normal distribution with mean 500 and standard deviation 50. Print the mean and the standard deviation, both rounded to whole numbers.</p><p>Your code should print exactly:</p><pre class="out">500 50</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+np.random.seed(3)
+values = np.random.normal(loc=500, scale=50, size=100000)
+print(round(values.mean()), round(values.std()))</code></pre><p class="olbl">Output</p><pre class="out">500 50</pre></figure><p>With many values, the sample mean and spread come very close to the settings, so the rounded results are stable.</p></details></li><li><p><b>Medium.</b> <code>a = np.array([1, 2, 3, 4])</code> and <code>b = np.array([3, 4, 5])</code>. Print the values in both, the values only in <code>a</code>, and all values, using <code>np.intersect1d</code>, <code>np.setdiff1d</code> and <code>np.union1d</code>.</p><p>Your code should print exactly:</p><pre class="out">[3 4] [1 2] [1 2 3 4 5]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+a = np.array([1, 2, 3, 4])
+b = np.array([3, 4, 5])
+print(np.intersect1d(a, b), np.setdiff1d(a, b), np.union1d(a, b))</code></pre><p class="olbl">Output</p><pre class="out">[3 4] [1 2] [1 2 3 4 5]</pre></figure><p>These are set operations for arrays, and the results come back sorted.</p></details></li><li><p><b>Medium.</b> This code should print every value on one line: <code>1 2 3 4</code>. Fix the loop.</p><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+for x in m:
+    print(x, end=&quot; &quot;)</code></pre></figure><p>It should print:</p><pre class="out">1 2 3 4 </pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+m = np.array([[1, 2], [3, 4]])
+for x in np.nditer(m):
+    print(x, end=&quot; &quot;)</code></pre><p class="olbl">Output</p><pre class="out">1 2 3 4</pre></figure><p>A plain loop over a 2D array gives rows. <code>np.nditer</code> visits every single value.</p></details></li><li><p><b>Challenge.</b> <code>days = np.arange(1, 15) * 100</code> holds 14 days of sales. Split it into 2 weeks with <code>np.split</code>, and print a list of the two weekly totals as plain ints.</p><p>Your code should print exactly:</p><pre class="out">[2800, 7700]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+days = np.arange(1, 15) * 100
+print([int(week.sum()) for week in np.split(days, 2)])</code></pre><p class="olbl">Output</p><pre class="out">[2800, 7700]</pre></figure><p>Split first, then summarise each part. <code>int()</code> turns NumPy numbers into plain Python ints for a clean list.</p></details></li><li><p><b>Challenge.</b> After <code>np.random.seed(3)</code>, simulate 100000 days of bookings with <code>np.random.binomial(n=20, p=0.25, size=100000)</code>. Print the mean rounded to a whole number, whether every value is 0 or more, and whether every value is 20 or less.</p><p>Your code should print exactly:</p><pre class="out">5 True True</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+np.random.seed(3)
+bookings = np.random.binomial(n=20, p=0.25, size=100000)
+print(round(bookings.mean()), bookings.min() &gt;= 0, bookings.max() &lt;= 20)</code></pre><p class="olbl">Output</p><pre class="out">5 True True</pre></figure><p>A binomial count is between 0 and n, and its mean is n × p = 5. Check properties, not exact random values.</p></details></li><li><p><b>Challenge.</b> <code>rates = np.array([1200, 3400, 1200, 5600, 3400])</code>. Print the positions of the rate 3400, then how many rates are below 2000.</p><p>Your code should print exactly:</p><pre class="out">[1 4]
+2</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+rates = np.array([1200, 3400, 1200, 5600, 3400])
+print(np.where(rates == 3400)[0])
+print(len(rates[rates &lt; 2000]))</code></pre><p class="olbl">Output</p><pre class="out">[1 4]
+2</pre></figure><p><code>np.where</code> finds positions; a mask finds the matching values, and <code>len()</code> counts them.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+print(np.floor([-1.5, 2.7]), np.ceil([-1.5, 2.7]), np.trunc([-1.5, 2.7]))</code></pre></figure><details><summary>Answer</summary><pre class="out">[-2.  2.] [-1.  3.] [-1.  2.]</pre><p><code>floor</code> always goes down, <code>ceil</code> always goes up, and <code>trunc</code> just cuts off the decimals (towards 0).</p></details></li><li><p><b>Challenge.</b> After <code>np.random.seed(1)</code>, pick 10000 days with <code>np.random.choice([&quot;late&quot;, &quot;on time&quot;], p=[0.2, 0.8], size=10000)</code>. Print the share of on-time days, rounded to 1 decimal.</p><p>Your code should print exactly:</p><pre class="out">0.8</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+np.random.seed(1)
+days = np.random.choice([&quot;late&quot;, &quot;on time&quot;], p=[0.2, 0.8], size=10000)
+print(round(np.mean(days == &quot;on time&quot;), 1))</code></pre><p class="olbl">Output</p><pre class="out">0.8</pre></figure><p><code>days == &quot;on time&quot;</code> is an array of True/False, and its mean is the share of True values: about 0.8.</p></details></li><li><p><b>Challenge.</b> <code>np.searchsorted</code> should say where 300 fits among these prices in sorted order: <code>2</code>. Fix it.</p><figure class="code"><pre><code>import numpy as np
+prices = np.array([100, 900, 250, 400])
+print(np.searchsorted(prices, 300))</code></pre></figure><p>It should print:</p><pre class="out">2</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+prices = np.array([100, 900, 250, 400])
+print(np.searchsorted(np.sort(prices), 300))</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure><p><code>searchsorted</code> only works on a sorted array. Sort the prices first.</p></details></li><li><p><b>Challenge.</b> Write a function <code>slab(amount)</code> that returns <code>&quot;High&quot;</code> for 1000 or more and <code>&quot;Low&quot;</code> otherwise. Turn it into a ufunc with <code>np.frompyfunc(slab, 1, 1)</code> and print the result for <code>np.array([500, 1500, 1000])</code>.</p><p>Your code should print exactly:</p><pre class="out">['Low' 'High' 'High']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import numpy as np
+def slab(amount):
+    return &quot;High&quot; if amount &gt;= 1000 else &quot;Low&quot;
+
+slab_u = np.frompyfunc(slab, 1, 1)
+print(slab_u(np.array([500, 1500, 1000])))</code></pre><p class="olbl">Output</p><pre class="out">['Low' 'High' 'High']</pre></figure><p><code>frompyfunc</code> wraps your own Python function so it runs on every value of an array.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

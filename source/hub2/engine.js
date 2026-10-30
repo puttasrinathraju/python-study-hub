@@ -1395,7 +1395,8 @@ function vProject(id){
   };
 }
 function pjTest(code, t){
-  return pyBoot().then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
+  /* NumPy loads on first use (several seconds): load it before the timed run so it never counts towards the limit */
+  return pyBoot().then(function(){ return /\bnumpy\b/.test(code) ? pyRun('import numpy\n', [], function(){}) : null; }).then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
     return new Promise(function(resolve){
       var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
       pyRun(code, t.inputs.slice(), function(){}).then(function(r){

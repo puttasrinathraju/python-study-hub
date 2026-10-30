@@ -21571,12 +21571,768 @@ var BIGTESTS = {
    "e": "Turning rows of data into objects lets every record carry its own logic, like `grade()`.",
    "out": "['Asha', 'Neha']"
   }
+ ],
+ "numpy1": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Ways to create arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.arange(2, 11, 2))",
+   "e": "`arange(start, stop, step)` works like `range()`: it stops before 11. NumPy prints arrays without commas.",
+   "ans": "[ 2  4  6  8 10]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "1D, 2D and 3D arrays",
+   "q": "Make a NumPy array from `[12, 15, 9, 20]`. Print it, then print its shape.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\na = np.array([12, 15, 9, 20])\nprint(a)\nprint(a.shape)",
+   "e": "`np.array()` turns a list into an array. A 1D array of 4 items has the shape `(4,)`.",
+   "out": "[12 15  9 20]\n(4,)"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Make a 2 x 3 array of zeros with `np.zeros` and print it.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.zeros((2, 3)))",
+   "e": "The shape goes in as a tuple, `(rows, columns)`. `zeros` makes floats, so they print as `0.`.",
+   "out": "[[0. 0. 0.]\n [0. 0. 0.]]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Print 5 evenly spaced numbers from 0 to 100 (both included) with `np.linspace`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.linspace(0, 100, 5))",
+   "e": "`linspace(start, stop, how_many)` includes the stop value and spaces the numbers evenly.",
+   "out": "[  0.  25.  50.  75. 100.]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Array properties",
+   "q": "`sales = np.array([[100, 200, 150], [120, 180, 200]])`. Print its shape, size and number of dimensions with one `print()`.",
+   "starter": "import numpy as np\nsales = np.array([[100, 200, 150], [120, 180, 200]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 200, 150], [120, 180, 200]])\nprint(sales.shape, sales.size, sales.ndim)",
+   "e": "`shape` is (rows, columns), `size` counts every value, and `ndim` is the number of dimensions.",
+   "out": "(2, 3) 6 2"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Installing and importing",
+   "q": "This code should print `[1 2 3]`, but it crashes. Fix the import.",
+   "c": "import numpy\na = np.array([1, 2, 3])\nprint(a)",
+   "fixed": "import numpy as np\na = np.array([1, 2, 3])\nprint(a)",
+   "e": "`np` only exists if you import NumPy with that short name: `import numpy as np`.",
+   "want": "[1 2 3]",
+   "got": "NameError: name 'np' is not defined"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "One array, one data type",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.array([1, 2.5, 3]))",
+   "e": "An array has one data type. One float turns every value into a float, so 1 prints as `1.`.",
+   "ans": "[1.  2.5 3. ]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Reshaping",
+   "q": "This code should print the 6 numbers as 3 rows of 2, but it crashes. Fix the reshape.",
+   "c": "import numpy as np\na = np.arange(1, 7)\nprint(a.reshape(4, 2))",
+   "fixed": "import numpy as np\na = np.arange(1, 7)\nprint(a.reshape(3, 2))",
+   "e": "A reshape must keep the number of values: 6 values fit 3 x 2, not 4 x 2 (which needs 8).",
+   "want": "[[1 2]\n [3 4]\n [5 6]]",
+   "got": "ValueError: cannot reshape array of size 6 into shape (4,2)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`daily = np.arange(1, 15)` (14 days). Reshape it into 2 weeks x 7 days and print the result.",
+   "starter": "import numpy as np\ndaily = np.arange(1, 15)\n",
+   "sol": "import numpy as np\ndaily = np.arange(1, 15)\nprint(daily.reshape(2, 7))",
+   "e": "14 values fit exactly into 2 rows of 7. Each row is one week.",
+   "out": "[[ 1  2  3  4  5  6  7]\n [ 8  9 10 11 12 13 14]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Combining arrays",
+   "q": "`q1 = np.array([100, 120])` and `q2 = np.array([130, 150])`. Print them joined into one row, then stacked as two rows.",
+   "starter": "import numpy as np\nq1 = np.array([100, 120])\nq2 = np.array([130, 150])\n",
+   "sol": "import numpy as np\nq1 = np.array([100, 120])\nq2 = np.array([130, 150])\nprint(np.concatenate([q1, q2]))\nprint(np.vstack([q1, q2]))",
+   "e": "`concatenate` puts arrays end to end. `vstack` puts them on top of each other as rows.",
+   "out": "[100 120 130 150]\n[[100 120]\n [130 150]]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "One array, one data type",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.array([3.7, -1.2, 9.9]).astype(int))",
+   "e": "`astype(int)` cuts off the decimal part (towards 0). It does not round, so 3.7 becomes 3 and -1.2 becomes -1.",
+   "ans": "[ 3 -1  9]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "1D, 2D and 3D arrays",
+   "q": "Make a 3D array with `np.arange(12).reshape(2, 2, 3)`. Print its number of dimensions, then the value at position `[1, 0, 2]`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\ncube = np.arange(12).reshape(2, 2, 3)\nprint(cube.ndim)\nprint(cube[1, 0, 2])",
+   "e": "A 3D array has blocks, rows and columns. Block 1, row 0, column 2 holds the value 8.",
+   "out": "3\n8"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Print a 3 x 3 identity matrix with `np.eye`, then a 2 x 2 array where every value is 7, with `np.full`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.eye(3))\nprint(np.full((2, 2), 7))",
+   "e": "`eye` puts 1s on the diagonal (as floats). `full` fills every place with the value you give.",
+   "out": "[[1. 0. 0.]\n [0. 1. 0.]\n [0. 0. 1.]]\n[[7 7]\n [7 7]]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "One array, one data type",
+   "q": "This code should print the total `600`, but it fails. Fix the array.",
+   "c": "import numpy as np\nprices = np.array([100, \"200\", 300])\nprint(prices.sum())",
+   "fixed": "import numpy as np\nprices = np.array([100, 200, 300])\nprint(prices.sum())",
+   "e": "One text value turns the whole array into text, and text cannot be added up. Keep the numbers as numbers.",
+   "want": "600",
+   "got": "TypeError: the resolved dtypes are not compatible with add.reduce. Resolved (dtype('<U21'), dtype('<U21'), dtype('<U42'))"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Array properties",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.ones((3, 4))\nprint(m.shape, m.size, m.ndim, len(m))",
+   "e": "3 rows of 4 values: 12 in total, 2 dimensions. `len()` of a 2D array counts its rows.",
+   "ans": "(3, 4) 12 2 3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`grid = np.array([[1, 2], [3, 4], [5, 6]])`. Print it flattened into one row, then reshaped into 2 rows and 3 columns.",
+   "starter": "import numpy as np\ngrid = np.array([[1, 2], [3, 4], [5, 6]])\n",
+   "sol": "import numpy as np\ngrid = np.array([[1, 2], [3, 4], [5, 6]])\nprint(grid.flatten())\nprint(grid.reshape(2, 3))",
+   "e": "`flatten()` gives a 1D copy. `reshape(2, 3)` fills the new shape row by row with the same 6 values.",
+   "out": "[1 2 3 4 5 6]\n[[1 2 3]\n [4 5 6]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "What is NumPy?",
+   "q": "Turn the list `[31.5, 33, 29.8]` of temperatures into a NumPy array. Print the array and its type with one `print()`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\ntemps = np.array([31.5, 33, 29.8])\nprint(temps, type(temps))",
+   "e": "A NumPy array is an `ndarray`: a fast block of numbers of one type.",
+   "out": "[31.5 33.  29.8] <class 'numpy.ndarray'>"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Combining arrays",
+   "q": "This code should print `[1 2 3 4]`, but it crashes. Fix it.",
+   "c": "import numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.concatenate(a, b))",
+   "fixed": "import numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.concatenate([a, b]))",
+   "e": "`concatenate` takes ONE argument: a list of the arrays to join.",
+   "want": "[1 2 3 4]",
+   "got": "TypeError: only integer scalar arrays can be converted to a scalar index"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`sales = np.arange(100, 1300, 100)` holds 12 months of sales. Reshape it into 4 quarters x 3 months, then print the new shape and the array.",
+   "starter": "import numpy as np\nsales = np.arange(100, 1300, 100)\n",
+   "sol": "import numpy as np\nsales = np.arange(100, 1300, 100)\nquarters = sales.reshape(4, 3)\nprint(quarters.shape)\nprint(quarters)",
+   "e": "12 monthly values become a 4 x 3 table: one row per quarter, one column per month.",
+   "out": "(4, 3)\n[[ 100  200  300]\n [ 400  500  600]\n [ 700  800  900]\n [1000 1100 1200]]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Combining arrays",
+   "q": "Three stores sold `a = np.array([5, 7, 6])`, `b = np.array([8, 4, 9])` and `c = np.array([3, 6, 2])` over 3 days. Stack them into one table (one row per store) and print its shape and the table.",
+   "starter": "import numpy as np\na = np.array([5, 7, 6])\nb = np.array([8, 4, 9])\nc = np.array([3, 6, 2])\n",
+   "sol": "import numpy as np\na = np.array([5, 7, 6])\nb = np.array([8, 4, 9])\nc = np.array([3, 6, 2])\ntable = np.vstack([a, b, c])\nprint(table.shape)\nprint(table)",
+   "e": "`vstack` turns several 1D arrays of the same length into the rows of one 2D table.",
+   "out": "(3, 3)\n[[5 7 6]\n [8 4 9]\n [3 6 2]]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "One array, one data type",
+   "q": "`raw = np.array([1, 2.5, \"3\"])` mixes types, so everything became text. Convert it to floats with `astype(float)` and print it.",
+   "starter": "import numpy as np\nraw = np.array([1, 2.5, \"3\"])\n",
+   "sol": "import numpy as np\nraw = np.array([1, 2.5, \"3\"])\nprint(raw.astype(float))",
+   "e": "Text that looks like numbers can be converted back with `astype(float)`.",
+   "out": "[1.  2.5 3. ]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Ways to create arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.linspace(1, 2, 3), np.arange(3, 0, -1))",
+   "e": "`linspace` gives floats (1, 1.5 and 2). `arange` with a negative step counts down and stops before 0.",
+   "ans": "[1.  1.5 2. ] [3 2 1]"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Array properties",
+   "q": "This code should print `(2, 3)`, but it crashes. Fix it.",
+   "c": "import numpy as np\na = np.zeros((2, 3))\nprint(a.shape())",
+   "fixed": "import numpy as np\na = np.zeros((2, 3))\nprint(a.shape)",
+   "e": "`shape` is a property, not a method: no brackets after it.",
+   "want": "(2, 3)",
+   "got": "TypeError: 'tuple' object is not callable"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Make `prices = np.full(5, 99.5)` and print it. Then print the same array converted to whole numbers with `astype(int)`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprices = np.full(5, 99.5)\nprint(prices)\nprint(prices.astype(int))",
+   "e": "`full` makes an array of one repeated value. `astype(int)` cuts 99.5 down to 99.",
+   "out": "[99.5 99.5 99.5 99.5 99.5]\n[99 99 99 99 99]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "Make a 2 x 3 matrix with `np.arange(1, 7).reshape(2, 3)`. Print it flattened, then its number of dimensions before and after flattening, with one `print()` for the two numbers.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nm = np.arange(1, 7).reshape(2, 3)\nflat = m.flatten()\nprint(flat)\nprint(m.ndim, flat.ndim)",
+   "e": "Flattening keeps every value but turns a 2D table into a 1D row.",
+   "out": "[1 2 3 4 5 6]\n2 1"
+  }
+ ],
+ "numpy2": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprices = np.array([10, 20, 30])\nprint(prices * 2, prices + 5)",
+   "e": "Maths on an array is done on every value at once: no loop needed.",
+   "ans": "[20 40 60] [15 25 35]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "`price = np.array([120, 45, 80])` and `qty = np.array([2, 10, 3])`. Print the revenue of each item, then the total revenue.",
+   "starter": "import numpy as np\nprice = np.array([120, 45, 80])\nqty = np.array([2, 10, 3])\n",
+   "sol": "import numpy as np\nprice = np.array([120, 45, 80])\nqty = np.array([2, 10, 3])\nrevenue = price * qty\nprint(revenue)\nprint(revenue.sum())",
+   "e": "Two arrays of the same length are multiplied position by position.",
+   "out": "[240 450 240]\n930"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Statistics",
+   "q": "`sales = np.array([12000, 15000, 18000, 14000])`. Print the mean, the highest and the lowest value with one `print()`.",
+   "starter": "import numpy as np\nsales = np.array([12000, 15000, 18000, 14000])\n",
+   "sol": "import numpy as np\nsales = np.array([12000, 15000, 18000, 14000])\nprint(sales.mean(), sales.max(), sales.min())",
+   "e": "Arrays have built-in statistics methods. `mean()` always gives a float.",
+   "out": "14750.0 18000 12000"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Indexing and slicing",
+   "q": "`rev = np.array([50000, 65000, 72000, 58000])`. Print the first value, the last value, and the middle two (a slice), with one `print()`.",
+   "starter": "import numpy as np\nrev = np.array([50000, 65000, 72000, 58000])\n",
+   "sol": "import numpy as np\nrev = np.array([50000, 65000, 72000, 58000])\nprint(rev[0], rev[-1], rev[1:3])",
+   "e": "Indexing and slicing work like lists. A slice of an array is an array.",
+   "out": "50000 58000 [65000 72000]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`salaries = np.array([45000, 55000, 38000, 72000])`. Print the salaries above 50000, using a boolean mask.",
+   "starter": "import numpy as np\nsalaries = np.array([45000, 55000, 38000, 72000])\n",
+   "sol": "import numpy as np\nsalaries = np.array([45000, 55000, 38000, 72000])\nprint(salaries[salaries > 50000])",
+   "e": "`salaries > 50000` is an array of `True`/`False`. Putting it inside `[ ]` keeps only the `True` positions.",
+   "out": "[55000 72000]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Filtering with boolean masks",
+   "q": "This code should print `[45000 55000]`, but it crashes. Fix the mask.",
+   "c": "import numpy as np\nsal = np.array([45000, 55000, 38000])\nprint(sal[sal > 40000 and sal < 60000])",
+   "fixed": "import numpy as np\nsal = np.array([45000, 55000, 38000])\nprint(sal[(sal > 40000) & (sal < 60000)])",
+   "e": "For arrays, use `&` (and) and `|` (or), with brackets around each comparison. `and` only works on single True/False values.",
+   "want": "[45000 55000]",
+   "got": "ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4], [5, 6]])\nprint(m.sum(axis=0), m.sum(axis=1))",
+   "e": "`axis=0` goes down the rows, giving one total per column. `axis=1` goes across, giving one total per row.",
+   "ans": "[ 9 12] [ 3  7 11]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "This code should double every price and print `[20 40 60]`. Fix it.",
+   "c": "prices = [10, 20, 30]\nprint(prices * 2)",
+   "fixed": "import numpy as np\nprices = np.array([10, 20, 30])\nprint(prices * 2)",
+   "e": "A list times 2 repeats the list. A NumPy array times 2 doubles every value.",
+   "want": "[20 40 60]",
+   "got": "[10, 20, 30, 10, 20, 30]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Broadcasting",
+   "q": "`m = np.array([[1, 2, 3], [4, 5, 6]])`. Add `[10, 20, 30]` to every row using broadcasting, and print the result.",
+   "starter": "import numpy as np\nm = np.array([[1, 2, 3], [4, 5, 6]])\n",
+   "sol": "import numpy as np\nm = np.array([[1, 2, 3], [4, 5, 6]])\nprint(m + np.array([10, 20, 30]))",
+   "e": "A row with the same number of columns is \"stretched\" over every row of the table.",
+   "out": "[[11 22 33]\n [14 25 36]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Rows are months and columns are products. Print the total per month, then the total per product.",
+   "starter": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\nprint(sales.sum(axis=1))\nprint(sales.sum(axis=0))",
+   "e": "One total per row (month) is `axis=1`. One total per column (product) is `axis=0`.",
+   "out": "[450 440 490]\n[330 450 600]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Statistics",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\na = np.array([2, 4, 4, 4, 5, 5, 7, 9])\nprint(a.mean(), a.std(), np.median(a))",
+   "e": "The mean is 40 / 8 = 5.0. The standard deviation of this classic example is exactly 2.0. The median averages the two middle values, 4 and 5.",
+   "ans": "5.0 2.0 4.5"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`marks = np.array([45, 82, 30, 67])`. Use `np.where` to label each mark `Pass` (35 or more) or `Fail`, and print the labels.",
+   "starter": "import numpy as np\nmarks = np.array([45, 82, 30, 67])\n",
+   "sol": "import numpy as np\nmarks = np.array([45, 82, 30, 67])\nprint(np.where(marks >= 35, \"Pass\", \"Fail\"))",
+   "e": "`np.where(condition, if_true, if_false)` is a vectorised if/else.",
+   "out": "['Pass' 'Pass' 'Fail' 'Pass']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Indexing and slicing",
+   "q": "Rows are January to March, columns are products 1 to 3. Print the February row, then the column of product 3, then the March value of product 2.",
+   "starter": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\nprint(sales[1])\nprint(sales[:, 2])\nprint(sales[2, 1])",
+   "e": "`[row, column]`. A `:` means \"all\", so `[:, 2]` is the whole third column.",
+   "out": "[120 140 180]\n[200 180 220]\n160"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "This code should print the total per month (per row): `[250 260]`. Fix it.",
+   "c": "import numpy as np\nm = np.array([[100, 150], [120, 140]])\nprint(m.sum(axis=0))",
+   "fixed": "import numpy as np\nm = np.array([[100, 150], [120, 140]])\nprint(m.sum(axis=1))",
+   "e": "`axis=0` adds up each column. One total per row needs `axis=1`.",
+   "want": "[250 260]",
+   "got": "[220 290]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Views vs copies",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nx = np.array([1, 2, 3, 4])\npart = x[1:3]\npart[0] = 99\nprint(x)",
+   "e": "A slice of an array is a **view** of the same data, so changing it changes the original too.",
+   "ans": "[ 1 99  3  4]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Sorting and unique values",
+   "q": "`ratings = np.array([5, 3, 5, 4, 3, 5])`. Print the different ratings and how many times each one appears, using `np.unique` with `return_counts=True`.",
+   "starter": "import numpy as np\nratings = np.array([5, 3, 5, 4, 3, 5])\n",
+   "sol": "import numpy as np\nratings = np.array([5, 3, 5, 4, 3, 5])\nvalues, counts = np.unique(ratings, return_counts=True)\nprint(values, counts)",
+   "e": "`np.unique` gives the sorted different values, and with `return_counts=True` also how often each appears.",
+   "out": "[3 4 5] [2 1 3]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`temps = np.array([31, 35, 29, 38, 33])`. Print how many days were above 32, and their average rounded to 2 decimals.",
+   "starter": "import numpy as np\ntemps = np.array([31, 35, 29, 38, 33])\n",
+   "sol": "import numpy as np\ntemps = np.array([31, 35, 29, 38, 33])\nhot = temps[temps > 32]\nprint(len(hot), round(hot.mean(), 2))",
+   "e": "Filter first with a mask, then use the statistics on the filtered array.",
+   "out": "3 35.33"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Views vs copies",
+   "q": "This code should leave `y` unchanged and print `[1 2 3 4]`. Fix it.",
+   "c": "import numpy as np\ny = np.array([1, 2, 3, 4])\nsafe = y[1:3]\nsafe[0] = 0\nprint(y)",
+   "fixed": "import numpy as np\ny = np.array([1, 2, 3, 4])\nsafe = y[1:3].copy()\nsafe[0] = 0\nprint(y)",
+   "e": "A slice is a view. `.copy()` makes independent data, so changes do not reach the original.",
+   "want": "[1 2 3 4]",
+   "got": "[1 0 3 4]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`price = np.array([499, 1299, 299, 899])` and `qty = np.array([10, 3, 25, 6])`. Print the position of the product with the highest revenue (`argmax`), then the share of total revenue that comes from products with above-average revenue, as a percent with 1 decimal.",
+   "starter": "import numpy as np\nprice = np.array([499, 1299, 299, 899])\nqty = np.array([10, 3, 25, 6])\n",
+   "sol": "import numpy as np\nprice = np.array([499, 1299, 299, 899])\nqty = np.array([10, 3, 25, 6])\nrevenue = price * qty\nprint(revenue.argmax())\nbig = revenue[revenue > revenue.mean()]\nprint(f\"{big.sum() / revenue.sum() * 100:.1f}%\")",
+   "e": "Vectorise (`price * qty`), then summarise (`argmax`, `mean`), then filter with a mask: three NumPy steps in a few lines.",
+   "out": "2\n34.4%"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Occupancy in % for 3 hotels (rows) over 4 weeks (columns): `occ = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])`. Print each hotel's average (rounded to 2 decimals), then the number of the best week (1 to 4) by average occupancy.",
+   "starter": "import numpy as np\nocc = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])\n",
+   "sol": "import numpy as np\nocc = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])\nprint(occ.mean(axis=1).round(2))\nprint(occ.mean(axis=0).argmax() + 1)",
+   "e": "`axis=1` averages each hotel across weeks; `axis=0` averages each week across hotels. `argmax` counts from 0, so add 1.",
+   "out": "[71.75 70.   72.  ]\n4"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Broadcasting",
+   "q": "Prices of 3 products: `prices = np.array([100, 250, 400])`. Make a table with one row per discount level, using a column of factors `[[1.0], [0.9], [0.8]]` (no discount, 10% off, 20% off) and broadcasting. Print the table.",
+   "starter": "import numpy as np\nprices = np.array([100, 250, 400])\n",
+   "sol": "import numpy as np\nprices = np.array([100, 250, 400])\nfactors = np.array([[1.0], [0.9], [0.8]])\nprint(prices * factors)",
+   "e": "A column (3 x 1) times a row (3) broadcasts into a 3 x 3 table: every factor times every price.",
+   "out": "[[100. 250. 400.]\n [ 90. 225. 360.]\n [ 80. 200. 320.]]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Sorting and unique values",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nscores = np.array([70, 95, 80])\nnames = np.array([\"Asha\", \"Ravi\", \"Neha\"])\nprint(names[np.argsort(scores)][::-1])",
+   "e": "`argsort` gives the positions that would sort the scores (lowest first). Using them on `names` and reversing gives the names from highest to lowest score.",
+   "ans": "['Ravi' 'Neha' 'Asha']"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Filtering with boolean masks",
+   "q": "This code should print the values below 10 or above 20: `[ 5 25]`. Fix the mask.",
+   "c": "import numpy as np\na = np.array([5, 15, 25])\nprint(a[a < 10 | a > 20])",
+   "fixed": "import numpy as np\na = np.array([5, 15, 25])\nprint(a[(a < 10) | (a > 20)])",
+   "e": "`|` runs before `<` and `>`, so without brackets Python tries `10 | a` first. Put brackets around each comparison.",
+   "want": "[ 5 25]",
+   "got": "ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`sal = np.array([45000, 55000, 38000, 72000, 41000, 65000])`. Cap every salary at 60000 with `np.where`. Print the capped array and its mean rounded to 2 decimals.",
+   "starter": "import numpy as np\nsal = np.array([45000, 55000, 38000, 72000, 41000, 65000])\n",
+   "sol": "import numpy as np\nsal = np.array([45000, 55000, 38000, 72000, 41000, 65000])\ncapped = np.where(sal > 60000, 60000, sal)\nprint(capped)\nprint(round(capped.mean(), 2))",
+   "e": "`np.where` can replace values: where the test is `True` use 60000, otherwise keep the salary.",
+   "out": "[45000 55000 38000 60000 41000 60000]\n49833.33"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Statistics",
+   "q": "`scores = np.array([40, 55, 70, 85, 100])`. Scale them to the range 0 to 1 with `(x - min) / (max - min)`, and print the result.",
+   "starter": "import numpy as np\nscores = np.array([40, 55, 70, 85, 100])\n",
+   "sol": "import numpy as np\nscores = np.array([40, 55, 70, 85, 100])\nprint((scores - scores.min()) / (scores.max() - scores.min()))",
+   "e": "Min-max scaling is one vectorised line: the lowest becomes 0, the highest becomes 1.",
+   "out": "[0.   0.25 0.5  0.75 1.  ]"
+  }
+ ],
+ "numpy3": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Looping over arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor row in m:\n    print(row.sum())",
+   "e": "Looping over a 2D array gives one row at a time, and each row is itself an array.",
+   "ans": "3\n7"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Splitting arrays",
+   "q": "Split `np.arange(1, 10)` into 3 equal parts with `np.split`, and print each part on its own line.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nfor part in np.split(np.arange(1, 10), 3):\n    print(part)",
+   "e": "`np.split(a, 3)` cuts the array into 3 equal pieces. 9 values make 3 pieces of 3.",
+   "out": "[1 2 3]\n[4 5 6]\n[7 8 9]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "`a = np.array([4, 7, 4, 9, 4])`. Print the positions of every 4, using `np.where`.",
+   "starter": "import numpy as np\na = np.array([4, 7, 4, 9, 4])\n",
+   "sol": "import numpy as np\na = np.array([4, 7, 4, 9, 4])\nprint(np.where(a == 4)[0])",
+   "e": "`np.where(condition)` gives a tuple with one array of positions per dimension. `[0]` takes the positions.",
+   "out": "[0 2 4]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`a = np.array([10, 20, 30])` and `b = np.array([3, 4, 5])`. Print `np.add(a, b)` and `np.mod(a, b)` with one `print()`.",
+   "starter": "import numpy as np\na = np.array([10, 20, 30])\nb = np.array([3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([10, 20, 30])\nb = np.array([3, 4, 5])\nprint(np.add(a, b), np.mod(a, b))",
+   "e": "ufuncs work value by value, like `+` and `%` on arrays.",
+   "out": "[13 24 35] [1 0 0]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`sales = np.array([120, 80, 150])`. Print the running total with `np.cumsum`.",
+   "starter": "import numpy as np\nsales = np.array([120, 80, 150])\n",
+   "sol": "import numpy as np\nsales = np.array([120, 80, 150])\nprint(np.cumsum(sales))",
+   "e": "`cumsum` adds up as it goes: each value is the total so far.",
+   "out": "[120 200 350]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Splitting arrays",
+   "q": "This code should split 7 numbers into 3 parts (3, 2 and 2 values), but it crashes. Fix it.",
+   "c": "import numpy as np\nfor part in np.split(np.arange(7), 3):\n    print(part)",
+   "fixed": "import numpy as np\nfor part in np.array_split(np.arange(7), 3):\n    print(part)",
+   "e": "`np.split` needs parts of exactly equal size. `np.array_split` allows unequal parts.",
+   "want": "[0 1 2]\n[3 4]\n[5 6]",
+   "got": "ValueError: array split does not result in an equal division"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.around([0.5, 1.5, 2.5, 3.5]))",
+   "e": "NumPy rounds halves to the nearest even number, like Python's `round()`: 0, 2, 2, 4.",
+   "ans": "[0. 2. 2. 4.]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Searching arrays",
+   "q": "This code should print how many 3s there are: `2`. Fix it.",
+   "c": "import numpy as np\na = np.array([3, 8, 3])\nprint(len(np.where(a == 3)))",
+   "fixed": "import numpy as np\na = np.array([3, 8, 3])\nprint(len(np.where(a == 3)[0]))",
+   "e": "`np.where` returns a tuple (one item per dimension), so its length is 1. Count the positions inside it with `[0]`.",
+   "want": "2",
+   "got": "1"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Looping over arrays",
+   "q": "`m = np.array([[10, 20], [30, 40]])`. Print each position and its value with `np.ndenumerate`, one per line.",
+   "starter": "import numpy as np\nm = np.array([[10, 20], [30, 40]])\n",
+   "sol": "import numpy as np\nm = np.array([[10, 20], [30, 40]])\nfor pos, value in np.ndenumerate(m):\n    print(pos, value)",
+   "e": "`ndenumerate` is `enumerate` for arrays: it gives the (row, column) position with each value.",
+   "out": "(0, 0) 10\n(0, 1) 20\n(1, 0) 30\n(1, 1) 40"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "Price slabs start at `slabs = np.array([100, 250, 400, 900])`. For the new prices `[50, 300, 1000]`, print the positions where they would be inserted to keep the order, using `np.searchsorted`.",
+   "starter": "import numpy as np\nslabs = np.array([100, 250, 400, 900])\n",
+   "sol": "import numpy as np\nslabs = np.array([100, 250, 400, 900])\nprint(np.searchsorted(slabs, [50, 300, 1000]))",
+   "e": "`searchsorted` finds where each value fits in a sorted array: before 100, between 250 and 400, and after 900.",
+   "out": "[0 2 4]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Random numbers",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nnp.random.seed(42)\nrolls = np.random.randint(1, 7, size=500)\nprint(rolls.min(), rolls.max(), len(rolls))",
+   "e": "`randint(1, 7)` gives 1 to 6 (7 is not included). With 500 rolls, both 1 and 6 surely appear.",
+   "ans": "1 6 500"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Random numbers",
+   "q": "`a = np.array([1, 2, 3, 4, 5])`. Make a shuffled copy with `np.random.permutation`. Print whether the sorted copy equals `a` (use `np.array_equal`), then print `a` itself.",
+   "starter": "import numpy as np\na = np.array([1, 2, 3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([1, 2, 3, 4, 5])\np = np.random.permutation(a)\nprint(np.array_equal(np.sort(p), a))\nprint(a)",
+   "e": "`permutation` returns a new shuffled array and leaves `a` alone. Checking the sorted copy avoids printing random values.",
+   "out": "True\n[1 2 3 4 5]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`readings = np.array([100, 120, 90, 130])`. Print the day-to-day changes with `np.diff`, then the biggest rise.",
+   "starter": "import numpy as np\nreadings = np.array([100, 120, 90, 130])\n",
+   "sol": "import numpy as np\nreadings = np.array([100, 120, 90, 130])\nchanges = np.diff(readings)\nprint(changes)\nprint(changes.max())",
+   "e": "`np.diff` subtracts each value from the next one, so the result has one value fewer.",
+   "out": "[ 20 -30  40]\n40"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "This code should print the greatest common divisor of 12 and 18, `6`. Fix it.",
+   "c": "import numpy as np\nprint(np.lcm(12, 18))",
+   "fixed": "import numpy as np\nprint(np.gcd(12, 18))",
+   "e": "`lcm` is the lowest common multiple (36). The greatest common divisor is `gcd`.",
+   "want": "6",
+   "got": "36"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Splitting arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint([len(p) for p in np.array_split(np.arange(11), 4)])",
+   "e": "11 values into 4 parts: the first parts get one extra value each, so 3, 3, 3 and 2.",
+   "ans": "[3, 3, 3, 2]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Random data distributions",
+   "q": "After `np.random.seed(3)`, make 100000 values from a normal distribution with mean 500 and standard deviation 50. Print the mean and the standard deviation, both rounded to whole numbers.",
+   "starter": "import numpy as np\nnp.random.seed(3)\n",
+   "sol": "import numpy as np\nnp.random.seed(3)\nvalues = np.random.normal(loc=500, scale=50, size=100000)\nprint(round(values.mean()), round(values.std()))",
+   "e": "With many values, the sample mean and spread come very close to the settings, so the rounded results are stable.",
+   "out": "500 50"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`a = np.array([1, 2, 3, 4])` and `b = np.array([3, 4, 5])`. Print the values in both, the values only in `a`, and all values, using `np.intersect1d`, `np.setdiff1d` and `np.union1d`.",
+   "starter": "import numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([3, 4, 5])\nprint(np.intersect1d(a, b), np.setdiff1d(a, b), np.union1d(a, b))",
+   "e": "These are set operations for arrays, and the results come back sorted.",
+   "out": "[3 4] [1 2] [1 2 3 4 5]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Looping over arrays",
+   "q": "This code should print every value on one line: `1 2 3 4`. Fix the loop.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor x in m:\n    print(x, end=\" \")",
+   "fixed": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor x in np.nditer(m):\n    print(x, end=\" \")",
+   "e": "A plain loop over a 2D array gives rows. `np.nditer` visits every single value.",
+   "want": "1 2 3 4 ",
+   "got": "[1 2] [3 4] "
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Splitting arrays",
+   "q": "`days = np.arange(1, 15) * 100` holds 14 days of sales. Split it into 2 weeks with `np.split`, and print a list of the two weekly totals as plain ints.",
+   "starter": "import numpy as np\ndays = np.arange(1, 15) * 100\n",
+   "sol": "import numpy as np\ndays = np.arange(1, 15) * 100\nprint([int(week.sum()) for week in np.split(days, 2)])",
+   "e": "Split first, then summarise each part. `int()` turns NumPy numbers into plain Python ints for a clean list.",
+   "out": "[2800, 7700]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Random data distributions",
+   "q": "After `np.random.seed(3)`, simulate 100000 days of bookings with `np.random.binomial(n=20, p=0.25, size=100000)`. Print the mean rounded to a whole number, whether every value is 0 or more, and whether every value is 20 or less.",
+   "starter": "import numpy as np\nnp.random.seed(3)\n",
+   "sol": "import numpy as np\nnp.random.seed(3)\nbookings = np.random.binomial(n=20, p=0.25, size=100000)\nprint(round(bookings.mean()), bookings.min() >= 0, bookings.max() <= 20)",
+   "e": "A binomial count is between 0 and n, and its mean is n × p = 5. Check properties, not exact random values.",
+   "out": "5 True True"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "`rates = np.array([1200, 3400, 1200, 5600, 3400])`. Print the positions of the rate 3400, then how many rates are below 2000.",
+   "starter": "import numpy as np\nrates = np.array([1200, 3400, 1200, 5600, 3400])\n",
+   "sol": "import numpy as np\nrates = np.array([1200, 3400, 1200, 5600, 3400])\nprint(np.where(rates == 3400)[0])\nprint(len(rates[rates < 2000]))",
+   "e": "`np.where` finds positions; a mask finds the matching values, and `len()` counts them.",
+   "out": "[1 4]\n2"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.floor([-1.5, 2.7]), np.ceil([-1.5, 2.7]), np.trunc([-1.5, 2.7]))",
+   "e": "`floor` always goes down, `ceil` always goes up, and `trunc` just cuts off the decimals (towards 0).",
+   "ans": "[-2.  2.] [-1.  3.] [-1.  2.]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Random numbers",
+   "q": "After `np.random.seed(1)`, pick 10000 days with `np.random.choice([\"late\", \"on time\"], p=[0.2, 0.8], size=10000)`. Print the share of on-time days, rounded to 1 decimal.",
+   "starter": "import numpy as np\nnp.random.seed(1)\n",
+   "sol": "import numpy as np\nnp.random.seed(1)\ndays = np.random.choice([\"late\", \"on time\"], p=[0.2, 0.8], size=10000)\nprint(round(np.mean(days == \"on time\"), 1))",
+   "e": "`days == \"on time\"` is an array of True/False, and its mean is the share of True values: about 0.8.",
+   "out": "0.8"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Searching arrays",
+   "q": "`np.searchsorted` should say where 300 fits among these prices in sorted order: `2`. Fix it.",
+   "c": "import numpy as np\nprices = np.array([100, 900, 250, 400])\nprint(np.searchsorted(prices, 300))",
+   "fixed": "import numpy as np\nprices = np.array([100, 900, 250, 400])\nprint(np.searchsorted(np.sort(prices), 300))",
+   "e": "`searchsorted` only works on a sorted array. Sort the prices first.",
+   "want": "2",
+   "got": "3"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Write a function `slab(amount)` that returns `\"High\"` for 1000 or more and `\"Low\"` otherwise. Turn it into a ufunc with `np.frompyfunc(slab, 1, 1)` and print the result for `np.array([500, 1500, 1000])`.",
+   "starter": "import numpy as np\n# def slab(amount):\n",
+   "sol": "import numpy as np\ndef slab(amount):\n    return \"High\" if amount >= 1000 else \"Low\"\n\nslab_u = np.frompyfunc(slab, 1, 1)\nprint(slab_u(np.array([500, 1500, 1000])))",
+   "e": "`frompyfunc` wraps your own Python function so it runs on every value of an array.",
+   "out": "['Low' 'High' 'High']"
+  }
  ]
 };
 
 /* Projects: 3 per Part. Generated by gen/gen_projects.py: every expected line was checked against the model answer in real Python. */
-var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):\n            # variables you store values in (loop and comprehension variables like i or w are not checked)\n            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):\n                for sub in ast.walk(target):\n                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:\n                        res['names'].append(sub.id)\n        if isinstance(node, ast.ExceptHandler) and node.type is not None:\n            for sub in ast.walk(node.type):\n                if isinstance(sub, ast.Name):\n                    add('exc:' + sub.id)\n        if isinstance(node, ast.ClassDef) and node.bases:\n            add('class:inherit')\n        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):\n            res['defs'].append(node.name)\n            if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):\n                res['comments'] += 1  # a docstring explains the code too\n            add('def:' + node.name)\n        if isinstance(node, ast.FunctionDef):\n            if node.args.defaults or any(d is not None for d in node.args.kw_defaults):\n                add('def:default')\n            if node.args.vararg:\n                add('def:varargs')\n            if node.args.kwarg:\n                add('def:kwargs')\n            if node.decorator_list:\n                add('def:decorated')\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
-var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}, "3": {"ban": [{"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all"]}, "4": {"ban": [{"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help"]}, "5": {"ban": [{"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError"]}, "6": {"ban": [], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError", "super", "property", "staticmethod", "classmethod", "hasattr", "getattr", "setattr"]}};
+var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Subscript) and (isinstance(node.slice, (ast.Compare, ast.UnaryOp)) or (isinstance(node.slice, ast.BinOp) and isinstance(node.slice.op, (ast.BitAnd, ast.BitOr)))):\n            add('mask')  # boolean mask, like a[a > 5]\n        elif isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Tuple) and any(isinstance(x, ast.Constant) and x.value is None for x in node.slice.elts):\n            add('newaxis')  # a[:, None] adds an axis for broadcasting\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):\n            # variables you store values in (loop and comprehension variables like i or w are not checked)\n            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):\n                for sub in ast.walk(target):\n                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:\n                        res['names'].append(sub.id)\n        if isinstance(node, ast.ExceptHandler) and node.type is not None:\n            for sub in ast.walk(node.type):\n                if isinstance(sub, ast.Name):\n                    add('exc:' + sub.id)\n        if isinstance(node, ast.ClassDef) and node.bases:\n            add('class:inherit')\n        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):\n            res['defs'].append(node.name)\n            if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):\n                res['comments'] += 1  # a docstring explains the code too\n            add('def:' + node.name)\n        if isinstance(node, ast.FunctionDef):\n            if node.args.defaults or any(d is not None for d in node.args.kw_defaults):\n                add('def:default')\n            if node.args.vararg:\n                add('def:varargs')\n            if node.args.kwarg:\n                add('def:kwargs')\n            if node.decorator_list:\n                add('def:decorated')\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
+var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}, "3": {"ban": [{"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all"]}, "4": {"ban": [{"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help"]}, "5": {"ban": [{"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError"]}, "6": {"ban": [], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError", "super", "property", "staticmethod", "classmethod", "hasattr", "getattr", "setattr"]}, "7": {"ban": [], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all", "map", "filter", "iter", "next", "help", "open", "dir", "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "ZeroDivisionError", "FileNotFoundError", "AssertionError", "AttributeError", "super", "property", "staticmethod", "classmethod", "hasattr", "getattr", "setattr"]}};
 var PJ_PARTS = {
  "1": {
   "title": "Part 1 projects: Python basics",
@@ -21630,6 +22386,15 @@ var PJ_PARTS = {
    "p6-1",
    "p6-2",
    "p6-3"
+  ]
+ },
+ "7": {
+  "title": "Part 7 projects: NumPy for analysis",
+  "intro": "Three analysis jobs where NumPy does the heavy lifting: a weekly sales summary, a store-by-month sales matrix, and a discount what-if table built with broadcasting. Use arrays and vectorised maths instead of loops wherever you can.",
+  "ids": [
+   "p7-1",
+   "p7-2",
+   "p7-3"
   ]
  }
 };
@@ -27138,6 +27903,781 @@ var PROJECTS = {
     "tip": "Compare the first word in small letters (`parts[0].lower()`), so `BOOK` and `Checkout` work too."
    }
   ]
+ },
+ "p7-1": {
+  "id": "p7-1",
+  "part": 7,
+  "n": 1,
+  "level": 1,
+  "levelName": "Beginner",
+  "title": "Weekly sales with NumPy",
+  "short": "Summarise a week of sales with arrays, argmax and a boolean mask.",
+  "story": "Sunita manages a bakery in Kochi. Every Sunday night she types the 7 daily sales totals of the week into her laptop and wants a quick summary: the total, the average, the best and worst day, which days beat the average, and how much of the week's money came in at the weekend.\nWrite it with **NumPy**: put the 7 numbers in an array and let NumPy do the maths, with no loops for the calculations.",
+  "objectives": [
+   "Turn typed text into a NumPy array",
+   "Use `sum()`, `mean()`, `argmax()` and `argmin()`",
+   "Filter with a boolean mask",
+   "Check the input and handle bad values"
+  ],
+  "may": [
+   "everything from Parts 1-6",
+   "`numpy` arrays and their methods",
+   "boolean masks",
+   "`try` / `except`"
+  ],
+  "mustnot": [
+   "pandas (not in this course yet)"
+  ],
+  "tasks": [
+   "The starter imports NumPy and gives you `DAYS`, the 7 day names from Monday to Sunday.",
+   "Ask `Sales for Mon to Sun (7 numbers): ` and split the line at the spaces. If there are not exactly 7 parts, print `Please enter exactly 7 numbers` and stop.",
+   "Convert the parts with `float()` inside `try`. If one is not a number, print `Please enter numbers only` and stop.",
+   "Make a NumPy array of the 7 values. Print `Total` and `Average`.",
+   "Print the best day and the worst day with their sales, using `argmax()` and `argmin()` (on a tie, the earlier day).",
+   "Print the days whose sales are **above** the average, using a boolean mask on an array of the day names (or `none`).",
+   "Print the weekend share: Saturday + Sunday as a percent of the total, with 1 decimal. If the total is 0, the share is `0.0%`."
+  ],
+  "lines": [
+   "Total: ₹<amount>",
+   "Average: ₹<amount>",
+   "Best day: <Day> (₹<amount>)",
+   "Worst day: <Day> (₹<amount>)",
+   "Days above average: <Day>, <Day> or none",
+   "Weekend share: <percent>%",
+   "Please enter exactly 7 numbers",
+   "Please enter numbers only"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals. The weekend share has 1 decimal and a `%` sign. Day names are the 3-letter names from `DAYS`.",
+  "sample": {},
+  "edge": [
+   "**Not 7 numbers**, or a **word** in the list.",
+   "Two days with the **same** best or worst sales: the earlier day.",
+   "Every day the **same**: no day is above the average.",
+   "A week with **no sales**: the total is 0, so the share must not divide by it."
+  ],
+  "hints": [
+   "`parts = input(...).split()` then `if len(parts) != 7:`. Inside `try:` build `sales = np.array([float(p) for p in parts])`, and `except ValueError:` print the message.",
+   "`sales.argmax()` gives the position of the best day, so `DAYS[sales.argmax()]` is its name and `sales[sales.argmax()]` (or `sales.max()`) its value.",
+   "For the mask, make the names an array too: `names = np.array(DAYS)`, then `names[sales > sales.mean()]`. Join them with `\", \".join(...)`. The weekend is `sales[5:].sum()`."
+  ],
+  "starter": "# Project 7.1: Weekly sales with NumPy\nimport numpy as np\n\nDAYS = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]\n",
+  "sol": "# Project 7.1: Weekly sales with NumPy\nimport numpy as np\n\nDAYS = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]\n\nparts = input(\"Sales for Mon to Sun (7 numbers): \").split()\nif len(parts) != 7:\n    print(\"Please enter exactly 7 numbers\")\nelse:\n    try:\n        sales = np.array([float(p) for p in parts])\n    except ValueError:\n        print(\"Please enter numbers only\")\n    else:\n        total = sales.sum()\n        average = sales.mean()\n        best = sales.argmax()\n        worst = sales.argmin()\n        # Boolean mask: the day names where sales beat the average\n        above = np.array(DAYS)[sales > average]\n        weekend_share = sales[5:].sum() / total * 100 if total > 0 else 0\n        print(f\"Total: ₹{total:,.2f}\")\n        print(f\"Average: ₹{average:,.2f}\")\n        print(f\"Best day: {DAYS[best]} (₹{sales[best]:,.2f})\")\n        print(f\"Worst day: {DAYS[worst]} (₹{sales[worst]:,.2f})\")\n        print(\"Days above average: \" + (\", \".join(above) or \"none\"))\n        print(f\"Weekend share: {weekend_share:.1f}%\")",
+  "need": [
+   {
+    "any": [
+     "method:array"
+    ],
+    "min": 1,
+    "label": "`np.array()` to hold the 7 values"
+   },
+   {
+    "any": [
+     "method:sum",
+     "method:mean"
+    ],
+    "min": 1,
+    "label": "array methods like `sum()` and `mean()`"
+   },
+   {
+    "any": [
+     "method:argmax"
+    ],
+    "min": 1,
+    "label": "`argmax()` for the best day"
+   },
+   {
+    "any": [
+     "method:argmin"
+    ],
+    "min": 1,
+    "label": "`argmin()` for the worst day"
+   },
+   {
+    "any": [
+     "mask"
+    ],
+    "min": 1,
+    "label": "a boolean mask like `names[sales > average]`"
+   },
+   {
+    "any": [
+     "exc:ValueError"
+    ],
+    "min": 1,
+    "label": "`except ValueError` for words in the input"
+   },
+   {
+    "any": [
+     "spec:money"
+    ],
+    "min": 1,
+    "label": "the `:,.2f` format for money"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "1200 1350 980 1500 1720 2400 2100"
+   ],
+   "out": "Sales for Mon to Sun (7 numbers): 1200 1350 980 1500 1720 2400 2100\nTotal: ₹11,250.00\nAverage: ₹1,607.14\nBest day: Sat (₹2,400.00)\nWorst day: Wed (₹980.00)\nDays above average: Fri, Sat, Sun\nWeekend share: 40.0%"
+  },
+  "tests": [
+   {
+    "name": "A normal week",
+    "kind": "main",
+    "inputs": [
+     "1200 1350 980 1500 1720 2400 2100"
+    ],
+    "expect": [
+     "Total: ₹11,250.00",
+     "Average: ₹1,607.14",
+     "Best day: Sat (₹2,400.00)",
+     "Worst day: Wed (₹980.00)",
+     "Days above average: Fri, Sat, Sun",
+     "Weekend share: 40.0%"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A quiet week with paise",
+    "kind": "main",
+    "inputs": [
+     "450.5 300 300 520 610 980 875.25"
+    ],
+    "expect": [
+     "Total: ₹4,035.75",
+     "Average: ₹576.54",
+     "Best day: Sat (₹980.00)",
+     "Worst day: Tue (₹300.00)",
+     "Days above average: Fri, Sat, Sun",
+     "Weekend share: 46.0%"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A festival week",
+    "kind": "main",
+    "inputs": [
+     "15000 12000 18000 16500 21000 30000 28000"
+    ],
+    "expect": [
+     "Total: ₹140,500.00",
+     "Average: ₹20,071.43",
+     "Best day: Sat (₹30,000.00)",
+     "Worst day: Tue (₹12,000.00)",
+     "Days above average: Fri, Sat, Sun",
+     "Weekend share: 41.3%"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Ties go to the earlier day",
+    "kind": "logic",
+    "inputs": [
+     "100 300 100 300 200 50 50"
+    ],
+    "expect": [
+     "Best day: Tue (₹300.00)",
+     "Worst day: Sat (₹50.00)"
+    ],
+    "tip": "`argmax()` and `argmin()` return the **first** position when values tie, which is the earlier day. Use them instead of searching by hand."
+   },
+   {
+    "name": "Above average means strictly above",
+    "kind": "logic",
+    "inputs": [
+     "500 500 500 500 500 500 500"
+    ],
+    "expect": [
+     "Days above average: none",
+     "Weekend share: 28.6%"
+    ],
+    "tip": "When every day is equal, no day is **above** the average: use `>`, not `>=`, and print `none`."
+   },
+   {
+    "name": "The weekend is Saturday and Sunday",
+    "kind": "logic",
+    "inputs": [
+     "0 0 0 0 0 100 300"
+    ],
+    "expect": [
+     "Days above average: Sat, Sun",
+     "Weekend share: 100.0%"
+    ],
+    "tip": "The weekend is the last two values (`sales[5:]`), Saturday and Sunday."
+   },
+   {
+    "name": "Not 7 numbers",
+    "kind": "edge",
+    "inputs": [
+     "100 200 300"
+    ],
+    "expect": [
+     "Please enter exactly 7 numbers"
+    ],
+    "tip": "Check `len(parts) != 7` before converting, and print `Please enter exactly 7 numbers`."
+   },
+   {
+    "name": "A word in the list",
+    "kind": "edge",
+    "inputs": [
+     "100 200 abc 400 500 600 700"
+    ],
+    "expect": [
+     "Please enter numbers only"
+    ],
+    "tip": "`float(\"abc\")` raises `ValueError`: catch it and print `Please enter numbers only`."
+   },
+   {
+    "name": "Closed all week",
+    "kind": "edge",
+    "inputs": [
+     "  0 0 0 0 0 0 0  "
+    ],
+    "expect": [
+     "Total: ₹0.00",
+     "Average: ₹0.00",
+     "Best day: Mon (₹0.00)",
+     "Worst day: Mon (₹0.00)",
+     "Days above average: none",
+     "Weekend share: 0.0%"
+    ],
+    "tip": "With a total of 0, the weekend share would divide by 0: print `0.0%` instead. Every day ties, so Monday is both best and worst."
+   }
+  ]
+ },
+ "p7-2": {
+  "id": "p7-2",
+  "part": 7,
+  "n": 2,
+  "level": 2,
+  "levelName": "Intermediate",
+  "title": "Store sales matrix",
+  "short": "Load a stores-by-months table into a 2D array and analyse it with axis.",
+  "story": "Vikram is the regional analyst for a chain of mobile shops in Hyderabad. Each quarter he gets the sales of every store for January, February and March, and his manager always asks the same questions: what was the total, which month was best, how do the stores rank and what share does each bring, and which stores grew every single month?\nBuild the answers from one **2D NumPy array**: one row per store, one column per month. Most answers are one line with `axis=`.",
+  "objectives": [
+   "Build a 2D array from typed rows",
+   "Use `sum(axis=0)` and `sum(axis=1)` correctly",
+   "Rank rows by their totals",
+   "Test a condition on every month with `np.diff` and `np.all`"
+  ],
+  "may": [
+   "everything from Parts 1-6",
+   "NumPy arrays, `axis`, masks",
+   "`np.diff`, `np.all`, `argmax`",
+   "`sorted()` with `key=`"
+  ],
+  "mustnot": [
+   "pandas (not in this course yet)"
+  ],
+  "tasks": [
+   "The starter imports NumPy and gives you `MONTHS = [\"Jan\", \"Feb\", \"Mar\"]`.",
+   "Ask `How many stores? `. It must be a whole number from 1 to 10; otherwise print `Number of stores must be 1 to 10` and stop.",
+   "Then ask for each store's row: `name, jan, feb, mar`. A row is invalid if it does not have 4 parts, the name is empty, or a sales value is not a number: print `Invalid row, try again` and ask for that store again.",
+   "Put the sales in a 2D array (stores × 3 months) and keep the names in a list. Print `Total sales`.",
+   "Print the monthly totals (`axis=0`) like `Monthly totals: Jan ₹X, Feb ₹X, Mar ₹X`, and the best month (the first one on a tie).",
+   "Rank the stores by their total (`axis=1`), highest first; equal totals keep the order they were typed. Print `1. Ameerpet: ₹X (34.5%)` with each store's share of the total sales (`0.0%` if the total is 0).",
+   "Print the stores that grew every month (Jan < Feb < Mar), using `np.diff(..., axis=1)` and `np.all(..., axis=1)`, or `none`.",
+   "Print the average sales per store per month (the mean of the whole array)."
+  ],
+  "lines": [
+   "Total sales: ₹<amount>",
+   "Monthly totals: Jan ₹<amount>, Feb ₹<amount>, Mar ₹<amount>",
+   "Best month: <Mon>",
+   "<rank>. <Store>: ₹<amount> (<percent>%)",
+   "Growing every month: <stores> or none",
+   "Average per store per month: ₹<amount>",
+   "Invalid row, try again",
+   "Number of stores must be 1 to 10"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals. Shares have 1 decimal and a `%` sign. Store names are printed without the spaces around them.",
+  "sample": {},
+  "edge": [
+   "A number of stores that is **not 1 to 10**, or not a number.",
+   "A row with a **word** or the **wrong number** of values: ask again.",
+   "**Equal** totals: keep the typed order.",
+   "Flat months (equal sales) are **not** growth.",
+   "All sales **0**: shares are 0.0%."
+  ],
+  "hints": [
+   "Read rows in `while len(rows) < store_count:`. Split at commas and strip; check `len(parts) == 4`, then convert the three values inside `try` / `except ValueError`.",
+   "With `sales = np.array(rows)`: `sales.sum(axis=0)` gives the 3 monthly totals and `sales.sum(axis=1)` one total per store. `MONTHS[monthly.argmax()]` is the best month.",
+   "Rank with `order = sorted(range(len(names)), key=lambda s: -totals[s])` (Python's sort keeps ties in order). Growth: `growing = np.all(np.diff(sales, axis=1) > 0, axis=1)`, then use it as a mask on `np.array(names)`."
+  ],
+  "starter": "# Project 7.2: Store sales matrix\nimport numpy as np\n\nMONTHS = [\"Jan\", \"Feb\", \"Mar\"]\n",
+  "sol": "# Project 7.2: Store sales matrix\nimport numpy as np\n\nMONTHS = [\"Jan\", \"Feb\", \"Mar\"]\n\ntry:\n    store_count = int(input(\"How many stores? \"))\nexcept ValueError:\n    store_count = 0\n\nif not 1 <= store_count <= 10:\n    print(\"Number of stores must be 1 to 10\")\nelse:\n    names = []\n    rows = []\n    while len(rows) < store_count:\n        parts = [p.strip() for p in input(\"Store row (name, jan, feb, mar): \").split(\",\")]\n        try:\n            if len(parts) != 4 or parts[0] == \"\":\n                raise ValueError(\"wrong shape\")\n            values = [float(v) for v in parts[1:]]\n        except ValueError:\n            print(\"Invalid row, try again\")\n            continue\n        names.append(parts[0])\n        rows.append(values)\n\n    sales = np.array(rows)  # one row per store, one column per month\n    grand_total = sales.sum()\n    monthly = sales.sum(axis=0)\n    store_totals = sales.sum(axis=1)\n    print(f\"Total sales: ₹{grand_total:,.2f}\")\n    month_text = \", \".join(f\"{m} ₹{t:,.2f}\" for m, t in zip(MONTHS, monthly))\n    print(f\"Monthly totals: {month_text}\")\n    print(f\"Best month: {MONTHS[monthly.argmax()]}\")\n\n    order = sorted(range(store_count), key=lambda s: -store_totals[s])\n    for rank, s in enumerate(order, start=1):\n        share = store_totals[s] / grand_total * 100 if grand_total > 0 else 0\n        print(f\"{rank}. {names[s]}: ₹{store_totals[s]:,.2f} ({share:.1f}%)\")\n\n    growing = np.all(np.diff(sales, axis=1) > 0, axis=1)\n    grown = np.array(names)[growing]\n    print(\"Growing every month: \" + (\", \".join(grown) or \"none\"))\n    print(f\"Average per store per month: ₹{sales.mean():,.2f}\")",
+  "need": [
+   {
+    "any": [
+     "method:array"
+    ],
+    "min": 1,
+    "label": "`np.array()` to build the 2D table"
+   },
+   {
+    "any": [
+     "kw:axis"
+    ],
+    "min": 3,
+    "label": "`axis=` for monthly and store totals"
+   },
+   {
+    "any": [
+     "method:argmax"
+    ],
+    "min": 1,
+    "label": "`argmax()` for the best month"
+   },
+   {
+    "any": [
+     "method:diff"
+    ],
+    "min": 1,
+    "label": "`np.diff()` to compare each month with the one before"
+   },
+   {
+    "any": [
+     "method:all"
+    ],
+    "min": 1,
+    "label": "`np.all()` to test every month at once"
+   },
+   {
+    "any": [
+     "kw:key"
+    ],
+    "min": 1,
+    "label": "`sorted()` with `key=` to rank the stores"
+   },
+   {
+    "any": [
+     "exc:ValueError"
+    ],
+    "min": 1,
+    "label": "`except ValueError` for bad rows"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "4",
+    "Ameerpet, 120000, 135000, 150000",
+    "Kukatpally, 98000, 97000, 110000",
+    "Dilsukhnagar, 140000, 152000, 161000",
+    "Gachibowli, 87000, 90500, 90500"
+   ],
+   "out": "How many stores? 4\nStore row (name, jan, feb, mar): Ameerpet, 120000, 135000, 150000\nStore row (name, jan, feb, mar): Kukatpally, 98000, 97000, 110000\nStore row (name, jan, feb, mar): Dilsukhnagar, 140000, 152000, 161000\nStore row (name, jan, feb, mar): Gachibowli, 87000, 90500, 90500\nTotal sales: ₹1,431,000.00\nMonthly totals: Jan ₹445,000.00, Feb ₹474,500.00, Mar ₹511,500.00\nBest month: Mar\n1. Dilsukhnagar: ₹453,000.00 (31.7%)\n2. Ameerpet: ₹405,000.00 (28.3%)\n3. Kukatpally: ₹305,000.00 (21.3%)\n4. Gachibowli: ₹268,000.00 (18.7%)\nGrowing every month: Ameerpet, Dilsukhnagar\nAverage per store per month: ₹119,250.00"
+  },
+  "tests": [
+   {
+    "name": "Four stores",
+    "kind": "main",
+    "inputs": [
+     "4",
+     "Ameerpet, 120000, 135000, 150000",
+     "Kukatpally, 98000, 97000, 110000",
+     "Dilsukhnagar, 140000, 152000, 161000",
+     "Gachibowli, 87000, 90500, 90500"
+    ],
+    "expect": [
+     "Total sales: ₹1,431,000.00",
+     "Monthly totals: Jan ₹445,000.00, Feb ₹474,500.00, Mar ₹511,500.00",
+     "Best month: Mar",
+     "1. Dilsukhnagar: ₹453,000.00 (31.7%)",
+     "2. Ameerpet: ₹405,000.00 (28.3%)",
+     "3. Kukatpally: ₹305,000.00 (21.3%)",
+     "4. Gachibowli: ₹268,000.00 (18.7%)",
+     "Growing every month: Ameerpet, Dilsukhnagar",
+     "Average per store per month: ₹119,250.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Two stores with paise",
+    "kind": "main",
+    "inputs": [
+     "2",
+     "Kondapur, 45500.50, 47250, 46000",
+     "Uppal, 38000, 41000.25, 43500"
+    ],
+    "expect": [
+     "Total sales: ₹261,250.75",
+     "Monthly totals: Jan ₹83,500.50, Feb ₹88,250.25, Mar ₹89,500.00",
+     "Best month: Mar",
+     "1. Kondapur: ₹138,750.50 (53.1%)",
+     "2. Uppal: ₹122,500.25 (46.9%)",
+     "Growing every month: Uppal",
+     "Average per store per month: ₹43,541.79"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A bad row on the way",
+    "kind": "main",
+    "inputs": [
+     "3",
+     "Madhapur, 60000, 65000, 70000",
+     "Begumpet, 55000, sixty, 58000",
+     "Begumpet, 55000, 60000, 58000",
+     "LB Nagar, 42000, 43000, 44000"
+    ],
+    "expect": [
+     "Invalid row, try again",
+     "Total sales: ₹497,000.00",
+     "Monthly totals: Jan ₹157,000.00, Feb ₹168,000.00, Mar ₹172,000.00",
+     "Best month: Mar",
+     "1. Madhapur: ₹195,000.00 (39.2%)",
+     "2. Begumpet: ₹173,000.00 (34.8%)",
+     "3. LB Nagar: ₹129,000.00 (26.0%)",
+     "Growing every month: Madhapur, LB Nagar",
+     "Average per store per month: ₹55,222.22"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Equal totals keep the typed order",
+    "kind": "logic",
+    "inputs": [
+     "3",
+     "Zeta, 100, 100, 100",
+     "Alpha, 50, 100, 150",
+     "Beta, 10, 10, 10"
+    ],
+    "expect": [
+     "1. Zeta: ₹300.00 (47.6%)",
+     "2. Alpha: ₹300.00 (47.6%)",
+     "3. Beta: ₹30.00 (4.8%)"
+    ],
+    "tip": "When two stores have the same total, keep the order they were typed (Zeta before Alpha). Python's `sorted()` does this when you sort by the total only."
+   },
+   {
+    "name": "Flat months are not growth",
+    "kind": "logic",
+    "inputs": [
+     "2",
+     "North, 100, 100, 120",
+     "South, 100, 110, 120"
+    ],
+    "expect": [
+     "Growing every month: South"
+    ],
+    "tip": "Growth needs every month higher than the one before: `np.diff(...) > 0` for all months. 100 → 100 is not growth."
+   },
+   {
+    "name": "Monthly totals go down the columns",
+    "kind": "logic",
+    "inputs": [
+     "2",
+     "East, 500, 100, 100",
+     "West, 10, 300, 50"
+    ],
+    "expect": [
+     "Monthly totals: Jan ₹510.00, Feb ₹400.00, Mar ₹150.00",
+     "Best month: Jan"
+    ],
+    "tip": "Monthly totals add each column, which is `sum(axis=0)`. `axis=1` gives the store totals instead."
+   },
+   {
+    "name": "Not 1 to 10 stores",
+    "kind": "edge",
+    "inputs": [
+     "12"
+    ],
+    "expect": [
+     "Number of stores must be 1 to 10"
+    ],
+    "tip": "Check the number of stores first: it must be from 1 to 10 (and a whole number)."
+   },
+   {
+    "name": "One store, wrong shape first",
+    "kind": "edge",
+    "inputs": [
+     "1",
+     "Solo, 100, 200",
+     "Solo, 100, 200, 300"
+    ],
+    "expect": [
+     "Invalid row, try again",
+     "Total sales: ₹600.00",
+     "Monthly totals: Jan ₹100.00, Feb ₹200.00, Mar ₹300.00",
+     "Best month: Mar",
+     "1. Solo: ₹600.00 (100.0%)",
+     "Growing every month: Solo",
+     "Average per store per month: ₹200.00"
+    ],
+    "tip": "A row needs exactly a name and 3 values. Print `Invalid row, try again` and read the row again."
+   },
+   {
+    "name": "All sales are zero",
+    "kind": "edge",
+    "inputs": [
+     "2",
+     "A, 0, 0, 0",
+     "B, 0, 0, 0"
+    ],
+    "expect": [
+     "Total sales: ₹0.00",
+     "Monthly totals: Jan ₹0.00, Feb ₹0.00, Mar ₹0.00",
+     "Best month: Jan",
+     "1. A: ₹0.00 (0.0%)",
+     "2. B: ₹0.00 (0.0%)",
+     "Growing every month: none",
+     "Average per store per month: ₹0.00"
+    ],
+    "tip": "When the total is 0, every share is `0.0%`: do not divide by 0. With equal totals, the typed order stays."
+   }
+  ]
+ },
+ "p7-3": {
+  "id": "p7-3",
+  "part": 7,
+  "n": 3,
+  "level": 3,
+  "levelName": "Challenging",
+  "title": "Discount what-if planner",
+  "short": "Use broadcasting to test every discount on every product in one go.",
+  "story": "Before Diwali, a kirana and gifts store in Vijayawada wants to choose a discount. A bigger discount sells more units but earns less on each one. The owner wants a **what-if table**: for each discount level, the total revenue and profit, which discount gives the most revenue, which gives the most profit, and which products stay profitable at every discount.\nAssume each 1% discount sells 1.5% more units (`ELASTICITY`), and each unit costs 60% of its normal price (`COST_SHARE`). With NumPy **broadcasting**, a column of discounts and a row of products become a full table without a single loop over the numbers.",
+  "objectives": [
+   "Parse structured input and validate every part",
+   "Turn a 1D array into a column with `[:, None]` for broadcasting",
+   "Build scenario × product tables with vectorised maths",
+   "Summarise along an axis and pick the best scenario with `argmax`"
+  ],
+  "may": [
+   "everything from Parts 1-6",
+   "NumPy arrays and broadcasting",
+   "`axis`, `argmax`, `np.all`",
+   "functions and `try` / `except`"
+  ],
+  "mustnot": [
+   "pandas (not in this course yet)"
+  ],
+  "tasks": [
+   "The starter gives `ELASTICITY = 1.5` and `COST_SHARE = 0.6`. Keep them.",
+   "Ask `Products (name:price:units, ...): `, split at commas, then each product at `:` (strip every part). Each needs a name, a price above 0 and units of 0 or more; otherwise print `Invalid product: <the product text>` and stop.",
+   "Ask `Discounts in % (for example 0 5 10): ` and split at spaces. Each must be a whole number from 0 to 90; otherwise print `Invalid discount: <text>` and stop. If there are none, print `Please enter at least one discount`.",
+   "Make arrays: `prices` and `units` (one value per product) and `discounts` (one per scenario). Make `d = discounts[:, None] / 100`, a column.",
+   "With broadcasting: new price = prices × (1 − d); new units = units × (1 + ELASTICITY × d); revenue = new price × new units; profit = (new price − prices × COST_SHARE) × new units. Each is a table: one row per discount, one column per product.",
+   "Print one line per discount with the totals of its row (`sum(axis=1)`): `Discount 10%: revenue ₹X, profit ₹Y`.",
+   "Print the best discount for revenue and for profit (`argmax`; the first one on a tie).",
+   "Print the products whose profit is above 0 at **every** discount (`np.all(profit > 0, axis=0)`), or `none`."
+  ],
+  "lines": [
+   "Discount <d>%: revenue ₹<amount>, profit ₹<amount>",
+   "Best discount for revenue: <d>%",
+   "Best discount for profit: <d>%",
+   "Profitable at every discount: <names> or none",
+   "Invalid product: <text>",
+   "Invalid discount: <text>",
+   "Please enter at least one discount"
+  ],
+  "rules": "Money has `₹`, commas and 2 decimals. Discounts are whole numbers printed with a `%` sign. Product names are printed without the spaces around them.",
+  "sample": {},
+  "edge": [
+   "A product with a **missing part** (`Tea:20`), a word as the price, or a price of 0.",
+   "A discount that is a word, a decimal, **above 90** or negative.",
+   "A big discount where the new price falls **below the cost**: the profit turns negative.",
+   "Only **one** discount: it is the best for both.",
+   "Spaces everywhere in the input."
+  ],
+  "hints": [
+   "Validate first, then build arrays: collect names, prices and units in three lists inside a loop with `try` / `except ValueError`, and only then call `np.array()` on each list.",
+   "Broadcasting: `d = discounts[:, None] / 100` has shape (scenarios, 1); `prices` has shape (products,). Then `new_price = prices * (1 - d)` is a full (scenarios, products) table. Do the same for `new_units`.",
+   "Row totals: `revenue.sum(axis=1)`. Best scenario: `discounts[revenue.sum(axis=1).argmax()]`. Profitable everywhere: `np.array(names)[np.all(profit > 0, axis=0)]`."
+  ],
+  "starter": "# Project 7.3: Discount what-if planner\nimport numpy as np\n\nELASTICITY = 1.5   # each 1% discount sells 1.5% more units\nCOST_SHARE = 0.6   # each unit costs 60% of its normal price\n",
+  "sol": "# Project 7.3: Discount what-if planner\nimport numpy as np\n\nELASTICITY = 1.5   # each 1% discount sells 1.5% more units\nCOST_SHARE = 0.6   # each unit costs 60% of its normal price\n\n\ndef read_products(text):\n    \"\"\"Return names, prices, units lists, or raise ValueError with the bad product.\"\"\"\n    names, prices, units = [], [], []\n    for item in text.split(\",\"):\n        parts = [p.strip() for p in item.split(\":\")]\n        try:\n            if len(parts) != 3 or parts[0] == \"\":\n                raise ValueError\n            price, qty = float(parts[1]), float(parts[2])\n            if price <= 0 or qty < 0:\n                raise ValueError\n        except ValueError:\n            raise ValueError(f\"Invalid product: {item.strip()}\")\n        names.append(parts[0])\n        prices.append(price)\n        units.append(qty)\n    return names, prices, units\n\n\ndef read_discounts(text):\n    \"\"\"Return a list of whole-number discounts from 0 to 90, or raise ValueError.\"\"\"\n    discounts = []\n    for token in text.split():\n        if not token.isdigit() or int(token) > 90:\n            raise ValueError(f\"Invalid discount: {token}\")\n        discounts.append(int(token))\n    if not discounts:\n        raise ValueError(\"Please enter at least one discount\")\n    return discounts\n\n\ntry:\n    names, prices, units = read_products(input(\"Products (name:price:units, ...): \"))\n    discount_list = read_discounts(input(\"Discounts in % (for example 0 5 10): \"))\nexcept ValueError as e:\n    print(e)\nelse:\n    prices = np.array(prices)\n    units = np.array(units)\n    discounts = np.array(discount_list)\n    cut = discounts[:, None] / 100  # a column: one row per scenario\n\n    # Broadcasting builds (scenarios x products) tables\n    new_price = prices * (1 - cut)\n    new_units = units * (1 + ELASTICITY * cut)\n    revenue = new_price * new_units\n    profit = (new_price - prices * COST_SHARE) * new_units\n\n    revenue_totals = revenue.sum(axis=1)\n    profit_totals = profit.sum(axis=1)\n    for disc, rev, prof in zip(discount_list, revenue_totals, profit_totals):\n        print(f\"Discount {disc}%: revenue ₹{rev:,.2f}, profit ₹{prof:,.2f}\")\n    print(f\"Best discount for revenue: {discount_list[revenue_totals.argmax()]}%\")\n    print(f\"Best discount for profit: {discount_list[profit_totals.argmax()]}%\")\n    safe = np.array(names)[np.all(profit > 0, axis=0)]\n    print(\"Profitable at every discount: \" + (\", \".join(safe) or \"none\"))",
+  "need": [
+   {
+    "any": [
+     "method:array"
+    ],
+    "min": 2,
+    "label": "`np.array()` for prices, units and discounts"
+   },
+   {
+    "any": [
+     "newaxis",
+     "method:reshape"
+    ],
+    "min": 1,
+    "label": "`[:, None]` (or `reshape`) to make the discounts a column"
+   },
+   {
+    "any": [
+     "kw:axis"
+    ],
+    "min": 2,
+    "label": "`axis=` to total each scenario and test each product"
+   },
+   {
+    "any": [
+     "method:argmax"
+    ],
+    "min": 1,
+    "label": "`argmax()` to pick the best discount"
+   },
+   {
+    "any": [
+     "method:all"
+    ],
+    "min": 1,
+    "label": "`np.all()` to test every discount at once"
+   },
+   {
+    "any": [
+     "exc:ValueError"
+    ],
+    "min": 1,
+    "label": "`except ValueError` for invalid input"
+   },
+   {
+    "any": [
+     "node:FunctionDef"
+    ],
+    "min": 1,
+    "label": "functions to read and check the input"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "Tea:20:300, Coffee:45:120, Juice:60:80",
+    "0 5 10 15 20"
+   ],
+   "out": "Products (name:price:units, ...): Tea:20:300, Coffee:45:120, Juice:60:80\nDiscounts in % (for example 0 5 10): 0 5 10 15 20\nDiscount 0%: revenue ₹16,200.00, profit ₹6,480.00\nDiscount 5%: revenue ₹16,544.25, profit ₹6,095.25\nDiscount 10%: revenue ₹16,767.00, profit ₹5,589.00\nDiscount 15%: revenue ₹16,868.25, profit ₹4,961.25\nDiscount 20%: revenue ₹16,848.00, profit ₹4,212.00\nBest discount for revenue: 15%\nBest discount for profit: 0%\nProfitable at every discount: Tea, Coffee, Juice"
+  },
+  "tests": [
+   {
+    "name": "Tea, coffee and juice",
+    "kind": "main",
+    "inputs": [
+     "Tea:20:300, Coffee:45:120, Juice:60:80",
+     "0 5 10 15 20"
+    ],
+    "expect": [
+     "Discount 0%: revenue ₹16,200.00, profit ₹6,480.00",
+     "Discount 5%: revenue ₹16,544.25, profit ₹6,095.25",
+     "Discount 10%: revenue ₹16,767.00, profit ₹5,589.00",
+     "Discount 15%: revenue ₹16,868.25, profit ₹4,961.25",
+     "Discount 20%: revenue ₹16,848.00, profit ₹4,212.00",
+     "Best discount for revenue: 15%",
+     "Best discount for profit: 0%",
+     "Profitable at every discount: Tea, Coffee, Juice"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Stationery",
+    "kind": "main",
+    "inputs": [
+     "Notebook:120:50, Pen:15:400",
+     "0 10 25"
+    ],
+    "expect": [
+     "Discount 0%: revenue ₹12,000.00, profit ₹4,800.00",
+     "Discount 10%: revenue ₹12,420.00, profit ₹4,140.00",
+     "Discount 25%: revenue ₹12,375.00, profit ₹2,475.00",
+     "Best discount for revenue: 10%",
+     "Best discount for profit: 0%",
+     "Profitable at every discount: Notebook, Pen"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Festival clothes",
+    "kind": "main",
+    "inputs": [
+     "Saree:2500:12, Kurta:900:40, Dupatta:450:25",
+     "0 10 20 30"
+    ],
+    "expect": [
+     "Discount 0%: revenue ₹77,250.00, profit ₹30,900.00",
+     "Discount 10%: revenue ₹79,953.75, profit ₹26,651.25",
+     "Discount 20%: revenue ₹80,340.00, profit ₹20,085.00",
+     "Discount 30%: revenue ₹78,408.75, profit ₹11,201.25",
+     "Best discount for revenue: 20%",
+     "Best discount for profit: 0%",
+     "Profitable at every discount: Saree, Kurta, Dupatta"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Revenue and profit peak at different discounts",
+    "kind": "logic",
+    "inputs": [
+     "Gift box:1000:10",
+     "0 10 20 30"
+    ],
+    "expect": [
+     "Best discount for revenue: 20%",
+     "Best discount for profit: 0%"
+    ],
+    "tip": "Revenue keeps rising for a while because more units sell, but profit per unit shrinks fast. Total each row with `sum(axis=1)` and use `argmax()` for each."
+   },
+   {
+    "name": "Below cost is not profitable",
+    "kind": "logic",
+    "inputs": [
+     "Lamp:200:30, Candle:50:100",
+     "0 30 45"
+    ],
+    "expect": [
+     "Discount 45%: revenue ₹10,133.75, profit ₹-921.25",
+     "Profitable at every discount: none"
+    ],
+    "tip": "At 45% off the price (55% of normal) is below the cost (60%), so profit is negative. `np.all(profit > 0, axis=0)` checks every discount for each product."
+   },
+   {
+    "name": "Units grow with the discount",
+    "kind": "logic",
+    "inputs": [
+     "Sweets:400:50",
+     "0 20"
+    ],
+    "expect": [
+     "Discount 0%: revenue ₹20,000.00, profit ₹8,000.00",
+     "Discount 20%: revenue ₹20,800.00, profit ₹5,200.00"
+    ],
+    "tip": "New units = units × (1 + 1.5 × discount). At 20% off, 50 units become 65, and the new price is ₹320."
+   },
+   {
+    "name": "An invalid product",
+    "kind": "edge",
+    "inputs": [
+     "Tea:20, Coffee:45:120",
+     "0 10"
+    ],
+    "expect": [
+     "Invalid product: Tea:20"
+    ],
+    "tip": "Each product needs 3 parts. Print `Invalid product: Tea:20` and stop before doing any maths."
+   },
+   {
+    "name": "Invalid discounts",
+    "kind": "edge",
+    "inputs": [
+     "Tea:20:300",
+     "0 10 95"
+    ],
+    "expect": [
+     "Invalid discount: 95"
+    ],
+    "tip": "Discounts must be whole numbers from 0 to 90. Print `Invalid discount: 95` and stop."
+   },
+   {
+    "name": "One discount and lots of spaces",
+    "kind": "edge",
+    "inputs": [
+     "  Tea : 20 : 300 ,  Milk : 30 : 0 ",
+     " 0 "
+    ],
+    "expect": [
+     "Discount 0%: revenue ₹6,000.00, profit ₹2,400.00",
+     "Best discount for revenue: 0%",
+     "Best discount for profit: 0%",
+     "Profitable at every discount: Tea"
+    ],
+    "tip": "Strip every part. With one discount it is the best for both. A product with 0 units makes no profit, so it is not \"profitable\"."
+   }
+  ]
  }
 };
 
@@ -28538,7 +30078,8 @@ function vProject(id){
   };
 }
 function pjTest(code, t){
-  return pyBoot().then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
+  /* NumPy loads on first use (several seconds): load it before the timed run so it never counts towards the limit */
+  return pyBoot().then(function(){ return /\bnumpy\b/.test(code) ? pyRun('import numpy\n', [], function(){}) : null; }).then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
     return new Promise(function(resolve){
       var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
       pyRun(code, t.inputs.slice(), function(){}).then(function(r){

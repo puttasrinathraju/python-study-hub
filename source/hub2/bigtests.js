@@ -4787,5 +4787,761 @@ var BIGTESTS = {
    "e": "Turning rows of data into objects lets every record carry its own logic, like `grade()`.",
    "out": "['Asha', 'Neha']"
   }
+ ],
+ "numpy1": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Ways to create arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.arange(2, 11, 2))",
+   "e": "`arange(start, stop, step)` works like `range()`: it stops before 11. NumPy prints arrays without commas.",
+   "ans": "[ 2  4  6  8 10]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "1D, 2D and 3D arrays",
+   "q": "Make a NumPy array from `[12, 15, 9, 20]`. Print it, then print its shape.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\na = np.array([12, 15, 9, 20])\nprint(a)\nprint(a.shape)",
+   "e": "`np.array()` turns a list into an array. A 1D array of 4 items has the shape `(4,)`.",
+   "out": "[12 15  9 20]\n(4,)"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Make a 2 x 3 array of zeros with `np.zeros` and print it.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.zeros((2, 3)))",
+   "e": "The shape goes in as a tuple, `(rows, columns)`. `zeros` makes floats, so they print as `0.`.",
+   "out": "[[0. 0. 0.]\n [0. 0. 0.]]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Print 5 evenly spaced numbers from 0 to 100 (both included) with `np.linspace`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.linspace(0, 100, 5))",
+   "e": "`linspace(start, stop, how_many)` includes the stop value and spaces the numbers evenly.",
+   "out": "[  0.  25.  50.  75. 100.]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Array properties",
+   "q": "`sales = np.array([[100, 200, 150], [120, 180, 200]])`. Print its shape, size and number of dimensions with one `print()`.",
+   "starter": "import numpy as np\nsales = np.array([[100, 200, 150], [120, 180, 200]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 200, 150], [120, 180, 200]])\nprint(sales.shape, sales.size, sales.ndim)",
+   "e": "`shape` is (rows, columns), `size` counts every value, and `ndim` is the number of dimensions.",
+   "out": "(2, 3) 6 2"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Installing and importing",
+   "q": "This code should print `[1 2 3]`, but it crashes. Fix the import.",
+   "c": "import numpy\na = np.array([1, 2, 3])\nprint(a)",
+   "fixed": "import numpy as np\na = np.array([1, 2, 3])\nprint(a)",
+   "e": "`np` only exists if you import NumPy with that short name: `import numpy as np`.",
+   "want": "[1 2 3]",
+   "got": "NameError: name 'np' is not defined"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "One array, one data type",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.array([1, 2.5, 3]))",
+   "e": "An array has one data type. One float turns every value into a float, so 1 prints as `1.`.",
+   "ans": "[1.  2.5 3. ]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Reshaping",
+   "q": "This code should print the 6 numbers as 3 rows of 2, but it crashes. Fix the reshape.",
+   "c": "import numpy as np\na = np.arange(1, 7)\nprint(a.reshape(4, 2))",
+   "fixed": "import numpy as np\na = np.arange(1, 7)\nprint(a.reshape(3, 2))",
+   "e": "A reshape must keep the number of values: 6 values fit 3 x 2, not 4 x 2 (which needs 8).",
+   "want": "[[1 2]\n [3 4]\n [5 6]]",
+   "got": "ValueError: cannot reshape array of size 6 into shape (4,2)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`daily = np.arange(1, 15)` (14 days). Reshape it into 2 weeks x 7 days and print the result.",
+   "starter": "import numpy as np\ndaily = np.arange(1, 15)\n",
+   "sol": "import numpy as np\ndaily = np.arange(1, 15)\nprint(daily.reshape(2, 7))",
+   "e": "14 values fit exactly into 2 rows of 7. Each row is one week.",
+   "out": "[[ 1  2  3  4  5  6  7]\n [ 8  9 10 11 12 13 14]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Combining arrays",
+   "q": "`q1 = np.array([100, 120])` and `q2 = np.array([130, 150])`. Print them joined into one row, then stacked as two rows.",
+   "starter": "import numpy as np\nq1 = np.array([100, 120])\nq2 = np.array([130, 150])\n",
+   "sol": "import numpy as np\nq1 = np.array([100, 120])\nq2 = np.array([130, 150])\nprint(np.concatenate([q1, q2]))\nprint(np.vstack([q1, q2]))",
+   "e": "`concatenate` puts arrays end to end. `vstack` puts them on top of each other as rows.",
+   "out": "[100 120 130 150]\n[[100 120]\n [130 150]]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "One array, one data type",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.array([3.7, -1.2, 9.9]).astype(int))",
+   "e": "`astype(int)` cuts off the decimal part (towards 0). It does not round, so 3.7 becomes 3 and -1.2 becomes -1.",
+   "ans": "[ 3 -1  9]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "1D, 2D and 3D arrays",
+   "q": "Make a 3D array with `np.arange(12).reshape(2, 2, 3)`. Print its number of dimensions, then the value at position `[1, 0, 2]`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\ncube = np.arange(12).reshape(2, 2, 3)\nprint(cube.ndim)\nprint(cube[1, 0, 2])",
+   "e": "A 3D array has blocks, rows and columns. Block 1, row 0, column 2 holds the value 8.",
+   "out": "3\n8"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Print a 3 x 3 identity matrix with `np.eye`, then a 2 x 2 array where every value is 7, with `np.full`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprint(np.eye(3))\nprint(np.full((2, 2), 7))",
+   "e": "`eye` puts 1s on the diagonal (as floats). `full` fills every place with the value you give.",
+   "out": "[[1. 0. 0.]\n [0. 1. 0.]\n [0. 0. 1.]]\n[[7 7]\n [7 7]]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "One array, one data type",
+   "q": "This code should print the total `600`, but it fails. Fix the array.",
+   "c": "import numpy as np\nprices = np.array([100, \"200\", 300])\nprint(prices.sum())",
+   "fixed": "import numpy as np\nprices = np.array([100, 200, 300])\nprint(prices.sum())",
+   "e": "One text value turns the whole array into text, and text cannot be added up. Keep the numbers as numbers.",
+   "want": "600",
+   "got": "TypeError: the resolved dtypes are not compatible with add.reduce. Resolved (dtype('<U21'), dtype('<U21'), dtype('<U42'))"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Array properties",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.ones((3, 4))\nprint(m.shape, m.size, m.ndim, len(m))",
+   "e": "3 rows of 4 values: 12 in total, 2 dimensions. `len()` of a 2D array counts its rows.",
+   "ans": "(3, 4) 12 2 3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`grid = np.array([[1, 2], [3, 4], [5, 6]])`. Print it flattened into one row, then reshaped into 2 rows and 3 columns.",
+   "starter": "import numpy as np\ngrid = np.array([[1, 2], [3, 4], [5, 6]])\n",
+   "sol": "import numpy as np\ngrid = np.array([[1, 2], [3, 4], [5, 6]])\nprint(grid.flatten())\nprint(grid.reshape(2, 3))",
+   "e": "`flatten()` gives a 1D copy. `reshape(2, 3)` fills the new shape row by row with the same 6 values.",
+   "out": "[1 2 3 4 5 6]\n[[1 2 3]\n [4 5 6]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "What is NumPy?",
+   "q": "Turn the list `[31.5, 33, 29.8]` of temperatures into a NumPy array. Print the array and its type with one `print()`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\ntemps = np.array([31.5, 33, 29.8])\nprint(temps, type(temps))",
+   "e": "A NumPy array is an `ndarray`: a fast block of numbers of one type.",
+   "out": "[31.5 33.  29.8] <class 'numpy.ndarray'>"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Combining arrays",
+   "q": "This code should print `[1 2 3 4]`, but it crashes. Fix it.",
+   "c": "import numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.concatenate(a, b))",
+   "fixed": "import numpy as np\na = np.array([1, 2])\nb = np.array([3, 4])\nprint(np.concatenate([a, b]))",
+   "e": "`concatenate` takes ONE argument: a list of the arrays to join.",
+   "want": "[1 2 3 4]",
+   "got": "TypeError: only integer scalar arrays can be converted to a scalar index"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "`sales = np.arange(100, 1300, 100)` holds 12 months of sales. Reshape it into 4 quarters x 3 months, then print the new shape and the array.",
+   "starter": "import numpy as np\nsales = np.arange(100, 1300, 100)\n",
+   "sol": "import numpy as np\nsales = np.arange(100, 1300, 100)\nquarters = sales.reshape(4, 3)\nprint(quarters.shape)\nprint(quarters)",
+   "e": "12 monthly values become a 4 x 3 table: one row per quarter, one column per month.",
+   "out": "(4, 3)\n[[ 100  200  300]\n [ 400  500  600]\n [ 700  800  900]\n [1000 1100 1200]]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Combining arrays",
+   "q": "Three stores sold `a = np.array([5, 7, 6])`, `b = np.array([8, 4, 9])` and `c = np.array([3, 6, 2])` over 3 days. Stack them into one table (one row per store) and print its shape and the table.",
+   "starter": "import numpy as np\na = np.array([5, 7, 6])\nb = np.array([8, 4, 9])\nc = np.array([3, 6, 2])\n",
+   "sol": "import numpy as np\na = np.array([5, 7, 6])\nb = np.array([8, 4, 9])\nc = np.array([3, 6, 2])\ntable = np.vstack([a, b, c])\nprint(table.shape)\nprint(table)",
+   "e": "`vstack` turns several 1D arrays of the same length into the rows of one 2D table.",
+   "out": "(3, 3)\n[[5 7 6]\n [8 4 9]\n [3 6 2]]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "One array, one data type",
+   "q": "`raw = np.array([1, 2.5, \"3\"])` mixes types, so everything became text. Convert it to floats with `astype(float)` and print it.",
+   "starter": "import numpy as np\nraw = np.array([1, 2.5, \"3\"])\n",
+   "sol": "import numpy as np\nraw = np.array([1, 2.5, \"3\"])\nprint(raw.astype(float))",
+   "e": "Text that looks like numbers can be converted back with `astype(float)`.",
+   "out": "[1.  2.5 3. ]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Ways to create arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.linspace(1, 2, 3), np.arange(3, 0, -1))",
+   "e": "`linspace` gives floats (1, 1.5 and 2). `arange` with a negative step counts down and stops before 0.",
+   "ans": "[1.  1.5 2. ] [3 2 1]"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Array properties",
+   "q": "This code should print `(2, 3)`, but it crashes. Fix it.",
+   "c": "import numpy as np\na = np.zeros((2, 3))\nprint(a.shape())",
+   "fixed": "import numpy as np\na = np.zeros((2, 3))\nprint(a.shape)",
+   "e": "`shape` is a property, not a method: no brackets after it.",
+   "want": "(2, 3)",
+   "got": "TypeError: 'tuple' object is not callable"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Ways to create arrays",
+   "q": "Make `prices = np.full(5, 99.5)` and print it. Then print the same array converted to whole numbers with `astype(int)`.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nprices = np.full(5, 99.5)\nprint(prices)\nprint(prices.astype(int))",
+   "e": "`full` makes an array of one repeated value. `astype(int)` cuts 99.5 down to 99.",
+   "out": "[99.5 99.5 99.5 99.5 99.5]\n[99 99 99 99 99]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reshaping",
+   "q": "Make a 2 x 3 matrix with `np.arange(1, 7).reshape(2, 3)`. Print it flattened, then its number of dimensions before and after flattening, with one `print()` for the two numbers.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nm = np.arange(1, 7).reshape(2, 3)\nflat = m.flatten()\nprint(flat)\nprint(m.ndim, flat.ndim)",
+   "e": "Flattening keeps every value but turns a 2D table into a 1D row.",
+   "out": "[1 2 3 4 5 6]\n2 1"
+  }
+ ],
+ "numpy2": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprices = np.array([10, 20, 30])\nprint(prices * 2, prices + 5)",
+   "e": "Maths on an array is done on every value at once: no loop needed.",
+   "ans": "[20 40 60] [15 25 35]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "`price = np.array([120, 45, 80])` and `qty = np.array([2, 10, 3])`. Print the revenue of each item, then the total revenue.",
+   "starter": "import numpy as np\nprice = np.array([120, 45, 80])\nqty = np.array([2, 10, 3])\n",
+   "sol": "import numpy as np\nprice = np.array([120, 45, 80])\nqty = np.array([2, 10, 3])\nrevenue = price * qty\nprint(revenue)\nprint(revenue.sum())",
+   "e": "Two arrays of the same length are multiplied position by position.",
+   "out": "[240 450 240]\n930"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Statistics",
+   "q": "`sales = np.array([12000, 15000, 18000, 14000])`. Print the mean, the highest and the lowest value with one `print()`.",
+   "starter": "import numpy as np\nsales = np.array([12000, 15000, 18000, 14000])\n",
+   "sol": "import numpy as np\nsales = np.array([12000, 15000, 18000, 14000])\nprint(sales.mean(), sales.max(), sales.min())",
+   "e": "Arrays have built-in statistics methods. `mean()` always gives a float.",
+   "out": "14750.0 18000 12000"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Indexing and slicing",
+   "q": "`rev = np.array([50000, 65000, 72000, 58000])`. Print the first value, the last value, and the middle two (a slice), with one `print()`.",
+   "starter": "import numpy as np\nrev = np.array([50000, 65000, 72000, 58000])\n",
+   "sol": "import numpy as np\nrev = np.array([50000, 65000, 72000, 58000])\nprint(rev[0], rev[-1], rev[1:3])",
+   "e": "Indexing and slicing work like lists. A slice of an array is an array.",
+   "out": "50000 58000 [65000 72000]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`salaries = np.array([45000, 55000, 38000, 72000])`. Print the salaries above 50000, using a boolean mask.",
+   "starter": "import numpy as np\nsalaries = np.array([45000, 55000, 38000, 72000])\n",
+   "sol": "import numpy as np\nsalaries = np.array([45000, 55000, 38000, 72000])\nprint(salaries[salaries > 50000])",
+   "e": "`salaries > 50000` is an array of `True`/`False`. Putting it inside `[ ]` keeps only the `True` positions.",
+   "out": "[55000 72000]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Filtering with boolean masks",
+   "q": "This code should print `[45000 55000]`, but it crashes. Fix the mask.",
+   "c": "import numpy as np\nsal = np.array([45000, 55000, 38000])\nprint(sal[sal > 40000 and sal < 60000])",
+   "fixed": "import numpy as np\nsal = np.array([45000, 55000, 38000])\nprint(sal[(sal > 40000) & (sal < 60000)])",
+   "e": "For arrays, use `&` (and) and `|` (or), with brackets around each comparison. `and` only works on single True/False values.",
+   "want": "[45000 55000]",
+   "got": "ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4], [5, 6]])\nprint(m.sum(axis=0), m.sum(axis=1))",
+   "e": "`axis=0` goes down the rows, giving one total per column. `axis=1` goes across, giving one total per row.",
+   "ans": "[ 9 12] [ 3  7 11]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Vectorisation: maths on the whole array",
+   "q": "This code should double every price and print `[20 40 60]`. Fix it.",
+   "c": "prices = [10, 20, 30]\nprint(prices * 2)",
+   "fixed": "import numpy as np\nprices = np.array([10, 20, 30])\nprint(prices * 2)",
+   "e": "A list times 2 repeats the list. A NumPy array times 2 doubles every value.",
+   "want": "[20 40 60]",
+   "got": "[10, 20, 30, 10, 20, 30]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Broadcasting",
+   "q": "`m = np.array([[1, 2, 3], [4, 5, 6]])`. Add `[10, 20, 30]` to every row using broadcasting, and print the result.",
+   "starter": "import numpy as np\nm = np.array([[1, 2, 3], [4, 5, 6]])\n",
+   "sol": "import numpy as np\nm = np.array([[1, 2, 3], [4, 5, 6]])\nprint(m + np.array([10, 20, 30]))",
+   "e": "A row with the same number of columns is \"stretched\" over every row of the table.",
+   "out": "[[11 22 33]\n [14 25 36]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Rows are months and columns are products. Print the total per month, then the total per product.",
+   "starter": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\nprint(sales.sum(axis=1))\nprint(sales.sum(axis=0))",
+   "e": "One total per row (month) is `axis=1`. One total per column (product) is `axis=0`.",
+   "out": "[450 440 490]\n[330 450 600]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Statistics",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\na = np.array([2, 4, 4, 4, 5, 5, 7, 9])\nprint(a.mean(), a.std(), np.median(a))",
+   "e": "The mean is 40 / 8 = 5.0. The standard deviation of this classic example is exactly 2.0. The median averages the two middle values, 4 and 5.",
+   "ans": "5.0 2.0 4.5"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`marks = np.array([45, 82, 30, 67])`. Use `np.where` to label each mark `Pass` (35 or more) or `Fail`, and print the labels.",
+   "starter": "import numpy as np\nmarks = np.array([45, 82, 30, 67])\n",
+   "sol": "import numpy as np\nmarks = np.array([45, 82, 30, 67])\nprint(np.where(marks >= 35, \"Pass\", \"Fail\"))",
+   "e": "`np.where(condition, if_true, if_false)` is a vectorised if/else.",
+   "out": "['Pass' 'Pass' 'Fail' 'Pass']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Indexing and slicing",
+   "q": "Rows are January to March, columns are products 1 to 3. Print the February row, then the column of product 3, then the March value of product 2.",
+   "starter": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\n",
+   "sol": "import numpy as np\nsales = np.array([[100, 150, 200],\n                  [120, 140, 180],\n                  [110, 160, 220]])\nprint(sales[1])\nprint(sales[:, 2])\nprint(sales[2, 1])",
+   "e": "`[row, column]`. A `:` means \"all\", so `[:, 2]` is the whole third column.",
+   "out": "[120 140 180]\n[200 180 220]\n160"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "This code should print the total per month (per row): `[250 260]`. Fix it.",
+   "c": "import numpy as np\nm = np.array([[100, 150], [120, 140]])\nprint(m.sum(axis=0))",
+   "fixed": "import numpy as np\nm = np.array([[100, 150], [120, 140]])\nprint(m.sum(axis=1))",
+   "e": "`axis=0` adds up each column. One total per row needs `axis=1`.",
+   "want": "[250 260]",
+   "got": "[220 290]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Views vs copies",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nx = np.array([1, 2, 3, 4])\npart = x[1:3]\npart[0] = 99\nprint(x)",
+   "e": "A slice of an array is a **view** of the same data, so changing it changes the original too.",
+   "ans": "[ 1 99  3  4]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Sorting and unique values",
+   "q": "`ratings = np.array([5, 3, 5, 4, 3, 5])`. Print the different ratings and how many times each one appears, using `np.unique` with `return_counts=True`.",
+   "starter": "import numpy as np\nratings = np.array([5, 3, 5, 4, 3, 5])\n",
+   "sol": "import numpy as np\nratings = np.array([5, 3, 5, 4, 3, 5])\nvalues, counts = np.unique(ratings, return_counts=True)\nprint(values, counts)",
+   "e": "`np.unique` gives the sorted different values, and with `return_counts=True` also how often each appears.",
+   "out": "[3 4 5] [2 1 3]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`temps = np.array([31, 35, 29, 38, 33])`. Print how many days were above 32, and their average rounded to 2 decimals.",
+   "starter": "import numpy as np\ntemps = np.array([31, 35, 29, 38, 33])\n",
+   "sol": "import numpy as np\ntemps = np.array([31, 35, 29, 38, 33])\nhot = temps[temps > 32]\nprint(len(hot), round(hot.mean(), 2))",
+   "e": "Filter first with a mask, then use the statistics on the filtered array.",
+   "out": "3 35.33"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Views vs copies",
+   "q": "This code should leave `y` unchanged and print `[1 2 3 4]`. Fix it.",
+   "c": "import numpy as np\ny = np.array([1, 2, 3, 4])\nsafe = y[1:3]\nsafe[0] = 0\nprint(y)",
+   "fixed": "import numpy as np\ny = np.array([1, 2, 3, 4])\nsafe = y[1:3].copy()\nsafe[0] = 0\nprint(y)",
+   "e": "A slice is a view. `.copy()` makes independent data, so changes do not reach the original.",
+   "want": "[1 2 3 4]",
+   "got": "[1 0 3 4]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`price = np.array([499, 1299, 299, 899])` and `qty = np.array([10, 3, 25, 6])`. Print the position of the product with the highest revenue (`argmax`), then the share of total revenue that comes from products with above-average revenue, as a percent with 1 decimal.",
+   "starter": "import numpy as np\nprice = np.array([499, 1299, 299, 899])\nqty = np.array([10, 3, 25, 6])\n",
+   "sol": "import numpy as np\nprice = np.array([499, 1299, 299, 899])\nqty = np.array([10, 3, 25, 6])\nrevenue = price * qty\nprint(revenue.argmax())\nbig = revenue[revenue > revenue.mean()]\nprint(f\"{big.sum() / revenue.sum() * 100:.1f}%\")",
+   "e": "Vectorise (`price * qty`), then summarise (`argmax`, `mean`), then filter with a mask: three NumPy steps in a few lines.",
+   "out": "2\n34.4%"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "axis: the most confusing argument in NumPy",
+   "q": "Occupancy in % for 3 hotels (rows) over 4 weeks (columns): `occ = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])`. Print each hotel's average (rounded to 2 decimals), then the number of the best week (1 to 4) by average occupancy.",
+   "starter": "import numpy as np\nocc = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])\n",
+   "sol": "import numpy as np\nocc = np.array([[60, 72, 75, 80], [55, 65, 70, 90], [70, 68, 74, 76]])\nprint(occ.mean(axis=1).round(2))\nprint(occ.mean(axis=0).argmax() + 1)",
+   "e": "`axis=1` averages each hotel across weeks; `axis=0` averages each week across hotels. `argmax` counts from 0, so add 1.",
+   "out": "[71.75 70.   72.  ]\n4"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Broadcasting",
+   "q": "Prices of 3 products: `prices = np.array([100, 250, 400])`. Make a table with one row per discount level, using a column of factors `[[1.0], [0.9], [0.8]]` (no discount, 10% off, 20% off) and broadcasting. Print the table.",
+   "starter": "import numpy as np\nprices = np.array([100, 250, 400])\n",
+   "sol": "import numpy as np\nprices = np.array([100, 250, 400])\nfactors = np.array([[1.0], [0.9], [0.8]])\nprint(prices * factors)",
+   "e": "A column (3 x 1) times a row (3) broadcasts into a 3 x 3 table: every factor times every price.",
+   "out": "[[100. 250. 400.]\n [ 90. 225. 360.]\n [ 80. 200. 320.]]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Sorting and unique values",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nscores = np.array([70, 95, 80])\nnames = np.array([\"Asha\", \"Ravi\", \"Neha\"])\nprint(names[np.argsort(scores)][::-1])",
+   "e": "`argsort` gives the positions that would sort the scores (lowest first). Using them on `names` and reversing gives the names from highest to lowest score.",
+   "ans": "['Ravi' 'Neha' 'Asha']"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Filtering with boolean masks",
+   "q": "This code should print the values below 10 or above 20: `[ 5 25]`. Fix the mask.",
+   "c": "import numpy as np\na = np.array([5, 15, 25])\nprint(a[a < 10 | a > 20])",
+   "fixed": "import numpy as np\na = np.array([5, 15, 25])\nprint(a[(a < 10) | (a > 20)])",
+   "e": "`|` runs before `<` and `>`, so without brackets Python tries `10 | a` first. Put brackets around each comparison.",
+   "want": "[ 5 25]",
+   "got": "ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Filtering with boolean masks",
+   "q": "`sal = np.array([45000, 55000, 38000, 72000, 41000, 65000])`. Cap every salary at 60000 with `np.where`. Print the capped array and its mean rounded to 2 decimals.",
+   "starter": "import numpy as np\nsal = np.array([45000, 55000, 38000, 72000, 41000, 65000])\n",
+   "sol": "import numpy as np\nsal = np.array([45000, 55000, 38000, 72000, 41000, 65000])\ncapped = np.where(sal > 60000, 60000, sal)\nprint(capped)\nprint(round(capped.mean(), 2))",
+   "e": "`np.where` can replace values: where the test is `True` use 60000, otherwise keep the salary.",
+   "out": "[45000 55000 38000 60000 41000 60000]\n49833.33"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Statistics",
+   "q": "`scores = np.array([40, 55, 70, 85, 100])`. Scale them to the range 0 to 1 with `(x - min) / (max - min)`, and print the result.",
+   "starter": "import numpy as np\nscores = np.array([40, 55, 70, 85, 100])\n",
+   "sol": "import numpy as np\nscores = np.array([40, 55, 70, 85, 100])\nprint((scores - scores.min()) / (scores.max() - scores.min()))",
+   "e": "Min-max scaling is one vectorised line: the lowest becomes 0, the highest becomes 1.",
+   "out": "[0.   0.25 0.5  0.75 1.  ]"
+  }
+ ],
+ "numpy3": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Looping over arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor row in m:\n    print(row.sum())",
+   "e": "Looping over a 2D array gives one row at a time, and each row is itself an array.",
+   "ans": "3\n7"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Splitting arrays",
+   "q": "Split `np.arange(1, 10)` into 3 equal parts with `np.split`, and print each part on its own line.",
+   "starter": "import numpy as np\n",
+   "sol": "import numpy as np\nfor part in np.split(np.arange(1, 10), 3):\n    print(part)",
+   "e": "`np.split(a, 3)` cuts the array into 3 equal pieces. 9 values make 3 pieces of 3.",
+   "out": "[1 2 3]\n[4 5 6]\n[7 8 9]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "`a = np.array([4, 7, 4, 9, 4])`. Print the positions of every 4, using `np.where`.",
+   "starter": "import numpy as np\na = np.array([4, 7, 4, 9, 4])\n",
+   "sol": "import numpy as np\na = np.array([4, 7, 4, 9, 4])\nprint(np.where(a == 4)[0])",
+   "e": "`np.where(condition)` gives a tuple with one array of positions per dimension. `[0]` takes the positions.",
+   "out": "[0 2 4]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`a = np.array([10, 20, 30])` and `b = np.array([3, 4, 5])`. Print `np.add(a, b)` and `np.mod(a, b)` with one `print()`.",
+   "starter": "import numpy as np\na = np.array([10, 20, 30])\nb = np.array([3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([10, 20, 30])\nb = np.array([3, 4, 5])\nprint(np.add(a, b), np.mod(a, b))",
+   "e": "ufuncs work value by value, like `+` and `%` on arrays.",
+   "out": "[13 24 35] [1 0 0]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`sales = np.array([120, 80, 150])`. Print the running total with `np.cumsum`.",
+   "starter": "import numpy as np\nsales = np.array([120, 80, 150])\n",
+   "sol": "import numpy as np\nsales = np.array([120, 80, 150])\nprint(np.cumsum(sales))",
+   "e": "`cumsum` adds up as it goes: each value is the total so far.",
+   "out": "[120 200 350]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Splitting arrays",
+   "q": "This code should split 7 numbers into 3 parts (3, 2 and 2 values), but it crashes. Fix it.",
+   "c": "import numpy as np\nfor part in np.split(np.arange(7), 3):\n    print(part)",
+   "fixed": "import numpy as np\nfor part in np.array_split(np.arange(7), 3):\n    print(part)",
+   "e": "`np.split` needs parts of exactly equal size. `np.array_split` allows unequal parts.",
+   "want": "[0 1 2]\n[3 4]\n[5 6]",
+   "got": "ValueError: array split does not result in an equal division"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.around([0.5, 1.5, 2.5, 3.5]))",
+   "e": "NumPy rounds halves to the nearest even number, like Python's `round()`: 0, 2, 2, 4.",
+   "ans": "[0. 2. 2. 4.]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Searching arrays",
+   "q": "This code should print how many 3s there are: `2`. Fix it.",
+   "c": "import numpy as np\na = np.array([3, 8, 3])\nprint(len(np.where(a == 3)))",
+   "fixed": "import numpy as np\na = np.array([3, 8, 3])\nprint(len(np.where(a == 3)[0]))",
+   "e": "`np.where` returns a tuple (one item per dimension), so its length is 1. Count the positions inside it with `[0]`.",
+   "want": "2",
+   "got": "1"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Looping over arrays",
+   "q": "`m = np.array([[10, 20], [30, 40]])`. Print each position and its value with `np.ndenumerate`, one per line.",
+   "starter": "import numpy as np\nm = np.array([[10, 20], [30, 40]])\n",
+   "sol": "import numpy as np\nm = np.array([[10, 20], [30, 40]])\nfor pos, value in np.ndenumerate(m):\n    print(pos, value)",
+   "e": "`ndenumerate` is `enumerate` for arrays: it gives the (row, column) position with each value.",
+   "out": "(0, 0) 10\n(0, 1) 20\n(1, 0) 30\n(1, 1) 40"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "Price slabs start at `slabs = np.array([100, 250, 400, 900])`. For the new prices `[50, 300, 1000]`, print the positions where they would be inserted to keep the order, using `np.searchsorted`.",
+   "starter": "import numpy as np\nslabs = np.array([100, 250, 400, 900])\n",
+   "sol": "import numpy as np\nslabs = np.array([100, 250, 400, 900])\nprint(np.searchsorted(slabs, [50, 300, 1000]))",
+   "e": "`searchsorted` finds where each value fits in a sorted array: before 100, between 250 and 400, and after 900.",
+   "out": "[0 2 4]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Random numbers",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nnp.random.seed(42)\nrolls = np.random.randint(1, 7, size=500)\nprint(rolls.min(), rolls.max(), len(rolls))",
+   "e": "`randint(1, 7)` gives 1 to 6 (7 is not included). With 500 rolls, both 1 and 6 surely appear.",
+   "ans": "1 6 500"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Random numbers",
+   "q": "`a = np.array([1, 2, 3, 4, 5])`. Make a shuffled copy with `np.random.permutation`. Print whether the sorted copy equals `a` (use `np.array_equal`), then print `a` itself.",
+   "starter": "import numpy as np\na = np.array([1, 2, 3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([1, 2, 3, 4, 5])\np = np.random.permutation(a)\nprint(np.array_equal(np.sort(p), a))\nprint(a)",
+   "e": "`permutation` returns a new shuffled array and leaves `a` alone. Checking the sorted copy avoids printing random values.",
+   "out": "True\n[1 2 3 4 5]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`readings = np.array([100, 120, 90, 130])`. Print the day-to-day changes with `np.diff`, then the biggest rise.",
+   "starter": "import numpy as np\nreadings = np.array([100, 120, 90, 130])\n",
+   "sol": "import numpy as np\nreadings = np.array([100, 120, 90, 130])\nchanges = np.diff(readings)\nprint(changes)\nprint(changes.max())",
+   "e": "`np.diff` subtracts each value from the next one, so the result has one value fewer.",
+   "out": "[ 20 -30  40]\n40"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "This code should print the greatest common divisor of 12 and 18, `6`. Fix it.",
+   "c": "import numpy as np\nprint(np.lcm(12, 18))",
+   "fixed": "import numpy as np\nprint(np.gcd(12, 18))",
+   "e": "`lcm` is the lowest common multiple (36). The greatest common divisor is `gcd`.",
+   "want": "6",
+   "got": "36"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Splitting arrays",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint([len(p) for p in np.array_split(np.arange(11), 4)])",
+   "e": "11 values into 4 parts: the first parts get one extra value each, so 3, 3, 3 and 2.",
+   "ans": "[3, 3, 3, 2]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Random data distributions",
+   "q": "After `np.random.seed(3)`, make 100000 values from a normal distribution with mean 500 and standard deviation 50. Print the mean and the standard deviation, both rounded to whole numbers.",
+   "starter": "import numpy as np\nnp.random.seed(3)\n",
+   "sol": "import numpy as np\nnp.random.seed(3)\nvalues = np.random.normal(loc=500, scale=50, size=100000)\nprint(round(values.mean()), round(values.std()))",
+   "e": "With many values, the sample mean and spread come very close to the settings, so the rounded results are stable.",
+   "out": "500 50"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "`a = np.array([1, 2, 3, 4])` and `b = np.array([3, 4, 5])`. Print the values in both, the values only in `a`, and all values, using `np.intersect1d`, `np.setdiff1d` and `np.union1d`.",
+   "starter": "import numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([3, 4, 5])\n",
+   "sol": "import numpy as np\na = np.array([1, 2, 3, 4])\nb = np.array([3, 4, 5])\nprint(np.intersect1d(a, b), np.setdiff1d(a, b), np.union1d(a, b))",
+   "e": "These are set operations for arrays, and the results come back sorted.",
+   "out": "[3 4] [1 2] [1 2 3 4 5]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Looping over arrays",
+   "q": "This code should print every value on one line: `1 2 3 4`. Fix the loop.",
+   "c": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor x in m:\n    print(x, end=\" \")",
+   "fixed": "import numpy as np\nm = np.array([[1, 2], [3, 4]])\nfor x in np.nditer(m):\n    print(x, end=\" \")",
+   "e": "A plain loop over a 2D array gives rows. `np.nditer` visits every single value.",
+   "want": "1 2 3 4 ",
+   "got": "[1 2] [3 4] "
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Splitting arrays",
+   "q": "`days = np.arange(1, 15) * 100` holds 14 days of sales. Split it into 2 weeks with `np.split`, and print a list of the two weekly totals as plain ints.",
+   "starter": "import numpy as np\ndays = np.arange(1, 15) * 100\n",
+   "sol": "import numpy as np\ndays = np.arange(1, 15) * 100\nprint([int(week.sum()) for week in np.split(days, 2)])",
+   "e": "Split first, then summarise each part. `int()` turns NumPy numbers into plain Python ints for a clean list.",
+   "out": "[2800, 7700]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Random data distributions",
+   "q": "After `np.random.seed(3)`, simulate 100000 days of bookings with `np.random.binomial(n=20, p=0.25, size=100000)`. Print the mean rounded to a whole number, whether every value is 0 or more, and whether every value is 20 or less.",
+   "starter": "import numpy as np\nnp.random.seed(3)\n",
+   "sol": "import numpy as np\nnp.random.seed(3)\nbookings = np.random.binomial(n=20, p=0.25, size=100000)\nprint(round(bookings.mean()), bookings.min() >= 0, bookings.max() <= 20)",
+   "e": "A binomial count is between 0 and n, and its mean is n × p = 5. Check properties, not exact random values.",
+   "out": "5 True True"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Searching arrays",
+   "q": "`rates = np.array([1200, 3400, 1200, 5600, 3400])`. Print the positions of the rate 3400, then how many rates are below 2000.",
+   "starter": "import numpy as np\nrates = np.array([1200, 3400, 1200, 5600, 3400])\n",
+   "sol": "import numpy as np\nrates = np.array([1200, 3400, 1200, 5600, 3400])\nprint(np.where(rates == 3400)[0])\nprint(len(rates[rates < 2000]))",
+   "e": "`np.where` finds positions; a mask finds the matching values, and `len()` counts them.",
+   "out": "[1 4]\n2"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.floor([-1.5, 2.7]), np.ceil([-1.5, 2.7]), np.trunc([-1.5, 2.7]))",
+   "e": "`floor` always goes down, `ceil` always goes up, and `trunc` just cuts off the decimals (towards 0).",
+   "ans": "[-2.  2.] [-1.  3.] [-1.  2.]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Random numbers",
+   "q": "After `np.random.seed(1)`, pick 10000 days with `np.random.choice([\"late\", \"on time\"], p=[0.2, 0.8], size=10000)`. Print the share of on-time days, rounded to 1 decimal.",
+   "starter": "import numpy as np\nnp.random.seed(1)\n",
+   "sol": "import numpy as np\nnp.random.seed(1)\ndays = np.random.choice([\"late\", \"on time\"], p=[0.2, 0.8], size=10000)\nprint(round(np.mean(days == \"on time\"), 1))",
+   "e": "`days == \"on time\"` is an array of True/False, and its mean is the share of True values: about 0.8.",
+   "out": "0.8"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Searching arrays",
+   "q": "`np.searchsorted` should say where 300 fits among these prices in sorted order: `2`. Fix it.",
+   "c": "import numpy as np\nprices = np.array([100, 900, 250, 400])\nprint(np.searchsorted(prices, 300))",
+   "fixed": "import numpy as np\nprices = np.array([100, 900, 250, 400])\nprint(np.searchsorted(np.sort(prices), 300))",
+   "e": "`searchsorted` only works on a sorted array. Sort the prices first.",
+   "want": "2",
+   "got": "3"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "ufuncs: NumPy's fast maths functions",
+   "q": "Write a function `slab(amount)` that returns `\"High\"` for 1000 or more and `\"Low\"` otherwise. Turn it into a ufunc with `np.frompyfunc(slab, 1, 1)` and print the result for `np.array([500, 1500, 1000])`.",
+   "starter": "import numpy as np\n# def slab(amount):\n",
+   "sol": "import numpy as np\ndef slab(amount):\n    return \"High\" if amount >= 1000 else \"Low\"\n\nslab_u = np.frompyfunc(slab, 1, 1)\nprint(slab_u(np.array([500, 1500, 1000])))",
+   "e": "`frompyfunc` wraps your own Python function so it runs on every value of an array.",
+   "out": "['Low' 'High' 'High']"
+  }
  ]
 };
