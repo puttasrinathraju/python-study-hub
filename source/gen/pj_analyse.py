@@ -1,6 +1,6 @@
 import ast, io, tokenize, builtins
 def analyse(src, starter=''):
-    res = {'ok': True, 'feat': {}, 'names': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}
+    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}
     def add(k):
         res['feat'][k] = res['feat'].get(k, 0) + 1
     try:
@@ -46,9 +46,14 @@ def analyse(src, starter=''):
                 add('spec:money')
             if any(c in spec for c in '<>^'):
                 add('spec:align')
-        elif isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
-            if node.id not in res['names']:
-                res['names'].append(node.id)
+        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):
+            # variables you store values in (loop and comprehension variables like i or w are not checked)
+            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):
+                for sub in ast.walk(target):
+                    if isinstance(sub, ast.Name) and sub.id not in res['names']:
+                        res['names'].append(sub.id)
+        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
+            res['defs'].append(node.name)
     lines = src.split('\n')
     res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))
     res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]

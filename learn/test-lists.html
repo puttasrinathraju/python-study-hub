@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9.1 Big Test: Lists | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Lists, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-lists.html">
+<meta property="og:title" content="9.1 Big Test: Lists | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Lists, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-lists">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-lists">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>9.1 Big Test: Lists</h1><p class="lead">25 questions on Lists only, from basic to challenge. Try each one first, then open the answer. <a href="lists.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;pink&quot;]
+print(colors[1], colors[-1])
+print(colors[1:3])</code></pre></figure><details><summary>Answer</summary><pre class="out">green pink
+['green', 'blue']</pre><p>Indexes start at 0, and <code>-1</code> is the last item. A slice <code>[1:3]</code> gives a new list with items 1 and 2.</p></details></li><li><p><b>Basic.</b> Make a list <code>cities</code> with <code>&quot;Delhi&quot;</code>, <code>&quot;Pune&quot;</code> and <code>&quot;Goa&quot;</code>. Print the list and its length with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">['Delhi', 'Pune', 'Goa'] 3</pre><details><summary>Answer</summary><figure class="code"><pre><code>cities = [&quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;]
+print(cities, len(cities))</code></pre><p class="olbl">Output</p><pre class="out">['Delhi', 'Pune', 'Goa'] 3</pre></figure><p>Square brackets make a list, and <code>len()</code> counts its items.</p></details></li><li><p><b>Basic.</b> <code>cart = [&quot;rice&quot;, &quot;dal&quot;]</code>. Add <code>&quot;oil&quot;</code> at the end and <code>&quot;salt&quot;</code> at the start. Print the cart.</p><p>Your code should print exactly:</p><pre class="out">['salt', 'rice', 'dal', 'oil']</pre><details><summary>Answer</summary><figure class="code"><pre><code>cart = [&quot;rice&quot;, &quot;dal&quot;]
+cart.append(&quot;oil&quot;)
+cart.insert(0, &quot;salt&quot;)
+print(cart)</code></pre><p class="olbl">Output</p><pre class="out">['salt', 'rice', 'dal', 'oil']</pre></figure><p><code>append()</code> adds to the end. <code>insert(0, x)</code> puts <code>x</code> at position 0, the front.</p></details></li><li><p><b>Basic.</b> <code>stock = [&quot;pen&quot;, &quot;ink&quot;, &quot;pad&quot;, &quot;ink&quot;]</code>. Remove the first <code>&quot;ink&quot;</code> with <code>remove()</code>, then remove the last item with <code>pop()</code>. Print the list.</p><p>Your code should print exactly:</p><pre class="out">['pen', 'pad']</pre><details><summary>Answer</summary><figure class="code"><pre><code>stock = [&quot;pen&quot;, &quot;ink&quot;, &quot;pad&quot;, &quot;ink&quot;]
+stock.remove(&quot;ink&quot;)
+stock.pop()
+print(stock)</code></pre><p class="olbl">Output</p><pre class="out">['pen', 'pad']</pre></figure><p><code>remove(x)</code> deletes the first match only. <code>pop()</code> with no index removes the last item.</p></details></li><li><p><b>Basic.</b> <code>sales = [450, 120, 780, 340]</code>. Print the total, the smallest and the largest value with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">1690 120 780</pre><details><summary>Answer</summary><figure class="code"><pre><code>sales = [450, 120, 780, 340]
+print(sum(sales), min(sales), max(sales))</code></pre><p class="olbl">Output</p><pre class="out">1690 120 780</pre></figure><p><code>sum()</code>, <code>min()</code> and <code>max()</code> work on a whole list at once, no loop needed.</p></details></li><li><p><b>Basic.</b> This code should print <code>['apple', 'banana', 'cherry']</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;]
+fruits.add(&quot;cherry&quot;)
+print(fruits)</code></pre></figure><p>It should print:</p><pre class="out">['apple', 'banana', 'cherry']</pre><details><summary>Answer</summary><figure class="code"><pre><code>fruits = [&quot;apple&quot;, &quot;banana&quot;]
+fruits.append(&quot;cherry&quot;)
+print(fruits)</code></pre><p class="olbl">Output</p><pre class="out">['apple', 'banana', 'cherry']</pre></figure><p>Lists have no <code>add()</code> method (that one belongs to sets). Use <code>append()</code> to add to the end of a list.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>tags = [&quot;sql&quot;, &quot;python&quot;, &quot;excel&quot;, &quot;python&quot;]
+print(tags.index(&quot;python&quot;), tags.count(&quot;python&quot;), &quot;R&quot; in tags)</code></pre></figure><details><summary>Answer</summary><pre class="out">1 2 False</pre><p><code>index()</code> gives the position of the first match (1). <code>count()</code> counts all matches. <code>in</code> gives <code>True</code> or <code>False</code>.</p></details></li><li><p><b>Basic.</b> This code should print the last mark, <code>72</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>marks = [56, 89, 72]
+print(marks[3])</code></pre></figure><p>It should print:</p><pre class="out">72</pre><details><summary>Answer</summary><figure class="code"><pre><code>marks = [56, 89, 72]
+print(marks[-1])</code></pre><p class="olbl">Output</p><pre class="out">72</pre></figure><p>A list of 3 items has indexes 0, 1 and 2, so index 3 is out of range. <code>[-1]</code> always gives the last item.</p></details></li><li><p><b>Medium.</b> <code>prices = [499, 120, 999, 250, 75]</code>. Print the 2 cheapest prices, using <code>sorted()</code> and a slice.</p><p>Your code should print exactly:</p><pre class="out">[75, 120]</pre><details><summary>Answer</summary><figure class="code"><pre><code>prices = [499, 120, 999, 250, 75]
+print(sorted(prices)[:2])</code></pre><p class="olbl">Output</p><pre class="out">[75, 120]</pre></figure><p><code>sorted()</code> gives a new list from smallest to largest, and <code>[:2]</code> keeps the first two.</p></details></li><li><p><b>Medium.</b> This code should print <code>[1, 2, 3]</code>, but it prints <code>None</code>. Fix it.</p><figure class="code"><pre><code>nums = [3, 1, 2]
+nums = nums.sort()
+print(nums)</code></pre></figure><p>It should print:</p><pre class="out">[1, 2, 3]</pre><details><summary>Answer</summary><figure class="code"><pre><code>nums = [3, 1, 2]
+nums.sort()
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3]</pre></figure><p><code>sort()</code> changes the list in place and returns <code>None</code>. Do not store its result. (Or use <code>nums = sorted(nums)</code>.)</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>a = [1, 2, 3]
+b = a
+c = a.copy()
+b.append(4)
+print(a, c)</code></pre></figure><details><summary>Answer</summary><pre class="out">[1, 2, 3, 4] [1, 2, 3]</pre><p><code>b = a</code> makes a second name for the same list, so changing <code>b</code> changes <code>a</code>. <code>copy()</code> makes a separate list.</p></details></li><li><p><b>Medium.</b> <code>names = [&quot;asha&quot;, &quot;ravi&quot;, &quot;neha&quot;]</code>. Print each name in capitals with its number: <code>1. ASHA</code>, <code>2. RAVI</code>, <code>3. NEHA</code>.</p><p>Your code should print exactly:</p><pre class="out">1. ASHA
+2. RAVI
+3. NEHA</pre><details><summary>Answer</summary><figure class="code"><pre><code>names = [&quot;asha&quot;, &quot;ravi&quot;, &quot;neha&quot;]
+for num, name in enumerate(names, start=1):
+    print(f&quot;{num}. {name.upper()}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">1. ASHA
+2. RAVI
+3. NEHA</pre></figure><p><code>enumerate(..., start=1)</code> gives the number and the item. <code>upper()</code> makes the capitals.</p></details></li><li><p><b>Medium.</b> <code>sales = [[120, 80], [200, 150], [90, 60]]</code> (one row per day, one column per shop). Print the sales of shop 2 on day 3, and the total of day 2, with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">60 350</pre><details><summary>Answer</summary><figure class="code"><pre><code>sales = [[120, 80], [200, 150], [90, 60]]
+print(sales[2][1], sum(sales[1]))</code></pre><p class="olbl">Output</p><pre class="out">60 350</pre></figure><p>The first index picks the row (day 3 is index 2) and the second picks the column (shop 2 is index 1). <code>sales[1]</code> is the whole day 2 row.</p></details></li><li><p><b>Medium.</b> <code>temps = [31, 35, 29, 38, 33]</code>. Use a list comprehension to keep only the temperatures above 32, and print the new list.</p><p>Your code should print exactly:</p><pre class="out">[35, 38, 33]</pre><details><summary>Answer</summary><figure class="code"><pre><code>temps = [31, 35, 29, 38, 33]
+print([t for t in temps if t &gt; 32])</code></pre><p class="olbl">Output</p><pre class="out">[35, 38, 33]</pre></figure><p><code>[t for t in temps if t &gt; 32]</code> is a loop and a filter in one line.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>a = [1, 2]
+b = a + [3]
+print(b * 2, len(b))</code></pre></figure><details><summary>Answer</summary><pre class="out">[1, 2, 3, 1, 2, 3] 3</pre><p><code>+</code> joins two lists into a new one. <code>* 2</code> repeats the list. <code>b</code> itself still has 3 items.</p></details></li><li><p><b>Medium.</b> <code>emails = [&quot;a@x.com&quot;, &quot;b@x.com&quot;, &quot;a@x.com&quot;, &quot;c@x.com&quot;, &quot;b@x.com&quot;]</code>. Remove the duplicates but keep the first-seen order, using a loop and a new list. Print it.</p><p>Your code should print exactly:</p><pre class="out">['a@x.com', 'b@x.com', 'c@x.com']</pre><details><summary>Answer</summary><figure class="code"><pre><code>emails = [&quot;a@x.com&quot;, &quot;b@x.com&quot;, &quot;a@x.com&quot;, &quot;c@x.com&quot;, &quot;b@x.com&quot;]
+unique = []
+for e in emails:
+    if e not in unique:
+        unique.append(e)
+print(unique)</code></pre><p class="olbl">Output</p><pre class="out">['a@x.com', 'b@x.com', 'c@x.com']</pre></figure><p>Add an item only if it is <code>not in</code> the new list yet. Unlike <code>set()</code>, this keeps the original order.</p></details></li><li><p><b>Medium.</b> This code should remove every even number and print <code>[5]</code>, but it prints <code>[4, 5]</code>. Fix it.</p><figure class="code"><pre><code>nums = [2, 4, 5, 6]
+for n in nums:
+    if n % 2 == 0:
+        nums.remove(n)
+print(nums)</code></pre></figure><p>It should print:</p><pre class="out">[5]</pre><details><summary>Answer</summary><figure class="code"><pre><code>nums = [2, 4, 5, 6]
+for n in nums[:]:
+    if n % 2 == 0:
+        nums.remove(n)
+print(nums)</code></pre><p class="olbl">Output</p><pre class="out">[5]</pre></figure><p>Removing items while looping over the same list makes the loop skip items. Loop over a copy, <code>nums[:]</code>, and remove from the original.</p></details></li><li><p><b>Medium.</b> <code>marks = [45, 82, 67, 90, 38]</code>. Print the average rounded to 1 decimal place, and whether all marks are 35 or more (use <code>all()</code>), with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">64.4 True</pre><details><summary>Answer</summary><figure class="code"><pre><code>marks = [45, 82, 67, 90, 38]
+print(round(sum(marks) / len(marks), 1), all(m &gt;= 35 for m in marks))</code></pre><p class="olbl">Output</p><pre class="out">64.4 True</pre></figure><p>Average = <code>sum()</code> ÷ <code>len()</code>. <code>all()</code> is <code>True</code> only if the check is <code>True</code> for every item.</p></details></li><li><p><b>Challenge.</b> <code>words = [&quot;kiwi&quot;, &quot;banana&quot;, &quot;fig&quot;, &quot;apple&quot;]</code>. Print the words sorted by length, shortest first.</p><p>Your code should print exactly:</p><pre class="out">['fig', 'kiwi', 'apple', 'banana']</pre><details><summary>Answer</summary><figure class="code"><pre><code>words = [&quot;kiwi&quot;, &quot;banana&quot;, &quot;fig&quot;, &quot;apple&quot;]
+print(sorted(words, key=len))</code></pre><p class="olbl">Output</p><pre class="out">['fig', 'kiwi', 'apple', 'banana']</pre></figure><p><code>key=len</code> tells <code>sorted()</code> to compare the lengths instead of the words themselves.</p></details></li><li><p><b>Challenge.</b> <code>readings = [12.5, -1, 13.2, -1, 12.9]</code>, where -1 means a missing reading. Build a clean list without the -1 values, then print the average of the clean readings rounded to 2 decimals.</p><p>Your code should print exactly:</p><pre class="out">12.87</pre><details><summary>Answer</summary><figure class="code"><pre><code>readings = [12.5, -1, 13.2, -1, 12.9]
+clean = []
+for r in readings:
+    if r != -1:
+        clean.append(r)
+print(round(sum(clean) / len(clean), 2))</code></pre><p class="olbl">Output</p><pre class="out">12.87</pre></figure><p>Clean first, then calculate: the average must divide by the number of real readings (3), not 5.</p></details></li><li><p><b>Challenge.</b> <code>marks = [[&quot;Asha&quot;, 78], [&quot;Ravi&quot;, 92], [&quot;Neha&quot;, 85]]</code>. Use a loop to find and print the name with the highest mark.</p><p>Your code should print exactly:</p><pre class="out">Ravi</pre><details><summary>Answer</summary><figure class="code"><pre><code>marks = [[&quot;Asha&quot;, 78], [&quot;Ravi&quot;, 92], [&quot;Neha&quot;, 85]]
+best = marks[0]
+for row in marks:
+    if row[1] &gt; best[1]:
+        best = row
+print(best[0])</code></pre><p class="olbl">Output</p><pre class="out">Ravi</pre></figure><p>Each row is a small list: <code>row[0]</code> is the name and <code>row[1]</code> the mark. Keep the best row seen so far.</p></details></li><li><p><b>Challenge.</b> This code should keep a backup of the old list and print <code>[10, 20, 30]</code>. Fix it.</p><figure class="code"><pre><code>original = [10, 20, 30]
+backup = original
+original.append(40)
+print(backup)</code></pre></figure><p>It should print:</p><pre class="out">[10, 20, 30]</pre><details><summary>Answer</summary><figure class="code"><pre><code>original = [10, 20, 30]
+backup = original.copy()
+original.append(40)
+print(backup)</code></pre><p class="olbl">Output</p><pre class="out">[10, 20, 30]</pre></figure><p><code>backup = original</code> is not a copy: both names point to one list. <code>copy()</code> (or <code>[:]</code>) makes a real copy.</p></details></li><li><p><b>Challenge.</b> <code>nums = [1, 2, 3, 4, 5, 6]</code>. Replace the middle two items (3 and 4) with 30 and 40 using ONE slice assignment. Then print the list reversed with a slice.</p><p>Your code should print exactly:</p><pre class="out">[6, 5, 40, 30, 2, 1]</pre><details><summary>Answer</summary><figure class="code"><pre><code>nums = [1, 2, 3, 4, 5, 6]
+nums[2:4] = [30, 40]
+print(nums[::-1])</code></pre><p class="olbl">Output</p><pre class="out">[6, 5, 40, 30, 2, 1]</pre></figure><p>A slice on the left of <code>=</code> replaces that part of the list. <code>[::-1]</code> reads the list backwards.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>nums = [4, 9, 1, 7]
+print(sorted(nums)[-2:], max(nums) - min(nums), sum(nums) // len(nums))</code></pre></figure><details><summary>Answer</summary><pre class="out">[7, 9] 8 5</pre><p><code>sorted(nums)[-2:]</code> is the two biggest values. The range is 9 − 1 = 8, and 21 // 4 = 5.</p></details></li><li><p><b>Challenge.</b> <code>queue = [&quot;T1&quot;, &quot;T2&quot;, &quot;T3&quot;, &quot;T4&quot;]</code>. Serve tickets from the front with <code>pop(0)</code> until only 2 are left, printing <code>Served T1</code> and so on. Then print the queue.</p><p>Your code should print exactly:</p><pre class="out">Served T1
+Served T2
+['T3', 'T4']</pre><details><summary>Answer</summary><figure class="code"><pre><code>queue = [&quot;T1&quot;, &quot;T2&quot;, &quot;T3&quot;, &quot;T4&quot;]
+while len(queue) &gt; 2:
+    ticket = queue.pop(0)
+    print(&quot;Served&quot;, ticket)
+print(queue)</code></pre><p class="olbl">Output</p><pre class="out">Served T1
+Served T2
+['T3', 'T4']</pre></figure><p><code>pop(0)</code> removes the first item and gives it back, so you can print it. The loop stops when 2 are left.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 3 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 3 (Collections), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part3.html">
+<meta property="og:title" content="Part 3 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 3 (Collections), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part3">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part3">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 3 · Collections · Projects</p><h1>Part 3 projects: text and collections</h1><p class="lead">Three data-cleaning and summary jobs that analysts do every week: tidy a messy list, group sales by region, and find the main words in customer feedback. They use strings, lists, sets, dictionaries and comprehensions, but no functions yet.</p><p>In the <a href="../#projects-3">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 3.1 (Beginner): Clean a customer list</h2><p><b>Turn a messy, pasted list of names into a clean customer list.</b></p><p>Priya works in the marketing team of a jewellery store in Chennai. Sales staff send her customer names copied from WhatsApp, paper slips and old Excel files. The list is a mess: random capitals, extra spaces, empty entries between two commas, and the same customer typed twice in different ways.</p><p>Write a program that reads the whole list in one line, cleans every name, removes the duplicates, and prints a short cleaning report with the final list.</p><h3>What you will practise</h3><ul><li>Split one line of text into a list</li><li>Clean text with <code>strip()</code>, <code>split()</code>, <code>join()</code> and <code>title()</code></li><li>Remove duplicates but keep the first-seen order</li><li>Report how much dirty data you removed</li></ul><p><b>You may use:</b> everything from Parts 1 and 2, string methods, lists and list comprehensions, sets, <code>len()</code>, <code>sorted()</code>.<br><b>Do not use yet:</b> your own functions (<code>def</code>, <code>lambda</code>), <code>try</code> / <code>except</code>, <code>import</code>, files.</p><h3>Your tasks</h3><ol><li>Ask once with <code>input()</code>: <code>Paste the names, separated by commas: </code> and split the text at every comma.</li><li><code>Raw entries</code> is the number of pieces after splitting.</li><li>An entry that is empty or only spaces is an empty entry: count it and drop it.</li><li>Clean every other entry: remove spaces at both ends, turn several spaces inside a name into one, and use title case (<code>Kiran Kumar</code>).</li><li>Remove duplicates: after cleaning, <code>asha</code> and <code> ASHA </code> are the same customer. Keep the first one you see, in the original order. Count how many you removed.</li><li>If no customers are left, print <code>No customers</code> after the counts.</li><li>Otherwise print the customers in first-seen order, then sorted A to Z, both joined with <code>, </code>.</li><li>Print the longest name (counting every character, spaces too). If two names are equally long, keep the first one.</li></ol><h3>Lines your output must contain</h3><pre class="out">Raw entries: &lt;count&gt;
+Empty entries: &lt;count&gt;
+Duplicates removed: &lt;count&gt;
+Unique customers: &lt;count&gt;
+Customers: &lt;name&gt;, &lt;name&gt;, ...
+Sorted: &lt;name&gt;, &lt;name&gt;, ...
+Longest name: &lt;name&gt;
+No customers</pre><p>Counts are plain whole numbers. Names are joined with a comma and one space. Print <code>No customers</code> only when nothing is left, and in that case skip the last three lines.</p><h3>Example run</h3><p>Typed values: <code> asha ,RAVI, neha,, Asha , kiran kumar</code>.</p><pre class="out">Paste the names, separated by commas:  asha ,RAVI, neha,, Asha , kiran kumar
+Raw entries: 6
+Empty entries: 1
+Duplicates removed: 1
+Unique customers: 4
+Customers: Asha, Ravi, Neha, Kiran Kumar
+Sorted: Asha, Kiran Kumar, Neha, Ravi
+Longest name: Kiran Kumar</pre><h3>Edge cases to think about</h3><ul><li><b>Two commas in a row</b> (<code>asha,,ravi</code>) or a piece with only spaces: that is an empty entry.</li><li>The <b>same name in different capitals</b> (<code>ASHA</code>, <code>asha</code>, <code>Asha</code>): one customer.</li><li><b>Several spaces inside</b> a name (<code>ravi   kumar</code>): clean it to <code>Ravi Kumar</code>, so it matches <code>Ravi Kumar</code>.</li><li>Only commas and spaces: no customers at all.</li><li>Names of the <b>same length</b>: the first one stays the longest.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>pieces = text.split(&quot;,&quot;)</code> gives the raw entries. Then loop over them: <code>if piece.strip() == &quot;&quot;:</code> counts an empty entry; otherwise clean it.</p></details><details><summary>Hint 2</summary><p>To squeeze spaces inside a name, split it into words and join them again: <code>&quot; &quot;.join(piece.split())</code>. Then add <code>.title()</code>.</p></details><details><summary>Hint 3</summary><p>Keep the order while removing duplicates: start <code>customers = []</code> and only <code>append(name)</code> when <code>name not in customers</code>. Join the list with <code>&quot;, &quot;.join(customers)</code> to print it.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 1: Clean a customer list
+text = input(&quot;Paste the names, separated by commas: &quot;)
+pieces = text.split(&quot;,&quot;)
+
+empty_count = 0
+cleaned = []
+for piece in pieces:
+    if piece.strip() == &quot;&quot;:
+        empty_count += 1
+        continue
+    # Squeeze inner spaces, trim the ends and fix the capitals
+    cleaned.append(&quot; &quot;.join(piece.split()).title())
+
+# Remove duplicates but keep the first-seen order
+customers = []
+for name in cleaned:
+    if name not in customers:
+        customers.append(name)
+
+print(f&quot;Raw entries: {len(pieces)}&quot;)
+print(f&quot;Empty entries: {empty_count}&quot;)
+print(f&quot;Duplicates removed: {len(cleaned) - len(customers)}&quot;)
+print(f&quot;Unique customers: {len(customers)}&quot;)
+
+if not customers:
+    print(&quot;No customers&quot;)
+else:
+    longest = customers[0]
+    for name in customers:
+        if len(name) &gt; len(longest):
+            longest = name
+    print(&quot;Customers: &quot; + &quot;, &quot;.join(customers))
+    print(&quot;Sorted: &quot; + &quot;, &quot;.join(sorted(customers)))
+    print(&quot;Longest name: &quot; + longest)</code></pre></figure></details></section><section><h2>Project 3.2 (Intermediate): Sales by region</h2><p><b>Group raw sales rows by region, like a pivot table, and rank the regions.</b></p><p>Arjun is a sales analyst for a chain of mobile phone stores across Telangana and Andhra Pradesh. Every evening the store managers message him their sales as rows like <code>North, 1200</code>. Some rows are broken: a missing comma, a word instead of a number, or extra commas.</p><p>Write a program that reads the rows until he types <code>done</code>, skips the broken ones, adds up the sales per region (a GROUP BY, like a pivot table in Excel), and prints a ranked summary with each region's share of the total.</p><h3>What you will practise</h3><ul><li>Parse and check rows of text before using them</li><li>Group and count with a dictionary</li><li>Rank dictionary keys by their values, with a fair tie rule</li><li>Work out shares (percentages) safely</li></ul><p><b>You may use:</b> everything from Parts 1 and 2, string methods, lists, tuples, sets, dictionaries and <code>get()</code>, <code>sorted()</code> with <code>key=</code>, comprehensions.<br><b>Do not use yet:</b> your own functions (<code>def</code>, <code>lambda</code>), <code>try</code> / <code>except</code>, <code>import</code>, files.</p><h3>Your tasks</h3><ol><li>In a loop, ask <code>Sale (region,amount) or done: </code>. Stop when the user types <code>done</code> (any capitals, spaces around it are fine).</li><li>A row is valid only if it splits into exactly 2 parts at the comma, the region is not empty, and the amount (after <code>strip()</code>) is made only of digits. Amounts are whole rupees.</li><li>Skip broken rows and count them. Clean the region name: no extra spaces and title case, so <code> north </code> and <code>NORTH</code> are both <code>North</code>.</li><li>For valid rows, add the amount to that region's total and count the sale, using dictionaries.</li><li>After the loop, print <code>Valid sales</code> and <code>Skipped rows</code>. If there were no valid sales, print <code>No valid sales</code> and stop.</li><li>Rank the regions by total, highest first. If two regions have the same total, put them in A to Z order.</li><li>Print one line per region with its rank: <code>1. North: ₹3,200 (3 sales, 45.7%)</code>. Use <code>1 sale</code> for a single sale. The share is the region total ÷ the grand total × 100, with 1 decimal. If the grand total is 0, every share is <code>0.0%</code>.</li><li>Print <code>Total: ₹&lt;amount&gt;</code> and <code>Top region: &lt;name&gt;</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Valid sales: &lt;count&gt;
+Skipped rows: &lt;count&gt;
+&lt;rank&gt;. &lt;Region&gt;: ₹&lt;amount&gt; (&lt;n&gt; sales, &lt;share&gt;%)
+Total: ₹&lt;amount&gt;
+Top region: &lt;Region&gt;
+No valid sales</pre><p>Amounts use commas (<code>:,</code>), like <code>₹3,200</code>. The share has 1 decimal (<code>:.1f</code>) and a <code>%</code> sign. Write <code>1 sale</code> but <code>2 sales</code>. Print <code>No valid sales</code> instead of the region lines when nothing was valid.</p><h3>Example run</h3><p>Typed values: <code>North, 1200</code>, <code>South,800</code>, <code>north,1500</code>, <code>East, 1700</code>, <code>South, 1300</code>, <code>North,500</code>, <code>done</code>.</p><pre class="out">Sale (region,amount) or done: North, 1200
+Sale (region,amount) or done: South,800
+Sale (region,amount) or done: north,1500
+Sale (region,amount) or done: East, 1700
+Sale (region,amount) or done: South, 1300
+Sale (region,amount) or done: North,500
+Sale (region,amount) or done: done
+Valid sales: 6
+Skipped rows: 0
+1. North: ₹3,200 (3 sales, 45.7%)
+2. South: ₹2,100 (2 sales, 30.0%)
+3. East: ₹1,700 (1 sale, 24.3%)
+Total: ₹7,000
+Top region: North</pre><h3>Edge cases to think about</h3><ul><li><b>Broken rows</b>: <code>bad line</code> (no comma), <code>North,abc</code> (not a number), <code>North,1,200</code> (3 parts) and <code>,500</code> (no region) are all skipped.</li><li>The <b>same region in different capitals or spaces</b> is one region.</li><li><b>Ties</b>: two regions with the same total are ranked A to Z.</li><li><b>No valid rows</b> at all: no ranking, no division.</li><li>Every amount is <b>₹0</b>: the total is 0, so the shares must not divide by it.</li><li><b>Big amounts</b> in crores.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Inside <code>while True:</code> read <code>row = input(...)</code>, then <code>if row.strip().lower() == &quot;done&quot;: break</code>. Split with <code>parts = row.split(&quot;,&quot;)</code> and check <code>len(parts) != 2</code>, an empty region, or <code>not parts[1].strip().isdigit()</code> → skip and <code>continue</code>.</p></details><details><summary>Hint 2</summary><p>Group with two dictionaries: <code>totals[region] = totals.get(region, 0) + amount</code> and <code>counts[region] = counts.get(region, 0) + 1</code>. Clean the region with <code>&quot; &quot;.join(parts[0].split()).title()</code>.</p></details><details><summary>Hint 3</summary><p>Ranking with the tie rule: sort the names A to Z first, then sort by total: <code>ranked = sorted(sorted(totals), key=totals.get, reverse=True)</code>. Python keeps the A to Z order for equal totals. Number the lines with <code>enumerate(ranked, start=1)</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 2: Sales by region
+totals = {}
+counts = {}
+valid = 0
+skipped = 0
+
+while True:
+    row = input(&quot;Sale (region,amount) or done: &quot;)
+    if row.strip().lower() == &quot;done&quot;:
+        break
+    parts = row.split(&quot;,&quot;)
+    # A valid row is exactly &quot;region,amount&quot; with a whole-number amount
+    if len(parts) != 2 or parts[0].strip() == &quot;&quot; or not parts[1].strip().isdigit():
+        skipped += 1
+        continue
+    region = &quot; &quot;.join(parts[0].split()).title()
+    amount = int(parts[1].strip())
+    totals[region] = totals.get(region, 0) + amount
+    counts[region] = counts.get(region, 0) + 1
+    valid += 1
+
+print(f&quot;Valid sales: {valid}&quot;)
+print(f&quot;Skipped rows: {skipped}&quot;)
+if valid == 0:
+    print(&quot;No valid sales&quot;)
+else:
+    grand_total = sum(totals.values())
+    # Sort A to Z first, so regions with equal totals stay in A to Z order
+    ranked = sorted(sorted(totals), key=totals.get, reverse=True)
+    for rank, region in enumerate(ranked, start=1):
+        share = totals[region] / grand_total * 100 if grand_total &gt; 0 else 0
+        word = &quot;sale&quot; if counts[region] == 1 else &quot;sales&quot;
+        print(f&quot;{rank}. {region}: ₹{totals[region]:,} ({counts[region]} {word}, {share:.1f}%)&quot;)
+    print(f&quot;Total: ₹{grand_total:,}&quot;)
+    print(f&quot;Top region: {ranked[0]}&quot;)</code></pre></figure></details></section><section><h2>Project 3.3 (Challenging): Customer feedback analysis</h2><p><b>Find the main words and the mood in a pile of customer comments.</b></p><p>A restaurant group in Bengaluru collects short comments from customers after every meal. The manager reads a few, but there are far too many to read them all.</p><p>She wants a quick text summary: how many comments are positive, negative or neutral, which words customers use most (ignoring small words like &quot;the&quot; and &quot;was&quot;), and which positive and negative words came up. This is a small version of the &quot;text analytics&quot; that analysts run on reviews and survey answers.</p><h3>What you will practise</h3><ul><li>Normalise text: lower case, split into words, strip punctuation</li><li>Count words with a dictionary and filter with sets</li><li>Score each comment and count the results</li><li>Rank words by count with an A to Z tie rule</li></ul><p><b>You may use:</b> everything from Parts 1 and 2, string methods, lists, tuples, sets and set operators, dictionaries, comprehensions, <code>sorted()</code> with <code>key=</code>.<br><b>Do not use yet:</b> your own functions (<code>def</code>, <code>lambda</code>), <code>try</code> / <code>except</code>, <code>import</code>, files.</p><h3>Your tasks</h3><ol><li>The starter gives you three sets: <code>STOP_WORDS</code>, <code>POSITIVE</code> and <code>NEGATIVE</code>. Keep them as they are.</li><li>In a loop, ask <code>Comment (empty line to finish): </code> and collect the comments. Stop at the first empty line (or a line with only spaces).</li><li>If there were no comments, print <code>No comments to analyse</code> and stop.</li><li>For each comment: make it lower case, split it into words, and strip <code>.</code> <code>,</code> <code>!</code> <code>?</code> from both ends of each word (<code>word.strip(&quot;.,!?&quot;)</code>). Drop words that become empty.</li><li>Score each comment: +1 for every word in <code>POSITIVE</code>, −1 for every word in <code>NEGATIVE</code>. Above 0 is Positive, below 0 is Negative, 0 is Neutral.</li><li>Count every word that is not in <code>STOP_WORDS</code> in a dictionary. <code>Unique words</code> is how many different words were counted.</li><li>Top words: the 3 most common counted words (fewer if there are fewer), most common first. Equal counts go A to Z. Print them like <code>food (3), service (2), clean (2)</code>.</li><li>Print the positive and the negative words that were used, A to Z, joined with <code>, </code> (or <code>none</code>).</li></ol><h3>Lines your output must contain</h3><pre class="out">Comments: &lt;count&gt;
+Positive: &lt;count&gt;
+Negative: &lt;count&gt;
+Neutral: &lt;count&gt;
+Unique words: &lt;count&gt;
+Top words: &lt;word&gt; (&lt;count&gt;), &lt;word&gt; (&lt;count&gt;), &lt;word&gt; (&lt;count&gt;)
+Positive words used: &lt;word&gt;, &lt;word&gt; or none
+Negative words used: &lt;word&gt;, &lt;word&gt; or none
+No comments to analyse</pre><p>Counts are plain whole numbers. Words are always lower case. Lists of words are joined with a comma and one space. Print <code>No comments to analyse</code> instead of everything else when the first line is empty.</p><h3>Example run</h3><p>Typed values: <code>The food was tasty and the staff were friendly!</code>, <code>Room was clean, but the service was slow.</code>, <code>Food was cold. Service was rude and slow!</code>, <code>Great location, clean rooms, tasty food.</code>, <code>It was okay.</code>, <code></code>.</p><pre class="out">Comment (empty line to finish): The food was tasty and the staff were friendly!
+Comment (empty line to finish): Room was clean, but the service was slow.
+Comment (empty line to finish): Food was cold. Service was rude and slow!
+Comment (empty line to finish): Great location, clean rooms, tasty food.
+Comment (empty line to finish): It was okay.
+Comment (empty line to finish): 
+Comments: 5
+Positive: 2
+Negative: 1
+Neutral: 2
+Unique words: 14
+Top words: food (3), clean (2), service (2)
+Positive words used: clean, friendly, great, tasty
+Negative words used: cold, rude, slow</pre><h3>Edge cases to think about</h3><ul><li>The <b>first line is empty</b>: there is nothing to analyse.</li><li><b>Capitals and punctuation</b>: <code>Food!</code>, <code>food.</code> and <code>FOOD,</code> are the same word.</li><li><b>Stop words</b> never count, even if they are the most common.</li><li><b>Ties</b> in the top words: A to Z.</li><li>Fewer than 3 different words: show only the ones there are.</li><li>No positive or negative words at all: print <code>none</code>.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Collect first, analyse after: <code>comments = []</code>, then in <code>while True:</code> read a line and <code>break</code> if <code>line.strip() == &quot;&quot;</code>, else <code>comments.append(line)</code>.</p></details><details><summary>Hint 2</summary><p>Clean words with a comprehension: <code>words = [w.strip(&quot;.,!?&quot;) for w in comment.lower().split()]</code>, then keep only the non-empty ones. Use <code>if word in POSITIVE:</code> to score, and <code>counts[word] = counts.get(word, 0) + 1</code> for words <code>not in STOP_WORDS</code>.</p></details><details><summary>Hint 3</summary><p>For the top words with the A to Z tie rule: <code>top = sorted(sorted(counts), key=counts.get, reverse=True)[:3]</code>. Build the text with <code>&quot;, &quot;.join(f&quot;{w} ({counts[w]})&quot; for w in top)</code>. Keep the used positive/negative words in two sets and print <code>&quot;, &quot;.join(sorted(...))</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 3: Customer feedback analysis
+STOP_WORDS = {&quot;the&quot;, &quot;a&quot;, &quot;an&quot;, &quot;is&quot;, &quot;was&quot;, &quot;were&quot;, &quot;and&quot;, &quot;it&quot;, &quot;to&quot;, &quot;very&quot;, &quot;i&quot;, &quot;of&quot;, &quot;for&quot;,
+              &quot;but&quot;, &quot;my&quot;, &quot;in&quot;, &quot;on&quot;, &quot;this&quot;, &quot;with&quot;, &quot;at&quot;, &quot;we&quot;, &quot;our&quot;}
+POSITIVE = {&quot;good&quot;, &quot;great&quot;, &quot;clean&quot;, &quot;friendly&quot;, &quot;tasty&quot;, &quot;fast&quot;, &quot;excellent&quot;, &quot;love&quot;, &quot;nice&quot;,
+            &quot;helpful&quot;}
+NEGATIVE = {&quot;bad&quot;, &quot;slow&quot;, &quot;dirty&quot;, &quot;rude&quot;, &quot;cold&quot;, &quot;late&quot;, &quot;poor&quot;, &quot;noisy&quot;, &quot;expensive&quot;, &quot;worst&quot;}
+
+# Collect the comments until an empty line
+comments = []
+while True:
+    line = input(&quot;Comment (empty line to finish): &quot;)
+    if line.strip() == &quot;&quot;:
+        break
+    comments.append(line)
+
+if not comments:
+    print(&quot;No comments to analyse&quot;)
+else:
+    word_counts = {}
+    moods = {&quot;Positive&quot;: 0, &quot;Negative&quot;: 0, &quot;Neutral&quot;: 0}
+    positive_used = set()
+    negative_used = set()
+    for comment in comments:
+        # Lower case, split, and strip punctuation from each word
+        words = [w.strip(&quot;.,!?&quot;) for w in comment.lower().split()]
+        words = [w for w in words if w != &quot;&quot;]
+        score = 0
+        for word in words:
+            if word in POSITIVE:
+                score += 1
+                positive_used.add(word)
+            if word in NEGATIVE:
+                score -= 1
+                negative_used.add(word)
+            if word not in STOP_WORDS:
+                word_counts[word] = word_counts.get(word, 0) + 1
+        if score &gt; 0:
+            moods[&quot;Positive&quot;] += 1
+        elif score &lt; 0:
+            moods[&quot;Negative&quot;] += 1
+        else:
+            moods[&quot;Neutral&quot;] += 1
+
+    # Most common first; sorting A to Z first keeps ties in A to Z order
+    top_words = sorted(sorted(word_counts), key=word_counts.get, reverse=True)[:3]
+    top_text = &quot;, &quot;.join(f&quot;{w} ({word_counts[w]})&quot; for w in top_words)
+    print(f&quot;Comments: {len(comments)}&quot;)
+    print(f&quot;Positive: {moods['Positive']}&quot;)
+    print(f&quot;Negative: {moods['Negative']}&quot;)
+    print(f&quot;Neutral: {moods['Neutral']}&quot;)
+    print(f&quot;Unique words: {len(word_counts)}&quot;)
+    print(f&quot;Top words: {top_text}&quot;)
+    print(&quot;Positive words used: &quot; + (&quot;, &quot;.join(sorted(positive_used)) or &quot;none&quot;))
+    print(&quot;Negative words used: &quot; + (&quot;, &quot;.join(sorted(negative_used)) or &quot;none&quot;))</code></pre></figure></details></section><nav class="pn"><a href="overview3.html">← Part 3 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

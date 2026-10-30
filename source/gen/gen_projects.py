@@ -35,7 +35,8 @@ FEATURES = [
 # Built-in functions each Part adds (read from the chapter sources). A project may use those of its Part and earlier ones.
 # Parts without an entry skip the built-in check.
 BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinstance', 'round', 'id'],
-            2: ['range', 'enumerate', 'zip']}
+            2: ['range', 'enumerate', 'zip'],
+            3: ['len', 'list', 'tuple', 'set', 'dict', 'frozenset', 'sum', 'min', 'max', 'sorted', 'any', 'all']}
 def rules(part):
     r = {'ban': [dict(label=l, where=w, **m) for p, l, w, m in FEATURES if p > part]}
     if part in BUILTINS: r['allow'] = [f for k in sorted(BUILTINS) if k <= part for f in BUILTINS[k]]
@@ -73,7 +74,7 @@ for f in sorted(glob.glob(os.path.join(here, 'pj', 'pj_part*.py'))):
         for n in P['need']: assert sum(a['feat'].get(k, 0) for k in n['any']) >= n['min'], (pid, 'model misses', n['label'])
         for r in RULES[part]['ban']: assert not banned_found(a['feat'], r), (pid, 'model uses', r['label'])
         if 'allow' in RULES[part]:
-            extra = [k[8:] for k in a['feat'] if k.startswith('builtin:') and k[8:] not in RULES[part]['allow']]; assert not extra, (pid, extra)
+            extra = [k[8:] for k in a['feat'] if k.startswith('builtin:') and k[8:] not in RULES[part]['allow'] and k[8:] not in a['defs']]; assert not extra, (pid, extra)
         assert all(len(n) >= 3 for n in a['names']) and a['comments'] >= 1 and not a['long'] and not a['tabs'] and not a['indent'] and not a['tight'], (pid, a)
         assert all(len(l) <= 100 for l in P['sol'].split('\n'))
         WEAK[pid] = dict(code=P['weak'], passed=nw, total=len(tests))

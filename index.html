@@ -18798,12 +18798,1272 @@ var BIGTESTS = {
    "e": "`phone[-4:]` keeps the last 4 digits. `\"*\" * n` repeats the star once for every hidden digit.",
    "out": "******2345"
   }
+ ],
+ "lists": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Indexing and slicing",
+   "q": "Type exactly what this code prints.",
+   "c": "colors = [\"red\", \"green\", \"blue\", \"pink\"]\nprint(colors[1], colors[-1])\nprint(colors[1:3])",
+   "e": "Indexes start at 0, and `-1` is the last item. A slice `[1:3]` gives a new list with items 1 and 2.",
+   "ans": "green pink\n['green', 'blue']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "What is a list?",
+   "q": "Make a list `cities` with `\"Delhi\"`, `\"Pune\"` and `\"Goa\"`. Print the list and its length with one `print()`.",
+   "starter": "# Make the list\n",
+   "sol": "cities = [\"Delhi\", \"Pune\", \"Goa\"]\nprint(cities, len(cities))",
+   "e": "Square brackets make a list, and `len()` counts its items.",
+   "out": "['Delhi', 'Pune', 'Goa'] 3"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Adding items",
+   "q": "`cart = [\"rice\", \"dal\"]`. Add `\"oil\"` at the end and `\"salt\"` at the start. Print the cart.",
+   "starter": "cart = [\"rice\", \"dal\"]\n",
+   "sol": "cart = [\"rice\", \"dal\"]\ncart.append(\"oil\")\ncart.insert(0, \"salt\")\nprint(cart)",
+   "e": "`append()` adds to the end. `insert(0, x)` puts `x` at position 0, the front.",
+   "out": "['salt', 'rice', 'dal', 'oil']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Removing items",
+   "q": "`stock = [\"pen\", \"ink\", \"pad\", \"ink\"]`. Remove the first `\"ink\"` with `remove()`, then remove the last item with `pop()`. Print the list.",
+   "starter": "stock = [\"pen\", \"ink\", \"pad\", \"ink\"]\n",
+   "sol": "stock = [\"pen\", \"ink\", \"pad\", \"ink\"]\nstock.remove(\"ink\")\nstock.pop()\nprint(stock)",
+   "e": "`remove(x)` deletes the first match only. `pop()` with no index removes the last item.",
+   "out": "['pen', 'pad']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Useful built-in functions",
+   "q": "`sales = [450, 120, 780, 340]`. Print the total, the smallest and the largest value with one `print()`.",
+   "starter": "sales = [450, 120, 780, 340]\n",
+   "sol": "sales = [450, 120, 780, 340]\nprint(sum(sales), min(sales), max(sales))",
+   "e": "`sum()`, `min()` and `max()` work on a whole list at once, no loop needed.",
+   "out": "1690 120 780"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Adding items",
+   "q": "This code should print `['apple', 'banana', 'cherry']`, but it crashes. Fix it.",
+   "c": "fruits = [\"apple\", \"banana\"]\nfruits.add(\"cherry\")\nprint(fruits)",
+   "fixed": "fruits = [\"apple\", \"banana\"]\nfruits.append(\"cherry\")\nprint(fruits)",
+   "e": "Lists have no `add()` method (that one belongs to sets). Use `append()` to add to the end of a list.",
+   "want": "['apple', 'banana', 'cherry']",
+   "got": "AttributeError: 'list' object has no attribute 'add'"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Finding items",
+   "q": "Type exactly what this code prints.",
+   "c": "tags = [\"sql\", \"python\", \"excel\", \"python\"]\nprint(tags.index(\"python\"), tags.count(\"python\"), \"R\" in tags)",
+   "e": "`index()` gives the position of the first match (1). `count()` counts all matches. `in` gives `True` or `False`.",
+   "ans": "1 2 False"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Indexing and slicing",
+   "q": "This code should print the last mark, `72`, but it crashes. Fix it.",
+   "c": "marks = [56, 89, 72]\nprint(marks[3])",
+   "fixed": "marks = [56, 89, 72]\nprint(marks[-1])",
+   "e": "A list of 3 items has indexes 0, 1 and 2, so index 3 is out of range. `[-1]` always gives the last item.",
+   "want": "72",
+   "got": "IndexError: list index out of range"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Sorting: sort() vs sorted()",
+   "q": "`prices = [499, 120, 999, 250, 75]`. Print the 2 cheapest prices, using `sorted()` and a slice.",
+   "starter": "prices = [499, 120, 999, 250, 75]\n",
+   "sol": "prices = [499, 120, 999, 250, 75]\nprint(sorted(prices)[:2])",
+   "e": "`sorted()` gives a new list from smallest to largest, and `[:2]` keeps the first two.",
+   "out": "[75, 120]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Sorting: sort() vs sorted()",
+   "q": "This code should print `[1, 2, 3]`, but it prints `None`. Fix it.",
+   "c": "nums = [3, 1, 2]\nnums = nums.sort()\nprint(nums)",
+   "fixed": "nums = [3, 1, 2]\nnums.sort()\nprint(nums)",
+   "e": "`sort()` changes the list in place and returns `None`. Do not store its result. (Or use `nums = sorted(nums)`.)",
+   "want": "[1, 2, 3]",
+   "got": "None"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Copying lists: the aliasing trap",
+   "q": "Type exactly what this code prints.",
+   "c": "a = [1, 2, 3]\nb = a\nc = a.copy()\nb.append(4)\nprint(a, c)",
+   "e": "`b = a` makes a second name for the same list, so changing `b` changes `a`. `copy()` makes a separate list.",
+   "ans": "[1, 2, 3, 4] [1, 2, 3]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Looping over lists",
+   "q": "`names = [\"asha\", \"ravi\", \"neha\"]`. Print each name in capitals with its number: `1. ASHA`, `2. RAVI`, `3. NEHA`.",
+   "starter": "names = [\"asha\", \"ravi\", \"neha\"]\n",
+   "sol": "names = [\"asha\", \"ravi\", \"neha\"]\nfor num, name in enumerate(names, start=1):\n    print(f\"{num}. {name.upper()}\")",
+   "e": "`enumerate(..., start=1)` gives the number and the item. `upper()` makes the capitals.",
+   "out": "1. ASHA\n2. RAVI\n3. NEHA"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Nested lists",
+   "q": "`sales = [[120, 80], [200, 150], [90, 60]]` (one row per day, one column per shop). Print the sales of shop 2 on day 3, and the total of day 2, with one `print()`.",
+   "starter": "sales = [[120, 80], [200, 150], [90, 60]]\n",
+   "sol": "sales = [[120, 80], [200, 150], [90, 60]]\nprint(sales[2][1], sum(sales[1]))",
+   "e": "The first index picks the row (day 3 is index 2) and the second picks the column (shop 2 is index 1). `sales[1]` is the whole day 2 row.",
+   "out": "60 350"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "A first look at list comprehensions",
+   "q": "`temps = [31, 35, 29, 38, 33]`. Use a list comprehension to keep only the temperatures above 32, and print the new list.",
+   "starter": "temps = [31, 35, 29, 38, 33]\n",
+   "sol": "temps = [31, 35, 29, 38, 33]\nprint([t for t in temps if t > 32])",
+   "e": "`[t for t in temps if t > 32]` is a loop and a filter in one line.",
+   "out": "[35, 38, 33]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Joining and repeating lists",
+   "q": "Type exactly what this code prints.",
+   "c": "a = [1, 2]\nb = a + [3]\nprint(b * 2, len(b))",
+   "e": "`+` joins two lists into a new one. `* 2` repeats the list. `b` itself still has 3 items.",
+   "ans": "[1, 2, 3, 1, 2, 3] 3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Removing duplicates (course exercise)",
+   "q": "`emails = [\"a@x.com\", \"b@x.com\", \"a@x.com\", \"c@x.com\", \"b@x.com\"]`. Remove the duplicates but keep the first-seen order, using a loop and a new list. Print it.",
+   "starter": "emails = [\"a@x.com\", \"b@x.com\", \"a@x.com\", \"c@x.com\", \"b@x.com\"]\n",
+   "sol": "emails = [\"a@x.com\", \"b@x.com\", \"a@x.com\", \"c@x.com\", \"b@x.com\"]\nunique = []\nfor e in emails:\n    if e not in unique:\n        unique.append(e)\nprint(unique)",
+   "e": "Add an item only if it is `not in` the new list yet. Unlike `set()`, this keeps the original order.",
+   "out": "['a@x.com', 'b@x.com', 'c@x.com']"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Looping over lists",
+   "q": "This code should remove every even number and print `[5]`, but it prints `[4, 5]`. Fix it.",
+   "c": "nums = [2, 4, 5, 6]\nfor n in nums:\n    if n % 2 == 0:\n        nums.remove(n)\nprint(nums)",
+   "fixed": "nums = [2, 4, 5, 6]\nfor n in nums[:]:\n    if n % 2 == 0:\n        nums.remove(n)\nprint(nums)",
+   "e": "Removing items while looping over the same list makes the loop skip items. Loop over a copy, `nums[:]`, and remove from the original.",
+   "want": "[5]",
+   "got": "[4, 5]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Useful built-in functions",
+   "q": "`marks = [45, 82, 67, 90, 38]`. Print the average rounded to 1 decimal place, and whether all marks are 35 or more (use `all()`), with one `print()`.",
+   "starter": "marks = [45, 82, 67, 90, 38]\n",
+   "sol": "marks = [45, 82, 67, 90, 38]\nprint(round(sum(marks) / len(marks), 1), all(m >= 35 for m in marks))",
+   "e": "Average = `sum()` ÷ `len()`. `all()` is `True` only if the check is `True` for every item.",
+   "out": "64.4 True"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Sorting: sort() vs sorted()",
+   "q": "`words = [\"kiwi\", \"banana\", \"fig\", \"apple\"]`. Print the words sorted by length, shortest first.",
+   "starter": "words = [\"kiwi\", \"banana\", \"fig\", \"apple\"]\n",
+   "sol": "words = [\"kiwi\", \"banana\", \"fig\", \"apple\"]\nprint(sorted(words, key=len))",
+   "e": "`key=len` tells `sorted()` to compare the lengths instead of the words themselves.",
+   "out": "['fig', 'kiwi', 'apple', 'banana']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Looping over lists",
+   "q": "`readings = [12.5, -1, 13.2, -1, 12.9]`, where -1 means a missing reading. Build a clean list without the -1 values, then print the average of the clean readings rounded to 2 decimals.",
+   "starter": "readings = [12.5, -1, 13.2, -1, 12.9]\n",
+   "sol": "readings = [12.5, -1, 13.2, -1, 12.9]\nclean = []\nfor r in readings:\n    if r != -1:\n        clean.append(r)\nprint(round(sum(clean) / len(clean), 2))",
+   "e": "Clean first, then calculate: the average must divide by the number of real readings (3), not 5.",
+   "out": "12.87"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested lists",
+   "q": "`marks = [[\"Asha\", 78], [\"Ravi\", 92], [\"Neha\", 85]]`. Use a loop to find and print the name with the highest mark.",
+   "starter": "marks = [[\"Asha\", 78], [\"Ravi\", 92], [\"Neha\", 85]]\n",
+   "sol": "marks = [[\"Asha\", 78], [\"Ravi\", 92], [\"Neha\", 85]]\nbest = marks[0]\nfor row in marks:\n    if row[1] > best[1]:\n        best = row\nprint(best[0])",
+   "e": "Each row is a small list: `row[0]` is the name and `row[1]` the mark. Keep the best row seen so far.",
+   "out": "Ravi"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Copying lists: the aliasing trap",
+   "q": "This code should keep a backup of the old list and print `[10, 20, 30]`. Fix it.",
+   "c": "original = [10, 20, 30]\nbackup = original\noriginal.append(40)\nprint(backup)",
+   "fixed": "original = [10, 20, 30]\nbackup = original.copy()\noriginal.append(40)\nprint(backup)",
+   "e": "`backup = original` is not a copy: both names point to one list. `copy()` (or `[:]`) makes a real copy.",
+   "want": "[10, 20, 30]",
+   "got": "[10, 20, 30, 40]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Changing items",
+   "q": "`nums = [1, 2, 3, 4, 5, 6]`. Replace the middle two items (3 and 4) with 30 and 40 using ONE slice assignment. Then print the list reversed with a slice.",
+   "starter": "nums = [1, 2, 3, 4, 5, 6]\n",
+   "sol": "nums = [1, 2, 3, 4, 5, 6]\nnums[2:4] = [30, 40]\nprint(nums[::-1])",
+   "e": "A slice on the left of `=` replaces that part of the list. `[::-1]` reads the list backwards.",
+   "out": "[6, 5, 40, 30, 2, 1]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Useful built-in functions",
+   "q": "Type exactly what this code prints.",
+   "c": "nums = [4, 9, 1, 7]\nprint(sorted(nums)[-2:], max(nums) - min(nums), sum(nums) // len(nums))",
+   "e": "`sorted(nums)[-2:]` is the two biggest values. The range is 9 − 1 = 8, and 21 // 4 = 5.",
+   "ans": "[7, 9] 8 5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Removing items",
+   "q": "`queue = [\"T1\", \"T2\", \"T3\", \"T4\"]`. Serve tickets from the front with `pop(0)` until only 2 are left, printing `Served T1` and so on. Then print the queue.",
+   "starter": "queue = [\"T1\", \"T2\", \"T3\", \"T4\"]\n",
+   "sol": "queue = [\"T1\", \"T2\", \"T3\", \"T4\"]\nwhile len(queue) > 2:\n    ticket = queue.pop(0)\n    print(\"Served\", ticket)\nprint(queue)",
+   "e": "`pop(0)` removes the first item and gives it back, so you can print it. The loop stops when 2 are left.",
+   "out": "Served T1\nServed T2\n['T3', 'T4']"
+  }
+ ],
+ "tuples": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Creating tuples",
+   "q": "Type exactly what this code prints.",
+   "c": "x = (11)\ny = (11,)\nprint(type(x), type(y))",
+   "e": "Brackets alone do not make a tuple: `(11)` is just the number 11. The comma makes the tuple.",
+   "ans": "<class 'int'> <class 'tuple'>"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "What is a tuple?",
+   "q": "Make a tuple `rgb` with 255, 128 and 0. Print it and its length with one `print()`.",
+   "starter": "# Make the tuple\n",
+   "sol": "rgb = (255, 128, 0)\nprint(rgb, len(rgb))",
+   "e": "Round brackets with commas make a tuple. `len()` works just like with lists.",
+   "out": "(255, 128, 0) 3"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Indexing, slicing and looping",
+   "q": "`week = (\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\")`. Print the first day, the last day, and the middle three days as a tuple, with one `print()`.",
+   "starter": "week = (\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\")\n",
+   "sol": "week = (\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\")\nprint(week[0], week[-1], week[1:4])",
+   "e": "Indexing and slicing work the same as with lists. A slice of a tuple is a tuple.",
+   "out": "Mon Fri ('Tue', 'Wed', 'Thu')"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Only two methods",
+   "q": "`votes = (\"A\", \"B\", \"A\", \"C\", \"A\")`. Print how many votes `\"A\"` got and the position of the first `\"C\"`, with one `print()`.",
+   "starter": "votes = (\"A\", \"B\", \"A\", \"C\", \"A\")\n",
+   "sol": "votes = (\"A\", \"B\", \"A\", \"C\", \"A\")\nprint(votes.count(\"A\"), votes.index(\"C\"))",
+   "e": "Tuples have only two methods: `count()` and `index()`.",
+   "out": "3 3"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Packing and unpacking",
+   "q": "`point = (17.38, 78.48)`. Unpack it into `lat` and `lon`, then print `Latitude: 17.38, Longitude: 78.48`.",
+   "starter": "point = (17.38, 78.48)\n",
+   "sol": "point = (17.38, 78.48)\nlat, lon = point\nprint(f\"Latitude: {lat}, Longitude: {lon}\")",
+   "e": "Unpacking gives each item of the tuple its own name, in order.",
+   "out": "Latitude: 17.38, Longitude: 78.48"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Immutability",
+   "q": "This code should print `(1280, 1080)`, but it crashes. Fix it.",
+   "c": "size = (1920, 1080)\nsize[0] = 1280\nprint(size)",
+   "fixed": "size = (1920, 1080)\nsize = (1280, size[1])\nprint(size)",
+   "e": "Tuples are immutable: you cannot change an item. Build a new tuple and store it in the same name.",
+   "want": "(1280, 1080)",
+   "got": "TypeError: 'tuple' object does not support item assignment"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Packing and unpacking",
+   "q": "Type exactly what this code prints.",
+   "c": "a, b = 5, 9\na, b = b, a + b\nprint(a, b)",
+   "e": "The right side is worked out first, using the old values: `(9, 5 + 9)`. Then it is unpacked into `a` and `b`.",
+   "ans": "9 14"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Packing and unpacking",
+   "q": "This code should print `Asha`, but it crashes. Fix it.",
+   "c": "row = (101, \"Asha\", \"Deluxe\")\nbooking_id, guest = row\nprint(guest)",
+   "fixed": "row = (101, \"Asha\", \"Deluxe\")\nbooking_id, guest, room = row\nprint(guest)",
+   "e": "When unpacking, you need one name for every item: 3 items need 3 names.",
+   "want": "Asha",
+   "got": "ValueError: too many values to unpack (expected 2)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Packing and unpacking",
+   "q": "`scores = (55, 72, 90, 64, 81)`. Use `first, *middle, last` to print the first score, the last score, and how many scores are in the middle.",
+   "starter": "scores = (55, 72, 90, 64, 81)\n",
+   "sol": "scores = (55, 72, 90, 64, 81)\nfirst, *middle, last = scores\nprint(first, last, len(middle))",
+   "e": "The starred name collects everything in between (as a list).",
+   "out": "55 81 3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Immutability",
+   "q": "`stock = (\"pen\", \"ink\", \"pad\")`. Replace `\"ink\"` with `\"gel\"` by converting to a list and back to a tuple. Print the new tuple.",
+   "starter": "stock = (\"pen\", \"ink\", \"pad\")\n",
+   "sol": "stock = (\"pen\", \"ink\", \"pad\")\ntemp = list(stock)\ntemp[1] = \"gel\"\nstock = tuple(temp)\nprint(stock)",
+   "e": "To change a tuple, turn it into a list, change the list, and turn it back with `tuple()`.",
+   "out": "('pen', 'gel', 'pad')"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Indexing, slicing and looping",
+   "q": "Type exactly what this code prints.",
+   "c": "m = ((1, 2, 3), (4, 5, 6), (7, 8, 9))\nprint(m[1][2], m[-1][0], m[0][1:])",
+   "e": "The first index picks the inner tuple, the second picks the item. A slice of the inner tuple is a tuple.",
+   "ans": "6 7 (2, 3)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Indexing, slicing and looping",
+   "q": "`rooms = ((\"R101\", 2499), (\"R102\", 3499), (\"R103\", 1999))`. Loop over it and print each room with its rate: `R101: ₹2,499`.",
+   "starter": "rooms = ((\"R101\", 2499), (\"R102\", 3499), (\"R103\", 1999))\n",
+   "sol": "rooms = ((\"R101\", 2499), (\"R102\", 3499), (\"R103\", 1999))\nfor room, rate in rooms:\n    print(f\"{room}: ₹{rate:,}\")",
+   "e": "Each item is a pair, so you can unpack it right in the `for` line.",
+   "out": "R101: ₹2,499\nR102: ₹3,499\nR103: ₹1,999"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Creating tuples",
+   "q": "Type exactly what this code prints.",
+   "c": "a = 1, 2, 3\nb = tuple(\"hi\")\nprint(type(a), b, len(a + b))",
+   "e": "Values with commas are packed into a tuple even without brackets. `tuple(\"hi\")` splits the text into letters. `+` joins the two tuples.",
+   "ans": "<class 'tuple'> ('h', 'i') 5"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Why use a tuple?",
+   "q": "A booking record is fixed, so it is a tuple: `row = (101, \"Asha\", \"Deluxe\", 3499.0)`. Unpack it and print `Asha booked Deluxe for ₹3,499.00`.",
+   "starter": "row = (101, \"Asha\", \"Deluxe\", 3499.0)\n",
+   "sol": "row = (101, \"Asha\", \"Deluxe\", 3499.0)\nbooking_id, guest, room, rate = row\nprint(f\"{guest} booked {room} for ₹{rate:,.2f}\")",
+   "e": "Unpacking gives each column a clear name, which makes the next line easy to read.",
+   "out": "Asha booked Deluxe for ₹3,499.00"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Packing and unpacking",
+   "q": "This code should print `1 [2, 3]`, but it crashes. Fix it.",
+   "c": "x, y = (1, 2, 3)\nprint(x, y)",
+   "fixed": "x, *y = (1, 2, 3)\nprint(x, y)",
+   "e": "Two names cannot take three values. A starred name (`*y`) collects all the extra values.",
+   "want": "1 [2, 3]",
+   "got": "ValueError: too many values to unpack (expected 2)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Immutability",
+   "q": "`data = (1, [2, 3])`. The tuple cannot change, but the list inside it can. Append 4 to the inner list and print the tuple.",
+   "starter": "data = (1, [2, 3])\n",
+   "sol": "data = (1, [2, 3])\ndata[1].append(4)\nprint(data)",
+   "e": "The tuple still holds the same list. The list itself is mutable, so `append()` works.",
+   "out": "(1, [2, 3, 4])"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Packing and unpacking",
+   "q": "`a, b, c = \"x\", \"y\", \"z\"`. In one line, rotate them so `a` gets `b`'s value, `b` gets `c`'s and `c` gets `a`'s. Print all three.",
+   "starter": "a, b, c = \"x\", \"y\", \"z\"\n",
+   "sol": "a, b, c = \"x\", \"y\", \"z\"\na, b, c = b, c, a\nprint(a, b, c)",
+   "e": "Python packs the right side into a tuple first, then unpacks it, so no value is lost.",
+   "out": "y z x"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Only two methods",
+   "q": "This code should print `1`, the position of `\"ink\"`, but it crashes. Fix it.",
+   "c": "items = (\"pen\", \"ink\")\nprint(items.find(\"ink\"))",
+   "fixed": "items = (\"pen\", \"ink\")\nprint(items.index(\"ink\"))",
+   "e": "`find()` is a string method. Tuples only have `count()` and `index()`.",
+   "want": "1",
+   "got": "AttributeError: 'tuple' object has no attribute 'find'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Only two methods",
+   "q": "`temps = (31, 33, 31, 35, 31, 33)`. Print each different temperature once, in order of first appearance, with how many times it appears: `31: 3`, `33: 2`, `35: 1`. Use `count()` and `index()`.",
+   "starter": "temps = (31, 33, 31, 35, 31, 33)\n",
+   "sol": "temps = (31, 33, 31, 35, 31, 33)\nfor pos, t in enumerate(temps):\n    if temps.index(t) == pos:\n        print(f\"{t}: {temps.count(t)}\")",
+   "e": "`index(t)` gives the first position of `t`. If it equals the current position, this is the first time we see `t`.",
+   "out": "31: 3\n33: 2\n35: 1"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Indexing, slicing and looping",
+   "q": "`records = ((\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91))`. Print `Average: 80.0`, then `Above: Asha Neha` (the names above the average).",
+   "starter": "records = ((\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91))\n",
+   "sol": "records = ((\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91))\ntotal = 0\nfor name, marks in records:\n    total += marks\naverage = total / len(records)\nabove = []\nfor name, marks in records:\n    if marks > average:\n        above.append(name)\nprint(\"Average:\", average)\nprint(\"Above:\", \" \".join(above))",
+   "e": "Two passes: the first works out the average, the second compares each mark with it.",
+   "out": "Average: 80.0\nAbove: Asha Neha"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Packing and unpacking",
+   "q": "Each sale is `(product, qty, price)`: `sales = ((\"Tea\", 3, 20), (\"Coffee\", 2, 45), (\"Juice\", 1, 60))`. Unpack each sale in the `for` line and print the total bill.",
+   "starter": "sales = ((\"Tea\", 3, 20), (\"Coffee\", 2, 45), (\"Juice\", 1, 60))\n",
+   "sol": "sales = ((\"Tea\", 3, 20), (\"Coffee\", 2, 45), (\"Juice\", 1, 60))\ntotal = 0\nfor product, qty, price in sales:\n    total += qty * price\nprint(total)",
+   "e": "Unpacking three values per row gives clear names for the maths: 60 + 90 + 60 = 210.",
+   "out": "210"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Immutability",
+   "q": "This code should print `(3, 4, 5)`, but it crashes. Fix it.",
+   "c": "point = (3, 4)\npoint.append(5)\nprint(point)",
+   "fixed": "point = (3, 4)\npoint = point + (5,)\nprint(point)",
+   "e": "Tuples have no `append()`. Join a new one-item tuple with `+`, and remember the comma in `(5,)`.",
+   "want": "(3, 4, 5)",
+   "got": "AttributeError: 'tuple' object has no attribute 'append'"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Packing and unpacking",
+   "q": "Type exactly what this code prints.",
+   "c": "first, *rest = \"data\"\nprint(first, rest)",
+   "e": "Unpacking works on any sequence, text too. `first` gets `d` and the starred name gets the rest as a list.",
+   "ans": "d ['a', 't', 'a']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Immutability",
+   "q": "`scores = (72, 55, 90, 64)`. Make a sorted tuple (lowest first) and print it. Then print the highest score using an index of that sorted tuple.",
+   "starter": "scores = (72, 55, 90, 64)\n",
+   "sol": "scores = (72, 55, 90, 64)\nranked = tuple(sorted(scores))\nprint(ranked)\nprint(ranked[-1])",
+   "e": "`sorted()` returns a list, so wrap it in `tuple()`. The biggest value is then the last item.",
+   "out": "(55, 64, 72, 90)\n90"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Creating tuples",
+   "q": "Build a list of the squares of 1 to 5 with a loop, turn it into a tuple, and print the tuple and its type with one `print()`.",
+   "starter": "squares = []\n",
+   "sol": "squares = []\nfor n in range(1, 6):\n    squares.append(n * n)\nresult = tuple(squares)\nprint(result, type(result))",
+   "e": "Collect in a list (it can grow), then lock the finished data in a tuple with `tuple()`.",
+   "out": "(1, 4, 9, 16, 25) <class 'tuple'>"
+  }
+ ],
+ "sets": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "What is a set?",
+   "q": "Type exactly what this code prints.",
+   "c": "s = {3, 1, 3, 2, 1}\nprint(len(s), sorted(s))",
+   "e": "A set keeps each value once, so only 1, 2 and 3 remain. `sorted()` gives them back as a list in order.",
+   "ans": "3 [1, 2, 3]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "What is a set?",
+   "q": "`visits = [\"Pune\", \"Goa\", \"Pune\", \"Delhi\", \"Goa\"]`. Use `set()` to print how many different cities there are.",
+   "starter": "visits = [\"Pune\", \"Goa\", \"Pune\", \"Delhi\", \"Goa\"]\n",
+   "sol": "visits = [\"Pune\", \"Goa\", \"Pune\", \"Delhi\", \"Goa\"]\nprint(len(set(visits)))",
+   "e": "`set()` drops the repeats, and `len()` counts what is left.",
+   "out": "3"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Adding and removing",
+   "q": "`tags = {\"sql\", \"python\"}`. Add `\"excel\"`, then add `\"sql\"` again. Print the tags sorted.",
+   "starter": "tags = {\"sql\", \"python\"}\n",
+   "sol": "tags = {\"sql\", \"python\"}\ntags.add(\"excel\")\ntags.add(\"sql\")\nprint(sorted(tags))",
+   "e": "`add()` puts one item in. Adding a value that is already there changes nothing.",
+   "out": "['excel', 'python', 'sql']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Set operations: comparing two groups",
+   "q": "`a = {1, 2, 3, 4}` and `b = {3, 4, 5}`. Print the sorted union and the sorted intersection, with one `print()`.",
+   "starter": "a = {1, 2, 3, 4}\nb = {3, 4, 5}\n",
+   "sol": "a = {1, 2, 3, 4}\nb = {3, 4, 5}\nprint(sorted(a | b), sorted(a & b))",
+   "e": "`|` (union) gives everything in either set. `&` (intersection) gives only what is in both.",
+   "out": "[1, 2, 3, 4, 5] [3, 4]"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "What is a set?",
+   "q": "This code should check whether `\"apple\"` is in the set and print `True`, but it crashes. Fix it.",
+   "c": "fruits = {\"apple\", \"banana\"}\nprint(fruits[0])",
+   "fixed": "fruits = {\"apple\", \"banana\"}\nprint(\"apple\" in fruits)",
+   "e": "Sets have no order, so there is no index like `[0]`. Use `in` to check if a value is there.",
+   "want": "True",
+   "got": "TypeError: 'set' object is not subscriptable"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Adding and removing",
+   "q": "Type exactly what this code prints.",
+   "c": "nums = {1, 2, 3}\nnums.discard(9)\nnums.add(2)\nnums.update([4, 5])\nprint(sorted(nums))",
+   "e": "`discard()` of a missing value does nothing (no error). `add(2)` changes nothing. `update()` adds several values.",
+   "ans": "[1, 2, 3, 4, 5]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Subset, superset, disjoint",
+   "q": "`A = {1, 2}` and `B = {1, 2, 3}`. Print whether A is a subset of B, and whether B is a subset of A, with one `print()`.",
+   "starter": "A = {1, 2}\nB = {1, 2, 3}\n",
+   "sol": "A = {1, 2}\nB = {1, 2, 3}\nprint(A.issubset(B), B.issubset(A))",
+   "e": "A is a subset of B when every item of A is also in B. B has 3, which A does not have.",
+   "out": "True False"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Adding and removing",
+   "q": "This code should print `['SQL']`, but it crashes because `\"Excel\"` is not in the set. Fix it.",
+   "c": "skills = {\"SQL\"}\nskills.remove(\"Excel\")\nprint(sorted(skills))",
+   "fixed": "skills = {\"SQL\"}\nskills.discard(\"Excel\")\nprint(sorted(skills))",
+   "e": "`remove()` gives a `KeyError` for a missing value. `discard()` removes it if it is there and stays quiet if not.",
+   "want": "['SQL']",
+   "got": "KeyError: 'Excel'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set operations: comparing two groups",
+   "q": "`mon = {\"Tea\", \"Coffee\", \"Samosa\"}` and `tue = {\"Coffee\", \"Juice\", \"Samosa\"}`. Print the items sold on both days (sorted), then the items sold on only one of the two days (sorted).",
+   "starter": "mon = {\"Tea\", \"Coffee\", \"Samosa\"}\ntue = {\"Coffee\", \"Juice\", \"Samosa\"}\n",
+   "sol": "mon = {\"Tea\", \"Coffee\", \"Samosa\"}\ntue = {\"Coffee\", \"Juice\", \"Samosa\"}\nprint(sorted(mon & tue))\nprint(sorted(mon ^ tue))",
+   "e": "`&` keeps what both days share. `^` (symmetric difference) keeps what is in exactly one of them.",
+   "out": "['Coffee', 'Samosa']\n['Juice', 'Tea']"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Set operations: comparing two groups",
+   "q": "Type exactly what this code prints.",
+   "c": "a = {2, 4, 6}\nb = {4, 6, 8}\nprint(sorted(a - b), sorted(b - a), sorted(a ^ b))",
+   "e": "`a - b` is what only `a` has. The order matters: `b - a` is different. `^` is both differences together.",
+   "ans": "[2] [8] [2, 8]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set comprehensions and frozenset",
+   "q": "Use a set comprehension to collect the remainders of the numbers 10 to 20 when divided by 4. Print them sorted.",
+   "starter": "# {... for n in range(10, 21)}\n",
+   "sol": "print(sorted({n % 4 for n in range(10, 21)}))",
+   "e": "A set comprehension looks like a list comprehension with curly brackets, and repeats drop out.",
+   "out": "[0, 1, 2, 3]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Set operations: comparing two groups",
+   "q": "This code should print `[1, 2, 3]`, but it crashes. Fix it.",
+   "c": "a = {1, 2}\nb = {2, 3}\nprint(sorted(a + b))",
+   "fixed": "a = {1, 2}\nb = {2, 3}\nprint(sorted(a | b))",
+   "e": "Sets cannot be joined with `+`. The union operator is `|` (or `a.union(b)`).",
+   "want": "[1, 2, 3]",
+   "got": "TypeError: unsupported operand type(s) for +: 'set' and 'set'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Real-world uses",
+   "q": "`text = \"the cat and the hat and the bat\"`. Print how many different words it has.",
+   "starter": "text = \"the cat and the hat and the bat\"\n",
+   "sol": "text = \"the cat and the hat and the bat\"\nprint(len(set(text.split())))",
+   "e": "`split()` makes a list of words, `set()` keeps each word once, and `len()` counts them.",
+   "out": "5"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Subset, superset, disjoint",
+   "q": "Type exactly what this code prints.",
+   "c": "A = {1, 2, 3}\nB = {1, 2, 3}\nC = {4}\nprint(A <= B, A < B, A.isdisjoint(C))",
+   "e": "`<=` is subset (equal sets count). `<` needs B to have something extra. A and C share nothing, so they are disjoint.",
+   "ans": "True False True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Adding and removing",
+   "q": "Start with an empty set (careful: `{}` is not a set). Add the numbers from `range(5, 8)` in a loop. Print the sorted set and its type, with one `print()`.",
+   "starter": "# An empty set first\n",
+   "sol": "nums = set()\nfor n in range(5, 8):\n    nums.add(n)\nprint(sorted(nums), type(nums))",
+   "e": "`set()` makes an empty set. `{}` makes an empty dictionary.",
+   "out": "[5, 6, 7] <class 'set'>"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Real-world uses",
+   "q": "`required = {\"Python\", \"SQL\", \"Excel\"}` and `candidate = {\"SQL\", \"Python\", \"Power BI\"}`. Print the missing skills (sorted), then whether the candidate has all the required skills.",
+   "starter": "required = {\"Python\", \"SQL\", \"Excel\"}\ncandidate = {\"SQL\", \"Python\", \"Power BI\"}\n",
+   "sol": "required = {\"Python\", \"SQL\", \"Excel\"}\ncandidate = {\"SQL\", \"Python\", \"Power BI\"}\nprint(sorted(required - candidate))\nprint(required.issubset(candidate))",
+   "e": "`required - candidate` is what is needed but missing. The candidate covers everything only if `required` is a subset.",
+   "out": "['Excel']\nFalse"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Set comprehensions and frozenset",
+   "q": "This code should print `{1}`, but it crashes. Fix it.",
+   "c": "empty = {}\nempty.add(1)\nprint(empty)",
+   "fixed": "empty = set()\nempty.add(1)\nprint(empty)",
+   "e": "`{}` is an empty dictionary, which has no `add()`. An empty set is `set()`.",
+   "want": "{1}",
+   "got": "AttributeError: 'dict' object has no attribute 'add'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set operations: comparing two groups",
+   "q": "`team = {\"Asha\", \"Ravi\"}`. A new group `{\"Neha\", \"Ravi\"}` joins. Update `team` in place with `|=`, then print the sorted team and its size.",
+   "starter": "team = {\"Asha\", \"Ravi\"}\n",
+   "sol": "team = {\"Asha\", \"Ravi\"}\nteam |= {\"Neha\", \"Ravi\"}\nprint(sorted(team), len(team))",
+   "e": "`|=` adds everything from the other set into this one. Ravi is already there, so the size is 3.",
+   "out": "['Asha', 'Neha', 'Ravi'] 3"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Real-world uses",
+   "q": "`orders = [\"O1\", \"O2\", \"O1\", \"O3\", \"O2\", \"O4\"]`. Print how many entries are duplicates: the total number of entries minus the number of different orders.",
+   "starter": "orders = [\"O1\", \"O2\", \"O1\", \"O3\", \"O2\", \"O4\"]\n",
+   "sol": "orders = [\"O1\", \"O2\", \"O1\", \"O3\", \"O2\", \"O4\"]\nprint(len(orders) - len(set(orders)))",
+   "e": "6 entries but only 4 different orders, so 2 entries are repeats.",
+   "out": "2"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Set comprehensions and frozenset",
+   "q": "`words = [\"Data\", \"data\", \"DATA\", \"Python\", \"python\"]`. Use a set comprehension with `lower()` to print the different words, ignoring capitals, sorted.",
+   "starter": "words = [\"Data\", \"data\", \"DATA\", \"Python\", \"python\"]\n",
+   "sol": "words = [\"Data\", \"data\", \"DATA\", \"Python\", \"python\"]\nprint(sorted({w.lower() for w in words}))",
+   "e": "Make every word small first, so \"Data\" and \"DATA\" become the same value and the set keeps one.",
+   "out": "['data', 'python']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Set operations: comparing two groups",
+   "q": "Students per course: `python = {\"Asha\", \"Ravi\", \"Neha\", \"Kiran\"}`, `sql = {\"Ravi\", \"Neha\", \"Imran\"}`, `excel = {\"Neha\", \"Kiran\", \"Imran\"}`. Print (sorted) the students in all three courses, then the students who take Python but neither of the others.",
+   "starter": "python = {\"Asha\", \"Ravi\", \"Neha\", \"Kiran\"}\nsql = {\"Ravi\", \"Neha\", \"Imran\"}\nexcel = {\"Neha\", \"Kiran\", \"Imran\"}\n",
+   "sol": "python = {\"Asha\", \"Ravi\", \"Neha\", \"Kiran\"}\nsql = {\"Ravi\", \"Neha\", \"Imran\"}\nexcel = {\"Neha\", \"Kiran\", \"Imran\"}\nprint(sorted(python & sql & excel))\nprint(sorted(python - sql - excel))",
+   "e": "Set operators chain: `&` twice keeps what all three share, and `-` twice removes anyone in the other two.",
+   "out": "['Neha']\n['Asha']"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Set comprehensions and frozenset",
+   "q": "Type exactly what this code prints.",
+   "c": "fs = frozenset([3, 1, 3])\nprint(len(fs), sorted(fs | {5}))",
+   "e": "A frozenset is a set that cannot change, but you can still combine it with others to make a new set.",
+   "ans": "2 [1, 3, 5]"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Subset, superset, disjoint",
+   "q": "The candidate has SQL and Excel, and the job needs SQL. This code should print `True` (the candidate covers the need). Fix it.",
+   "c": "have = {\"SQL\", \"Excel\"}\nneed = {\"SQL\"}\nprint(have.issubset(need))",
+   "fixed": "have = {\"SQL\", \"Excel\"}\nneed = {\"SQL\"}\nprint(need.issubset(have))",
+   "e": "The question is whether every needed skill is in `have`, so `need` must be the subset (or use `have.issuperset(need)`).",
+   "want": "True",
+   "got": "False"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Real-world uses",
+   "q": "`jan = [\"a@x.in\", \"b@x.in\", \"c@x.in\"]` and `feb = [\"b@x.in\", \"d@x.in\", \"c@x.in\", \"b@x.in\"]` are customer emails per month. Print the retention rate: customers seen in both months divided by customers in January, as a percentage with 1 decimal (`:.1%`).",
+   "starter": "jan = [\"a@x.in\", \"b@x.in\", \"c@x.in\"]\nfeb = [\"b@x.in\", \"d@x.in\", \"c@x.in\", \"b@x.in\"]\n",
+   "sol": "jan = [\"a@x.in\", \"b@x.in\", \"c@x.in\"]\nfeb = [\"b@x.in\", \"d@x.in\", \"c@x.in\", \"b@x.in\"]\nkept = set(jan) & set(feb)\nprint(f\"{len(kept) / len(set(jan)):.1%}\")",
+   "e": "Turn both lists into sets (the repeat in February drops out), intersect them, then divide: 2 of 3 is 66.7%.",
+   "out": "66.7%"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Subset, superset, disjoint",
+   "q": "`booked = {9, 10, 14}` (hours). Two requests: `req1 = {11, 15}` and `req2 = {10, 16}`. For each request, print `Free` if it shares no hour with `booked` (use `isdisjoint`), otherwise print `Clash:` and the sorted clashing hours.",
+   "starter": "booked = {9, 10, 14}\nreq1 = {11, 15}\nreq2 = {10, 16}\n",
+   "sol": "booked = {9, 10, 14}\nreq1 = {11, 15}\nreq2 = {10, 16}\nfor req in (req1, req2):\n    if booked.isdisjoint(req):\n        print(\"Free\")\n    else:\n        print(\"Clash:\", sorted(booked & req))",
+   "e": "`isdisjoint()` is `True` when two sets share nothing. If they do share something, `&` shows exactly what.",
+   "out": "Free\nClash: [10]"
+  }
+ ],
+ "dicts": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "What is a dictionary?",
+   "q": "Type exactly what this code prints.",
+   "c": "stu = {\"name\": \"Raman\", \"age\": 16, \"name\": \"Rajeev\"}\nprint(stu[\"name\"], len(stu))",
+   "e": "Keys are unique. When a key appears twice, the last value wins, so there are only 2 keys.",
+   "ans": "Rajeev 2"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Creating dictionaries",
+   "q": "Make a dictionary `prices` with `\"tea\"` costing 20 and `\"coffee\"` costing 45. Print the price of coffee.",
+   "starter": "# Make the dictionary\n",
+   "sol": "prices = {\"tea\": 20, \"coffee\": 45}\nprint(prices[\"coffee\"])",
+   "e": "Each entry is `key: value`. Square brackets with the key read its value.",
+   "out": "45"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Reading values: [ ] vs get()",
+   "q": "`person = {\"name\": \"Asha\", \"city\": \"Pune\"}`. Print the `\"email\"` value with `get()`, showing `Not given` when it is missing.",
+   "starter": "person = {\"name\": \"Asha\", \"city\": \"Pune\"}\n",
+   "sol": "person = {\"name\": \"Asha\", \"city\": \"Pune\"}\nprint(person.get(\"email\", \"Not given\"))",
+   "e": "`get(key, default)` never crashes: it gives the default when the key is missing.",
+   "out": "Not given"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Adding, updating and removing",
+   "q": "`stock = {\"pen\": 10, \"ink\": 4}`. Add `\"pad\"` with 7, change `\"ink\"` to 9, and delete `\"pen\"`. Print the dictionary.",
+   "starter": "stock = {\"pen\": 10, \"ink\": 4}\n",
+   "sol": "stock = {\"pen\": 10, \"ink\": 4}\nstock[\"pad\"] = 7\nstock[\"ink\"] = 9\ndel stock[\"pen\"]\nprint(stock)",
+   "e": "Assigning to a new key adds it, assigning to an existing key updates it, and `del` removes it.",
+   "out": "{'ink': 9, 'pad': 7}"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "keys(), values(), items() and looping",
+   "q": "`marks = {\"Asha\": 82, \"Ravi\": 67}`. Loop over `items()` and print one line per student: `Asha: 82`.",
+   "starter": "marks = {\"Asha\": 82, \"Ravi\": 67}\n",
+   "sol": "marks = {\"Asha\": 82, \"Ravi\": 67}\nfor name, mark in marks.items():\n    print(f\"{name}: {mark}\")",
+   "e": "`items()` gives (key, value) pairs, which you unpack in the `for` line.",
+   "out": "Asha: 82\nRavi: 67"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Reading values: [ ] vs get()",
+   "q": "This code should print `0` for an item that is not in stock, but it crashes. Fix it.",
+   "c": "stock = {\"pen\": 10}\nprint(stock[\"pencil\"])",
+   "fixed": "stock = {\"pen\": 10}\nprint(stock.get(\"pencil\", 0))",
+   "e": "Square brackets give a `KeyError` for a missing key. `get(key, 0)` gives 0 instead.",
+   "want": "0",
+   "got": "KeyError: 'pencil'"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "keys(), values(), items() and looping",
+   "q": "Type exactly what this code prints.",
+   "c": "d = {\"a\": 1, \"b\": 2}\nprint(list(d.keys()), list(d.values()), \"a\" in d, 1 in d)",
+   "e": "`in` checks the keys only, so `1 in d` is `False` even though 1 is a value.",
+   "ans": "['a', 'b'] [1, 2] True False"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Creating dictionaries",
+   "q": "This code should print `20`, but it crashes. Fix it.",
+   "c": "prices = {\"tea\" = 20, \"coffee\" = 45}\nprint(prices[\"tea\"])",
+   "fixed": "prices = {\"tea\": 20, \"coffee\": 45}\nprint(prices[\"tea\"])",
+   "e": "Inside `{ }`, each key and value are joined with a colon `:`, not `=`.",
+   "want": "20",
+   "got": "SyntaxError: cannot assign to literal here. Maybe you meant '==' instead of '='?"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Patterns every analyst uses",
+   "q": "Count how many times each letter appears in `\"mississippi\"`, using a dictionary and `get()`. Print the dictionary.",
+   "starter": "counts = {}\n",
+   "sol": "counts = {}\nfor ch in \"mississippi\":\n    counts[ch] = counts.get(ch, 0) + 1\nprint(counts)",
+   "e": "The counting pattern: `counts.get(ch, 0) + 1` starts a new letter at 1 and adds 1 to a letter already seen.",
+   "out": "{'m': 1, 'i': 4, 's': 4, 'p': 2}"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Nested dictionaries",
+   "q": "Type exactly what this code prints.",
+   "c": "db = {\"Ramayan\": {\"price\": 1000, \"seats\": 20}, \"Drishyam\": {\"price\": 500, \"seats\": 40}}\nprint(db[\"Drishyam\"][\"seats\"] * db[\"Drishyam\"][\"price\"])",
+   "e": "The first key picks the movie, the second picks a field inside it: 40 × 500.",
+   "ans": "20000"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Dictionary comprehensions",
+   "q": "`prices = {\"tea\": 20, \"coffee\": 45, \"juice\": 60, \"lassi\": 35}`. Use a dictionary comprehension to keep only the items under ₹50, each with its price raised by 10. Print it.",
+   "starter": "prices = {\"tea\": 20, \"coffee\": 45, \"juice\": 60, \"lassi\": 35}\n",
+   "sol": "prices = {\"tea\": 20, \"coffee\": 45, \"juice\": 60, \"lassi\": 35}\nprint({item: p + 10 for item, p in prices.items() if p < 50})",
+   "e": "`{key: value for ... if ...}` builds a new dictionary, changing each value and keeping only the items that pass the test.",
+   "out": "{'tea': 30, 'coffee': 55, 'lassi': 45}"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Creating dictionaries",
+   "q": "`items = [\"pen\", \"pad\"]` and `qty = [10, 4]`. Make a dictionary with `dict(zip(...))` and print it.",
+   "starter": "items = [\"pen\", \"pad\"]\nqty = [10, 4]\n",
+   "sol": "items = [\"pen\", \"pad\"]\nqty = [10, 4]\nprint(dict(zip(items, qty)))",
+   "e": "`zip()` pairs the two lists, and `dict()` turns the pairs into keys and values.",
+   "out": "{'pen': 10, 'pad': 4}"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "keys(), values(), items() and looping",
+   "q": "This code should print each name and mark, but it crashes. Fix it.",
+   "c": "marks = {\"Asha\": 82, \"Ravi\": 67}\nfor name, mark in marks:\n    print(name, mark)",
+   "fixed": "marks = {\"Asha\": 82, \"Ravi\": 67}\nfor name, mark in marks.items():\n    print(name, mark)",
+   "e": "Looping over a dictionary gives only the keys. To get both key and value, loop over `items()`.",
+   "want": "Asha 82\nRavi 67",
+   "got": "ValueError: too many values to unpack (expected 2)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Adding, updating and removing",
+   "q": "`cart = {\"rice\": 2, \"dal\": 1, \"oil\": 1}`. Remove `\"dal\"` with `pop()` and print the removed quantity. Then print the cart.",
+   "starter": "cart = {\"rice\": 2, \"dal\": 1, \"oil\": 1}\n",
+   "sol": "cart = {\"rice\": 2, \"dal\": 1, \"oil\": 1}\nremoved = cart.pop(\"dal\")\nprint(removed)\nprint(cart)",
+   "e": "`pop(key)` removes the key and gives back its value.",
+   "out": "1\n{'rice': 2, 'oil': 1}"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Adding, updating and removing",
+   "q": "Type exactly what this code prints.",
+   "c": "p = {\"name\": \"John\", \"age\": 30}\np.update({\"age\": 32, \"city\": \"Pune\"})\nprint(p)",
+   "e": "`update()` changes keys that exist (`age`) and adds new ones (`city`) in one step.",
+   "ans": "{'name': 'John', 'age': 32, 'city': 'Pune'}"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Nested dictionaries",
+   "q": "`emp = {\"E1\": {\"name\": \"Asha\", \"salary\": 50000}, \"E2\": {\"name\": \"Ravi\", \"salary\": 42000}}`. Print the total salary, using a loop over `values()`.",
+   "starter": "emp = {\"E1\": {\"name\": \"Asha\", \"salary\": 50000}, \"E2\": {\"name\": \"Ravi\", \"salary\": 42000}}\n",
+   "sol": "emp = {\"E1\": {\"name\": \"Asha\", \"salary\": 50000}, \"E2\": {\"name\": \"Ravi\", \"salary\": 42000}}\ntotal = 0\nfor person in emp.values():\n    total += person[\"salary\"]\nprint(total)",
+   "e": "Each value is itself a dictionary, so `person[\"salary\"]` reads the salary inside it.",
+   "out": "92000"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Patterns every analyst uses",
+   "q": "`sales = [(\"North\", 120), (\"South\", 80), (\"North\", 60), (\"East\", 50), (\"South\", 40)]`. Add up the sales per region in a dictionary and print it.",
+   "starter": "sales = [(\"North\", 120), (\"South\", 80), (\"North\", 60), (\"East\", 50), (\"South\", 40)]\n",
+   "sol": "sales = [(\"North\", 120), (\"South\", 80), (\"North\", 60), (\"East\", 50), (\"South\", 40)]\ntotals = {}\nfor region, amount in sales:\n    totals[region] = totals.get(region, 0) + amount\nprint(totals)",
+   "e": "This is GROUP BY in plain Python: one key per region, adding each amount to its own total.",
+   "out": "{'North': 180, 'South': 120, 'East': 50}"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Patterns every analyst uses",
+   "q": "This code should print `{'a': 2, 'b': 1}`, but it crashes. Fix it.",
+   "c": "counts = {}\nfor w in [\"a\", \"b\", \"a\"]:\n    counts[w] += 1\nprint(counts)",
+   "fixed": "counts = {}\nfor w in [\"a\", \"b\", \"a\"]:\n    counts[w] = counts.get(w, 0) + 1\nprint(counts)",
+   "e": "`counts[w] += 1` reads the old value first, which does not exist the first time: `KeyError`. `get(w, 0)` starts it at 0.",
+   "want": "{'a': 2, 'b': 1}",
+   "got": "KeyError: 'a'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "keys(), values(), items() and looping",
+   "q": "`marks = {\"Asha\": 82, \"Ravi\": 67, \"Neha\": 91}`. Without `min()`, loop over `items()` to find the student with the lowest marks. Print the name and the marks.",
+   "starter": "marks = {\"Asha\": 82, \"Ravi\": 67, \"Neha\": 91}\n",
+   "sol": "marks = {\"Asha\": 82, \"Ravi\": 67, \"Neha\": 91}\nlowest_name = None\nfor name, mark in marks.items():\n    if lowest_name is None or mark < marks[lowest_name]:\n        lowest_name = name\nprint(lowest_name, marks[lowest_name])",
+   "e": "Keep the best key so far. `None` means \"nothing seen yet\", so the first student always becomes the lowest.",
+   "out": "Ravi 67"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested dictionaries",
+   "q": "`movies = {\"Ramayan\": {\"price\": 1000, \"seats\": 20}, \"Drishyam\": {\"price\": 500, \"seats\": 40}, \"Udta Teer\": {\"price\": 400, \"seats\": 50}}`. For the movies with at least 30 seats, print the full-house revenue: `Drishyam: ₹20,000`.",
+   "starter": "movies = {\"Ramayan\": {\"price\": 1000, \"seats\": 20}, \"Drishyam\": {\"price\": 500, \"seats\": 40}, \"Udta Teer\": {\"price\": 400, \"seats\": 50}}\n",
+   "sol": "movies = {\"Ramayan\": {\"price\": 1000, \"seats\": 20}, \"Drishyam\": {\"price\": 500, \"seats\": 40}, \"Udta Teer\": {\"price\": 400, \"seats\": 50}}\nfor name, info in movies.items():\n    if info[\"seats\"] >= 30:\n        print(f\"{name}: ₹{info['price'] * info['seats']:,}\")",
+   "e": "Loop over the outer dictionary, then read the inner fields to filter and calculate.",
+   "out": "Drishyam: ₹20,000\nUdta Teer: ₹20,000"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Dictionary comprehensions",
+   "q": "`students = [\"Asha\", \"Ravi\", \"Neha\"]` and `marks = [82, 34, 91]`. Make a dictionary of name → `\"Pass\"` or `\"Fail\"` (35 or more passes) with a dictionary comprehension, `zip()` and a ternary. Print it.",
+   "starter": "students = [\"Asha\", \"Ravi\", \"Neha\"]\nmarks = [82, 34, 91]\n",
+   "sol": "students = [\"Asha\", \"Ravi\", \"Neha\"]\nmarks = [82, 34, 91]\nprint({s: \"Pass\" if m >= 35 else \"Fail\" for s, m in zip(students, marks)})",
+   "e": "`zip()` pairs each name with its marks, and the ternary picks the value for each key.",
+   "out": "{'Asha': 'Pass', 'Ravi': 'Fail', 'Neha': 'Pass'}"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Why dictionaries are fast",
+   "q": "Type exactly what this code prints.",
+   "c": "d = {(1, 2): \"point\"}\nprint(d[(1, 2)], (2, 1) in d)",
+   "e": "A tuple can be a key because it cannot change. `(2, 1)` is a different tuple from `(1, 2)`.",
+   "ans": "point False"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Nested dictionaries",
+   "q": "This code should add Python to Asha's skills and print `['SQL', 'Python']`. Fix it.",
+   "c": "emp = {\"E1\": {\"name\": \"Asha\", \"skills\": [\"SQL\"]}}\nemp[\"E1\"][\"skills\"] = \"Python\"\nprint(emp[\"E1\"][\"skills\"])",
+   "fixed": "emp = {\"E1\": {\"name\": \"Asha\", \"skills\": [\"SQL\"]}}\nemp[\"E1\"][\"skills\"].append(\"Python\")\nprint(emp[\"E1\"][\"skills\"])",
+   "e": "`=` replaces the whole list with a string. To add to the list inside, call `append()` on it.",
+   "want": "['SQL', 'Python']",
+   "got": "Python"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Patterns every analyst uses",
+   "q": "`text = \"data is good data is power data\"`. Count the words with a dictionary, then use a loop (not `max()`) to print the most common word and its count.",
+   "starter": "text = \"data is good data is power data\"\n",
+   "sol": "text = \"data is good data is power data\"\ncounts = {}\nfor word in text.split():\n    counts[word] = counts.get(word, 0) + 1\nbest = \"\"\nfor word, n in counts.items():\n    if best == \"\" or n > counts[best]:\n        best = word\nprint(best, counts[best])",
+   "e": "First count, then search the counts for the biggest one. \"data\" appears 3 times.",
+   "out": "data 3"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "keys(), values(), items() and looping",
+   "q": "`stock = {\"pen\": 12, \"ink\": 3, \"pad\": 7}`. Print the items sorted by quantity, lowest first, one per line: `ink: 3`. Use `sorted(stock, key=stock.get)`.",
+   "starter": "stock = {\"pen\": 12, \"ink\": 3, \"pad\": 7}\n",
+   "sol": "stock = {\"pen\": 12, \"ink\": 3, \"pad\": 7}\nfor item in sorted(stock, key=stock.get):\n    print(f\"{item}: {stock[item]}\")",
+   "e": "`sorted(stock)` sorts the keys, and `key=stock.get` sorts them by their values instead.",
+   "out": "ink: 3\npad: 7\npen: 12"
+  }
+ ],
+ "comprehensions": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "A loop in one line",
+   "q": "Type exactly what this code prints.",
+   "c": "print([n * 3 for n in range(1, 5)])",
+   "e": "The comprehension runs `n * 3` for n = 1, 2, 3 and 4, and collects the answers in a list.",
+   "ans": "[3, 6, 9, 12]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "A loop in one line",
+   "q": "`prices = [100, 250, 80]`. Use a list comprehension to make a new list with each price doubled, and print it.",
+   "starter": "prices = [100, 250, 80]\n",
+   "sol": "prices = [100, 250, 80]\nprint([p * 2 for p in prices])",
+   "e": "`[expression for item in list]`: the expression is worked out once for every item.",
+   "out": "[200, 500, 160]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "`ages = [12, 25, 17, 40, 15]`. Use a list comprehension to keep only the adults (18 or more), and print the list.",
+   "starter": "ages = [12, 25, 17, 40, 15]\n",
+   "sol": "ages = [12, 25, 17, 40, 15]\nprint([a for a in ages if a >= 18])",
+   "e": "An `if` at the end is a filter: it decides which items get in.",
+   "out": "[25, 40]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "A loop in one line",
+   "q": "`cities = [\" delhi\", \"PUNE \", \"goa\"]`. Clean them with `strip()` and `title()` in a list comprehension, and print the list.",
+   "starter": "cities = [\" delhi\", \"PUNE \", \"goa\"]\n",
+   "sol": "cities = [\" delhi\", \"PUNE \", \"goa\"]\nprint([c.strip().title() for c in cities])",
+   "e": "Any expression works in a comprehension, including chained string methods.",
+   "out": "['Delhi', 'Pune', 'Goa']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "Print the sum of the squares of 1 to 10, using a generator expression inside `sum()`.",
+   "starter": "# sum(... for n in range(1, 11))\n",
+   "sol": "print(sum(n * n for n in range(1, 11)))",
+   "e": "A generator expression has no square brackets. `sum()` takes its values one at a time without building a list.",
+   "out": "385"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "This code should replace negative numbers with 0 and print `[0, 7, 0]`, but it crashes. Fix it.",
+   "c": "nums = [-3, 7, -1]\nprint([x for x in nums if x > 0 else 0])",
+   "fixed": "nums = [-3, 7, -1]\nprint([x if x > 0 else 0 for x in nums])",
+   "e": "A filter `if` (at the end) cannot have an `else`. To change values, put `x if ... else ...` at the front, before `for`.",
+   "want": "[0, 7, 0]",
+   "got": "SyntaxError: invalid syntax"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "Type exactly what this code prints.",
+   "c": "print([\"high\" if n > 50 else \"low\" for n in [20, 80, 55]])",
+   "e": "The ternary at the front picks a value for every item, so the list always has 3 items.",
+   "ans": "['low', 'high', 'high']"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "A loop in one line",
+   "q": "This code should print `[1, 4, 9]`, but it crashes. Fix it.",
+   "c": "squares = [x ** 2 for x in range(1, 4)\nprint(squares)",
+   "fixed": "squares = [x ** 2 for x in range(1, 4)]\nprint(squares)",
+   "e": "The comprehension opens with `[`, so it must close with `]`.",
+   "want": "[1, 4, 9]",
+   "got": "SyntaxError: '[' was never closed"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "`emails = [\"A@x.in\", \"a@x.in\", \"b@x.in\"]`. Use a set comprehension with `lower()` to get the different emails, and print them sorted.",
+   "starter": "emails = [\"A@x.in\", \"a@x.in\", \"b@x.in\"]\n",
+   "sol": "emails = [\"A@x.in\", \"a@x.in\", \"b@x.in\"]\nprint(sorted({e.lower() for e in emails}))",
+   "e": "Curly brackets make a set comprehension: values that become equal after `lower()` are kept once.",
+   "out": "['a@x.in', 'b@x.in']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "`words = [\"tea\", \"coffee\", \"juice\"]`. Make a dictionary of each word and its length with a dictionary comprehension, and print it.",
+   "starter": "words = [\"tea\", \"coffee\", \"juice\"]\n",
+   "sol": "words = [\"tea\", \"coffee\", \"juice\"]\nprint({w: len(w) for w in words})",
+   "e": "A dictionary comprehension has `key: value` before the `for`.",
+   "out": "{'tea': 3, 'coffee': 6, 'juice': 5}"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Nested comprehensions",
+   "q": "Type exactly what this code prints.",
+   "c": "print([(i, j) for i in range(2) for j in \"xy\"])",
+   "e": "With two `for`s, the first one is the outer loop: for each `i`, the inner loop runs through `x` and `y`.",
+   "ans": "[(0, 'x'), (0, 'y'), (1, 'x'), (1, 'y')]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Nested comprehensions",
+   "q": "`weeks = [[3, 5], [2], [4, 1, 6]]`. Flatten it into one list with a nested comprehension, and print it.",
+   "starter": "weeks = [[3, 5], [2], [4, 1, 6]]\n",
+   "sol": "weeks = [[3, 5], [2], [4, 1, 6]]\nprint([n for week in weeks for n in week])",
+   "e": "Read it like two nested loops: for each week, for each number in that week.",
+   "out": "[3, 5, 2, 4, 1, 6]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Nested comprehensions",
+   "q": "This code should change only the first row and print `[[9, 0, 0], [0, 0, 0]]`. Fix it.",
+   "c": "grid = [[0] * 3] * 2\ngrid[0][0] = 9\nprint(grid)",
+   "fixed": "grid = [[0] * 3 for _ in range(2)]\ngrid[0][0] = 9\nprint(grid)",
+   "e": "`[row] * 2` repeats the same inner list twice, so both rows change together. A comprehension makes a new row each time.",
+   "want": "[[9, 0, 0], [0, 0, 0]]",
+   "got": "[[9, 0, 0], [9, 0, 0]]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "`marks = [45, 82, 30, 67]`. Print a list with `\"P\"` or `\"F\"` for each mark (35 or more passes). Then print a second list with only the passing marks.",
+   "starter": "marks = [45, 82, 30, 67]\n",
+   "sol": "marks = [45, 82, 30, 67]\nprint([\"P\" if m >= 35 else \"F\" for m in marks])\nprint([m for m in marks if m >= 35])",
+   "e": "Transform: the ternary goes at the front and every item gets a value. Filter: the `if` goes at the end and some items are dropped.",
+   "out": "['P', 'P', 'F', 'P']\n[45, 82, 67]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "Type exactly what this code prints.",
+   "c": "print(sorted({len(w) for w in [\"hi\", \"yes\", \"no\", \"ok\"]}), sum(1 for w in [\"a\", \"bb\", \"a\"] if w == \"a\"))",
+   "e": "The set keeps the different lengths (2 and 3). `sum(1 for ... if ...)` counts the matching items.",
+   "ans": "[2, 3] 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Choosing the right collection",
+   "q": "`visits = [101, 102, 101, 103]`. Store the unique visitor IDs in the right collection, and the fixed location `17.38, 78.48` in the right collection. Print the number of unique IDs and the two types, with one `print()`.",
+   "starter": "visits = [101, 102, 101, 103]\n",
+   "sol": "visits = [101, 102, 101, 103]\nunique_ids = set(visits)\nlocation = (17.38, 78.48)\nprint(len(unique_ids), type(unique_ids), type(location))",
+   "e": "Unique values belong in a set. A fixed pair that never changes belongs in a tuple.",
+   "out": "3 <class 'set'> <class 'tuple'>"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "`stock = {\"pen\": 0, \"ink\": 4, \"pad\": 0, \"gel\": 9}`. Use a dictionary comprehension to keep only the items that are in stock (more than 0), and print it.",
+   "starter": "stock = {\"pen\": 0, \"ink\": 4, \"pad\": 0, \"gel\": 9}\n",
+   "sol": "stock = {\"pen\": 0, \"ink\": 4, \"pad\": 0, \"gel\": 9}\nprint({item: n for item, n in stock.items() if n > 0})",
+   "e": "Loop over `items()` to get both key and value, and filter with `if` at the end.",
+   "out": "{'ink': 4, 'gel': 9}"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Mutable, immutable and hashable",
+   "q": "This code should print `Hyderabad`, but it crashes. Fix it.",
+   "c": "locations = {[17.38, 78.48]: \"Hyderabad\"}\nprint(locations[[17.38, 78.48]])",
+   "fixed": "locations = {(17.38, 78.48): \"Hyderabad\"}\nprint(locations[(17.38, 78.48)])",
+   "e": "A list can change, so it is not hashable and cannot be a key. A tuple is immutable and works as a key.",
+   "want": "Hyderabad",
+   "got": "TypeError: unhashable type: 'list'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested comprehensions",
+   "q": "`matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]`. Make a list of the even numbers in the matrix with one nested comprehension, and print it.",
+   "starter": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n",
+   "sol": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nprint([n for row in matrix for n in row if n % 2 == 0])",
+   "e": "Both `for`s come first (outer, then inner), and the filter goes at the very end.",
+   "out": "[2, 4, 6, 8]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "`sales = {\"Mon\": 1200, \"Tue\": 800, \"Wed\": 1500}`. With one `print()`, show the total (a generator expression over `values()`) and a dictionary of the days above 1000 (a dictionary comprehension).",
+   "starter": "sales = {\"Mon\": 1200, \"Tue\": 800, \"Wed\": 1500}\n",
+   "sol": "sales = {\"Mon\": 1200, \"Tue\": 800, \"Wed\": 1500}\nprint(sum(v for v in sales.values()), {d: v for d, v in sales.items() if v > 1000})",
+   "e": "A generator expression feeds `sum()` directly, and the dictionary comprehension filters the days in one line.",
+   "out": "3500 {'Mon': 1200, 'Wed': 1500}"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "`raw = [\"12\", \"NA\", \"7\", \"\", \"30\"]`. Use one list comprehension to keep only the entries that are made of digits (`isdigit()`) and turn them into ints. Print the list and its sum.",
+   "starter": "raw = [\"12\", \"NA\", \"7\", \"\", \"30\"]\n",
+   "sol": "raw = [\"12\", \"NA\", \"7\", \"\", \"30\"]\nclean = [int(x) for x in raw if x.isdigit()]\nprint(clean, sum(clean))",
+   "e": "The filter runs first, so `int()` only sees text that really is a number. An empty string is not `isdigit()`.",
+   "out": "[12, 7, 30] 49"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Mutable, immutable and hashable",
+   "q": "Type exactly what this code prints.",
+   "c": "a = [1, 2]\nb = a\nb += [3]\nt = (1, 2)\nu = t\nu += (3,)\nprint(a, t)",
+   "e": "`+=` changes a list in place, so `a` sees it too. A tuple cannot change, so `u += (3,)` makes a new tuple and `t` stays the same.",
+   "ans": "[1, 2, 3] (1, 2)"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Nested comprehensions",
+   "q": "`m = [[1, 2, 3], [4, 5, 6]]`. Transpose it (rows become columns) with a nested comprehension, and print the result.",
+   "starter": "m = [[1, 2, 3], [4, 5, 6]]\n",
+   "sol": "m = [[1, 2, 3], [4, 5, 6]]\nprint([[row[i] for row in m] for i in range(3)])",
+   "e": "The outer comprehension builds one new row per column index `i`; the inner one takes item `i` from every old row.",
+   "out": "[[1, 4], [2, 5], [3, 6]]"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Set and dict comprehensions, and generator expressions",
+   "q": "This code should print the different words, sorted: `['data', 'python']`. Fix it.",
+   "c": "words = [\"data\", \"Data\", \"python\"]\nunique = {w.lower() for w in words}\nprint(unique[0])",
+   "fixed": "words = [\"data\", \"Data\", \"python\"]\nunique = {w.lower() for w in words}\nprint(sorted(unique))",
+   "e": "A set has no index. `sorted()` turns it into a sorted list that you can print or index.",
+   "want": "['data', 'python']",
+   "got": "TypeError: 'set' object is not subscriptable"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Where does if go? Filter vs transform",
+   "q": "`names = [\"Asha\", \"ravi\", \"Anil\", \"neha\"]`. Make a dictionary of each name in title case and its length, only for names that start with \"a\" in any case. Print it.",
+   "starter": "names = [\"Asha\", \"ravi\", \"Anil\", \"neha\"]\n",
+   "sol": "names = [\"Asha\", \"ravi\", \"Anil\", \"neha\"]\nprint({n.title(): len(n) for n in names if n.lower().startswith(\"a\")})",
+   "e": "Make the check case-proof with `lower()`, then build `key: value` with `title()` for the key.",
+   "out": "{'Asha': 4, 'Anil': 4}"
+  }
  ]
 };
 
 /* Projects: 3 per Part. Generated by gen/gen_projects.py: every expected line was checked against the model answer in real Python. */
-var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):\n            if node.id not in res['names']:\n                res['names'].append(node.id)\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
-var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}};
+var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, (ast.Assign, ast.AugAssign, ast.AnnAssign)):\n            # variables you store values in (loop and comprehension variables like i or w are not checked)\n            for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):\n                for sub in ast.walk(target):\n                    if isinstance(sub, ast.Name) and sub.id not in res['names']:\n                        res['names'].append(sub.id)\n        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):\n            res['defs'].append(node.name)\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
+var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}, "2": {"ban": [{"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip"]}, "3": {"ban": [{"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id", "range", "enumerate", "zip", "len", "list", "tuple", "set", "dict", "frozenset", "sum", "min", "max", "sorted", "any", "all"]}};
 var PJ_PARTS = {
  "1": {
   "title": "Part 1 projects: Python basics",
@@ -18821,6 +20081,15 @@ var PJ_PARTS = {
    "p2-1",
    "p2-2",
    "p2-3"
+  ]
+ },
+ "3": {
+  "title": "Part 3 projects: text and collections",
+  "intro": "Three data-cleaning and summary jobs that analysts do every week: tidy a messy list, group sales by region, and find the main words in customer feedback. They use strings, lists, sets, dictionaries and comprehensions, but no functions yet.",
+  "ids": [
+   "p3-1",
+   "p3-2",
+   "p3-3"
   ]
  }
 };
@@ -20656,6 +21925,850 @@ var PROJECTS = {
     "tip": "Stop after 120 months (`while balance > 0 and month < 120`), then print the balance that is left."
    }
   ]
+ },
+ "p3-1": {
+  "id": "p3-1",
+  "part": 3,
+  "n": 1,
+  "level": 1,
+  "levelName": "Beginner",
+  "title": "Clean a customer list",
+  "short": "Turn a messy, pasted list of names into a clean customer list.",
+  "story": "Priya works in the marketing team of a jewellery store in Chennai. Sales staff send her customer names copied from WhatsApp, paper slips and old Excel files. The list is a mess: random capitals, extra spaces, empty entries between two commas, and the same customer typed twice in different ways.\nWrite a program that reads the whole list in one line, cleans every name, removes the duplicates, and prints a short cleaning report with the final list.",
+  "objectives": [
+   "Split one line of text into a list",
+   "Clean text with `strip()`, `split()`, `join()` and `title()`",
+   "Remove duplicates but keep the first-seen order",
+   "Report how much dirty data you removed"
+  ],
+  "may": [
+   "everything from Parts 1 and 2",
+   "string methods",
+   "lists and list comprehensions",
+   "sets",
+   "`len()`, `sorted()`"
+  ],
+  "mustnot": [
+   "your own functions (`def`, `lambda`)",
+   "`try` / `except`",
+   "`import`",
+   "files"
+  ],
+  "tasks": [
+   "Ask once with `input()`: `Paste the names, separated by commas: ` and split the text at every comma.",
+   "`Raw entries` is the number of pieces after splitting.",
+   "An entry that is empty or only spaces is an empty entry: count it and drop it.",
+   "Clean every other entry: remove spaces at both ends, turn several spaces inside a name into one, and use title case (`Kiran Kumar`).",
+   "Remove duplicates: after cleaning, `asha` and ` ASHA ` are the same customer. Keep the first one you see, in the original order. Count how many you removed.",
+   "If no customers are left, print `No customers` after the counts.",
+   "Otherwise print the customers in first-seen order, then sorted A to Z, both joined with `, `.",
+   "Print the longest name (counting every character, spaces too). If two names are equally long, keep the first one."
+  ],
+  "lines": [
+   "Raw entries: <count>",
+   "Empty entries: <count>",
+   "Duplicates removed: <count>",
+   "Unique customers: <count>",
+   "Customers: <name>, <name>, ...",
+   "Sorted: <name>, <name>, ...",
+   "Longest name: <name>",
+   "No customers"
+  ],
+  "rules": "Counts are plain whole numbers. Names are joined with a comma and one space. Print `No customers` only when nothing is left, and in that case skip the last three lines.",
+  "edge": [
+   "**Two commas in a row** (`asha,,ravi`) or a piece with only spaces: that is an empty entry.",
+   "The **same name in different capitals** (`ASHA`, `asha`, `Asha`): one customer.",
+   "**Several spaces inside** a name (`ravi   kumar`): clean it to `Ravi Kumar`, so it matches `Ravi Kumar`.",
+   "Only commas and spaces: no customers at all.",
+   "Names of the **same length**: the first one stays the longest."
+  ],
+  "hints": [
+   "`pieces = text.split(\",\")` gives the raw entries. Then loop over them: `if piece.strip() == \"\":` counts an empty entry; otherwise clean it.",
+   "To squeeze spaces inside a name, split it into words and join them again: `\" \".join(piece.split())`. Then add `.title()`.",
+   "Keep the order while removing duplicates: start `customers = []` and only `append(name)` when `name not in customers`. Join the list with `\", \".join(customers)` to print it."
+  ],
+  "starter": "# Project 1: Clean a customer list\n",
+  "sol": "# Project 1: Clean a customer list\ntext = input(\"Paste the names, separated by commas: \")\npieces = text.split(\",\")\n\nempty_count = 0\ncleaned = []\nfor piece in pieces:\n    if piece.strip() == \"\":\n        empty_count += 1\n        continue\n    # Squeeze inner spaces, trim the ends and fix the capitals\n    cleaned.append(\" \".join(piece.split()).title())\n\n# Remove duplicates but keep the first-seen order\ncustomers = []\nfor name in cleaned:\n    if name not in customers:\n        customers.append(name)\n\nprint(f\"Raw entries: {len(pieces)}\")\nprint(f\"Empty entries: {empty_count}\")\nprint(f\"Duplicates removed: {len(cleaned) - len(customers)}\")\nprint(f\"Unique customers: {len(customers)}\")\n\nif not customers:\n    print(\"No customers\")\nelse:\n    longest = customers[0]\n    for name in customers:\n        if len(name) > len(longest):\n            longest = name\n    print(\"Customers: \" + \", \".join(customers))\n    print(\"Sorted: \" + \", \".join(sorted(customers)))\n    print(\"Longest name: \" + longest)",
+  "need": [
+   {
+    "any": [
+     "method:split"
+    ],
+    "min": 1,
+    "label": "`split()` to cut the line into pieces"
+   },
+   {
+    "any": [
+     "method:strip"
+    ],
+    "min": 1,
+    "label": "`strip()` to remove spaces at the ends"
+   },
+   {
+    "any": [
+     "method:title"
+    ],
+    "min": 1,
+    "label": "`title()` to fix the capitals"
+   },
+   {
+    "any": [
+     "method:join"
+    ],
+    "min": 1,
+    "label": "`join()` to build the output lines"
+   },
+   {
+    "any": [
+     "cmp:NotIn",
+     "cmp:In",
+     "call:set",
+     "node:SetComp"
+    ],
+    "min": 1,
+    "label": "`in` / `not in` (or a set) to find duplicates"
+   },
+   {
+    "any": [
+     "call:sorted",
+     "method:sort"
+    ],
+    "min": 1,
+    "label": "`sorted()` for the A to Z list"
+   },
+   {
+    "any": [
+     "call:len"
+    ],
+    "min": 1,
+    "label": "`len()` for the counts"
+   }
+  ],
+  "example": {
+   "inputs": [
+    " asha ,RAVI, neha,, Asha , kiran kumar"
+   ],
+   "out": "Paste the names, separated by commas:  asha ,RAVI, neha,, Asha , kiran kumar\nRaw entries: 6\nEmpty entries: 1\nDuplicates removed: 1\nUnique customers: 4\nCustomers: Asha, Ravi, Neha, Kiran Kumar\nSorted: Asha, Kiran Kumar, Neha, Ravi\nLongest name: Kiran Kumar"
+  },
+  "tests": [
+   {
+    "name": "A messy list",
+    "kind": "main",
+    "inputs": [
+     " asha ,RAVI, neha,, Asha , kiran kumar"
+    ],
+    "expect": [
+     "Raw entries: 6",
+     "Empty entries: 1",
+     "Duplicates removed: 1",
+     "Unique customers: 4",
+     "Customers: Asha, Ravi, Neha, Kiran Kumar",
+     "Sorted: Asha, Kiran Kumar, Neha, Ravi",
+     "Longest name: Kiran Kumar"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Two repeated customers",
+    "kind": "main",
+    "inputs": [
+     "Imran,priya SHARMA,imran, ,Priya sharma,Zoya"
+    ],
+    "expect": [
+     "Raw entries: 6",
+     "Empty entries: 1",
+     "Duplicates removed: 2",
+     "Unique customers: 3",
+     "Customers: Imran, Priya Sharma, Zoya",
+     "Sorted: Imran, Priya Sharma, Zoya",
+     "Longest name: Priya Sharma"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Lots of repeats",
+    "kind": "main",
+    "inputs": [
+     "rahul,ANIL,  meera  ,anil,RAHUL,anil,deepa"
+    ],
+    "expect": [
+     "Raw entries: 7",
+     "Empty entries: 0",
+     "Duplicates removed: 3",
+     "Unique customers: 4",
+     "Customers: Rahul, Anil, Meera, Deepa",
+     "Sorted: Anil, Deepa, Meera, Rahul",
+     "Longest name: Rahul"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Duplicates ignore capitals",
+    "kind": "logic",
+    "inputs": [
+     "ASHA,asha,Asha,aSHA"
+    ],
+    "expect": [
+     "Duplicates removed: 3",
+     "Unique customers: 1",
+     "Customers: Asha"
+    ],
+    "tip": "Clean every name first (strip and title case), then compare. After cleaning, `ASHA` and `asha` are both `Asha`."
+   },
+   {
+    "name": "First-seen order is kept",
+    "kind": "logic",
+    "inputs": [
+     "zoya,amit,meena"
+    ],
+    "expect": [
+     "Customers: Zoya, Amit, Meena",
+     "Sorted: Amit, Meena, Zoya"
+    ],
+    "tip": "`Customers` keeps the order the names came in. Only the `Sorted` line is A to Z. (A set loses the order, so use a list with `not in`.)"
+   },
+   {
+    "name": "Extra spaces inside a name",
+    "kind": "logic",
+    "inputs": [
+     "ravi   kumar,Ravi Kumar, anil"
+    ],
+    "expect": [
+     "Duplicates removed: 1",
+     "Customers: Ravi Kumar, Anil"
+    ],
+    "tip": "Squeeze the inner spaces with `\" \".join(name.split())`, so `ravi   kumar` becomes `Ravi Kumar` and matches the other one."
+   },
+   {
+    "name": "Only commas and spaces",
+    "kind": "edge",
+    "inputs": [
+     " , ,  "
+    ],
+    "expect": [
+     "Raw entries: 3",
+     "Empty entries: 3",
+     "Duplicates removed: 0",
+     "Unique customers: 0",
+     "No customers"
+    ],
+    "tip": "All 3 pieces are empty. Print the counts, then `No customers` instead of the name lines."
+   },
+   {
+    "name": "Just one name",
+    "kind": "edge",
+    "inputs": [
+     "  meera  "
+    ],
+    "expect": [
+     "Raw entries: 1",
+     "Empty entries: 0",
+     "Duplicates removed: 0",
+     "Unique customers: 1",
+     "Customers: Meera",
+     "Sorted: Meera",
+     "Longest name: Meera"
+    ],
+    "tip": "With one name there are no commas: `split(\",\")` still gives one piece."
+   },
+   {
+    "name": "Names of the same length",
+    "kind": "edge",
+    "inputs": [
+     "anil,ravi,sita"
+    ],
+    "expect": [
+     "Longest name: Anil"
+    ],
+    "tip": "When names are equally long, keep the first one: only replace the longest when a name is **strictly** longer (`>`)."
+   }
+  ]
+ },
+ "p3-2": {
+  "id": "p3-2",
+  "part": 3,
+  "n": 2,
+  "level": 2,
+  "levelName": "Intermediate",
+  "title": "Sales by region",
+  "short": "Group raw sales rows by region, like a pivot table, and rank the regions.",
+  "story": "Arjun is a sales analyst for a chain of mobile phone stores across Telangana and Andhra Pradesh. Every evening the store managers message him their sales as rows like `North, 1200`. Some rows are broken: a missing comma, a word instead of a number, or extra commas.\nWrite a program that reads the rows until he types `done`, skips the broken ones, adds up the sales per region (a GROUP BY, like a pivot table in Excel), and prints a ranked summary with each region's share of the total.",
+  "objectives": [
+   "Parse and check rows of text before using them",
+   "Group and count with a dictionary",
+   "Rank dictionary keys by their values, with a fair tie rule",
+   "Work out shares (percentages) safely"
+  ],
+  "may": [
+   "everything from Parts 1 and 2",
+   "string methods",
+   "lists, tuples, sets",
+   "dictionaries and `get()`",
+   "`sorted()` with `key=`",
+   "comprehensions"
+  ],
+  "mustnot": [
+   "your own functions (`def`, `lambda`)",
+   "`try` / `except`",
+   "`import`",
+   "files"
+  ],
+  "tasks": [
+   "In a loop, ask `Sale (region,amount) or done: `. Stop when the user types `done` (any capitals, spaces around it are fine).",
+   "A row is valid only if it splits into exactly 2 parts at the comma, the region is not empty, and the amount (after `strip()`) is made only of digits. Amounts are whole rupees.",
+   "Skip broken rows and count them. Clean the region name: no extra spaces and title case, so ` north ` and `NORTH` are both `North`.",
+   "For valid rows, add the amount to that region's total and count the sale, using dictionaries.",
+   "After the loop, print `Valid sales` and `Skipped rows`. If there were no valid sales, print `No valid sales` and stop.",
+   "Rank the regions by total, highest first. If two regions have the same total, put them in A to Z order.",
+   "Print one line per region with its rank: `1. North: ₹3,200 (3 sales, 45.7%)`. Use `1 sale` for a single sale. The share is the region total ÷ the grand total × 100, with 1 decimal. If the grand total is 0, every share is `0.0%`.",
+   "Print `Total: ₹<amount>` and `Top region: <name>`."
+  ],
+  "lines": [
+   "Valid sales: <count>",
+   "Skipped rows: <count>",
+   "<rank>. <Region>: ₹<amount> (<n> sales, <share>%)",
+   "Total: ₹<amount>",
+   "Top region: <Region>",
+   "No valid sales"
+  ],
+  "rules": "Amounts use commas (`:,`), like `₹3,200`. The share has 1 decimal (`:.1f`) and a `%` sign. Write `1 sale` but `2 sales`. Print `No valid sales` instead of the region lines when nothing was valid.",
+  "edge": [
+   "**Broken rows**: `bad line` (no comma), `North,abc` (not a number), `North,1,200` (3 parts) and `,500` (no region) are all skipped.",
+   "The **same region in different capitals or spaces** is one region.",
+   "**Ties**: two regions with the same total are ranked A to Z.",
+   "**No valid rows** at all: no ranking, no division.",
+   "Every amount is **₹0**: the total is 0, so the shares must not divide by it.",
+   "**Big amounts** in crores."
+  ],
+  "hints": [
+   "Inside `while True:` read `row = input(...)`, then `if row.strip().lower() == \"done\": break`. Split with `parts = row.split(\",\")` and check `len(parts) != 2`, an empty region, or `not parts[1].strip().isdigit()` → skip and `continue`.",
+   "Group with two dictionaries: `totals[region] = totals.get(region, 0) + amount` and `counts[region] = counts.get(region, 0) + 1`. Clean the region with `\" \".join(parts[0].split()).title()`.",
+   "Ranking with the tie rule: sort the names A to Z first, then sort by total: `ranked = sorted(sorted(totals), key=totals.get, reverse=True)`. Python keeps the A to Z order for equal totals. Number the lines with `enumerate(ranked, start=1)`."
+  ],
+  "starter": "# Project 2: Sales by region\n",
+  "sol": "# Project 2: Sales by region\ntotals = {}\ncounts = {}\nvalid = 0\nskipped = 0\n\nwhile True:\n    row = input(\"Sale (region,amount) or done: \")\n    if row.strip().lower() == \"done\":\n        break\n    parts = row.split(\",\")\n    # A valid row is exactly \"region,amount\" with a whole-number amount\n    if len(parts) != 2 or parts[0].strip() == \"\" or not parts[1].strip().isdigit():\n        skipped += 1\n        continue\n    region = \" \".join(parts[0].split()).title()\n    amount = int(parts[1].strip())\n    totals[region] = totals.get(region, 0) + amount\n    counts[region] = counts.get(region, 0) + 1\n    valid += 1\n\nprint(f\"Valid sales: {valid}\")\nprint(f\"Skipped rows: {skipped}\")\nif valid == 0:\n    print(\"No valid sales\")\nelse:\n    grand_total = sum(totals.values())\n    # Sort A to Z first, so regions with equal totals stay in A to Z order\n    ranked = sorted(sorted(totals), key=totals.get, reverse=True)\n    for rank, region in enumerate(ranked, start=1):\n        share = totals[region] / grand_total * 100 if grand_total > 0 else 0\n        word = \"sale\" if counts[region] == 1 else \"sales\"\n        print(f\"{rank}. {region}: ₹{totals[region]:,} ({counts[region]} {word}, {share:.1f}%)\")\n    print(f\"Total: ₹{grand_total:,}\")\n    print(f\"Top region: {ranked[0]}\")",
+  "need": [
+   {
+    "any": [
+     "node:While"
+    ],
+    "min": 1,
+    "label": "a `while` loop that runs until `done`"
+   },
+   {
+    "any": [
+     "method:split"
+    ],
+    "min": 1,
+    "label": "`split()` to cut each row at the comma"
+   },
+   {
+    "any": [
+     "method:isdigit"
+    ],
+    "min": 1,
+    "label": "`isdigit()` to check the amount"
+   },
+   {
+    "any": [
+     "method:get"
+    ],
+    "min": 1,
+    "label": "a dictionary with `get()` to group the totals"
+   },
+   {
+    "any": [
+     "kw:key"
+    ],
+    "min": 1,
+    "label": "`sorted()` with `key=` to rank the regions"
+   },
+   {
+    "any": [
+     "call:enumerate"
+    ],
+    "min": 1,
+    "label": "`enumerate()` to number the ranking"
+   },
+   {
+    "any": [
+     "spec:comma"
+    ],
+    "min": 1,
+    "label": "the `:,` format for amounts"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "North, 1200",
+    "South,800",
+    "north,1500",
+    "East, 1700",
+    "South, 1300",
+    "North,500",
+    "done"
+   ],
+   "out": "Sale (region,amount) or done: North, 1200\nSale (region,amount) or done: South,800\nSale (region,amount) or done: north,1500\nSale (region,amount) or done: East, 1700\nSale (region,amount) or done: South, 1300\nSale (region,amount) or done: North,500\nSale (region,amount) or done: done\nValid sales: 6\nSkipped rows: 0\n1. North: ₹3,200 (3 sales, 45.7%)\n2. South: ₹2,100 (2 sales, 30.0%)\n3. East: ₹1,700 (1 sale, 24.3%)\nTotal: ₹7,000\nTop region: North"
+  },
+  "tests": [
+   {
+    "name": "A normal evening",
+    "kind": "main",
+    "inputs": [
+     "North, 1200",
+     "South,800",
+     "north,1500",
+     "East, 1700",
+     "South, 1300",
+     "North,500",
+     "done"
+    ],
+    "expect": [
+     "Valid sales: 6",
+     "Skipped rows: 0",
+     "1. North: ₹3,200 (3 sales, 45.7%)",
+     "2. South: ₹2,100 (2 sales, 30.0%)",
+     "3. East: ₹1,700 (1 sale, 24.3%)",
+     "Total: ₹7,000",
+     "Top region: North"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Broken rows and a tie",
+    "kind": "main",
+    "inputs": [
+     "West,900",
+     "west , 600",
+     "Central,1500",
+     "bad line",
+     "Central,abc",
+     "DONE"
+    ],
+    "expect": [
+     "Valid sales: 3",
+     "Skipped rows: 2",
+     "1. Central: ₹1,500 (1 sale, 50.0%)",
+     "2. West: ₹1,500 (2 sales, 50.0%)",
+     "Total: ₹3,000",
+     "Top region: Central"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "One region only",
+    "kind": "main",
+    "inputs": [
+     "East,250",
+     "East,250",
+     "East,250",
+     "done"
+    ],
+    "expect": [
+     "Valid sales: 3",
+     "Skipped rows: 0",
+     "1. East: ₹750 (3 sales, 100.0%)",
+     "Total: ₹750",
+     "Top region: East"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Region names ignore capitals and spaces",
+    "kind": "logic",
+    "inputs": [
+     " north ,100",
+     "NORTH,200",
+     "North,300",
+     "done"
+    ],
+    "expect": [
+     "1. North: ₹600 (3 sales, 100.0%)",
+     "Top region: North"
+    ],
+    "tip": "Clean the region before grouping: `\" \".join(name.split()).title()` turns ` north ` and `NORTH` into `North`."
+   },
+   {
+    "name": "Ranked by total, highest first",
+    "kind": "logic",
+    "inputs": [
+     "Agra,100",
+     "Bhopal,300",
+     "Cuttack,200",
+     "done"
+    ],
+    "expect": [
+     "1. Bhopal: ₹300 (1 sale, 50.0%)",
+     "2. Cuttack: ₹200 (1 sale, 33.3%)",
+     "3. Agra: ₹100 (1 sale, 16.7%)",
+     "Top region: Bhopal"
+    ],
+    "tip": "Rank by the totals, biggest first: `sorted(..., key=totals.get, reverse=True)`. The rank number goes at the start of the line."
+   },
+   {
+    "name": "1 sale or 2 sales",
+    "kind": "logic",
+    "inputs": [
+     "Goa,500",
+     "Pune,100",
+     "Pune,100",
+     "done"
+    ],
+    "expect": [
+     "1. Goa: ₹500 (1 sale, 71.4%)",
+     "2. Pune: ₹200 (2 sales, 28.6%)"
+    ],
+    "tip": "Write `1 sale` for a single sale and `sales` for 2 or more. A ternary works well here."
+   },
+   {
+    "name": "No valid rows",
+    "kind": "edge",
+    "inputs": [
+     "oops",
+     ",500",
+     "North,1,200",
+     "done"
+    ],
+    "expect": [
+     "Valid sales: 0",
+     "Skipped rows: 3",
+     "No valid sales"
+    ],
+    "tip": "Rows with no comma, no region or extra commas are skipped. With no valid sales, print `No valid sales` and do not divide."
+   },
+   {
+    "name": "Every amount is ₹0",
+    "kind": "edge",
+    "inputs": [
+     "South,0",
+     "North,0",
+     "done"
+    ],
+    "expect": [
+     "Valid sales: 2",
+     "Skipped rows: 0",
+     "1. North: ₹0 (1 sale, 0.0%)",
+     "2. South: ₹0 (1 sale, 0.0%)",
+     "Total: ₹0",
+     "Top region: North"
+    ],
+    "tip": "When the grand total is 0, a share would divide by 0. Use 0 for every share in that case. Equal totals go A to Z."
+   },
+   {
+    "name": "Crore-size amounts",
+    "kind": "edge",
+    "inputs": [
+     "North,12500000",
+     "South,9800000",
+     "North,7500000",
+     "done"
+    ],
+    "expect": [
+     "Valid sales: 3",
+     "Skipped rows: 0",
+     "1. North: ₹20,000,000 (2 sales, 67.1%)",
+     "2. South: ₹9,800,000 (1 sale, 32.9%)",
+     "Total: ₹29,800,000",
+     "Top region: North"
+    ],
+    "tip": "Big amounts need the `:,` format, like `₹20,000,000`."
+   }
+  ]
+ },
+ "p3-3": {
+  "id": "p3-3",
+  "part": 3,
+  "n": 3,
+  "level": 3,
+  "levelName": "Challenging",
+  "title": "Customer feedback analysis",
+  "short": "Find the main words and the mood in a pile of customer comments.",
+  "story": "A restaurant group in Bengaluru collects short comments from customers after every meal. The manager reads a few, but there are far too many to read them all.\nShe wants a quick text summary: how many comments are positive, negative or neutral, which words customers use most (ignoring small words like \"the\" and \"was\"), and which positive and negative words came up. This is a small version of the \"text analytics\" that analysts run on reviews and survey answers.",
+  "objectives": [
+   "Normalise text: lower case, split into words, strip punctuation",
+   "Count words with a dictionary and filter with sets",
+   "Score each comment and count the results",
+   "Rank words by count with an A to Z tie rule"
+  ],
+  "may": [
+   "everything from Parts 1 and 2",
+   "string methods",
+   "lists, tuples",
+   "sets and set operators",
+   "dictionaries",
+   "comprehensions",
+   "`sorted()` with `key=`"
+  ],
+  "mustnot": [
+   "your own functions (`def`, `lambda`)",
+   "`try` / `except`",
+   "`import`",
+   "files"
+  ],
+  "tasks": [
+   "The starter gives you three sets: `STOP_WORDS`, `POSITIVE` and `NEGATIVE`. Keep them as they are.",
+   "In a loop, ask `Comment (empty line to finish): ` and collect the comments. Stop at the first empty line (or a line with only spaces).",
+   "If there were no comments, print `No comments to analyse` and stop.",
+   "For each comment: make it lower case, split it into words, and strip `.` `,` `!` `?` from both ends of each word (`word.strip(\".,!?\")`). Drop words that become empty.",
+   "Score each comment: +1 for every word in `POSITIVE`, −1 for every word in `NEGATIVE`. Above 0 is Positive, below 0 is Negative, 0 is Neutral.",
+   "Count every word that is not in `STOP_WORDS` in a dictionary. `Unique words` is how many different words were counted.",
+   "Top words: the 3 most common counted words (fewer if there are fewer), most common first. Equal counts go A to Z. Print them like `food (3), service (2), clean (2)`.",
+   "Print the positive and the negative words that were used, A to Z, joined with `, ` (or `none`)."
+  ],
+  "lines": [
+   "Comments: <count>",
+   "Positive: <count>",
+   "Negative: <count>",
+   "Neutral: <count>",
+   "Unique words: <count>",
+   "Top words: <word> (<count>), <word> (<count>), <word> (<count>)",
+   "Positive words used: <word>, <word> or none",
+   "Negative words used: <word>, <word> or none",
+   "No comments to analyse"
+  ],
+  "rules": "Counts are plain whole numbers. Words are always lower case. Lists of words are joined with a comma and one space. Print `No comments to analyse` instead of everything else when the first line is empty.",
+  "edge": [
+   "The **first line is empty**: there is nothing to analyse.",
+   "**Capitals and punctuation**: `Food!`, `food.` and `FOOD,` are the same word.",
+   "**Stop words** never count, even if they are the most common.",
+   "**Ties** in the top words: A to Z.",
+   "Fewer than 3 different words: show only the ones there are.",
+   "No positive or negative words at all: print `none`."
+  ],
+  "hints": [
+   "Collect first, analyse after: `comments = []`, then in `while True:` read a line and `break` if `line.strip() == \"\"`, else `comments.append(line)`.",
+   "Clean words with a comprehension: `words = [w.strip(\".,!?\") for w in comment.lower().split()]`, then keep only the non-empty ones. Use `if word in POSITIVE:` to score, and `counts[word] = counts.get(word, 0) + 1` for words `not in STOP_WORDS`.",
+   "For the top words with the A to Z tie rule: `top = sorted(sorted(counts), key=counts.get, reverse=True)[:3]`. Build the text with `\", \".join(f\"{w} ({counts[w]})\" for w in top)`. Keep the used positive/negative words in two sets and print `\", \".join(sorted(...))`."
+  ],
+  "starter": "# Project 3: Customer feedback analysis\nSTOP_WORDS = {\"the\", \"a\", \"an\", \"is\", \"was\", \"were\", \"and\", \"it\", \"to\", \"very\", \"i\", \"of\", \"for\",\n              \"but\", \"my\", \"in\", \"on\", \"this\", \"with\", \"at\", \"we\", \"our\"}\nPOSITIVE = {\"good\", \"great\", \"clean\", \"friendly\", \"tasty\", \"fast\", \"excellent\", \"love\", \"nice\",\n            \"helpful\"}\nNEGATIVE = {\"bad\", \"slow\", \"dirty\", \"rude\", \"cold\", \"late\", \"poor\", \"noisy\", \"expensive\", \"worst\"}\n",
+  "sol": "# Project 3: Customer feedback analysis\nSTOP_WORDS = {\"the\", \"a\", \"an\", \"is\", \"was\", \"were\", \"and\", \"it\", \"to\", \"very\", \"i\", \"of\", \"for\",\n              \"but\", \"my\", \"in\", \"on\", \"this\", \"with\", \"at\", \"we\", \"our\"}\nPOSITIVE = {\"good\", \"great\", \"clean\", \"friendly\", \"tasty\", \"fast\", \"excellent\", \"love\", \"nice\",\n            \"helpful\"}\nNEGATIVE = {\"bad\", \"slow\", \"dirty\", \"rude\", \"cold\", \"late\", \"poor\", \"noisy\", \"expensive\", \"worst\"}\n\n# Collect the comments until an empty line\ncomments = []\nwhile True:\n    line = input(\"Comment (empty line to finish): \")\n    if line.strip() == \"\":\n        break\n    comments.append(line)\n\nif not comments:\n    print(\"No comments to analyse\")\nelse:\n    word_counts = {}\n    moods = {\"Positive\": 0, \"Negative\": 0, \"Neutral\": 0}\n    positive_used = set()\n    negative_used = set()\n    for comment in comments:\n        # Lower case, split, and strip punctuation from each word\n        words = [w.strip(\".,!?\") for w in comment.lower().split()]\n        words = [w for w in words if w != \"\"]\n        score = 0\n        for word in words:\n            if word in POSITIVE:\n                score += 1\n                positive_used.add(word)\n            if word in NEGATIVE:\n                score -= 1\n                negative_used.add(word)\n            if word not in STOP_WORDS:\n                word_counts[word] = word_counts.get(word, 0) + 1\n        if score > 0:\n            moods[\"Positive\"] += 1\n        elif score < 0:\n            moods[\"Negative\"] += 1\n        else:\n            moods[\"Neutral\"] += 1\n\n    # Most common first; sorting A to Z first keeps ties in A to Z order\n    top_words = sorted(sorted(word_counts), key=word_counts.get, reverse=True)[:3]\n    top_text = \", \".join(f\"{w} ({word_counts[w]})\" for w in top_words)\n    print(f\"Comments: {len(comments)}\")\n    print(f\"Positive: {moods['Positive']}\")\n    print(f\"Negative: {moods['Negative']}\")\n    print(f\"Neutral: {moods['Neutral']}\")\n    print(f\"Unique words: {len(word_counts)}\")\n    print(f\"Top words: {top_text}\")\n    print(\"Positive words used: \" + (\", \".join(sorted(positive_used)) or \"none\"))\n    print(\"Negative words used: \" + (\", \".join(sorted(negative_used)) or \"none\"))",
+  "need": [
+   {
+    "any": [
+     "method:lower"
+    ],
+    "min": 1,
+    "label": "`lower()` so capitals do not split the counts"
+   },
+   {
+    "any": [
+     "method:split"
+    ],
+    "min": 1,
+    "label": "`split()` to cut comments into words"
+   },
+   {
+    "any": [
+     "method:strip"
+    ],
+    "min": 1,
+    "label": "`strip()` to remove punctuation"
+   },
+   {
+    "any": [
+     "method:get"
+    ],
+    "min": 1,
+    "label": "a dictionary with `get()` to count words"
+   },
+   {
+    "any": [
+     "kw:key"
+    ],
+    "min": 1,
+    "label": "`sorted()` with `key=` to rank the words"
+   },
+   {
+    "any": [
+     "node:ListComp",
+     "node:SetComp",
+     "node:DictComp",
+     "node:GeneratorExp"
+    ],
+    "min": 1,
+    "label": "a comprehension to clean or format the words"
+   },
+   {
+    "any": [
+     "method:join"
+    ],
+    "min": 1,
+    "label": "`join()` to build the word lists"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "The food was tasty and the staff were friendly!",
+    "Room was clean, but the service was slow.",
+    "Food was cold. Service was rude and slow!",
+    "Great location, clean rooms, tasty food.",
+    "It was okay.",
+    ""
+   ],
+   "out": "Comment (empty line to finish): The food was tasty and the staff were friendly!\nComment (empty line to finish): Room was clean, but the service was slow.\nComment (empty line to finish): Food was cold. Service was rude and slow!\nComment (empty line to finish): Great location, clean rooms, tasty food.\nComment (empty line to finish): It was okay.\nComment (empty line to finish): \nComments: 5\nPositive: 2\nNegative: 1\nNeutral: 2\nUnique words: 14\nTop words: food (3), clean (2), service (2)\nPositive words used: clean, friendly, great, tasty\nNegative words used: cold, rude, slow"
+  },
+  "tests": [
+   {
+    "name": "An evening of comments",
+    "kind": "main",
+    "inputs": [
+     "The food was tasty and the staff were friendly!",
+     "Room was clean, but the service was slow.",
+     "Food was cold. Service was rude and slow!",
+     "Great location, clean rooms, tasty food.",
+     "It was okay.",
+     ""
+    ],
+    "expect": [
+     "Comments: 5",
+     "Positive: 2",
+     "Negative: 1",
+     "Neutral: 2",
+     "Unique words: 14",
+     "Top words: food (3), clean (2), service (2)",
+     "Positive words used: clean, friendly, great, tasty",
+     "Negative words used: cold, rude, slow"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Mostly happy customers",
+    "kind": "main",
+    "inputs": [
+     "Excellent biryani, fast service.",
+     "Love the biryani!",
+     "Nice ambience but expensive.",
+     "Biryani was good, service helpful.",
+     ""
+    ],
+    "expect": [
+     "Comments: 4",
+     "Positive: 3",
+     "Negative: 0",
+     "Neutral: 1",
+     "Unique words: 10",
+     "Top words: biryani (3), service (2), ambience (1)",
+     "Positive words used: excellent, fast, good, helpful, love, nice",
+     "Negative words used: expensive"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A bad day",
+    "kind": "main",
+    "inputs": [
+     "Worst service ever, very late.",
+     "Dirty tables and noisy hall.",
+     "Late order, cold food, rude waiter.",
+     ""
+    ],
+    "expect": [
+     "Comments: 3",
+     "Positive: 0",
+     "Negative: 3",
+     "Neutral: 0",
+     "Unique words: 13",
+     "Top words: late (2), cold (1), dirty (1)",
+     "Positive words used: none",
+     "Negative words used: cold, dirty, late, noisy, rude, worst"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Ties are listed A to Z",
+    "kind": "logic",
+    "inputs": [
+     "mango lassi",
+     "lassi mango",
+     "banana",
+     ""
+    ],
+    "expect": [
+     "Unique words: 3",
+     "Top words: lassi (2), mango (2), banana (1)"
+    ],
+    "tip": "Equal counts go A to Z: sort the words A to Z first, then by count with `reverse=True`. Python keeps the earlier order for ties."
+   },
+   {
+    "name": "Capitals and punctuation",
+    "kind": "logic",
+    "inputs": [
+     "Food!",
+     "food.",
+     "FOOD, great",
+     ""
+    ],
+    "expect": [
+     "Positive: 1",
+     "Unique words: 2",
+     "Top words: food (3), great (1)",
+     "Positive words used: great"
+    ],
+    "tip": "Lower-case the comment and `strip(\".,!?\")` each word, so `Food!`, `food.` and `FOOD,` all count as `food`."
+   },
+   {
+    "name": "Stop words never count",
+    "kind": "logic",
+    "inputs": [
+     "the the the and it was good",
+     ""
+    ],
+    "expect": [
+     "Unique words: 1",
+     "Top words: good (1)"
+    ],
+    "tip": "Skip every word in `STOP_WORDS` when counting, even if it is the most common one."
+   },
+   {
+    "name": "No comments",
+    "kind": "edge",
+    "inputs": [
+     ""
+    ],
+    "expect": [
+     "No comments to analyse"
+    ],
+    "tip": "When the first line is empty, print `No comments to analyse` and nothing else."
+   },
+   {
+    "name": "One word only",
+    "kind": "edge",
+    "inputs": [
+     "Nice!!!",
+     "   "
+    ],
+    "expect": [
+     "Comments: 1",
+     "Positive: 1",
+     "Negative: 0",
+     "Neutral: 0",
+     "Unique words: 1",
+     "Top words: nice (1)",
+     "Positive words used: nice",
+     "Negative words used: none"
+    ],
+    "tip": "A line with only spaces also ends the input. With one word, the top list has just one entry."
+   },
+   {
+    "name": "No mood words",
+    "kind": "edge",
+    "inputs": [
+     "Room 204 booked online",
+     ""
+    ],
+    "expect": [
+     "Comments: 1",
+     "Positive: 0",
+     "Negative: 0",
+     "Neutral: 1",
+     "Unique words: 4",
+     "Top words: 204 (1), booked (1), online (1)",
+     "Positive words used: none",
+     "Negative words used: none"
+    ],
+    "tip": "When no positive or negative word appears, print `none` for those lines, and the comment is Neutral."
+   }
+  ]
  }
 };
 
@@ -22072,7 +24185,7 @@ function pjConcepts(P, an){
     if (ks.length) banned.push({ label: r.label, where: r.where });
   });
   if (R.allow) {
-    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
+    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0 && (an.defs || []).indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
     if (ex.length) banned.push({ label: 'built-in functions not taught yet (' + ex.join(', ') + ')', where: 'a later Part' });
   }
   return { pts: Math.max(0, Math.round(25 * found.length / P.need.length) - 5 * banned.length), found: found, miss: miss, banned: banned };
@@ -22113,7 +24226,7 @@ function pjShow(P, code, res, an){
     keys.push(P.title + ': test "' + r.t.name + '"');
     var m = '';
     if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same numbers, and read the error to find the line.'; } }).n.push(i + 1); }
-    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Each test gives exactly ' + r.t.inputs.length + ' values: call `input()` exactly ' + r.t.inputs.length + ' times, in the order shown in the tasks.'; } }).n.push(i + 1);
+    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Check that it asks only for the values in the tasks, in the same order, and that it stops reading when it should (for example at the stop word).'; } }).n.push(i + 1);
     else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
     else if (r.t.tip) m = r.t.tip;
     else if (nDiff++ < 2) { var ml = r.miss[0], nr = pjNear(r.lines, ml); m = 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }

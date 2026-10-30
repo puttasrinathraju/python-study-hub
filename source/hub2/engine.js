@@ -1411,7 +1411,7 @@ function pjConcepts(P, an){
     if (ks.length) banned.push({ label: r.label, where: r.where });
   });
   if (R.allow) {
-    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
+    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0 && (an.defs || []).indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
     if (ex.length) banned.push({ label: 'built-in functions not taught yet (' + ex.join(', ') + ')', where: 'a later Part' });
   }
   return { pts: Math.max(0, Math.round(25 * found.length / P.need.length) - 5 * banned.length), found: found, miss: miss, banned: banned };
@@ -1452,7 +1452,7 @@ function pjShow(P, code, res, an){
     keys.push(P.title + ': test "' + r.t.name + '"');
     var m = '';
     if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same numbers, and read the error to find the line.'; } }).n.push(i + 1); }
-    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Each test gives exactly ' + r.t.inputs.length + ' values: call `input()` exactly ' + r.t.inputs.length + ' times, in the order shown in the tasks.'; } }).n.push(i + 1);
+    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Check that it asks only for the values in the tasks, in the same order, and that it stops reading when it should (for example at the stop word).'; } }).n.push(i + 1);
     else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
     else if (r.t.tip) m = r.t.tip;
     else if (nDiff++ < 2) { var ml = r.miss[0], nr = pjNear(r.lines, ml); m = 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
