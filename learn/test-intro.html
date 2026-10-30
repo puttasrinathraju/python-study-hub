@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.1 Big Test: Meet Python | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Meet Python, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-intro.html">
+<meta property="og:title" content="1.1 Big Test: Meet Python | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Meet Python, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-intro">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-intro">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>1.1 Big Test: Meet Python</h1><p class="lead">25 questions on Meet Python only, from basic to challenge. Try each one first, then open the answer. <a href="intro.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>print(&quot;Price&quot;)
+print(250 + 50)
+print(&quot;250 + 50&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">Price
+300
+250 + 50</pre><p>Text inside quotes prints exactly as written. Without quotes, Python does the maths first and prints the answer.</p></details></li><li><p><b>Basic.</b> Print <code>Welcome to Python</code> on one line and <code>Day 1 of my data journey</code> on the next line.</p><p>Your code should print exactly:</p><pre class="out">Welcome to Python
+Day 1 of my data journey</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Welcome to Python&quot;)
+print(&quot;Day 1 of my data journey&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Welcome to Python
+Day 1 of my data journey</pre></figure><p>Each <code>print()</code> starts a new line. Text goes inside quotes.</p></details></li><li><p><b>Basic.</b> A shop sold 48 pens in the morning and 37 pens in the evening. Print the total. Let Python do the maths.</p><p>Your code should print exactly:</p><pre class="out">85</pre><details><summary>Answer</summary><figure class="code"><pre><code># Total pens sold today
+print(48 + 37)</code></pre><p class="olbl">Output</p><pre class="out">85</pre></figure><p>Put the maths inside <code>print()</code> with no quotes, and Python works out <code>85</code> for you.</p></details></li><li><p><b>Basic.</b> A cinema hall has 18 rows with 24 seats in each row. Print the total number of seats.</p><p>Your code should print exactly:</p><pre class="out">432</pre><details><summary>Answer</summary><figure class="code"><pre><code># Seats in the hall
+print(18 * 24)</code></pre><p class="olbl">Output</p><pre class="out">432</pre></figure><p>In Python, multiply uses <code>*</code>. Python works out <code>18 * 24</code> and prints <code>432</code>.</p></details></li><li><p><b>Basic.</b> This code should print <code>Good morning</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>Print(&quot;Good morning&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Good morning</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Good morning&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Good morning</pre></figure><p>Python is case-sensitive. The function is <code>print</code> in small letters. <code>Print</code> is a different name that does not exist, so you get a <code>NameError</code>.</p></details></li><li><p><b>Basic.</b> This code should print <code>Hyderabad</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>print(&quot;Hyderabad')</code></pre></figure><p>It should print:</p><pre class="out">Hyderabad</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Hyderabad&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Hyderabad</pre></figure><p>Quotes must match. The text starts with <code>&quot;</code>, so it must also end with <code>&quot;</code>. Mixed quotes give a <code>SyntaxError</code>.</p></details></li><li><p><b>Basic.</b> This code prints three lines. Turn the middle line into a comment, so only the first and the last lines print.</p><p>Your code should print exactly:</p><pre class="out">Step 1: open the file
+Step 3: save the report</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Step 1: open the file&quot;)
+# print(&quot;Step 2: this is a draft line&quot;)
+print(&quot;Step 3: save the report&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Step 1: open the file
+Step 3: save the report</pre></figure><p>Put <code>#</code> at the start of a line and Python skips it. This is a handy way to switch a line off without deleting it.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>print('Guntur', &quot;Vizag&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">Guntur Vizag</pre><p>Single quotes and double quotes both make text, and the quotes themselves are not printed. The comma puts one space between the two values.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code># print(&quot;A&quot;)
+print(&quot;B&quot;)  # print(&quot;C&quot;)
+print(&quot;D&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">B
+D</pre><p>Python ignores everything after <code>#</code> on a line, even if it looks like code. Only <code>B</code> and <code>D</code> are printed.</p></details></li><li><p><b>Medium.</b> A shop sold 45 boxes with 12 bottles in each box. Use ONE <code>print()</code> with a comma to print <code>Units sold: 540</code>. Let Python work out the 540.</p><p>Your code should print exactly:</p><pre class="out">Units sold: 540</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Units sold:&quot;, 45 * 12)</code></pre><p class="olbl">Output</p><pre class="out">Units sold: 540</pre></figure><p>A comma inside <code>print()</code> separates two values and puts one space between them: the text, then the answer of the maths.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>city = &quot;Pune&quot;
+temp = 29
+print(city, temp)
+temp = temp + 3
+print(city, temp)</code></pre></figure><details><summary>Answer</summary><pre class="out">Pune 29
+Pune 32</pre><p>Python runs from top to bottom. Line 4 works out <code>29 + 3</code> first, then stores 32 back in <code>temp</code>. The old value is gone.</p></details></li><li><p><b>Medium.</b> Print this line exactly: <code>Total: 3 x 40 = 120</code>. Python must work out the <code>120</code>. The rest is text.</p><p>Your code should print exactly:</p><pre class="out">Total: 3 x 40 = 120</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Total: 3 x 40 =&quot;, 3 * 40)</code></pre><p class="olbl">Output</p><pre class="out">Total: 3 x 40 = 120</pre></figure><p>Everything up to <code>=</code> is text, so it goes in quotes. The answer is maths, so it goes after a comma without quotes.</p></details></li><li><p><b>Medium.</b> A train left with 640 passengers. At the first stop 85 got off and 120 got on. Print the number of passengers now, in one line of maths.</p><p>Your code should print exactly:</p><pre class="out">675</pre><details><summary>Answer</summary><figure class="code"><pre><code># Passengers on the train now
+print(640 - 85 + 120)</code></pre><p class="olbl">Output</p><pre class="out">675</pre></figure><p><code>640 - 85 + 120</code> is worked out from left to right: 555, then 675.</p></details></li><li><p><b>Medium.</b> The second line prints the wrong bill: 4 coffees at 25 rupees each. Switch that line off with a comment, then add a new line under it that prints the right bill.</p><p>Your code should print exactly:</p><pre class="out">Bill for 4 coffees
+100</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Bill for 4 coffees&quot;)
+# print(4 + 25)
+print(4 * 25)</code></pre><p class="olbl">Output</p><pre class="out">Bill for 4 coffees
+100</pre></figure><p><code>#</code> switches off the wrong line but keeps it for reference. The new line uses <code>*</code> to multiply: 4 times 25 is 100.</p></details></li><li><p><b>Medium.</b> The steps print in the wrong order. Move the lines so the output goes <code>1. Boil water</code>, <code>2. Add tea leaves</code>, <code>3. Serve hot</code>.</p><p>Your code should print exactly:</p><pre class="out">1. Boil water
+2. Add tea leaves
+3. Serve hot</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;1. Boil water&quot;)
+print(&quot;2. Add tea leaves&quot;)
+print(&quot;3. Serve hot&quot;)</code></pre><p class="olbl">Output</p><pre class="out">1. Boil water
+2. Add tea leaves
+3. Serve hot</pre></figure><p>Python always runs lines from top to bottom, so the order of the lines is the order of the output.</p></details></li><li><p><b>Medium.</b> This code should print <code>Pass</code>, but it stops with an <code>IndentationError</code>. Fix it.</p><figure class="code"><pre><code>if 75 &gt; 40:
+print(&quot;Pass&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Pass</pre><details><summary>Answer</summary><figure class="code"><pre><code>if 75 &gt; 40:
+    print(&quot;Pass&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Pass</pre></figure><p>A line that ends with a colon <code>:</code> starts a block. The line inside the block must be pushed right by 4 spaces.</p></details></li><li><p><b>Medium.</b> This code should print <code>Total: 500</code>, but it stops with a <code>TypeError</code>. Fix it.</p><figure class="code"><pre><code>print(&quot;Total: &quot; + 500)</code></pre></figure><p>It should print:</p><pre class="out">Total: 500</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Total:&quot;, 500)</code></pre><p class="olbl">Output</p><pre class="out">Total: 500</pre></figure><p><code>+</code> cannot join text and a number: that is the <code>TypeError</code>. A comma inside <code>print()</code> shows both values, with a space between them.</p></details></li><li><p><b>Medium.</b> A tea stall sold 12 cups on Monday, 15 on Tuesday and 9 on Wednesday, at 40 rupees a cup. Use ONE <code>print()</code> to show the sales of each day: <code>480 600 360</code>.</p><p>Your code should print exactly:</p><pre class="out">480 600 360</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(12 * 40, 15 * 40, 9 * 40)</code></pre><p class="olbl">Output</p><pre class="out">480 600 360</pre></figure><p>One <code>print()</code> can show many values. Python works out each maths part, and the commas put a space between the answers.</p></details></li><li><p><b>Challenge.</b> Print this bill exactly, one line each. Python must work out every number after <code>=</code>:<br><code>Tea x 2 = 30</code> (15 rupees each)<br><code>Samosa x 3 = 36</code> (12 rupees each)<br><code>Total = 66</code> (add the two answers).</p><p>Your code should print exactly:</p><pre class="out">Tea x 2 = 30
+Samosa x 3 = 36
+Total = 66</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Tea x 2 =&quot;, 2 * 15)
+print(&quot;Samosa x 3 =&quot;, 3 * 12)
+print(&quot;Total =&quot;, 30 + 36)</code></pre><p class="olbl">Output</p><pre class="out">Tea x 2 = 30
+Samosa x 3 = 36
+Total = 66</pre></figure><p>Each line is text, a comma, then the maths. The text holds the <code>x</code> and <code>=</code> signs, and Python works out the numbers.</p></details></li><li><p><b>Challenge.</b> Start with <code>cash = 2000</code> and print <code>Cash: 2000</code>. A customer pays 350: add it to <code>cash</code> and print <code>Cash: 2350</code>. Then you pay 500 rent: take it from <code>cash</code> and print <code>Cash: 1850</code>.</p><p>Your code should print exactly:</p><pre class="out">Cash: 2000
+Cash: 2350
+Cash: 1850</pre><details><summary>Answer</summary><figure class="code"><pre><code>cash = 2000
+print(&quot;Cash:&quot;, cash)
+cash = cash + 350
+print(&quot;Cash:&quot;, cash)
+cash = cash - 500
+print(&quot;Cash:&quot;, cash)</code></pre><p class="olbl">Output</p><pre class="out">Cash: 2000
+Cash: 2350
+Cash: 1850</pre></figure><p><code>cash = cash + 350</code> works out the right side first, then stores the answer back in <code>cash</code>. Each <code>print()</code> shows the value at that moment.</p></details></li><li><p><b>Challenge.</b> This code has three mistakes: a note that is not a comment, a missing colon, and a capital letter. It should print <code>Report</code>, then <code>Done</code>. Fix it.</p><figure class="code"><pre><code>monthly report starts here
+if 10 &gt; 3
+    print(&quot;Report&quot;)
+Print(&quot;Done&quot;)</code></pre></figure><p>It should print:</p><pre class="out">Report
+Done</pre><details><summary>Answer</summary><figure class="code"><pre><code># monthly report starts here
+if 10 &gt; 3:
+    print(&quot;Report&quot;)
+print(&quot;Done&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Report
+Done</pre></figure><p>A note needs <code>#</code> in front. A line that starts a block needs <code>:</code> at the end. And <code>print</code> is always written in small letters.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>print(&quot;Room #12&quot;)  # top floor
+# print(&quot;Room #14&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">Room #12</pre><p>A <code>#</code> inside quotes is just text, so <code>Room #12</code> prints in full. The <code>#</code> after the closing bracket starts a comment, and the last line is all comment.</p></details></li><li><p><b>Challenge.</b> This program prints the steps in the wrong order and has a debug line that should not print. Put the steps in order and switch off the debug line with a comment. The output must be <code>Step 1: load data</code>, <code>Step 2: clean data</code>, <code>Step 3: make chart</code>.</p><p>Your code should print exactly:</p><pre class="out">Step 1: load data
+Step 2: clean data
+Step 3: make chart</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;Step 1: load data&quot;)
+print(&quot;Step 2: clean data&quot;)
+# print(&quot;DEBUG: checking&quot;)
+print(&quot;Step 3: make chart&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Step 1: load data
+Step 2: clean data
+Step 3: make chart</pre></figure><p>Python runs lines from top to bottom, so move the lines into the right order. A <code>#</code> in front of the debug line keeps it in the file but stops it from running.</p></details></li><li><p><b>Challenge.</b> Each of these lines has a mistake:<br>1. <code>print(&quot;Hi)</code><br>2. <code>prnt(&quot;Hi&quot;)</code><br>3. <code>print(&quot;Age: &quot; + 25)</code><br>Print the name of the error each one gives, one per line, in this order. (Try running each line to read its last error line.)</p><p>Your code should print exactly:</p><pre class="out">SyntaxError
+NameError
+TypeError</pre><details><summary>Answer</summary><figure class="code"><pre><code>print(&quot;SyntaxError&quot;)
+print(&quot;NameError&quot;)
+print(&quot;TypeError&quot;)</code></pre><p class="olbl">Output</p><pre class="out">SyntaxError
+NameError
+TypeError</pre></figure><p>A missing quote is a grammar mistake: <code>SyntaxError</code>. A misspelt name is unknown to Python: <code>NameError</code>. Text + number is a <code>TypeError</code>.</p></details></li><li><p><b>Challenge.</b> Python is case-sensitive, so <code>total</code>, <code>Total</code> and <code>TOTAL</code> are three different names. Store 100 in <code>total</code>, 200 in <code>Total</code> and 300 in <code>TOTAL</code>. Then print all three with one <code>print()</code> in this order: <code>TOTAL</code>, <code>total</code>, <code>Total</code>.</p><p>Your code should print exactly:</p><pre class="out">300 100 200</pre><details><summary>Answer</summary><figure class="code"><pre><code>total = 100
+Total = 200
+TOTAL = 300
+print(TOTAL, total, Total)</code></pre><p class="olbl">Output</p><pre class="out">300 100 200</pre></figure><p>Because capitals matter, the three names hold three separate values. The output is <code>300 100 200</code>.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -482,6 +482,35 @@ details.reveal[open] summary{margin-bottom:6px}
 .btmsg{flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px}.btmsg>b{font-size:17px}
 .btlvs{display:flex;flex-wrap:wrap;gap:6px}
 .bttop{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.bttop>span{font-size:14px;font-weight:600;margin-right:4px}.bttop .btn{font-size:14px;padding:5px 10px}
+/* Projects */
+.pjcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.pjcard{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.pjcard h3{font-size:19px;margin:0}.pjcard p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.pjuse{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.pjuse>div>b{display:block;font-family:var(--display);font-size:15px;margin-bottom:6px}.pjuse .pill{font-weight:600}
+.pjlines,.pjrun{margin:0;font-family:var(--mono);font-size:13.5px;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--code-bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.pjrun{background:var(--out-bg);border-style:dashed}
+.pjin{color:var(--accent);font-weight:700}
+.pjhint{border-left:4px solid var(--key);background:var(--key-soft);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:15.5px}.pjhint>b{color:var(--key);margin-right:4px}
+.pjbars{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.pjbar{display:grid;grid-template-columns:minmax(120px,200px) 1fr auto;gap:12px;align-items:center}
+.pjbl{display:flex;flex-direction:column;line-height:1.25}.pjbl small{color:var(--muted);font-size:12.5px}
+.pjbt{height:10px;border-radius:99px;background:var(--surface2);overflow:hidden}.pjbt i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.pjbv{font-family:var(--mono);font-size:14px;white-space:nowrap}
+.pjfb{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pjgood,.pjtodo{border-radius:14px;padding:14px 16px;border:1px solid}
+.pjgood{background:var(--tip-soft);border-color:var(--tip)}.pjtodo{background:var(--key-soft);border-color:var(--key)}
+.pjgood h3,.pjtodo h3{font-size:16px;margin:0 0 8px}
+.pjtests table{font-size:13.5px;min-width:760px}
+.pjtests pre{margin:0;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto}
+.pjtests tr.ok .pjr{color:var(--tip);font-weight:700}.pjtests tr.no .pjr{color:var(--trap);font-weight:700}
+.pjmiss{color:var(--trap);font-weight:700}
+.pjtests pre.pjinp{white-space:pre;overflow-wrap:normal}.pjtests pre.pjyo{max-height:320px}
+.pjwork{display:flex;flex-wrap:wrap;gap:6px}.pjwork .btn{font-size:14px;padding:5px 10px;text-align:left}
+@media (max-width:560px){.pjbar{grid-template-columns:1fr auto}.pjbt{grid-column:1/-1;order:3}}
+@media (max-width:700px){.pjtests table{min-width:0}.pjtests thead{display:none}.pjtests tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.pjtests tr:last-child{border-bottom:0}
+  .pjtests td{display:block;border:0;padding:3px 12px}.pjtests td::before{content:attr(data-l);display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
+  .pjtests td:first-child::before{display:none}.pjtests pre.pjinp{white-space:pre-wrap}}
 
 .synkey{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:13px;color:var(--muted);margin:0}
 .synkey b{color:var(--ink);font-weight:600}
@@ -16754,6 +16783,1014 @@ var EXERCISES = {
 
 /* Big Tests: 25 questions per chapter. Generated: every code answer was run in real Python. */
 var BIGTESTS = {
+ "intro": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Your first program: print()",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"Price\")\nprint(250 + 50)\nprint(\"250 + 50\")",
+   "e": "Text inside quotes prints exactly as written. Without quotes, Python does the maths first and prints the answer.",
+   "ans": "Price\n300\n250 + 50"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "Print `Welcome to Python` on one line and `Day 1 of my data journey` on the next line.",
+   "starter": "# Write two print() lines\n",
+   "sol": "print(\"Welcome to Python\")\nprint(\"Day 1 of my data journey\")",
+   "e": "Each `print()` starts a new line. Text goes inside quotes.",
+   "out": "Welcome to Python\nDay 1 of my data journey"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "A shop sold 48 pens in the morning and 37 pens in the evening. Print the total. Let Python do the maths.",
+   "starter": "# Total pens sold today\n",
+   "sol": "# Total pens sold today\nprint(48 + 37)",
+   "e": "Put the maths inside `print()` with no quotes, and Python works out `85` for you.",
+   "out": "85"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "A cinema hall has 18 rows with 24 seats in each row. Print the total number of seats.",
+   "starter": "# Seats in the hall\n",
+   "sol": "# Seats in the hall\nprint(18 * 24)",
+   "e": "In Python, multiply uses `*`. Python works out `18 * 24` and prints `432`.",
+   "out": "432"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "The syntax rules that matter",
+   "q": "This code should print `Good morning`, but it crashes. Fix it.",
+   "c": "Print(\"Good morning\")",
+   "fixed": "print(\"Good morning\")",
+   "e": "Python is case-sensitive. The function is `print` in small letters. `Print` is a different name that does not exist, so you get a `NameError`.",
+   "want": "Good morning",
+   "got": "NameError: name 'Print' is not defined. Did you mean: 'print'?"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "The syntax rules that matter",
+   "q": "This code should print `Hyderabad`, but it crashes. Fix it.",
+   "c": "print(\"Hyderabad')",
+   "fixed": "print(\"Hyderabad\")",
+   "e": "Quotes must match. The text starts with `\"`, so it must also end with `\"`. Mixed quotes give a `SyntaxError`.",
+   "want": "Hyderabad",
+   "got": "SyntaxError: unterminated string literal (detected at line 1)"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Comments: notes for humans",
+   "q": "This code prints three lines. Turn the middle line into a comment, so only the first and the last lines print.",
+   "starter": "print(\"Step 1: open the file\")\nprint(\"Step 2: this is a draft line\")\nprint(\"Step 3: save the report\")\n",
+   "sol": "print(\"Step 1: open the file\")\n# print(\"Step 2: this is a draft line\")\nprint(\"Step 3: save the report\")",
+   "e": "Put `#` at the start of a line and Python skips it. This is a handy way to switch a line off without deleting it.",
+   "out": "Step 1: open the file\nStep 3: save the report"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "The syntax rules that matter",
+   "q": "Type exactly what this code prints.",
+   "c": "print('Guntur', \"Vizag\")",
+   "e": "Single quotes and double quotes both make text, and the quotes themselves are not printed. The comma puts one space between the two values.",
+   "ans": "Guntur Vizag"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Comments: notes for humans",
+   "q": "Type exactly what this code prints.",
+   "c": "# print(\"A\")\nprint(\"B\")  # print(\"C\")\nprint(\"D\")",
+   "e": "Python ignores everything after `#` on a line, even if it looks like code. Only `B` and `D` are printed.",
+   "ans": "B\nD"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "How Python runs your code",
+   "q": "A shop sold 45 boxes with 12 bottles in each box. Use ONE `print()` with a comma to print `Units sold: 540`. Let Python work out the 540.",
+   "starter": "# One print() with a comma\n",
+   "sol": "print(\"Units sold:\", 45 * 12)",
+   "e": "A comma inside `print()` separates two values and puts one space between them: the text, then the answer of the maths.",
+   "out": "Units sold: 540"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "How Python runs your code",
+   "q": "Type exactly what this code prints.",
+   "c": "city = \"Pune\"\ntemp = 29\nprint(city, temp)\ntemp = temp + 3\nprint(city, temp)",
+   "e": "Python runs from top to bottom. Line 4 works out `29 + 3` first, then stores 32 back in `temp`. The old value is gone.",
+   "ans": "Pune 29\nPune 32"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "Print this line exactly: `Total: 3 x 40 = 120`. Python must work out the `120`. The rest is text.",
+   "starter": "# The left part is text, the answer is maths\n",
+   "sol": "print(\"Total: 3 x 40 =\", 3 * 40)",
+   "e": "Everything up to `=` is text, so it goes in quotes. The answer is maths, so it goes after a comma without quotes.",
+   "out": "Total: 3 x 40 = 120"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "A train left with 640 passengers. At the first stop 85 got off and 120 got on. Print the number of passengers now, in one line of maths.",
+   "starter": "# Passengers on the train now\n",
+   "sol": "# Passengers on the train now\nprint(640 - 85 + 120)",
+   "e": "`640 - 85 + 120` is worked out from left to right: 555, then 675.",
+   "out": "675"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Comments: notes for humans",
+   "q": "The second line prints the wrong bill: 4 coffees at 25 rupees each. Switch that line off with a comment, then add a new line under it that prints the right bill.",
+   "starter": "print(\"Bill for 4 coffees\")\nprint(4 + 25)\n",
+   "sol": "print(\"Bill for 4 coffees\")\n# print(4 + 25)\nprint(4 * 25)",
+   "e": "`#` switches off the wrong line but keeps it for reference. The new line uses `*` to multiply: 4 times 25 is 100.",
+   "out": "Bill for 4 coffees\n100"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "How Python runs your code",
+   "q": "The steps print in the wrong order. Move the lines so the output goes `1. Boil water`, `2. Add tea leaves`, `3. Serve hot`.",
+   "starter": "print(\"3. Serve hot\")\nprint(\"1. Boil water\")\nprint(\"2. Add tea leaves\")\n",
+   "sol": "print(\"1. Boil water\")\nprint(\"2. Add tea leaves\")\nprint(\"3. Serve hot\")",
+   "e": "Python always runs lines from top to bottom, so the order of the lines is the order of the output.",
+   "out": "1. Boil water\n2. Add tea leaves\n3. Serve hot"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "The syntax rules that matter",
+   "q": "This code should print `Pass`, but it stops with an `IndentationError`. Fix it.",
+   "c": "if 75 > 40:\nprint(\"Pass\")",
+   "fixed": "if 75 > 40:\n    print(\"Pass\")",
+   "e": "A line that ends with a colon `:` starts a block. The line inside the block must be pushed right by 4 spaces.",
+   "want": "Pass",
+   "got": "IndentationError: expected an indented block after 'if' statement on line 1"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Errors are normal",
+   "q": "This code should print `Total: 500`, but it stops with a `TypeError`. Fix it.",
+   "c": "print(\"Total: \" + 500)",
+   "fixed": "print(\"Total:\", 500)",
+   "e": "`+` cannot join text and a number: that is the `TypeError`. A comma inside `print()` shows both values, with a space between them.",
+   "want": "Total: 500",
+   "got": "TypeError: can only concatenate str (not \"int\") to str"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "A tea stall sold 12 cups on Monday, 15 on Tuesday and 9 on Wednesday, at 40 rupees a cup. Use ONE `print()` to show the sales of each day: `480 600 360`.",
+   "starter": "# Sales of three days on one line\n",
+   "sol": "print(12 * 40, 15 * 40, 9 * 40)",
+   "e": "One `print()` can show many values. Python works out each maths part, and the commas put a space between the answers.",
+   "out": "480 600 360"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Your first program: print()",
+   "q": "Print this bill exactly, one line each. Python must work out every number after `=`:\n`Tea x 2 = 30` (15 rupees each)\n`Samosa x 3 = 36` (12 rupees each)\n`Total = 66` (add the two answers).",
+   "starter": "# Bill: tea is 15, samosa is 12\n",
+   "sol": "print(\"Tea x 2 =\", 2 * 15)\nprint(\"Samosa x 3 =\", 3 * 12)\nprint(\"Total =\", 30 + 36)",
+   "e": "Each line is text, a comma, then the maths. The text holds the `x` and `=` signs, and Python works out the numbers.",
+   "out": "Tea x 2 = 30\nSamosa x 3 = 36\nTotal = 66"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "How Python runs your code",
+   "q": "Start with `cash = 2000` and print `Cash: 2000`. A customer pays 350: add it to `cash` and print `Cash: 2350`. Then you pay 500 rent: take it from `cash` and print `Cash: 1850`.",
+   "starter": "cash = 2000\n",
+   "sol": "cash = 2000\nprint(\"Cash:\", cash)\ncash = cash + 350\nprint(\"Cash:\", cash)\ncash = cash - 500\nprint(\"Cash:\", cash)",
+   "e": "`cash = cash + 350` works out the right side first, then stores the answer back in `cash`. Each `print()` shows the value at that moment.",
+   "out": "Cash: 2000\nCash: 2350\nCash: 1850"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "The syntax rules that matter",
+   "q": "This code has three mistakes: a note that is not a comment, a missing colon, and a capital letter. It should print `Report`, then `Done`. Fix it.",
+   "c": "monthly report starts here\nif 10 > 3\n    print(\"Report\")\nPrint(\"Done\")",
+   "fixed": "# monthly report starts here\nif 10 > 3:\n    print(\"Report\")\nprint(\"Done\")",
+   "e": "A note needs `#` in front. A line that starts a block needs `:` at the end. And `print` is always written in small letters.",
+   "want": "Report\nDone",
+   "got": "SyntaxError: invalid syntax"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Comments: notes for humans",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"Room #12\")  # top floor\n# print(\"Room #14\")",
+   "e": "A `#` inside quotes is just text, so `Room #12` prints in full. The `#` after the closing bracket starts a comment, and the last line is all comment.",
+   "ans": "Room #12"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "How Python runs your code",
+   "q": "This program prints the steps in the wrong order and has a debug line that should not print. Put the steps in order and switch off the debug line with a comment. The output must be `Step 1: load data`, `Step 2: clean data`, `Step 3: make chart`.",
+   "starter": "print(\"Step 2: clean data\")\nprint(\"DEBUG: checking\")\nprint(\"Step 3: make chart\")\nprint(\"Step 1: load data\")\n",
+   "sol": "print(\"Step 1: load data\")\nprint(\"Step 2: clean data\")\n# print(\"DEBUG: checking\")\nprint(\"Step 3: make chart\")",
+   "e": "Python runs lines from top to bottom, so move the lines into the right order. A `#` in front of the debug line keeps it in the file but stops it from running.",
+   "out": "Step 1: load data\nStep 2: clean data\nStep 3: make chart"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Errors are normal",
+   "q": "Each of these lines has a mistake:\n1. `print(\"Hi)`\n2. `prnt(\"Hi\")`\n3. `print(\"Age: \" + 25)`\nPrint the name of the error each one gives, one per line, in this order. (Try running each line to read its last error line.)",
+   "starter": "# Print the three error names\n",
+   "sol": "print(\"SyntaxError\")\nprint(\"NameError\")\nprint(\"TypeError\")",
+   "e": "A missing quote is a grammar mistake: `SyntaxError`. A misspelt name is unknown to Python: `NameError`. Text + number is a `TypeError`.",
+   "out": "SyntaxError\nNameError\nTypeError"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The syntax rules that matter",
+   "q": "Python is case-sensitive, so `total`, `Total` and `TOTAL` are three different names. Store 100 in `total`, 200 in `Total` and 300 in `TOTAL`. Then print all three with one `print()` in this order: `TOTAL`, `total`, `Total`.",
+   "starter": "# Three different names\n",
+   "sol": "total = 100\nTotal = 200\nTOTAL = 300\nprint(TOTAL, total, Total)",
+   "e": "Because capitals matter, the three names hold three separate values. The output is `300 100 200`.",
+   "out": "300 100 200"
+  }
+ ],
+ "variables": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "The basic data types",
+   "q": "Type exactly what this code prints.",
+   "c": "print(type(250))\nprint(type(250.0))\nprint(type(\"250\"))",
+   "e": "`250` is a whole number (`int`), `250.0` has a decimal point (`float`) and `\"250\"` is in quotes, so it is text (`str`).",
+   "ans": "<class 'int'>\n<class 'float'>\n<class 'str'>"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "What is a variable?",
+   "q": "Store `\"Laptop\"` in a variable called `product` and `55000` in a variable called `price`. Then print both with one `print()`.",
+   "starter": "# Two variables, then one print()\n",
+   "sol": "product = \"Laptop\"\nprice = 55000\nprint(product, price)",
+   "e": "`=` stores the value on the right in the name on the left. A comma in `print()` shows both values with a space between them.",
+   "out": "Laptop 55000"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Assigning many values at once",
+   "q": "In ONE line, store `\"Delhi\"`, `\"Mumbai\"` and `\"Chennai\"` in `city1`, `city2` and `city3`. Then print the three cities.",
+   "starter": "# Assign all three in one line\n",
+   "sol": "city1, city2, city3 = \"Delhi\", \"Mumbai\", \"Chennai\"\nprint(city1, city2, city3)",
+   "e": "Put the names on the left and the values on the right, both separated by commas. The first value goes to the first name, and so on.",
+   "out": "Delhi Mumbai Chennai"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Rules for naming variables",
+   "q": "This code should print `Ravi`, but it crashes. Fix the variable name.",
+   "c": "2nd_place = \"Ravi\"\nprint(2nd_place)",
+   "fixed": "second_place = \"Ravi\"\nprint(second_place)",
+   "e": "A variable name cannot start with a digit. `second_place` (or `place_2`) follows the rules.",
+   "want": "Ravi",
+   "got": "SyntaxError: invalid decimal literal"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Type casting: converting between types",
+   "q": "`price = \"450\"` is text. Convert it to a number and print the price of 3 items.",
+   "starter": "price = \"450\"\n",
+   "sol": "price = \"450\"\nprint(int(price) * 3)",
+   "e": "`int(\"450\")` turns the text into the number 450, so the maths works: 1350. Without `int()`, `\"450\" * 3` would repeat the text.",
+   "out": "1350"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Booleans and None",
+   "q": "Type exactly what this code prints.",
+   "c": "is_paid = True\ndiscount = None\nprint(is_paid, discount)\nprint(type(discount))",
+   "e": "`True` is a bool. `None` means \"no value yet\", and its type is `NoneType`.",
+   "ans": "True None\n<class 'NoneType'>"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Numbers: int and float",
+   "q": "Print the answer of 7 divided by 2. On the next line, print the type of `10 / 2`.",
+   "starter": "# Division with /\n",
+   "sol": "print(7 / 2)\nprint(type(10 / 2))",
+   "e": "`/` always gives a float, even when the answer is a whole number: `10 / 2` is `5.0`.",
+   "out": "3.5\n<class 'float'>"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Type casting: converting between types",
+   "q": "This code should print `30`, but it crashes. Fix it.",
+   "c": "age = \"25\"\nprint(age + 5)",
+   "fixed": "age = \"25\"\nprint(int(age) + 5)",
+   "e": "`\"25\"` is text, and text + number gives a `TypeError`. Convert it first with `int(age)`.",
+   "want": "30",
+   "got": "TypeError: can only concatenate str (not \"int\") to str"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Assigning many values at once",
+   "q": "`morning_shift = \"Asha\"` and `night_shift = \"Ravi\"`. Swap them in ONE line, then print `morning_shift` and `night_shift`.",
+   "starter": "morning_shift = \"Asha\"\nnight_shift = \"Ravi\"\n",
+   "sol": "morning_shift = \"Asha\"\nnight_shift = \"Ravi\"\nmorning_shift, night_shift = night_shift, morning_shift\nprint(morning_shift, night_shift)",
+   "e": "`a, b = b, a` swaps two values in one line. Python reads the whole right side first, so nothing is lost.",
+   "out": "Ravi Asha"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Type casting: converting between types",
+   "q": "Type exactly what this code prints.",
+   "c": "print(int(9.99), float(4), str(12) + \"3\")",
+   "e": "`int()` cuts off the decimal part (it does not round), `float(4)` adds `.0`, and `str(12) + \"3\"` joins two pieces of text.",
+   "ans": "9 4.0 123"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Numbers: int and float",
+   "q": "`average = 82.4567`. Print it rounded to 2 decimal places, then rounded to a whole number, with one `print()`.",
+   "starter": "average = 82.4567\n",
+   "sol": "average = 82.4567\nprint(round(average, 2), round(average))",
+   "e": "`round(x, 2)` keeps 2 decimal places. `round(x)` with no second number gives a whole number.",
+   "out": "82.46 82"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Numbers: int and float",
+   "q": "Type exactly what this code prints.",
+   "c": "print(round(2.5), round(3.5), round(0.1 + 0.2, 2))",
+   "e": "Python rounds an exact half to the nearest even number, so `round(2.5)` is 2 and `round(3.5)` is 4. `round(..., 2)` cleans up the tiny float error in `0.1 + 0.2`.",
+   "ans": "2 4 0.3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "input() always gives you text",
+   "q": "This text came from `input()`: `weight = \"62.5\"` (kilograms). Convert it and print the weight in grams (multiply by 1000).",
+   "starter": "weight = \"62.5\"\n",
+   "sol": "weight = \"62.5\"\nprint(float(weight) * 1000)",
+   "e": "The text has a decimal point, so use `float()`, not `int()`. A float times 1000 is still a float: `62500.0`.",
+   "out": "62500.0"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "input() always gives you text",
+   "q": "`boxes` came from `input()`. This code should print `10`, but it prints `55`. Fix it.",
+   "c": "boxes = \"5\"\nprint(boxes * 2)",
+   "fixed": "boxes = \"5\"\nprint(int(boxes) * 2)",
+   "e": "`input()` always gives text, and text * 2 repeats it: `\"55\"`. Convert it with `int()` first, then the maths works.",
+   "want": "10",
+   "got": "55"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Dynamic typing",
+   "q": "Store `90` in `score` and print its type. Then store the text `\"ninety\"` in the same variable and print its type again.",
+   "starter": "score = 90\n",
+   "sol": "score = 90\nprint(type(score))\nscore = \"ninety\"\nprint(type(score))",
+   "e": "A variable can hold any type, and the type can change when you store a new value. That is dynamic typing.",
+   "out": "<class 'int'>\n<class 'str'>"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The basic data types",
+   "q": "`value = 3.0`. Use `isinstance()` to print whether it is an `int`, and then whether it is a `float`, with one `print()`.",
+   "starter": "value = 3.0\n",
+   "sol": "value = 3.0\nprint(isinstance(value, int), isinstance(value, float))",
+   "e": "`3.0` has a decimal point, so it is a float, not an int, even though it looks whole.",
+   "out": "False True"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Rules for naming variables",
+   "q": "This code should print `10A`, but it crashes. Fix the variable name.",
+   "c": "class = \"10A\"\nprint(class)",
+   "fixed": "class_name = \"10A\"\nprint(class_name)",
+   "e": "`class` is a Python keyword, so it cannot be a variable name. Add a word, like `class_name`.",
+   "want": "10A",
+   "got": "SyntaxError: invalid syntax"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Numbers: int and float",
+   "q": "A salary is 2,50,000 rupees a month. Write it with underscores (Indian style: `2_50_000`) and print the salary for 12 months.",
+   "starter": "# Use underscores in the number\n",
+   "sol": "monthly_salary = 2_50_000\nprint(monthly_salary * 12)",
+   "e": "Underscores only make big numbers easier to read. Python ignores them, so `2_50_000` is just 250000.",
+   "out": "3000000"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Type casting: converting between types",
+   "q": "From a form: `units = \"12\"` and `unit_price = \"45.50\"`. Print the total as a float. On the next line, print the total as a whole number using `int()`.",
+   "starter": "units = \"12\"\nunit_price = \"45.50\"\n",
+   "sol": "units = \"12\"\nunit_price = \"45.50\"\ntotal = int(units) * float(unit_price)\nprint(total)\nprint(int(total))",
+   "e": "Convert each piece of text to the right type: `int()` for the units and `float()` for the price. `int()` then cuts off the `.0`.",
+   "out": "546.0\n546"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Type casting: converting between types",
+   "q": "Type exactly what this code prints.",
+   "c": "print(bool(0), bool(\"\"), bool(\" \"), bool(\"0\"), bool(-1))",
+   "e": "Only zero and empty text are `False`. A space is not empty, `\"0\"` is text that is not empty, and `-1` is not zero, so they are all `True`.",
+   "ans": "False False True True True"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Type casting: converting between types",
+   "q": "This code should print `5.5`, but it crashes. Fix it.",
+   "c": "rating = \"4.5\"\nprint(int(rating) + 1)",
+   "fixed": "rating = \"4.5\"\nprint(float(rating) + 1)",
+   "e": "`int()` cannot read text with a decimal point, so it gives a `ValueError`. Use `float()` for text like `\"4.5\"`.",
+   "want": "5.5",
+   "got": "ValueError: invalid literal for int() with base 10: '4.5'"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Assigning many values at once",
+   "q": "Start three counters `wins`, `losses` and `draws` at 0 in ONE line. Then add 3 to `wins` and 1 to `losses`. Print all three with one `print()`.",
+   "starter": "# One line for all three counters\n",
+   "sol": "wins = losses = draws = 0\nwins = wins + 3\nlosses = losses + 1\nprint(wins, losses, draws)",
+   "e": "`a = b = c = 0` gives the same value to all three. Then each one is updated on its own: `draws` stays 0.",
+   "out": "3 1 0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Dynamic typing",
+   "q": "`value = \"100\"`. Print its type. Then convert it to an int and print the new type. Then convert it to a float and print the value itself.",
+   "starter": "value = \"100\"\n",
+   "sol": "value = \"100\"\nprint(type(value))\nvalue = int(value)\nprint(type(value))\nvalue = float(value)\nprint(value)",
+   "e": "Each conversion makes a new value of a new type, and storing it back in `value` changes its type. The float version of 100 is `100.0`.",
+   "out": "<class 'str'>\n<class 'int'>\n100.0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "input() always gives you text",
+   "q": "Pretend these came from `input()`: `name = \"Priya\"` and `age = \"21\"`. Print `Priya will be 26 in 5 years`, with Python working out the 26.",
+   "starter": "name = \"Priya\"\nage = \"21\"\n",
+   "sol": "name = \"Priya\"\nage = \"21\"\nprint(name, \"will be\", int(age) + 5, \"in 5 years\")",
+   "e": "`age` is text, so convert it with `int()` before adding 5. Commas in `print()` join everything with single spaces.",
+   "out": "Priya will be 26 in 5 years"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Type casting: converting between types",
+   "q": "Three marks came in as text: `m1 = \"78\"`, `m2 = \"85\"`, `m3 = \"91\"`. Print their average, rounded to 1 decimal place.",
+   "starter": "m1 = \"78\"\nm2 = \"85\"\nm3 = \"91\"\n",
+   "sol": "m1 = \"78\"\nm2 = \"85\"\nm3 = \"91\"\naverage = (int(m1) + int(m2) + int(m3)) / 3\nprint(round(average, 1))",
+   "e": "Convert each mark with `int()`, add them inside brackets, then divide by 3. `round(..., 1)` keeps 1 decimal place: 84.7.",
+   "out": "84.7"
+  }
+ ],
+ "output": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "print() with several values",
+   "q": "Use ONE `print()` with `sep` to print `30-10-2026`. Give it the three numbers 30, 10 and 2026.",
+   "starter": "# One print() with sep\n",
+   "sol": "print(30, 10, 2026, sep=\"-\")",
+   "e": "`sep` sets what goes between the values. The default is one space, and `sep=\"-\"` puts a dash there instead.",
+   "out": "30-10-2026"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "print() with several values",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"Loading\", end=\"\")\nprint(\"...\")\nprint(\"Done\")",
+   "e": "`end=\"\"` stops the first `print()` from starting a new line, so `...` is printed right after `Loading`. The next `print()` ends normally.",
+   "ans": "Loading...\nDone"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Quotes and escape characters",
+   "q": "Print exactly: `It's a holiday`",
+   "starter": "# Watch the apostrophe\n",
+   "sol": "print(\"It's a holiday\")",
+   "e": "Wrap the text in double quotes, and the apostrophe inside is just a character. (`'It\\'s a holiday'` also works.)",
+   "out": "It's a holiday"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Joining and repeating text",
+   "q": "`first = \"Sachin\"` and `last = \"Tendulkar\"`. Use `+` to print the full name with one space in the middle.",
+   "starter": "first = \"Sachin\"\nlast = \"Tendulkar\"\n",
+   "sol": "first = \"Sachin\"\nlast = \"Tendulkar\"\nprint(first + \" \" + last)",
+   "e": "`+` glues text together with nothing in between, so add the space yourself: `\" \"`.",
+   "out": "Sachin Tendulkar"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Joining and repeating text",
+   "q": "Print a line of 25 `=` signs. Use `*`, do not type them all.",
+   "starter": "# Repeat one character\n",
+   "sol": "print(\"=\" * 25)",
+   "e": "Text times a number repeats the text: `\"=\" * 25` gives 25 signs. Great for report lines.",
+   "out": "========================="
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Joining and repeating text",
+   "q": "This code should print `Rooms booked: 12`, but it crashes. Fix it.",
+   "c": "rooms = 12\nprint(\"Rooms booked: \" + rooms)",
+   "fixed": "rooms = 12\nprint(\"Rooms booked: \" + str(rooms))",
+   "e": "`+` cannot join text and a number. Turn the number into text with `str()` first (or use an f-string).",
+   "want": "Rooms booked: 12",
+   "got": "TypeError: can only concatenate str (not \"int\") to str"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`name = \"Kiran\"` and `city = \"Vizag\"`. Use an f-string to print `Kiran lives in Vizag`.",
+   "starter": "name = \"Kiran\"\ncity = \"Vizag\"\n",
+   "sol": "name = \"Kiran\"\ncity = \"Vizag\"\nprint(f\"{name} lives in {city}\")",
+   "e": "Put `f` before the quote, then each variable in `{ }`. Python fills in the values.",
+   "out": "Kiran lives in Vizag"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Quotes and escape characters",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"Line 1\\nLine 2\")",
+   "e": "`\\n` inside text means new line, so the text is printed on two lines.",
+   "ans": "Line 1\nLine 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`price = 1234.5`. Print `Price: 1234.50` (always 2 decimal places) using an f-string.",
+   "starter": "price = 1234.5\n",
+   "sol": "price = 1234.5\nprint(f\"Price: {price:.2f}\")",
+   "e": "`:.2f` after the variable means a float with exactly 2 decimal places.",
+   "out": "Price: 1234.50"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`population = 12345678`. Print `Population: 12,345,678` using an f-string.",
+   "starter": "population = 12345678\n",
+   "sol": "population = 12345678\nprint(f\"Population: {population:,}\")",
+   "e": "`:,` adds a comma between every group of three digits. It makes big numbers easy to read.",
+   "out": "Population: 12,345,678"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "f-strings: the best way to format",
+   "q": "Type exactly what this code prints.",
+   "c": "rate = 0.4567\nprint(f\"{rate:.1%}\", f\"{7:03d}\")",
+   "e": "`.1%` multiplies by 100, keeps 1 decimal and adds `%`. `03d` pads a whole number with zeros to 3 digits.",
+   "ans": "45.7% 007"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Quotes and escape characters",
+   "q": "This code should print the file path `C:\\new\\table.csv`, but the output is broken. Fix it.",
+   "c": "print(\"C:\\new\\table.csv\")",
+   "fixed": "print(r\"C:\\new\\table.csv\")",
+   "e": "`\\n` and `\\t` are escape characters (new line and tab). Put `r` before the quote to switch them off, or write each backslash twice: `\\\\`.",
+   "want": "C:\\new\\table.csv",
+   "got": "C:\new\table.csv"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Quotes and escape characters",
+   "q": "This code should print `She said \"Hi\" to me`, but it crashes. Fix it.",
+   "c": "print(\"She said \"Hi\" to me\")",
+   "fixed": "print('She said \"Hi\" to me')",
+   "e": "The double quote before `Hi` ends the text too early. Wrap the whole text in single quotes, or write `\\\"` for each quote inside.",
+   "want": "She said \"Hi\" to me",
+   "got": "SyntaxError: invalid syntax. Perhaps you forgot a comma?"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "print() with several values",
+   "q": "Use TWO `print()` calls to print `Total: 450` on ONE line. The first prints `Total:` and must not end the line. The second prints the number 450.",
+   "starter": "# Two print() calls, one line of output\n",
+   "sol": "print(\"Total:\", end=\" \")\nprint(450)",
+   "e": "`end=\" \"` ends the first print with a space instead of a new line, so the second print continues on the same line.",
+   "out": "Total: 450"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Joining and repeating text",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"ab\" * 3 + \"!\")\nprint(\"-\" * 5)",
+   "e": "`*` runs first: `\"ab\"` three times is `ababab`, then `+` adds the `!`.",
+   "ans": "ababab!\n-----"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "f-strings: the best way to format",
+   "q": "This code should print `Hello Ravi`, but it prints `Hello {name}`. Fix it.",
+   "c": "name = \"Ravi\"\nprint(\"Hello {name}\")",
+   "fixed": "name = \"Ravi\"\nprint(f\"Hello {name}\")",
+   "e": "Without the `f` before the quote, `{name}` is plain text. The `f` switches the slots on.",
+   "want": "Hello Ravi",
+   "got": "Hello {name}"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`qty = 3` and `price = 45`. Use one f-string to print `3 x 45 = 135`. Python must work out the 135.",
+   "starter": "qty = 3\nprice = 45\n",
+   "sol": "qty = 3\nprice = 45\nprint(f\"{qty} x {price} = {qty * price}\")",
+   "e": "A slot `{ }` can hold maths, not just a name. Python works out `qty * price` and puts the answer in the text.",
+   "out": "3 x 45 = 135"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`items = 4` and `total = 760`. Use the f-string debug trick (a `=` inside the slot) to print `items=4 total=760`.",
+   "starter": "items = 4\ntotal = 760\n",
+   "sol": "items = 4\ntotal = 760\nprint(f\"{items=} {total=}\")",
+   "e": "`{items=}` prints the name, an `=` and the value. It is a quick way to check variables while you debug.",
+   "out": "items=4 total=760"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`units = 1250` and `price = 89.9`. Print the revenue as `Revenue: ₹112,375.00` (commas and 2 decimals).",
+   "starter": "units = 1250\nprice = 89.9\n",
+   "sol": "units = 1250\nprice = 89.9\nprint(f\"Revenue: ₹{units * price:,.2f}\")",
+   "e": "`:,.2f` combines two specs: commas between thousands and exactly 2 decimals. The `₹` is just text before the slot.",
+   "out": "Revenue: ₹112,375.00"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "Print this price list, one line per item. Each item name is left-aligned in 15 characters, and each price is right-aligned in 8 characters with 2 decimals.\nItems: Masala Dosa 60, Filter Coffee 25.5, Idli 40.",
+   "starter": "# Name: <15, price: >8.2f\n",
+   "sol": "print(f\"{'Masala Dosa':<15}{60:>8.2f}\")\nprint(f\"{'Filter Coffee':<15}{25.5:>8.2f}\")\nprint(f\"{'Idli':<15}{40:>8.2f}\")",
+   "e": "`<15` pads the name with spaces on the right up to 15 characters. `>8.2f` pads the price on the left up to 8 characters, so the decimal points line up.",
+   "out": "Masala Dosa       60.00\nFilter Coffee     25.50\nIdli              40.00"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "print() with several values",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"x\", \"y\", sep=\"--\", end=\"|\")\nprint(\"z\")",
+   "e": "`sep=\"--\"` goes between `x` and `y`. `end=\"|\"` replaces the new line, so `z` is printed right after the `|`.",
+   "ans": "x--y|z"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "f-strings: the best way to format",
+   "q": "This code should print `Marks: 92.5`, but it prints something strange. Fix it.",
+   "c": "marks = 92.456\nprint(f\"Marks: {marks:.1}\")",
+   "fixed": "marks = 92.456\nprint(f\"Marks: {marks:.1f}\")",
+   "e": "Without the `f`, `.1` means 1 significant digit, so Python writes `9e+01`. `.1f` means 1 decimal place.",
+   "want": "Marks: 92.5",
+   "got": "Marks: 9e+01"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Joining and repeating text",
+   "q": "Print a banner of three lines: 20 `*` signs, then `MONTHLY REPORT` centred in 20 characters, then 20 `*` signs again.",
+   "starter": "# Use * for the lines and ^ to centre\n",
+   "sol": "print(\"*\" * 20)\nprint(f\"{'MONTHLY REPORT':^20}\")\nprint(\"*\" * 20)",
+   "e": "`\"*\" * 20` repeats the star. `^20` centres the title in 20 characters: 3 spaces on each side of the 14 letters.",
+   "out": "********************\n   MONTHLY REPORT   \n********************"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "f-strings: the best way to format",
+   "q": "`invoice_no = 42`, `qty = 3` and `price = 450`. Print `INV-0042 | Qty: 3 | Amount: ₹1,350.00`.",
+   "starter": "invoice_no = 42\nqty = 3\nprice = 450\n",
+   "sol": "invoice_no = 42\nqty = 3\nprice = 450\nprint(f\"INV-{invoice_no:04d} | Qty: {qty} | Amount: ₹{qty * price:,.2f}\")",
+   "e": "`04d` pads the number with zeros to 4 digits. The amount slot does the maths and then formats it with `:,.2f`.",
+   "out": "INV-0042 | Qty: 3 | Amount: ₹1,350.00"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Quotes and escape characters",
+   "q": "`item = \"Tea\"`, `qty = 2` and `rate = 15`. With ONE `print()` and one f-string, print three lines: `Item: Tea`, `Qty: 2` and `Total: ₹30.00`. Use `\\n` for the new lines.",
+   "starter": "item = \"Tea\"\nqty = 2\nrate = 15\n",
+   "sol": "item = \"Tea\"\nqty = 2\nrate = 15\nprint(f\"Item: {item}\\nQty: {qty}\\nTotal: ₹{qty * rate:.2f}\")",
+   "e": "`\\n` works inside f-strings too. One `print()` can make a whole multi-line receipt.",
+   "out": "Item: Tea\nQty: 2\nTotal: ₹30.00"
+  }
+ ],
+ "operators": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Arithmetic operators",
+   "q": "Type exactly what this code prints.",
+   "c": "print(17 / 5, 17 // 5, 17 % 5)",
+   "e": "`/` gives the exact answer as a float. `//` keeps only the whole part, and `%` gives the remainder: 17 is 3 fives and 2 left over.",
+   "ans": "3.4 3 2"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "A teacher has `students = 47` and makes groups of 6. Print the number of full groups and the number of students left over, with one `print()`.",
+   "starter": "students = 47\n",
+   "sol": "students = 47\nprint(students // 6, students % 6)",
+   "e": "`//` counts the full groups (7) and `%` gives what is left (5).",
+   "out": "7 5"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "Use `**` to print 2 to the power 10, and then the square root of 144, with one `print()`.",
+   "starter": "# Powers with **\n",
+   "sol": "print(2 ** 10, 144 ** 0.5)",
+   "e": "`**` means power. A power of `0.5` is the square root, and it comes out as a float: `12.0`.",
+   "out": "1024 12.0"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Comparison operators",
+   "q": "`a = 45` and `b = 60`. Print whether `a` is less than `b`, and whether they are equal, with one `print()`.",
+   "starter": "a = 45\nb = 60\n",
+   "sol": "a = 45\nb = 60\nprint(a < b, a == b)",
+   "e": "Comparisons give `True` or `False`. Use `==` (two signs) to test if two values are equal.",
+   "out": "True False"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Comparison operators",
+   "q": "This code should print `True`, but it crashes. Fix it.",
+   "c": "x = 10\nprint(x = 10)",
+   "fixed": "x = 10\nprint(x == 10)",
+   "e": "One `=` stores a value. Two `==` compare. Inside `print()` you want the comparison.",
+   "want": "True",
+   "got": "TypeError: print() got an unexpected keyword argument 'x'"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Assignment operators",
+   "q": "`balance = 5000`. Add a salary of 1500 using `+=`, then pay 2000 rent using `-=`. Print the balance.",
+   "starter": "balance = 5000\n",
+   "sol": "balance = 5000\nbalance += 1500\nbalance -= 2000\nprint(balance)",
+   "e": "`x += 5` is short for `x = x + 5`, and `-=` works the same way for taking away.",
+   "out": "4500"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Logical operators: and, or, not",
+   "q": "Type exactly what this code prints.",
+   "c": "print(True and False, True or False, not True)",
+   "e": "`and` needs both sides `True`. `or` needs at least one. `not` flips the value.",
+   "ans": "False True False"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Membership operators: in, not in",
+   "q": "`job = \"Data Analyst\"`. Print whether `\"Analyst\"` is in it, and whether `\"analyst\"` is in it, with one `print()`.",
+   "starter": "job = \"Data Analyst\"\n",
+   "sol": "job = \"Data Analyst\"\nprint(\"Analyst\" in job, \"analyst\" in job)",
+   "e": "`in` checks if a piece of text is inside another. Capital letters matter, so `\"analyst\"` is not found.",
+   "out": "True False"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Order of operations (precedence)",
+   "q": "Type exactly what this code prints.",
+   "c": "print(10 - 4 + 2, 20 / 4 * 2, -3 ** 2)",
+   "e": "`-` and `+` (and `/` and `*`) are equal, so Python goes left to right. `**` runs before the minus sign, so `-3 ** 2` is `-(3 ** 2)`.",
+   "ans": "8 10.0 -9"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "A video is `total = 500` seconds long. Print it as `8 min 20 sec` using `//` and `%`.",
+   "starter": "total = 500\n",
+   "sol": "total = 500\nprint(total // 60, \"min\", total % 60, \"sec\")",
+   "e": "`total // 60` gives the whole minutes and `total % 60` gives the seconds left over.",
+   "out": "8 min 20 sec"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "`n = 4738`. Print its last digit, and whether `n` is even, with one `print()`.",
+   "starter": "n = 4738\n",
+   "sol": "n = 4738\nprint(n % 10, n % 2 == 0)",
+   "e": "`% 10` gives the last digit. A number is even when `n % 2` is 0.",
+   "out": "8 True"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Order of operations (precedence)",
+   "q": "This code should print the average of the two marks, `85.0`, but it prints `125.0`. Fix it.",
+   "c": "a = 80\nb = 90\nprint(a + b / 2)",
+   "fixed": "a = 80\nb = 90\nprint((a + b) / 2)",
+   "e": "`/` runs before `+`, so only `b` was divided. Brackets make the addition happen first.",
+   "want": "85.0",
+   "got": "125.0"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Assignment operators",
+   "q": "Type exactly what this code prints.",
+   "c": "x = 10\nx += 5\nx *= 2\nx //= 4\nx %= 4\nprint(x)",
+   "e": "Follow it step by step: 10, then 15, then 30, then `30 // 4` is 7, then `7 % 4` is 3.",
+   "ans": "3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Comparison operators",
+   "q": "`temp = 37.8`. Normal body temperature is from 36.1 to 37.2. Print whether `temp` is normal, using ONE chained comparison.",
+   "starter": "temp = 37.8\n",
+   "sol": "temp = 37.8\nprint(36.1 <= temp <= 37.2)",
+   "e": "A chained comparison like `a <= x <= b` checks both limits at once. 37.8 is above 37.2, so it is `False`.",
+   "out": "False"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The ternary operator (one-line if)",
+   "q": "`marks = 47`. The pass mark is 35. Use the ternary operator to print `Pass` or `Fail`.",
+   "starter": "marks = 47\n",
+   "sol": "marks = 47\nprint(\"Pass\" if marks >= 35 else \"Fail\")",
+   "e": "`A if condition else B` gives A when the condition is `True`, and B when it is `False`.",
+   "out": "Pass"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Comparison operators",
+   "q": "Type exactly what this code prints.",
+   "c": "print(\"Mango\" < \"apple\", \"mango\" < \"apple\", 7 != 7.0)",
+   "e": "Text compares letter by letter, and capital letters come before small ones. `7` and `7.0` are equal in value, so `!=` is `False`.",
+   "ans": "True False False"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Identity operators: is, is not",
+   "q": "`discount = None` means no discount was set yet. Print whether `discount` is `None`, using `is`. Then set `discount = 0` and print the same check again.",
+   "starter": "discount = None\n",
+   "sol": "discount = None\nprint(discount is None)\ndiscount = 0\nprint(discount is None)",
+   "e": "Use `is` to check for `None`. Zero is a real value, so `0 is None` is `False`.",
+   "out": "True\nFalse"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "The ternary operator (one-line if)",
+   "q": "This code should print `Even`, but it crashes. Fix it.",
+   "c": "n = 10\nprint(\"Even\" if n % 2 == 0 \"Odd\")",
+   "fixed": "n = 10\nprint(\"Even\" if n % 2 == 0 else \"Odd\")",
+   "e": "The ternary operator always needs both parts: `A if condition else B`. The `else` was missing.",
+   "want": "Even",
+   "got": "SyntaxError: expected 'else' after 'if' expression"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "A server ran for `total = 200000` seconds. Print it as `2 d 7 h 33 m 20 s` (days, hours, minutes, seconds). A day has 86400 seconds and an hour has 3600.",
+   "starter": "total = 200000\n",
+   "sol": "total = 200000\ndays = total // 86400\nhours = total % 86400 // 3600\nminutes = total % 3600 // 60\nseconds = total % 60\nprint(days, \"d\", hours, \"h\", minutes, \"m\", seconds, \"s\")",
+   "e": "Take out the biggest unit with `//`, then use `%` to keep what is left for the next unit. `%` and `//` are equal, so `total % 86400 // 3600` runs left to right.",
+   "out": "2 d 7 h 33 m 20 s"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Logical operators: and, or, not",
+   "q": "A loan is approved if the salary is at least 30000 AND the credit score is above 700, OR the person has a guarantor. With `salary = 28000`, `score = 760` and `guarantor = True`, print whether the loan is approved.",
+   "starter": "salary = 28000\nscore = 760\nguarantor = True\n",
+   "sol": "salary = 28000\nscore = 760\nguarantor = True\nprint((salary >= 30000 and score > 700) or guarantor)",
+   "e": "The salary check fails, so the `and` part is `False`. But `or guarantor` is `True`, so the loan is approved. Brackets make the grouping clear.",
+   "out": "True"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Arithmetic operators",
+   "q": "`n = 472`. Use `//` and `%` to print the sum of its three digits.",
+   "starter": "n = 472\n",
+   "sol": "n = 472\nprint(n // 100 + n // 10 % 10 + n % 10)",
+   "e": "`n // 100` is the first digit (4), `n // 10 % 10` is the middle one (7) and `n % 10` is the last one (2).",
+   "out": "13"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Assignment operators",
+   "q": "You invest `amount = 10000` and it grows by 10% a year. Use `*=` to grow it once for each of 3 years. Then print it rounded to 2 decimal places.",
+   "starter": "amount = 10000\n",
+   "sol": "amount = 10000\namount *= 1.1\namount *= 1.1\namount *= 1.1\nprint(round(amount, 2))",
+   "e": "Growing by 10% means multiplying by 1.1. Floats can show tiny errors, so `round(..., 2)` gives a clean `13310.0`.",
+   "out": "13310.0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Membership operators: in, not in",
+   "q": "`email = \"ravi.k@gmail.com\"`. Print `True` if it has an `@`, has a `.`, and has no space. Use `in`, `not in` and `and`.",
+   "starter": "email = \"ravi.k@gmail.com\"\n",
+   "sol": "email = \"ravi.k@gmail.com\"\nprint(\"@\" in email and \".\" in email and \" \" not in email)",
+   "e": "Each membership test gives `True` or `False`. `and` joins them: all three must be `True`.",
+   "out": "True"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Logical operators: and, or, not",
+   "q": "This code should print `False`, but it crashes when `x` is 0. Fix it by changing the order, not the numbers.",
+   "c": "x = 0\nprint(10 / x > 1 and x != 0)",
+   "fixed": "x = 0\nprint(x != 0 and 10 / x > 1)",
+   "e": "`and` stops as soon as one side is `False`. Put the safe check `x != 0` first, and the division never runs when `x` is 0.",
+   "want": "False",
+   "got": "ZeroDivisionError: division by zero"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Assignment operators",
+   "q": "This code should take 30 away from the stock and print `90`, but it prints `-30`. Fix it.",
+   "c": "stock = 120\nstock =- 30\nprint(stock)",
+   "fixed": "stock = 120\nstock -= 30\nprint(stock)",
+   "e": "`=-` is really `= -30`: it stores minus 30. The take-away operator is `-=`, with the minus first.",
+   "want": "90",
+   "got": "-30"
+  }
+ ],
  "strings": [
   {
    "lv": 1,
@@ -17008,6 +18045,975 @@ var BIGTESTS = {
  ]
 };
 
+/* Projects: 3 per Part. Generated by gen/gen_projects.py: every expected line was checked against the model answer in real Python. */
+var PJ_AN = "import ast, io, tokenize, builtins\ndef analyse(src, starter=''):\n    res = {'ok': True, 'feat': {}, 'names': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}\n    def add(k):\n        res['feat'][k] = res['feat'].get(k, 0) + 1\n    try:\n        tree = ast.parse(src)\n    except SyntaxError as e:\n        res['ok'] = False\n        res['err'] = 'line ' + str(e.lineno) + ': ' + str(e.msg)\n        return res\n    for node in ast.walk(tree):\n        add('node:' + type(node).__name__)\n        if isinstance(node, ast.Call):\n            if isinstance(node.func, ast.Name):\n                add('call:' + node.func.id)\n                if hasattr(builtins, node.func.id):\n                    add('builtin:' + node.func.id)\n            elif isinstance(node.func, ast.Attribute):\n                add('method:' + node.func.attr)\n            for kw in node.keywords:\n                if kw.arg:\n                    add('kw:' + kw.arg)\n        elif isinstance(node, (ast.BinOp, ast.AugAssign)):\n            add('op:' + type(node.op).__name__)\n            if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mult):\n                if any(isinstance(x, (ast.Constant, ast.JoinedStr)) and not isinstance(getattr(x, 'value', ''), (int, float)) for x in (node.left, node.right)):\n                    add('strrepeat')\n        elif isinstance(node, ast.Compare):\n            for op in node.ops:\n                add('cmp:' + type(op).__name__)\n        elif isinstance(node, ast.BoolOp):\n            add('bool:' + type(node.op).__name__)\n        elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.Not):\n            add('bool:Not')\n        elif isinstance(node, ast.FormattedValue) and node.format_spec is not None:\n            spec = ''.join(str(v.value) for v in node.format_spec.values if isinstance(v, ast.Constant))\n            add('spec')\n            if ',' in spec:\n                add('spec:comma')\n            if spec.endswith('f') and '.' in spec:\n                add('spec:decimals')\n            if spec.endswith('%'):\n                add('spec:percent')\n            if ',' in spec and spec.endswith('.2f'):\n                add('spec:money')\n            if any(c in spec for c in '<>^'):\n                add('spec:align')\n        elif isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):\n            if node.id not in res['names']:\n                res['names'].append(node.id)\n    lines = src.split('\\n')\n    res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))\n    res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]\n    res['tabs'] = [i + 1 for i, l in enumerate(lines) if '\\t' in l[:len(l) - len(l.lstrip())]]\n    mine = set()\n    try:\n        for tk in tokenize.generate_tokens(io.StringIO(starter).readline):\n            if tk.type == tokenize.COMMENT:\n                mine.add(tk.string.strip())\n    except Exception:\n        pass\n    try:\n        depth = 0\n        for tk in tokenize.generate_tokens(io.StringIO(src).readline):\n            if tk.type == tokenize.COMMENT and tk.string.strip() not in mine and tk.string.strip('# ').strip():\n                res['comments'] += 1\n            elif tk.type == tokenize.INDENT and len(tk.string.expandtabs(8)) % 4:\n                res['indent'].append(tk.start[0])\n            elif tk.type == tokenize.OP:\n                if tk.string in '([{':\n                    depth += 1\n                elif tk.string in ')]}':\n                    depth -= 1\n                elif depth == 0 and tk.string in ('=', '+=', '-=', '*=', '/=', '//=', '%=', '**='):\n                    line, s, e = tk.line, tk.start[1], tk.end[1]\n                    if (s > 0 and line[s - 1] not in ' \\t') or (e < len(line) and line[e] not in ' \\t\\r\\n'):\n                        if tk.start[0] not in res['tight']:\n                            res['tight'].append(tk.start[0])\n    except Exception:\n        pass\n    return res\n";
+var PJ_RULES = {"1": {"ban": [{"label": "`if` / `elif` / `else` statements", "where": "Part 2 (Conditions)", "any": ["node:If"]}, {"label": "`for` and `while` loops", "where": "Part 2 (Loops)", "any": ["node:For", "node:While", "node:Break", "node:Continue"]}, {"label": "indexing and slicing with `[ ]`", "where": "Part 3 (Strings)", "any": ["node:Subscript"]}, {"label": "methods like `.strip()` or `.upper()`", "where": "Part 3 (Strings)", "prefix": "method:", "exc": ["method:format", "method:title"]}, {"label": "lists, tuples, sets and dictionaries", "where": "Part 3 (Collections)", "any": ["node:List", "node:Dict", "node:Set"]}, {"label": "comprehensions", "where": "Part 3 (Comprehensions)", "any": ["node:ListComp", "node:DictComp", "node:SetComp", "node:GeneratorExp"]}, {"label": "your own functions (`def`, `lambda`)", "where": "Part 4 (Functions)", "any": ["node:FunctionDef", "node:Lambda", "node:Return", "node:Yield"]}, {"label": "`try` / `except`", "where": "Part 5 (Errors)", "any": ["node:Try", "node:Raise"]}, {"label": "`with` and files", "where": "Part 5 (Files)", "any": ["node:With"]}, {"label": "`import`", "where": "Part 5 (Modules)", "any": ["node:Import", "node:ImportFrom"]}, {"label": "classes", "where": "Part 6 (OOP)", "any": ["node:ClassDef"]}], "allow": ["print", "input", "int", "float", "str", "bool", "type", "isinstance", "round", "id"]}};
+var PJ_PARTS = {
+ "1": {
+  "title": "Part 1 projects: Python basics",
+  "intro": "Three small programs that a data analyst could really be asked to write. They use only Part 1: `print()`, variables, `input()`, type conversion, f-strings and operators. No `if`, no loops and no lists yet.",
+  "ids": [
+   "p1-1",
+   "p1-2",
+   "p1-3"
+  ]
+ }
+};
+var PROJECTS = {
+ "p1-1": {
+  "id": "p1-1",
+  "part": 1,
+  "n": 1,
+  "level": 1,
+  "levelName": "Beginner",
+  "title": "Daily sales summary",
+  "short": "Turn a day of juice sales into a clean ₹ report.",
+  "story": "Meena runs a small juice shop in Guntur. She sells three drinks: **Mango juice**, **Lemon soda** and **Sugarcane juice**. Every evening she writes the units sold and the price of each drink in a notebook, then adds everything up by hand. It takes time, and sometimes the totals are wrong.\nWrite a program that asks for the numbers, does all the maths, and prints a clean daily sales report.",
+  "objectives": [
+   "Read numbers typed by the user with `input()`",
+   "Convert text to `int` and `float` correctly",
+   "Do maths with `*`, `+` and `/`",
+   "Format money with an f-string: `₹1,305.00`"
+  ],
+  "may": [
+   "`print()`",
+   "variables",
+   "`input()`",
+   "`int()` and `float()`",
+   "f-strings with `:,` and `:,.2f`",
+   "`+ - * /`",
+   "`*` to repeat text"
+  ],
+  "mustnot": [
+   "`if` / `else`",
+   "loops",
+   "lists",
+   "your own functions",
+   "`import`"
+  ],
+  "tasks": [
+   "Ask for 6 values with `input()`, **in this order**: Mango juice units, Mango juice price, Lemon soda units, Lemon soda price, Sugarcane juice units, Sugarcane juice price.",
+   "Units are whole numbers, so convert them with `int()`. Prices can have paise (like `25.50`), so convert them with `float()`.",
+   "Work out the revenue of each drink: units × price.",
+   "Work out the total units sold and the total revenue.",
+   "Work out the average revenue per product: the total revenue divided by 3 (there are always 3 drinks).",
+   "Print a title line `DAILY SALES REPORT`, with a divider line above and below it made with `*` (for example `\"=\" * 34`).",
+   "Print the report lines exactly as shown below. Money has a `₹`, commas and 2 decimals (`:,.2f`). Total units has commas (`:,`).",
+   "Add a few comments that explain your steps."
+  ],
+  "lines": [
+   "DAILY SALES REPORT",
+   "Mango juice revenue: ₹<amount>",
+   "Lemon soda revenue: ₹<amount>",
+   "Sugarcane juice revenue: ₹<amount>",
+   "Total units sold: <units>",
+   "Total revenue: ₹<amount>",
+   "Average revenue per product: ₹<amount>"
+  ],
+  "rules": "`<amount>` means money with commas and 2 decimals, like `2,400.00`. `<units>` means a whole number with commas, like `1,250`.",
+  "edge": [
+   "A drink sold **0 units** that day, or the shop was closed: the report still prints, with `₹0.00`.",
+   "Prices with paise, like `25.50` or `19.99`: use `float()`, because `int(\"25.50\")` crashes.",
+   "A very busy day with **big numbers**, like 300,000 units: commas keep them readable.",
+   "Numbers typed with **spaces** around them, like ` 12 `: `int()` and `float()` ignore those spaces."
+  ],
+  "hints": [
+   "Use one variable per value, with a clear name, for example `mango_units = int(input(\"Mango juice units sold: \"))`. The text inside `input()` is just the question shown to the user.",
+   "Work out the revenue first, for example `mango_revenue = mango_units * mango_price`. Then add the three revenues for the total, and divide that total by 3 for the average.",
+   "Print money with an f-string: `print(f\"Total revenue: ₹{total_revenue:,.2f}\")`. The `,` adds commas and `.2f` gives 2 decimal places. For the units use `{total_units:,}`."
+  ],
+  "starter": "# Project 1: Daily sales summary\n# Ask for the units and the price of each drink\nmango_units = int(input(\"Mango juice units sold: \"))\n",
+  "sol": "# Project 1: Daily sales summary\n# Ask for the units and the price of each drink\nmango_units = int(input(\"Mango juice units sold: \"))\nmango_price = float(input(\"Mango juice price: \"))\nlemon_units = int(input(\"Lemon soda units sold: \"))\nlemon_price = float(input(\"Lemon soda price: \"))\ncane_units = int(input(\"Sugarcane juice units sold: \"))\ncane_price = float(input(\"Sugarcane juice price: \"))\n\n# Revenue of each drink = units x price\nmango_revenue = mango_units * mango_price\nlemon_revenue = lemon_units * lemon_price\ncane_revenue = cane_units * cane_price\n\n# Totals, and the average over the 3 drinks\ntotal_units = mango_units + lemon_units + cane_units\ntotal_revenue = mango_revenue + lemon_revenue + cane_revenue\naverage_revenue = total_revenue / 3\n\n# Print the report\nprint(\"=\" * 34)\nprint(\"DAILY SALES REPORT\")\nprint(\"=\" * 34)\nprint(f\"Mango juice revenue: ₹{mango_revenue:,.2f}\")\nprint(f\"Lemon soda revenue: ₹{lemon_revenue:,.2f}\")\nprint(f\"Sugarcane juice revenue: ₹{cane_revenue:,.2f}\")\nprint(\"-\" * 34)\nprint(f\"Total units sold: {total_units:,}\")\nprint(f\"Total revenue: ₹{total_revenue:,.2f}\")\nprint(f\"Average revenue per product: ₹{average_revenue:,.2f}\")",
+  "need": [
+   {
+    "any": [
+     "call:input"
+    ],
+    "min": 6,
+    "label": "`input()` to read all 6 values"
+   },
+   {
+    "any": [
+     "call:int"
+    ],
+    "min": 1,
+    "label": "`int()` for the units (whole numbers)"
+   },
+   {
+    "any": [
+     "call:float"
+    ],
+    "min": 1,
+    "label": "`float()` for the prices (they can have paise)"
+   },
+   {
+    "any": [
+     "node:JoinedStr"
+    ],
+    "min": 1,
+    "label": "f-strings to build the report lines"
+   },
+   {
+    "any": [
+     "spec:money"
+    ],
+    "min": 1,
+    "label": "the `:,.2f` format for money"
+   },
+   {
+    "any": [
+     "strrepeat"
+    ],
+    "min": 1,
+    "label": "`*` to repeat a character for the divider lines"
+   },
+   {
+    "any": [
+     "op:Div"
+    ],
+    "min": 1,
+    "label": "`/` to work out the average"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "40",
+    "60",
+    "25",
+    "30",
+    "30",
+    "25.5"
+   ],
+   "out": "Mango juice units sold: 40\nMango juice price: 60\nLemon soda units sold: 25\nLemon soda price: 30\nSugarcane juice units sold: 30\nSugarcane juice price: 25.5\n==================================\nDAILY SALES REPORT\n==================================\nMango juice revenue: ₹2,400.00\nLemon soda revenue: ₹750.00\nSugarcane juice revenue: ₹765.00\n----------------------------------\nTotal units sold: 95\nTotal revenue: ₹3,915.00\nAverage revenue per product: ₹1,305.00"
+  },
+  "tests": [
+   {
+    "name": "A normal day",
+    "kind": "main",
+    "inputs": [
+     "40",
+     "60",
+     "25",
+     "30",
+     "30",
+     "25.5"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹2,400.00",
+     "Lemon soda revenue: ₹750.00",
+     "Sugarcane juice revenue: ₹765.00",
+     "Total units sold: 95",
+     "Total revenue: ₹3,915.00",
+     "Average revenue per product: ₹1,305.00"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Another day",
+    "kind": "main",
+    "inputs": [
+     "12",
+     "55",
+     "48",
+     "20",
+     "7",
+     "35"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹660.00",
+     "Lemon soda revenue: ₹960.00",
+     "Sugarcane juice revenue: ₹245.00",
+     "Total units sold: 67",
+     "Total revenue: ₹1,865.00",
+     "Average revenue per product: ₹621.67"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A busy weekend",
+    "kind": "main",
+    "inputs": [
+     "150",
+     "60",
+     "210",
+     "30",
+     "95",
+     "25"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹9,000.00",
+     "Lemon soda revenue: ₹6,300.00",
+     "Sugarcane juice revenue: ₹2,375.00",
+     "Total units sold: 455",
+     "Total revenue: ₹17,675.00",
+     "Average revenue per product: ₹5,891.67"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "The average uses all 3 drinks",
+    "kind": "logic",
+    "inputs": [
+     "10",
+     "10",
+     "20",
+     "10",
+     "30",
+     "10"
+    ],
+    "expect": [
+     "Total units sold: 60",
+     "Total revenue: ₹600.00",
+     "Average revenue per product: ₹200.00"
+    ],
+    "tip": "The average is the **total revenue of all 3 drinks divided by 3**. Check that you add all three revenues and divide by 3."
+   },
+   {
+    "name": "Each drink uses its own price",
+    "kind": "logic",
+    "inputs": [
+     "5",
+     "100",
+     "5",
+     "1",
+     "5",
+     "10"
+    ],
+    "expect": [
+     "Mango juice revenue: ₹500.00",
+     "Lemon soda revenue: ₹5.00",
+     "Sugarcane juice revenue: ₹50.00",
+     "Total revenue: ₹555.00"
+    ],
+    "tip": "Multiply each drink's units by **that drink's** price. Check that you did not mix up the variables."
+   },
+   {
+    "name": "Prices with paise",
+    "kind": "logic",
+    "inputs": [
+     "3",
+     "19.99",
+     "2",
+     "0.5",
+     "1",
+     "99.95"
+    ],
+    "expect": [
+     "Mango juice revenue: ₹59.97",
+     "Lemon soda revenue: ₹1.00",
+     "Sugarcane juice revenue: ₹99.95",
+     "Total revenue: ₹160.92"
+    ],
+    "tip": "Prices can have paise, like `19.99`. Convert prices with `float()`, not `int()`."
+   },
+   {
+    "name": "Shop closed: all zeros",
+    "kind": "edge",
+    "inputs": [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹0.00",
+     "Lemon soda revenue: ₹0.00",
+     "Sugarcane juice revenue: ₹0.00",
+     "Total units sold: 0",
+     "Total revenue: ₹0.00",
+     "Average revenue per product: ₹0.00"
+    ],
+    "tip": "With all zeros, every amount should print as `₹0.00`. Dividing the total by 3 is safe even when the total is 0."
+   },
+   {
+    "name": "Very big numbers",
+    "kind": "edge",
+    "inputs": [
+     "125000",
+     "1999.99",
+     "98000",
+     "249.5",
+     "300000",
+     "10"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹249,998,750.00",
+     "Lemon soda revenue: ₹24,451,000.00",
+     "Sugarcane juice revenue: ₹3,000,000.00",
+     "Total units sold: 523,000",
+     "Total revenue: ₹277,449,750.00",
+     "Average revenue per product: ₹92,483,250.00"
+    ],
+    "tip": "Big amounts need commas: use `:,.2f` for money and `:,` for the units."
+   },
+   {
+    "name": "Numbers typed with spaces",
+    "kind": "edge",
+    "inputs": [
+     " 12 ",
+     " 45.5 ",
+     "3",
+     "10",
+     " 0 ",
+     "99"
+    ],
+    "expect": [
+     "DAILY SALES REPORT",
+     "Mango juice revenue: ₹546.00",
+     "Lemon soda revenue: ₹30.00",
+     "Sugarcane juice revenue: ₹0.00",
+     "Total units sold: 15",
+     "Total revenue: ₹576.00",
+     "Average revenue per product: ₹192.00"
+    ],
+    "tip": "`int(\" 12 \")` and `float(\" 45.5 \")` work fine. Make sure you convert every value before doing maths."
+   }
+  ]
+ },
+ "p1-2": {
+  "id": "p1-2",
+  "part": 1,
+  "n": 2,
+  "level": 2,
+  "levelName": "Intermediate",
+  "title": "Monthly KPI report",
+  "short": "Turn four numbers into the KPIs a manager checks every month.",
+  "story": "Ravi is a junior data analyst at a chain of electronics stores in Hyderabad. At the end of every month, his manager asks for the same KPIs (key performance indicators): profit, profit margin, growth compared with last month, and how close the store came to its target.\nThe team also gets a **bonus** when the store meets its target **and** keeps a profit margin of at least 15%.\nWrite a program that asks for four numbers and prints the whole KPI report, including `True`/`False` answers for the target and the bonus.",
+  "objectives": [
+   "Turn a business question into formulas",
+   "Use brackets to control the order of operations",
+   "Format money and percentages with f-strings",
+   "Answer yes/no questions with comparison and logical operators"
+  ],
+  "may": [
+   "`print()`",
+   "variables",
+   "`input()`",
+   "`float()`",
+   "f-strings with `:,.2f`, `:.2f` and `:.1%`",
+   "`+ - * /` and brackets",
+   "`>=`, `>`, `and`, `or`, `not`"
+  ],
+  "mustnot": [
+   "`if` / `else`",
+   "loops",
+   "lists",
+   "your own functions",
+   "`import`"
+  ],
+  "tasks": [
+   "Ask for 4 values with `input()`, **in this order**: this month's revenue, this month's cost, last month's revenue, the monthly target. Convert each one with `float()`.",
+   "Profit = revenue − cost.",
+   "Profit margin (%) = profit ÷ revenue × 100.",
+   "Growth vs last month (%) = (revenue − last month's revenue) ÷ last month's revenue × 100. Use brackets.",
+   "Target achieved = revenue ÷ target. Print it with the `:.1%` format, which multiplies by 100 for you.",
+   "Target met = `True` when the revenue is **at least** the target (so exactly on target counts).",
+   "Team bonus = `True` when the target is met **and** the profit margin is at least 15.",
+   "Print a title line `MONTHLY KPI REPORT` and the report lines exactly as shown below. A loss prints as a minus amount, like `Profit: ₹-60,000.00`. That is fine: you cannot use `if` yet."
+  ],
+  "lines": [
+   "MONTHLY KPI REPORT",
+   "Revenue: ₹<amount>",
+   "Cost: ₹<amount>",
+   "Profit: ₹<amount>",
+   "Profit margin: <number>%",
+   "Growth vs last month: <number>%",
+   "Target achieved: <percent>",
+   "Target met: <True or False>",
+   "Team bonus: <True or False>"
+  ],
+  "rules": "`<amount>` means money with commas and 2 decimals (`:,.2f`), like `150,000.00`. `<number>%` means 2 decimals then a `%` sign (`:.2f`), like `17.65%`. `<percent>` uses the `:.1%` format, like `94.4%`. `<True or False>` is the word `True` or `False`.",
+  "edge": [
+   "Allowed values: revenue, last month's revenue and the target are always **more than 0** (the store was open). The cost can be 0 or more. So you never divide by zero.",
+   "A **loss** month (cost bigger than revenue): profit, margin and growth come out negative.",
+   "Revenue **exactly equal** to the target: the target is met. Use `>=`, not `>`.",
+   "A month with **no cost**: the margin is 100%.",
+   "Very **big numbers** (crores) and numbers typed with **spaces**."
+  ],
+  "hints": [
+   "Read all four numbers first: `revenue = float(input(\"This month's revenue: \"))`, and the same for `cost`, `last_revenue` and `target`. Then work out one KPI per line, each in its own variable.",
+   "Brackets matter for growth: `(revenue - last_revenue) / last_revenue * 100`. Without them, Python divides first. For the yes/no answers, a comparison gives `True` or `False` that you can store: `target_met = revenue >= target`.",
+   "The bonus needs both conditions: `team_bonus = target_met and margin >= 15`. Print with f-strings: `{profit:,.2f}` for money, `{margin:.2f}%` for the margin, and `{achieved:.1%}` where `achieved = revenue / target`."
+  ],
+  "starter": "# Project 2: Monthly KPI report\n# Revenue, last month's revenue and the target are always more than 0\n",
+  "sol": "# Project 2: Monthly KPI report\n# Revenue, last month's revenue and the target are always more than 0\nrevenue = float(input(\"This month's revenue: \"))\ncost = float(input(\"This month's cost: \"))\nlast_revenue = float(input(\"Last month's revenue: \"))\ntarget = float(input(\"Monthly target: \"))\n\n# Work out the KPIs\nprofit = revenue - cost\nmargin = profit / revenue * 100\ngrowth = (revenue - last_revenue) / last_revenue * 100\nachieved = revenue / target\n\n# Yes/no answers: exactly on target counts as met\ntarget_met = revenue >= target\nteam_bonus = target_met and margin >= 15\n\n# Print the report\nprint(\"=\" * 32)\nprint(\"MONTHLY KPI REPORT\")\nprint(\"=\" * 32)\nprint(f\"Revenue: ₹{revenue:,.2f}\")\nprint(f\"Cost: ₹{cost:,.2f}\")\nprint(f\"Profit: ₹{profit:,.2f}\")\nprint(f\"Profit margin: {margin:.2f}%\")\nprint(f\"Growth vs last month: {growth:.2f}%\")\nprint(f\"Target achieved: {achieved:.1%}\")\nprint(f\"Target met: {target_met}\")\nprint(f\"Team bonus: {team_bonus}\")",
+  "need": [
+   {
+    "any": [
+     "call:input"
+    ],
+    "min": 4,
+    "label": "`input()` to read all 4 values"
+   },
+   {
+    "any": [
+     "call:float"
+    ],
+    "min": 1,
+    "label": "`float()` to turn the typed text into numbers"
+   },
+   {
+    "any": [
+     "spec:money"
+    ],
+    "min": 1,
+    "label": "the `:,.2f` format for money"
+   },
+   {
+    "any": [
+     "spec:percent"
+    ],
+    "min": 1,
+    "label": "the `:.1%` format for the target achieved"
+   },
+   {
+    "any": [
+     "cmp:GtE",
+     "cmp:Gt",
+     "cmp:LtE",
+     "cmp:Lt"
+    ],
+    "min": 1,
+    "label": "a comparison operator (`>=`) for the yes/no answers"
+   },
+   {
+    "any": [
+     "bool:And"
+    ],
+    "min": 1,
+    "label": "`and` to combine the two bonus conditions"
+   },
+   {
+    "any": [
+     "op:Div"
+    ],
+    "min": 1,
+    "label": "`/` for the margin, growth and target"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "850000",
+    "700000",
+    "800000",
+    "900000"
+   ],
+   "out": "This month's revenue: 850000\nThis month's cost: 700000\nLast month's revenue: 800000\nMonthly target: 900000\n================================\nMONTHLY KPI REPORT\n================================\nRevenue: ₹850,000.00\nCost: ₹700,000.00\nProfit: ₹150,000.00\nProfit margin: 17.65%\nGrowth vs last month: 6.25%\nTarget achieved: 94.4%\nTarget met: False\nTeam bonus: False"
+  },
+  "tests": [
+   {
+    "name": "A normal month",
+    "kind": "main",
+    "inputs": [
+     "850000",
+     "700000",
+     "800000",
+     "900000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹850,000.00",
+     "Cost: ₹700,000.00",
+     "Profit: ₹150,000.00",
+     "Profit margin: 17.65%",
+     "Growth vs last month: 6.25%",
+     "Target achieved: 94.4%",
+     "Target met: False",
+     "Team bonus: False"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A great month",
+    "kind": "main",
+    "inputs": [
+     "1200000",
+     "950000",
+     "1000000",
+     "1100000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹1,200,000.00",
+     "Cost: ₹950,000.00",
+     "Profit: ₹250,000.00",
+     "Profit margin: 20.83%",
+     "Growth vs last month: 20.00%",
+     "Target achieved: 109.1%",
+     "Target met: True",
+     "Team bonus: True"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Target met, small margin",
+    "kind": "main",
+    "inputs": [
+     "455000.50",
+     "390500.25",
+     "470000",
+     "450000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹455,000.50",
+     "Cost: ₹390,500.25",
+     "Profit: ₹64,500.25",
+     "Profit margin: 14.18%",
+     "Growth vs last month: -3.19%",
+     "Target achieved: 101.1%",
+     "Target met: True",
+     "Team bonus: False"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Bonus needs BOTH conditions",
+    "kind": "logic",
+    "inputs": [
+     "500000",
+     "300000",
+     "400000",
+     "600000"
+    ],
+    "expect": [
+     "Profit margin: 40.00%",
+     "Target met: False",
+     "Team bonus: False"
+    ],
+    "tip": "The bonus needs the target met **and** a margin of at least 15. A high margin alone is not enough: use `and`, not `or`."
+   },
+   {
+    "name": "Exactly on target counts",
+    "kind": "logic",
+    "inputs": [
+     "600000",
+     "480000",
+     "600000",
+     "600000"
+    ],
+    "expect": [
+     "Growth vs last month: 0.00%",
+     "Target achieved: 100.0%",
+     "Target met: True",
+     "Team bonus: True"
+    ],
+    "tip": "Revenue equal to the target means the target is met. Use `>=` (at least), not `>`."
+   },
+   {
+    "name": "Growth uses last month as the base",
+    "kind": "logic",
+    "inputs": [
+     "300000",
+     "100000",
+     "200000",
+     "250000"
+    ],
+    "expect": [
+     "Profit margin: 66.67%",
+     "Growth vs last month: 50.00%"
+    ],
+    "tip": "Growth = **(revenue − last month) ÷ last month** × 100. Put the subtraction in brackets and divide by last month's revenue."
+   },
+   {
+    "name": "A loss month",
+    "kind": "edge",
+    "inputs": [
+     "200000",
+     "260000",
+     "250000",
+     "300000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹200,000.00",
+     "Cost: ₹260,000.00",
+     "Profit: ₹-60,000.00",
+     "Profit margin: -30.00%",
+     "Growth vs last month: -20.00%",
+     "Target achieved: 66.7%",
+     "Target met: False",
+     "Team bonus: False"
+    ],
+    "tip": "When the cost is bigger than the revenue, profit, margin and growth are negative. The same formulas still work."
+   },
+   {
+    "name": "No cost at all",
+    "kind": "edge",
+    "inputs": [
+     "50000",
+     "0",
+     "40000",
+     "50000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹50,000.00",
+     "Cost: ₹0.00",
+     "Profit: ₹50,000.00",
+     "Profit margin: 100.00%",
+     "Growth vs last month: 25.00%",
+     "Target achieved: 100.0%",
+     "Target met: True",
+     "Team bonus: True"
+    ],
+    "tip": "A cost of 0 is allowed. The margin is then 100.00%, and revenue equal to the target still meets it."
+   },
+   {
+    "name": "Crore-size numbers typed with spaces",
+    "kind": "edge",
+    "inputs": [
+     " 125000000 ",
+     " 98000000.75 ",
+     "110000000",
+     "120000000"
+    ],
+    "expect": [
+     "MONTHLY KPI REPORT",
+     "Revenue: ₹125,000,000.00",
+     "Cost: ₹98,000,000.75",
+     "Profit: ₹26,999,999.25",
+     "Profit margin: 21.60%",
+     "Growth vs last month: 13.64%",
+     "Target achieved: 104.2%",
+     "Target met: True",
+     "Team bonus: True"
+    ],
+    "tip": "Big numbers need `:,.2f`. `float(\" 98000000.75 \")` ignores the spaces."
+   }
+  ]
+ },
+ "p1-3": {
+  "id": "p1-3",
+  "part": 1,
+  "n": 3,
+  "level": 3,
+  "levelName": "Challenging",
+  "title": "Website session analytics",
+  "short": "Turn raw website numbers into a summary the marketing team can read.",
+  "story": "An online saree store in Chennai gets a raw export from its website tool every night: the **total time** all visitors spent on the site (in seconds), the number of **sessions** (visits), the **data** the pages used (in MB) and the number of **orders**.\nNobody can read \"187530 seconds\" at a glance. The marketing team wants a short daily summary with times in hours and minutes, data in GB, the conversion rate (the share of sessions that ended in an order), and a quick **Healthy day** flag: `True` when the conversion rate is at least 2% **and** an average session lasts at least 2 minutes.",
+  "objectives": [
+   "Break seconds into hours, minutes and seconds with `//` and `%`",
+   "Convert units (MB to GB)",
+   "Work out rates and averages safely",
+   "Combine two conditions into one `True`/`False` flag"
+  ],
+  "may": [
+   "`print()`",
+   "variables",
+   "`input()`",
+   "`int()`",
+   "f-strings with `:,`, `:.2f` and `:,.2f`",
+   "`+ - * / // %`",
+   "`>=`, `and`, `or`"
+  ],
+  "mustnot": [
+   "`if` / `else`",
+   "loops",
+   "lists",
+   "your own functions",
+   "`import`"
+  ],
+  "tasks": [
+   "Ask for 4 whole numbers with `input()`, **in this order**: total time in seconds, number of sessions, data used in MB, number of orders. Convert each with `int()`.",
+   "Print `Sessions` and `Orders` with commas (`:,`).",
+   "Total time: split the total seconds into hours, minutes and seconds with `//` and `%`, and print `Total time: 52 h 5 m 30 s`.",
+   "Average session: total seconds `//` sessions (whole seconds, rounded down). Split it into minutes and seconds: `Average session: 2 min 30 sec`.",
+   "Data used in GB = MB ÷ 1024, printed with `:,.2f`. Data per session = MB ÷ sessions, printed with `:.2f`.",
+   "Conversion rate (%) = orders ÷ sessions × 100, printed with `:.2f` and a `%` sign.",
+   "Healthy day = `True` when the conversion rate is at least 2 **and** the average session is at least 120 seconds.",
+   "Print a title line `WEBSITE DAILY SUMMARY` and the report lines exactly as shown below."
+  ],
+  "lines": [
+   "WEBSITE DAILY SUMMARY",
+   "Sessions: <count>",
+   "Orders: <count>",
+   "Total time: <h> h <m> m <s> s",
+   "Average session: <m> min <s> sec",
+   "Data used: <number> GB",
+   "Data per session: <number> MB",
+   "Conversion rate: <number>%",
+   "Healthy day: <True or False>"
+  ],
+  "rules": "`<count>` uses commas (`:,`), like `1,250`. In `Data used`, `<number>` has commas and 2 decimals (`:,.2f`). In the other lines, `<number>` has 2 decimals (`:.2f`). Hours, minutes and seconds are plain whole numbers. `<True or False>` is the word `True` or `False`.",
+  "edge": [
+   "Allowed values: sessions is always **at least 1**, so dividing by it is safe. The other values can be 0.",
+   "Only **1 session**: the average session is the whole time.",
+   "A day with **0 orders**: the conversion rate is `0.00%`.",
+   "Exactly **on the limits** (2% and 120 seconds): that counts as healthy, so use `>=`.",
+   "A **huge** day: thousands of hours and millions of MB, with commas where the format says so.",
+   "Numbers typed with **spaces** around them."
+  ],
+  "hints": [
+   "For the total time: `hours = total_seconds // 3600`. The seconds left after taking out whole hours are `total_seconds % 3600`, and `// 60` on that gives the minutes. `total_seconds % 60` gives the seconds.",
+   "The average session uses floor division so it stays whole: `average_seconds = total_seconds // sessions`. Then split it the same way: `average_seconds // 60` minutes and `average_seconds % 60` seconds.",
+   "Store the flag in a variable: `healthy_day = conversion_rate >= 2 and average_seconds >= 120`. Then print it with an f-string, like `print(f\"Healthy day: {healthy_day}\")`."
+  ],
+  "starter": "# Project 3: Website session analytics\n",
+  "sol": "# Project 3: Website session analytics\n# Sessions is always at least 1, so dividing by it is safe\ntotal_seconds = int(input(\"Total time on site (seconds): \"))\nsessions = int(input(\"Number of sessions: \"))\ndata_mb = int(input(\"Data used (MB): \"))\norders = int(input(\"Number of orders: \"))\n\n# Total time as hours, minutes and seconds\nhours = total_seconds // 3600\nminutes = total_seconds % 3600 // 60\nseconds = total_seconds % 60\n\n# Average session in whole seconds, then as minutes and seconds\naverage_seconds = total_seconds // sessions\naverage_minutes = average_seconds // 60\naverage_rest = average_seconds % 60\n\n# Data and conversion\ndata_gb = data_mb / 1024\ndata_per_session = data_mb / sessions\nconversion_rate = orders / sessions * 100\nhealthy_day = conversion_rate >= 2 and average_seconds >= 120\n\n# Print the summary\nprint(\"=\" * 34)\nprint(\"WEBSITE DAILY SUMMARY\")\nprint(\"=\" * 34)\nprint(f\"Sessions: {sessions:,}\")\nprint(f\"Orders: {orders:,}\")\nprint(f\"Total time: {hours} h {minutes} m {seconds} s\")\nprint(f\"Average session: {average_minutes} min {average_rest} sec\")\nprint(f\"Data used: {data_gb:,.2f} GB\")\nprint(f\"Data per session: {data_per_session:.2f} MB\")\nprint(f\"Conversion rate: {conversion_rate:.2f}%\")\nprint(f\"Healthy day: {healthy_day}\")",
+  "need": [
+   {
+    "any": [
+     "call:input"
+    ],
+    "min": 4,
+    "label": "`input()` to read all 4 values"
+   },
+   {
+    "any": [
+     "call:int"
+    ],
+    "min": 1,
+    "label": "`int()` to turn the typed text into whole numbers"
+   },
+   {
+    "any": [
+     "op:FloorDiv"
+    ],
+    "min": 1,
+    "label": "`//` for whole hours, minutes and the average"
+   },
+   {
+    "any": [
+     "op:Mod"
+    ],
+    "min": 1,
+    "label": "`%` for the minutes and seconds left over"
+   },
+   {
+    "any": [
+     "spec:comma"
+    ],
+    "min": 1,
+    "label": "the `:,` format for big counts"
+   },
+   {
+    "any": [
+     "spec:decimals"
+    ],
+    "min": 1,
+    "label": "the `:.2f` format for decimals"
+   },
+   {
+    "any": [
+     "cmp:GtE",
+     "cmp:Gt",
+     "cmp:LtE",
+     "cmp:Lt"
+    ],
+    "min": 1,
+    "label": "comparison operators (`>=`) for the limits"
+   },
+   {
+    "any": [
+     "bool:And"
+    ],
+    "min": 1,
+    "label": "`and` to combine the two conditions"
+   }
+  ],
+  "example": {
+   "inputs": [
+    "187530",
+    "1250",
+    "3532",
+    "45"
+   ],
+   "out": "Total time on site (seconds): 187530\nNumber of sessions: 1250\nData used (MB): 3532\nNumber of orders: 45\n==================================\nWEBSITE DAILY SUMMARY\n==================================\nSessions: 1,250\nOrders: 45\nTotal time: 52 h 5 m 30 s\nAverage session: 2 min 30 sec\nData used: 3.45 GB\nData per session: 2.83 MB\nConversion rate: 3.60%\nHealthy day: True"
+  },
+  "tests": [
+   {
+    "name": "A normal day",
+    "kind": "main",
+    "inputs": [
+     "187530",
+     "1250",
+     "3532",
+     "45"
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 1,250",
+     "Orders: 45",
+     "Total time: 52 h 5 m 30 s",
+     "Average session: 2 min 30 sec",
+     "Data used: 3.45 GB",
+     "Data per session: 2.83 MB",
+     "Conversion rate: 3.60%",
+     "Healthy day: True"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A quiet day",
+    "kind": "main",
+    "inputs": [
+     "45000",
+     "600",
+     "1500",
+     "9"
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 600",
+     "Orders: 9",
+     "Total time: 12 h 30 m 0 s",
+     "Average session: 1 min 15 sec",
+     "Data used: 1.46 GB",
+     "Data per session: 2.50 MB",
+     "Conversion rate: 1.50%",
+     "Healthy day: False"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "A small day",
+    "kind": "main",
+    "inputs": [
+     "3725",
+     "25",
+     "100",
+     "1"
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 25",
+     "Orders: 1",
+     "Total time: 1 h 2 m 5 s",
+     "Average session: 2 min 29 sec",
+     "Data used: 0.10 GB",
+     "Data per session: 4.00 MB",
+     "Conversion rate: 4.00%",
+     "Healthy day: True"
+    ],
+    "tip": ""
+   },
+   {
+    "name": "Average rounds down to whole seconds",
+    "kind": "logic",
+    "inputs": [
+     "1000",
+     "3",
+     "30",
+     "0"
+    ],
+    "expect": [
+     "Average session: 5 min 33 sec",
+     "Conversion rate: 0.00%",
+     "Healthy day: False"
+    ],
+    "tip": "Use `//` for the average (`1000 // 3` is 333 seconds), then split it with `// 60` and `% 60`."
+   },
+   {
+    "name": "Healthy needs BOTH conditions",
+    "kind": "logic",
+    "inputs": [
+     "3000",
+     "50",
+     "200",
+     "5"
+    ],
+    "expect": [
+     "Average session: 1 min 0 sec",
+     "Conversion rate: 10.00%",
+     "Healthy day: False"
+    ],
+    "tip": "A high conversion rate is not enough: the average session must also be at least 120 seconds. Join the two checks with `and`."
+   },
+   {
+    "name": "Exactly on the limits counts",
+    "kind": "logic",
+    "inputs": [
+     "6000",
+     "50",
+     "512",
+     "1"
+    ],
+    "expect": [
+     "Average session: 2 min 0 sec",
+     "Data used: 0.50 GB",
+     "Conversion rate: 2.00%",
+     "Healthy day: True"
+    ],
+    "tip": "2% and 120 seconds exactly are healthy. Use `>=` for both limits."
+   },
+   {
+    "name": "Only one session",
+    "kind": "edge",
+    "inputs": [
+     "59",
+     "1",
+     "1",
+     "1"
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 1",
+     "Orders: 1",
+     "Total time: 0 h 0 m 59 s",
+     "Average session: 0 min 59 sec",
+     "Data used: 0.00 GB",
+     "Data per session: 1.00 MB",
+     "Conversion rate: 100.00%",
+     "Healthy day: False"
+    ],
+    "tip": "With 1 session, the average is the whole time. Check that minutes come from `// 60` and seconds from `% 60`."
+   },
+   {
+    "name": "A huge day",
+    "kind": "edge",
+    "inputs": [
+     "9876543",
+     "123456",
+     "2500000",
+     "4321"
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 123,456",
+     "Orders: 4,321",
+     "Total time: 2743 h 29 m 3 s",
+     "Average session: 1 min 20 sec",
+     "Data used: 2,441.41 GB",
+     "Data per session: 20.25 MB",
+     "Conversion rate: 3.50%",
+     "Healthy day: False"
+    ],
+    "tip": "Hours can go into the thousands: take minutes from what is left after the hours (`% 3600`), not from the total. `Data used` needs `:,.2f`."
+   },
+   {
+    "name": "Zero orders, numbers typed with spaces",
+    "kind": "edge",
+    "inputs": [
+     " 7200 ",
+     " 40 ",
+     " 0 ",
+     " 0 "
+    ],
+    "expect": [
+     "WEBSITE DAILY SUMMARY",
+     "Sessions: 40",
+     "Orders: 0",
+     "Total time: 2 h 0 m 0 s",
+     "Average session: 3 min 0 sec",
+     "Data used: 0.00 GB",
+     "Data per session: 0.00 MB",
+     "Conversion rate: 0.00%",
+     "Healthy day: False"
+    ],
+    "tip": "0 orders gives a 0.00% conversion rate, and 0 MB gives 0.00 GB. `int(\" 7200 \")` ignores the spaces."
+   }
+  ]
+ }
+};
+
 /* ---------- Study hub engine ---------- */
 (function(){
 'use strict';
@@ -17072,6 +19078,7 @@ var IC = {
   exam: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><path d="M3 2h10v12H3zM6 6h4M6 9h4"/></svg>',
   cheat: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><path d="M4 2h8v12H4zM6 5h4M6 8h4M6 11h2"/></svg>',
   poster: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M2 6h12M8 6v8"/></svg>',
+  proj: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 13.5V9M8 13.5V3M13 13.5V6.5M1.5 13.5h13"/></svg>',
   ov: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M2 6.5h12M2 10.5h12M6 2v12"/></svg>'
 };
 var NOTE_T = { trap: 'Trap!', tip: 'Easy tip', key: 'Remember this', like: 'Think of it like this', why: 'Why analysts care' };
@@ -17797,13 +19804,13 @@ function mountAll(root, mounts){
 /* ---------- Sidebar ---------- */
 var view = $('#view'), side = $('#side');
 function buildSide(){
-  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
+  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['myprojects', 'My Projects', IC.proj], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
   $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + t[1] + '</button>'; }).join('');
   $('#parts').innerHTML = PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
     return '<div class="part" data-part="' + p.n + '"><div class="part-h">Part ' + p.n + ' · ' + esc(p.title) + '</div>' + chs.map(function(c){
       return '<button class="chlink" type="button" data-go="' + c.id + '" data-q="' + esc((c.title + ' ' + (c.nav || '') + ' ' + (c.keys || '')).toLowerCase()) + '"><span class="dot">' + c.num + '</span><span>' + esc(c.nav || c.title) + '</span>' + (c.tricky ? '<span class="tk">tricky</span>' : '') + '</button>';
-    }).join('') + (ov ? '<button class="chlink ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="dot">★</span><span>' + esc(ov.nav) + '</span></button>' : '') + '</div>';
+    }).join('') + (ov ? '<button class="chlink ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="dot">★</span><span>' + esc(ov.nav) + '</span></button>' : '') + (PJP[p.n] ? '<button class="chlink btl pjl" type="button" data-go="projects-' + p.n + '" data-q="' + esc(('projects project practice score part ' + p.n + ' ' + PJP[p.n].ids.map(function(id){ return PJ[id].title; }).join(' ')).toLowerCase()) + '"><span class="dot">◆</span><span>Part ' + p.n + ' projects</span></button>' : '') + '</div>';
   }).join('');
   $$('.chlink', side).forEach(function(b){ var c = byId[b.getAttribute('data-go')]; if (c && !c.ov && BT[c.id]) b.insertAdjacentHTML('afterend', '<button class="chlink btl" type="button" data-go="test-' + c.id + '" data-q="' + esc(('big test exam questions ' + c.title + ' ' + (c.nav || '')).toLowerCase()) + '"><span class="dot">✎</span><span>' + c.num + '.1 Big Test</span></button>'); });
   side.addEventListener('click', function(e){ var b = e.target.closest('[data-go]'); if (b) route(b.getAttribute('data-go')); });
@@ -17826,6 +19833,7 @@ function updateSide(cur){
   var bts = store.get('bt', {});
   $$('.chlink', side).forEach(function(b){
     var id = b.getAttribute('data-go');
+    if (/^projects-/.test(id)) { var PP = PJP[+id.slice(9)], nd = PP.ids.filter(pjReady).length, cu = updateSide.cur || ''; b.classList.toggle('done', nd === PP.ids.length); b.classList.toggle('on', id === cu || PP.ids.indexOf(cu.slice(8)) > -1); $('.dot', b).textContent = nd === PP.ids.length ? '✓' : '◆'; b.title = nd + ' of ' + PP.ids.length + ' projects ready'; return; }
     if (/^test-/.test(id)) { var sc = bts[id.slice(5)], ps = !!(sc && sc.best >= BT_PASS); b.classList.toggle('done', ps); b.classList.toggle('on', id === updateSide.cur); $('.dot', b).textContent = ps ? '✓' : '✎'; b.title = sc ? 'Best score: ' + sc.best + '%' : ''; return; }
     b.classList.toggle('done', !!done[id]);
     b.classList.toggle('on', id === updateSide.cur);
@@ -17931,6 +19939,7 @@ function vChapter(c){
   h += '<div class="donebox"><div><b style="font-family:var(--display)">Finished this ' + (OV ? 'overview' : 'chapter') + '?</b><div class="muted" style="font-size:15px">Mark it done to track your progress.</div></div><button class="btn ' + (done[c.id] ? 'good' : 'pri') + '" id="doneBtn" type="button">' + (done[c.id] ? 'Done ✓' : 'Mark as done') + '</button></div>';
   var prev = SEQ[c.seq - 1], next = SEQ[c.seq + 1];
   if (!OV && BT[c.id]) h += btCTA(c);
+  if (OV && PJP[c.part]) h += pjCTA(c.part);
   h += '<nav class="endnav">' + (prev ? '<button class="btn" type="button" data-go="' + prev.id + '">← ' + esc(prev.nav || prev.title) + '</button>' : '<span></span>') + (next ? '<button class="btn pri" type="button" data-go="' + next.id + '">' + esc(next.nav || next.title) + ' →</button>' : '<button class="btn pri" type="button" data-go="exam">Take the final exam →</button>') + '</nav>';
   if (c.src) h += '<p class="srcs">Built from: ' + c.src.map(esc).join(' · ') + '</p>';
   view.className = OV ? 'col wide ovpage' : 'col';
@@ -18299,7 +20308,7 @@ function vBigTest(cid){
       fb.innerHTML = t; fb.hidden = false;
     });
     var pct = Math.round(score / L.length * 100), all = store.get('bt', {}), prev = all[cid];
-    all[cid] = { best: Math.max(pct, prev ? prev.best : 0), last: pct }; store.set('bt', all); updateSide();
+    all[cid] = { best: Math.max(pct, prev ? prev.best : 0), last: pct, weak: Object.keys(weak) }; store.set('bt', all); updateSide();
     var pass = pct >= BT_PASS, need = Math.ceil(L.length * BT_PASS / 100);
     var tp = Object.keys(weak).sort(function(a, b){ return weak[b] - weak[a]; });
     $('#btSum').innerHTML = '<div class="btsum ' + (pass ? 'pass' : 'fail') + '"><div class="btbig"><b>' + score + '</b><span>/ ' + L.length + '</span><em>' + pct + '%</em></div><div class="btmsg"><b>' + (pass ? '🎉 Passed! You know this chapter well.' : 'Not yet. You need ' + need + ' of ' + L.length + ' (' + BT_PASS + '%) to pass.') + '</b>' +
@@ -18312,19 +20321,227 @@ function vBigTest(cid){
   }
 }
 
+/* ---------- Projects: brief, editor, automatic score out of 100 ---------- */
+var PJ = window.PROJECTS || {}, PJP = window.PJ_PARTS || {}, PJ_READY = 70, PJ_TIMEOUT = 10000;
+var PJ_W = [['main', 'Correctness', 30, 'Share of the main tests your program passes'], ['logic', 'Logic', 20, 'Share of the logic tests (tricky formulas and conditions)'], ['edge', 'Edge cases', 10, 'Share of the edge-case tests (zeros, big numbers, spaces)'], ['concepts', 'Use of concepts', 25, 'Python reads your code and looks for the tools this project needs. It takes 5 points off for each tool from a later Part'], ['read', 'Readability', 15, 'Clear names (5), your own comments (4), short lines (2), clean indentation (2), spaces around = (2)']];
+function pjAll(){ return store.get('pj', {}); }
+function pjRec(id){ return pjAll()[id] || null; }
+function pjSave(id, f){ var a = pjAll(); a[id] = Object.assign({ best: null, last: null, attempts: 0, hints: 0 }, a[id] || {}); f(a[id]); store.set('pj', a); }
+function pjReady(id){ var r = pjRec(id); return !!(r && r.best >= PJ_READY); }
+function pjStatus(id){ var r = pjRec(id); if (!r || !r.attempts) return '<span class="pill">Not started</span>'; return '<span class="pill ' + (r.best >= PJ_READY ? 'lv1">✓ Ready · best ' : 'lv3">Best ') + r.best + '/100</span>'; }
+function pjNorm(s){ return String(s).trim().replace(/\s+/g, ' '); }
+function pjCTA(n){
+  var P = PJP[n], dn = P.ids.filter(pjReady).length;
+  return '<div class="btcta"><div><b>Part ' + n + ' projects</b><span>' + P.ids.length + ' real data-analyst problems to solve with Part ' + n + ' only. You get an automatic score out of 100 with feedback.' + (dn ? ' Ready: <b>' + dn + ' of ' + P.ids.length + '</b>.' : '') + '</span></div><button class="btn pri" type="button" data-go="projects-' + n + '">Open the projects →</button></div>';
+}
+function pjRunHTML(ex){
+  var L = ex.out.split('\n'), k = 0;
+  return '<pre class="pjrun">' + L.map(function(l){
+    var v = ex.inputs[k];
+    if (v != null && l.slice(-v.length) === v) { k++; return esc(l.slice(0, l.length - v.length)) + '<b class="pjin">' + esc(v) + '</b>'; }
+    return esc(l);
+  }).join('\n') + '</pre>';
+}
+function vProjectsPart(n){
+  var P = PJP[n], pt = PARTS.filter(function(p){ return p.n === n; })[0] || { title: '' };
+  var h = '<header class="chead"><div class="num">Part ' + n + ' · Projects</div><h1>' + esc(P.title) + '</h1><p class="lead">' + md(P.intro) + '</p></header>' +
+    '<div class="goals"><h3>How projects work</h3><ul><li>Read the brief: the story, your tasks and the exact lines your output must contain.</li><li>Write your program in the editor. Press <b>Run</b> and type your own numbers to try it.</li><li>Press <b>Submit for scoring</b>. Real Python runs your program with 9 sets of numbers and reads your code, then gives you a score out of 100 with feedback.</li><li>' + PJ_READY + ' or more means you are ready for the next project. Nothing is ever locked: you can open any project and submit as often as you like.</li><li>Stuck? Open the hints one at a time. A model answer appears after your first submission.</li></ul></div><div class="pjcards">';
+  P.ids.forEach(function(id){
+    var x = PJ[id];
+    h += '<div class="pjcard"><div class="row"><span class="pill lv' + x.level + '">' + x.n + '. ' + esc(x.levelName) + '</span>' + pjStatus(id) + '</div><h3>' + esc(x.title) + '</h3><p>' + md(x.short) + '</p><button class="btn pri" type="button" data-go="project-' + id + '">Open project →</button></div>';
+  });
+  h += '</div><p class="prose muted">All your Big Test and project scores, with topics to work on: <button class="btn" type="button" data-go="myprojects">My Projects</button></p>';
+  var ov = ovOf(n), first = CH.filter(function(c){ return c.part === n; })[0];
+  h += '<nav class="endnav"><button class="btn" type="button" data-go="' + (ov ? ov.id : first.id) + '">← ' + esc(ov ? ov.nav : 'Part ' + n) + '</button><button class="btn pri" type="button" data-go="project-' + P.ids[0] + '">Start project 1 →</button></nav>';
+  view.className = 'col'; view.innerHTML = h;
+}
+function vProject(id){
+  var P = PJ[id], rec = pjRec(id) || { attempts: 0, hints: 0 }, ids = PJP[P.part].ids, k = ids.indexOf(id);
+  var mins = { 1: '30 to 45 min', 2: '45 to 60 min', 3: '60 to 90 min' }[P.level];
+  var h = '<header class="chead"><div class="num">Part ' + P.part + ' · Project ' + P.n + ' of ' + ids.length + '</div><h1>' + esc(P.title) + '</h1><p class="lead">' + md(P.short) + '</p>' +
+    '<div class="meta"><span class="pill lv' + P.level + '">' + esc(P.levelName) + '</span><span class="pill">' + mins + '</span>' + pjStatus(id) + '</div></header>';
+  h += '<section class="sec"><h2>The problem</h2>' + P.story.split('\n').map(function(p){ return '<p class="prose">' + md(p) + '</p>'; }).join('') + '</section>';
+  h += '<div class="goals"><h3>What you will practise</h3><ul>' + P.objectives.map(function(g){ return '<li>' + md(g) + '</li>'; }).join('') + '</ul></div>';
+  h += '<div class="pjuse"><div><b>You may use</b><div class="row">' + P.may.map(function(x){ return '<span class="pill lv1">' + md(x) + '</span>'; }).join('') + '</div></div><div><b>Do not use yet</b><div class="row">' + P.mustnot.map(function(x){ return '<span class="pill trap">' + md(x) + '</span>'; }).join('') + '</div><p class="muted" style="margin:6px 0 0;font-size:14px">They come in later Parts. Using them costs 5 points each.</p></div></div>';
+  h += '<section class="sec"><h2>Your tasks</h2><ol class="list">' + P.tasks.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ol></section>';
+  h += '<section class="sec"><h2>Lines your output must contain</h2><p class="prose">The checker looks for each of these as a <b>whole line</b> of your output. Extra spaces at the ends do not matter, but the words, signs and number formats must match. You may print extra lines too, like dividers.</p><pre class="pjlines">' + esc(P.lines.join('\n')) + '</pre><p class="prose">' + md(P.rules) + '</p></section>';
+  h += '<section class="sec"><h2>Example run</h2><p class="prose muted">The <b class="pjin">blue</b> values are what the user typed. Your questions inside <code>input()</code> can use any words.</p>' + pjRunHTML(P.example) + '</section>';
+  h += '<section class="sec"><h2>Edge cases to think about</h2><ul class="list">' + P.edge.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></section>';
+  h += '<section class="sec"><h2>How your score is worked out</h2><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody>' + PJ_W.map(function(w){ return '<tr><td><b>' + w[1] + '</b></td><td>' + w[2] + '</td><td>' + esc(w[3]) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="prose muted">Tools this project needs: ' + P.need.map(function(n){ return md(n.label); }).join('; ') + '.</p></section>';
+  h += '<section class="sec"><h2>Hints</h2><p class="prose muted">Try on your own first. Each hint gives a little more help.</p><div id="pjHints"></div></section>';
+  h += '<section class="sec"><h2>Your program</h2><p class="prose muted">Press <b>Run</b> to try your program: a box appears each time <code>input()</code> asks for a value. When it works, press <b>Submit for scoring</b>.</p><div id="pjEd"></div>' +
+    '<div class="row"><button class="btn pri" type="button" id="pjSub">Submit for scoring</button><span class="muted" id="pjMsg" aria-live="polite" style="font-size:14.5px"></span></div></section>';
+  h += '<div id="pjRes" aria-live="polite"></div><div id="pjModel"></div>';
+  h += '<nav class="endnav">' + (k > 0 ? '<button class="btn" type="button" data-go="project-' + ids[k - 1] + '">← ' + esc(PJ[ids[k - 1]].title) + '</button>' : '<button class="btn" type="button" data-go="projects-' + P.part + '">← Part ' + P.part + ' projects</button>') +
+    (k < ids.length - 1 ? '<button class="btn pri" type="button" data-go="project-' + ids[k + 1] + '">' + esc(PJ[ids[k + 1]].title) + ' →</button>' : '<button class="btn pri" type="button" data-go="myprojects">My Projects →</button>') + '</nav>';
+  view.className = 'col'; view.innerHTML = h;
+  CodeBox($('#pjEd'), { key: 'pj:' + id, starter: P.starter, label: 'Project ' + P.part + '.' + P.n + ': ' + P.title });
+  function hints(){
+    var n = (pjRec(id) || {}).hints || 0, t = P.hints.map(function(x, i){ return i < n ? '<div class="pjhint"><b>Hint ' + (i + 1) + '</b> ' + md(x) + '</div>' : ''; }).join('');
+    if (n < P.hints.length) t += '<button class="btn" type="button" id="pjHintB">Show hint ' + (n + 1) + ' of ' + P.hints.length + '</button>';
+    $('#pjHints').innerHTML = t;
+    var b = $('#pjHintB'); if (b) b.onclick = function(){ pjSave(id, function(r){ r.hints = Math.min(P.hints.length, (r.hints || 0) + 1); }); hints(); };
+  }
+  hints();
+  function model(){
+    if (!((pjRec(id) || {}).attempts)) { $('#pjModel').innerHTML = ''; return; }
+    $('#pjModel').innerHTML = '<section class="sec"><h2>Model answer</h2><p class="prose muted">Try to reach ' + PJ_READY + ' on your own first: you learn far more from fixing your own code. The model answer is one good way to solve it, not the only way.</p><details class="reveal"><summary>Show a model answer</summary>' + cell(P.sol, null) + '</details></section>';
+  }
+  model();
+  $('#pjSub').onclick = function(){
+    var ta = $('#pjEd .edta'), code = ta ? ta.value : '', btn = this, msg = $('#pjMsg');
+    if (!code.trim() || code.trim() === P.starter.trim()) { msg.textContent = 'Write your program first, then submit.'; return; }
+    btn.disabled = true; $('#pjRes').innerHTML = '';
+    var res = [], p = Promise.resolve();
+    P.tests.forEach(function(t, i){ p = p.then(function(){ msg.textContent = 'Running test ' + (i + 1) + ' of ' + P.tests.length + '...'; return pjTest(code, t).then(function(r){ res.push(r); }); }); });
+    p.then(function(){ msg.textContent = 'Reading your code...'; return pjAnalyse(code, P.starter); }).then(function(an){
+      btn.disabled = false; msg.textContent = '';
+      pjShow(P, code, res, an); model();
+    }, function(){ btn.disabled = false; msg.textContent = 'Python could not start. Check your internet connection, then try again.'; });
+  };
+}
+function pjTest(code, t){
+  return pyBoot().then(function(){
+    return new Promise(function(resolve){
+      var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
+      pyRun(code, t.inputs.slice(), function(){}).then(function(r){
+        clearTimeout(timer);
+        var out = r.out || '', got = {}, lines = out.split('\n');
+        lines.forEach(function(l){ got[pjNorm(l)] = 1; });
+        var miss = t.expect.filter(function(l){ return !got[pjNorm(l)]; });
+        resolve({ t: t, status: late ? 'timeout' : r.status, out: out, err: r.err || '', miss: miss, pass: r.status === 'ok' && !late && !miss.length, lines: lines });
+      }, function(){ clearTimeout(timer); resolve({ t: t, status: 'error', out: '', err: 'Python could not start. Check your internet connection.', miss: t.expect.slice(), pass: false, lines: [] }); });
+    });
+  });
+}
+function pjAnalyse(code, starter){
+  var src = PJ_AN + '\nimport json as _hub_json\nprint(_hub_json.dumps(analyse(' + JSON.stringify(code) + ', ' + JSON.stringify(starter) + ')))\n';
+  return pyRun(src, [], function(){}).then(function(r){ try { return JSON.parse((r.out || '').trim().split('\n').pop()); } catch (e) { return null; } });
+}
+function pjConcepts(P, an){
+  if (!an || !an.ok) return { pts: 0, found: [], miss: P.need, banned: [], err: an ? an.err : 'not checked' };
+  var feat = an.feat, found = [], miss = [], banned = [], R = PJ_RULES[P.part] || { ban: [] };
+  P.need.forEach(function(n){ var c = n.any.reduce(function(s, k){ return s + (feat[k] || 0); }, 0); (c >= n.min ? found : miss).push(n); });
+  R.ban.forEach(function(r){
+    var ks = r.any ? r.any.filter(function(k){ return feat[k]; }) : Object.keys(feat).filter(function(k){ return k.indexOf(r.prefix) === 0 && r.exc.indexOf(k) < 0; });
+    if (ks.length) banned.push({ label: r.label, where: r.where });
+  });
+  if (R.allow) {
+    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
+    if (ex.length) banned.push({ label: 'built-in functions not taught yet (' + ex.join(', ') + ')', where: 'a later Part' });
+  }
+  return { pts: Math.max(0, Math.round(25 * found.length / P.need.length) - 5 * banned.length), found: found, miss: miss, banned: banned };
+}
+function pjRead(an){
+  if (!an || !an.ok) return { pts: 0, items: [{ ok: false, max: 15, pts: 0, bad: 'Python could not read your code' + (an && an.err ? ' (' + an.err + ')' : '') + ', so readability could not be checked. Fix the error first.' }] };
+  var it = [], short = an.names.filter(function(n){ return n.length < 3 && n !== '_'; }), nn = an.names.length;
+  it.push({ max: 5, pts: nn ? Math.round(5 * (nn - short.length) / nn) : 0, ok: nn > 0 && !short.length, good: 'Clear variable names that say what they hold.',
+    bad: nn ? 'Use names that say what they hold. ' + short.map(function(n){ return '`' + n + '`'; }).join(', ') + (short.length > 1 ? ' are' : ' is') + ' too short: for example `total_revenue` instead of `t`.' : 'Store your values in variables with clear names, like `total_revenue`, instead of doing everything inside `print()`.' });
+  var needC = an.lines > 8, okC = !needC || an.comments > 0;
+  it.push({ max: 4, pts: okC ? 4 : 0, ok: okC, good: an.comments ? 'Your own comments explain the steps.' : 'Your program is short, so comments are optional.', bad: 'Add at least one comment of your own (a line starting with `#`) that explains a step. The starter\'s comments do not count.' });
+  it.push({ max: 2, pts: an.long.length ? 0 : 2, ok: !an.long.length, good: 'Every line is short enough to read easily.', bad: 'Line ' + an.long.join(', ') + (an.long.length > 1 ? ' are' : ' is') + ' longer than 100 characters. Split it into shorter lines.' });
+  var bi = an.tabs.concat(an.indent);
+  it.push({ max: 2, pts: bi.length ? 0 : 2, ok: !bi.length, good: 'Clean indentation with no tabs.', bad: 'Use 4 spaces for indentation, never tabs (line ' + bi.join(', ') + ').' });
+  it.push({ max: 2, pts: an.tight.length ? 0 : 2, ok: !an.tight.length, good: 'Spaces around `=` make each step easy to read.', bad: 'Put a space on each side of `=` when you store a value (line ' + an.tight.join(', ') + '), like `total = price * units`.' });
+  return { pts: it.reduce(function(s, x){ return s + x.pts; }, 0), items: it };
+}
+function pjNear(lines, want){
+  var k = want.indexOf(':') > 0 ? pjNorm(want.slice(0, want.indexOf(':') + 1)).toLowerCase() : '';
+  if (!k) return null;
+  for (var i = lines.length - 1; i >= 0; i--) { var l = pjNorm(lines[i]); if (l.toLowerCase().indexOf(k) === 0) return l; }
+  return null;
+}
+function pjShow(P, code, res, an){
+  var by = { main: [0, 0], logic: [0, 0], edge: [0, 0] };
+  res.forEach(function(r){ by[r.t.kind][1]++; if (r.pass) by[r.t.kind][0]++; });
+  var cs = pjConcepts(P, an), rd = pjRead(an);
+  var pts = { main: Math.round(30 * by.main[0] / by.main[1]), logic: Math.round(20 * by.logic[0] / by.logic[1]), edge: Math.round(10 * by.edge[0] / by.edge[1]), concepts: cs.pts, read: rd.pts };
+  var total = pts.main + pts.logic + pts.edge + pts.concepts + pts.read, ready = total >= PJ_READY;
+  var good = [], todo = [], keys = [];
+  ['main', 'logic', 'edge'].forEach(function(k){
+    var name = { main: 'main', logic: 'logic', edge: 'edge-case' }[k];
+    if (by[k][0] === by[k][1]) good.push('All ' + by[k][1] + ' ' + name + ' tests pass' + { main: ': your report is right for normal data.', logic: ': your formulas and conditions are right.', edge: ': your program copes with unusual values.' }[k]);
+  });
+  var seen = {}, nDiff = 0, grp = {};
+  res.forEach(function(r, i){
+    if (r.pass) return;
+    keys.push(P.title + ': test "' + r.t.name + '"');
+    var m = '';
+    if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same numbers, and read the error to find the line.'; } }).n.push(i + 1); }
+    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Each test gives exactly ' + r.t.inputs.length + ' values: call `input()` exactly ' + r.t.inputs.length + ' times, in the order shown in the tasks.'; } }).n.push(i + 1);
+    else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
+    else if (r.t.tip) m = r.t.tip;
+    else if (nDiff++ < 2) { var ml = r.miss[0], nr = pjNear(r.lines, ml); m = 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
+    if (m && !seen[m]) { seen[m] = 1; todo.push(m); }
+  });
+  Object.keys(grp).forEach(function(g){ var n = grp[g].n; todo.unshift(grp[g].t((n.length > 1 ? 'tests ' : 'test ') + (n.length > 2 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n.join(' and ')))); });
+  if (cs.found.length) good.push('You used ' + cs.found.map(function(n){ return n.label; }).join(', ') + '.');
+  cs.miss.forEach(function(n){ todo.push('Use ' + n.label + '.'); keys.push(P.title + ': use ' + n.label); });
+  if (an && an.ok && !cs.banned.length) good.push('You stayed within the tools of Part ' + P.part + '.');
+  cs.banned.forEach(function(b){ todo.push('Leave out ' + b.label + ' for now. This comes later, in ' + b.where + ', and you can solve this project without it (minus 5 points).'); keys.push(P.title + ': use Part ' + P.part + ' tools only'); });
+  rd.items.forEach(function(x){ if (x.ok) good.push(x.good); else { todo.push(x.bad); keys.push(P.title + ': readability'); } });
+  var rec; pjSave(P.id, function(r){ r.attempts = (r.attempts || 0) + 1; r.last = total; r.best = Math.max(total, r.best || 0); r.parts = pts; r.todo = keys.filter(function(k, i){ return keys.indexOf(k) === i; }).slice(0, 12); r.at = Date.now(); rec = r; });
+  updateSide();
+  var ids = PJP[P.part].ids, k = ids.indexOf(P.id), nextP = PARTS.filter(function(p){ return p.n === P.part + 1; })[0], nextCh = nextP && CH.filter(function(c){ return c.part === nextP.n; })[0];
+  var nextBtn = k < ids.length - 1 ? '<button class="btn pri" type="button" data-go="project-' + ids[k + 1] + '">Next project: ' + esc(PJ[ids[k + 1]].title) + ' →</button>' : (nextCh ? '<button class="btn pri" type="button" data-go="' + nextCh.id + '">Start Part ' + nextP.n + ': ' + esc(nextCh.nav || nextCh.title) + ' →</button>' : '');
+  var h = '<div class="btsum ' + (ready ? 'pass' : 'fail') + '"><div class="btbig"><b>' + total + '</b><span>/ 100</span></div><div class="btmsg"><b>' + (ready ? '🎉 Ready for the next project!' : 'Not ready yet: ' + PJ_READY + ' or more means ready.') + '</b>' +
+    '<span style="font-size:14.5px">' + (ready ? 'Great work. You can still improve your score and submit again any time.' : 'Fix the points under <b>What to improve</b>, then submit again. Nothing is locked: you can move on whenever you like.') + ' Attempt ' + rec.attempts + ', best score ' + rec.best + '/100.</span>' +
+    '<div class="row">' + (ready ? nextBtn : '') + '<button class="btn" type="button" data-go="myprojects">My Projects</button></div></div></div>';
+  h += '<div class="pjbars">' + PJ_W.map(function(w){
+    var v = pts[w[0]], sub = by[w[0]] ? by[w[0]][0] + ' of ' + by[w[0]][1] + ' tests' : w[0] === 'concepts' ? cs.found.length + ' of ' + P.need.length + ' tools' + (cs.banned.length ? ', −' + 5 * cs.banned.length + ' for later tools' : '') : rd.items.filter(function(x){ return x.ok; }).length + ' of ' + rd.items.length + ' checks';
+    return '<div class="pjbar"><span class="pjbl"><b>' + w[1] + '</b><small>' + sub + '</small></span><span class="pjbt"><i style="width:' + Math.round(100 * v / w[2]) + '%"></i></span><span class="pjbv"><b>' + v + '</b> / ' + w[2] + '</span></div>';
+  }).join('') + '</div>';
+  h += '<div class="pjfb"><div class="pjgood"><h3>What you did well</h3>' + (good.length ? '<ul class="list">' + good.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Keep going: every test you pass will show up here.</p>') + '</div>' +
+    '<div class="pjtodo"><h3>What to improve</h3>' + (todo.length ? '<ul class="list">' + todo.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Nothing! Every check passed. 🎉</p>') + '</div></div>';
+  h += '<section class="sec"><h2>Every test</h2><div class="tbl pjtests"><table><thead><tr><th>Test</th><th>Input given</th><th>Lines expected</th><th>Your output</th><th>Result</th></tr></thead><tbody>' + res.map(function(r, i){
+    var exp = r.t.expect.map(function(l){ var miss = r.miss.indexOf(l) > -1; return '<span class="' + (miss ? 'pjmiss' : 'pjhit') + '">' + esc(l) + '</span>'; }).join('\n');
+    var yo = r.status === 'error' ? r.out + (r.out ? '\n' : '') + r.err.trim().split('\n').pop() : r.status === 'input' ? r.out + '\n(waiting for more input)' : (r.status === 'timeout' || r.status === 'stopped') ? '(stopped after ' + PJ_TIMEOUT / 1000 + ' seconds)' : r.out || '(nothing printed)';
+    var why = r.pass ? '✓ Pass' : r.status === 'ok' ? '✗ ' + r.miss.length + ' line' + (r.miss.length > 1 ? 's' : '') + ' missing' : r.status === 'error' ? '✗ Error' : r.status === 'input' ? '✗ Asked for more input' : '✗ Too slow';
+    return '<tr class="' + (r.pass ? 'ok' : 'no') + '"><td data-l="Test"><b>' + (i + 1) + '. ' + esc(r.t.name) + '</b><br><span class="pill">' + { main: 'main', logic: 'logic', edge: 'edge case' }[r.t.kind] + '</span></td><td data-l="Input given"><pre class="pjinp">' + esc(r.t.inputs.map(function(v){ return JSON.stringify(v); }).join('\n')) + '</pre></td><td data-l="Lines expected"><pre>' + exp + '</pre></td><td data-l="Your output"><pre class="pjyo">' + esc(yo) + '</pre></td><td class="pjr" data-l="Result">' + why + '</td></tr>';
+  }).join('') + '</tbody></table></div><p class="prose muted" style="font-size:14px">Inputs are shown in quotes so you can see any spaces. Expected lines in <span class="pjmiss">red</span> were not found in your output.</p></section>';
+  $('#pjRes').innerHTML = h;
+  $('#pjRes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function vMyProjects(){
+  var bts = store.get('bt', {}), pjs = pjAll(), strong = [], work = [];
+  var h = '<header class="chead"><div class="num">Your progress</div><h1>My Projects</h1><p class="lead">Your Big Test and project scores, Part by Part, and the topics to work on next. Everything is saved in this browser. Use <b>Save my progress</b> on the Home page to keep a backup.</p></header>';
+  PARTS.forEach(function(p){
+    var chs = CH.filter(function(c){ return c.part === p.n && BT[c.id]; }), P = PJP[p.n];
+    if (!chs.length && !P) return;
+    h += '<section class="sec"><h2>Part ' + p.n + ' · ' + esc(p.title) + '</h2>';
+    if (chs.length) h += '<div class="tbl"><table><thead><tr><th>Big Test</th><th>Best</th><th>Last</th><th></th></tr></thead><tbody>' + chs.map(function(c){
+      var s = bts[c.id];
+      if (s) { if (s.best >= BT_PASS) strong.push(c.num + '. ' + (c.nav || c.title)); else work.push({ t: 'Big Test ' + c.num + '.1: best ' + s.best + '%, aim for ' + BT_PASS + '%', go: 'test-' + c.id }); (s.weak || []).forEach(function(sec){ var sid = btSecId(c.id, sec); if (sid) work.push({ t: (c.nav || c.title) + ': ' + sec, jump: sid, ov: c.id }); }); }
+      return '<tr><td><b>' + c.num + '.1</b> ' + esc(c.nav || c.title) + '</td><td>' + (s ? '<span class="pill ' + (s.best >= BT_PASS ? 'lv1">✓ ' : 'lv3">') + s.best + '%</span>' : '<span class="muted">Not taken</span>') + '</td><td>' + (s ? s.last + '%' : '') + '</td><td><button class="btn" type="button" data-go="test-' + c.id + '">' + (s ? 'Retake' : 'Take it') + '</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+    if (P) h += '<div class="tbl"><table><thead><tr><th>Project</th><th>Best</th><th>Tries</th><th>Hints</th><th></th></tr></thead><tbody>' + P.ids.map(function(id){
+      var x = PJ[id], r = pjs[id];
+      if (r && r.attempts) { if (r.best >= PJ_READY) strong.push(x.title + ' (project)'); (r.todo || []).forEach(function(t){ work.push({ t: t, go: 'project-' + id }); }); }
+      return '<tr><td><b>' + p.n + '.' + x.n + '</b> ' + esc(x.title) + '<br><span class="pill lv' + x.level + '">' + esc(x.levelName) + '</span></td><td>' + (r && r.attempts ? '<span class="pill ' + (r.best >= PJ_READY ? 'lv1">✓ ' : 'lv3">') + r.best + '/100</span>' : '<span class="muted">Not started</span>') + '</td><td>' + (r ? r.attempts || 0 : 0) + '</td><td>' + (r ? r.hints || 0 : 0) + ' of 3</td><td><button class="btn" type="button" data-go="project-' + id + '">Open</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+    h += '</section>';
+  });
+  h += '<div class="pjfb"><div class="pjgood"><h3>Strong topics</h3>' + (strong.length ? '<div class="row">' + strong.map(function(s){ return '<span class="pill lv1">✓ ' + esc(s) + '</span>'; }).join('') + '</div>' : '<p class="prose muted">Pass a Big Test (' + BT_PASS + '%+) or score ' + PJ_READY + '+ on a project and it shows up here.</p>') + '</div>' +
+    '<div class="pjtodo"><h3>Topics to work on</h3>' + (work.length ? '<div class="pjwork">' + work.slice(0, 24).map(function(w){ return '<button class="btn" type="button" ' + (w.jump ? 'data-jump="' + w.jump + '" data-ov="' + w.ov + '"' : 'data-go="' + w.go + '"') + '>' + md(w.t) + '</button>'; }).join('') + '</div><p class="muted" style="font-size:14px;margin:8px 0 0">From your last Big Test attempts and the checks your projects missed. Tap one to practise it.</p>' : '<p class="prose muted">Nothing yet. Take a Big Test or submit a project, and the topics with mistakes show up here.</p>') + '</div></div>';
+  view.className = 'col'; view.innerHTML = h;
+}
+
 /* ---------- Router ---------- */
-var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises };
+var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises, myprojects: vMyProjects };
 function render(id){
   stopAll(); COPY = []; TRY = []; cellNo = 0;
   var btId = /^test-/.test(id) && BT[id.slice(5)] && byId[id.slice(5)] ? id.slice(5) : null;
-  if (!TOOLS[id] && !byId[id] && !btId) id = 'home';
-  if (TOOLS[id]) TOOLS[id](); else if (btId) vBigTest(btId); else vChapter(byId[id]);
+  var pjId = /^project-/.test(id) && PJ[id.slice(8)] ? id.slice(8) : null;
+  var pm = /^projects-(?:part)?(\d+)$/.exec(id), pjPart = pm && PJP[+pm[1]] ? +pm[1] : null;
+  if (pjPart) id = 'projects-' + pjPart;
+  if (!TOOLS[id] && !byId[id] && !btId && !pjId && !pjPart) id = 'home';
+  if (TOOLS[id]) TOOLS[id](); else if (btId) vBigTest(btId); else if (pjId) vProject(pjId); else if (pjPart) vProjectsPart(pjPart); else vChapter(byId[id]);
   $$('.toc', view).forEach(tocArrows);
   var fc = btId ? $('.btlist', view) : $$('.cell, .refsec', view).filter(function(x){ return !x.closest('details'); })[0];
   if (fc) fc.insertAdjacentHTML('beforebegin', SYNKEY);
   updateSide(id);
   var c = byId[id];
-  $('#topTitle').textContent = btId ? byId[btId].num + '.1 Big Test' : c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises' })[id];
+  $('#topTitle').textContent = btId ? byId[btId].num + '.1 Big Test' : pjId ? 'Project ' + PJ[pjId].part + '.' + PJ[pjId].n : pjPart ? 'Part ' + pjPart + ' projects' : c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises', myprojects: 'My Projects' })[id];
   closeDrawer();
   window.scrollTo(0, 0);
   if (PENDING) {

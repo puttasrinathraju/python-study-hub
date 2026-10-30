@@ -2,7 +2,7 @@ import glob, os, shutil, subprocess
 here = os.path.dirname(os.path.abspath(__file__))
 subprocess.run(['node', 'static_pages.js'], cwd=here, check=True)
 base = open(os.path.join(here, 'base.html'), encoding='utf-8').read()
-files = ['viz.js', 'viz2.js', 'art.js', 'parts.js'] + sorted(glob.glob(os.path.join(here, 'ch', '*.js'))) + ['decks.js', 'realdata.js'] + sorted(glob.glob(os.path.join(here, 'posters_*.js'))) + sorted(glob.glob(os.path.join(here, 'ov_*.js'))) + ['mixed.js', 'sheets.js', 'videos.js', 'reference.js', 'exercises.js', 'bigtests.js', 'engine.js']
+files = ['viz.js', 'viz2.js', 'art.js', 'parts.js'] + sorted(glob.glob(os.path.join(here, 'ch', '*.js'))) + ['decks.js', 'realdata.js'] + sorted(glob.glob(os.path.join(here, 'posters_*.js'))) + sorted(glob.glob(os.path.join(here, 'ov_*.js'))) + ['mixed.js', 'sheets.js', 'videos.js', 'reference.js', 'exercises.js', 'bigtests.js', 'projects.js', 'engine.js']
 js = '\n'.join(open(f if os.path.isabs(f) else os.path.join(here, f), encoding='utf-8').read() for f in files)
 assert '</script' not in js.lower()
 page = base.replace('/*@@SCRIPTS@@*/', js)

@@ -62,6 +62,7 @@ var IC = {
   exam: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><path d="M3 2h10v12H3zM6 6h4M6 9h4"/></svg>',
   cheat: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><path d="M4 2h8v12H4zM6 5h4M6 8h4M6 11h2"/></svg>',
   poster: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M2 6h12M8 6v8"/></svg>',
+  proj: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 13.5V9M8 13.5V3M13 13.5V6.5M1.5 13.5h13"/></svg>',
   ov: '<svg viewBox="0 0 16 16" fill="none" stroke-width="2"><rect x="2" y="2" width="12" height="12" rx="1"/><path d="M2 6.5h12M2 10.5h12M6 2v12"/></svg>'
 };
 var NOTE_T = { trap: 'Trap!', tip: 'Easy tip', key: 'Remember this', like: 'Think of it like this', why: 'Why analysts care' };
@@ -787,13 +788,13 @@ function mountAll(root, mounts){
 /* ---------- Sidebar ---------- */
 var view = $('#view'), side = $('#side');
 function buildSide(){
-  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
+  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['myprojects', 'My Projects', IC.proj], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
   $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + t[1] + '</button>'; }).join('');
   $('#parts').innerHTML = PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
     return '<div class="part" data-part="' + p.n + '"><div class="part-h">Part ' + p.n + ' · ' + esc(p.title) + '</div>' + chs.map(function(c){
       return '<button class="chlink" type="button" data-go="' + c.id + '" data-q="' + esc((c.title + ' ' + (c.nav || '') + ' ' + (c.keys || '')).toLowerCase()) + '"><span class="dot">' + c.num + '</span><span>' + esc(c.nav || c.title) + '</span>' + (c.tricky ? '<span class="tk">tricky</span>' : '') + '</button>';
-    }).join('') + (ov ? '<button class="chlink ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="dot">★</span><span>' + esc(ov.nav) + '</span></button>' : '') + '</div>';
+    }).join('') + (ov ? '<button class="chlink ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="dot">★</span><span>' + esc(ov.nav) + '</span></button>' : '') + (PJP[p.n] ? '<button class="chlink btl pjl" type="button" data-go="projects-' + p.n + '" data-q="' + esc(('projects project practice score part ' + p.n + ' ' + PJP[p.n].ids.map(function(id){ return PJ[id].title; }).join(' ')).toLowerCase()) + '"><span class="dot">◆</span><span>Part ' + p.n + ' projects</span></button>' : '') + '</div>';
   }).join('');
   $$('.chlink', side).forEach(function(b){ var c = byId[b.getAttribute('data-go')]; if (c && !c.ov && BT[c.id]) b.insertAdjacentHTML('afterend', '<button class="chlink btl" type="button" data-go="test-' + c.id + '" data-q="' + esc(('big test exam questions ' + c.title + ' ' + (c.nav || '')).toLowerCase()) + '"><span class="dot">✎</span><span>' + c.num + '.1 Big Test</span></button>'); });
   side.addEventListener('click', function(e){ var b = e.target.closest('[data-go]'); if (b) route(b.getAttribute('data-go')); });
@@ -816,6 +817,7 @@ function updateSide(cur){
   var bts = store.get('bt', {});
   $$('.chlink', side).forEach(function(b){
     var id = b.getAttribute('data-go');
+    if (/^projects-/.test(id)) { var PP = PJP[+id.slice(9)], nd = PP.ids.filter(pjReady).length, cu = updateSide.cur || ''; b.classList.toggle('done', nd === PP.ids.length); b.classList.toggle('on', id === cu || PP.ids.indexOf(cu.slice(8)) > -1); $('.dot', b).textContent = nd === PP.ids.length ? '✓' : '◆'; b.title = nd + ' of ' + PP.ids.length + ' projects ready'; return; }
     if (/^test-/.test(id)) { var sc = bts[id.slice(5)], ps = !!(sc && sc.best >= BT_PASS); b.classList.toggle('done', ps); b.classList.toggle('on', id === updateSide.cur); $('.dot', b).textContent = ps ? '✓' : '✎'; b.title = sc ? 'Best score: ' + sc.best + '%' : ''; return; }
     b.classList.toggle('done', !!done[id]);
     b.classList.toggle('on', id === updateSide.cur);
@@ -921,6 +923,7 @@ function vChapter(c){
   h += '<div class="donebox"><div><b style="font-family:var(--display)">Finished this ' + (OV ? 'overview' : 'chapter') + '?</b><div class="muted" style="font-size:15px">Mark it done to track your progress.</div></div><button class="btn ' + (done[c.id] ? 'good' : 'pri') + '" id="doneBtn" type="button">' + (done[c.id] ? 'Done ✓' : 'Mark as done') + '</button></div>';
   var prev = SEQ[c.seq - 1], next = SEQ[c.seq + 1];
   if (!OV && BT[c.id]) h += btCTA(c);
+  if (OV && PJP[c.part]) h += pjCTA(c.part);
   h += '<nav class="endnav">' + (prev ? '<button class="btn" type="button" data-go="' + prev.id + '">← ' + esc(prev.nav || prev.title) + '</button>' : '<span></span>') + (next ? '<button class="btn pri" type="button" data-go="' + next.id + '">' + esc(next.nav || next.title) + ' →</button>' : '<button class="btn pri" type="button" data-go="exam">Take the final exam →</button>') + '</nav>';
   if (c.src) h += '<p class="srcs">Built from: ' + c.src.map(esc).join(' · ') + '</p>';
   view.className = OV ? 'col wide ovpage' : 'col';
@@ -1289,7 +1292,7 @@ function vBigTest(cid){
       fb.innerHTML = t; fb.hidden = false;
     });
     var pct = Math.round(score / L.length * 100), all = store.get('bt', {}), prev = all[cid];
-    all[cid] = { best: Math.max(pct, prev ? prev.best : 0), last: pct }; store.set('bt', all); updateSide();
+    all[cid] = { best: Math.max(pct, prev ? prev.best : 0), last: pct, weak: Object.keys(weak) }; store.set('bt', all); updateSide();
     var pass = pct >= BT_PASS, need = Math.ceil(L.length * BT_PASS / 100);
     var tp = Object.keys(weak).sort(function(a, b){ return weak[b] - weak[a]; });
     $('#btSum').innerHTML = '<div class="btsum ' + (pass ? 'pass' : 'fail') + '"><div class="btbig"><b>' + score + '</b><span>/ ' + L.length + '</span><em>' + pct + '%</em></div><div class="btmsg"><b>' + (pass ? '🎉 Passed! You know this chapter well.' : 'Not yet. You need ' + need + ' of ' + L.length + ' (' + BT_PASS + '%) to pass.') + '</b>' +
@@ -1302,19 +1305,227 @@ function vBigTest(cid){
   }
 }
 
+/* ---------- Projects: brief, editor, automatic score out of 100 ---------- */
+var PJ = window.PROJECTS || {}, PJP = window.PJ_PARTS || {}, PJ_READY = 70, PJ_TIMEOUT = 10000;
+var PJ_W = [['main', 'Correctness', 30, 'Share of the main tests your program passes'], ['logic', 'Logic', 20, 'Share of the logic tests (tricky formulas and conditions)'], ['edge', 'Edge cases', 10, 'Share of the edge-case tests (zeros, big numbers, spaces)'], ['concepts', 'Use of concepts', 25, 'Python reads your code and looks for the tools this project needs. It takes 5 points off for each tool from a later Part'], ['read', 'Readability', 15, 'Clear names (5), your own comments (4), short lines (2), clean indentation (2), spaces around = (2)']];
+function pjAll(){ return store.get('pj', {}); }
+function pjRec(id){ return pjAll()[id] || null; }
+function pjSave(id, f){ var a = pjAll(); a[id] = Object.assign({ best: null, last: null, attempts: 0, hints: 0 }, a[id] || {}); f(a[id]); store.set('pj', a); }
+function pjReady(id){ var r = pjRec(id); return !!(r && r.best >= PJ_READY); }
+function pjStatus(id){ var r = pjRec(id); if (!r || !r.attempts) return '<span class="pill">Not started</span>'; return '<span class="pill ' + (r.best >= PJ_READY ? 'lv1">✓ Ready · best ' : 'lv3">Best ') + r.best + '/100</span>'; }
+function pjNorm(s){ return String(s).trim().replace(/\s+/g, ' '); }
+function pjCTA(n){
+  var P = PJP[n], dn = P.ids.filter(pjReady).length;
+  return '<div class="btcta"><div><b>Part ' + n + ' projects</b><span>' + P.ids.length + ' real data-analyst problems to solve with Part ' + n + ' only. You get an automatic score out of 100 with feedback.' + (dn ? ' Ready: <b>' + dn + ' of ' + P.ids.length + '</b>.' : '') + '</span></div><button class="btn pri" type="button" data-go="projects-' + n + '">Open the projects →</button></div>';
+}
+function pjRunHTML(ex){
+  var L = ex.out.split('\n'), k = 0;
+  return '<pre class="pjrun">' + L.map(function(l){
+    var v = ex.inputs[k];
+    if (v != null && l.slice(-v.length) === v) { k++; return esc(l.slice(0, l.length - v.length)) + '<b class="pjin">' + esc(v) + '</b>'; }
+    return esc(l);
+  }).join('\n') + '</pre>';
+}
+function vProjectsPart(n){
+  var P = PJP[n], pt = PARTS.filter(function(p){ return p.n === n; })[0] || { title: '' };
+  var h = '<header class="chead"><div class="num">Part ' + n + ' · Projects</div><h1>' + esc(P.title) + '</h1><p class="lead">' + md(P.intro) + '</p></header>' +
+    '<div class="goals"><h3>How projects work</h3><ul><li>Read the brief: the story, your tasks and the exact lines your output must contain.</li><li>Write your program in the editor. Press <b>Run</b> and type your own numbers to try it.</li><li>Press <b>Submit for scoring</b>. Real Python runs your program with 9 sets of numbers and reads your code, then gives you a score out of 100 with feedback.</li><li>' + PJ_READY + ' or more means you are ready for the next project. Nothing is ever locked: you can open any project and submit as often as you like.</li><li>Stuck? Open the hints one at a time. A model answer appears after your first submission.</li></ul></div><div class="pjcards">';
+  P.ids.forEach(function(id){
+    var x = PJ[id];
+    h += '<div class="pjcard"><div class="row"><span class="pill lv' + x.level + '">' + x.n + '. ' + esc(x.levelName) + '</span>' + pjStatus(id) + '</div><h3>' + esc(x.title) + '</h3><p>' + md(x.short) + '</p><button class="btn pri" type="button" data-go="project-' + id + '">Open project →</button></div>';
+  });
+  h += '</div><p class="prose muted">All your Big Test and project scores, with topics to work on: <button class="btn" type="button" data-go="myprojects">My Projects</button></p>';
+  var ov = ovOf(n), first = CH.filter(function(c){ return c.part === n; })[0];
+  h += '<nav class="endnav"><button class="btn" type="button" data-go="' + (ov ? ov.id : first.id) + '">← ' + esc(ov ? ov.nav : 'Part ' + n) + '</button><button class="btn pri" type="button" data-go="project-' + P.ids[0] + '">Start project 1 →</button></nav>';
+  view.className = 'col'; view.innerHTML = h;
+}
+function vProject(id){
+  var P = PJ[id], rec = pjRec(id) || { attempts: 0, hints: 0 }, ids = PJP[P.part].ids, k = ids.indexOf(id);
+  var mins = { 1: '30 to 45 min', 2: '45 to 60 min', 3: '60 to 90 min' }[P.level];
+  var h = '<header class="chead"><div class="num">Part ' + P.part + ' · Project ' + P.n + ' of ' + ids.length + '</div><h1>' + esc(P.title) + '</h1><p class="lead">' + md(P.short) + '</p>' +
+    '<div class="meta"><span class="pill lv' + P.level + '">' + esc(P.levelName) + '</span><span class="pill">' + mins + '</span>' + pjStatus(id) + '</div></header>';
+  h += '<section class="sec"><h2>The problem</h2>' + P.story.split('\n').map(function(p){ return '<p class="prose">' + md(p) + '</p>'; }).join('') + '</section>';
+  h += '<div class="goals"><h3>What you will practise</h3><ul>' + P.objectives.map(function(g){ return '<li>' + md(g) + '</li>'; }).join('') + '</ul></div>';
+  h += '<div class="pjuse"><div><b>You may use</b><div class="row">' + P.may.map(function(x){ return '<span class="pill lv1">' + md(x) + '</span>'; }).join('') + '</div></div><div><b>Do not use yet</b><div class="row">' + P.mustnot.map(function(x){ return '<span class="pill trap">' + md(x) + '</span>'; }).join('') + '</div><p class="muted" style="margin:6px 0 0;font-size:14px">They come in later Parts. Using them costs 5 points each.</p></div></div>';
+  h += '<section class="sec"><h2>Your tasks</h2><ol class="list">' + P.tasks.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ol></section>';
+  h += '<section class="sec"><h2>Lines your output must contain</h2><p class="prose">The checker looks for each of these as a <b>whole line</b> of your output. Extra spaces at the ends do not matter, but the words, signs and number formats must match. You may print extra lines too, like dividers.</p><pre class="pjlines">' + esc(P.lines.join('\n')) + '</pre><p class="prose">' + md(P.rules) + '</p></section>';
+  h += '<section class="sec"><h2>Example run</h2><p class="prose muted">The <b class="pjin">blue</b> values are what the user typed. Your questions inside <code>input()</code> can use any words.</p>' + pjRunHTML(P.example) + '</section>';
+  h += '<section class="sec"><h2>Edge cases to think about</h2><ul class="list">' + P.edge.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></section>';
+  h += '<section class="sec"><h2>How your score is worked out</h2><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody>' + PJ_W.map(function(w){ return '<tr><td><b>' + w[1] + '</b></td><td>' + w[2] + '</td><td>' + esc(w[3]) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="prose muted">Tools this project needs: ' + P.need.map(function(n){ return md(n.label); }).join('; ') + '.</p></section>';
+  h += '<section class="sec"><h2>Hints</h2><p class="prose muted">Try on your own first. Each hint gives a little more help.</p><div id="pjHints"></div></section>';
+  h += '<section class="sec"><h2>Your program</h2><p class="prose muted">Press <b>Run</b> to try your program: a box appears each time <code>input()</code> asks for a value. When it works, press <b>Submit for scoring</b>.</p><div id="pjEd"></div>' +
+    '<div class="row"><button class="btn pri" type="button" id="pjSub">Submit for scoring</button><span class="muted" id="pjMsg" aria-live="polite" style="font-size:14.5px"></span></div></section>';
+  h += '<div id="pjRes" aria-live="polite"></div><div id="pjModel"></div>';
+  h += '<nav class="endnav">' + (k > 0 ? '<button class="btn" type="button" data-go="project-' + ids[k - 1] + '">← ' + esc(PJ[ids[k - 1]].title) + '</button>' : '<button class="btn" type="button" data-go="projects-' + P.part + '">← Part ' + P.part + ' projects</button>') +
+    (k < ids.length - 1 ? '<button class="btn pri" type="button" data-go="project-' + ids[k + 1] + '">' + esc(PJ[ids[k + 1]].title) + ' →</button>' : '<button class="btn pri" type="button" data-go="myprojects">My Projects →</button>') + '</nav>';
+  view.className = 'col'; view.innerHTML = h;
+  CodeBox($('#pjEd'), { key: 'pj:' + id, starter: P.starter, label: 'Project ' + P.part + '.' + P.n + ': ' + P.title });
+  function hints(){
+    var n = (pjRec(id) || {}).hints || 0, t = P.hints.map(function(x, i){ return i < n ? '<div class="pjhint"><b>Hint ' + (i + 1) + '</b> ' + md(x) + '</div>' : ''; }).join('');
+    if (n < P.hints.length) t += '<button class="btn" type="button" id="pjHintB">Show hint ' + (n + 1) + ' of ' + P.hints.length + '</button>';
+    $('#pjHints').innerHTML = t;
+    var b = $('#pjHintB'); if (b) b.onclick = function(){ pjSave(id, function(r){ r.hints = Math.min(P.hints.length, (r.hints || 0) + 1); }); hints(); };
+  }
+  hints();
+  function model(){
+    if (!((pjRec(id) || {}).attempts)) { $('#pjModel').innerHTML = ''; return; }
+    $('#pjModel').innerHTML = '<section class="sec"><h2>Model answer</h2><p class="prose muted">Try to reach ' + PJ_READY + ' on your own first: you learn far more from fixing your own code. The model answer is one good way to solve it, not the only way.</p><details class="reveal"><summary>Show a model answer</summary>' + cell(P.sol, null) + '</details></section>';
+  }
+  model();
+  $('#pjSub').onclick = function(){
+    var ta = $('#pjEd .edta'), code = ta ? ta.value : '', btn = this, msg = $('#pjMsg');
+    if (!code.trim() || code.trim() === P.starter.trim()) { msg.textContent = 'Write your program first, then submit.'; return; }
+    btn.disabled = true; $('#pjRes').innerHTML = '';
+    var res = [], p = Promise.resolve();
+    P.tests.forEach(function(t, i){ p = p.then(function(){ msg.textContent = 'Running test ' + (i + 1) + ' of ' + P.tests.length + '...'; return pjTest(code, t).then(function(r){ res.push(r); }); }); });
+    p.then(function(){ msg.textContent = 'Reading your code...'; return pjAnalyse(code, P.starter); }).then(function(an){
+      btn.disabled = false; msg.textContent = '';
+      pjShow(P, code, res, an); model();
+    }, function(){ btn.disabled = false; msg.textContent = 'Python could not start. Check your internet connection, then try again.'; });
+  };
+}
+function pjTest(code, t){
+  return pyBoot().then(function(){
+    return new Promise(function(resolve){
+      var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
+      pyRun(code, t.inputs.slice(), function(){}).then(function(r){
+        clearTimeout(timer);
+        var out = r.out || '', got = {}, lines = out.split('\n');
+        lines.forEach(function(l){ got[pjNorm(l)] = 1; });
+        var miss = t.expect.filter(function(l){ return !got[pjNorm(l)]; });
+        resolve({ t: t, status: late ? 'timeout' : r.status, out: out, err: r.err || '', miss: miss, pass: r.status === 'ok' && !late && !miss.length, lines: lines });
+      }, function(){ clearTimeout(timer); resolve({ t: t, status: 'error', out: '', err: 'Python could not start. Check your internet connection.', miss: t.expect.slice(), pass: false, lines: [] }); });
+    });
+  });
+}
+function pjAnalyse(code, starter){
+  var src = PJ_AN + '\nimport json as _hub_json\nprint(_hub_json.dumps(analyse(' + JSON.stringify(code) + ', ' + JSON.stringify(starter) + ')))\n';
+  return pyRun(src, [], function(){}).then(function(r){ try { return JSON.parse((r.out || '').trim().split('\n').pop()); } catch (e) { return null; } });
+}
+function pjConcepts(P, an){
+  if (!an || !an.ok) return { pts: 0, found: [], miss: P.need, banned: [], err: an ? an.err : 'not checked' };
+  var feat = an.feat, found = [], miss = [], banned = [], R = PJ_RULES[P.part] || { ban: [] };
+  P.need.forEach(function(n){ var c = n.any.reduce(function(s, k){ return s + (feat[k] || 0); }, 0); (c >= n.min ? found : miss).push(n); });
+  R.ban.forEach(function(r){
+    var ks = r.any ? r.any.filter(function(k){ return feat[k]; }) : Object.keys(feat).filter(function(k){ return k.indexOf(r.prefix) === 0 && r.exc.indexOf(k) < 0; });
+    if (ks.length) banned.push({ label: r.label, where: r.where });
+  });
+  if (R.allow) {
+    var ex = Object.keys(feat).filter(function(k){ return k.indexOf('builtin:') === 0 && R.allow.indexOf(k.slice(8)) < 0 && an.names.indexOf(k.slice(8)) < 0; }).map(function(k){ return '`' + k.slice(8) + '()`'; });
+    if (ex.length) banned.push({ label: 'built-in functions not taught yet (' + ex.join(', ') + ')', where: 'a later Part' });
+  }
+  return { pts: Math.max(0, Math.round(25 * found.length / P.need.length) - 5 * banned.length), found: found, miss: miss, banned: banned };
+}
+function pjRead(an){
+  if (!an || !an.ok) return { pts: 0, items: [{ ok: false, max: 15, pts: 0, bad: 'Python could not read your code' + (an && an.err ? ' (' + an.err + ')' : '') + ', so readability could not be checked. Fix the error first.' }] };
+  var it = [], short = an.names.filter(function(n){ return n.length < 3 && n !== '_'; }), nn = an.names.length;
+  it.push({ max: 5, pts: nn ? Math.round(5 * (nn - short.length) / nn) : 0, ok: nn > 0 && !short.length, good: 'Clear variable names that say what they hold.',
+    bad: nn ? 'Use names that say what they hold. ' + short.map(function(n){ return '`' + n + '`'; }).join(', ') + (short.length > 1 ? ' are' : ' is') + ' too short: for example `total_revenue` instead of `t`.' : 'Store your values in variables with clear names, like `total_revenue`, instead of doing everything inside `print()`.' });
+  var needC = an.lines > 8, okC = !needC || an.comments > 0;
+  it.push({ max: 4, pts: okC ? 4 : 0, ok: okC, good: an.comments ? 'Your own comments explain the steps.' : 'Your program is short, so comments are optional.', bad: 'Add at least one comment of your own (a line starting with `#`) that explains a step. The starter\'s comments do not count.' });
+  it.push({ max: 2, pts: an.long.length ? 0 : 2, ok: !an.long.length, good: 'Every line is short enough to read easily.', bad: 'Line ' + an.long.join(', ') + (an.long.length > 1 ? ' are' : ' is') + ' longer than 100 characters. Split it into shorter lines.' });
+  var bi = an.tabs.concat(an.indent);
+  it.push({ max: 2, pts: bi.length ? 0 : 2, ok: !bi.length, good: 'Clean indentation with no tabs.', bad: 'Use 4 spaces for indentation, never tabs (line ' + bi.join(', ') + ').' });
+  it.push({ max: 2, pts: an.tight.length ? 0 : 2, ok: !an.tight.length, good: 'Spaces around `=` make each step easy to read.', bad: 'Put a space on each side of `=` when you store a value (line ' + an.tight.join(', ') + '), like `total = price * units`.' });
+  return { pts: it.reduce(function(s, x){ return s + x.pts; }, 0), items: it };
+}
+function pjNear(lines, want){
+  var k = want.indexOf(':') > 0 ? pjNorm(want.slice(0, want.indexOf(':') + 1)).toLowerCase() : '';
+  if (!k) return null;
+  for (var i = lines.length - 1; i >= 0; i--) { var l = pjNorm(lines[i]); if (l.toLowerCase().indexOf(k) === 0) return l; }
+  return null;
+}
+function pjShow(P, code, res, an){
+  var by = { main: [0, 0], logic: [0, 0], edge: [0, 0] };
+  res.forEach(function(r){ by[r.t.kind][1]++; if (r.pass) by[r.t.kind][0]++; });
+  var cs = pjConcepts(P, an), rd = pjRead(an);
+  var pts = { main: Math.round(30 * by.main[0] / by.main[1]), logic: Math.round(20 * by.logic[0] / by.logic[1]), edge: Math.round(10 * by.edge[0] / by.edge[1]), concepts: cs.pts, read: rd.pts };
+  var total = pts.main + pts.logic + pts.edge + pts.concepts + pts.read, ready = total >= PJ_READY;
+  var good = [], todo = [], keys = [];
+  ['main', 'logic', 'edge'].forEach(function(k){
+    var name = { main: 'main', logic: 'logic', edge: 'edge-case' }[k];
+    if (by[k][0] === by[k][1]) good.push('All ' + by[k][1] + ' ' + name + ' tests pass' + { main: ': your report is right for normal data.', logic: ': your formulas and conditions are right.', edge: ': your program copes with unusual values.' }[k]);
+  });
+  var seen = {}, nDiff = 0, grp = {};
+  res.forEach(function(r, i){
+    if (r.pass) return;
+    keys.push(P.title + ': test "' + r.t.name + '"');
+    var m = '';
+    if (r.status === 'error') { var el = r.err.trim().split('\n').pop(); (grp['e' + el] = grp['e' + el] || { n: [], t: function(n){ return 'Your program stopped with an error in ' + n + ': `' + el + '`. Press Run, type the same numbers, and read the error to find the line.'; } }).n.push(i + 1); }
+    else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Each test gives exactly ' + r.t.inputs.length + ' values: call `input()` exactly ' + r.t.inputs.length + ' times, in the order shown in the tasks.'; } }).n.push(i + 1);
+    else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
+    else if (r.t.tip) m = r.t.tip;
+    else if (nDiff++ < 2) { var ml = r.miss[0], nr = pjNear(r.lines, ml); m = 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
+    if (m && !seen[m]) { seen[m] = 1; todo.push(m); }
+  });
+  Object.keys(grp).forEach(function(g){ var n = grp[g].n; todo.unshift(grp[g].t((n.length > 1 ? 'tests ' : 'test ') + (n.length > 2 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n.join(' and ')))); });
+  if (cs.found.length) good.push('You used ' + cs.found.map(function(n){ return n.label; }).join(', ') + '.');
+  cs.miss.forEach(function(n){ todo.push('Use ' + n.label + '.'); keys.push(P.title + ': use ' + n.label); });
+  if (an && an.ok && !cs.banned.length) good.push('You stayed within the tools of Part ' + P.part + '.');
+  cs.banned.forEach(function(b){ todo.push('Leave out ' + b.label + ' for now. This comes later, in ' + b.where + ', and you can solve this project without it (minus 5 points).'); keys.push(P.title + ': use Part ' + P.part + ' tools only'); });
+  rd.items.forEach(function(x){ if (x.ok) good.push(x.good); else { todo.push(x.bad); keys.push(P.title + ': readability'); } });
+  var rec; pjSave(P.id, function(r){ r.attempts = (r.attempts || 0) + 1; r.last = total; r.best = Math.max(total, r.best || 0); r.parts = pts; r.todo = keys.filter(function(k, i){ return keys.indexOf(k) === i; }).slice(0, 12); r.at = Date.now(); rec = r; });
+  updateSide();
+  var ids = PJP[P.part].ids, k = ids.indexOf(P.id), nextP = PARTS.filter(function(p){ return p.n === P.part + 1; })[0], nextCh = nextP && CH.filter(function(c){ return c.part === nextP.n; })[0];
+  var nextBtn = k < ids.length - 1 ? '<button class="btn pri" type="button" data-go="project-' + ids[k + 1] + '">Next project: ' + esc(PJ[ids[k + 1]].title) + ' →</button>' : (nextCh ? '<button class="btn pri" type="button" data-go="' + nextCh.id + '">Start Part ' + nextP.n + ': ' + esc(nextCh.nav || nextCh.title) + ' →</button>' : '');
+  var h = '<div class="btsum ' + (ready ? 'pass' : 'fail') + '"><div class="btbig"><b>' + total + '</b><span>/ 100</span></div><div class="btmsg"><b>' + (ready ? '🎉 Ready for the next project!' : 'Not ready yet: ' + PJ_READY + ' or more means ready.') + '</b>' +
+    '<span style="font-size:14.5px">' + (ready ? 'Great work. You can still improve your score and submit again any time.' : 'Fix the points under <b>What to improve</b>, then submit again. Nothing is locked: you can move on whenever you like.') + ' Attempt ' + rec.attempts + ', best score ' + rec.best + '/100.</span>' +
+    '<div class="row">' + (ready ? nextBtn : '') + '<button class="btn" type="button" data-go="myprojects">My Projects</button></div></div></div>';
+  h += '<div class="pjbars">' + PJ_W.map(function(w){
+    var v = pts[w[0]], sub = by[w[0]] ? by[w[0]][0] + ' of ' + by[w[0]][1] + ' tests' : w[0] === 'concepts' ? cs.found.length + ' of ' + P.need.length + ' tools' + (cs.banned.length ? ', −' + 5 * cs.banned.length + ' for later tools' : '') : rd.items.filter(function(x){ return x.ok; }).length + ' of ' + rd.items.length + ' checks';
+    return '<div class="pjbar"><span class="pjbl"><b>' + w[1] + '</b><small>' + sub + '</small></span><span class="pjbt"><i style="width:' + Math.round(100 * v / w[2]) + '%"></i></span><span class="pjbv"><b>' + v + '</b> / ' + w[2] + '</span></div>';
+  }).join('') + '</div>';
+  h += '<div class="pjfb"><div class="pjgood"><h3>What you did well</h3>' + (good.length ? '<ul class="list">' + good.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Keep going: every test you pass will show up here.</p>') + '</div>' +
+    '<div class="pjtodo"><h3>What to improve</h3>' + (todo.length ? '<ul class="list">' + todo.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Nothing! Every check passed. 🎉</p>') + '</div></div>';
+  h += '<section class="sec"><h2>Every test</h2><div class="tbl pjtests"><table><thead><tr><th>Test</th><th>Input given</th><th>Lines expected</th><th>Your output</th><th>Result</th></tr></thead><tbody>' + res.map(function(r, i){
+    var exp = r.t.expect.map(function(l){ var miss = r.miss.indexOf(l) > -1; return '<span class="' + (miss ? 'pjmiss' : 'pjhit') + '">' + esc(l) + '</span>'; }).join('\n');
+    var yo = r.status === 'error' ? r.out + (r.out ? '\n' : '') + r.err.trim().split('\n').pop() : r.status === 'input' ? r.out + '\n(waiting for more input)' : (r.status === 'timeout' || r.status === 'stopped') ? '(stopped after ' + PJ_TIMEOUT / 1000 + ' seconds)' : r.out || '(nothing printed)';
+    var why = r.pass ? '✓ Pass' : r.status === 'ok' ? '✗ ' + r.miss.length + ' line' + (r.miss.length > 1 ? 's' : '') + ' missing' : r.status === 'error' ? '✗ Error' : r.status === 'input' ? '✗ Asked for more input' : '✗ Too slow';
+    return '<tr class="' + (r.pass ? 'ok' : 'no') + '"><td data-l="Test"><b>' + (i + 1) + '. ' + esc(r.t.name) + '</b><br><span class="pill">' + { main: 'main', logic: 'logic', edge: 'edge case' }[r.t.kind] + '</span></td><td data-l="Input given"><pre class="pjinp">' + esc(r.t.inputs.map(function(v){ return JSON.stringify(v); }).join('\n')) + '</pre></td><td data-l="Lines expected"><pre>' + exp + '</pre></td><td data-l="Your output"><pre class="pjyo">' + esc(yo) + '</pre></td><td class="pjr" data-l="Result">' + why + '</td></tr>';
+  }).join('') + '</tbody></table></div><p class="prose muted" style="font-size:14px">Inputs are shown in quotes so you can see any spaces. Expected lines in <span class="pjmiss">red</span> were not found in your output.</p></section>';
+  $('#pjRes').innerHTML = h;
+  $('#pjRes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function vMyProjects(){
+  var bts = store.get('bt', {}), pjs = pjAll(), strong = [], work = [];
+  var h = '<header class="chead"><div class="num">Your progress</div><h1>My Projects</h1><p class="lead">Your Big Test and project scores, Part by Part, and the topics to work on next. Everything is saved in this browser. Use <b>Save my progress</b> on the Home page to keep a backup.</p></header>';
+  PARTS.forEach(function(p){
+    var chs = CH.filter(function(c){ return c.part === p.n && BT[c.id]; }), P = PJP[p.n];
+    if (!chs.length && !P) return;
+    h += '<section class="sec"><h2>Part ' + p.n + ' · ' + esc(p.title) + '</h2>';
+    if (chs.length) h += '<div class="tbl"><table><thead><tr><th>Big Test</th><th>Best</th><th>Last</th><th></th></tr></thead><tbody>' + chs.map(function(c){
+      var s = bts[c.id];
+      if (s) { if (s.best >= BT_PASS) strong.push(c.num + '. ' + (c.nav || c.title)); else work.push({ t: 'Big Test ' + c.num + '.1: best ' + s.best + '%, aim for ' + BT_PASS + '%', go: 'test-' + c.id }); (s.weak || []).forEach(function(sec){ var sid = btSecId(c.id, sec); if (sid) work.push({ t: (c.nav || c.title) + ': ' + sec, jump: sid, ov: c.id }); }); }
+      return '<tr><td><b>' + c.num + '.1</b> ' + esc(c.nav || c.title) + '</td><td>' + (s ? '<span class="pill ' + (s.best >= BT_PASS ? 'lv1">✓ ' : 'lv3">') + s.best + '%</span>' : '<span class="muted">Not taken</span>') + '</td><td>' + (s ? s.last + '%' : '') + '</td><td><button class="btn" type="button" data-go="test-' + c.id + '">' + (s ? 'Retake' : 'Take it') + '</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+    if (P) h += '<div class="tbl"><table><thead><tr><th>Project</th><th>Best</th><th>Tries</th><th>Hints</th><th></th></tr></thead><tbody>' + P.ids.map(function(id){
+      var x = PJ[id], r = pjs[id];
+      if (r && r.attempts) { if (r.best >= PJ_READY) strong.push(x.title + ' (project)'); (r.todo || []).forEach(function(t){ work.push({ t: t, go: 'project-' + id }); }); }
+      return '<tr><td><b>' + p.n + '.' + x.n + '</b> ' + esc(x.title) + '<br><span class="pill lv' + x.level + '">' + esc(x.levelName) + '</span></td><td>' + (r && r.attempts ? '<span class="pill ' + (r.best >= PJ_READY ? 'lv1">✓ ' : 'lv3">') + r.best + '/100</span>' : '<span class="muted">Not started</span>') + '</td><td>' + (r ? r.attempts || 0 : 0) + '</td><td>' + (r ? r.hints || 0 : 0) + ' of 3</td><td><button class="btn" type="button" data-go="project-' + id + '">Open</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+    h += '</section>';
+  });
+  h += '<div class="pjfb"><div class="pjgood"><h3>Strong topics</h3>' + (strong.length ? '<div class="row">' + strong.map(function(s){ return '<span class="pill lv1">✓ ' + esc(s) + '</span>'; }).join('') + '</div>' : '<p class="prose muted">Pass a Big Test (' + BT_PASS + '%+) or score ' + PJ_READY + '+ on a project and it shows up here.</p>') + '</div>' +
+    '<div class="pjtodo"><h3>Topics to work on</h3>' + (work.length ? '<div class="pjwork">' + work.slice(0, 24).map(function(w){ return '<button class="btn" type="button" ' + (w.jump ? 'data-jump="' + w.jump + '" data-ov="' + w.ov + '"' : 'data-go="' + w.go + '"') + '>' + md(w.t) + '</button>'; }).join('') + '</div><p class="muted" style="font-size:14px;margin:8px 0 0">From your last Big Test attempts and the checks your projects missed. Tap one to practise it.</p>' : '<p class="prose muted">Nothing yet. Take a Big Test or submit a project, and the topics with mistakes show up here.</p>') + '</div></div>';
+  view.className = 'col'; view.innerHTML = h;
+}
+
 /* ---------- Router ---------- */
-var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises };
+var TOOLS = { home: vHome, flashcards: vFlash, exam: vExam, cheatsheet: vCheat, posters: vPosters, overviews: vOverviews, glossary: vGlossary, videos: vVideos, reference: vReference, exercises: vExercises, myprojects: vMyProjects };
 function render(id){
   stopAll(); COPY = []; TRY = []; cellNo = 0;
   var btId = /^test-/.test(id) && BT[id.slice(5)] && byId[id.slice(5)] ? id.slice(5) : null;
-  if (!TOOLS[id] && !byId[id] && !btId) id = 'home';
-  if (TOOLS[id]) TOOLS[id](); else if (btId) vBigTest(btId); else vChapter(byId[id]);
+  var pjId = /^project-/.test(id) && PJ[id.slice(8)] ? id.slice(8) : null;
+  var pm = /^projects-(?:part)?(\d+)$/.exec(id), pjPart = pm && PJP[+pm[1]] ? +pm[1] : null;
+  if (pjPart) id = 'projects-' + pjPart;
+  if (!TOOLS[id] && !byId[id] && !btId && !pjId && !pjPart) id = 'home';
+  if (TOOLS[id]) TOOLS[id](); else if (btId) vBigTest(btId); else if (pjId) vProject(pjId); else if (pjPart) vProjectsPart(pjPart); else vChapter(byId[id]);
   $$('.toc', view).forEach(tocArrows);
   var fc = btId ? $('.btlist', view) : $$('.cell, .refsec', view).filter(function(x){ return !x.closest('details'); })[0];
   if (fc) fc.insertAdjacentHTML('beforebegin', SYNKEY);
   updateSide(id);
   var c = byId[id];
-  $('#topTitle').textContent = btId ? byId[btId].num + '.1 Big Test' : c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises' })[id];
+  $('#topTitle').textContent = btId ? byId[btId].num + '.1 Big Test' : pjId ? 'Project ' + PJ[pjId].part + '.' + PJ[pjId].n : pjPart ? 'Part ' + pjPart + ' projects' : c ? (c.ov ? c.nav : c.num + '. ' + (c.nav || c.title)) : ({ home: 'Python Study Hub', flashcards: 'Flashcards', exam: 'Final exam', cheatsheet: 'Cheat sheet', posters: 'Revision posters', overviews: 'Part overviews', glossary: 'Glossary', videos: 'Videos', reference: 'Python reference', exercises: 'Quick exercises', myprojects: 'My Projects' })[id];
   closeDrawer();
   window.scrollTo(0, 0);
   if (PENDING) {

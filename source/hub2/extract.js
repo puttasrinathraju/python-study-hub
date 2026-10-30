@@ -39,6 +39,7 @@ for (const [cid, L] of Object.entries(ctx.__BT)) L.forEach((x, i) => { const id 
   else if (x.ty === 'type') add(id, x.c, x.ans, false, false, null);
   else if (x.v) add(id, x.v, 'True', false, false, null); });
 stats.bigtests = nBT;
+if (fs.existsSync('out/pj_items.json')) { const pj = JSON.parse(fs.readFileSync('out/pj_items.json', 'utf8')); pj.forEach(x => add(x.id, x.code, x.out, false, false, null)); stats.projectRuns = pj.length; }
 vm.runInContext('this.__R = REFERENCE', ctx); for (const x of ctx.__R) x.rows.forEach((r, i) => r.c && add('ref:' + x.id + ':' + i, r.c, r.o, false, false, null));
 fs.writeFileSync('out/items.json', JSON.stringify(items));
 console.log(JSON.stringify(stats), 'runnable', items.length);

@@ -4,9 +4,9 @@ const fs = require('fs'), vm = require('vm'), path = require('path');
 const BASE = 'https://puttasrinathraju.github.io/python-study-hub/';
 const ctx = { console }; vm.createContext(ctx);
 const files = ['viz.js', 'viz2.js', 'art.js', 'parts.js', ...fs.readdirSync('ch').sort().map(x => 'ch/' + x), 'decks.js', 'realdata.js',
-  ...fs.readdirSync('.').filter(x => /^posters_.*\.js$/.test(x)).sort(), ...fs.readdirSync('.').filter(x => /^ov_.*\.js$/.test(x)).sort(), 'mixed.js', 'sheets.js', 'videos.js', 'reference.js', 'exercises.js', 'bigtests.js'];
+  ...fs.readdirSync('.').filter(x => /^posters_.*\.js$/.test(x)).sort(), ...fs.readdirSync('.').filter(x => /^ov_.*\.js$/.test(x)).sort(), 'mixed.js', 'sheets.js', 'videos.js', 'reference.js', 'exercises.js', 'bigtests.js', 'projects.js'];
 for (const f of files) vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: f });
-vm.runInContext('this.D = { CH: CHAPTERS, OV: OVERVIEWS, PARTS: PARTS, V: VIDEOS, REF: REFERENCE, SH: SHEETS, EX: EXERCISES, BT: BIGTESTS }', ctx);
+vm.runInContext('this.D = { CH: CHAPTERS, OV: OVERVIEWS, PARTS: PARTS, V: VIDEOS, REF: REFERENCE, SH: SHEETS, EX: EXERCISES, BT: BIGTESTS, PJ: PROJECTS, PJP: PJ_PARTS }', ctx);
 const { CH, OV, PARTS, V, REF, SH } = ctx.D;
 CH.forEach((c, i) => c.num = i + 1);
 OV.forEach(o => { o.id = 'overview' + o.part; o.ov = true; });
@@ -72,6 +72,7 @@ for (const c of SEQ) {
   if (c.cards && c.cards.length) b += '<section class="cards"><h2>Flashcards</h2><dl>' + c.cards.map(x => '<dt>' + md(x[0]) + '</dt><dd>' + md(x[1]) + (x[2] ? code(x[2]) : '') + '</dd>').join('') + '</dl></section>';
   if (c.cheat) b += '<section><h2>Cheat sheet</h2>' + table(['Code', 'What it does'], c.cheat.map(r => ['`' + r[0] + '`', r[1]])) + '</section>';
   if (!c.ov && ctx.D.BT[c.id]) b += '<p class="ver"><a href="test-' + c.id + '.html">Take the ' + c.num + '.1 Big Test</a>: ' + ctx.D.BT[c.id].length + ' questions on this chapter, with answers.</p>';
+  if (c.ov && ctx.D.PJP[c.part]) b += '<p class="ver"><a href="projects-part' + c.part + '.html">Part ' + c.part + ' projects</a>: ' + ctx.D.PJP[c.part].ids.length + ' real data-analyst problems with briefs, hints, example runs and model answers.</p>';
   b += nav(c) + '</article>';
   fs.writeFileSync(path.join(out, c.id + '.html'), page(c.id, c.title, plain(c.lead), b));
   urls.push('learn/' + c.id + '.html');
@@ -86,6 +87,29 @@ for (const c of SEQ) {
     fs.writeFileSync(path.join(out, 'test-' + c.id + '.html'), page('test-' + c.id, c.num + '.1 Big Test: ' + (c.nav || c.title), BTL.length + ' Python practice questions on ' + c.title + ', from basic to challenge, with answers.', tb));
     urls.push('learn/test-' + c.id + '.html');
   }
+}
+// Projects: one text page per Part (briefs, hints, example runs; the model answer is folded away)
+const PJW = [['Correctness', 30, 'Share of the main tests your program passes'], ['Logic', 20, 'Share of the logic tests (tricky formulas and conditions)'], ['Edge cases', 10, 'Share of the edge-case tests (zeros, big numbers, spaces)'], ['Use of concepts', 25, 'Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part'], ['Readability', 15, 'Clear names, your own comments, short lines, clean indentation, spaces around =']];
+for (const [n, P] of Object.entries(ctx.D.PJP)) {
+  const pt = PARTS[n - 1], ov = OV.filter(o => o.part === +n)[0];
+  let b = '<article><p class="crumb">Part ' + n + ' · ' + esc(pt.title) + ' · Projects</p><h1>' + esc(P.title) + '</h1><p class="lead">' + md(P.intro) + '</p>' +
+    '<p>In the <a href="../#projects-' + n + '">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p>';
+  for (const id of P.ids) {
+    const x = ctx.D.PJ[id];
+    b += '<section><h2>Project ' + n + '.' + x.n + ' (' + esc(x.levelName) + '): ' + esc(x.title) + '</h2><p><b>' + md(x.short) + '</b></p>' + x.story.split('\n').map(p => '<p>' + md(p) + '</p>').join('') +
+      '<h3>What you will practise</h3><ul>' + x.objectives.map(o => '<li>' + md(o) + '</li>').join('') + '</ul>' +
+      '<p><b>You may use:</b> ' + x.may.map(md).join(', ') + '.<br><b>Do not use yet:</b> ' + x.mustnot.map(md).join(', ') + '.</p>' +
+      '<h3>Your tasks</h3><ol>' + x.tasks.map(t => '<li>' + md(t) + '</li>').join('') + '</ol>' +
+      '<h3>Lines your output must contain</h3><pre class="out">' + esc(x.lines.join('\n')) + '</pre><p>' + md(x.rules) + '</p>' +
+      '<h3>Example run</h3><p>Typed values: ' + x.example.inputs.map(v => '<code>' + esc(v) + '</code>').join(', ') + '.</p><pre class="out">' + esc(x.example.out) + '</pre>' +
+      '<h3>Edge cases to think about</h3><ul>' + x.edge.map(t => '<li>' + md(t) + '</li>').join('') + '</ul>' +
+      '<h3>How your score is worked out</h3>' + table(['Part', 'Points', 'How it is checked'], PJW.map(w => ['**' + w[0] + '**', String(w[1]), w[2]])) +
+      '<h3>Hints</h3>' + x.hints.map((t, i) => '<details><summary>Hint ' + (i + 1) + '</summary><p>' + md(t) + '</p></details>').join('') +
+      '<details><summary>Model answer (try it yourself first)</summary>' + code(x.sol) + '</details></section>';
+  }
+  b += '<nav class="pn">' + (ov ? '<a href="' + ov.id + '.html">← ' + esc(ov.nav) + '</a>' : '<span></span>') + '</nav></article>';
+  fs.writeFileSync(path.join(out, 'projects-part' + n + '.html'), page('projects-part' + n, 'Part ' + n + ' Python projects for data analysts', P.ids.length + ' Python projects for beginner data analysts on Part ' + n + ' (' + pt.title + '), with briefs, hints, example runs and model answers.', b));
+  urls.push('learn/projects-part' + n + '.html');
 }
 // Reference
 fs.writeFileSync(path.join(out, 'reference.html'), page('reference', 'Python reference: string, list, tuple, set and dict methods and built-in functions', 'Every Python method for strings, lists, tuples, sets and dictionaries, plus the built-in functions, each with an example and its real output.',
@@ -104,7 +128,7 @@ fs.writeFileSync(path.join(out, 'cheatsheet.html'), page('cheatsheet', 'Python c
   '<article><h1>Python cheat sheet</h1>' + CH.map(c => c.cheat ? '<section><h2>' + c.num + '. ' + esc(c.title) + '</h2>' + table(['Code', 'What it does'], c.cheat.map(r => ['`' + r[0] + '`', r[1]])) + '</section>' : '').join('') + '</article>'));
 urls.push('learn/cheatsheet.html');
 // Course index
-const outline = PARTS.map(p => '<section><h2>Part ' + p.n + ': ' + esc(p.title) + '</h2><p>' + esc(p.sub || '') + '</p><ol>' + SEQ.filter(c => c.part === p.n).map(c => '<li><a href="' + c.id + '.html">' + esc(c.ov ? c.nav : c.num + '. ' + c.title) + '</a> – ' + md(c.lead) + '</li>').join('') + '</ol></section>').join('');
+const outline = PARTS.map(p => '<section><h2>Part ' + p.n + ': ' + esc(p.title) + '</h2><p>' + esc(p.sub || '') + '</p><ol>' + SEQ.filter(c => c.part === p.n).map(c => '<li><a href="' + c.id + '.html">' + esc(c.ov ? c.nav : c.num + '. ' + c.title) + '</a> – ' + md(c.lead) + '</li>').join('') + (ctx.D.PJP[p.n] ? '<li><a href="projects-part' + p.n + '.html">Part ' + p.n + ' projects</a> – ' + ctx.D.PJP[p.n].ids.length + ' real data-analyst problems with an automatic score out of 100.</li>' : '') + '</ol></section>').join('');
 const NTE = Object.values(V).filter(v => v.te).length;
 const FEATURES = [CH.length + ' chapters in plain, simple English, from your first <code>print()</code> to NumPy, in 8 Parts', 'A <b>real Python runner in the browser</b> (Python 3.12 with NumPy) under every practice task, with a <b>Check my answer</b> button, and a <b>Try it</b> button on every code example', 'Animated explainers that run code line by line, slide decks, mind maps and a revision poster for every chapter', 'A short video by a real teacher for every chapter (English, plus Telugu for ' + NTE + ' chapters)', 'Practice on a realistic, messy hotel bookings dataset, plus an end-to-end mini project', 'An overview page for every Part with key definitions, big comparison tables, "don\'t mix these up" tables and a picture cheat sheet', Object.values(ctx.D.EX).reduce((n, L) => n + L.length, 0) + ' quick fill-in-the-blank exercises (5 per chapter) with instant checking', 'Quizzes, a final exam, flashcards with spaced repetition, a cheat sheet, a glossary and a full Python reference', 'Works on phones, has dark mode, works offline after the first visit, no ads and no sign-up'];
 fs.writeFileSync(path.join(out, 'index.html'), page('index', 'Learn Python for data analysis, step by step', 'A free, interactive Python course for aspiring data analysts: ' + CH.length + ' chapters, a real Python runner in the browser, videos, quizzes, flashcards and a full reference.',
