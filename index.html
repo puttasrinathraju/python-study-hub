@@ -13280,6 +13280,54 @@ hotel = {"101": {"guest": "asha", "nights": 2}, "102": {"guest": "ravi", "nights
     ] }
   ]);
   addCard("dicts", ["What can be a dictionary key, and what can be a value?", "Keys: things that cannot change (str, int, tuple). Values: anything, even lists and other dicts."]);
+  addBefore("lists", "Removing duplicates (course exercise)", [
+    { t: "note", k: "trap", h: "No colon in a comprehension", b: "In a normal loop, `for w in words:` ends with a colon because an indented block comes next. A comprehension is **one line inside the brackets**, with no block, so the `for` (and the `if`) get **no colon**. The colons in `w[::-1]` are slicing, which is a different thing." },
+    { t: "code", c: R`
+words = ["data", "is", "fun"]
+print([w[::-1] for w in words])`, o: "['atad', 'si', 'nuf']", ttl: "No colon after for w in words" },
+    { t: "code", c: R`
+words = ["data", "is", "fun"]
+print([w[::-1] for w in words:])`, o: "SyntaxError: invalid syntax", ttl: "Add a colon and Python stops", err: true }
+  ]);
+  addBefore("comprehensions", "Where does if go? Filter vs transform", [
+    { t: "table", title: "Where do colons go?", head: [
+      "Colon",
+      "Example",
+      "What it means"
+    ], rows: [
+      [
+        "End of a line",
+        "`for x in nums:`",
+        "An indented block comes next. Same for `if`, `elif`, `else`, `while`, `def`, `class`, `try`, `except`, `with`."
+      ],
+      [
+        "Slicing",
+        "`word[::-1]`",
+        "start : stop : step"
+      ],
+      [
+        "Dictionary",
+        "`{\"tea\": 20}`",
+        "key : value (also in a dict comprehension)"
+      ],
+      [
+        "f-string format",
+        "`f\"{price:.2f}\"`",
+        "How to show the value"
+      ],
+      [
+        "Comprehension, one-line if",
+        "`[w for w in words if len(w) > 3]`",
+        "[[no:No colon]]: there is no block inside brackets"
+      ]
+    ] },
+    { t: "code", c: R`
+words = ["data", "is", "fun"]
+print([w for w in words if len(w) > 2])
+print({w: len(w) for w in words})`, o: R`
+['data', 'fun']
+{'data': 4, 'is': 2, 'fun': 3}`, ttl: "One comprehension with if (no colon), one dict comprehension (key: value colon)" }
+  ]);
   var ov = OVERVIEWS.filter(function(o){ return o.part === 3; })[0], oi = ov.body.findIndex(function(b){ return b.t === "h" && b.text === "Don\u0027t mix these up"; });
   if (oi < 0) throw new Error("overview 3 heading not found");
   ov.body.splice(oi, 0, { t: "table", rowHead: true, title: "What can go inside what", head: [

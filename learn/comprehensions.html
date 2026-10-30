@@ -41,6 +41,11 @@ print([c.strip().title() for c in raw])     # clean every item</code></pre><p cl
 ['APPLE', 'BANANA', 'CHERRY']
 [5, 6, 6]
 ['Delhi', 'Mumbai', 'Pune']</pre></figure>
+<h3>Where do colons go?</h3><div class="tbl"><table><thead><tr><th>Colon</th><th>Example</th><th>What it means</th></tr></thead><tbody><tr><td>End of a line</td><td><code>for x in nums:</code></td><td>An indented block comes next. Same for <code>if</code>, <code>elif</code>, <code>else</code>, <code>while</code>, <code>def</code>, <code>class</code>, <code>try</code>, <code>except</code>, <code>with</code>.</td></tr><tr><td>Slicing</td><td><code>word[::-1]</code></td><td>start : stop : step</td></tr><tr><td>Dictionary</td><td><code>{&quot;tea&quot;: 20}</code></td><td>key : value (also in a dict comprehension)</td></tr><tr><td>f-string format</td><td><code>f&quot;{price:.2f}&quot;</code></td><td>How to show the value</td></tr><tr><td>Comprehension, one-line if</td><td><code>[w for w in words if len(w) &gt; 3]</code></td><td><span class="t-no">No colon</span>: there is no block inside brackets</td></tr></tbody></table></div>
+<figure class="code"><figcaption>One comprehension with if (no colon), one dict comprehension (key: value colon)</figcaption><pre><code>words = [&quot;data&quot;, &quot;is&quot;, &quot;fun&quot;]
+print([w for w in words if len(w) &gt; 2])
+print({w: len(w) for w in words})</code></pre><p class="olbl">Output</p><pre class="out">['data', 'fun']
+{'data': 4, 'is': 2, 'fun': 3}</pre></figure>
 <h2>Where does if go? Filter vs transform</h2>
 <p>This confuses almost everyone. There are two different uses of <code>if</code> in a comprehension, and they go in <b>different places</b>.</p>
 <div class="cmp"><div><h4>Filter: <code>if</code> at the END</h4><p>Decides <b>which items to keep</b>. No <code>else</code> allowed. The result can be shorter.</p><figure class="code"><pre><code>nums = [-2, 5, -1, 8]

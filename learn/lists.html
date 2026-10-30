@@ -284,6 +284,11 @@ fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
 print([f.upper() for f in fruits])</code></pre><p class="olbl">Output</p><pre class="out">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
 [0, 2, 4, 6, 8]
 ['APPLE', 'BANANA', 'CHERRY']</pre></figure>
+<aside class="note trap"><strong>No colon in a comprehension</strong><p>In a normal loop, <code>for w in words:</code> ends with a colon because an indented block comes next. A comprehension is <b>one line inside the brackets</b>, with no block, so the <code>for</code> (and the <code>if</code>) get <b>no colon</b>. The colons in <code>w[::-1]</code> are slicing, which is a different thing.</p></aside>
+<figure class="code"><figcaption>No colon after for w in words</figcaption><pre><code>words = [&quot;data&quot;, &quot;is&quot;, &quot;fun&quot;]
+print([w[::-1] for w in words])</code></pre><p class="olbl">Output</p><pre class="out">['atad', 'si', 'nuf']</pre></figure>
+<figure class="code"><figcaption>Add a colon and Python stops</figcaption><pre><code>words = [&quot;data&quot;, &quot;is&quot;, &quot;fun&quot;]
+print([w[::-1] for w in words:])</code></pre><p class="olbl">Error</p><pre class="out">SyntaxError: invalid syntax</pre></figure>
 <h2>Removing duplicates (course exercise)</h2>
 <figure class="code"><pre><code>a = [2, 4, 2, 3, 3, 6, 7, 8, 10, 2, 4, 5, 5, 19, 21, 16, 16, 11, 2, 1]
 
