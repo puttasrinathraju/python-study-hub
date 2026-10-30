@@ -3275,5 +3275,509 @@ var BIGTESTS = {
    "e": "Make the check case-proof with `lower()`, then build `key: value` with `title()` for the key.",
    "out": "{'Asha': 4, 'Anil': 4}"
   }
+ ],
+ "functions": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Defining and calling a function",
+   "q": "Type exactly what this code prints.",
+   "c": "def hello():\n    print(\"Hi\")\nprint(\"Start\")\nhello()\nhello()",
+   "e": "Defining a function runs nothing. The body runs only when the function is called, here twice, after `Start`.",
+   "ans": "Start\nHi\nHi"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Defining and calling a function",
+   "q": "Write a function `show_banner()` that prints `=== SALES ===`. Call it twice.",
+   "starter": "# def show_banner():\n",
+   "sol": "def show_banner():\n    print(\"=== SALES ===\")\n\nshow_banner()\nshow_banner()",
+   "e": "`def name():` defines the function; `name()` calls it. You can call it as many times as you like.",
+   "out": "=== SALES ===\n=== SALES ==="
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Parameters and arguments",
+   "q": "Write `greet(name)` that prints `Namaste, <name>!`. Call it with `\"Asha\"` and then with `\"Ravi\"`.",
+   "starter": "# def greet(name):\n",
+   "sol": "def greet(name):\n    print(f\"Namaste, {name}!\")\n\ngreet(\"Asha\")\ngreet(\"Ravi\")",
+   "e": "`name` is the parameter. Each call passes a different argument, and the same code uses it.",
+   "out": "Namaste, Asha!\nNamaste, Ravi!"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "return: sending a result back",
+   "q": "Write `square(n)` that returns `n * n`. Then print `square(7) + 1`.",
+   "starter": "# def square(n):\n",
+   "sol": "def square(n):\n    return n * n\n\nprint(square(7) + 1)",
+   "e": "`return` hands the result back to the caller, so you can use it in more maths: 49 + 1.",
+   "out": "50"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Default values and keyword arguments",
+   "q": "Write `apply_gst(price, rate=18)` that returns the price plus `rate`%. Print `apply_gst(1000)` and `apply_gst(1000, 5)` with one `print()`.",
+   "starter": "# def apply_gst(price, rate=18):\n",
+   "sol": "def apply_gst(price, rate=18):\n    return price + price * rate / 100\n\nprint(apply_gst(1000), apply_gst(1000, 5))",
+   "e": "When you leave out `rate`, it uses its default, 18. Passing 5 replaces the default.",
+   "out": "1180.0 1050.0"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Defining and calling a function",
+   "q": "This code should print `hi`, but it crashes. Fix it.",
+   "c": "say_hi()\ndef say_hi():\n    print(\"hi\")",
+   "fixed": "def say_hi():\n    print(\"hi\")\nsay_hi()",
+   "e": "Python runs from top to bottom, so a function must be defined before it is called.",
+   "want": "hi",
+   "got": "NameError: name 'say_hi' is not defined"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "return: sending a result back",
+   "q": "Type exactly what this code prints.",
+   "c": "def double(n):\n    print(n * 2)\n\nresult = double(4)\nprint(result)",
+   "e": "`double()` prints 8 but has no `return`, so it gives back `None`, and `result` is `None`.",
+   "ans": "8\nNone"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Parameters and arguments",
+   "q": "This code should print `Hello Guest`, but it crashes. Fix it by giving `name` a default value.",
+   "c": "def greet(name):\n    print(\"Hello\", name)\n\ngreet()",
+   "fixed": "def greet(name=\"Guest\"):\n    print(\"Hello\", name)\n\ngreet()",
+   "e": "A call must give every parameter that has no default. `name=\"Guest\"` makes the argument optional.",
+   "want": "Hello Guest",
+   "got": "TypeError: greet() missing 1 required positional argument: 'name'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "return: sending a result back",
+   "q": "Write `is_eligible(age)` that returns `True` when `age` is 18 or more, using one `return` line. Print `is_eligible(17)` and `is_eligible(18)` with one `print()`.",
+   "starter": "# def is_eligible(age):\n",
+   "sol": "def is_eligible(age):\n    return age >= 18\n\nprint(is_eligible(17), is_eligible(18))",
+   "e": "A comparison already gives `True` or `False`, so you can return it directly, without `if`.",
+   "out": "False True"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Returning several values",
+   "q": "Write `min_max(nums)` that returns the smallest and the largest number. For `[12, 3, 41, 7]`, unpack the result and print `Min: 3 Max: 41`.",
+   "starter": "# def min_max(nums):\n",
+   "sol": "def min_max(nums):\n    return min(nums), max(nums)\n\nlow, high = min_max([12, 3, 41, 7])\nprint(\"Min:\", low, \"Max:\", high)",
+   "e": "`return a, b` sends back a tuple, which the caller unpacks into two names.",
+   "out": "Min: 3 Max: 41"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Default values and keyword arguments",
+   "q": "Type exactly what this code prints.",
+   "c": "def intro(name, city=\"Pune\"):\n    print(name, \"from\", city)\n\nintro(\"Asha\")\nintro(city=\"Goa\", name=\"Ravi\")",
+   "e": "The first call uses the default city. Keyword arguments can come in any order, because each one is matched by name.",
+   "ans": "Asha from Pune\nRavi from Goa"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "return: sending a result back",
+   "q": "This function should add up all the prices and print `60`, but it prints `10`. Fix it.",
+   "c": "def total(prices):\n    s = 0\n    for p in prices:\n        s += p\n        return s\n\nprint(total([10, 20, 30]))",
+   "fixed": "def total(prices):\n    s = 0\n    for p in prices:\n        s += p\n    return s\n\nprint(total([10, 20, 30]))",
+   "e": "`return` ends the function at once. Inside the loop it returns after the first price. Move it out of the loop.",
+   "want": "60",
+   "got": "10"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Built-in vs your own functions",
+   "q": "Write `grade(marks)` that returns `\"A\"` for 90 or more, `\"B\"` for 75 or more, `\"C\"` for 50 or more, and `\"F\"` below that. Print the grades of `[95, 80, 40]` as a list, using a comprehension.",
+   "starter": "# def grade(marks):\n",
+   "sol": "def grade(marks):\n    if marks >= 90:\n        return \"A\"\n    elif marks >= 75:\n        return \"B\"\n    elif marks >= 50:\n        return \"C\"\n    return \"F\"\n\nprint([grade(m) for m in [95, 80, 40]])",
+   "e": "Your own functions work anywhere a built-in does, including inside a comprehension.",
+   "out": "['A', 'B', 'F']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Docstrings and help()",
+   "q": "Write `area(length, width)` with the docstring `Return the area of a rectangle.` Print `area(4, 5)`, then print the docstring with `area.__doc__`.",
+   "starter": "# def area(length, width):\n",
+   "sol": "def area(length, width):\n    \"\"\"Return the area of a rectangle.\"\"\"\n    return length * width\n\nprint(area(4, 5))\nprint(area.__doc__)",
+   "e": "A docstring is the first string inside the function. Python keeps it in `__doc__`, and `help()` shows it.",
+   "out": "20\nReturn the area of a rectangle."
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Returning several values",
+   "q": "Type exactly what this code prints.",
+   "c": "def stats(a, b):\n    return a + b, a * b\n\nx = stats(3, 4)\nprint(x, type(x))",
+   "e": "Two values after `return` are packed into one tuple.",
+   "ans": "(7, 12) <class 'tuple'>"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Default values and keyword arguments",
+   "q": "This code should print `118.0`, but it crashes. Fix the function line.",
+   "c": "def bill(tax=0.18, amount):\n    return amount * (1 + tax)\n\nprint(bill(100))",
+   "fixed": "def bill(amount, tax=0.18):\n    return amount * (1 + tax)\n\nprint(bill(100))",
+   "e": "Parameters with defaults must come after the ones without. Put `amount` first.",
+   "want": "118.0",
+   "got": "SyntaxError: parameter without a default follows parameter with a default"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Parameters and arguments",
+   "q": "Write `count_above(values, limit)` that returns how many values are above `limit`. Print `count_above([45, 82, 67, 90, 38], 60)`.",
+   "starter": "# def count_above(values, limit):\n",
+   "sol": "def count_above(values, limit):\n    count = 0\n    for v in values:\n        if v > limit:\n            count += 1\n    return count\n\nprint(count_above([45, 82, 67, 90, 38], 60))",
+   "e": "A function can take a whole list as one argument, plus a second value to compare with.",
+   "out": "3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "What is a function?",
+   "q": "Write `clean_name(text)` that returns the text with the spaces at the ends removed, in title case. Use it in a list comprehension on `[\" asha \", \"RAVI\"]` and print the list.",
+   "starter": "# def clean_name(text):\n",
+   "sol": "def clean_name(text):\n    return text.strip().title()\n\nprint([clean_name(n) for n in [\" asha \", \"RAVI\"]])",
+   "e": "Write the cleaning steps once in a function, then reuse them for every name.",
+   "out": "['Asha', 'Ravi']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "return: sending a result back",
+   "q": "Write `is_prime(n)` that returns `True` or `False` (numbers below 2 are not prime). Use it in a list comprehension to print the primes below 20.",
+   "starter": "# def is_prime(n):\n",
+   "sol": "def is_prime(n):\n    if n < 2:\n        return False\n    for d in range(2, n):\n        if n % d == 0:\n            return False\n    return True\n\nprint([n for n in range(20) if is_prime(n)])",
+   "e": "`return False` leaves as soon as a divisor is found. Only if the loop finishes is the number prime.",
+   "out": "[2, 3, 5, 7, 11, 13, 17, 19]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Returning several values",
+   "q": "Write `summary(marks)` that returns the average (rounded to 1 decimal), the highest, the lowest and how many passed (35 or more). For `[45, 82, 67, 90, 38]`, unpack it and print `Avg 64.4 | High 90 | Low 38 | Passed 5`.",
+   "starter": "# def summary(marks):\n",
+   "sol": "def summary(marks):\n    average = round(sum(marks) / len(marks), 1)\n    passed = len([m for m in marks if m >= 35])\n    return average, max(marks), min(marks), passed\n\navg, high, low, passed = summary([45, 82, 67, 90, 38])\nprint(f\"Avg {avg} | High {high} | Low {low} | Passed {passed}\")",
+   "e": "One function can return a whole report as a tuple, and the caller unpacks it into four clear names.",
+   "out": "Avg 64.4 | High 90 | Low 38 | Passed 5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Default values and keyword arguments",
+   "q": "Write `price_after(price, discount=0, gst=18)`: take off `discount`% first, then add `gst`%, and round to 2 decimals. Print `price_after(1000)`, `price_after(1000, discount=10)` and `price_after(1000, gst=5, discount=20)` with one `print()`.",
+   "starter": "# def price_after(price, discount=0, gst=18):\n",
+   "sol": "def price_after(price, discount=0, gst=18):\n    after_discount = price - price * discount / 100\n    return round(after_discount + after_discount * gst / 100, 2)\n\nprint(price_after(1000), price_after(1000, discount=10), price_after(1000, gst=5, discount=20))",
+   "e": "Keyword arguments let you change any default you want, in any order, and leave the others as they are.",
+   "out": "1180.0 1062.0 840.0"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "return: sending a result back",
+   "q": "Type exactly what this code prints.",
+   "c": "def size(x):\n    if x > 10:\n        return \"big\"\n    if x > 5:\n        return \"medium\"\n\nprint(size(12), size(7), size(2))",
+   "e": "For 2, neither `if` is true and the function reaches its end without a `return`, so it gives `None`.",
+   "ans": "big medium None"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "return: sending a result back",
+   "q": "This code should print `False`, but it prints `False` and then `None`. Fix it.",
+   "c": "def is_even(n):\n    if n % 2 == 0:\n        return True\n    print(False)\n\nprint(is_even(3))",
+   "fixed": "def is_even(n):\n    if n % 2 == 0:\n        return True\n    return False\n\nprint(is_even(3))",
+   "e": "Printing inside the function is not the same as returning. The caller only gets what you `return`.",
+   "want": "False",
+   "got": "False\nNone"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Built-in vs your own functions",
+   "q": "Write `to_celsius(f)` that returns `(f - 32) * 5 / 9` rounded to 1 decimal, and `report(temps)` that uses it to return a list of Celsius values. Print `report([98.6, 32, 212])`.",
+   "starter": "# def to_celsius(f):\n# def report(temps):\n",
+   "sol": "def to_celsius(f):\n    return round((f - 32) * 5 / 9, 1)\n\ndef report(temps):\n    return [to_celsius(t) for t in temps]\n\nprint(report([98.6, 32, 212]))",
+   "e": "Small functions can call each other: `report()` reuses `to_celsius()` for every value.",
+   "out": "[37.0, 0.0, 100.0]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Parameters and arguments",
+   "q": "Write `percent(part, whole)` that returns `part / whole * 100` rounded to 1 decimal. Call it with keyword arguments in the other order, `percent(whole=200, part=50)`, and print the result.",
+   "starter": "# def percent(part, whole):\n",
+   "sol": "def percent(part, whole):\n    return round(part / whole * 100, 1)\n\nprint(percent(whole=200, part=50))",
+   "e": "With keyword arguments the order does not matter: each value goes to the parameter with that name.",
+   "out": "25.0"
+  }
+ ],
+ "functions2": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "*args: any number of positional arguments",
+   "q": "Type exactly what this code prints.",
+   "c": "def add(*nums):\n    return sum(nums)\n\nprint(add(), add(5), add(1, 2, 3))",
+   "e": "`*nums` collects any number of arguments into a tuple, even none. The sum of an empty tuple is 0.",
+   "ans": "0 5 6"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "*args: any number of positional arguments",
+   "q": "Write `largest(*nums)` that returns the biggest of any number of values, using `max()`. Print `largest(4, 19, 7)`.",
+   "starter": "# def largest(*nums):\n",
+   "sol": "def largest(*nums):\n    return max(nums)\n\nprint(largest(4, 19, 7))",
+   "e": "Inside the function, `nums` is a tuple, so built-ins like `max()` work on it.",
+   "out": "19"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "**kwargs: any number of keyword arguments",
+   "q": "Write `show(**info)` that prints each key and value as `key: value`. Call `show(name=\"Asha\", city=\"Pune\")`.",
+   "starter": "# def show(**info):\n",
+   "sol": "def show(**info):\n    for key, value in info.items():\n        print(f\"{key}: {value}\")\n\nshow(name=\"Asha\", city=\"Pune\")",
+   "e": "`**info` collects the keyword arguments into a dictionary.",
+   "out": "name: Asha\ncity: Pune"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "lambda: tiny one-line functions",
+   "q": "Make a lambda called `gst` that adds 18% to a price, and print `gst(100)`.",
+   "starter": "# gst = lambda ...\n",
+   "sol": "gst = lambda price: price * 1.18\nprint(gst(100))",
+   "e": "`lambda parameter: expression` is a tiny function that returns the expression.",
+   "out": "118.0"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "lambda: tiny one-line functions",
+   "q": "`students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]`. Sort them by marks, highest first, with `key=lambda`, and print the list of names.",
+   "starter": "students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\n",
+   "sol": "students = [(\"Asha\", 82), (\"Ravi\", 67), (\"Neha\", 91)]\nranked = sorted(students, key=lambda s: s[1], reverse=True)\nprint([s[0] for s in ranked])",
+   "e": "The lambda tells `sorted()` what to compare: item 1 of each tuple, the marks.",
+   "out": "['Neha', 'Asha', 'Ravi']"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Scope: where a variable lives",
+   "q": "This code should print `1`, but it crashes. Fix it with `global`.",
+   "c": "count = 0\ndef increment():\n    count += 1\n\nincrement()\nprint(count)",
+   "fixed": "count = 0\ndef increment():\n    global count\n    count += 1\n\nincrement()\nprint(count)",
+   "e": "Assigning to `count` inside the function makes it local, so Python cannot read the old value. `global count` says: use the outside one. (Returning the new value is often cleaner.)",
+   "want": "1",
+   "got": "UnboundLocalError: cannot access local variable 'count' where it is not associated with a value"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Scope: where a variable lives",
+   "q": "Type exactly what this code prints.",
+   "c": "x = 100\ndef demo():\n    x = 50\n    return x\n\nprint(demo(), x)",
+   "e": "The `x` inside the function is a new local variable. The global `x` is not touched.",
+   "ans": "50 100"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "*args: any number of positional arguments",
+   "q": "This code should print `68`, but it crashes. Fix the call.",
+   "c": "def add(*numbers):\n    return sum(numbers)\n\nvalues = [11, 12, 45]\nprint(add(values))",
+   "fixed": "def add(*numbers):\n    return sum(numbers)\n\nvalues = [11, 12, 45]\nprint(add(*values))",
+   "e": "Passing the list makes `numbers` a tuple holding one list. `*values` unpacks the list into separate arguments.",
+   "want": "68",
+   "got": "TypeError: unsupported operand type(s) for +: 'int' and 'list'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Recursion: a function that calls itself",
+   "q": "Write a recursive function `power(base, exp)` (for `exp` of 0 or more): anything to the power 0 is 1. Print `power(2, 10)`.",
+   "starter": "# def power(base, exp):\n",
+   "sol": "def power(base, exp):\n    if exp == 0:\n        return 1\n    return base * power(base, exp - 1)\n\nprint(power(2, 10))",
+   "e": "The base case (`exp == 0`) stops the recursion. Every other call makes the problem one step smaller.",
+   "out": "1024"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "lambda: tiny one-line functions",
+   "q": "`nums = [3, -1, 8, -5, 2]`. Use `filter()` with a lambda to keep the negative numbers, and `map()` with a lambda to square every number. Print both lists.",
+   "starter": "nums = [3, -1, 8, -5, 2]\n",
+   "sol": "nums = [3, -1, 8, -5, 2]\nprint(list(filter(lambda x: x < 0, nums)))\nprint(list(map(lambda x: x * x, nums)))",
+   "e": "`filter()` keeps the items where the lambda is `True`. `map()` applies the lambda to every item. Wrap both in `list()` to see them.",
+   "out": "[-1, -5]\n[9, 1, 64, 25, 4]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Iterators",
+   "q": "Type exactly what this code prints.",
+   "c": "it = iter([10, 20, 30])\nprint(next(it))\nfor x in it:\n    print(x)",
+   "e": "`next()` takes 10 from the iterator. The `for` loop then continues from where it left off.",
+   "ans": "10\n20\n30"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Generators and yield",
+   "q": "Write a generator `evens(n)` that yields the even numbers from 2 up to `n`. Print `list(evens(10))`.",
+   "starter": "# def evens(n):\n",
+   "sol": "def evens(n):\n    for i in range(2, n + 1, 2):\n        yield i\n\nprint(list(evens(10)))",
+   "e": "`yield` hands out one value at a time. `list()` collects them all.",
+   "out": "[2, 4, 6, 8, 10]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "The mutable default argument trap",
+   "q": "The second call should print `['milk']`, but it prints `['apple', 'milk']`. Fix it.",
+   "c": "def add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n\nprint(add_item(\"apple\"))\nprint(add_item(\"milk\"))",
+   "fixed": "def add_item(item, basket=None):\n    if basket is None:\n        basket = []\n    basket.append(item)\n    return basket\n\nprint(add_item(\"apple\"))\nprint(add_item(\"milk\"))",
+   "e": "A default list is made only once and shared by every call. Use `None` as the default and make a fresh list inside.",
+   "want": "['apple']\n['milk']",
+   "got": "['apple']\n['apple', 'milk']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "**kwargs: any number of keyword arguments",
+   "q": "Write `order(item, qty=1, **notes)` that prints `2 x Pizza`, then each note as `- key: value`. Call `order(\"Pizza\", 2, spicy=True, table=4)`.",
+   "starter": "# def order(item, qty=1, **notes):\n",
+   "sol": "def order(item, qty=1, **notes):\n    print(f\"{qty} x {item}\")\n    for key, value in notes.items():\n        print(f\"- {key}: {value}\")\n\norder(\"Pizza\", 2, spicy=True, table=4)",
+   "e": "Normal parameters are filled first. Every extra keyword argument lands in the `notes` dictionary.",
+   "out": "2 x Pizza\n- spicy: True\n- table: 4"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Generators and yield",
+   "q": "Type exactly what this code prints.",
+   "c": "def gen():\n    yield 1\n    yield 2\n\ng = gen()\nprint(next(g), next(g), list(g))",
+   "e": "Each `next()` runs to the next `yield`. After two values the generator is used up, so `list(g)` is empty.",
+   "ans": "1 2 []"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "lambda: tiny one-line functions",
+   "q": "`products = {\"pen\": 12, \"ink\": 45, \"pad\": 30}`. Use `max()` with `key=lambda` on `items()` to print the most expensive product and its price.",
+   "starter": "products = {\"pen\": 12, \"ink\": 45, \"pad\": 30}\n",
+   "sol": "products = {\"pen\": 12, \"ink\": 45, \"pad\": 30}\nname, price = max(products.items(), key=lambda item: item[1])\nprint(name, price)",
+   "e": "`items()` gives (name, price) pairs, and the lambda tells `max()` to compare the prices.",
+   "out": "ink 45"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Scope: where a variable lives",
+   "q": "Write `make_counter()` that returns an inner function. Each call of the inner function adds 1 to a counter (use `nonlocal`) and returns it. Make one counter, call it 3 times, and print the 3 results on one line.",
+   "starter": "# def make_counter():\n",
+   "sol": "def make_counter():\n    count = 0\n    def step():\n        nonlocal count\n        count += 1\n        return count\n    return step\n\ncounter = make_counter()\nprint(counter(), counter(), counter())",
+   "e": "`nonlocal` lets the inner function change a variable of the outer function. The counter remembers its value between calls.",
+   "out": "1 2 3"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Recursion: a function that calls itself",
+   "q": "`fact(5)` should be `120`, but this code prints `0`. Fix the base case.",
+   "c": "def fact(n):\n    if n == 0:\n        return 0\n    return n * fact(n - 1)\n\nprint(fact(5))",
+   "fixed": "def fact(n):\n    if n == 0:\n        return 1\n    return n * fact(n - 1)\n\nprint(fact(5))",
+   "e": "Every result is multiplied by the base case, so a base case of 0 makes everything 0. 0! is 1.",
+   "want": "120",
+   "got": "0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Decorators",
+   "q": "Write a decorator `shout` that makes the text returned by a function upper case. Decorate `greet(name)`, which returns `f\"hello {name}\"`, and print `greet(\"asha\")`.",
+   "starter": "# def shout(func):\n",
+   "sol": "def shout(func):\n    def wrapper(*args, **kwargs):\n        return func(*args, **kwargs).upper()\n    return wrapper\n\n@shout\ndef greet(name):\n    return f\"hello {name}\"\n\nprint(greet(\"asha\"))",
+   "e": "The decorator returns a wrapper that calls the original function and changes its result. `@shout` swaps `greet` for that wrapper.",
+   "out": "HELLO ASHA"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Recursion: a function that calls itself",
+   "q": "Write a recursive `flatten(items)` that turns nested lists into one flat list. Use `isinstance(x, list)` to spot an inner list. Print `flatten([1, [2, [3, 4]], 5])`.",
+   "starter": "# def flatten(items):\n",
+   "sol": "def flatten(items):\n    flat = []\n    for x in items:\n        if isinstance(x, list):\n            flat += flatten(x)\n        else:\n            flat.append(x)\n    return flat\n\nprint(flatten([1, [2, [3, 4]], 5]))",
+   "e": "When an item is itself a list, the function calls itself on it. Plain items are added directly.",
+   "out": "[1, 2, 3, 4, 5]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Generators and yield",
+   "q": "Write a generator `running_total(values)` that yields the total so far after each value. Print `list(running_total([5, 10, 20]))`.",
+   "starter": "# def running_total(values):\n",
+   "sol": "def running_total(values):\n    total = 0\n    for v in values:\n        total += v\n        yield total\n\nprint(list(running_total([5, 10, 20])))",
+   "e": "The generator keeps `total` between yields, so each value builds on the last one.",
+   "out": "[5, 15, 35]"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Decorators",
+   "q": "Type exactly what this code prints.",
+   "c": "def twice(func):\n    def wrapper():\n        func()\n        func()\n    return wrapper\n\n@twice\ndef hi():\n    print(\"hi\")\n\nhi()",
+   "e": "`@twice` replaces `hi` with `wrapper`, which calls the original `hi` two times.",
+   "ans": "hi\nhi"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "lambda: tiny one-line functions",
+   "q": "`words = [\"cherry\", \"apple\", \"kiwi\", \"plum\"]`. Sort them by their LAST letter, using `key=lambda`, and print the list.",
+   "starter": "words = [\"cherry\", \"apple\", \"kiwi\", \"plum\"]\n",
+   "sol": "words = [\"cherry\", \"apple\", \"kiwi\", \"plum\"]\nprint(sorted(words, key=lambda w: w[-1]))",
+   "e": "The lambda returns `w[-1]`, so `sorted()` compares the last letters: e, i, m, y.",
+   "out": "['apple', 'kiwi', 'plum', 'cherry']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "*args: any number of positional arguments",
+   "q": "Write `report(title, *values, **opts)`. It prints the title, a colon, then the total of `values`, with `opts[\"unit\"]` in front when given. So `report(\"Sales\", 100, 250, unit=\"₹\")` prints `Sales: ₹350` and `report(\"Units\", 3, 4)` prints `Units: 7`.",
+   "starter": "# def report(title, *values, **opts):\n",
+   "sol": "def report(title, *values, **opts):\n    unit = opts.get(\"unit\", \"\")\n    print(f\"{title}: {unit}{sum(values)}\")\n\nreport(\"Sales\", 100, 250, unit=\"₹\")\nreport(\"Units\", 3, 4)",
+   "e": "`*values` is a tuple of the numbers and `**opts` a dictionary of options. `get()` gives an empty unit when none was passed.",
+   "out": "Sales: ₹350\nUnits: 7"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Generators and yield",
+   "q": "This code should print `[1, 4, 9]`, but it crashes. Fix it so the function hands out every square.",
+   "c": "def squares(n):\n    for i in range(1, n + 1):\n        return i * i\n\nprint(list(squares(3)))",
+   "fixed": "def squares(n):\n    for i in range(1, n + 1):\n        yield i * i\n\nprint(list(squares(3)))",
+   "e": "`return` ends the function with one number, and `list()` cannot loop over a number. `yield` turns the function into a generator of all the squares.",
+   "want": "[1, 4, 9]",
+   "got": "TypeError: 'int' object is not iterable"
+  }
  ]
 };

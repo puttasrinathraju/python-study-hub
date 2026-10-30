@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>14.1 Big Test: Functions basics | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Functions: the basics, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-functions.html">
+<meta property="og:title" content="14.1 Big Test: Functions basics | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Functions: the basics, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-functions">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-functions">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>14.1 Big Test: Functions basics</h1><p class="lead">25 questions on Functions: the basics only, from basic to challenge. Try each one first, then open the answer. <a href="functions.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>def hello():
+    print(&quot;Hi&quot;)
+print(&quot;Start&quot;)
+hello()
+hello()</code></pre></figure><details><summary>Answer</summary><pre class="out">Start
+Hi
+Hi</pre><p>Defining a function runs nothing. The body runs only when the function is called, here twice, after <code>Start</code>.</p></details></li><li><p><b>Basic.</b> Write a function <code>show_banner()</code> that prints <code>=== SALES ===</code>. Call it twice.</p><p>Your code should print exactly:</p><pre class="out">=== SALES ===
+=== SALES ===</pre><details><summary>Answer</summary><figure class="code"><pre><code>def show_banner():
+    print(&quot;=== SALES ===&quot;)
+
+show_banner()
+show_banner()</code></pre><p class="olbl">Output</p><pre class="out">=== SALES ===
+=== SALES ===</pre></figure><p><code>def name():</code> defines the function; <code>name()</code> calls it. You can call it as many times as you like.</p></details></li><li><p><b>Basic.</b> Write <code>greet(name)</code> that prints <code>Namaste, &lt;name&gt;!</code>. Call it with <code>&quot;Asha&quot;</code> and then with <code>&quot;Ravi&quot;</code>.</p><p>Your code should print exactly:</p><pre class="out">Namaste, Asha!
+Namaste, Ravi!</pre><details><summary>Answer</summary><figure class="code"><pre><code>def greet(name):
+    print(f&quot;Namaste, {name}!&quot;)
+
+greet(&quot;Asha&quot;)
+greet(&quot;Ravi&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Namaste, Asha!
+Namaste, Ravi!</pre></figure><p><code>name</code> is the parameter. Each call passes a different argument, and the same code uses it.</p></details></li><li><p><b>Basic.</b> Write <code>square(n)</code> that returns <code>n * n</code>. Then print <code>square(7) + 1</code>.</p><p>Your code should print exactly:</p><pre class="out">50</pre><details><summary>Answer</summary><figure class="code"><pre><code>def square(n):
+    return n * n
+
+print(square(7) + 1)</code></pre><p class="olbl">Output</p><pre class="out">50</pre></figure><p><code>return</code> hands the result back to the caller, so you can use it in more maths: 49 + 1.</p></details></li><li><p><b>Basic.</b> Write <code>apply_gst(price, rate=18)</code> that returns the price plus <code>rate</code>%. Print <code>apply_gst(1000)</code> and <code>apply_gst(1000, 5)</code> with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">1180.0 1050.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>def apply_gst(price, rate=18):
+    return price + price * rate / 100
+
+print(apply_gst(1000), apply_gst(1000, 5))</code></pre><p class="olbl">Output</p><pre class="out">1180.0 1050.0</pre></figure><p>When you leave out <code>rate</code>, it uses its default, 18. Passing 5 replaces the default.</p></details></li><li><p><b>Basic.</b> This code should print <code>hi</code>, but it crashes. Fix it.</p><figure class="code"><pre><code>say_hi()
+def say_hi():
+    print(&quot;hi&quot;)</code></pre></figure><p>It should print:</p><pre class="out">hi</pre><details><summary>Answer</summary><figure class="code"><pre><code>def say_hi():
+    print(&quot;hi&quot;)
+say_hi()</code></pre><p class="olbl">Output</p><pre class="out">hi</pre></figure><p>Python runs from top to bottom, so a function must be defined before it is called.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>def double(n):
+    print(n * 2)
+
+result = double(4)
+print(result)</code></pre></figure><details><summary>Answer</summary><pre class="out">8
+None</pre><p><code>double()</code> prints 8 but has no <code>return</code>, so it gives back <code>None</code>, and <code>result</code> is <code>None</code>.</p></details></li><li><p><b>Basic.</b> This code should print <code>Hello Guest</code>, but it crashes. Fix it by giving <code>name</code> a default value.</p><figure class="code"><pre><code>def greet(name):
+    print(&quot;Hello&quot;, name)
+
+greet()</code></pre></figure><p>It should print:</p><pre class="out">Hello Guest</pre><details><summary>Answer</summary><figure class="code"><pre><code>def greet(name=&quot;Guest&quot;):
+    print(&quot;Hello&quot;, name)
+
+greet()</code></pre><p class="olbl">Output</p><pre class="out">Hello Guest</pre></figure><p>A call must give every parameter that has no default. <code>name=&quot;Guest&quot;</code> makes the argument optional.</p></details></li><li><p><b>Medium.</b> Write <code>is_eligible(age)</code> that returns <code>True</code> when <code>age</code> is 18 or more, using one <code>return</code> line. Print <code>is_eligible(17)</code> and <code>is_eligible(18)</code> with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">False True</pre><details><summary>Answer</summary><figure class="code"><pre><code>def is_eligible(age):
+    return age &gt;= 18
+
+print(is_eligible(17), is_eligible(18))</code></pre><p class="olbl">Output</p><pre class="out">False True</pre></figure><p>A comparison already gives <code>True</code> or <code>False</code>, so you can return it directly, without <code>if</code>.</p></details></li><li><p><b>Medium.</b> Write <code>min_max(nums)</code> that returns the smallest and the largest number. For <code>[12, 3, 41, 7]</code>, unpack the result and print <code>Min: 3 Max: 41</code>.</p><p>Your code should print exactly:</p><pre class="out">Min: 3 Max: 41</pre><details><summary>Answer</summary><figure class="code"><pre><code>def min_max(nums):
+    return min(nums), max(nums)
+
+low, high = min_max([12, 3, 41, 7])
+print(&quot;Min:&quot;, low, &quot;Max:&quot;, high)</code></pre><p class="olbl">Output</p><pre class="out">Min: 3 Max: 41</pre></figure><p><code>return a, b</code> sends back a tuple, which the caller unpacks into two names.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>def intro(name, city=&quot;Pune&quot;):
+    print(name, &quot;from&quot;, city)
+
+intro(&quot;Asha&quot;)
+intro(city=&quot;Goa&quot;, name=&quot;Ravi&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">Asha from Pune
+Ravi from Goa</pre><p>The first call uses the default city. Keyword arguments can come in any order, because each one is matched by name.</p></details></li><li><p><b>Medium.</b> This function should add up all the prices and print <code>60</code>, but it prints <code>10</code>. Fix it.</p><figure class="code"><pre><code>def total(prices):
+    s = 0
+    for p in prices:
+        s += p
+        return s
+
+print(total([10, 20, 30]))</code></pre></figure><p>It should print:</p><pre class="out">60</pre><details><summary>Answer</summary><figure class="code"><pre><code>def total(prices):
+    s = 0
+    for p in prices:
+        s += p
+    return s
+
+print(total([10, 20, 30]))</code></pre><p class="olbl">Output</p><pre class="out">60</pre></figure><p><code>return</code> ends the function at once. Inside the loop it returns after the first price. Move it out of the loop.</p></details></li><li><p><b>Medium.</b> Write <code>grade(marks)</code> that returns <code>&quot;A&quot;</code> for 90 or more, <code>&quot;B&quot;</code> for 75 or more, <code>&quot;C&quot;</code> for 50 or more, and <code>&quot;F&quot;</code> below that. Print the grades of <code>[95, 80, 40]</code> as a list, using a comprehension.</p><p>Your code should print exactly:</p><pre class="out">['A', 'B', 'F']</pre><details><summary>Answer</summary><figure class="code"><pre><code>def grade(marks):
+    if marks &gt;= 90:
+        return &quot;A&quot;
+    elif marks &gt;= 75:
+        return &quot;B&quot;
+    elif marks &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+print([grade(m) for m in [95, 80, 40]])</code></pre><p class="olbl">Output</p><pre class="out">['A', 'B', 'F']</pre></figure><p>Your own functions work anywhere a built-in does, including inside a comprehension.</p></details></li><li><p><b>Medium.</b> Write <code>area(length, width)</code> with the docstring <code>Return the area of a rectangle.</code> Print <code>area(4, 5)</code>, then print the docstring with <code>area.__doc__</code>.</p><p>Your code should print exactly:</p><pre class="out">20
+Return the area of a rectangle.</pre><details><summary>Answer</summary><figure class="code"><pre><code>def area(length, width):
+    &quot;&quot;&quot;Return the area of a rectangle.&quot;&quot;&quot;
+    return length * width
+
+print(area(4, 5))
+print(area.__doc__)</code></pre><p class="olbl">Output</p><pre class="out">20
+Return the area of a rectangle.</pre></figure><p>A docstring is the first string inside the function. Python keeps it in <code>__doc__</code>, and <code>help()</code> shows it.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>def stats(a, b):
+    return a + b, a * b
+
+x = stats(3, 4)
+print(x, type(x))</code></pre></figure><details><summary>Answer</summary><pre class="out">(7, 12) &lt;class 'tuple'&gt;</pre><p>Two values after <code>return</code> are packed into one tuple.</p></details></li><li><p><b>Medium.</b> This code should print <code>118.0</code>, but it crashes. Fix the function line.</p><figure class="code"><pre><code>def bill(tax=0.18, amount):
+    return amount * (1 + tax)
+
+print(bill(100))</code></pre></figure><p>It should print:</p><pre class="out">118.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>def bill(amount, tax=0.18):
+    return amount * (1 + tax)
+
+print(bill(100))</code></pre><p class="olbl">Output</p><pre class="out">118.0</pre></figure><p>Parameters with defaults must come after the ones without. Put <code>amount</code> first.</p></details></li><li><p><b>Medium.</b> Write <code>count_above(values, limit)</code> that returns how many values are above <code>limit</code>. Print <code>count_above([45, 82, 67, 90, 38], 60)</code>.</p><p>Your code should print exactly:</p><pre class="out">3</pre><details><summary>Answer</summary><figure class="code"><pre><code>def count_above(values, limit):
+    count = 0
+    for v in values:
+        if v &gt; limit:
+            count += 1
+    return count
+
+print(count_above([45, 82, 67, 90, 38], 60))</code></pre><p class="olbl">Output</p><pre class="out">3</pre></figure><p>A function can take a whole list as one argument, plus a second value to compare with.</p></details></li><li><p><b>Medium.</b> Write <code>clean_name(text)</code> that returns the text with the spaces at the ends removed, in title case. Use it in a list comprehension on <code>[&quot; asha &quot;, &quot;RAVI&quot;]</code> and print the list.</p><p>Your code should print exactly:</p><pre class="out">['Asha', 'Ravi']</pre><details><summary>Answer</summary><figure class="code"><pre><code>def clean_name(text):
+    return text.strip().title()
+
+print([clean_name(n) for n in [&quot; asha &quot;, &quot;RAVI&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">['Asha', 'Ravi']</pre></figure><p>Write the cleaning steps once in a function, then reuse them for every name.</p></details></li><li><p><b>Challenge.</b> Write <code>is_prime(n)</code> that returns <code>True</code> or <code>False</code> (numbers below 2 are not prime). Use it in a list comprehension to print the primes below 20.</p><p>Your code should print exactly:</p><pre class="out">[2, 3, 5, 7, 11, 13, 17, 19]</pre><details><summary>Answer</summary><figure class="code"><pre><code>def is_prime(n):
+    if n &lt; 2:
+        return False
+    for d in range(2, n):
+        if n % d == 0:
+            return False
+    return True
+
+print([n for n in range(20) if is_prime(n)])</code></pre><p class="olbl">Output</p><pre class="out">[2, 3, 5, 7, 11, 13, 17, 19]</pre></figure><p><code>return False</code> leaves as soon as a divisor is found. Only if the loop finishes is the number prime.</p></details></li><li><p><b>Challenge.</b> Write <code>summary(marks)</code> that returns the average (rounded to 1 decimal), the highest, the lowest and how many passed (35 or more). For <code>[45, 82, 67, 90, 38]</code>, unpack it and print <code>Avg 64.4 | High 90 | Low 38 | Passed 5</code>.</p><p>Your code should print exactly:</p><pre class="out">Avg 64.4 | High 90 | Low 38 | Passed 5</pre><details><summary>Answer</summary><figure class="code"><pre><code>def summary(marks):
+    average = round(sum(marks) / len(marks), 1)
+    passed = len([m for m in marks if m &gt;= 35])
+    return average, max(marks), min(marks), passed
+
+avg, high, low, passed = summary([45, 82, 67, 90, 38])
+print(f&quot;Avg {avg} | High {high} | Low {low} | Passed {passed}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Avg 64.4 | High 90 | Low 38 | Passed 5</pre></figure><p>One function can return a whole report as a tuple, and the caller unpacks it into four clear names.</p></details></li><li><p><b>Challenge.</b> Write <code>price_after(price, discount=0, gst=18)</code>: take off <code>discount</code>% first, then add <code>gst</code>%, and round to 2 decimals. Print <code>price_after(1000)</code>, <code>price_after(1000, discount=10)</code> and <code>price_after(1000, gst=5, discount=20)</code> with one <code>print()</code>.</p><p>Your code should print exactly:</p><pre class="out">1180.0 1062.0 840.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>def price_after(price, discount=0, gst=18):
+    after_discount = price - price * discount / 100
+    return round(after_discount + after_discount * gst / 100, 2)
+
+print(price_after(1000), price_after(1000, discount=10), price_after(1000, gst=5, discount=20))</code></pre><p class="olbl">Output</p><pre class="out">1180.0 1062.0 840.0</pre></figure><p>Keyword arguments let you change any default you want, in any order, and leave the others as they are.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>def size(x):
+    if x &gt; 10:
+        return &quot;big&quot;
+    if x &gt; 5:
+        return &quot;medium&quot;
+
+print(size(12), size(7), size(2))</code></pre></figure><details><summary>Answer</summary><pre class="out">big medium None</pre><p>For 2, neither <code>if</code> is true and the function reaches its end without a <code>return</code>, so it gives <code>None</code>.</p></details></li><li><p><b>Challenge.</b> This code should print <code>False</code>, but it prints <code>False</code> and then <code>None</code>. Fix it.</p><figure class="code"><pre><code>def is_even(n):
+    if n % 2 == 0:
+        return True
+    print(False)
+
+print(is_even(3))</code></pre></figure><p>It should print:</p><pre class="out">False</pre><details><summary>Answer</summary><figure class="code"><pre><code>def is_even(n):
+    if n % 2 == 0:
+        return True
+    return False
+
+print(is_even(3))</code></pre><p class="olbl">Output</p><pre class="out">False</pre></figure><p>Printing inside the function is not the same as returning. The caller only gets what you <code>return</code>.</p></details></li><li><p><b>Challenge.</b> Write <code>to_celsius(f)</code> that returns <code>(f - 32) * 5 / 9</code> rounded to 1 decimal, and <code>report(temps)</code> that uses it to return a list of Celsius values. Print <code>report([98.6, 32, 212])</code>.</p><p>Your code should print exactly:</p><pre class="out">[37.0, 0.0, 100.0]</pre><details><summary>Answer</summary><figure class="code"><pre><code>def to_celsius(f):
+    return round((f - 32) * 5 / 9, 1)
+
+def report(temps):
+    return [to_celsius(t) for t in temps]
+
+print(report([98.6, 32, 212]))</code></pre><p class="olbl">Output</p><pre class="out">[37.0, 0.0, 100.0]</pre></figure><p>Small functions can call each other: <code>report()</code> reuses <code>to_celsius()</code> for every value.</p></details></li><li><p><b>Challenge.</b> Write <code>percent(part, whole)</code> that returns <code>part / whole * 100</code> rounded to 1 decimal. Call it with keyword arguments in the other order, <code>percent(whole=200, part=50)</code>, and print the result.</p><p>Your code should print exactly:</p><pre class="out">25.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>def percent(part, whole):
+    return round(part / whole * 100, 1)
+
+print(percent(whole=200, part=50))</code></pre><p class="olbl">Output</p><pre class="out">25.0</pre></figure><p>With keyword arguments the order does not matter: each value goes to the parameter with that name.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

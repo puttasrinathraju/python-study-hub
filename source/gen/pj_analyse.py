@@ -54,6 +54,18 @@ def analyse(src, starter=''):
                         res['names'].append(sub.id)
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             res['defs'].append(node.name)
+            if node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, ast.Constant) and isinstance(node.body[0].value.value, str):
+                res['comments'] += 1  # a docstring explains the code too
+            add('def:' + node.name)
+        if isinstance(node, ast.FunctionDef):
+            if node.args.defaults or any(d is not None for d in node.args.kw_defaults):
+                add('def:default')
+            if node.args.vararg:
+                add('def:varargs')
+            if node.args.kwarg:
+                add('def:kwargs')
+            if node.decorator_list:
+                add('def:decorated')
     lines = src.split('\n')
     res['lines'] = sum(1 for l in lines if l.strip() and not l.strip().startswith('#'))
     res['long'] = [i + 1 for i, l in enumerate(lines) if len(l) > 100]

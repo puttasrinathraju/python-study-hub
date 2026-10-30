@@ -1422,7 +1422,7 @@ function pjRead(an){
   it.push({ max: 5, pts: nn ? Math.round(5 * (nn - short.length) / nn) : 0, ok: nn > 0 && !short.length, good: 'Clear variable names that say what they hold.',
     bad: nn ? 'Use names that say what they hold. ' + short.map(function(n){ return '`' + n + '`'; }).join(', ') + (short.length > 1 ? ' are' : ' is') + ' too short: for example `total_revenue` instead of `t`.' : 'Store your values in variables with clear names, like `total_revenue`, instead of doing everything inside `print()`.' });
   var needC = an.lines > 8, okC = !needC || an.comments > 0;
-  it.push({ max: 4, pts: okC ? 4 : 0, ok: okC, good: an.comments ? 'Your own comments explain the steps.' : 'Your program is short, so comments are optional.', bad: 'Add at least one comment of your own (a line starting with `#`) that explains a step. The starter\'s comments do not count.' });
+  it.push({ max: 4, pts: okC ? 4 : 0, ok: okC, good: an.comments ? 'Your own comments explain the steps.' : 'Your program is short, so comments are optional.', bad: 'Add at least one comment of your own (a line starting with `#`, or a docstring in a function) that explains a step. The starter\'s comments do not count.' });
   it.push({ max: 2, pts: an.long.length ? 0 : 2, ok: !an.long.length, good: 'Every line is short enough to read easily.', bad: 'Line ' + an.long.join(', ') + (an.long.length > 1 ? ' are' : ' is') + ' longer than 100 characters. Split it into shorter lines.' });
   var bi = an.tabs.concat(an.indent);
   it.push({ max: 2, pts: bi.length ? 0 : 2, ok: !bi.length, good: 'Clean indentation with no tabs.', bad: 'Use 4 spaces for indentation, never tabs (line ' + bi.join(', ') + ').' });
