@@ -1,0 +1,31 @@
+const { chromium } = require('playwright');
+const U = 'http://localhost:8765/index.html?localpy';
+const SH = '/tmp/claude-0/-home-claude/b46aad29-a5de-5000-8c73-b3a2a24cbd55/scratchpad/shots/';
+(async () => {
+  const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }); const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); const R = {};
+  await p.goto(U + '#strings'); await p.waitForTimeout(800);
+  R.xtra = await p.locator('details.xtra').count(); R.xtraOpen = await p.locator('details.xtra[open]').count(); R.players = await p.locator('.player').count();
+  R.summaries = await p.locator('details.xtra > summary').allTextContents();
+  const mm = p.locator('details.xtra', { has: p.locator('.mm') }).first(); await mm.locator('summary').click(); await p.waitForTimeout(400);
+  R.mmWidth = await mm.locator('.mmc svg').first().evaluate(s => s.getBoundingClientRect().width);
+  await mm.screenshot({ path: SH + 'v1_mm_open.png' });
+  await p.locator('#toc button', { hasText: 'Poster' }).click(); await p.waitForTimeout(300);
+  R.posterOpened = await p.locator('section:has(h2[id$="-poster"]) details.xtra').evaluate(d => d.open);
+  // practice: wrong code (error hint), then the real solution
+  const L = await p.evaluate(() => CHAPTERS.find(c => c.id === 'strings').body.filter(x => x.t === 'prac').flatMap(x => x.items).filter(t => t.sol && t.out != null && !/input\(|random/.test(t.sol)).map(t => t.sol));
+  const box = p.locator('.task .runner').first(); await box.scrollIntoViewIfNeeded();
+  await box.locator('.edta').fill('age = 25\nprint("Age: " + age)'); await box.locator('.rrun').click();
+  await box.locator('.ehint').waitFor({ state: 'visible', timeout: 120000 }); R.hint = await box.locator('.ehint').textContent();
+  await box.screenshot({ path: SH + 'v1_hint.png' });
+  await box.locator('.edta').fill(L[0]); await box.locator('.rchkb').click();
+  await box.locator('.rchk.ok').waitFor({ timeout: 60000 }); R.correct = await box.locator('.rchk.ok').textContent(); R.hintGone = await box.locator('.ehint').isHidden();
+  await box.screenshot({ path: SH + 'v1_correct.png' });
+  await p.locator('#doneBtn').click(); await p.waitForTimeout(200); R.toast = await p.locator('#toast').textContent();
+  await p.goto(U + '#overview3'); await p.waitForTimeout(700); R.ovXtra = await p.locator('details.xtra').count(); R.ovMM = await p.locator('.mm').count();
+  await p.goto(U + '#numpy2'); await p.waitForTimeout(700); R.np2Xtra = await p.locator('details.xtra').count();
+  const m = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: 'dark' }); const mp = await m.newPage(); mp.on('pageerror', e => errs.push('m ' + e.message));
+  await mp.goto(U + '#strings'); await mp.waitForTimeout(800); R.phoneWidth = await mp.evaluate(() => document.documentElement.scrollWidth);
+  const d1 = mp.locator('details.xtra').first(); await d1.scrollIntoViewIfNeeded(); await mp.screenshot({ path: SH + 'v1_phone_xtra.png' });
+  R.errs = errs; console.log(JSON.stringify(R, null, 1)); await b.close();
+})();
