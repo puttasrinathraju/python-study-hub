@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const U = 'http://localhost:8765/index.html?localpy';
-const SH = '/tmp/claude-0/-home-claude/b46aad29-a5de-5000-8c73-b3a2a24cbd55/scratchpad/shots/';
+const SH = require('path').join(__dirname, '..', 'shots') + '/';
 (async () => {
   const b = await chromium.launch(); const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } }); const p = await ctx.newPage();
   const errs = []; p.on('pageerror', e => errs.push(e.message)); const R = {};

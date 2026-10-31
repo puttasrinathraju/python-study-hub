@@ -2,7 +2,7 @@
 // hints, model answer, My Projects, timeouts/input errors, phone width and dark mode.
 const { chromium } = require('playwright');
 const U = 'http://localhost:8765/?localpy';
-const SH = '/tmp/claude-0/-home-claude/b46aad29-a5de-5000-8c73-b3a2a24cbd55/scratchpad/shots/';
+const SH = require('path').join(__dirname, '..', 'shots') + '/';
 const WEAK = require('./out/pj_weak.json');
 const only = process.argv[2] || 'all';
 (async () => {
@@ -10,8 +10,8 @@ const only = process.argv[2] || 'all';
   const c = await b.newContext({ viewport: { width: 1280, height: 900 } }); const p = await c.newPage();
   p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error') errs.push('console ' + m.text()); });
   await p.goto(U + '#home'); await p.waitForTimeout(600);
-  R.sideBT = await p.locator('.chlink.btl:not(.pjl)').allTextContents();
-  R.sidePJ = await p.locator('.chlink.pjl').allTextContents();
+  R.sideBT = await p.locator('.btb').allTextContents();
+  R.sidePJ = await p.locator('.pchip.pjl').allTextContents();
   R.nav = await p.locator('#navtools button').allTextContents();
   if (only === 'all' || only === 'bt') {
     for (const cid of ['intro', 'variables', 'output', 'operators']) {
@@ -69,7 +69,7 @@ const only = process.argv[2] || 'all';
     await p.goto(U + '#myprojects'); await p.waitForTimeout(500);
     R.my = { h1: await p.locator('h1').textContent(), rows: (await p.locator('tbody tr').allTextContents()).map(s => s.replace(/\s+/g, ' ').trim()), strong: await p.locator('.pjgood .pill').allTextContents(), work: (await p.locator('.pjwork .btn').allTextContents()).slice(0, 8) };
     await p.screenshot({ path: SH + 'pj_my.png', fullPage: true });
-    R.sideDots = await p.locator('.chlink.pjl .dot').allTextContents();
+    R.sideDots = await p.locator('.pchip.pjl .pci').allTextContents();
     await p.goto(U + '#overview1'); await p.waitForTimeout(500); R.ovCTA = await p.locator('.btcta').textContent();
     await p.goto(U + '#projects-part1'); await p.waitForTimeout(300); R.alias = await p.locator('h1').textContent();
   }

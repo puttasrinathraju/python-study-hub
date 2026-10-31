@@ -2,7 +2,7 @@
 // (expect a lower score) and model answer (expect 100/100), My Projects, phone width and dark mode. Needs the local server.
 const { chromium } = require('playwright');
 const U = 'http://localhost:8765/?localpy';
-const SH = '/tmp/claude-0/-home-claude/b46aad29-a5de-5000-8c73-b3a2a24cbd55/scratchpad/shots/';
+const SH = require('path').join(__dirname, '..', 'shots') + '/';
 const WEAK = require('./out/pj_weak.json');
 const N = +process.argv[2], skipBT = process.argv[3] === 'nobt';
 (async () => {
@@ -11,7 +11,7 @@ const N = +process.argv[2], skipBT = process.argv[3] === 'nobt';
   p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' && !/ERR_TUNNEL|ERR_NAME|ERR_INTERNET/.test(m.text())) errs.push('console ' + m.text()); });
   await p.goto(U + '#home'); await p.waitForTimeout(500);
   const cids = await p.evaluate(n => CHAPTERS.filter(c => c.part === n && BIGTESTS[c.id]).map(c => c.id), N);
-  R.side = await p.locator('.part[data-part="' + N + '"] .chlink.btl').allTextContents();
+  R.side = await p.locator('.part[data-part="' + N + '"] .btb').allTextContents();
   if (!skipBT) for (const cid of cids) {
     await p.goto(U + '#test-' + cid); await p.waitForTimeout(500);
     const L = await p.evaluate(id => BIGTESTS[id], cid);

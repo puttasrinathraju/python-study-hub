@@ -38,6 +38,8 @@ Part 1: intro, variables, output, operators. Part 2: conditions, forloops, while
 Part 4: functions, functions2 (args/kwargs, scope, lambda, recursion, iterators, generators, decorators). Part 5: errors, files, modules. Part 6: oop. Part 7: numpy1, numpy2, numpy3. Part 8: projects.
 Chapter numbers: 1 intro ... 15 functions2, 16 errors, 17 files, 18 modules, 19 oop, 20 numpy1, 21 numpy2, 22 numpy3, 23 projects.
 
+- Sidebar: Parts fold (only the Part you are on stays open; a click on a Part heading opens or closes it; search opens every matching Part). Each chapter row ends with its Big Test button (`.btb`, shows ✓ when passed). Each Part ends with one row of chips: Overview and Projects with progress (`.pchip`). Part headings show chapters done. The 11 top buttons are a 3-column grid with short labels (full names in `title`).
+
 ## Big Tests (route `#test-<chapterid>`, shown as "N.1 Big Test")
 - 25 questions: 15 write code (`W`), 5 fix the code (`F`), 5 type the output (`T`). Levels: 8 Basic, 10 Medium, 7 Challenge (challenge = combine skills of the same chapter, never new concepts).
 - `sec` must be an exact heading of that chapter (the generator checks). No `input()` in Big Test answers.

@@ -72,16 +72,16 @@ kbd{font-family:var(--mono);font-size:.8em;border:1px solid var(--line);border-b
 .brand b{font-family:var(--display);font-size:18px;font-weight:700;display:block;line-height:1.1}
 .brand small{color:var(--muted);font-size:13px}
 .search{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 12px;font-size:15px}
-.navtools{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.navtools button{border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px;font-weight:700;text-align:left;display:flex;align-items:center;gap:8px;background:var(--bg)}
-.navtools button svg{width:16px;height:16px;flex:none;stroke:var(--accent)}
+.navtools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.navtools button{border:1px solid var(--line);border-radius:9px;padding:6px 4px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;background:var(--bg);min-width:0}.navtools button svg{display:none}.navtools button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.navtools button:last-child:nth-child(3n+2){grid-column:span 2}
+.navtools button svg{width:15px;height:15px;flex:none;stroke:var(--accent)}
 .navtools button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .navtools button.on svg{stroke:var(--accent-ink)}
 .prog{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
 .bar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;width:0;transition:width .4s}
-.parts{display:flex;flex-direction:column;gap:12px}
-.part-h{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.parts{display:flex;flex-direction:column;gap:2px}
+.part-h{display:flex;align-items:center;gap:6px;width:100%;text-align:left;padding:7px 4px 7px 5px;border-radius:9px;font-size:13.5px;letter-spacing:-.005em;line-height:1.3;color:var(--muted);font-weight:700}.part-h .ptn{color:var(--accent)}.part-h:hover{background:var(--surface2);color:var(--ink)}.part-h .pcar{width:13px;height:13px;flex:none;transition:transform .15s}.part.open>.part-h .pcar{transform:rotate(90deg)}.part.open>.part-h{color:var(--ink)}.part-h .ptt{flex:1;min-width:0}.part-h .pn{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted)}.part.pdone>.part-h .pn{color:var(--tip)}.part-b{display:none;padding:2px 0 6px}.part.open>.part-b{display:block}.chrow{display:flex;align-items:center;gap:4px}.chrow>.chlink{flex:1;min-width:0}.chrow[hidden],.pend[hidden],.part[hidden],.btb[hidden],.pchip[hidden]{display:none}.btb{flex:none;display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);border:1px dashed color-mix(in srgb,var(--accent) 55%,var(--line));border-radius:99px;padding:2px 7px;background:var(--bg)}.btb:hover{border-style:solid}.btb .bti{font-size:11px}.btb.done{border-style:solid;border-color:var(--tip);color:var(--tip)}.btb.on{background:var(--accent);border-color:var(--accent);border-style:solid;color:var(--accent-ink)}.pend{display:flex;gap:6px;flex-wrap:wrap;padding:6px 0 2px 8px}.pchip{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:99px;padding:4px 11px;background:var(--bg)}.pchip:hover{background:var(--accent-soft)}.pchip .pci{font-size:12px}.pchip .pcn{font-family:var(--mono);font-size:11.5px;color:var(--muted)}.pchip.done{border-color:var(--tip);color:var(--tip)}.pchip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.pchip.on .pcn{color:var(--accent-ink)}
 .chlink{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:6px 8px;border-radius:8px;font-size:15px;line-height:1.3}
 .chlink:hover{background:var(--surface2)}
 .chlink.on{background:var(--accent-soft);color:var(--ink);font-weight:700}
@@ -427,7 +427,7 @@ details.reveal[open] summary{margin-bottom:6px}
 .gd pre{margin:0;font-family:var(--mono);font-size:13px;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;overflow-x:auto}
 .gl2 button{font-size:13px;font-weight:700;color:var(--accent)}
 @media (max-width:640px){.gitem{grid-template-columns:minmax(0,1fr);gap:4px}}
-.navtools button:first-child,.navtools button:last-child:nth-child(even){grid-column:span 2}
+
 .cell-top .trycell{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));font-weight:700;margin-left:auto}
 .cell-top .trycell + .copy{margin-left:6px}
 .trybox{margin-top:-4px}
@@ -441,10 +441,10 @@ details.reveal[open] summary{margin-bottom:6px}
 .refex pre{flex:1;min-width:0}
 .refo{background:var(--out-bg);border-style:dashed}
 .refn{color:var(--muted);font-size:14px}
-.chlink.btl{margin:1px 0 4px 18px;width:calc(100% - 18px);font-size:14px;color:var(--muted);padding:4px 8px}
-.chlink.btl .dot{width:20px;height:20px;border-style:dashed;border-color:color-mix(in srgb,var(--accent) 55%,var(--line));color:var(--accent);font-size:11px}
-.chlink.btl.done .dot{border-style:solid}
-.chlink.btl.on{color:var(--ink)}
+
+
+
+
 .btcta{display:flex;align-items:center;justify-content:space-between;gap:12px 18px;flex-wrap:wrap;border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:14px;padding:14px 16px}
 .btcta b{font-family:var(--display);font-size:17px;display:block}.btcta span{font-size:14.5px;color:var(--muted)}.btcta span b{display:inline;font-size:inherit;color:var(--ink)}
 .pill.lv1{background:var(--tip-soft);color:var(--tip)}.pill.lv2{background:var(--accent-soft);color:var(--accent)}.pill.lv3{background:var(--key-soft);color:var(--key)}
@@ -704,9 +704,9 @@ select.search{appearance:auto}
 
 
 /* ---------- Part overview pages ---------- */
-.chlink.ovl{margin-top:2px;border:1px dashed color-mix(in srgb,var(--accent) 45%,var(--line))}
-.chlink.ovl .dot{border-color:var(--accent);color:var(--accent);font-size:12px}
-.chlink.ovl.done .dot{color:var(--surface)}
+
+
+
 .pcard li.ovli{margin-top:4px;border-top:1px dashed var(--line);padding-top:4px}
 .pcard li.ovli button{color:var(--accent);font-weight:700}
 .pcard li .st.ov{border-color:var(--accent)}

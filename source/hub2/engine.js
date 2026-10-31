@@ -788,20 +788,35 @@ function mountAll(root, mounts){
 /* ---------- Sidebar ---------- */
 var view = $('#view'), side = $('#side');
 function buildSide(){
-  var tools = [['home', 'Home', IC.home], ['flashcards', 'Flashcards', IC.cards], ['exam', 'Final exam', IC.exam], ['cheatsheet', 'Cheat sheet', IC.cheat], ['posters', 'Posters', IC.poster], ['overviews', 'Overviews', IC.ov], ['exercises', 'Exercises', IC.key], ['myprojects', 'My Projects', IC.proj], ['reference', 'Reference', IC.exam], ['glossary', 'Glossary', IC.cheat], ['videos', 'Videos', IC.play]];
-  $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + t[1] + '</button>'; }).join('');
+  var tools = [['home', 'Home', IC.home, 'Home'], ['flashcards', 'Cards', IC.cards, 'Flashcards'], ['exam', 'Exam', IC.exam, 'Final exam'], ['cheatsheet', 'Cheat', IC.cheat, 'Cheat sheet'], ['posters', 'Posters', IC.poster, 'Revision posters'], ['overviews', 'Overviews', IC.ov, 'Part overviews'], ['exercises', 'Exercises', IC.key, 'Quick exercises'], ['myprojects', 'Projects', IC.proj, 'My Projects'], ['reference', 'Reference', IC.exam, 'Python reference'], ['glossary', 'Glossary', IC.cheat, 'Glossary'], ['videos', 'Videos', IC.play, 'Videos']];
+  $('#navtools').innerHTML = tools.map(function(t){ return '<button type="button" data-go="' + t[0] + '" title="' + t[3] + '" aria-label="' + t[3] + '">' + t[2].replace('<svg', '<svg stroke="currentColor"') + '<span>' + t[1] + '</span></button>'; }).join('');
+  var CARET = '<svg class="pcar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
   $('#parts').innerHTML = PARTS.map(function(p){
-    var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
-    return '<div class="part" data-part="' + p.n + '"><div class="part-h">Part ' + p.n + ' · ' + esc(p.title) + '</div>' + chs.map(function(c){
-      return '<button class="chlink" type="button" data-go="' + c.id + '" data-q="' + esc((c.title + ' ' + (c.nav || '') + ' ' + (c.keys || '')).toLowerCase()) + '"><span class="dot">' + c.num + '</span><span>' + esc(c.nav || c.title) + '</span>' + (c.tricky ? '<span class="tk">tricky</span>' : '') + '</button>';
-    }).join('') + (ov ? '<button class="chlink ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="dot">★</span><span>' + esc(ov.nav) + '</span></button>' : '') + (PJP[p.n] ? '<button class="chlink btl pjl" type="button" data-go="projects-' + p.n + '" data-q="' + esc(('projects project practice score part ' + p.n + ' ' + PJP[p.n].ids.map(function(id){ return PJ[id].title; }).join(' ')).toLowerCase()) + '"><span class="dot">◆</span><span>Part ' + p.n + ' projects</span></button>' : '') + '</div>';
+    var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n), pj = PJP[p.n], ends = [];
+    if (ov) ends.push('<button class="pchip ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="pci">★</span><span>' + esc(/^Part /.test(ov.nav) ? 'Overview' : ov.nav) + '</span></button>');
+    if (pj) ends.push('<button class="pchip pjl" type="button" data-go="projects-' + p.n + '" data-q="' + esc(('projects project practice score part ' + p.n + ' ' + pj.ids.map(function(id){ return PJ[id].title; }).join(' ')).toLowerCase()) + '"><span class="pci">◆</span><span>Projects</span><span class="pcn"></span></button>');
+    return '<div class="part" data-part="' + p.n + '"><button class="part-h" type="button" data-ptog="' + p.n + '" aria-expanded="false">' + CARET + '<span class="ptt"><span class="ptn">Part ' + p.n + '</span> · ' + esc(p.title) + '</span><span class="pn"></span></button><div class="part-b">' + chs.map(function(c){
+      var t = BT[c.id] ? '<button class="btb" type="button" data-go="test-' + c.id + '" data-q="' + esc(('big test exam questions ' + c.title + ' ' + (c.nav || '')).toLowerCase()) + '" aria-label="' + c.num + '.1 Big Test: ' + esc(c.nav || c.title) + '">' + c.num + '.1<span class="bti">✎</span></button>' : '';
+      return '<div class="chrow"><button class="chlink" type="button" data-go="' + c.id + '" data-q="' + esc((c.title + ' ' + (c.nav || '') + ' ' + (c.keys || '')).toLowerCase()) + '"><span class="dot">' + c.num + '</span><span class="cht">' + esc(c.nav || c.title) + '</span>' + (c.tricky ? '<span class="tk">tricky</span>' : '') + '</button>' + t + '</div>';
+    }).join('') + (ends.length ? '<div class="pend">' + ends.join('') + '</div>' : '') + '</div></div>';
   }).join('');
-  $$('.chlink', side).forEach(function(b){ var c = byId[b.getAttribute('data-go')]; if (c && !c.ov && BT[c.id]) b.insertAdjacentHTML('afterend', '<button class="chlink btl" type="button" data-go="test-' + c.id + '" data-q="' + esc(('big test exam questions ' + c.title + ' ' + (c.nav || '')).toLowerCase()) + '"><span class="dot">✎</span><span>' + c.num + '.1 Big Test</span></button>'); });
-  side.addEventListener('click', function(e){ var b = e.target.closest('[data-go]'); if (b) route(b.getAttribute('data-go')); });
+  var first = CH.filter(function(c){ return !store.get('done', {})[c.id]; })[0] || CH[0];
+  SIDEOPEN = {}; SIDEOPEN[first.part] = true;
+  side.addEventListener('click', function(e){
+    var t = e.target.closest('[data-ptog]');
+    if (t) { var n = +t.getAttribute('data-ptog'); SIDEOPEN[n] = !t.parentNode.classList.contains('open'); sideFold(); return; }
+    var b = e.target.closest('[data-go]'); if (b) route(b.getAttribute('data-go'));
+  });
   $('#q').addEventListener('input', function(){
     var q = this.value.toLowerCase().trim();
-    $$('.chlink', side).forEach(function(b){ b.hidden = q && b.getAttribute('data-q').indexOf(q) < 0; });
-    $$('.part', side).forEach(function(p){ p.hidden = !$$('.chlink', p).some(function(b){ return !b.hidden; }); });
+    $$('#parts [data-q]').forEach(function(b){ b.hidden = !!q && b.getAttribute('data-q').indexOf(q) < 0; });
+    $$('.chrow, .pend', side).forEach(function(r){
+      var bs = $$('[data-q]', r), any = bs.some(function(b){ return !b.hidden; });
+      r.hidden = !any;
+      if (any && r.classList.contains('chrow')) bs.forEach(function(b){ b.hidden = false; });
+    });
+    $$('.part', side).forEach(function(p){ p.hidden = !!q && !$$('.chrow, .pend', p).some(function(r){ return !r.hidden; }); });
+    sideFold();
   });
   $('#menuBtn').onclick = function(){ side.classList.add('open'); $('#scrim').classList.add('open'); };
   $('#scrim').onclick = closeDrawer;
@@ -811,17 +826,46 @@ function buildSide(){
   tog.onclick = function(){ var mini = !app.classList.contains('mini'); setMini(mini); store.set('sideMini', mini ? 1 : 0); };
 }
 function closeDrawer(){ side.classList.remove('open'); $('#scrim').classList.remove('open'); }
+var SIDEOPEN = {};
+function sidePartOf(id){
+  var m;
+  if (!id) return null;
+  if (byId[id]) return byId[id].part;
+  if ((m = /^test-(.+)$/.exec(id)) && byId[m[1]]) return byId[m[1]].part;
+  if ((m = /^projects-(\d+)$/.exec(id))) return +m[1];
+  if ((m = /^project-p(\d+)-/.exec(id))) return +m[1];
+  return null;
+}
+function sideFold(){
+  var q = $('#q').value.trim();
+  $$('.part', side).forEach(function(el){
+    var op = !!q || !!SIDEOPEN[+el.getAttribute('data-part')];
+    el.classList.toggle('open', op);
+    $('.part-h', el).setAttribute('aria-expanded', String(op));
+  });
+}
 function updateSide(cur){
   var done = store.get('done', {});
-  if (cur !== undefined) updateSide.cur = cur;
+  if (cur !== undefined) {
+    updateSide.cur = cur;
+    var pp = sidePartOf(cur);
+    if (pp != null) { SIDEOPEN = {}; SIDEOPEN[pp] = true; }
+    sideFold();
+  }
   var bts = store.get('bt', {});
-  $$('.chlink', side).forEach(function(b){
-    var id = b.getAttribute('data-go');
-    if (/^projects-/.test(id)) { var PP = PJP[+id.slice(9)], nd = PP.ids.filter(pjReady).length, cu = updateSide.cur || ''; b.classList.toggle('done', nd === PP.ids.length); b.classList.toggle('on', id === cu || PP.ids.indexOf(cu.slice(8)) > -1); $('.dot', b).textContent = nd === PP.ids.length ? '✓' : '◆'; b.title = nd + ' of ' + PP.ids.length + ' projects ready'; return; }
-    if (/^test-/.test(id)) { var sc = bts[id.slice(5)], ps = !!(sc && sc.best >= BT_PASS); b.classList.toggle('done', ps); b.classList.toggle('on', id === updateSide.cur); $('.dot', b).textContent = ps ? '✓' : '✎'; b.title = sc ? 'Best score: ' + sc.best + '%' : ''; return; }
+  $$('#parts [data-go]').forEach(function(b){
+    var id = b.getAttribute('data-go'), cu = updateSide.cur || '';
+    if (/^projects-/.test(id)) { var PP = PJP[+id.slice(9)], nd = PP.ids.filter(pjReady).length, all = nd === PP.ids.length; b.classList.toggle('done', all); b.classList.toggle('on', id === cu || PP.ids.indexOf(cu.slice(8)) > -1); $('.pci', b).textContent = all ? '✓' : '◆'; $('.pcn', b).textContent = nd + '/' + PP.ids.length; b.title = nd + ' of ' + PP.ids.length + ' projects ready'; return; }
+    if (/^test-/.test(id)) { var sc = bts[id.slice(5)], ps = !!(sc && sc.best >= BT_PASS); b.classList.toggle('done', ps); b.classList.toggle('on', id === cu); $('.bti', b).textContent = ps ? '✓' : '✎'; b.title = 'Big Test' + (sc ? ' · best score ' + sc.best + '%' : ' · 25 questions'); return; }
     b.classList.toggle('done', !!done[id]);
-    b.classList.toggle('on', id === updateSide.cur);
-    $('.dot', b).textContent = done[id] ? '✓' : (byId[id].ov ? '★' : byId[id].num);
+    b.classList.toggle('on', id === cu);
+    $('.dot, .pci', b).textContent = done[id] ? '✓' : (byId[id].ov ? '★' : byId[id].num);
+  });
+  $$('.part', side).forEach(function(el){
+    var n = +el.getAttribute('data-part'), chs = CH.filter(function(c){ return c.part === n; }), dn = chs.filter(function(c){ return done[c.id]; }).length;
+    el.classList.toggle('pdone', dn === chs.length);
+    $('.pn', el).textContent = dn === chs.length ? '✓ ' + dn + '/' + chs.length : dn + '/' + chs.length;
+    $('.pn', el).title = dn + ' of ' + chs.length + ' chapters done';
   });
   $$('#navtools button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go') === updateSide.cur); });
   var dn = CH.filter(function(c){ return done[c.id]; }).length;
