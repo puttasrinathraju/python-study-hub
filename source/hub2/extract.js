@@ -7,17 +7,22 @@ vm.runInContext('this.__CH = CHAPTERS.concat(OVERVIEWS.map(function(o){ return O
 const trim = s => String(s).replace(/^\n+/, '').replace(/\s+$/, '');
 const strip = s => String(s).replace(/^`|`$/g, '');
 const items = [];
-const add = (id, c, o, err, nr, pre) => { if (nr) return; if (o == null) return; items.push({ id, code: (pre ? trim(pre) + '\n' : '') + trim(c), out: trim(o), err: !!err }); };
+// Chart examples carry `sum` (a text summary of their charts, made by gen/chlib.py): the check prints the same summary
+// with hub2/hubcharts.py and compares it. A practice task's `chart` spec is also checked in the browser.
+const add = (id, c, o, err, nr, pre, sum, chart) => { if (nr) return; if (o == null) return;
+  let code = (pre ? trim(pre) + '\n' : '') + trim(c), out = trim(o);
+  if (sum != null) { code = 'import _hubcharts\n' + code + '\n_hubcharts.summary()'; out = (out ? out + '\n' : '') + trim(sum); }
+  const it = { id, code, out, err: !!err }; if (chart) it.chart = chart; items.push(it); };
 const stats = { chapters: 0, quiz: 0, cards: 0, anim: 0, deck: 0, mm: 0, pred: 0, code: 0 };
 for (const ch of ctx.__CH) {
   stats.chapters++; stats.quiz += (ch.quiz || []).length; stats.cards += (ch.cards || []).length;
   (ch.body || []).forEach((b, i) => {
     const id = ch.id + '#' + i + ':' + b.t;
-    if (b.t === 'code') { stats.code++; add(id, b.c, b.o, b.err, b.nr, b.pre); }
+    if (b.t === 'code') { stats.code++; add(id, b.c, b.o, b.err, b.nr, b.pre, b.sum); }
     if (b.t === 'note' && b.c) add(id, b.c, b.o, b.err, b.nr, b.pre);
     if (b.t === 'cmp') { ['l', 'r'].forEach(k => { const s = b[k]; if (s.c) add(id + k, s.c, s.o, s.err, s.nr, s.pre); }); }
-    if (b.t === 'prac') b.items.forEach((t, j) => { if (t.sol) add(id + '.' + j, t.sol, t.out, false, t.nr, t.pre); });
-    if (b.t === 'deck') { stats.deck++; b.s.forEach((s, j) => { if (s.c) add(id + '.s' + j, s.c, s.o, s.err, s.nr, s.pre); }); }
+    if (b.t === 'prac') b.items.forEach((t, j) => { if (t.sol) add(id + '.' + j, t.sol, t.out, false, t.nr, t.pre, t.sum, t.chart); });
+    if (b.t === 'deck') { stats.deck++; b.s.forEach((s, j) => { if (s.c) add(id + '.s' + j, s.c, s.o, s.err, s.nr, s.pre, s.sum); }); }
     if (b.t === 'anim') stats.anim++;
     if (b.t === 'mm') stats.mm++;
     if (b.t === 'defs') b.items.forEach((d, j) => { if (d.c) add(id + '.d' + j, d.c, d.o, d.err, d.nr, d.pre); });
@@ -29,14 +34,14 @@ for (const ch of ctx.__CH) {
 let pc = 0;
 for (const [pid, p] of Object.entries(ctx.__P)) { p.mods.forEach((m, mi) => m.cards.forEach((cd, ci) => { if (cd.c && cd.o != null) { pc++; add('poster:' + pid + ':' + mi + ':' + ci, cd.c, cd.o, false, false, null); } })); }
 stats.posters = Object.keys(ctx.__P).length; stats.overviews = ctx.__NOV; stats.posterCode = pc;
-vm.runInContext(fs.readFileSync('exercises.js', 'utf8'), ctx, { filename: 'exercises.js' }); vm.runInContext('this.__X = EXERCISES', ctx); let nEx = 0; for (const [cid, L] of Object.entries(ctx.__X)) L.forEach((x, i) => { let k = 0; add('ex:' + cid + ':' + i, x.c.replace(/___/g, () => x.a[k++][0]), x.o, false, false, null); nEx++; }); stats.exercises = nEx;
+vm.runInContext(fs.readFileSync('exercises.js', 'utf8'), ctx, { filename: 'exercises.js' }); vm.runInContext('this.__X = EXERCISES', ctx); let nEx = 0; for (const [cid, L] of Object.entries(ctx.__X)) L.forEach((x, i) => { let k = 0; add('ex:' + cid + ':' + i, x.c.replace(/___/g, () => x.a[k++][0]), x.o, false, false, null, x.sum); nEx++; }); stats.exercises = nEx;
 vm.runInContext(fs.readFileSync('bigtests.js', 'utf8'), ctx, { filename: 'bigtests.js' }); vm.runInContext('this.__BT = BIGTESTS', ctx); let nBT = 0; const tk = s => s.replace(/^`|`$/g, '');
 for (const [cid, L] of Object.entries(ctx.__BT)) L.forEach((x, i) => { const id = 'bt:' + cid + ':' + i; nBT++;
   if (x.ty === 'out') add(id, x.c, tk(x.o[x.a]), false, false, null);
   else if (x.ty === 'bug') add(id, x.fixed, x.want, false, false, null);
-  else if (x.ty === 'code') add(id, x.sol, x.out, false, false, null);
-  else if (x.ty === 'fix') add(id, x.fixed, x.want, false, false, null);
-  else if (x.ty === 'type') add(id, x.c, x.ans, false, false, null);
+  else if (x.ty === 'code') add(id, x.sol, x.out, false, false, null, x.sum, x.chart);
+  else if (x.ty === 'fix') add(id, x.fixed, x.want, false, false, null, x.sum, x.chart);
+  else if (x.ty === 'type') add(id, x.c, x.ans, false, false, null, x.sum);
   else if (x.v) add(id, x.v, 'True', false, false, null); });
 stats.bigtests = nBT;
 if (fs.existsSync('out/pj_items.json')) { const pj = JSON.parse(fs.readFileSync('out/pj_items.json', 'utf8')); pj.forEach(x => add(x.id, x.code, x.out, false, false, null)); stats.projectRuns = pj.length; }

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 8 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 8 (Pandas), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part8.html">
+<meta property="og:title" content="Part 8 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 8 (Pandas), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part8">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part8">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 8 · Pandas · Projects</p><h1>Part 8 projects: data analysis with Pandas</h1><p class="lead">Three everyday analyst jobs on CSV files: clean a messy HR staff export, build a monthly sales report, and analyse student results across two files. Read each file with Pandas, clean it, then let <code>groupby</code>, filters and <code>merge</code> do the work.</p><p>In the <a href="../#projects-8">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 8.1 (Beginner): Clean an HR staff file</h2><p><b>Read a messy staff export, clean it with Pandas and print a short HR report.</b></p><p>Lakshmi works in HR at an IT company in Hyderabad. Every month the payroll system exports <b><code>staff.csv</code></b>, and every month it is messy: names in random capitals with extra spaces, departments typed three different ways, a few missing salaries and cities, and sometimes the same row twice.</p><p>Write a program that reads the file with <b>Pandas</b>, cleans it, and prints a short report she can paste into her email.</p><h3>What you will practise</h3><ul><li>Read a CSV file with <code>pd.read_csv()</code></li><li>Remove repeated rows with <code>drop_duplicates()</code></li><li>Tidy text with <code>.str.strip()</code>, <code>.str.title()</code> and <code>.str.upper()</code></li><li>Fill gaps with <code>fillna()</code> (the median salary, and <code>&quot;Unknown&quot;</code> for cities)</li><li>Summarise with <code>mean()</code>, <code>idxmax()</code> and <code>groupby()</code></li></ul><p><b>You may use:</b> everything from Parts 1-7, Pandas: <code>read_csv</code>, <code>drop_duplicates</code>, <code>.str</code> tools, <code>isna</code>, <code>fillna</code>, <code>median</code>, <code>mean</code>, <code>unique</code>, <code>idxmax</code>, <code>loc</code>, <code>groupby</code>.<br><b>Do not use yet:</b> Matplotlib or Seaborn charts (Parts 9 and 10).</p><h3>Your tasks</h3><ol><li>The file is called <code>staff.csv</code> and has the columns <code>emp_id</code>, <code>name</code>, <code>department</code>, <code>salary</code> and <code>city</code>. Read it with <code>pd.read_csv</code>.</li><li>If the file has no rows, print <code>No staff in the file</code> and stop. Otherwise print <code>Rows read: &lt;n&gt;</code>.</li><li>Remove exact duplicate rows and print <code>Duplicates removed: &lt;n&gt;</code>.</li><li>Tidy the text: names with <code>strip()</code> then <code>title()</code>; departments with <code>strip()</code> then <code>upper()</code>.</li><li>Count the missing salaries, fill them with the <b>median</b> salary (of the rows left after removing duplicates) and print <code>Missing salaries filled: &lt;n&gt;</code>. Then fill missing cities with <code>Unknown</code> and print <code>Missing cities filled: &lt;n&gt;</code>.</li><li>Print <code>Departments: </code> and the department names sorted A to Z, separated by <code>, </code>.</li><li>Print the <code>Average salary</code>, and the <code>Highest paid</code> person with their salary (on a tie, the one higher up in the file).</li><li>For each department, A to Z, print <code>&lt;DEPT&gt;: &lt;n&gt; staff, average ₹&lt;amount&gt;</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Rows read: &lt;n&gt;
+Duplicates removed: &lt;n&gt;
+Missing salaries filled: &lt;n&gt;
+Missing cities filled: &lt;n&gt;
+Departments: FINANCE, HR, IT
+Average salary: ₹&lt;amount&gt;
+Highest paid: &lt;Name&gt; (₹&lt;amount&gt;)
+&lt;DEPT&gt;: &lt;n&gt; staff, average ₹&lt;amount&gt;
+No staff in the file</pre><p>Money has <code>₹</code>, commas and 2 decimals, like <code>₹56,250.00</code>. Names are in title case (<code>Asha Rao</code>) and departments in capitals (<code>IT</code>).</p><h3>Example run</h3><p>Typed values: .</p><pre class="out">Rows read: 9
+Duplicates removed: 1
+Missing salaries filled: 2
+Missing cities filled: 1
+Departments: FINANCE, HR, IT, SALES
+Average salary: ₹60,750.00
+Highest paid: Arjun Reddy (₹81,000.00)
+FINANCE: 2 staff, average ₹71,625.00
+HR: 1 staff, average ₹45,000.00
+IT: 3 staff, average ₹64,250.00
+SALES: 2 staff, average ₹52,500.00</pre><h3>Files for this project</h3><p><b>staff.csv</b></p><pre class="out">emp_id,name,department,salary,city
+E1,  asha rao,IT,72000,Pune
+E2,VIKRAM SINGH,hr ,45000,Delhi
+E3,neha kapoor, it,,Pune
+E4,Ravi Teja,Sales,39000,
+E5,meena pillai,SALES,66000,Chennai
+E5,meena pillai,SALES,66000,Chennai
+E6,Arjun Reddy,Finance,81000,Hyderabad
+E7, priya sharma,finance,,Hyderabad
+E8,Kiran Kumar,IT,58500,Pune
+</pre><h3>Edge cases to think about</h3><ul><li>A file with only the <b>header</b> row: no staff at all.</li><li>A file where <b>every row is there twice</b>.</li><li><b>No gaps</b> at all: 0 salaries and 0 cities filled.</li><li>Two people with the <b>same top salary</b>: the one higher up in the file.</li><li>An <b>even</b> number of salaries: the median is the average of the two middle ones.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Start with <code>staff = pd.read_csv(&quot;staff.csv&quot;)</code> and <code>if len(staff) == 0:</code>. Save <code>before = len(staff)</code>, then <code>staff = staff.drop_duplicates()</code>; the difference is the number removed.</p></details><details><summary>Hint 2</summary><p>Count the gaps <b>before</b> you fill them: <code>missing = staff[&quot;salary&quot;].isna().sum()</code>, then <code>staff[&quot;salary&quot;] = staff[&quot;salary&quot;].fillna(staff[&quot;salary&quot;].median())</code>.</p></details><details><summary>Hint 3</summary><p>For the top earner, <code>top = staff.loc[staff[&quot;salary&quot;].idxmax()]</code>. For the department lines, make <code>counts = staff.groupby(&quot;department&quot;)[&quot;salary&quot;].count()</code> and <code>means = ...mean()</code>, then loop with <code>for dept, count in counts.items():</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 8.1: Clean an HR staff file
+import pandas as pd
+
+staff = pd.read_csv(&quot;staff.csv&quot;)
+if len(staff) == 0:
+    print(&quot;No staff in the file&quot;)
+else:
+    print(f&quot;Rows read: {len(staff)}&quot;)
+    before = len(staff)
+    staff = staff.drop_duplicates()
+    print(f&quot;Duplicates removed: {before - len(staff)}&quot;)
+    # Tidy the text columns
+    staff[&quot;name&quot;] = staff[&quot;name&quot;].str.strip().str.title()
+    staff[&quot;department&quot;] = staff[&quot;department&quot;].str.strip().str.upper()
+    # Count the gaps first, then fill them
+    missing_pay = staff[&quot;salary&quot;].isna().sum()
+    staff[&quot;salary&quot;] = staff[&quot;salary&quot;].fillna(staff[&quot;salary&quot;].median())
+    print(f&quot;Missing salaries filled: {missing_pay}&quot;)
+    missing_city = staff[&quot;city&quot;].isna().sum()
+    staff[&quot;city&quot;] = staff[&quot;city&quot;].fillna(&quot;Unknown&quot;)
+    print(f&quot;Missing cities filled: {missing_city}&quot;)
+    print(&quot;Departments: &quot; + &quot;, &quot;.join(sorted(staff[&quot;department&quot;].unique())))
+    print(f&quot;Average salary: ₹{staff['salary'].mean():,.2f}&quot;)
+    top = staff.loc[staff[&quot;salary&quot;].idxmax()]
+    print(f&quot;Highest paid: {top['name']} (₹{top['salary']:,.2f})&quot;)
+    counts = staff.groupby(&quot;department&quot;)[&quot;salary&quot;].count()
+    means = staff.groupby(&quot;department&quot;)[&quot;salary&quot;].mean()
+    for dept, count in counts.items():
+        print(f&quot;{dept}: {count} staff, average ₹{means[dept]:,.2f}&quot;)</code></pre></figure></details></section><section><h2>Project 8.2 (Intermediate): Monthly sales report</h2><p><b>Read a year of orders, ask for a month and print that month's sales report.</b></p><p>Rahul manages a chain of stores across India. The till system exports <b><code>orders.csv</code></b>: one row per order with the date, the category, the region, the sales and the profit in rupees. The dates come in three styles, and a few are not dates at all.</p><p>At the start of every month Rahul wants a report for the month he types in: totals, margin, the categories with their share of sales, the best region and the best day.</p><h3>What you will practise</h3><ul><li>Turn mixed text dates into real dates with <code>pd.to_datetime()</code> and drop the bad ones</li><li>Check a typed month and filter the rows with a mask</li><li>Total, group and sort with <code>sum()</code>, <code>groupby()</code> and <code>sort_values()</code></li><li>Find the best region and the best day with <code>idxmax()</code></li></ul><p><b>You may use:</b> everything from Parts 1-7, Pandas: <code>read_csv</code>, <code>to_datetime</code>, <code>dropna</code>, <code>.dt</code>, masks, <code>groupby</code>, <code>sum</code>, <code>sort_values</code>, <code>idxmax</code>, <code>reset_index</code>.<br><b>Do not use yet:</b> Matplotlib or Seaborn charts (Parts 9 and 10).</p><h3>Your tasks</h3><ol><li>Read <code>orders.csv</code> (columns <code>Date</code>, <code>Category</code>, <code>Region</code>, <code>Sales</code>, <code>Profit</code>). Convert <code>Date</code> with <code>format=&quot;mixed&quot;</code>, <code>dayfirst=True</code> and <code>errors=&quot;coerce&quot;</code>.</li><li>Count the dates that could not be read, drop those rows and print <code>Bad dates skipped: &lt;n&gt;</code>.</li><li>Ask <code>Month (1-12): </code>. If it is not a whole number from 1 to 12, print <code>Please enter a month from 1 to 12</code> and stop.</li><li>Keep only that month's orders. If there are none, print <code>No orders in &lt;Month&gt;</code> (the full month name) and stop.</li><li>Print <code>Report for &lt;Month&gt;</code>, <code>Orders: &lt;n&gt;</code>, <code>Total sales</code>, <code>Total profit</code> and <code>Margin: &lt;x.x&gt;%</code> (profit ÷ sales × 100).</li><li>For each category, largest sales first (a tie: A to Z), print <code>&lt;Category&gt;: ₹&lt;sales&gt; (&lt;x.x&gt;% of sales)</code>.</li><li>Print the <code>Best region</code> with its sales, and the <code>Best day</code> (the date with the most sales, written like <code>02 Nov 2024</code>) with its sales. On a tie, take the region A to Z first and the earlier day.</li><li>Print <code>Orders at a loss: &lt;n&gt;</code>: the orders of the month with a profit below 0.</li></ol><h3>Lines your output must contain</h3><pre class="out">Bad dates skipped: &lt;n&gt;
+Report for &lt;Month&gt;
+Orders: &lt;n&gt;
+Total sales: ₹&lt;amount&gt;
+Total profit: ₹&lt;amount&gt;
+Margin: &lt;x.x&gt;%
+&lt;Category&gt;: ₹&lt;amount&gt; (&lt;x.x&gt;% of sales)
+Best region: &lt;Region&gt; (₹&lt;amount&gt;)
+Best day: &lt;dd Mon yyyy&gt; (₹&lt;amount&gt;)
+Orders at a loss: &lt;n&gt;
+Please enter a month from 1 to 12
+No orders in &lt;Month&gt;</pre><p>Money has <code>₹</code>, commas and 2 decimals. Percents have 1 decimal. Month names are in full (<code>November</code>). Dates in <code>05/11/2024</code> style are day first.</p><h3>Example run</h3><p>Typed values: <code>11</code>.</p><pre class="out">Bad dates skipped: 1
+Month (1-12): 11
+Report for November
+Orders: 9
+Total sales: ₹39,220.00
+Total profit: ₹3,393.00
+Margin: 8.7%
+Electronics: ₹24,850.00 (63.4% of sales)
+Furniture: ₹9,900.00 (25.2% of sales)
+Clothing: ₹3,350.00 (8.5% of sales)
+Groceries: ₹1,120.00 (2.9% of sales)
+Best region: South (₹15,440.00)
+Best day: 12 Nov 2024 (₹12,950.00)
+Orders at a loss: 2</pre><h3>Files for this project</h3><p><b>orders.csv</b></p><pre class="out">Date,Category,Region,Sales,Profit
+2024-11-02,Electronics,South,8400,960
+05/11/2024,Clothing,North,1250,310
+2024-11-05,Groceries,South,640,48
+12-Nov-2024,Furniture,West,5600,840
+2024-11-12,Electronics,North,7350,-220
+not known,Clothing,East,900,150
+15/11/2024,Clothing,South,2100,525
+2024-11-15,Groceries,East,480,30
+2024-10-28,Electronics,West,6900,780
+2024-11-20,Furniture,South,4300,-150
+2024-11-28,Electronics,East,9100,1050
+2024-12-01,Clothing,North,1800,420
+</pre><h3>Edge cases to think about</h3><ul><li>A month with <b>no orders</b>.</li><li>A month that is <b>not 1 to 12</b>, or not a number.</li><li>Two categories or regions with the <b>same total</b>.</li><li>A <b>negative</b> profit (a loss) in the month.</li><li>Dates that are <b>not dates</b>, like <code>not known</code>.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>orders[&quot;Date&quot;] = pd.to_datetime(orders[&quot;Date&quot;], format=&quot;mixed&quot;, dayfirst=True, errors=&quot;coerce&quot;)</code>, then count <code>orders[&quot;Date&quot;].isna().sum()</code> and <code>orders = orders.dropna(subset=[&quot;Date&quot;])</code>.</p></details><details><summary>Hint 2</summary><p>Read the month inside <code>try</code> / <code>except ValueError</code>. Filter with <code>month = orders[orders[&quot;Date&quot;].dt.month == number]</code>. <code>MONTHS[number - 1]</code> gives the name if you make a list of the 12 names.</p></details><details><summary>Hint 3</summary><p>Categories: <code>cats = month.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum().reset_index()</code>, then <code>cats.sort_values([&quot;Sales&quot;, &quot;Category&quot;], ascending=[False, True])</code>. Best day: <code>month.groupby(&quot;Date&quot;)[&quot;Sales&quot;].sum()</code> and <code>idxmax()</code>, then <code>.strftime(&quot;%d %b %Y&quot;)</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 8.2: Monthly sales report
+import pandas as pd
+
+MONTHS = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;,
+          &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;]
+
+orders = pd.read_csv(&quot;orders.csv&quot;)
+orders[&quot;Date&quot;] = pd.to_datetime(orders[&quot;Date&quot;], format=&quot;mixed&quot;, dayfirst=True, errors=&quot;coerce&quot;)
+print(f&quot;Bad dates skipped: {orders['Date'].isna().sum()}&quot;)
+orders = orders.dropna(subset=[&quot;Date&quot;])
+try:
+    number = int(input(&quot;Month (1-12): &quot;))
+except ValueError:
+    number = 0
+if not 1 &lt;= number &lt;= 12:
+    print(&quot;Please enter a month from 1 to 12&quot;)
+else:
+    name = MONTHS[number - 1]
+    month = orders[orders[&quot;Date&quot;].dt.month == number]
+    if len(month) == 0:
+        print(f&quot;No orders in {name}&quot;)
+    else:
+        total_sales = month[&quot;Sales&quot;].sum()
+        total_profit = month[&quot;Profit&quot;].sum()
+        print(f&quot;Report for {name}&quot;)
+        print(f&quot;Orders: {len(month)}&quot;)
+        print(f&quot;Total sales: ₹{total_sales:,.2f}&quot;)
+        print(f&quot;Total profit: ₹{total_profit:,.2f}&quot;)
+        print(f&quot;Margin: {total_profit / total_sales * 100:.1f}%&quot;)
+        # Categories: largest sales first, ties A to Z
+        cats = month.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum().reset_index()
+        cats = cats.sort_values([&quot;Sales&quot;, &quot;Category&quot;], ascending=[False, True])
+        for cat, amount in zip(cats[&quot;Category&quot;], cats[&quot;Sales&quot;]):
+            print(f&quot;{cat}: ₹{amount:,.2f} ({amount / total_sales * 100:.1f}% of sales)&quot;)
+        regions = month.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum()
+        best = regions.idxmax()
+        print(f&quot;Best region: {best} (₹{regions[best]:,.2f})&quot;)
+        days = month.groupby(&quot;Date&quot;)[&quot;Sales&quot;].sum()
+        top_day = days.idxmax()
+        print(f&quot;Best day: {top_day.strftime('%d %b %Y')} (₹{days[top_day]:,.2f})&quot;)
+        print(f&quot;Orders at a loss: {(month['Profit'] &lt; 0).sum()}&quot;)</code></pre></figure></details></section><section><h2>Project 8.3 (Challenging): Student results analysis</h2><p><b>Combine marks and house lists, grade every student and compare classes and houses.</b></p><p>Mrs Iyer is the exams coordinator at a school in Vijayawada. After the term exams she has two files. <b><code>marks.csv</code></b> has every student's marks in maths, science and English (a blank means the student was absent). <b><code>students.csv</code></b> says which house each student belongs to, but it is kept by another teacher, so a few students are missing and one may be listed twice.</p><p>She wants one report: pass counts, grades, a line for every class with its topper, the students with no house, and the houses ranked by their average.</p><h3>What you will practise</h3><ul><li>Read two CSV files and fill blank marks with <code>fillna(0)</code></li><li>Add columns with maths and with your own function through <code>apply()</code></li><li>Summarise each class with <code>groupby()</code> and find each topper with <code>idxmax()</code></li><li>Join the two files with <code>merge()</code>, after removing repeated ids, and find unmatched rows with <code>isna()</code></li></ul><p><b>You may use:</b> everything from Parts 1-7, all of Part 8: <code>read_csv</code>, <code>fillna</code>, <code>apply</code>, <code>np.where</code>, masks, <code>groupby</code>, <code>agg</code>, <code>idxmax</code>, <code>drop_duplicates</code>, <code>merge</code>, <code>isna</code>, <code>sort_values</code>.<br><b>Do not use yet:</b> Matplotlib or Seaborn charts (Parts 9 and 10).</p><h3>Your tasks</h3><ol><li>Read <code>marks.csv</code> (<code>student_id</code>, <code>name</code>, <code>class</code>, <code>maths</code>, <code>science</code>, <code>english</code>) and <code>students.csv</code> (<code>student_id</code>, <code>house</code>). If <code>marks.csv</code> has no rows, print <code>No students in marks.csv</code> and stop.</li><li>Print <code>Students: &lt;n&gt;</code> and <code>Absent marks: &lt;n&gt;</code> (the number of blank mark cells). Then treat a blank mark as 0.</li><li>Add <code>percent</code> = (maths + science + english) ÷ 3, and <code>passed</code> = True when <b>every</b> subject is 35 or more. Print <code>Passed: &lt;p&gt; of &lt;n&gt; (&lt;x.x&gt;%)</code>.</li><li>Write <code>def grade(percent)</code>: <code>A+</code> for 90 or more, <code>A</code> for 75 or more, <code>B</code> for 60 or more, <code>C</code> for 40 or more, otherwise <code>F</code>. Add it as a column with <code>apply</code> and print <code>Grades: A+ &lt;n&gt;, A &lt;n&gt;, B &lt;n&gt;, C &lt;n&gt;, F &lt;n&gt;</code> (always all five, in this order).</li><li>For each class, A to Z, print <code>Class &lt;c&gt;: &lt;n&gt; students, average &lt;x.x&gt;%, pass rate &lt;x.x&gt;%, topper &lt;name&gt; (&lt;x.x&gt;%)</code>. On a tie, the topper is the one higher up in the file.</li><li>Remove repeated <code>student_id</code>s from <code>students.csv</code>, then <code>merge</code> it onto the marks with <code>how=&quot;left&quot;</code>. Print <code>Missing house: </code> and the ids with no house, in file order, separated by <code>, </code> (or <code>none</code>).</li><li>Print <code>House &lt;name&gt;: &lt;x.x&gt;%</code> (the average percent) for every house, highest first; on a tie, A to Z.</li></ol><h3>Lines your output must contain</h3><pre class="out">Students: &lt;n&gt;
+Absent marks: &lt;n&gt;
+Passed: &lt;p&gt; of &lt;n&gt; (&lt;x.x&gt;%)
+Grades: A+ &lt;n&gt;, A &lt;n&gt;, B &lt;n&gt;, C &lt;n&gt;, F &lt;n&gt;
+Class &lt;c&gt;: &lt;n&gt; students, average &lt;x.x&gt;%, pass rate &lt;x.x&gt;%, topper &lt;name&gt; (&lt;x.x&gt;%)
+Missing house: &lt;ids&gt; or none
+House &lt;name&gt;: &lt;x.x&gt;%
+No students in marks.csv</pre><p>Percents have 1 decimal and a <code>%</code> sign. A blank mark counts as 0 and as absent. Classes are A to Z; houses are highest average first.</p><h3>Example run</h3><p>Typed values: .</p><pre class="out">Students: 8
+Absent marks: 1
+Passed: 6 of 8 (75.0%)
+Grades: A+ 2, A 1, B 3, C 0, F 2
+Class 9A: 4 students, average 67.8%, pass rate 75.0%, topper Kavya Nair (91.7%)
+Class 9B: 4 students, average 67.6%, pass rate 75.0%, topper Sneha Pillai (94.3%)
+Missing house: S105
+House Red: 88.9%
+House Blue: 64.3%
+House Green: 53.3%</pre><h3>Files for this project</h3><p><b>marks.csv</b></p><pre class="out">student_id,name,class,maths,science,english
+S101,Kavya Nair,9A,92,88,95
+S102,Rohit Jain,9A,67,72,58
+S103,Imran Khan,9B,45,,52
+S104,Lata Iyer,9B,81,77,84
+S105,Om Prakash,9A,30,48,41
+S106,Divya Rao,9B,58,61,70
+S107,Arjun Reddy,9A,74,69,80
+S108,Sneha Pillai,9B,99,94,90
+</pre><p><b>students.csv</b></p><pre class="out">student_id,house
+S101,Red
+S102,Blue
+S103,Green
+S104,Red
+S106,Blue
+S107,Green
+S108,Red
+</pre><h3>Edge cases to think about</h3><ul><li>A student who was <b>absent for every subject</b> (0%).</li><li>A student who is <b>in marks.csv but not in students.csv</b>.</li><li>A student id listed <b>twice</b> in students.csv: after a merge they would count twice.</li><li>A mark of exactly <b>35</b> passes; 34 fails.</li><li>A grade with <b>nobody</b> in it still shows <code>0</code>.</li><li>Two students with the <b>same top percent</b> in a class.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>marks[[&quot;maths&quot;, &quot;science&quot;, &quot;english&quot;]].isna().sum().sum()</code> counts the blank cells; then <code>fillna(0)</code> on those columns. <code>percent</code> is the sum of the three columns ÷ 3.</p></details><details><summary>Hint 2</summary><p>Passed: <code>(marks[&quot;maths&quot;] &gt;= 35) &amp; (marks[&quot;science&quot;] &gt;= 35) &amp; (marks[&quot;english&quot;] &gt;= 35)</code>. For the grade line, <code>counts = marks[&quot;grade&quot;].value_counts()</code> and <code>counts.get(&quot;A+&quot;, 0)</code> gives 0 for a missing grade.</p></details><details><summary>Hint 3</summary><p>Class lines: <code>marks.groupby(&quot;class&quot;)</code> with <code>agg(students=(&quot;name&quot;, &quot;count&quot;), average=(&quot;percent&quot;, &quot;mean&quot;), rate=(&quot;passed&quot;, &quot;mean&quot;))</code>, and <code>marks.loc[marks.groupby(&quot;class&quot;)[&quot;percent&quot;].idxmax()]</code> for the toppers. Houses: <code>students.drop_duplicates(subset=&quot;student_id&quot;)</code>, then <code>pd.merge(marks, houses, on=&quot;student_id&quot;, how=&quot;left&quot;)</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 8.3: Student results analysis
+import pandas as pd
+
+SUBJECTS = [&quot;maths&quot;, &quot;science&quot;, &quot;english&quot;]
+
+
+def grade(percent):
+    &quot;&quot;&quot;Turn a percent into a grade.&quot;&quot;&quot;
+    if percent &gt;= 90:
+        return &quot;A+&quot;
+    elif percent &gt;= 75:
+        return &quot;A&quot;
+    elif percent &gt;= 60:
+        return &quot;B&quot;
+    elif percent &gt;= 40:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+
+marks = pd.read_csv(&quot;marks.csv&quot;)
+students = pd.read_csv(&quot;students.csv&quot;)
+if len(marks) == 0:
+    print(&quot;No students in marks.csv&quot;)
+else:
+    print(f&quot;Students: {len(marks)}&quot;)
+    print(f&quot;Absent marks: {marks[SUBJECTS].isna().sum().sum()}&quot;)
+    marks[SUBJECTS] = marks[SUBJECTS].fillna(0)
+    marks[&quot;percent&quot;] = (marks[&quot;maths&quot;] + marks[&quot;science&quot;] + marks[&quot;english&quot;]) / 3
+    marks[&quot;passed&quot;] = ((marks[&quot;maths&quot;] &gt;= 35) &amp; (marks[&quot;science&quot;] &gt;= 35)
+                       &amp; (marks[&quot;english&quot;] &gt;= 35))
+    passed = marks[&quot;passed&quot;].sum()
+    print(f&quot;Passed: {passed} of {len(marks)} ({passed / len(marks) * 100:.1f}%)&quot;)
+    marks[&quot;grade&quot;] = marks[&quot;percent&quot;].apply(grade)
+    counts = marks[&quot;grade&quot;].value_counts()
+    print(&quot;Grades: &quot; + &quot;, &quot;.join(f&quot;{g} {counts.get(g, 0)}&quot; for g in [&quot;A+&quot;, &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;F&quot;]))
+    # One line per class, with its topper
+    report = marks.groupby(&quot;class&quot;).agg(students=(&quot;name&quot;, &quot;count&quot;), average=(&quot;percent&quot;, &quot;mean&quot;),
+                                        rate=(&quot;passed&quot;, &quot;mean&quot;))
+    toppers = marks.loc[marks.groupby(&quot;class&quot;)[&quot;percent&quot;].idxmax()].set_index(&quot;class&quot;)
+    for cls in report.index:
+        count, average = report.loc[cls, &quot;students&quot;], report.loc[cls, &quot;average&quot;]
+        rate = report.loc[cls, &quot;rate&quot;] * 100
+        top = toppers.loc[cls]
+        print(f&quot;Class {cls}: {count} students, average {average:.1f}%, pass rate {rate:.1f}%, &quot;
+              f&quot;topper {top['name']} ({top['percent']:.1f}%)&quot;)
+    # Join the houses (one row per student id) and find who has none
+    houses = students.drop_duplicates(subset=&quot;student_id&quot;)
+    merged = pd.merge(marks, houses, on=&quot;student_id&quot;, how=&quot;left&quot;)
+    missing = merged[merged[&quot;house&quot;].isna()][&quot;student_id&quot;].tolist()
+    print(&quot;Missing house: &quot; + (&quot;, &quot;.join(missing) or &quot;none&quot;))
+    avg = merged.groupby(&quot;house&quot;)[&quot;percent&quot;].mean().reset_index()
+    avg = avg.sort_values([&quot;percent&quot;, &quot;house&quot;], ascending=[False, True])
+    for name, value in zip(avg[&quot;house&quot;], avg[&quot;percent&quot;]):
+        print(f&quot;House {name}: {value:.1f}%&quot;)</code></pre></figure></details></section><nav class="pn"><a href="overview8.html">← Part 8 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -164,29 +164,44 @@ X = {
  ("Save the summary dictionary as JSON.", 'import json\nsummary = {"bookings": 33, "revenue": 220000}\nwith open("report.json", "w") as f:\n    json.B(summary, f)\nwith open("report.json") as f:\n    print(json.load(f))', ["dump"], "`json.dump(data, file)` writes to a file. `json.dumps(data)` gives a string."),
 ],
 }
-WORK = tempfile.mkdtemp()
+# Parts 8-10 (Pandas, Matplotlib, Seaborn) live in ex_new.py and mark blanks with @@. Run this file with the matching Python (NOTES.md).
+from ex_new import X2
+X.update(X2)
+import chlib, re
+WORK = chlib.WORK
 def run(code):
-    p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=30)
-    assert p.returncode == 0 and not p.stderr.strip(), (code, p.stderr)
-    return p.stdout.rstrip('\n')
+    return chlib.run(code)
+SHOTS = {}
 out, n = {}, 0
 for cid, items in X.items():
     out[cid] = []
     for q, code, blanks, e in items:
-        assert code.count('B') >= len(blanks)
+        assert code.count('@@' if '@@' in code else 'B') >= len(blanks)
         alts = [b if isinstance(b, list) else [b] for b in blanks]
-        PROT = {'print("B")': '\x01', '"B1001"': '\x02'}
-        for k, v in PROT.items(): code = code.replace(k, v)
-        parts = code.split('B')
-        for k, v in PROT.items(): parts = [x.replace(v, k) for x in parts]
+        if '@@' in code:
+            parts = code.split('@@')
+        else:
+            PROT = {'print("B")': '\x01', '"B1001"': '\x02'}
+            for k, v in PROT.items(): code = code.replace(k, v)
+            parts = code.split('B')
+            for k, v in PROT.items(): parts = [x.replace(v, k) for x in parts]
         # rebuild by marking only placeholder B's: placeholder B's are the ones we wrote; guard against real capital B in code
         assert len(parts) - 1 == len(alts), (cid, q, len(parts) - 1, len(alts))
         def fill(choice): return ''.join(p + (choice[i] if i < len(choice) else '') for i, p in enumerate(parts))
-        o = run(fill([a[0] for a in alts]))
-        for i, a in enumerate(alts):
-            for alt in a[1:]:
-                ch = [x[0] for x in alts]; ch[i] = alt
-                assert run(fill(ch)) == o, (cid, q, alt)
-        out[cid].append({"q": q, "c": '___'.join(parts), "a": alts, "o": o, "e": e}); n += 1
+        full = fill([a[0] for a in alts]); rec = {}
+        if chlib.CHART_RE.search(full):   # a chart exercise: keep a picture and a summary for the checks
+            o, summ, figs, imgs = chlib.chart_run(full, 'ex-%s-%d' % (cid, len(out[cid]) + 1))
+            rec = {"sum": summ, "img": imgs}
+            for i, a in enumerate(alts):
+                for alt in a[1:]:
+                    ch = [x[0] for x in alts]; ch[i] = alt
+                    assert chlib.chart_run(fill(ch))[:2] == (o, summ), (cid, q, alt)
+        else:
+            o = run(full)
+            for i, a in enumerate(alts):
+                for alt in a[1:]:
+                    ch = [x[0] for x in alts]; ch[i] = alt
+                    assert run(fill(ch)) == o, (cid, q, alt)
+        out[cid].append(dict({"q": q, "c": '___'.join(parts), "a": alts, "o": o, "e": e}, **rec)); n += 1
 open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'hub2', 'exercises.js'), 'w', encoding='utf-8').write('/* Quick exercises: fill in the blanks (___). Every answer was run in real Python; o is the real output. */\nvar EXERCISES = ' + json.dumps(out, ensure_ascii=False, indent=1) + ';\n')
 print(n, 'exercises in', len(out), 'chapters')

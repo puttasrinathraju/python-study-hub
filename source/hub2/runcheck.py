@@ -4,10 +4,12 @@ only = sys.argv[1] if len(sys.argv) > 1 else None
 bad = 0
 work = tempfile.mkdtemp()
 import shutil, glob
-for f in glob.glob('data/*.csv'): shutil.copy(f, work)
+for f in glob.glob('data/*'): shutil.copy(f, work)
+shutil.copy('hubcharts.py', os.path.join(work, '_hubcharts.py'))   # chart facts, same file as the browser runner
+env = dict(os.environ, COLUMNS='80', LINES='24', SEABORN_DATA=work, MPLBACKEND='Agg')
 for it in items:
     if only and not it['id'].startswith(only): continue
-    p = subprocess.run([sys.executable, '-c', it['code']], capture_output=True, text=True, timeout=20, cwd=work)
+    p = subprocess.run([sys.executable, '-c', it['code']], capture_output=True, text=True, timeout=60, cwd=work, env=env)
     norm = lambda s: '\n'.join(l.rstrip() for l in s.strip('\n').rstrip().split('\n'))
     if it['err']:
         got = (p.stderr.strip().split('\n') or [''])[-1].strip()

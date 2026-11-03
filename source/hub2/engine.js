@@ -13,7 +13,8 @@ var store = {
 /* Tiny markdown: `code`, **bold**, ==highlight==, newline -> <br> */
 function md(s){
   if (s == null) return '';
-  return String(s).split(/(`[^`]+`)/).map(function(part){
+  return String(s).split(/(\*\*`[^`]+`\*\*|`[^`]+`)/).map(function(part){
+    if (/^\*\*`[^`]+`\*\*$/.test(part)) return '<b><code>' + hl(part.slice(3, -3)) + '</code></b>';
     if (part.length > 1 && part[0] === '`' && part[part.length - 1] === '`') return '<code>' + hl(part.slice(1, -1)) + '</code>';
     return esc(part).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/==([^=]+)==/g, '<mark>$1</mark>').replace(/\[\[(ok|no|warn|acc):([^\]]+)\]\]/g, '<span class="t-$1">$2</span>').replace(/\n/g, '<br>');
   }).join('');
@@ -83,6 +84,16 @@ PARTS.forEach(function(p){
 SEQ.forEach(function(c, i){ c.seq = i; });
 function ovOf(n){ return OVS.filter(function(o){ return o.part === n; })[0]; }
 var PENDING = null;
+/* One-time move of saved progress: the whole-course overview was Part 8 (overview8) and is now the last Part (overview11) */
+(function(){
+  try {
+    if (store.get('mig11', 0)) return;
+    var mv = function(o){ var n = {}; Object.keys(o || {}).forEach(function(k){ n[k.replace(/^overview8(?=$|:)/, 'overview11')] = o[k]; }); return n; };
+    ['done', 'known', 'srs'].forEach(function(k){ var v = store.get(k, null); if (v) store.set(k, mv(v)); });
+    var q = store.get('qz:overview8', null); if (q != null) { store.set('qz:overview11', q); store.set('qz:overview8', null); }
+    store.set('mig11', 1);
+  } catch (e) {}
+})();
 
 /* ---------- Toast ---------- */
 var toastT;
@@ -173,6 +184,28 @@ document.addEventListener('click', function(e){
 /* ---------- Code cell ---------- */
 var cellNo = 0, TRY = [];
 function trimC(s){ return String(s).replace(/^\n+/, '').replace(/\s+$/, ''); }
+/* Pandas tables keep their columns lined up: no wrapping, scroll inside the box instead */
+function isTab(code){ return /\b(pandas|pd\.|DataFrame)\b|\bpd\b/.test(code || ''); }
+var CH_WORD = { line: 'a line chart', bar: 'a bar chart', barh: 'a horizontal bar chart', hist: 'a histogram', scatter: 'a scatter plot', pie: 'a pie chart', box: 'a box plot', image: 'an image/heatmap', mesh: 'a heatmap', violin: 'a violin plot', area: 'a shaded area', annotate: 'an annotation', text: 'text labels' };
+function chartWants(s){
+  var w = [], one = function(a, pre){
+    if (a.kind) [].concat(a.kind).forEach(function(k){ w.push(pre + (CH_WORD[k] || k)); });
+    [['bars', 'bars'], ['lines', 'lines'], ['points', 'points'], ['wedges', 'slices'], ['boxes', 'boxes'], ['violins', 'violins']].forEach(function(c){ if (a[c[0]] != null) w.push(pre + (Array.isArray(a[c[0]]) ? (a[c[0]][1] >= 9999 ? 'at least ' + a[c[0]][0] : a[c[0]].join(' to ')) : a[c[0]]) + ' ' + c[1]); });
+    if (a.heights) w.push(pre + 'the right bar sizes');
+    ['title', 'xlabel', 'ylabel'].forEach(function(k){ if (a[k]) w.push(pre + ({ title: 'title', xlabel: 'x-axis label', ylabel: 'y-axis label' })[k] + (a[k] === true ? '' : ' "' + a[k] + '"')); });
+    if (a.legend) w.push(pre + 'a legend'); if (a.xticks) w.push(pre + 'x-axis labels'); if (a.texts) w.push(pre + 'text labels'); if (a.grid) w.push(pre + 'a grid');
+    if (a.spines) w.push(pre + 'top and right borders hidden');
+  };
+  if (s.sns) [].concat(s.sns).forEach(function(n){ w.push('uses sns.' + n + (/^[a-z]/.test(n) ? '()' : '')); });
+  if (s.axes) w.push((Array.isArray(s.axes) ? s.axes.join(' to ') : s.axes) + ' charts in one figure');
+  if (s.suptitle) w.push('a figure title'); if (s.colorbar) w.push('a colour bar');
+  if (s.ax) s.ax.forEach(function(a, i){ one(a, s.ax.length > 1 ? 'chart ' + (i + 1) + ': ' : ''); }); else one(s, '');
+  return esc(w.join(' · ')).replace(/&quot;/g, '"') + (s.text ? '' : '');
+}
+/* Chart pictures under code: a list of image files (made in real Python by the generators) or PNG data from the runner */
+function figImgs(list, alt){
+  return '<div class="rfigs">' + [].concat(list).map(function(src, i){ return '<img loading="lazy" decoding="async" src="' + (/^img\//.test(src) ? src : 'data:image/png;base64,' + src) + '" alt="' + esc(alt || 'Chart drawn by this code') + (i ? ' (' + (i + 1) + ')' : '') + '">'; }).join('') + '</div>';
+}
 function cell(code, out, opts){
   opts = opts || {};
   cellNo++;
@@ -183,6 +216,7 @@ function cell(code, out, opts){
   var h = '<div class="cell"><div class="cell-top"><span class="lbl">In [' + cellNo + ']:</span><span class="ttl">' + md(opts.ttl || '') + '</span>' + tb + '<button class="copy" type="button" data-copy="' + ci + '">copy</button></div>';
   h += '<pre><code style="all:unset;font:inherit;white-space:pre">' + hl(code) + '</code></pre>';
   if (out != null && out !== '') h += '<div class="out' + (opts.err ? ' err' : '') + '"><div class="lbl2">' + (opts.err ? 'Error' : 'Out [' + cellNo + ']:') + '</div><pre>' + esc(out) + '</pre></div>';
+  if (opts.img) h += figImgs(opts.img, opts.alt);
   return h + '</div>';
 }
 
@@ -209,7 +243,7 @@ function block(b, i, ctx){
     case 'p': return '<p class="prose">' + md(b.b) + '</p>';
     case 'ul': return '<ul class="list">' + b.items.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>';
     case 'ol': return '<ol class="list">' + b.items.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ol>';
-    case 'code': return cell(b.c, b.o, { ttl: b.ttl, err: b.err, tryit: !b.nr, pre: b.pre });
+    case 'code': return cell(b.c, b.o, { ttl: b.ttl, err: b.err, tryit: !b.nr, pre: b.pre, img: b.img, alt: b.alt });
     case 'note': return note(b);
     case 'fig': return '<figure><div class="fig">' + b.svg + '</div>' + (b.cap ? '<figcaption>' + md(b.cap) + '</figcaption>' : '') + '</figure>';
     case 'table':
@@ -236,10 +270,11 @@ function block(b, i, ctx){
     case 'prac':
       return '<div class="prac">' + b.items.map(function(t, j){
         var h = '<div class="task' + ((store.get('solved', {}))[ctx.cid + ':' + i + ':' + j] ? ' solved' : '') + '"><div class="tq"><span class="tn">Task ' + (j + 1) + '</span><div class="prose">' + md(t.q) + '</div></div>';
-        ctx.mounts.push({ t: 'run', key: ctx.cid + ':' + i + ':' + j, starter: t.starter, expect: (t.out != null && t.sol && !/input\(|random/.test(t.sol) && !t.nocheck) ? t.out : null });
+        ctx.mounts.push({ t: 'run', key: ctx.cid + ':' + i + ':' + j, starter: t.starter, chart: t.chart || null, img: t.img, expect: (t.out != null && t.sol && (t.chart || !/input\(|random/.test(t.sol)) && !t.nocheck) ? t.out : null });
+        if (t.chart) h += '<p class="chkwhat"><b>Checked:</b> ' + chartWants(t.chart) + '</p>';
         h += '<div class="mount" data-m="' + (ctx.mounts.length - 1) + '"></div>';
         if (t.hint) h += '<details class="reveal"><summary>Show hint</summary><div class="prose">' + md(t.hint) + '</div></details>';
-        if (t.sol) h += '<details class="reveal"><summary>Show solution</summary>' + cell(t.sol, t.out) + (t.why ? '<p class="prose" style="margin-top:8px">' + md(t.why) + '</p>' : '') + '</details>';
+        if (t.sol) h += '<details class="reveal"><summary>Show solution</summary>' + cell(t.sol, t.out, { img: t.img }) + (t.why ? '<p class="prose" style="margin-top:8px">' + md(t.why) + '</p>' : '') + '</details>';
         return h + '</div>';
       }).join('') + '</div>';
     case 'deck': case 'mm':
@@ -557,6 +592,7 @@ function chQuiz(c){ return (c.quiz || []).map(function(q){ return Object.assign(
 
 /* ---------- Python runner (Pyodide in a worker) ---------- */
 var PY_INDEX = /[?&]localpy\b/.test(location.search) ? 'pyodide_local/' : 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
+var PY_FILES = ['hotel_bookings.csv', 'employees.csv', 'employees.xlsx', 'sales_data.csv', 'student_scores.csv', 'tips.csv', 'orders.csv', 'customers.csv'];
 var PY = { worker: null, state: 'idle', boot: null, cb: {}, seq: 0, listeners: [] };
 function pySetState(s, msg){ PY.state = s; PY.msg = msg || ''; PY.listeners.forEach(function(f){ f(s, PY.msg); }); }
 function pyBoot(){
@@ -572,16 +608,16 @@ function pyBoot(){
       else if (m.type === 'done') { var d = PY.cb[m.id]; delete PY.cb[m.id]; if (d) d.done(m); }
     };
     PY.worker.onerror = function(){ pySetState('fail', 'Python could not load. Check your internet connection and refresh.'); PY.boot = null; reject(new Error('worker error')); };
-    PY.worker.postMessage({ type: 'init', indexURL: PY_INDEX, data: ['hotel_bookings.csv'] });
+    PY.worker.postMessage({ type: 'init', indexURL: PY_INDEX, data: PY_FILES });
   });
   return PY.boot;
 }
-function pyRun(code, inputs, onStatus){
+function pyRun(code, inputs, onStatus, chart){
   return pyBoot().then(function(){
     return new Promise(function(resolve){
       var id = ++PY.seq;
       PY.cb[id] = { done: resolve, status: onStatus };
-      PY.worker.postMessage({ type: 'run', id: id, code: code, inputs: inputs });
+      PY.worker.postMessage({ type: 'run', id: id, code: code, inputs: inputs, chart: chart || null });
     });
   });
 }
@@ -602,11 +638,11 @@ function CodeBox(el, b){
     '<div class="ract"><button class="btn pri rrun" type="button"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6z"/></svg>Run</button>' +
     (b.expect != null ? '<button class="btn rchkb" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 5"/></svg>Check my answer</button>' : '') +
     '<button class="btn rstop" type="button" hidden>Stop</button><button class="btn rreset" type="button">Reset</button><span class="muted rhint">Ctrl + Enter runs your code</span></div>' +
-    '<div class="rout" hidden><div class="lbl2">Output</div><pre class="rtext"></pre><div class="ehint" hidden></div><pre class="rerr" hidden></pre>' +
+    '<div class="rout" hidden><div class="lbl2">Output</div><pre class="rtext"></pre><div class="rfg"></div><div class="ehint" hidden></div><pre class="rerr" hidden></pre>' +
     '<form class="inrow" hidden><input class="inbox" type="text" autocomplete="off" aria-label="Your answer for input()"><button class="btn pri" type="submit">Enter</button></form><p class="rnote" hidden></p></div><div class="rchk" hidden aria-live="polite"></div></div>';
   var ta = $('.edta', el), pre = $('.edhl', el), stat = $('.rstat', el), runB = $('.rrun', el), stopB = $('.rstop', el);
   var out = $('.rout', el), otext = $('.rtext', el), oerr = $('.rerr', el), inrow = $('.inrow', el), inbox = $('.inbox', el);
-  var inputs = [], running = false, checking = false, chk = $('.rchk', el), note = $('.rnote', el), ehint = $('.ehint', el);
+  var inputs = [], running = false, checking = false, chk = $('.rchk', el), note = $('.rnote', el), ehint = $('.ehint', el), rfg = $('.rfg', el);
   ta.value = saved != null ? saved : starter;
   function paint(){ pre.innerHTML = hl(ta.value) + '\n'; }
   function save(){ store.set(key, ta.value); }
@@ -647,11 +683,15 @@ function CodeBox(el, b){
     setRunning(true);
     out.hidden = false;
     var code = ta.value;
-    pyRun(code, inputs.slice(), function(t){ stat.textContent = t; }).then(function(r){
+    pyRun(code, inputs.slice(), function(t){ stat.textContent = t; }, checking && b.chart ? b.chart : null).then(function(r){
       setRunning(false);
       if (r.status === 'stopped') { otext.textContent = (otext.textContent || '') ; oerr.hidden = false; oerr.textContent = 'Stopped. If your loop never ends, check that something changes each round so the condition can become False.'; inrow.hidden = true; return; }
-      otext.textContent = r.out || (r.status === 'ok' ? '(no output: add print() to see results)' : '');
+      var pics = (r.figs || []).filter(function(f){ return f.png; });
+      otext.textContent = r.out || (r.status === 'ok' ? (pics.length ? '' : '(no output: add print() to see results)') : '');
+      otext.hidden = !r.out && !!pics.length && r.status === 'ok';
       otext.classList.toggle('dim', !r.out);
+      otext.classList.toggle('tab', isTab(code));
+      rfg.innerHTML = pics.length ? figImgs(pics.map(function(f){ return f.png; }), 'Your chart') : '';
       if (r.status === 'error') { oerr.hidden = false; oerr.textContent = r.err; var eh = errHint(r.err); ehint.hidden = !eh; ehint.innerHTML = eh; } else { oerr.hidden = true; ehint.hidden = true; }
       if (r.status === 'input') { inrow.hidden = false; inbox.value = ''; inbox.focus({ preventScroll: true }); }
       else inrow.hidden = true;
@@ -665,15 +705,19 @@ function CodeBox(el, b){
   }
   function norm(t){ return String(t || '').replace(/\r/g, '').split('\n').map(function(l){ return l.replace(/\s+$/, ''); }).join('\n').replace(/^\n+/, '').replace(/\n+$/, ''); }
   function showCheck(r){
-    var want = norm(b.expect), got = norm(r.out), h;
+    var want = norm(b.expect), got = norm(r.out), h, probs = b.chart ? (r.chk || ['No chart was drawn. Draw it with Matplotlib, then call plt.show().']) : [];
     chk.hidden = false;
     if (r.status === 'error') { chk.className = 'rchk no'; chk.innerHTML = '<b>Your code stopped with an error.</b> Read the hint and the red message above, fix it, then check again.'; return; }
     if (r.status !== 'ok') { chk.className = 'rchk no'; chk.innerHTML = '<b>Your code is waiting for input.</b> Type it in the box above.'; return; }
-    if (got === want) {
+    if ((got === want || (b.chart && want === '')) && probs.length) {
+      chk.className = 'rchk no'; chk.innerHTML = '<b>Not yet.</b> ' + (got === want && want !== '' ? 'Your printed output is right, but the chart needs work:' : 'Your chart needs work:') + '<ul class="chkl">' + probs.slice(0, 5).map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+      return;
+    }
+    if (got === want || (b.chart && want === '')) {
       var sv = store.get('solved', {}); sv[b.key] = 1; store.set('solved', sv);
       var tk = el.closest('.task'); if (tk) tk.classList.add('solved');
       var tks = $$('.task', view).filter(function(t){ return $('.rchkb', t); }), nOk = tks.filter(function(t){ return t.classList.contains('solved'); }).length;
-      chk.className = 'rchk ok win'; chk.innerHTML = '<span class="wbadge" aria-hidden="true">✓</span><b>Correct!</b> Your output matches the expected output exactly.' + (tks.length > 1 ? '<div class="wcount">' + (nOk === tks.length ? '🎉 All ' + tks.length + ' practice tasks on this page solved!' : nOk + ' of ' + tks.length + ' practice tasks on this page solved') + '</div>' : '');
+      chk.className = 'rchk ok win'; chk.innerHTML = '<span class="wbadge" aria-hidden="true">✓</span><b>Correct!</b> ' + (b.chart ? (want ? 'Your output and your chart match the task.' : 'Your chart has everything the task asks for.') : 'Your output matches the expected output exactly.') + (tks.length > 1 ? '<div class="wcount">' + (nOk === tks.length ? '🎉 All ' + tks.length + ' practice tasks on this page solved!' : nOk + ' of ' + tks.length + ' practice tasks on this page solved') + '</div>' : '');
       return;
     }
     if (got.replace(/\s+/g, '') === want.replace(/\s+/g, '')) { chk.className = 'rchk almost'; chk.innerHTML = '<b>Almost!</b> The values are right. Only the spaces or line breaks are different. Compare with the expected output below.'; }
@@ -683,9 +727,10 @@ function CodeBox(el, b){
       chk.className = 'rchk no';
       chk.innerHTML = '<b>Not yet.</b> ' + (got === '' ? 'Your code printed nothing. Add <code>print()</code>.' : 'Line ' + (i + 1) + ' is different: you printed <code>' + esc(gl[i] == null ? '(nothing)' : gl[i]) + '</code>, expected <code>' + esc(wl[i] == null ? '(nothing)' : wl[i]) + '</code>.');
     }
-    chk.innerHTML += '<div class="lbl2" style="padding:8px 0 2px">Expected output</div><pre>' + esc(want) + '</pre>';
+    chk.innerHTML += '<div class="lbl2" style="padding:8px 0 2px">Expected output</div><pre' + (isTab(code0()) ? ' class="tab"' : '') + '>' + esc(want) + '</pre>';
   }
-  function start(){ if (running) return; inputs = []; otext.textContent = ''; oerr.hidden = true; ehint.hidden = true; inrow.hidden = true; chk.hidden = true; exec(); }
+  function code0(){ return ta.value + '\n' + (b.starter || ''); }
+  function start(){ if (running) return; inputs = []; otext.textContent = ''; rfg.innerHTML = ''; oerr.hidden = true; ehint.hidden = true; inrow.hidden = true; chk.hidden = true; exec(); }
   var cb = $('.rchkb', el); if (cb) cb.onclick = function(){ if (running) return; checking = true; start(); };
   runB.onclick = start;
   stopB.onclick = function(){ pyStop(); };
@@ -767,7 +812,7 @@ function sheetHTML(s, n){
     });
     h += '</div>';
   });
-  h += (s.foot ? '<p class="sh-foot">' + esc(s.foot) + '</p>' : '') + '<p class="sh-credit">Pictures made with AI (Canva and Gemini). Text and icons checked by hand.</p></figure>';
+  h += (s.foot ? '<p class="sh-foot">' + esc(s.foot) + '</p>' : '') + '<p class="sh-credit">' + esc(s.credit || 'Pictures made with AI (Canva and Gemini). Text and icons checked by hand.') + '</p></figure>';
   h += '<div class="row sh-act"><a class="btn" href="img/sheet-ov' + n + '.jpg" download="python-part' + n + '-cheat-sheet.jpg"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 2v8M4.5 6.5L8 10l3.5-3.5M3 13h10"/></svg>Save as image</a><span class="muted" style="font-size:14px">Keep it on your phone for quick revision.</span></div>';
   return h;
 }
@@ -795,6 +840,7 @@ function buildSide(){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n), pj = PJP[p.n], ends = [];
     if (ov) ends.push('<button class="pchip ovl" type="button" data-go="' + ov.id + '" data-q="' + esc((ov.title + ' ' + ov.nav + ' overview summary definitions differences compare vs table ' + (ov.keys || '')).toLowerCase()) + '"><span class="pci">★</span><span>' + esc(/^Part /.test(ov.nav) ? 'Overview' : ov.nav) + '</span></button>');
     if (pj) ends.push('<button class="pchip pjl" type="button" data-go="projects-' + p.n + '" data-q="' + esc(('projects project practice score part ' + p.n + ' ' + pj.ids.map(function(id){ return PJ[id].title; }).join(' ')).toLowerCase()) + '"><span class="pci">◆</span><span>Projects</span><span class="pcn"></span></button>');
+    if (p.soon && !chs.length) return '<div class="part soon" data-part="' + p.n + '"><div class="part-h"><span class="ptt"><span class="ptn">Part ' + p.n + '</span> · ' + esc(p.title) + '</span><span class="pn">soon</span></div></div>';
     return '<div class="part" data-part="' + p.n + '"><button class="part-h" type="button" data-ptog="' + p.n + '" aria-expanded="false">' + CARET + '<span class="ptt"><span class="ptn">Part ' + p.n + '</span> · ' + esc(p.title) + '</span><span class="pn"></span></button><div class="part-b">' + chs.map(function(c){
       var t = BT[c.id] ? '<button class="btb" type="button" data-go="test-' + c.id + '" data-q="' + esc(('big test exam questions ' + c.title + ' ' + (c.nav || '')).toLowerCase()) + '" aria-label="' + c.num + '.1 Big Test: ' + esc(c.nav || c.title) + '">' + c.num + '.1<span class="bti">✎</span></button>' : '';
       return '<div class="chrow"><button class="chlink" type="button" data-go="' + c.id + '" data-q="' + esc((c.title + ' ' + (c.nav || '') + ' ' + (c.keys || '')).toLowerCase()) + '"><span class="dot">' + c.num + '</span><span class="cht">' + esc(c.nav || c.title) + '</span>' + (c.tricky ? '<span class="tk">tricky</span>' : '') + '</button>' + t + '</div>';
@@ -840,6 +886,7 @@ function sideFold(){
   var q = $('#q').value.trim();
   $$('.part', side).forEach(function(el){
     var op = !!q || !!SIDEOPEN[+el.getAttribute('data-part')];
+    if (el.classList.contains('soon')) return;
     el.classList.toggle('open', op);
     $('.part-h', el).setAttribute('aria-expanded', String(op));
   });
@@ -861,7 +908,7 @@ function updateSide(cur){
     b.classList.toggle('on', id === cu);
     $('.dot, .pci', b).textContent = done[id] ? '✓' : (byId[id].ov ? '★' : byId[id].num);
   });
-  $$('.part', side).forEach(function(el){
+  $$('.part:not(.soon)', side).forEach(function(el){
     var n = +el.getAttribute('data-part'), chs = CH.filter(function(c){ return c.part === n; }), dn = chs.filter(function(c){ return done[c.id]; }).length;
     el.classList.toggle('pdone', dn === chs.length);
     $('.pn', el).textContent = dn === chs.length ? '✓ ' + dn + '/' + chs.length : dn + '/' + chs.length;
@@ -886,15 +933,16 @@ function vHome(){
   var go = lastC && !done[lastC.id] ? lastC : (next || CH[0]);
   var nAnim = 0, nDeck = 0, nMM = 0, nQ = 0;
   SEQ.forEach(function(c){ (c.body || []).forEach(function(b){ if (b.t === 'anim') nAnim++; if (b.t === 'deck') nDeck++; if (b.t === 'mm') nMM++; }); nQ += (c.quiz || []).length; });
-  var h = '<section class="hero"><div><div class="eyebrow">Data Analytics · Python module</div><h1>Learn Python from your first <mark>print()</mark> to NumPy</h1>' +
+  var h = '<section class="hero"><div><div class="eyebrow">Data Analytics · Python module</div><h1>Learn Python from your first <mark>print()</mark> to Pandas and charts</h1>' +
     '<p>' + CH.length + ' chapters in plain, simple English. Every chapter has notes, pictures, animated explainers, slides, a revision poster, practice tasks you can run right here in real Python, a quiz and flashcards. Every Part ends with an overview page that compares everything side by side. Your progress saves in this browser.</p>' +
     '<div class="row"><button class="btn pri" type="button" data-go="' + go.id + '">' + (dn ? 'Continue: ' : 'Start: ') + esc(go.nav || go.title) + '</button><button class="btn" type="button" data-go="flashcards">Flashcards</button></div></div>' +
-    '<div class="hero-term" aria-hidden="true"><div class="tb"><i></i><i></i><i></i></div><pre>' + hl('>>> name = "Python"\n>>> print(f"Hello, {name}!")') + '\nHello, Python!\n' + hl('>>> import numpy as np\n>>> np.array([1, 2, 3]) * 10') + '\narray([10, 20, 30])</pre></div></section>';
+    '<div class="hero-term" aria-hidden="true"><div class="tb"><i></i><i></i><i></i></div><pre>' + hl('>>> name = "Python"\n>>> print(f"Hello, {name}!")') + '\nHello, Python!\n' + hl('>>> import pandas as pd\n>>> pd.Series([120, 80]).sum()') + '\nnp.int64(200)</pre></div></section>';
   h += '<div class="stats"><div class="stat"><b>' + dn + '/' + CH.length + '</b><span>chapters done</span></div><div class="stat"><b>' + kc + '/' + allCards.length + '</b><span>flashcards known</span></div><div class="stat"><b>' + (exam == null ? '–' : exam + '/25') + '</b><span>best exam score</span></div><div class="stat"><b>' + Math.round(mins / 60) + ' hrs</b><span>total study time</span></div></div>';
   h += '<div class="progio"><div><b>Your progress lives in this browser.</b> <span class="muted">Save it as a file to keep a backup or to continue on another device.</span></div><div class="row"><button class="btn" type="button" id="pgSave">Save my progress</button><label class="btn" for="pgLoad">Load progress</label><input type="file" id="pgLoad" accept=".json,application/json" hidden></div><p class="muted" id="pgMsg" hidden></p></div>';
   h += '<div class="mount" data-m="0"></div>';
   h += '<section class="sec"><h2>All chapters</h2><p class="prose muted">Go in order. Chapters marked <span class="pill trap">tricky</span> have concepts that confuse most beginners, so they get extra explainers and practice.</p><div class="pgrid">' + PARTS.map(function(p){
     var chs = CH.filter(function(c){ return c.part === p.n; }), ov = ovOf(p.n);
+    if (p.soon && !chs.length) return '<div class="pcard soon"><div class="pn">Part ' + p.n + ' · coming soon</div><h3>' + esc(p.title) + '</h3><p class="muted" style="font-size:14px">' + esc(p.sub || '') + '</p></div>';
     return '<div class="pcard"><div class="pn">Part ' + p.n + '</div><h3>' + esc(p.title) + '</h3><p class="muted" style="font-size:14px">' + esc(p.sub || '') + '</p><ul>' + chs.map(function(c){ return '<li><button type="button" data-go="' + c.id + '"><span class="st' + (done[c.id] ? ' d' : '') + '"></span>' + c.num + '. ' + esc(c.nav || c.title) + (c.tricky ? ' <span class="pill trap" style="padding:0 6px;font-size:11px">tricky</span>' : '') + '</button></li>'; }).join('') +
       (ov ? '<li class="ovli"><button type="button" data-go="' + ov.id + '"><span class="st ov' + (done[ov.id] ? ' d' : '') + '"></span>★ ' + esc(ov.nav) + '</button></li>' : '') + '</ul></div>';
   }).join('') + '</div></section>';
@@ -910,7 +958,7 @@ function vHome(){
     '<div><b>8. Close each Part with its overview</b>The ★ page at the end of every Part puts all its definitions and differences side by side, with a mixed quiz.</div></div></section>';
   view.className = 'col wide';
   view.innerHTML = h;
-  var parts = PARTS.map(function(p){ var ov = ovOf(p.n); return { t: 'Part ' + p.n + ': ' + p.title, k: CH.filter(function(c){ return c.part === p.n; }).map(function(c){ return { t: c.num + '. ' + (c.nav || c.title), go: c.id }; }).concat(ov ? [{ t: '★ ' + ov.nav, go: ov.id }] : []) }; });
+  var parts = PARTS.filter(function(p){ return CH.some(function(c){ return c.part === p.n; }); }).map(function(p){ var ov = ovOf(p.n); return { t: 'Part ' + p.n + ': ' + p.title, k: CH.filter(function(c){ return c.part === p.n; }).map(function(c){ return { t: c.num + '. ' + (c.nav || c.title), go: c.id }; }).concat(ov ? [{ t: '★ ' + ov.nav, go: ov.id }] : []) }; });
   mountAll(view, [{ t: 'mm', title: 'Course mind map', root: 'Python', hint: 'Tap any chapter to open it', kids: parts }]);
   $('#pgSave').onclick = function(){
     var data = {}; try { for (var k = 0; k < localStorage.length; k++) { var key = localStorage.key(k); if (key.indexOf(LS) === 0) data[key] = localStorage.getItem(key); } } catch(e){}
@@ -1162,7 +1210,7 @@ function vGlossary(){
 var REF_BY = {}; (window.REFERENCE || []).forEach(function(x){ REF_BY[x.id] = x; });
 function vReference(){
   var RF = window.REFERENCE || [], total = RF.reduce(function(a, x){ return a + x.rows.length; }, 0);
-  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword and the built-in exceptions: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas tools: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
     '<label for="rq" class="eyebrow">Search the reference</label><input id="rq" class="search" type="search" placeholder="e.g. strip, append, zip, KeyError, lambda" autocomplete="off"><div class="toc" id="rtoc">' + RF.map(function(x){ return '<button type="button" data-s="ref-' + x.id + '">' + esc(x.title) + '</button>'; }).join('') + '</div><div id="rBox"></div>';
   view.className = 'col wide'; view.innerHTML = h;
   function draw(q){
@@ -1395,7 +1443,7 @@ function vProject(id){
   h += '<section class="sec"><h2>Lines your output must contain</h2><p class="prose">The checker looks for each of these as a <b>whole line</b> of your output. Extra spaces at the ends do not matter, but the words, signs and number formats must match. You may print extra lines too, like dividers.</p><pre class="pjlines">' + esc(P.lines.join('\n')) + '</pre><p class="prose">' + md(P.rules) + '</p></section>';
   h += '<section class="sec"><h2>Example run</h2><p class="prose muted">The <b class="pjin">blue</b> values are what the user typed. Your questions inside <code>input()</code> can use any words.</p>' + pjRunHTML(P.example) + '</section>';
   var smp = P.sample || {}, sn = Object.keys(smp);
-  if (sn.length) h += '<section class="sec"><h2>Files for this project</h2><p class="prose muted">The tests give your program files like these (each test uses its own version). Press the button to create them in the Python runner, then press <b>Run</b> and type a file name.</p>' + sn.map(function(n){ return '<div class="pjfile"><b>' + esc(n) + '</b><pre class="pjlines">' + esc(smp[n]) + '</pre></div>'; }).join('') + '<div class="row"><button class="btn" type="button" id="pjFiles">Create these files in the Python runner</button><span class="muted" id="pjFilesMsg" aria-live="polite" style="font-size:14.5px"></span></div></section>';
+  if (sn.length) h += '<section class="sec"><h2>Files for this project</h2><p class="prose muted">The tests give your program files like these (each test uses its own version). Press the button to create them in the Python runner, then press <b>Run</b>' + (P.part < 8 ? ' and type a file name' : '') + '.</p>' + sn.map(function(n){ return '<div class="pjfile"><b>' + esc(n) + '</b><pre class="pjlines">' + esc(smp[n]) + '</pre></div>'; }).join('') + '<div class="row"><button class="btn" type="button" id="pjFiles">Create these files in the Python runner</button><span class="muted" id="pjFilesMsg" aria-live="polite" style="font-size:14.5px"></span></div></section>';
   h += '<section class="sec"><h2>Edge cases to think about</h2><ul class="list">' + P.edge.map(function(t){ return '<li>' + md(t) + '</li>'; }).join('') + '</ul></section>';
   h += '<section class="sec"><h2>How your score is worked out</h2><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody>' + PJ_W.map(function(w){ return '<tr><td><b>' + w[1] + '</b></td><td>' + w[2] + '</td><td>' + esc(w[3]) + '</td></tr>'; }).join('') + '</tbody></table></div><p class="prose muted">Tools this project needs: ' + P.need.map(function(n){ return md(n.label); }).join('; ') + '.</p></section>';
   h += '<section class="sec"><h2>Hints</h2><p class="prose muted">Try on your own first. Each hint gives a little more help.</p><div id="pjHints"></div></section>';
@@ -1431,7 +1479,8 @@ function vProject(id){
     if (!code.trim() || code.trim() === P.starter.trim()) { msg.textContent = 'Write your program first, then submit.'; return; }
     btn.disabled = true; $('#pjRes').innerHTML = '';
     var res = [], p = Promise.resolve();
-    P.tests.forEach(function(t, i){ p = p.then(function(){ msg.textContent = 'Running test ' + (i + 1) + ' of ' + P.tests.length + '...'; return pjTest(code, t).then(function(r){ res.push(r); }); }); });
+    var big = /\b(pandas|matplotlib|seaborn)\b/.test(code);
+    P.tests.forEach(function(t, i){ p = p.then(function(){ msg.textContent = 'Running test ' + (i + 1) + ' of ' + P.tests.length + '...' + (i === 0 && big ? ' (the first time, Pandas and the chart libraries load first: about 10 to 20 seconds)' : ''); return pjTest(code, t).then(function(r){ res.push(r); }); }); });
     p.then(function(){ msg.textContent = 'Reading your code...'; return pjAnalyse(code, P.starter); }).then(function(an){
       btn.disabled = false; msg.textContent = '';
       pjShow(P, code, res, an); model();
@@ -1439,8 +1488,9 @@ function vProject(id){
   };
 }
 function pjTest(code, t){
-  /* NumPy loads on first use (several seconds): load it before the timed run so it never counts towards the limit */
-  return pyBoot().then(function(){ return /\bnumpy\b/.test(code) ? pyRun('import numpy\n', [], function(){}) : null; }).then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
+  /* NumPy, Pandas and the chart libraries load on first use (seconds): load them before the timed run so loading never counts towards the limit */
+  var warm = /\bseaborn\b/.test(code) ? 'import seaborn\nimport matplotlib.pyplot\n' : /\bmatplotlib\b/.test(code) ? 'import pandas\nimport matplotlib.pyplot\n' : /\bpandas\b/.test(code) ? 'import pandas\n' : /\bnumpy\b/.test(code) ? 'import numpy\n' : null;
+  return pyBoot().then(function(){ return warm ? pyRun(warm, [], function(){}) : null; }).then(function(){ return t.setup ? pyRun(t.setup, [], function(){}) : null; }).then(function(){
     return new Promise(function(resolve){
       var late = false, timer = setTimeout(function(){ late = true; pyStop(); }, PJ_TIMEOUT);
       pyRun(code, t.inputs.slice(), function(){}).then(function(r){

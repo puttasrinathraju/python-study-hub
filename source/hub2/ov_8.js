@@ -1,340 +1,395 @@
-/* ---------- Part 8: Whole-course overview ---------- */
-overview({
-  part: 8, title: "The whole course on one page", nav: "Whole-course overview", time: "40 min",
-  fiveTitle: "The whole course in 5 lines",
-  keys: "course summary revision all topics data types collections functions errors files modules classes numpy projects which tool mix-ups",
-  lead: "Everything from Part 1 to Part 8 in one place. You get the key definitions, one table per big idea, the right tool for each job, and the mix-ups that cost the most marks. Use it the night before an exam or an interview.",
-  five: [
-    "**Basics (Parts 1–2):** values have types, variables name them, operators combine them, and `if`, `for` and `while` decide what runs and how often.",
-    "**Collections (Part 3):** text goes in a string, and a changing ordered group in a list. A fixed record goes in a tuple, unique items in a set, and lookups by name in a dict.",
-    "**Functions (Part 4):** wrap each job in a `def` that takes parameters and `return`s a result you can reuse.",
-    "**Real-world tools (Parts 5–6):** catch bad input with `try / except`, save data to files, import modules, and model real things with classes.",
-    "**NumPy and projects (Parts 7–8):** arrays do fast maths on whole datasets, and every program is data structures plus functions plus a loop."
-  ],
-  body: [
-    { t: "h", text: "Mind map of the whole course" },
-    { t: "mm", title: "The course at a glance", root: "Python for analysts", hint: "Tap a Part to open its overview, or a leaf to open a chapter", kids: [
-      { t: "Part 1: Basics", go: "overview1", k: [{ t: "Meet Python", go: "intro" }, { t: "Variables & types", go: "variables" }, { t: "Printing & f-strings", go: "output" }, { t: "Operators", go: "operators" }] },
-      { t: "Part 2: Decide & loop", go: "overview2", k: [{ t: "if / elif / else", go: "conditions" }, { t: "for loops & range", go: "forloops" }, { t: "while, break, continue", go: "whileloops" }] },
-      { t: "Part 3: Collections", go: "overview3", k: [{ t: "Strings", go: "strings" }, { t: "Lists", go: "lists" }, { t: "Tuples", go: "tuples" }, { t: "Sets", go: "sets" }, { t: "Dictionaries", go: "dicts" }, { t: "Comprehensions", go: "comprehensions" }] },
-      { t: "Part 4: Functions", go: "overview4", k: [{ t: "Function basics", go: "functions" }, { t: "Advanced tools", go: "functions2" }] },
-      { t: "Part 5: Real-world", go: "overview5", k: [{ t: "Errors & try/except", go: "errors" }, { t: "Files, CSV, JSON", go: "files" }, { t: "Modules & libraries", go: "modules" }] },
-      { t: "Part 6: OOP", go: "overview6", k: [{ t: "Classes & objects", go: "oop" }] },
-      { t: "Part 7: NumPy", go: "overview7", k: [{ t: "Arrays", go: "numpy1" }, { t: "Maths, axis, filters", go: "numpy2" }, { t: "Split, random, ufuncs", go: "numpy3" }] },
-      { t: "Part 8: Projects", go: "projects", k: [{ t: "Movie tickets", go: "projects" }, { t: "Supermarket billing", go: "projects" }, { t: "Inventory system", go: "projects" }] }
-    ]},
-
-    { t: "h", text: "The 16 definitions that matter most" },
-    { t: "p", b: "If you can explain each of these in one sentence and write the tiny example, you know the course. Each card links to the Part overview with the full comparison tables." },
-    { t: "defs", items: [
-      { t: "Variable", d: "A name that points at a value.", c: R`
-price = 250
-print(price * 2)`, o: R`500`, go: "overview1" },
-      { t: "Data type", d: "The kind of value: `int`, `float`, `str`, `bool`, `None`, or a collection.", c: R`print(type(3), type(3.0), type("3"))`, o: R`<class 'int'> <class 'float'> <class 'str'>`, go: "overview1" },
-      { t: "Operator", d: "A symbol that does work on values: maths, comparisons, logic.", c: R`print(7 // 2, 7 % 2, 7 > 2 and 2 > 7)`, o: R`3 1 False`, go: "overview1" },
-      { t: "Condition", d: "An expression that is `True` or `False`, used by `if` and `while` to decide what runs.", c: R`
-marks = 72
-print("Pass" if marks >= 40 else "Fail")`, o: R`Pass`, go: "overview2" },
-      { t: "Loop", d: "Repeats a block: `for` once per item, `while` until a condition becomes False.", c: R`
-for n in range(1, 4):
-    print(n * n, end=" ")`, o: R`1 4 9`, go: "overview2" },
-      { t: "String", d: "An ordered, immutable sequence of characters.", c: R`print("asha@x.com".split("@")[1])`, o: R`x.com`, go: "overview3" },
-      { t: "List", d: "An ordered, mutable collection that allows duplicates.", c: R`
-cart = ["rice"]
-cart.append("dal")
-print(cart)`, o: R`['rice', 'dal']`, go: "overview3" },
-      { t: "Tuple", d: "An ordered, immutable collection: a fixed record.", c: R`
-lat, lon = (17.38, 78.48)
-print(lon)`, o: R`78.48`, go: "overview3" },
-      { t: "Set", d: "An unordered collection of unique items.", c: R`print(len({"Pune", "Delhi", "Pune"}))`, o: R`2`, go: "overview3" },
-      { t: "Dictionary", d: "Key: value pairs, looked up by key.", c: R`
-stock = {"pen": 40}
-print(stock.get("ink", 0))`, o: R`0`, go: "overview3" },
-      { t: "Function", d: "A named block that takes parameters and returns a result.", c: R`
-def tax(amount, rate=0.18):
-    return round(amount * rate, 2)
-
-print(tax(500))`, o: R`90.0`, go: "overview4" },
-      { t: "Exception", d: "An error that happens while the code runs. `try / except` catches it.", c: R`
-try:
-    int("ten")
-except ValueError:
-    print("not a number")`, o: R`not a number`, go: "overview5" },
-      { t: "File", d: "Data saved outside your program, opened with `with open(name, mode) as f:`.", c: R`
-with open("note.txt", "w") as f:
-    f.write("saved")
-print(open("note.txt").read())`, o: R`saved`, go: "overview5" },
-      { t: "Module", d: "A `.py` file of reusable code that you `import`.", c: R`
-from statistics import mean
-print(mean([4, 8, 6]))`, o: R`6`, go: "overview5" },
-      { t: "Class and object", d: "A class is a blueprint. An object is one thing built from it, with its own data and methods.", c: R`
-class Item:
-    def __init__(self, name, price):
-        self.name, self.price = name, price
-
-pen = Item("pen", 10)
-print(pen.name, pen.price)`, o: R`pen 10`, go: "overview6" },
-      { t: "NumPy array", d: "A grid of values of one type that does maths on every value at once.", c: R`
+/* ---------- Part 8 overview: Pandas (generated by gen/gen_ov8.py; every output came from running the code) ---------- */
+overview({ part: 8, title: "Part 8 overview: Pandas", nav: "Part 8 overview", time: "30 min", keys: "pandas dataframe series index nan object read_csv head info describe isna duplicated drop_duplicates dropna fillna ffill bfill drop astype str strip title replace map to_datetime dt nat loc iloc mask query apply np.where sort_values value_counts idxmax groupby agg transform assign pivot_table cut merge concat inner left outer corr", lead: "All four Pandas chapters on one page: the health check for a new file, the cleaning tools, the ways to ask questions, groups and joins, and the mix-ups that cost the most marks (`loc` vs `iloc`, `map` vs `replace`, `agg` vs `transform`, `merge` vs `concat`).", five: [
+  "A ==DataFrame== is a table and a ==Series== is one column. Load files with `pd.read_csv()` / `pd.read_excel()`, and always look first: `head()`, `info()`, `describe()`, `isna().sum()`.",
+  "Clean a copy: `drop_duplicates()`, `dropna()` or `fillna()`, `.str` tools for text, `map` / `replace` with a dictionary, `astype()` for types and `pd.to_datetime()` for dates.",
+  "`loc` picks by label (end included), `iloc` by position (end left out). Filter with `df[mask]`, joining conditions with `&`, `|`, `~` and brackets, or write `query()`.",
+  "New columns: maths on columns, `np.where()` for yes/no, `apply()` for your own rule. Sort with `sort_values()` and find the top row with `idxmax()` + `loc`.",
+  "`groupby` + `agg` summarise groups, `transform` puts the answer on every row, `pivot_table` builds a grid, `merge` joins side by side and `concat` stacks."
+], body: [
+  { t: "h", text: "Mind map of Part 8" },
+  { t: "mm", title: "Part 8 at a glance", root: "Part 8: Pandas", hint: "Tap a branch to open that chapter", kids: [
+    { t: "23. Basics", go: "pandas1", k: [
+      "Series and DataFrame",
+      "read_csv, read_excel",
+      "head, tail, sample",
+      "shape, info, describe",
+      "isna().sum(), duplicated()"
+    ] },
+    { t: "24. Cleaning", go: "pandas2", k: [
+      "drop_duplicates, dropna",
+      "fillna, ffill, bfill",
+      "drop(columns=...)",
+      "astype, .str tools",
+      "map / replace",
+      "to_datetime, .dt"
+    ] },
+    { t: "25. Select & change", go: "pandas3", k: ["loc vs iloc", "masks with & | ~", "query()", "apply, np.where", "sort_values", "value_counts, idxmax"] },
+    { t: "26. Group & join", go: "pandas4", k: ["groupby + agg", "transform, assign", "pivot_table, pd.cut", "merge, concat", "corr()"] }
+  ] },
+  { t: "h", text: "Key definitions" },
+  { t: "defs", items: [
+    { t: "Pandas", d: "The Python library for tables of data: load, clean, select, group and join them.", c: R`
+import pandas as pd
+print(pd.__name__)`, o: "pandas", go: "pandas1" },
+    { t: "DataFrame", d: "A table: named columns, and rows labelled by the index.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.shape)`, o: "(3, 3)", go: "pandas1" },
+    { t: "Series", d: "One column of a DataFrame: values with index labels.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(type(df["pay"]).__name__)`, o: "Series", go: "pandas1" },
+    { t: "Index", d: "The row labels on the left. 0, 1, 2 ... unless you choose them.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.index.tolist())`, o: "[0, 1, 2]", go: "pandas1" },
+    { t: "NaN", d: "\"Not a number\": an empty cell. `isna()` finds it; it makes a number column decimal.", c: R`
+import pandas as pd
+s = pd.Series([5, None])
+print(s.isna().tolist(), s.dtype)`, o: "[False, True] float64", go: "pandas1" },
+    { t: "object (dtype)", d: "The type Pandas shows for text columns, and for numbers stored as text.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df["name"].dtype)`, o: "object", go: "pandas1" },
+    { t: "Duplicate", d: "A row that repeats an earlier one. `duplicated()` marks it, `drop_duplicates()` removes it.", c: R`
+import pandas as pd
+d = pd.DataFrame({"id": [1, 1, 2]})
+print(d.duplicated().sum())`, o: "1", go: "pandas2" },
+    { t: "fillna", d: "Fills the gaps with a value you choose: 0, the mean, the median or the mode.", c: R`
+import pandas as pd
+s = pd.Series([4, None, 8])
+print(s.fillna(s.mean()).tolist())`, o: "[4.0, 6.0, 8.0]", go: "pandas2" },
+    { t: ".str accessor", d: "Runs a string method on every value of a text column.", c: R`
+import pandas as pd
+print(pd.Series([" asha "]).str.strip().str.title().tolist())`, o: "['Asha']", go: "pandas2" },
+    { t: "NaT", d: "\"Not a time\": a missing date, made by `pd.to_datetime(..., errors=\"coerce\")`.", c: R`
+import pandas as pd
+d = pd.to_datetime(pd.Series(["2025-01-05", "oops"]), errors="coerce")
+print(d.isna().tolist())`, o: "[False, True]", go: "pandas2" },
+    { t: "loc", d: "Picks rows and columns by label and name. A slice includes its end.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.loc[0:1, "name"].tolist())`, o: "['Asha', 'Ravi']", go: "pandas3" },
+    { t: "iloc", d: "Picks rows and columns by position. A slice leaves out its end.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.iloc[0:1, 0].tolist())`, o: "['Asha']", go: "pandas3" },
+    { t: "Boolean mask (Pandas)", d: "A True/False Series made by a condition. `df[mask]` keeps the True rows.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df[df["pay"] > 50000]["name"].tolist())`, o: "['Asha', 'Neha']", go: "pandas3" },
+    { t: "apply", d: "Runs your own function on every value, or on every row with `axis=1`.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df["pay"].apply(lambda x: "High" if x > 60000 else "Low").tolist())`, o: "['High', 'Low', 'Low']", go: "pandas3" },
+    { t: "groupby", d: "Splits rows into groups, summarises each group, combines the answers.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.groupby("dept")["pay"].mean().tolist())`, o: "[45000.0, 65000.0]", go: "pandas4" },
+    { t: "transform", d: "A group's answer placed on every row of that group.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.groupby("dept")["pay"].transform("max").tolist())`, o: "[72000, 45000, 72000]", go: "pandas4" },
+    { t: "Pivot table", d: "A grid of summaries: rows from one column, columns from another.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.pivot_table(values="pay", index="dept", aggfunc="sum")["pay"].tolist())`, o: "[45000, 130000]", go: "pandas4" },
+    { t: "merge", d: "Joins two tables side by side where a key column matches, like SQL JOIN.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+h = pd.DataFrame({"dept": ["IT"], "head": ["Om"]})
+print(pd.merge(df, h, on="dept")["name"].tolist())`, o: "['Asha', 'Neha']", go: "pandas4" },
+    { t: "concat", d: "Stacks tables on top of each other, like SQL UNION ALL.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(len(pd.concat([df, df], ignore_index=True)))`, o: "6", go: "pandas4" },
+    { t: "Correlation", d: "How two number columns move together, from -1 (opposite) to 1 (together).", c: R`
+import pandas as pd
+d = pd.DataFrame({"x": [1, 2, 3], "y": [3, 5, 8]})
+print(round(d["x"].corr(d["y"]), 2))`, o: "0.99", go: "pandas4" }
+  ] },
+  { t: "h", text: "The big comparison tables" },
+  { t: "table", master: true, title: "The health check for any new file", head: ["Code", "Answers", "Typical result"], rows: [
+    ["`df.shape`", "How big is it?", "`(41, 8)`"],
+    ["`df.head()` / `df.tail()` / `df.sample(3)`", "What does it look like?", "5 rows"],
+    ["`df.info()`", "What type is each column? How many values are filled?", "`salary 38 non-null float64`"],
+    ["`df.describe()`", "What are the typical numbers?", "count, mean, std, min, quartiles, max"],
+    ["`df.isna().sum()`", "Where are the gaps?", "`salary 3`"],
+    ["`df.duplicated().sum()`", "Any repeated rows?", "`1`"],
+    ["`df[\"c\"].value_counts()`", "Which values, and how many of each?", "`IT 6, HR 6 ...`"],
+    ["`df[\"c\"].unique()`", "Which different values are there?", "`['IT' 'Hr' ' SALES' ...]`"]
+  ] },
+  { t: "table", master: true, title: "Cleaning: problem → tool", head: ["Problem", "Tool", "Example"], rows: [
+    ["Repeated rows", "`drop_duplicates()`", "`df = df.drop_duplicates()`"],
+    ["Gaps you can lose", "`dropna()`", "`df.dropna(subset=[\"salary\"])`"],
+    ["Gaps you must fill", "`fillna()`", "`s.fillna(s.median())`, `s.fillna(s.mode()[0])`"],
+    ["Gaps in readings over time", "`ffill()` / `bfill()`", "`temps.ffill()`"],
+    ["Columns you do not need", "`drop(columns=...)`", "`df.drop(columns=[\"email\"], errors=\"ignore\")`"],
+    ["Numbers stored as text", "`.str.replace` + `astype`", "`s.str.replace(\",\", \"\").astype(\"int64\")`"],
+    ["Spaces and capitals", "`.str.strip()`, `.str.title()`", "`s.str.strip().str.title()`"],
+    ["Codes to full names", "`map(dict)`", "`s.map({\"CC\": \"Credit card\"})`"],
+    ["A few wrong spellings", "`replace(dict)`", "`s.replace({\"It\": \"IT\"})`"],
+    [
+      "Text dates in mixed styles",
+      "`pd.to_datetime`",
+      "`pd.to_datetime(s, format=\"mixed\", dayfirst=True, errors=\"coerce\")`"
+    ]
+  ] },
+  { t: "table", master: true, title: "Asking questions", head: ["I want", "Code"], rows: [
+    ["One column / several", "`df[\"a\"]` / `df[[\"a\", \"b\"]]`"],
+    ["Rows by label / by position", "`df.loc[1:3, \"a\"]` / `df.iloc[0:3, 0]`"],
+    ["Rows that match", "`df[(df[\"a\"] > 5) & (df[\"b\"] == \"X\")]`"],
+    ["The same as a sentence", "`df.query('a > 5 and b == \"X\"')`"],
+    ["A new column from maths", "`df[\"total\"] = df[\"price\"] * df[\"qty\"]`"],
+    ["A yes/no column", "`np.where(df[\"a\"] > 5, \"Yes\", \"No\")`"],
+    ["My own rule", "`df[\"a\"].apply(func)` or `df.apply(func, axis=1)`"],
+    ["The top rows", "`df.sort_values(\"a\", ascending=False).head(3)`"],
+    ["The row with the biggest value", "`df.loc[df[\"a\"].idxmax()]`"]
+  ] },
+  { t: "table", master: true, title: "Summaries and joins", head: ["I want", "Code", "Rows in the answer"], rows: [
+    ["One summary per group", "`df.groupby(\"g\")[\"v\"].mean()`", "one per group"],
+    ["Several, with my own names", "`df.groupby(\"g\").agg(total=(\"v\", \"sum\"))`", "one per group"],
+    ["The group's answer on every row", "`df.groupby(\"g\")[\"v\"].transform(\"mean\")`", "one per row"],
+    [
+      "A grid",
+      "`df.pivot_table(values=\"v\", index=\"r\", columns=\"c\", aggfunc=\"sum\", fill_value=0)`",
+      "one per value of r"
+    ],
+    ["Bands", "`pd.cut(s, bins=[0, 50, 100], labels=[\"Low\", \"High\"])`", "same as s"],
+    ["Columns from another table", "`pd.merge(a, b, on=\"k\", how=\"left\")`", "at least len(a)"],
+    ["More rows of the same kind", "`pd.concat([a, b], ignore_index=True)`", "len(a) + len(b)"]
+  ] },
+  { t: "h", text: "Don't mix these up" },
+  { t: "vs", title: "Series vs DataFrame", head: ["", "Series", "DataFrame"], rows: [
+    ["What it is", "One column", "A whole table"],
+    ["Made with", "`pd.Series([...])`", "`pd.DataFrame({...})`"],
+    ["You get it from", "`df[\"pay\"]`", "`df[[\"pay\"]]` or `df[[\"name\", \"pay\"]]`"],
+    ["Prints", "values, then `Name:` and `dtype:`", "a table with column names on top"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(type(df["pay"]).__name__, type(df[["pay"]]).__name__)`, o: "Series DataFrame", rule: "One pair of brackets: a column (Series). A list inside the brackets: a table (DataFrame)." },
+  { t: "vs", title: "loc vs iloc", head: ["", "loc", "iloc"], rows: [
+    ["Picks by", "labels and names", "positions"],
+    ["`[0:2]` gives", "[[warn:3 rows]] (end included)", "[[ok:2 rows]] (end left out)"],
+    ["Takes a condition", "Yes", "No"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(len(df.loc[0:2]), len(df.iloc[0:2]))`, o: "3 2", rule: "Know the name? `loc`. Know the position? `iloc`." },
+  { t: "vs", title: "dropna vs fillna", head: ["", "dropna()", "fillna(value)"], rows: [
+    ["The gap's row", "Removed", "Kept, with a value in the gap"],
+    ["Rows afterwards", "Fewer", "The same"],
+    [
+      "Use it when",
+      "Few gaps, or the row is useless without the value",
+      "The row matters and a fair guess exists"
+    ]
+  ], c: R`
+import pandas as pd
+s = pd.Series([10, None, 30])
+print(s.dropna().tolist(), s.fillna(s.mean()).tolist())`, o: "[10.0, 30.0] [10.0, 20.0, 30.0]", rule: "Losing rows changes your totals. Fill when the row still matters." },
+  { t: "vs", title: "ffill vs bfill", head: ["", "ffill()", "bfill()"], rows: [
+    ["Copies", "the last value above", "the next value below"],
+    ["A gap at the start", "Stays NaN", "Filled"],
+    ["A gap at the end", "Filled", "Stays NaN"]
+  ], c: R`
+import pandas as pd
+s = pd.Series([None, 5, None])
+print(s.ffill().tolist(), s.bfill().tolist())`, o: "[nan, 5.0, 5.0] [5.0, 5.0, nan]", rule: "Forward fill looks back; backward fill looks ahead." },
+  { t: "vs", title: "map vs replace", head: ["", "map({...})", "replace({...})"], rows: [
+    ["Values in the dictionary", "Changed", "Changed"],
+    ["Values not in it", "[[no:Become NaN]]", "[[ok:Stay as they are]]"],
+    ["Best for", "Translating every value", "Fixing a few values"]
+  ], c: R`
+import pandas as pd
+s = pd.Series(["It", "Sales"])
+print(s.map({"It": "IT"}).tolist(), s.replace({"It": "IT"}).tolist())`, o: "['IT', nan] ['IT', 'Sales']", rule: "Fixing some values? `replace`. Translating all of them? `map`." },
+  { t: "vs", title: "and / or vs & / |", head: ["", "`and` / `or`", "`&` / `|`"], rows: [
+    ["Works on", "One True/False", "A whole column of True/False"],
+    ["Inside `df[...]`", "[[no:ValueError]]", "[[ok:Works]], with brackets"],
+    ["Inside `query(\"...\")`", "[[ok:Works]]", "Works too"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df[(df["dept"] == "IT") & (df["pay"] > 60000)]["name"].tolist())`, o: "['Asha']", rule: "On columns: `&`, `|`, `~` and brackets around every condition." },
+  { t: "vs", title: "apply vs np.where", head: ["", "apply(func)", "np.where(cond, a, b)"], rows: [
+    ["Handles", "Any rule, with if / elif / else", "One yes/no rule"],
+    ["Speed", "Slower: calls your function for every row", "Fast: the whole column at once"],
+    ["Several columns", "`df.apply(func, axis=1)`", "Conditions on several columns with `&`"]
+  ], c: R`
+import pandas as pd
 import numpy as np
-print(np.array([10, 20, 30]).mean())`, o: R`20.0`, go: "overview7" }
-    ]},
-
-    { t: "h", text: "The big comparison tables" },
-    { t: "table", master: true, title: "The whole course in one table", head: ["Part", "The big idea", "Key syntax", "The mistake most people make"], rows: [
-      ["**1. Basics**", "Values, types, variables, printing and operators", "`x = 5`, `type(x)`, `f\"{x:.2f}\"`, `/ // %`", "Doing maths on text from `input()`, or `=` instead of `==`"],
-      ["**2. Decide & loop**", "Choose a path, repeat work", "`if / elif / else`, `for x in items:`, `while cond:`", "Forgetting that `range(1, 10)` stops at 9, and a `while` loop that never ends"],
-      ["**3. Collections**", "Hold many values in the right container", "`\"\"`, `[]`, `()`, `set()`, `{}`", "`{}` is a dict, `x = lst.sort()` is `None`, `b = a` is not a copy"],
-      ["**4. Functions**", "Write a job once, use it everywhere", "`def f(a, b=1, *args, **kwargs): return …`", "Printing instead of returning, and a list as a default value"],
-      ["**5. Real-world**", "Handle errors, save files, reuse modules", "`try / except`, `with open(...)`, `import x as y`", "Opening with `\"w\"` and wiping the file, or a bare `except:` that hides bugs"],
-      ["**6. OOP**", "Bundle data and actions into objects", "`class C:`, `__init__(self)`, `self.x`, `class Child(Parent):`", "Forgetting `self`, or a shared list as a class attribute"],
-      ["**7. NumPy**", "Fast maths on whole arrays", "`np.array`, `a.sum(axis=0)`, `a[a > 5]`", "Mixing up `axis=0` and `axis=1`, and `and` instead of `&`"],
-      ["**8. Projects**", "Data structure + functions + a menu loop", "`while True:` menu, `pickle` or `json` to save", "Building the menu before the functions work, and no `try` around `input()`"]
-    ]},
-    { t: "table", master: true, title: "Every data type in the course", head: ["Type", "Example", "Changeable?", "Ordered?", "Duplicates?", "Use it for"], rows: [
-      ["`int`", "`42`", "[[no:No]]", "–", "–", "Counts, quantities, IDs"],
-      ["`float`", "`3.14`", "[[no:No]]", "–", "–", "Prices, averages, percentages"],
-      ["`bool`", "`True`", "[[no:No]]", "–", "–", "Yes/no flags, conditions"],
-      ["`None`", "`None`", "[[no:No]]", "–", "–", "\"No value yet\""],
-      ["`str`", "`\"Asha\"`", "[[no:No]]", "[[ok:Yes]]", "[[ok:Yes]]", "Text"],
-      ["`list`", "`[82, 67]`", "[[ok:Yes]]", "[[ok:Yes]]", "[[ok:Yes]]", "An ordered group that changes"],
-      ["`tuple`", "`(17.38, 78.48)`", "[[no:No]]", "[[ok:Yes]]", "[[ok:Yes]]", "Fixed records, dict keys"],
-      ["`set`", "`{\"Pune\", \"Delhi\"}`", "[[ok:Yes]]", "[[no:No]]", "[[no:No]]", "Unique items, fast `in` checks"],
-      ["`dict`", "`{\"tea\": 20}`", "[[ok:Yes]]", "[[ok:Yes]] (insertion order)", "Keys [[no:No]]", "Look-ups by name or ID"],
-      ["NumPy `ndarray`", "`np.array([1, 2, 3])`", "[[ok:Yes]] values, fixed size", "[[ok:Yes]]", "[[ok:Yes]]", "Fast maths on many numbers"]
-    ]},
-    { t: "table", master: true, title: "Which tool for which job?", head: ["I want to…", "Use", "Example"], rows: [
-      ["Store one value", "A variable", "`total = 0`"],
-      ["Choose between paths", "`if / elif / else`", "`if marks >= 40: …`"],
-      ["Repeat for every item", "`for`", "`for row in rows:`"],
-      ["Repeat until something happens", "`while`", "`while balance > 0:`"],
-      ["Keep and clean text", "A string and its methods", "`name.strip().title()`"],
-      ["Keep an ordered group that changes", "A list", "`cart.append(\"oil\")`"],
-      ["Keep a fixed record", "A tuple", "`point = (3, 4)`"],
-      ["Keep only unique items", "A set", "`set(emails)`"],
-      ["Look things up by name or ID", "A dictionary", "`prices[\"tea\"]`"],
-      ["Count how often things appear", "A dict with `get`, or `Counter`", "`counts[w] = counts.get(w, 0) + 1`"],
-      ["Build a new list from an old one", "A comprehension", "`[p * 0.9 for p in prices]`"],
-      ["Reuse a piece of logic", "A function", "`def tax(amount): …`"],
-      ["Survive bad input", "`try / except`", "`except ValueError:`"],
-      ["Save data for next time", "A file: CSV, JSON or pickle", "`json.dump(data, f)`"],
-      ["Use code someone else wrote", "`import`", "`import numpy as np`"],
-      ["Model a real thing with data and actions", "A class", "`class BankAccount:`"],
-      ["Do maths on lots of numbers", "A NumPy array", "`sales.sum(axis=0)`"]
-    ]},
-    { t: "table", master: true, title: "The top mix-ups of the whole course", head: ["Pair", "The difference in one line", "Full table in"], rows: [
-      ["`=` vs `==`", "`=` stores a value. `==` compares two values", "Part 1 overview"],
-      ["`/` vs `//` vs `%`", "Float answer, whole groups, remainder", "Part 1 overview"],
-      ["`int()` vs `round()`", "`int()` cuts decimals off. `round()` goes to the nearest", "Part 1 overview"],
-      ["`for` vs `while`", "`for` walks through items. `while` repeats until a condition is False", "Part 2 overview"],
-      ["`break` vs `continue`", "`break` leaves the loop. `continue` skips to the next round", "Part 2 overview"],
-      ["String vs tuple", "Both are ordered and immutable. A string holds only characters, a tuple holds anything", "Part 3 overview"],
-      ["List vs tuple", "A list can change. A tuple is locked", "Part 3 overview"],
-      ["`{}` vs `set()`", "`{}` is an empty dict. `set()` is an empty set", "Part 3 overview"],
-      ["`sort()` vs `sorted()`", "`sort()` changes the list and returns `None`. `sorted()` returns a new list", "Part 3 overview"],
-      ["`d[k]` vs `d.get(k)`", "`d[k]` raises KeyError when missing. `get` returns `None` or a default", "Part 3 overview"],
-      ["`print` vs `return`", "`print` shows text. `return` hands the value back", "Part 4 overview"],
-      ["Parameter vs argument", "Name in the `def` line vs value in the call", "Part 4 overview"],
-      ["Local vs global", "Inside one function vs everywhere in the file", "Part 4 overview"],
-      ["Syntax error vs exception", "Broken grammar, nothing runs vs a failure while running", "Part 5 overview"],
-      ["`\"w\"` vs `\"a\"`", "`\"w\"` wipes the file. `\"a\"` adds to the end", "Part 5 overview"],
-      ["Class vs object", "The blueprint vs one thing built from it", "Part 6 overview"],
-      ["`axis=0` vs `axis=1`", "Down the rows (per column) vs across (per row)", "Part 7 overview"],
-      ["`and` vs `&`", "`and` for single True/False values. `&` for arrays, with brackets", "Part 7 overview"]
-    ], cap: "Open Overviews in the sidebar and search any of these pairs to jump straight to its full table." },
-    { t: "fig", svg: V.flow([
-      { t: "Load saved data\n(try / except FileNotFoundError)" },
-      { t: "Show the menu" },
-      { t: "choice = input(\"Choose: \")", code: 1 },
-      { t: "Quit?", d: true, k: "hl", lbl: "no" },
-      { t: "Run the function\nfor that choice", k: "tip" }
-    ], { side: [{ from: 3, t: "Save data, then break", k: "acc", lbl: "yes" }], back: [{ from: 4, to: 1, lbl: "loop" }], label: "The shape of every project" }), cap: "The shape of every project in Part 8: load, loop over a menu, run one function per choice, save on the way out." },
-
-    { t: "h", text: "Don't mix these up" },
-    { t: "vs", title: "A script vs functions vs a class", head: ["", "Script", "Functions", "Class"], rows: [
-      ["Looks like", "Lines that run top to bottom", "Each job in its own `def`", "Data and the functions that use it, together"],
-      ["Reuse", "Copy and paste", "Call it again with new values", "Make as many objects as you like"],
-      ["Best for", "A quick, one-off calculation", "Most analysis code", "Things with state: a cart, an account, an inventory"]
-    ], c: R`
-# 1. Script: straight lines
-items = {"tea": 20, "samosa": 15}
-print(sum(items.values()))
-
-# 2. Function: reusable
-def bill(items):
-    return sum(items.values())
-
-print(bill({"tea": 20, "samosa": 15}))
-
-# 3. Class: data + actions together
-class Cart:
-    def __init__(self):
-        self.items = {}
-    def add(self, name, price):
-        self.items[name] = price
-    def total(self):
-        return sum(self.items.values())
-
-c = Cart()
-c.add("tea", 20)
-c.add("samosa", 15)
-print(c.total())`, o: R`
-35
-35
-35`, rule: "Start with a script. When you copy code a second time, make it a function. When several functions share the same data, make it a class." },
-    { t: "vs", title: "A dict of dicts vs a list of dicts", head: ["", "Dict of dicts", "List of dicts"], rows: [
-      ["Shape", "`{\"B1\": {...}, \"B2\": {...}}`", "`[{\"id\": \"B1\", ...}, {...}]`"],
-      ["Find one record by ID", "Instant: `books[\"B2\"]`", "Loop until you find it"],
-      ["Keeps a meaningful order", "Insertion order only", "Yes, and easy to sort"],
-      ["Use it for", "The \"database\" in a project: stock, accounts", "Rows from a CSV, a history or log"]
-    ], c: R`
-by_id = {"B1": {"title": "Atomic Habits", "copies": 2},
-         "B2": {"title": "Ikigai", "copies": 0}}
-as_list = [{"id": "B1", "title": "Atomic Habits", "copies": 2},
-           {"id": "B2", "title": "Ikigai", "copies": 0}]
-print(by_id["B2"]["title"])
-print([b["title"] for b in as_list if b["copies"] > 0])`, o: R`
-Ikigai
-['Atomic Habits']`, rule: "Look-ups by ID: dict of dicts. Rows you loop over, filter and sort: list of dicts." },
-    { t: "vs", title: "`input()` inside a function vs passing values in", head: ["", "`input()` inside", "Values passed in"], rows: [
-      ["Test it", "You must type every time", "Call it with fixed values in one line"],
-      ["Reuse it", "Only from the keyboard", "From a menu, a file, a loop or a test"],
-      ["Verdict", "[[warn:Hard to test]]", "[[ok:Better]]"]
-    ], c: R`
-def ticket_price(age):          # easy to test
-    return 100 if age < 12 else 200
-
-print(ticket_price(8), ticket_price(30))
-# age = int(input("Age: "))     # add input() only at the very end`, o: R`100 200`, rule: "Make the functions work with fixed values first. Add `input()` and the menu last." },
-    { t: "vs", title: "Python list vs NumPy array vs pandas DataFrame", head: ["", "List", "NumPy array", "pandas DataFrame (next step)"], rows: [
-      ["Holds", "Anything, mixed", "Numbers of one type", "A table: named columns, each with its own type"],
-      ["Labels", "Positions only", "Positions only", "Column names and row labels"],
-      ["Maths", "Write a loop", "On the whole array at once", "On whole columns at once"],
-      ["Best for", "Small, mixed collections", "Number crunching", "Real datasets from CSV, Excel or SQL"]
-    ], rule: "Everything you learnt about lists, dicts, masks and `axis` carries straight over to pandas." },
-
-    { t: "h", text: "Try it yourself" },
-    { t: "p", b: "Each task is a small piece of a real program, so it mixes several Parts at once. Every comparison table above also has an **Edit and run this example** button." },
-    { t: "prac", items: [
-      { q: "`book = {\"Asha\": [82, 91], \"Ravi\": [67, 58], \"Neha\": [95, 88]}`. Write `average(name)` and print a report sorted from the highest average, like `Neha: 91.5`.", hint: "`sum(marks) / len(marks)` inside the function. Then `sorted(book, key=average, reverse=True)` and an f-string.", starter: "book = {\"Asha\": [82, 91], \"Ravi\": [67, 58], \"Neha\": [95, 88]}\n", sol: R`
-book = {"Asha": [82, 91], "Ravi": [67, 58], "Neha": [95, 88]}
-
-def average(name):
-    marks = book[name]
-    return sum(marks) / len(marks)
-
-for name in sorted(book, key=average, reverse=True):
-    print(f"{name}: {average(name)}")`, out: R`
-Neha: 91.5
-Asha: 86.5
-Ravi: 62.5`, why: "A dict holds the data, a function does one job, `sorted()` with `key=` orders the names, and an f-string prints the report." },
-      { q: "Make the gradebook survive a restart: save `book` to `book.json`, then write `load_book()` that returns the saved data, or `{}` if the file does not exist yet. Print `load_book()[\"Asha\"]`.", hint: "`json.dump` with `\"w\"`. In `load_book`, put `json.load` in a `try` and catch `FileNotFoundError`.", starter: "import json\nbook = {\"Asha\": [82, 91]}\n", sol: R`
-import json
-book = {"Asha": [82, 91]}
-with open("book.json", "w") as f:
-    json.dump(book, f)
-
-def load_book():
-    try:
-        with open("book.json") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
-
-print(load_book()["Asha"])`, out: R`[82, 91]`, why: "This is exactly how the Part 8 projects start: try to load the saved data, and fall back to an empty one on the very first run." },
-      { q: "Write a `Stock` class with `add(item, qty)`, `remove(item, qty)` (print `Not enough pen` if there is too little) and `low(limit)` that returns a sorted list of items below the limit. Test it to print `Not enough pen` and then `['ink', 'pen']`.", hint: "Keep a dict in `self.items`. Use `self.items.get(item, 0)` so new items start at 0.", sol: R`
-class Stock:
-    def __init__(self):
-        self.items = {}
-
-    def add(self, item, qty):
-        self.items[item] = self.items.get(item, 0) + qty
-
-    def remove(self, item, qty):
-        if self.items.get(item, 0) < qty:
-            print(f"Not enough {item}")
-        else:
-            self.items[item] -= qty
-
-    def low(self, limit):
-        return sorted(k for k, v in self.items.items() if v < limit)
-
-s = Stock()
-s.add("pen", 5)
-s.add("ink", 2)
-s.add("pad", 20)
-s.remove("pen", 9)
-s.remove("pen", 1)
-print(s.low(5))`, out: R`
-Not enough pen
-['ink', 'pen']`, why: "A class keeps the stock and the rules together. Inside, it uses a dict, `get`, an `if`, and a sorted comprehension: Parts 2 to 6 in one small object." },
-      { q: "A week of sales: `sales = np.array([120, 340, 90, 410, 260, 380, 150])` and `days = np.array([\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"])`. Print the best day, the average and the days above average.", hint: "`days[sales.argmax()]`, `sales.mean()` and the mask `sales > sales.mean()` used on `days`.", starter: "import numpy as np\nsales = np.array([120, 340, 90, 410, 260, 380, 150])\ndays = np.array([\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"])\n", sol: R`
-import numpy as np
-sales = np.array([120, 340, 90, 410, 260, 380, 150])
-days = np.array(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
-avg = sales.mean()
-print("Best day:", days[sales.argmax()])
-print("Average:", round(avg, 1))
-print("Above average:", days[sales > avg])`, out: R`
-Best day: Thu
-Average: 250.0
-Above average: ['Tue' 'Thu' 'Fri' 'Sat']`, why: "`argmax` finds the position, the mask filters a second array of the same length, and no loop is needed." }
-    ]}
+df = pd.DataFrame({"pay": [72000, 45000]})
+print(df["pay"].apply(lambda x: "High" if x > 60000 else "Low").tolist(), np.where(df["pay"] > 60000, "High", "Low").tolist())`, o: "['High', 'Low'] ['High', 'Low']", rule: "Two choices? `np.where`. Three or more? `apply` with a `def`." },
+  { t: "vs", title: "max vs idxmax", head: ["", "max()", "idxmax()"], rows: [
+    ["Gives", "The biggest value", "Its index label"],
+    ["Use it to", "Report the top number", "Find the whole top row with `loc`"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df["pay"].max(), df["pay"].idxmax(), df.loc[df["pay"].idxmax(), "name"])`, o: "72000 0 Asha", rule: "Who has it? `idxmax` + `loc`." },
+  { t: "vs", title: "agg vs transform", head: ["", "groupby().agg()", "groupby().transform()"], rows: [
+    ["Rows in the answer", "One per group", "One per original row"],
+    ["Index", "The group names", "The original index"],
+    ["Use it for", "A report", "A new column on every row"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.groupby("dept")["pay"].agg("max").tolist(), df.groupby("dept")["pay"].transform("max").tolist())`, o: "[45000, 72000] [72000, 45000, 72000]", rule: "A short report? `agg`. Compare each row with its group? `transform`." },
+  { t: "vs", title: "merge vs concat", head: ["", "pd.merge(a, b, on=...)", "pd.concat([a, b])"], rows: [
+    ["Direction", "Side by side", "On top"],
+    ["Matches by", "A key column", "Position (it just stacks)"],
+    ["SQL", "JOIN", "UNION ALL"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+h = pd.DataFrame({"dept": ["IT", "HR"], "head": ["Om", "Lata"]})
+print(pd.merge(df, h, on="dept").shape, pd.concat([df, df]).shape)`, o: "(3, 4) (6, 3)", rule: "New columns? `merge`. More rows? `concat`." },
+  { t: "vs", title: "inner vs left vs outer", head: ["how=", "Keeps", "Unmatched cells"], rows: [
+    ["`\"inner\"`", "Keys in both tables", "None: those rows are dropped"],
+    ["`\"left\"`", "Every row of the left table", "NaN in the right table's columns"],
+    ["`\"outer\"`", "Every row of both", "NaN on both sides"]
+  ], c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+h = pd.DataFrame({"dept": ["IT", "Sales"], "head": ["Om", "Lata"]})
+print(len(pd.merge(df, h, on="dept", how="inner")), len(pd.merge(df, h, on="dept", how="left")), len(pd.merge(df, h, on="dept", how="outer")))`, o: "2 3 4", rule: "Never lose a row of your main table? `left`. After any merge, check the row count." },
+  { t: "h", text: "Try it yourself" },
+  { t: "p", b: "Pandas takes about 10 to 20 seconds to load the first time you press **Run**. After that it is quick. These tasks mix all four chapters." },
+  { t: "prac", items: [
+    { q: "Read `employees.csv`, remove the duplicate row, fill the missing salaries with the median and print the average salary of each department after tidying the names (strip, title case, then `replace` `It` and `Hr` with `IT` and `HR`).", hint: "`drop_duplicates()`, `fillna(median)`, `.str.strip().str.title().replace({...})`, then `groupby`.", sol: R`
+import pandas as pd
+df = pd.read_csv("employees.csv").drop_duplicates()
+df["salary"] = df["salary"].fillna(df["salary"].median())
+df["department"] = df["department"].str.strip().str.title().replace({"It": "IT", "Hr": "HR"})
+print(df.groupby("department")["salary"].mean().round(0))`, why: "Clean first, then group: messy names would have split one department into several groups.", out: R`
+department
+Finance      59389.0
+HR           48500.0
+IT           73286.0
+Marketing    54000.0
+Sales        48643.0
+Name: salary, dtype: float64`, starter: R`
+import pandas as pd
+` },
+    { q: "Read `sales_data.csv`. Keep the orders with a profit above ₹1,000 and print how many of them each region has.", hint: "A mask, then `value_counts()` or `groupby(...).size()`.", sol: R`
+import pandas as pd
+sales = pd.read_csv("sales_data.csv")
+big = sales[sales["Profit"] > 1000]
+print(big.groupby("Region").size())`, why: "`groupby(...).size()` sorts by region name, so the order never depends on ties.", out: R`
+Region
+East     13
+North    15
+South    15
+West     13
+dtype: int64`, starter: R`
+import pandas as pd
+` },
+    { q: "Read `sales_data.csv`. Add a column `Month` (the month name of each date) and print the total sales of October and November together.", hint: "`pd.to_datetime`, `.dt.month_name()`, then `isin([\"October\", \"November\"])`.", sol: R`
+import pandas as pd
+sales = pd.read_csv("sales_data.csv")
+sales["Month"] = pd.to_datetime(sales["Date"]).dt.month_name()
+print(sales[sales["Month"].isin(["October", "November"])]["Sales"].sum())`, why: "Diwali season: these two months bring in more than a third of the year's sales.", out: "563145", starter: R`
+import pandas as pd
+` },
+    { q: "Read `student_scores.csv` (first column as the index). Print the average maths score for each `TestPrep` value, rounded to 1 decimal, and the number of students with no `TestPrep` value.", hint: "`groupby(\"TestPrep\")[\"MathScore\"].mean().round(1)`, and `isna().sum()`.", sol: R`
+import pandas as pd
+df = pd.read_csv("student_scores.csv", index_col=0)
+print(df.groupby("TestPrep")["MathScore"].mean().round(1))
+print(df["TestPrep"].isna().sum())`, why: "`groupby` leaves out the rows where the group value is missing, so check how many there are.", out: R`
+TestPrep
+completed    71.9
+none         66.7
+Name: MathScore, dtype: float64
+21`, starter: R`
+import pandas as pd
+` }
+  ] }
+], quiz: [
+  { q: "What does this print?", o: ["`(3, 3)`", "`3`", "`(3,)`", "`9`"], a: 0, e: "`shape` is (rows, columns).", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.shape)`, chk: 1 },
+  { q: "Which line gives a Series?", o: ["`df[\"pay\"]`", "`df[[\"pay\"]]`", "`df[[\"name\", \"pay\"]]`", "`df.head()`"], a: 0, e: "One pair of brackets with one name gives a Series." },
+  { q: "`info()` shows `salary 38 non-null` in a table of 41 rows. What does that mean?", o: ["38 duplicates", "3 salaries are missing", "38 different salaries", "The column is text"], a: 1, e: "Non-null means filled. 41 − 38 = 3 gaps." },
+  { q: "What does this print?", o: ["`[10.0, 20.0, 30.0]`", "`[10.0, 0.0, 30.0]`", "`[10.0, 30.0]`", "`[10.0, nan, 30.0]`"], a: 0, e: "The mean of 10 and 30 is 20, which fills the gap.", c: R`
+import pandas as pd
+s = pd.Series([10, None, 30])
+print(s.fillna(s.mean()).tolist())`, chk: 1 },
+  { q: "What does this print?", o: ["`['IT', nan]`", "`['IT', 'Sales']`", "`['It', 'Sales']`", "A KeyError"], a: 0, e: "`map` turns values not in the dictionary into NaN.", c: R`
+import pandas as pd
+print(pd.Series(["It", "Sales"]).map({"It": "IT"}).tolist())`, chk: 1 },
+  { q: "Why add `dayfirst=True` to `pd.to_datetime()`?", o: ["To sort by day", "So 03/04/2025 means 3 April, not March 4", "To remove the time", "To make NaT"], a: 1, e: "Indian dates put the day first." },
+  { q: "What does this print?", o: ["`3 2`", "`2 2`", "`3 3`", "`2 3`"], a: 0, e: "`loc` includes the end label; `iloc` leaves out the end position.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(len(df.loc[0:2]), len(df.iloc[0:2]))`, chk: 1 },
+  { q: "Which filter is correct?", o: [
+    "`df[df[\"a\"] > 1 and df[\"b\"] < 5]`",
+    "`df[(df[\"a\"] > 1) & (df[\"b\"] < 5)]`",
+    "`df[df[\"a\"] > 1 & df[\"b\"] < 5]`",
+    "`df.loc(\"a\" > 1)`"
+  ], a: 1, e: "Use `&` with brackets around each condition." },
+  { q: "What does this print?", o: ["`['Low', 'High']`", "`['High', 'Low']`", "`[False, True]`", "`['Low', 'Low']`"], a: 0, e: "The lambda labels 45000 as Low and 72000 as High.", c: R`
+import pandas as pd
+d = pd.DataFrame({"pay": [45000, 72000]})
+print(d["pay"].apply(lambda x: "High" if x > 60000 else "Low").tolist())`, chk: 1 },
+  { q: "You need the **name** of the person with the highest pay. Which line?", o: [
+    "`df[\"pay\"].max()`",
+    "`df.loc[df[\"pay\"].idxmax(), \"name\"]`",
+    "`df[\"name\"].max()`",
+    "`df.sort_values(\"pay\")[\"name\"]`"
+  ], a: 1, e: "`idxmax` finds where the top value is; `loc` gives the name." },
+  { q: "What does this print?", o: ["`[58000.0, 45000.0]`", "`[45000.0, 65000.0]`", "`[65000.0, 45000.0]`", "`[45000.0, 58000.0, 72000.0]`"], a: 1, e: "Groups come out sorted: HR (45000), then IT ((72000 + 58000) / 2 = 65000).", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+print(df.groupby("dept")["pay"].mean().tolist())`, chk: 1 },
+  { q: "Which one returns one value for **every row**?", o: [
+    "`groupby(\"g\")[\"v\"].mean()`",
+    "`groupby(\"g\")[\"v\"].agg(\"sum\")`",
+    "`groupby(\"g\")[\"v\"].transform(\"sum\")`",
+    "`pivot_table(...)`"
+  ], a: 2, e: "`transform` keeps the original rows." },
+  { q: "What does this print?", o: ["`3`", "`2`", "`4`", "`1`"], a: 0, e: "A left join keeps all 3 rows of `df`.", c: R`
+import pandas as pd
+df = pd.DataFrame({"name": ["Asha", "Ravi", "Neha"], "dept": ["IT", "HR", "IT"], "pay": [72000, 45000, 58000]})
+h = pd.DataFrame({"dept": ["IT"], "head": ["Om"]})
+print(len(pd.merge(df, h, on="dept", how="left")))`, chk: 1 },
+  { q: "You have January and February sales files with the same columns. How do you combine them?", o: [
+    "`pd.merge(jan, feb, on=\"id\")`",
+    "`pd.concat([jan, feb], ignore_index=True)`",
+    "`jan + feb`",
+    "`jan.join(feb)`"
+  ], a: 1, e: "Same columns, more rows: `concat`." },
+  { q: "What does this print?", o: [
+    "`['Low', 'High', 'High']`",
+    "`['Low', 'Low', 'High']`",
+    "`['High', 'High', 'High']`",
+    "`['Low', 'High', nan]`"
+  ], a: 1, e: "Each range includes its right edge: 50 is Low.", c: R`
+import pandas as pd
+print(pd.cut(pd.Series([20, 50, 90]), bins=[0, 50, 100], labels=["Low", "High"]).tolist())`, chk: 1 },
+  { q: "A correlation of 0.95 between ad spend and sales means:", o: ["Ads cause sales", "They rise together very strongly", "There is no link", "Sales fall when ads rise"], a: 1, e: "Near 1: they move together. It does not prove that one causes the other." }
+], cards: [
+  [
+    "Health check for a new file",
+    "`shape`, `head()`, `info()`, `describe()`, `isna().sum()`, `duplicated().sum()`"
   ],
-  quiz: [
-    { q: "What does this print?", c: R`print(type(print))`, o: ["`<class 'str'>`", "`<class 'builtin_function_or_method'>`", "`<class 'NoneType'>`", "An error"], a: 1, chk: 1, e: "Without brackets, `print` is the built-in function itself. Calling `print()` runs it, and what it gives back is `None`." },
-    { q: "What does this print?", c: R`print(10 / 4, 10 // 4, 10 % 4)`, o: ["`2.5 2 2`", "`2 2 2`", "`2.5 2.5 2`", "`2.5 2 0.5`"], a: 0, chk: 1, e: "`/` gives a float, `//` the whole groups and `%` the remainder." },
-    { q: "What does this print?", c: R`print(list(range(3, 0, -1)))`, o: ["`[3, 2, 1]`", "`[3, 2, 1, 0]`", "`[]`", "`[0, 1, 2, 3]`"], a: 0, chk: 1, e: "Counting down, the stop value 0 is still excluded." },
-    { q: "You need to store each customer's ID with their details and find them fast. Which collection?", o: ["A list", "A tuple", "A set", "A dictionary"], a: 3, e: "Look-ups by a key such as an ID are exactly what dictionaries are for." },
-    { q: "What does this print?", c: R`
-items = ["b", "a", "c"]
-result = items.sort()
-print(result, items)`, o: ["`['a', 'b', 'c'] ['a', 'b', 'c']`", "`None ['a', 'b', 'c']`", "`None ['b', 'a', 'c']`", "An error"], a: 1, chk: 1, e: "`sort()` sorts the list itself and returns `None`." },
-    { q: "What does this print?", c: R`
-def f(x):
-    x.append(1)
-
-a = []
-f(a)
-f(a)
-print(a)`, o: ["`[]`", "`[1]`", "`[1, 1]`", "An error"], a: 2, chk: 1, e: "The function gets the same list object, so both calls change `a`." },
-    { q: "What does this print?", c: R`print({n % 3 for n in range(10)})`, o: ["`{0, 1, 2}`", "`[0, 1, 2]`", "`{0, 1, 2, 0, 1, 2, 0, 1, 2, 0}`", "`{3}`"], a: 0, chk: 1, e: "A set comprehension keeps only the unique remainders." },
-    { q: "Which line safely reads a key that may be missing?", o: ["`d[\"x\"]`", "`d.get(\"x\", 0)`", "`d.x`", "`d(\"x\")`"], a: 1, e: "`get` returns the default instead of raising a KeyError." },
-    { q: "What does this print?", c: R`
-try:
-    print(int("7") + int("x"))
-except ValueError:
-    print("bad input")`, o: ["`7`", "`bad input`", "`7` then `bad input`", "A crash"], a: 1, chk: 1, e: "`int(\"x\")` fails before anything is printed, so Python jumps straight to the `except`." },
-    { q: "Which file mode adds to the end of a file without wiping it?", o: ["`\"r\"`", "`\"w\"`", "`\"a\"`", "`\"x\"`"], a: 2, e: "`\"a\"` means append. `\"w\"` would empty the file first." },
-    { q: "What does this print?", c: R`
-class Box:
-    def __init__(self, n):
-        self.n = n
-    def __str__(self):
-        return f"Box({self.n})"
-
-print(Box(3))`, o: ["`Box(3)`", "`<__main__.Box object>`", "`3`", "An error"], a: 0, chk: 1, e: "`print()` uses the class's `__str__` method." },
-    { q: "What does this print?", c: R`
-import numpy as np
-m = np.array([[1, 2], [3, 4]])
-print(m.mean(axis=0))`, o: ["`[2. 3.]`", "`[1.5 3.5]`", "`2.5`", "`[4 6]`"], a: 0, chk: 1, e: "`axis=0` goes down each column: (1 + 3) / 2 = 2 and (2 + 4) / 2 = 3." },
-    { q: "In a menu program, what is the usual way to keep showing the menu until the user quits?", o: ["`for i in range(100):`", "`while True:` with `break` when they choose quit", "Recursion", "An `if / elif` chain on its own"], a: 1, e: "That is the shape of every Part 8 project." },
-    { q: "What does this print?", c: R`print([w.upper() for w in "to be or not".split() if len(w) == 2])`, o: ["`['TO', 'BE', 'OR']`", "`['to', 'be', 'or']`", "`['TO', 'BE', 'OR', 'NOT']`", "`'TO BE OR'`"], a: 0, chk: 1, e: "`split()` makes a list of words, the filter keeps the two-letter ones, and `upper()` changes each." }
+  ["`df[\"a\"]` vs `df[[\"a\"]]`", "Series vs DataFrame."],
+  [
+    "Fill gaps fairly",
+    "Numbers: `fillna(s.median())`. Categories: `fillna(s.mode()[0])`. Over time: `ffill()`."
   ],
-  cards: [
-    ["`=` vs `==`", "`=` stores a value in a name. `==` compares two values and gives True or False."],
-    ["What type does `input()` always give?", "`str`. Convert it with `int()` or `float()` before doing maths."],
-    ["`for` vs `while`", "`for` walks through items or a `range()`. `while` repeats until its condition becomes False."],
-    ["The five collections in one line each", "String: text. List: ordered and changeable. Tuple: ordered and fixed. Set: unique, no order. Dict: key: value look-ups."],
-    ["String vs tuple", "Both are ordered and immutable. A string holds only characters, a tuple holds any values as a fixed record."],
-    ["Mutable vs immutable types", "Mutable: list, set, dict. Immutable: int, float, bool, str, tuple."],
-    ["`print` vs `return`", "`print` shows text. `return` hands a value back so other code can use it."],
-    ["`*args` vs `**kwargs`", "`*args` collects extra positional values into a tuple. `**kwargs` collects extra named values into a dict."],
-    ["The `try` family", "`try` the risky line, `except` a named error, `else` when it worked, `finally` always."],
-    ["Pick a file format", "Text for lines, CSV for tables, JSON for nested data, pickle for your own Python objects."],
-    ["Class vs object", "A class is the blueprint. An object is one thing built from it."],
-    ["The four pillars of OOP", "Encapsulation, inheritance, polymorphism, abstraction."],
-    ["`axis=0` vs `axis=1`", "`axis=0`: down the rows, one result per column. `axis=1`: across, one result per row."],
-    ["Filter a NumPy array with two conditions", "Use `&` or `|`, with brackets around each condition.", R`a[(a > 10) & (a < 20)]`],
-    ["How do you build any small program?", "Choose the data structure, write one function per action, test with fixed values, then add the menu loop and save the data."]
-  ]
-});
+  ["Read Indian dates", "`pd.to_datetime(s, format=\"mixed\", dayfirst=True, errors=\"coerce\")`"],
+  ["`map` vs `replace`", "map: every value (others NaN). replace: only the ones you list."],
+  ["`loc` vs `iloc`", "loc: labels, end included. iloc: positions, end left out."],
+  ["Two conditions", "`df[(c1) & (c2)]`; or `df.query(\"a > 1 and b < 5\")`"],
+  ["`apply` vs `np.where`", "apply: any rule, slower. np.where: one yes/no rule, fast."],
+  ["The top row", "`df.loc[df[\"col\"].idxmax()]`"],
+  ["`agg` vs `transform`", "agg: one row per group. transform: every row gets its group's answer."],
+  ["Named aggregation", "`df.groupby(\"g\").agg(total=(\"v\", \"sum\"), n=(\"v\", \"count\"))`"],
+  ["`merge` vs `concat`", "merge: side by side on a key. concat: stacked on top."],
+  ["Find unmatched rows after a left merge", "`m[m[\"right_col\"].isna()]`"],
+  ["Numbers into bands", "`pd.cut(s, bins=[...], labels=[...])`; group with `observed=True`."]
+] });

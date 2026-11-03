@@ -279,6 +279,10 @@ S = [
  ("exc", "Built-in exceptions", "Each error's name tells you what went wrong. Catch the specific one, like `except KeyError:`. Some are parents of others: `LookupError` covers `IndexError` and `KeyError`, `ArithmeticError` covers `ZeroDivisionError` and `OverflowError`, and `OSError` covers `FileNotFoundError` and `PermissionError`. `except Exception` catches almost everything except `SystemExit` and `KeyboardInterrupt`.", EXC),
 ]
 import subprocess, sys, tempfile, os
+# Parts 8-10: the most used Pandas tools (gen/ref_pandas.py). Run genref.py with the matching Python (NOTES.md).
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen'))
+from ref_pandas import PANDAS
+S.append(("pandas", "Pandas: DataFrame and Series", "The tools from Part 8 on one table. `df` is a DataFrame (a table) and `s` a Series (one column). Most methods return a **new** result: store it, like `df = df.dropna()`.", PANDAS))
 WORK = tempfile.mkdtemp()
 def run(code):
     p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=30)

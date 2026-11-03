@@ -1,0 +1,42 @@
+emp_id,name,email,department,salary,score,join_date,city
+E101,Asha Rao,asha.rao@gmail.com,IT,83000,84,2020-08-10,bengaluru
+E102,  Vikram Singh,vikram.singh@yahoo.com,HR,51500,88,11/08/2017,Pune
+E103,  Neha Kapoor,neha.kapoor@outlook.com,Sales,37000,70,21-Nov-2022,Chennai
+E104,Ravi Teja,ravi.teja@gmail.com,finance,52000,86,2022-08-06,Delhi
+E105,  Meena Pillai,meena.pillai@rediffmail.com,Marketing,60500,68,2022-05-09,Chennai 
+E106,ARJUN REDDY,arjun.reddy@gmail.com,it,77000,66,2021-01-24,Hyderabad
+E107,Priya Sharma,priya.sharma@yahoo.com,HR,,84,2016-07-08,Hyderabad
+E108,kiran Kumar,kiran.kumar@outlook.com, SALES,60500,80,02/12/2024,Hyderabad
+E109,sneha iyer,sneha.iyer@gmail.com,Finance,65500,72,19-Aug-2021,PUNE
+E110,Rahul Verma,rahul.verma@rediffmail.com,marketing ,45000,77,2018-07-24,
+E111,Divya Nair,divya.nair@gmail.com,IT,70500,80,2023-11-04,Pune
+E112,Suresh Babu,suresh.babu@yahoo.com,Hr,42500,,2021-01-07,Pune
+E113,Anjali Gupta,anjali.gupta@outlook.com,Sales,50500,54,2022-04-20,bengaluru
+E113,Anjali Gupta,anjali.gupta@outlook.com,Sales,50500,54,2022-04-20,bengaluru
+E114,Karthik Raman ,karthik.raman@gmail.com,Finance,76000,68,08/07/2022,Mumbai
+E115,pooja Joshi,pooja.joshi@rediffmail.com,Marketing,63500,70,11-Aug-2023,Bengaluru
+E116,Manoj Patil,manoj.patil@gmail.com,IT,62000,75,not known,Delhi
+E117,  Lakshmi Menon,lakshmi.menon@yahoo.com,HR,55500,81,2021-05-05,Chennai
+E118,IMRAN KHAN,imran.khan@outlook.com, SALES,42000,82,2018-10-23,Bengaluru
+E119,Deepa Das,deepa.das@gmail.com,Finance,54500,83,2016-11-14,Chennai
+E120,  Sanjay Mehta,sanjay.mehta@rediffmail.com,marketing ,,64,11/09/2024,Chennai
+E121,Fatima Shaikh,fatima.shaikh@gmail.com,IT,70000,56,01-Feb-2022,Pune 
+E122,Rohit Jain,rohit.jain@yahoo.com,Hr,51000,84,2023-12-10,Pune
+E123,Kavya Hegde ,kavya.hegde@outlook.com,Sales,43500,58,2021-05-08,Bengaluru
+E124,NAVEEN YADAV,naveen.yadav@gmail.com,Finance,50000,79,2019-08-07,Pune
+E125,Swati Kulkarni,swati.kulkarni@rediffmail.com,Marketing,51000,84,,delhi
+E126,  Ajay Mishra,ajay.mishra@gmail.com,IT,79500,53,08/04/2020,Chennai
+E127,bhavna Bose,bhavna.bose@yahoo.com,HR,46500,65,19-Mar-2021,Bengaluru
+E128,Gopal Naidu,gopal.naidu@outlook.com,Sales,64000,,2022-01-26,Pune
+E129,  Harini Prasad,harini.prasad@gmail.com,Finance,52500,74,2021-04-21,DELHI
+E130,irfan Ali,irfan.ali@rediffmail.com,marketing ,62000,87,2020-06-10,Bengaluru
+E131,Jaya Varma,,IT,71000,66,2020-01-06,Bengaluru
+E132,  Kunal Shah,kunal.shah@yahoo.com,hr ,56000,69,08/06/2023,Mumbai
+E133,leela krishnan,leela.krishnan@outlook.com,Sales,43000,91,03-Jan-2019,Mumbai
+E134,Mohan Lal,mohan.lal@gmail.com,FINANCE,,82,2017-10-01,Hyderabad
+E135,Nisha Agarwal,nisha.agarwal@rediffmail.com,Marketing,40500,72,2020-05-21,Chennai
+E136,Om Prakash ,om.prakash@gmail.com,HR,56000,59,2020-02-06,Hyderabad
+E137,Pallavi Desai,pallavi.desai@yahoo.com,HR,42000,72,2017-05-20,Chennai
+E138,Qadir Ahmed ,qadir.ahmed@outlook.com,Finance,56500,84,27/03/2019,Delhi
+E139,  Rekha Murthy,rekha.murthy@gmail.com,Finance,72000,74,16-Sep-2017,Chennai
+E140,Tarun Chopra,tarun.chopra@rediffmail.com,Hr,28500,75,2021-06-16,Chennai

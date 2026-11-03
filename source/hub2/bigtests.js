@@ -805,7 +805,7 @@ var BIGTESTS = {
    "fixed": "x = 10\nprint(x == 10)",
    "e": "One `=` stores a value. Two `==` compare. Inside `print()` you want the comparison.",
    "want": "True",
-   "got": "TypeError: print() got an unexpected keyword argument 'x'"
+   "got": "TypeError: 'x' is an invalid keyword argument for print()"
   },
   {
    "lv": 1,
@@ -5542,6 +5542,1014 @@ var BIGTESTS = {
    "sol": "import numpy as np\ndef slab(amount):\n    return \"High\" if amount >= 1000 else \"Low\"\n\nslab_u = np.frompyfunc(slab, 1, 1)\nprint(slab_u(np.array([500, 1500, 1000])))",
    "e": "`frompyfunc` wraps your own Python function so it runs on every value of an array.",
    "out": "['Low' 'High' 'High']"
+  }
+ ],
+ "pandas1": [
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Series: one labelled column",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([5, 10, 15])\nprint(s.sum(), s.max())",
+   "e": "A Series adds up and finds its maximum like a NumPy array: 5 + 10 + 15 = 30, and the biggest is 15.",
+   "ans": "30 15"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Series: one labelled column",
+   "q": "Make a Series of the prices `[250, 400, 150]` with the labels `[\"tea\", \"coffee\", \"juice\"]`, and print the price of `coffee`.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nmenu = pd.Series([250, 400, 150], index=[\"tea\", \"coffee\", \"juice\"])\nprint(menu[\"coffee\"])",
+   "e": "`index=` gives the labels; then you pick a value by its label, like a dictionary key.",
+   "out": "400"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "DataFrame: a table of columns",
+   "q": "Build a DataFrame with the columns `item` = pen, book and `price` = 20, 150, and print it.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nshop = pd.DataFrame({\"item\": [\"pen\", \"book\"], \"price\": [20, 150]})\nprint(shop)",
+   "e": "A dictionary of lists becomes a table: each key is a column name.",
+   "out": "   item  price\n0   pen     20\n1  book    150"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "DataFrame: a table of columns",
+   "q": "Print the shape of `cart`, then its column names as a list.",
+   "starter": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\n",
+   "sol": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart.shape)\nprint(list(cart.columns))",
+   "e": "`shape` is (rows, columns); `list(df.columns)` gives the names.",
+   "out": "(3, 3)\n['item', 'price', 'qty']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Reading files",
+   "q": "Read `employees.csv` and print how many rows it has, using `len()`.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(len(df))",
+   "e": "`len(df)` is the number of rows, the same as `df.shape[0]`.",
+   "out": "41"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Looking at the data: head, tail and sample",
+   "q": "This code should print the first 2 rows of `cart`, but it stops with an error. Fix it.",
+   "c": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart.head[2])",
+   "fixed": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart.head(2))",
+   "e": "`head` is a method, so it needs round brackets: `head(2)`.",
+   "want": "   item  price  qty\n0   pen     20    5\n1  book    150    2",
+   "got": "TypeError: 'method' object is not subscriptable"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Missing values and duplicates",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([1, None, 3, None])\nprint(s.isna().sum())",
+   "e": "`isna()` marks the two `None` values as True, and `sum()` counts them.",
+   "ans": "2"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Looking at the data: head, tail and sample",
+   "q": "Read `employees.csv` and print the last 2 values of the `name` column.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[\"name\"].tail(2))",
+   "e": "`tail(2)` works on a single column (a Series) too.",
+   "out": "39      Rekha Murthy\n40      Tarun Chopra\nName: name, dtype: object"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Series: one labelled column",
+   "q": "`prices = pd.Series([100, 250, 80])`. Print every price with 18% GST added, rounded to 2 decimals, as a list.",
+   "starter": "import pandas as pd\nprices = pd.Series([100, 250, 80])\n",
+   "sol": "import pandas as pd\nprices = pd.Series([100, 250, 80])\nprint((prices * 1.18).round(2).tolist())",
+   "e": "Maths on a Series works on every value at once; `round(2)` and `tolist()` work on the whole Series too.",
+   "out": "[118.0, 295.0, 94.4]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "DataFrame: a table of columns",
+   "q": "This code should print the `item` and `qty` columns of `cart`, but it raises a KeyError. Fix it.",
+   "c": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart[\"item\", \"qty\"])",
+   "fixed": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart[[\"item\", \"qty\"]])",
+   "e": "Several columns need a **list** of names inside the brackets: double brackets.",
+   "want": "   item  qty\n0   pen    5\n1  book    2\n2   bag    1",
+   "got": "KeyError: ('item', 'qty')"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Reading files",
+   "q": "Read the `staff` sheet of `employees.xlsx` and print the average salary, rounded to a whole number.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nstaff = pd.read_excel(\"employees.xlsx\", sheet_name=\"staff\")\nprint(round(staff[\"salary\"].mean()))",
+   "e": "`read_excel` works like `read_csv`; `sheet_name=` picks the sheet.",
+   "out": "56012"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Shape, info and describe",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nd = pd.DataFrame({\"v\": [4, 8, 6]})\nprint(d[\"v\"].describe()[\"max\"], d[\"v\"].count())",
+   "e": "`describe()` gives decimals, so the maximum shows as 8.0. `count()` is the number of filled values.",
+   "ans": "8.0 3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Missing values and duplicates",
+   "q": "Read `employees.csv` and print the number of missing values in the **whole** table.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df.isna().sum().sum())",
+   "e": "The first `sum()` counts per column, the second adds the columns together.",
+   "out": "8"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Missing values and duplicates",
+   "q": "Read `employees.csv` and print how many `emp_id` values appear again after their first time.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[\"emp_id\"].duplicated().sum())",
+   "e": "`duplicated()` marks every repeat after the first copy.",
+   "out": "1"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Reading files",
+   "q": "This code saves `cart` and reads it back. It should print `['item', 'price', 'qty']`, but an extra column appears. Fix the save line.",
+   "c": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\ncart.to_csv(\"cart.csv\")\nback = pd.read_csv(\"cart.csv\")\nprint(list(back.columns))",
+   "fixed": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\ncart.to_csv(\"cart.csv\", index=False)\nback = pd.read_csv(\"cart.csv\")\nprint(list(back.columns))",
+   "e": "Without `index=False`, the row numbers are saved as a column and come back as `Unnamed: 0`.",
+   "want": "['item', 'price', 'qty']",
+   "got": "['Unnamed: 0', 'item', 'price', 'qty']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Shape, info and describe",
+   "q": "Read `employees.csv` and print the statistics of the `score` column with `describe()`.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[\"score\"].describe())",
+   "e": "`describe()` on one column gives count, mean, std, min, the quartiles and max.",
+   "out": "count    39.000000\nmean     73.589744\nstd      10.454709\nmin      53.000000\n25%      67.000000\n50%      74.000000\n75%      82.500000\nmax      91.000000\nName: score, dtype: float64"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "DataFrame: a table of columns",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3], \"b\": [\"x\", \"y\", \"z\"]})\nprint(df.dtypes[\"a\"], len(df.columns))",
+   "e": "Whole numbers in a DataFrame are `int64`, and there are 2 columns.",
+   "ans": "int64 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Looking at the data: head, tail and sample",
+   "q": "Read `employees.csv` and print the `name` of 2 random rows, using `sample()` with `random_state=1`.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[\"name\"].sample(2, random_state=1))",
+   "e": "`random_state` fixes the random choice, so everyone gets the same 2 rows.",
+   "out": "3        Ravi Teja\n2      Neha Kapoor\nName: name, dtype: object"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Series: one labelled column",
+   "q": "Make a Series from the dictionary `{\"Deluxe\": 12, \"Suite\": 3, \"Standard\": 25}`. Print the total rooms, then the share of `Suite` rooms in percent with 1 decimal.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nrooms = pd.Series({\"Deluxe\": 12, \"Suite\": 3, \"Standard\": 25})\ntotal = rooms.sum()\nprint(total)\nprint(round(rooms[\"Suite\"] / total * 100, 1))",
+   "e": "The dictionary keys become the labels. 3 of 40 rooms is 7.5%.",
+   "out": "40\n7.5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Missing values and duplicates",
+   "q": "Read `employees.csv`. Print how many salaries are missing, then the share of rows with a missing salary in percent, with 1 decimal.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nmissing = df[\"salary\"].isna().sum()\nprint(missing)\nprint(round(missing / len(df) * 100, 1))",
+   "e": "3 of 41 rows have no salary: about 7.3%.",
+   "out": "3\n7.3"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Reading files",
+   "q": "Read `student_scores.csv` using its first column as the index. Print the shape, then the number of missing values in `TestPrep`.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"student_scores.csv\", index_col=0)\nprint(df.shape)\nprint(df[\"TestPrep\"].isna().sum())",
+   "e": "`index_col=0` turns the unnamed first column into the index, so there are 14 columns, not 15.",
+   "out": "(300, 14)\n21"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Missing values and duplicates",
+   "q": "This code should print **how many** rows of `orders` are exact duplicates (`1`), but it prints a column of True/False. Fix it.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\"id\": [1, 2, 2], \"amount\": [50, 70, 70]})\nprint(orders.duplicated())",
+   "fixed": "import pandas as pd\norders = pd.DataFrame({\"id\": [1, 2, 2], \"amount\": [50, 70, 70]})\nprint(orders.duplicated().sum())",
+   "e": "`duplicated()` gives one True/False per row; `sum()` counts the True values.",
+   "want": "1",
+   "got": "0    False\n1    False\n2     True\ndtype: bool"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Series: one labelled column",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series({\"a\": 3, \"b\": 5})\nt = s * 2\nprint(t[\"b\"] - s[\"a\"])",
+   "e": "`t` doubles every value, so `t[\"b\"]` is 10, and 10 - 3 = 7.",
+   "ans": "7"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "DataFrame: a table of columns",
+   "q": "Build a DataFrame of 3 rooms with the columns `type` = Deluxe, Suite, Standard and `price` = 3500, 7000, 2200, using the room numbers `[101, 102, 103]` as the index. Print the table, then the total of the `price` column.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\"type\": [\"Deluxe\", \"Suite\", \"Standard\"], \"price\": [3500, 7000, 2200]}, index=[101, 102, 103])\nprint(rooms)\nprint(rooms[\"price\"].sum())",
+   "e": "`index=` sets the row labels of a DataFrame, just like for a Series.",
+   "out": "         type  price\n101    Deluxe   3500\n102     Suite   7000\n103  Standard   2200\n12700"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Shape, info and describe",
+   "q": "This code should print `(3, 3)`, but it stops with a TypeError. Fix it.",
+   "c": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart.shape())",
+   "fixed": "import pandas as pd\ncart = pd.DataFrame({\"item\": [\"pen\", \"book\", \"bag\"], \"price\": [20, 150, 600], \"qty\": [5, 2, 1]})\nprint(cart.shape)",
+   "e": "`shape` is a value (a tuple), not a method, so it has no brackets. `info()` and `describe()` are methods and do need them.",
+   "want": "(3, 3)",
+   "got": "TypeError: 'tuple' object is not callable"
+  }
+ ],
+ "pandas2": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Removing duplicate rows",
+   "q": "`visits = pd.DataFrame({\"guest\": [\"Om\", \"Lata\", \"Om\"], \"room\": [101, 102, 101]})`. Remove the repeated row and print the table.",
+   "starter": "import pandas as pd\nvisits = pd.DataFrame({\"guest\": [\"Om\", \"Lata\", \"Om\"], \"room\": [101, 102, 101]})\n",
+   "sol": "import pandas as pd\nvisits = pd.DataFrame({\"guest\": [\"Om\", \"Lata\", \"Om\"], \"room\": [101, 102, 101]})\nprint(visits.drop_duplicates())",
+   "e": "`drop_duplicates()` keeps the first copy of each repeated row.",
+   "out": "  guest  room\n0    Om   101\n1  Lata   102"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Missing values: dropna and fillna",
+   "q": "`rain = pd.Series([12, None, 30])`. Fill the gap with 0 and print the values as a list.",
+   "starter": "import pandas as pd\nrain = pd.Series([12, None, 30])\n",
+   "sol": "import pandas as pd\nrain = pd.Series([12, None, 30])\nprint(rain.fillna(0).tolist())",
+   "e": "No reading on a dry day can honestly mean 0 mm of rain.",
+   "out": "[12.0, 0.0, 30.0]"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Filling from neighbours: ffill and bfill",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([4, None, None, 9])\nprint(s.ffill().tolist())",
+   "e": "`ffill()` copies the last known value (4) down into both gaps. A column with gaps holds decimals, so you see 4.0.",
+   "ans": "[4.0, 4.0, 4.0, 9.0]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Removing rows and columns: drop",
+   "q": "Read `employees.csv`, drop the `email` and `city` columns and print the new column names as a list.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\ndf = df.drop(columns=[\"email\", \"city\"])\nprint(list(df.columns))",
+   "e": "`drop(columns=[...])` returns a table without those columns.",
+   "out": "['emp_id', 'name', 'department', 'salary', 'score', 'join_date']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Text columns: the .str tools",
+   "q": "`names = pd.Series([\"asha rao\", \"RAVI TEJA\"])`. Print the names in title case as a list.",
+   "starter": "import pandas as pd\nnames = pd.Series([\"asha rao\", \"RAVI TEJA\"])\n",
+   "sol": "import pandas as pd\nnames = pd.Series([\"asha rao\", \"RAVI TEJA\"])\nprint(names.str.title().tolist())",
+   "e": "`.str.title()` gives each word a capital first letter and small letters after it.",
+   "out": "['Asha Rao', 'Ravi Teja']"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Text columns: the .str tools",
+   "q": "This code should print `['Pune', 'Goa']`, but it stops with an AttributeError. Fix it.",
+   "c": "import pandas as pd\ncities = pd.Series([\"  Pune \", \"Goa  \"])\nprint(cities.strip().tolist())",
+   "fixed": "import pandas as pd\ncities = pd.Series([\"  Pune \", \"Goa  \"])\nprint(cities.str.strip().tolist())",
+   "e": "A Series has no `strip()` method. Add `.str` to use string methods on every value.",
+   "want": "['Pune', 'Goa']",
+   "got": "AttributeError: 'Series' object has no attribute 'strip'"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Map and replace with a dictionary",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([\"Y\", \"N\", \"Y\"])\nprint(s.replace({\"Y\": \"Yes\"}).tolist())",
+   "e": "`replace()` changes the values it finds in the dictionary and keeps the rest, so `N` stays.",
+   "ans": "['Yes', 'N', 'Yes']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Dates: pd.to_datetime",
+   "q": "`d = pd.Series([\"2025-03-01\", \"2025-01-15\"])`. Turn it into dates and print the earliest one.",
+   "starter": "import pandas as pd\nd = pd.Series([\"2025-03-01\", \"2025-01-15\"])\n",
+   "sol": "import pandas as pd\nd = pd.Series([\"2025-03-01\", \"2025-01-15\"])\ndates = pd.to_datetime(d)\nprint(dates.min())",
+   "e": "Real dates can be compared, so `min()` finds the earliest.",
+   "out": "2025-01-15 00:00:00"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Missing values: dropna and fillna",
+   "q": "Read `employees.csv` and print how many rows are left after removing the rows with **no score**.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(len(df.dropna(subset=[\"score\"])))",
+   "e": "`subset=` makes `dropna()` look only at the columns you name.",
+   "out": "39"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Missing values: dropna and fillna",
+   "q": "`pay = pd.Series([\"UPI\", None, \"Cash\", \"UPI\"])`. Fill the gap with the most common value and print the list.",
+   "starter": "import pandas as pd\npay = pd.Series([\"UPI\", None, \"Cash\", \"UPI\"])\n",
+   "sol": "import pandas as pd\npay = pd.Series([\"UPI\", None, \"Cash\", \"UPI\"])\nprint(pay.fillna(pay.mode()[0]).tolist())",
+   "e": "`mode()` returns a Series; `[0]` takes the most common value, UPI.",
+   "out": "['UPI', 'UPI', 'Cash', 'UPI']"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Missing values: dropna and fillna",
+   "q": "This code should fill the gap with the average and print `[10.0, 20.0, 30.0]`. Fix the fill line.",
+   "c": "import pandas as pd\ns = pd.Series([10, None, 30])\ns.fillna(s.mean())\nprint(s.tolist())",
+   "fixed": "import pandas as pd\ns = pd.Series([10, None, 30])\ns = s.fillna(s.mean())\nprint(s.tolist())",
+   "e": "`fillna()` returns a new Series. Store the result, or the gap stays.",
+   "want": "[10.0, 20.0, 30.0]",
+   "got": "[10.0, nan, 30.0]"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Filling from neighbours: ffill and bfill",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([None, 6, None])\nprint(s.bfill().tolist())",
+   "e": "`bfill()` copies the next value up. The last gap has nothing below it, so it stays nan.",
+   "ans": "[6.0, 6.0, nan]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Removing rows and columns: drop",
+   "q": "Read `employees.csv`. Drop the rows whose score is below 60 and print how many rows remain.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nlow = df[df[\"score\"] < 60]\nprint(len(df.drop(low.index)))",
+   "e": "Filter the rows you want to remove, then pass their `.index` to `drop()`. Rows with no score are not below 60, so they stay.",
+   "out": "35"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Removing rows and columns: drop",
+   "q": "Running this cell a second time should not crash: it should print the column names without `email`. Fix the drop line so it never raises a KeyError.",
+   "c": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\ndf = df.drop(columns=[\"email\"])\ndf = df.drop(columns=[\"email\"])\nprint(list(df.columns))",
+   "fixed": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\ndf = df.drop(columns=[\"email\"])\ndf = df.drop(columns=[\"email\"], errors=\"ignore\")\nprint(list(df.columns))",
+   "e": "The second drop finds no `email` column. `errors=\"ignore\"` skips names that are not there.",
+   "want": "['emp_id', 'name', 'department', 'salary', 'score', 'join_date', 'city']",
+   "got": "KeyError: \"['email'] not found in axis\""
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Fixing types: astype",
+   "q": "`amounts = pd.Series([\"₹1,500\", \"₹320\", \"₹2,000\"])`. Remove the `₹` and the commas, turn the text into whole numbers, and print the total.",
+   "starter": "import pandas as pd\namounts = pd.Series([\"₹1,500\", \"₹320\", \"₹2,000\"])\n",
+   "sol": "import pandas as pd\namounts = pd.Series([\"₹1,500\", \"₹320\", \"₹2,000\"])\nclean = amounts.str.replace(\"₹\", \"\", regex=False).str.replace(\",\", \"\", regex=False).astype(\"int64\")\nprint(clean.sum())",
+   "e": "Text cannot be added up. Remove the symbols first, then `astype(\"int64\")`.",
+   "out": "3820"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Text columns: the .str tools",
+   "q": "Read `employees.csv` and print how many email addresses contain `yahoo`. Missing emails count as no.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[\"email\"].str.contains(\"yahoo\", na=False).sum())",
+   "e": "`contains()` gives True/False per row; `na=False` treats a missing email as False.",
+   "out": "8"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Map and replace with a dictionary",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([\"S\", \"M\", \"XL\"])\nprint(s.map({\"S\": \"Small\", \"M\": \"Medium\"}).tolist())",
+   "e": "`map()` looks up every value, and XL is not in the dictionary, so it becomes nan.",
+   "ans": "['Small', 'Medium', nan]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Date parts with .dt",
+   "q": "`d = pd.to_datetime(pd.Series([\"2025-08-15\", \"2025-10-02\"]))`. Print the day names as a list, then the dates as text in the style `15-Aug-2025`.",
+   "starter": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"2025-08-15\", \"2025-10-02\"]))\n",
+   "sol": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"2025-08-15\", \"2025-10-02\"]))\nprint(d.dt.day_name().tolist())\nprint(d.dt.strftime(\"%d-%b-%Y\").tolist())",
+   "e": "`%d` is the day, `%b` the short month name and `%Y` the full year.",
+   "out": "['Friday', 'Thursday']\n['15-Aug-2025', '02-Oct-2025']"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "The cleaning checklist",
+   "q": "Read `employees.csv` into `raw`, clean a **copy**: drop the duplicate row and the rows with no salary. Print the number of rows of `raw` and of the clean table.",
+   "starter": "import pandas as pd\n",
+   "sol": "import pandas as pd\nraw = pd.read_csv(\"employees.csv\")\ndf = raw.copy()\ndf = df.drop_duplicates().dropna(subset=[\"salary\"])\nprint(len(raw), len(df))",
+   "e": "Working on a copy keeps `raw` unchanged, so you can compare before and after.",
+   "out": "41 37"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Text columns: the .str tools",
+   "q": "Read `employees.csv`. Tidy the department names (strip the spaces, then title case) and print how many different departments there are now.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\ndf[\"department\"] = df[\"department\"].str.strip().str.title()\nprint(df[\"department\"].nunique())",
+   "e": "Twelve spellings become five. They read `It` and `Hr` now, not `IT` and `HR`: a `replace()` afterwards fixes those two.",
+   "out": "5"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Dates: pd.to_datetime",
+   "q": "Read `employees.csv`. Convert `join_date` (mixed styles, day first, bad values to NaT) and print how many people joined in **2022**.",
+   "starter": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\n",
+   "sol": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\ndf[\"join_date\"] = pd.to_datetime(df[\"join_date\"], format=\"mixed\", dayfirst=True, errors=\"coerce\")\nprint((df[\"join_date\"].dt.year == 2022).sum())",
+   "e": "Convert first, then compare the year; NaT years are not equal to 2022, so they are not counted.",
+   "out": "8"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Dates: pd.to_datetime",
+   "q": "This code should read the date as 3 April 2025 and print `4`. Fix the conversion.",
+   "c": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"03/04/2025\"]))\nprint(d.dt.month[0])",
+   "fixed": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"03/04/2025\"]), dayfirst=True)\nprint(d.dt.month[0])",
+   "e": "Without `dayfirst=True`, Pandas reads 03/04 as March 4.",
+   "want": "4",
+   "got": "3"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Date parts with .dt",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\na = pd.to_datetime(pd.Series([\"2025-01-01\"]))\nb = pd.to_datetime(pd.Series([\"2025-03-01\"]))\nprint((b - a).dt.days[0])",
+   "e": "January has 31 days and February 2025 has 28, so the gap is 59 days.",
+   "ans": "59"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Missing values: dropna and fillna",
+   "q": "This code should fill each gap with the **last known** value, and only the gap at the very start with the next value. Fix it.",
+   "c": "import pandas as pd\ntemps = pd.Series([None, 30, None, None, 26, None])\nprint(temps.bfill().ffill().tolist())",
+   "fixed": "import pandas as pd\ntemps = pd.Series([None, 30, None, None, 26, None])\nprint(temps.ffill().bfill().tolist())",
+   "e": "The order matters. `ffill()` first fills every gap after a value with the last known value; then `bfill()` only has the gap at the start left to fill.",
+   "want": "[30.0, 30.0, 30.0, 30.0, 26.0, 26.0]",
+   "got": "[30.0, 30.0, 26.0, 26.0, 26.0, 26.0]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Map and replace with a dictionary",
+   "q": "`df = pd.DataFrame({\"name\": [\"Asha Rao\", \"Om Shah\"], \"code\": [\"HYD\", \"BLR\"]})`. Split `name` into `first` and `last`, add a column `city` that maps HYD to Hyderabad and BLR to Bengaluru, and print the table without the `name` and `code` columns.",
+   "starter": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha Rao\", \"Om Shah\"], \"code\": [\"HYD\", \"BLR\"]})\n",
+   "sol": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha Rao\", \"Om Shah\"], \"code\": [\"HYD\", \"BLR\"]})\ndf[[\"first\", \"last\"]] = df[\"name\"].str.split(\" \", expand=True)\ndf[\"city\"] = df[\"code\"].map({\"HYD\": \"Hyderabad\", \"BLR\": \"Bengaluru\"})\nprint(df.drop(columns=[\"name\", \"code\"]))",
+   "e": "Three cleaning tools in a row: split into columns, translate with `map`, then drop what you no longer need.",
+   "out": "  first  last       city\n0  Asha   Rao  Hyderabad\n1    Om  Shah  Bengaluru"
+  }
+ ],
+ "pandas3": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "loc: pick by labels",
+   "q": "Print the `type` and `rate` of the rows with the labels 1 to 3 (both included), using `loc`.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.loc[1:3, [\"type\", \"rate\"]])",
+   "e": "With `loc`, the end label 3 is included.",
+   "out": "       type  rate\n1     Suite  7200\n2  Standard  2100\n3    Deluxe  3800"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "iloc: pick by position",
+   "q": "Print the first 2 rows and the first 3 columns of `rooms`, using `iloc`.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.iloc[0:2, 0:3])",
+   "e": "`iloc` slices work like lists: the end position is left out.",
+   "out": "   room    type  rate\n0   101  Deluxe  3500\n1   102   Suite  7200"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "iloc: pick by position",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.iloc[-1][\"type\"], rooms.iloc[0][\"rate\"])",
+   "e": "`iloc[-1]` is the last row (a Suite) and `iloc[0]` the first (rate 3500).",
+   "ans": "Suite 3500"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Filtering rows",
+   "q": "Print the rows of `rooms` whose rate is above ₹3,000.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[rooms[\"rate\"] > 3000])",
+   "e": "The condition makes a True/False mask; `rooms[mask]` keeps the True rows.",
+   "out": "   room    type  rate  nights  rating\n0   101  Deluxe  3500       2     4.5\n1   102   Suite  7200       1     4.8\n3   104  Deluxe  3800       3     4.1\n5   106   Suite  6900       2     4.9"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "New columns with maths",
+   "q": "Add a column `bill` = rate × nights and print the `room` and `bill` columns.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nrooms[\"bill\"] = rooms[\"rate\"] * rooms[\"nights\"]\nprint(rooms[[\"room\", \"bill\"]])",
+   "e": "Maths between two columns works row by row.",
+   "out": "   room   bill\n0   101   7000\n1   102   7200\n2   103   8400\n3   104  11400\n4   105  11500\n5   106  13800"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Filtering rows",
+   "q": "This code should keep the Deluxe rooms with 3 or more nights, but it stops with a ValueError. Fix it.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[(rooms[\"type\"] == \"Deluxe\") and (rooms[\"nights\"] >= 3)][\"room\"].tolist())",
+   "fixed": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[(rooms[\"type\"] == \"Deluxe\") & (rooms[\"nights\"] >= 3)][\"room\"].tolist())",
+   "e": "Python's `and` cannot combine two masks. Use `&`.",
+   "want": "[104, 105]",
+   "got": "ValueError: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all()."
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Sorting with sort_values",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ndf = pd.DataFrame({\"n\": [\"P\", \"Q\", \"R\"], \"v\": [8, 3, 5]})\nprint(df.sort_values(\"v\")[\"n\"].tolist())",
+   "e": "Smallest first: 3 (Q), 5 (R), 8 (P).",
+   "ans": "['Q', 'R', 'P']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Counting and finding: value_counts, unique and idxmax",
+   "q": "Print how many rooms there are of each `type`, with `value_counts()`.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[\"type\"].value_counts())",
+   "e": "`value_counts()` counts each value and puts the most common first: 3 Deluxe, 2 Suites, 1 Standard.",
+   "out": "type\nDeluxe      3\nSuite       2\nStandard    1\nName: count, dtype: int64"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "loc: pick by labels",
+   "q": "This code should print the rate of room 104 (`3800`), but it raises a KeyError. Fix it so `loc` can find room 104.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.loc[104, \"rate\"])",
+   "fixed": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.set_index(\"room\").loc[104, \"rate\"])",
+   "e": "The labels are 0 to 5, not the room numbers. `set_index(\"room\")` makes the room numbers the labels that `loc` uses.",
+   "want": "3800",
+   "got": "KeyError: 104"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Filtering rows",
+   "q": "Print the room numbers of the Suites **or** the rooms rated below 4.0, as a list.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[(rooms[\"type\"] == \"Suite\") | (rooms[\"rating\"] < 4.0)][\"room\"].tolist())",
+   "e": "`|` keeps a row when either condition is True.",
+   "out": "[102, 103, 105, 106]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "query(): filters written like a sentence",
+   "q": "Using `query()`, print the room numbers with a rate under the variable `budget = 4000` and a rating of 4 or more, as a list.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nbudget = 4000\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nbudget = 4000\nprint(rooms.query(\"rate < @budget and rating >= 4\")[\"room\"].tolist())",
+   "e": "`@budget` uses the Python variable inside the query text.",
+   "out": "[101, 104]"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "apply(): your own rule",
+   "q": "This code should label each rating as Good (4 or more) or OK, but it stops with a TypeError. Fix the apply line.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\ndef label(r):\n    return \"Good\" if r >= 4 else \"OK\"\n\nprint(rooms[\"rating\"].apply(label()).tolist())",
+   "fixed": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\ndef label(r):\n    return \"Good\" if r >= 4 else \"OK\"\n\nprint(rooms[\"rating\"].apply(label).tolist())",
+   "e": "Pass the function itself, without brackets. `label()` calls it with no value.",
+   "want": "['Good', 'Good', 'OK', 'Good', 'OK', 'Good']",
+   "got": "TypeError: label() missing 1 required positional argument: 'r'"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "apply(): your own rule",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms[\"nights\"].apply(lambda n: \"Long\" if n >= 3 else \"Short\").tolist())",
+   "e": "The lambda runs once for each value: nights 2, 1, 4, 3, 5, 2.",
+   "ans": "['Short', 'Short', 'Long', 'Long', 'Long', 'Short']"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "np.where and setting values with loc",
+   "q": "Add a column `gst` with `np.where`: 18% of the rate for rates above ₹7,000, otherwise 12%. Print the `rate` and `gst` columns.",
+   "starter": "import pandas as pd\nimport numpy as np\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nimport numpy as np\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nrooms[\"gst\"] = np.where(rooms[\"rate\"] > 7000, rooms[\"rate\"] * 0.18, rooms[\"rate\"] * 0.12)\nprint(rooms[[\"rate\", \"gst\"]])",
+   "e": "`np.where` picks, row by row, from two calculated columns.",
+   "out": "   rate     gst\n0  3500   420.0\n1  7200  1296.0\n2  2100   252.0\n3  3800   456.0\n4  2300   276.0\n5  6900   828.0"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "loc: pick by labels",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(len(rooms.loc[2:4]), len(rooms.iloc[2:4]))",
+   "e": "`loc` keeps labels 2, 3 and 4; `iloc` keeps positions 2 and 3.",
+   "ans": "3 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Sorting with sort_values",
+   "q": "Print the `room` and `rate` of the 3 most expensive rooms, highest first.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.sort_values(\"rate\", ascending=False)[[\"room\", \"rate\"]].head(3))",
+   "e": "Sort largest first, then take the top 3 with `head(3)`.",
+   "out": "   room  rate\n1   102  7200\n5   106  6900\n3   104  3800"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Counting and finding: value_counts, unique and idxmax",
+   "q": "This code should print the room **number** of the best-rated room (`106`), but it prints the rating. Fix it.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nbest = rooms[\"rating\"].max()\nprint(rooms.loc[best, \"room\"])",
+   "fixed": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nbest = rooms[\"rating\"].idxmax()\nprint(rooms.loc[best, \"room\"])",
+   "e": "`max()` gives the value 4.9; `idxmax()` gives its index label, which `loc` needs.",
+   "want": "106",
+   "got": "KeyError: np.float64(4.9)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Counting and finding: value_counts, unique and idxmax",
+   "q": "Read `sales_data.csv` and print how many different categories there are, then the share of orders from each category with `value_counts(normalize=True)` rounded to 2 decimals.",
+   "starter": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\nprint(sales[\"Category\"].nunique())\nprint(sales[\"Category\"].value_counts(normalize=True).round(2))",
+   "e": "`nunique()` counts the different values; `normalize=True` gives shares that add up to 1.",
+   "out": "4\nCategory\nClothing       0.31\nGroceries      0.24\nElectronics    0.23\nFurniture      0.21\nName: proportion, dtype: float64"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "np.where and setting values with loc",
+   "q": "Mark the rooms that need attention: set a new column `flag` to `\"Check\"` with `loc` for ratings below 4.0, and `\"OK\"` for the rest. Print the room numbers flagged `\"Check\"` as a list.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nrooms.loc[rooms[\"rating\"] < 4.0, \"flag\"] = \"Check\"\nrooms.loc[rooms[\"rating\"] >= 4.0, \"flag\"] = \"OK\"\nprint(rooms[rooms[\"flag\"] == \"Check\"][\"room\"].tolist())",
+   "e": "`loc[condition, \"col\"] = value` sets values only in the matching rows.",
+   "out": "[103, 105]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "apply(): your own rule",
+   "q": "Write `def discount(row)` that gives 10% off the bill (rate × nights) for 4 or more nights and nothing otherwise, and returns the amount to pay. Add it as `pay` with `apply(..., axis=1)` and print the `room` and `pay` columns.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\ndef discount(row):\n    bill = row[\"rate\"] * row[\"nights\"]\n    if row[\"nights\"] >= 4:\n        return bill * 0.9\n    return bill\n\nrooms[\"pay\"] = rooms.apply(discount, axis=1)\nprint(rooms[[\"room\", \"pay\"]])",
+   "e": "With `axis=1` the function gets a whole row, so it can use two columns at once.",
+   "out": "   room      pay\n0   101   7000.0\n1   102   7200.0\n2   103   7560.0\n3   104  11400.0\n4   105  10350.0\n5   106  13800.0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Sorting with sort_values",
+   "q": "Sort the rooms by `type` A to Z, and inside each type by `rating`, highest first. Print the `type`, `room` and `rating` columns.",
+   "starter": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\n",
+   "sol": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.sort_values([\"type\", \"rating\"], ascending=[True, False])[[\"type\", \"room\", \"rating\"]])",
+   "e": "Give a list of columns and a matching list of directions.",
+   "out": "       type  room  rating\n0    Deluxe   101     4.5\n3    Deluxe   104     4.1\n4    Deluxe   105     3.6\n2  Standard   103     3.9\n5     Suite   106     4.9\n1     Suite   102     4.8"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Filtering rows",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\ncheap = rooms[rooms[\"rate\"].between(2000, 3600)]\nprint(cheap[\"room\"].tolist(), len(cheap))",
+   "e": "`between` includes both ends: rates 3500, 2100 and 2300 qualify.",
+   "ans": "[101, 103, 105] 3"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "iloc: pick by position",
+   "q": "This code should print the **last 2** room numbers, `[105, 106]`, but it prints `[]`. Fix the slice.",
+   "c": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.iloc[-2:0][\"room\"].tolist())",
+   "fixed": "import pandas as pd\nrooms = pd.DataFrame({\n    \"room\": [101, 102, 103, 104, 105, 106],\n    \"type\": [\"Deluxe\", \"Suite\", \"Standard\", \"Deluxe\", \"Deluxe\", \"Suite\"],\n    \"rate\": [3500, 7200, 2100, 3800, 2300, 6900],\n    \"nights\": [2, 1, 4, 3, 5, 2],\n    \"rating\": [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]\n})\nprint(rooms.iloc[-2:][\"room\"].tolist())",
+   "e": "A slice from -2 to 0 is empty, because 0 comes before -2. Leave the end out to go to the last row.",
+   "want": "[105, 106]",
+   "got": "[]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "query(): filters written like a sentence",
+   "q": "Read `sales_data.csv`. Using `query()`, keep the West orders with a profit above 1000, then print how many there are and their total sales.",
+   "starter": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\nbig = sales.query(\"Region == 'West' and Profit > 1000\")\nprint(len(big), big[\"Sales\"].sum())",
+   "e": "Filter once, then use `len()` and `sum()` on the result.",
+   "out": "13 93834"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Counting and finding: value_counts, unique and idxmax",
+   "q": "Read `sales_data.csv`. Print the `Date`, `Category` and `Profit` of the order with the **biggest loss** (the smallest profit).",
+   "starter": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\nprint(sales.loc[sales[\"Profit\"].idxmin(), [\"Date\", \"Category\", \"Profit\"]])",
+   "e": "`idxmin()` finds where the smallest profit is; `loc` shows the columns you choose.",
+   "out": "Date         2024-12-23\nCategory    Electronics\nProfit             -252\nName: 491, dtype: object"
+  }
+ ],
+ "pandas4": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "groupby: split, apply, combine",
+   "q": "Print the total `amount` of each store.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.groupby(\"store\")[\"amount\"].sum())",
+   "e": "Split by store, take the amount, add it up: one row per store, sorted A to Z.",
+   "out": "store\nDelhi    650\nGoa      460\nPune     690\nName: amount, dtype: int64"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "groupby: split, apply, combine",
+   "q": "Print how many orders there are for each `item`, using `size()`.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.groupby(\"item\").size())",
+   "e": "`size()` counts the rows in each group.",
+   "out": "item\nCoffee    2\nTea       5\ndtype: int64"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "groupby: split, apply, combine",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ndf = pd.DataFrame({\"g\": [\"b\", \"a\", \"b\"], \"v\": [4, 9, 7]})\nprint(df.groupby(\"g\")[\"v\"].max().tolist())",
+   "e": "Group a has 9; group b has 4 and 7, so its max is 7. Groups are sorted: a first.",
+   "ans": "[9, 7]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "agg: many summaries at once",
+   "q": "For each store, print the mean and the max `amount` in one table, using `agg` with a list.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.groupby(\"store\")[\"amount\"].agg([\"mean\", \"max\"]))",
+   "e": "A list in `agg` gives one column per summary.",
+   "out": "        mean  max\nstore            \nDelhi  325.0  600\nGoa    230.0  260\nPune   230.0  300"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "concat: stacking tables",
+   "q": "This code should stack the two weeks into one table of 4 rows and print `4`, but it stops with a TypeError. Fix it.",
+   "c": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\nboth = pd.concat(w1, w2)\nprint(len(both))",
+   "fixed": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\nboth = pd.concat([w1, w2])\nprint(len(both))",
+   "e": "`pd.concat` takes one **list** of tables: `pd.concat([w1, w2])`.",
+   "want": "4",
+   "got": "TypeError: concat() takes 1 positional argument but 2 were given"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "merge: joining two tables",
+   "q": "Join `orders` with `managers` so that only stores found in both tables stay. Print the `store`, `item` and `manager` columns.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\nm = pd.merge(orders, managers, on=\"store\", how=\"inner\")\nprint(m[[\"store\", \"item\", \"manager\"]])",
+   "e": "An inner join keeps only matching keys, so the Goa orders disappear.",
+   "out": "   store    item manager\n0   Pune     Tea    Asha\n1  Delhi  Coffee    Ravi\n2   Pune  Coffee    Asha\n3  Delhi     Tea    Ravi\n4   Pune     Tea    Asha"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "pd.cut: numbers into groups",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ns = pd.Series([15, 45, 80])\nprint(pd.cut(s, bins=[0, 30, 60, 100], labels=[\"Low\", \"Mid\", \"High\"]).tolist())",
+   "e": "Each value goes into the range it falls in: (0, 30], (30, 60] and (60, 100].",
+   "ans": "['Low', 'Mid', 'High']"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Pivot tables",
+   "q": "Make a pivot table of the total `amount` with stores down the side and items across the top. Print it.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.pivot_table(values=\"amount\", index=\"store\", columns=\"item\", aggfunc=\"sum\"))",
+   "e": "`index` sets the rows, `columns` the columns, `aggfunc` how to combine.",
+   "out": "item   Coffee    Tea\nstore               \nDelhi   600.0   50.0\nGoa       NaN  460.0\nPune    240.0  450.0"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "agg: many summaries at once",
+   "q": "For each item, print a report with named aggregation: `orders` (count of orders), `units` (total qty) and `revenue` (total amount).",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.groupby(\"item\").agg(orders=(\"qty\", \"count\"), units=(\"qty\", \"sum\"), revenue=(\"amount\", \"sum\")))",
+   "e": "Named aggregation: `new_name=(\"column\", \"summary\")`.",
+   "out": "        orders  units  revenue\nitem                          \nCoffee       2      7      840\nTea          5     16      960"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "transform and assign",
+   "q": "This code should put each store's total amount on every order, but the new column is all NaN. Fix it.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"store_total\"] = orders.groupby(\"store\")[\"amount\"].sum()\nprint(orders[[\"store\", \"store_total\"]])",
+   "fixed": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"store_total\"] = orders.groupby(\"store\")[\"amount\"].transform(\"sum\")\nprint(orders[[\"store\", \"store_total\"]])",
+   "e": "`sum()` gives one row per store (labels Delhi, Goa, Pune), which do not match the order labels 0 to 6. `transform` gives one value per order.",
+   "want": "   store  store_total\n0   Pune          690\n1  Delhi          650\n2   Pune          690\n3    Goa          460\n4  Delhi          650\n5   Pune          690\n6    Goa          460",
+   "got": "   store  store_total\n0   Pune          NaN\n1  Delhi          NaN\n2   Pune          NaN\n3    Goa          NaN\n4  Delhi          NaN\n5   Pune          NaN\n6    Goa          NaN"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "transform and assign",
+   "q": "Add a column `share` = each order's amount as a percent of its store's total, rounded to 1 decimal. Print the `store`, `amount` and `share` columns.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"share\"] = (orders[\"amount\"] / orders.groupby(\"store\")[\"amount\"].transform(\"sum\") * 100).round(1)\nprint(orders[[\"store\", \"amount\", \"share\"]])",
+   "e": "`transform(\"sum\")` lines the store total up with every order, so you can divide row by row.",
+   "out": "   store  amount  share\n0   Pune     150   21.7\n1  Delhi     600   92.3\n2   Pune     240   34.8\n3    Goa     200   43.5\n4  Delhi      50    7.7\n5   Pune     300   43.5\n6    Goa     260   56.5"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "merge: joining two tables",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\nprint(len(pd.merge(orders, managers, on=\"store\", how=\"left\")), len(pd.merge(orders, managers, on=\"store\", how=\"outer\")))",
+   "e": "Left keeps all 7 orders. Outer also adds Chennai, which has a manager but no orders: 8.",
+   "ans": "7 8"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "The top row in each group",
+   "q": "Print the `store`, `item` and `amount` of the biggest order in each store.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.loc[orders.groupby(\"store\")[\"amount\"].idxmax(), [\"store\", \"item\", \"amount\"]])",
+   "e": "`groupby(...).idxmax()` gives one label per store; `loc` shows those rows.",
+   "out": "   store    item  amount\n1  Delhi  Coffee     600\n6    Goa     Tea     260\n5   Pune     Tea     300"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Pivot tables",
+   "q": "Make a pivot table that **counts** the orders, stores down the side and items across, with 0 in empty cells. Print it.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.pivot_table(values=\"amount\", index=\"store\", columns=\"item\", aggfunc=\"count\", fill_value=0))",
+   "e": "Goa has no Coffee orders, so that cell would be NaN. `fill_value=0` shows 0 instead.",
+   "out": "item   Coffee  Tea\nstore             \nDelhi       1    1\nGoa         0    2\nPune        1    2"
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "merge: joining two tables",
+   "q": "This code should join the managers onto the orders, but it raises a KeyError. Fix it.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\nm = pd.merge(orders, managers, on=\"city\", how=\"left\")\nprint(m[\"manager\"].tolist())",
+   "fixed": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\nm = pd.merge(orders, managers, on=\"store\", how=\"left\")\nprint(m[\"manager\"].tolist())",
+   "e": "The key must be a column that both tables have: `store`.",
+   "want": "['Asha', 'Ravi', 'Asha', nan, 'Ravi', 'Asha', nan]",
+   "got": "KeyError: 'city'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "concat: stacking tables",
+   "q": "Stack `w1` and `w2` with the labels `W1` and `W2` (use `keys=`) and print the table.",
+   "starter": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\n",
+   "sol": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\nprint(pd.concat([w1, w2], keys=[\"W1\", \"W2\"]))",
+   "e": "`keys=` adds an outer label to each piece, so you can still tell the weeks apart.",
+   "out": "      day  amount\nW1 0  Mon     500\n   1  Tue     650\nW2 0  Mon     700\n   1  Tue     480"
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "agg: many summaries at once",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\ndf = pd.DataFrame({\"g\": [\"x\", \"y\", \"x\"], \"v\": [2, 3, 5], \"w\": [1, 1, 4]})\nr = df.groupby(\"g\").agg({\"v\": \"sum\", \"w\": \"max\"})\nprint(r[\"v\"].tolist(), r[\"w\"].tolist())",
+   "e": "Different summaries per column: v is added up (7, 3), w takes the max (4, 1).",
+   "ans": "[7, 3] [4, 1]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "describe and corr",
+   "q": "Print the correlation between `qty` and `amount`, rounded to 2 decimals.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(round(orders[\"qty\"].corr(orders[\"amount\"]), 2))",
+   "e": "0.64: bigger quantities usually mean bigger amounts, but not always, because tea and coffee have different prices.",
+   "out": "0.64"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "pd.cut: numbers into groups",
+   "q": "Put the order amounts into bands with `pd.cut`: `Small` up to 200, `Medium` up to 400 and `Large` up to 1000. Print the number of orders in each band (group with `observed=True`).",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"band\"] = pd.cut(orders[\"amount\"], bins=[0, 200, 400, 1000], labels=[\"Small\", \"Medium\", \"Large\"])\nprint(orders.groupby(\"band\", observed=True).size())",
+   "e": "Each range includes its right edge, so 200 is Small.",
+   "out": "band\nSmall     3\nMedium    3\nLarge     1\ndtype: int64"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "merge: joining two tables",
+   "q": "Using a left join of `orders` with `managers`, print the stores (once each) that have **no** manager, as a list.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nmanagers = pd.DataFrame({\"store\": [\"Pune\", \"Delhi\", \"Chennai\"], \"manager\": [\"Asha\", \"Ravi\", \"Meena\"]})\nm = pd.merge(orders, managers, on=\"store\", how=\"left\")\nprint(m[m[\"manager\"].isna()][\"store\"].unique().tolist())",
+   "e": "Unmatched rows get NaN in the right table's columns; `unique()` lists each store once.",
+   "out": "['Goa']"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "pd.cut: numbers into groups",
+   "q": "This code should count the orders in each band and print only the bands that have orders, with no warning. Fix the groupby.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"band\"] = pd.cut(orders[\"amount\"], bins=[0, 40, 200, 1000], labels=[\"Tiny\", \"Small\", \"Big\"])\nprint(orders.groupby(\"band\").size())",
+   "fixed": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\norders[\"band\"] = pd.cut(orders[\"amount\"], bins=[0, 40, 200, 1000], labels=[\"Tiny\", \"Small\", \"Big\"])\nprint(orders.groupby(\"band\", observed=True).size())",
+   "e": "A `pd.cut` column is a category column. Without `observed=True`, empty bands like Tiny are kept and Pandas prints a FutureWarning.",
+   "want": "band\nSmall    3\nBig      4\ndtype: int64",
+   "got": "band\nTiny     0\nSmall    3\nBig      4\ndtype: int64\n<string>:9: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning."
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "agg: many summaries at once",
+   "q": "Write `def spread(x)` that returns the biggest minus the smallest value. For each item, print the `spread` and the `mean` of `amount`, using named aggregation.",
+   "starter": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\n",
+   "sol": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\ndef spread(x):\n    return x.max() - x.min()\n\nprint(orders.groupby(\"item\").agg(spread=(\"amount\", spread), mean=(\"amount\", \"mean\")))",
+   "e": "Your own function gets each group's values as a Series.",
+   "out": "        spread   mean\nitem                 \nCoffee     360  420.0\nTea        250  192.0"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "transform and assign",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\norders = pd.DataFrame({\n    \"store\": [\"Pune\", \"Delhi\", \"Pune\", \"Goa\", \"Delhi\", \"Pune\", \"Goa\"],\n    \"item\": [\"Tea\", \"Coffee\", \"Coffee\", \"Tea\", \"Tea\", \"Tea\", \"Tea\"],\n    \"qty\": [3, 5, 2, 4, 1, 6, 2],\n    \"amount\": [150, 600, 240, 200, 50, 300, 260]\n})\nprint(orders.groupby(\"item\")[\"qty\"].transform(\"max\").tolist())",
+   "e": "Each order gets the biggest qty of its item: Tea 6, Coffee 5.",
+   "ans": "[6, 5, 5, 6, 6, 6, 6]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "groupby: split, apply, combine",
+   "q": "Read `sales_data.csv`. Keep only the `Groceries` orders, then print the total sales of each month (use `.dt.to_period(\"M\")`) and the best month.",
+   "starter": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\ngroc = sales[sales[\"Category\"] == \"Groceries\"]\nmonthly = groc.groupby(groc[\"Date\"].dt.to_period(\"M\"))[\"Sales\"].sum()\nprint(monthly)\nprint(\"Best month:\", monthly.idxmax())",
+   "e": "Filter first, then group the dates by month.",
+   "out": "Date\n2024-01     5703\n2024-02     3153\n2024-03     7520\n2024-04     6481\n2024-05     6761\n2024-06     5615\n2024-07     7957\n2024-08     9089\n2024-09    10274\n2024-10    16711\n2024-11    21063\n2024-12     9589\nFreq: M, Name: Sales, dtype: int64\nBest month: 2024-11"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "concat: stacking tables",
+   "q": "After stacking the two weeks, this code should print the amount in row 2 of the new table (`700`), but it raises a KeyError. Fix the stacking line.",
+   "c": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\nboth = pd.concat([w1, w2])\nprint(both.loc[2, \"amount\"])",
+   "fixed": "import pandas as pd\nw1 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [500, 650]})\nw2 = pd.DataFrame({\"day\": [\"Mon\", \"Tue\"], \"amount\": [700, 480]})\nboth = pd.concat([w1, w2], ignore_index=True)\nprint(both.loc[2, \"amount\"])",
+   "e": "Without `ignore_index=True` the labels are 0, 1, 0, 1, so there is no label 2.",
+   "want": "700",
+   "got": "KeyError: 2"
   }
  ]
 };

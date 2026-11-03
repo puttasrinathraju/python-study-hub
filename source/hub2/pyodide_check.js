@@ -8,12 +8,13 @@ const { chromium } = require('playwright');
     const items = (await (await fetch('items.json')).json()).filter(it => prefixes.some(x => it.id.startsWith(x)));
     const w = new Worker('py-worker.js'); let id = 0; const wait = {};
     w.onmessage = e => { const m = e.data; if (m.type === 'ready' && wait.ready) wait.ready(m); if (m.type === 'done' && wait[m.id]) wait[m.id](m); };
-    await new Promise(r => { wait.ready = r; w.postMessage({ type: 'init', indexURL: new URL('pyodide_local/', location.href).href, data: ['hotel_bookings.csv'] }); });
+    await new Promise(r => { wait.ready = r; w.postMessage({ type: 'init', indexURL: new URL('pyodide_local/', location.href).href, data: ['hotel_bookings.csv', 'employees.csv', 'employees.xlsx', 'sales_data.csv', 'student_scores.csv', 'tips.csv', 'orders.csv', 'customers.csv'] }); });
     const norm = s => (s || '').replace(/\s+$/, '').split('\n').map(l => l.replace(/\s+$/, '')).join('\n').replace(/^\n+/, '');
     const bad = [];
     for (const it of items) {
-      const m = await new Promise(r => { const k = ++id; wait[k] = r; w.postMessage({ type: 'run', id: k, code: it.code }); });
+      const m = await new Promise(r => { const k = ++id; wait[k] = r; w.postMessage({ type: 'run', id: k, code: it.code, chart: it.chart || null }); });
       if (it.err) { if (m.status !== 'error') bad.push([it.id, 'expected an error']); continue; }
+      if (it.chart && (m.chk || ['no chart']).length) bad.push([it.id, 'chart check', JSON.stringify(m.chk)]);
       if (m.status !== 'ok' || norm(m.out) !== norm(it.out)) bad.push([it.id, m.status, norm(m.out).slice(0, 200), '| expected |', norm(it.out).slice(0, 200), (m.err || '').slice(-200)]);
     }
     return { n: items.length, bad };

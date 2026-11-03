@@ -1322,5 +1322,235 @@ var EXERCISES = {
    "o": "{'bookings': 33, 'revenue': 220000}",
    "e": "`json.dump(data, file)` writes to a file. `json.dumps(data)` gives a string."
   }
+ ],
+ "pandas1": [
+  {
+   "q": "Read the CSV file into a DataFrame.",
+   "c": "import pandas as pd\ndf = pd.___(\"employees.csv\")\nprint(df.shape)",
+   "a": [
+    [
+     "read_csv"
+    ]
+   ],
+   "o": "(41, 8)",
+   "e": "`pd.read_csv()` turns a CSV file into a DataFrame. `shape` is (rows, columns)."
+  },
+  {
+   "q": "Show only the first 3 rows.",
+   "c": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df[[\"name\", \"city\"]].___(3))",
+   "a": [
+    [
+     "head"
+    ]
+   ],
+   "o": "             name       city\n0        Asha Rao  bengaluru\n1    Vikram Singh       Pune\n2     Neha Kapoor    Chennai",
+   "e": "`head(n)` shows the first n rows; without a number it shows 5."
+  },
+  {
+   "q": "Count the missing values in each column.",
+   "c": "import pandas as pd\ndf = pd.read_csv(\"employees.csv\")\nprint(df.___().sum())",
+   "a": [
+    [
+     "isna",
+     "isnull"
+    ]
+   ],
+   "o": "emp_id        0\nname          0\nemail         1\ndepartment    0\nsalary        3\nscore         2\njoin_date     1\ncity          1\ndtype: int64",
+   "e": "`isna()` marks gaps as True, and `sum()` counts the True values in each column."
+  },
+  {
+   "q": "Pick the two columns as a smaller DataFrame.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp[___])",
+   "a": [
+    [
+     "[\"name\", \"salary\"]",
+     "['name', 'salary']"
+    ]
+   ],
+   "o": "   name  salary\n0  Asha   72000\n1  Ravi   45000\n2  Neha   58000",
+   "e": "A **list** of column names inside the brackets gives a DataFrame."
+  },
+  {
+   "q": "Give the Series your own labels.",
+   "c": "import pandas as pd\ns = pd.Series([10, 20], ___=[\"a\", \"b\"])\nprint(s[\"b\"])",
+   "a": [
+    [
+     "index"
+    ]
+   ],
+   "o": "20",
+   "e": "`index=` sets the labels, so you can pick a value by its label."
+  }
+ ],
+ "pandas2": [
+  {
+   "q": "Fill the gaps with the middle value of the column.",
+   "c": "import pandas as pd\ns = pd.Series([10, None, 30, 50])\nprint(s.fillna(s.___()).tolist())",
+   "a": [
+    [
+     "median"
+    ]
+   ],
+   "o": "[10.0, 30.0, 30.0, 50.0]",
+   "e": "The median of 10, 30 and 50 is 30. Gaps are skipped when it is worked out."
+  },
+  {
+   "q": "Copy the last known value down into the gaps.",
+   "c": "import pandas as pd\ns = pd.Series([31, None, None, 29])\nprint(s.___().tolist())",
+   "a": [
+    [
+     "ffill"
+    ]
+   ],
+   "o": "[31.0, 31.0, 31.0, 29.0]",
+   "e": "`ffill()` (forward fill) copies the value above into each gap."
+  },
+  {
+   "q": "Remove the spaces at both ends of every name.",
+   "c": "import pandas as pd\nnames = pd.Series([\"  Asha\", \"Ravi  \"])\nprint(names.str.___().tolist())",
+   "a": [
+    [
+     "strip"
+    ]
+   ],
+   "o": "['Asha', 'Ravi']",
+   "e": "`.str.strip()` runs `strip()` on every value of the column."
+  },
+  {
+   "q": "Read the dates the Indian way: day first.",
+   "c": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"05/01/2025\"]), ___=True)\nprint(d.dt.month[0])",
+   "a": [
+    [
+     "dayfirst"
+    ]
+   ],
+   "o": "1",
+   "e": "With `dayfirst=True`, 05/01/2025 is 5 January, so the month is 1."
+  },
+  {
+   "q": "Turn values that are not dates into NaT instead of stopping.",
+   "c": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"2025-01-05\", \"oops\"]), format=\"mixed\", errors=\"___\")\nprint(d.isna().sum())",
+   "a": [
+    [
+     "coerce"
+    ]
+   ],
+   "o": "1",
+   "e": "`errors=\"coerce\"` gives NaT (a missing date) for anything it cannot read."
+  }
+ ],
+ "pandas3": [
+  {
+   "q": "Pick the first 2 rows by position.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.___[0:2][\"name\"].tolist())",
+   "a": [
+    [
+     "iloc"
+    ]
+   ],
+   "o": "['Asha', 'Ravi']",
+   "e": "`iloc` uses positions and leaves out the end of the slice, so 0:2 gives 2 rows."
+  },
+  {
+   "q": "Keep only the rows where both conditions are true.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp[(emp[\"salary\"] > 50000) ___ (emp[\"dept\"] == \"IT\")][\"name\"].tolist())",
+   "a": [
+    [
+     "&"
+    ]
+   ],
+   "o": "['Asha', 'Neha']",
+   "e": "`&` means and. Each condition needs its own brackets."
+  },
+  {
+   "q": "Run the function on every row, not every column.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\ndef tag(row):\n    return row[\"name\"] + \"-\" + row[\"dept\"]\n\nprint(emp.apply(tag, ___=1).tolist())",
+   "a": [
+    [
+     "axis"
+    ]
+   ],
+   "o": "['Asha-IT', 'Ravi-HR', 'Neha-IT']",
+   "e": "With `axis=1` the function gets one whole row at a time."
+  },
+  {
+   "q": "Sort from the largest salary down.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.sort_values(\"salary\", ___=False)[\"name\"].tolist())",
+   "a": [
+    [
+     "ascending"
+    ]
+   ],
+   "o": "['Asha', 'Neha', 'Ravi']",
+   "e": "`ascending=False` puts the biggest value first."
+  },
+  {
+   "q": "Find the label of the row with the biggest salary.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.loc[emp[\"salary\"].___(), \"name\"])",
+   "a": [
+    [
+     "idxmax"
+    ]
+   ],
+   "o": "Asha",
+   "e": "`idxmax()` gives the index label; `loc` turns it into the name."
+  }
+ ],
+ "pandas4": [
+  {
+   "q": "Group the rows by department.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.___(\"dept\")[\"salary\"].sum())",
+   "a": [
+    [
+     "groupby"
+    ]
+   ],
+   "o": "dept\nHR     45000\nIT    130000\nName: salary, dtype: int64",
+   "e": "`groupby` splits the rows into groups, then `sum()` totals each group."
+  },
+  {
+   "q": "Put each group's average on every row.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.groupby(\"dept\")[\"salary\"].___(\"mean\").tolist())",
+   "a": [
+    [
+     "transform"
+    ]
+   ],
+   "o": "[65000.0, 45000.0, 65000.0]",
+   "e": "`transform` returns one value per original row: each person gets their department's average."
+  },
+  {
+   "q": "Keep every employee, even without a match.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nheads = pd.DataFrame({\"dept\": [\"IT\"], \"head\": [\"Om\"]})\nprint(len(pd.merge(emp, heads, on=\"dept\", how=\"___\")))",
+   "a": [
+    [
+     "left"
+    ]
+   ],
+   "o": "3",
+   "e": "A left join keeps all rows of the left table; Ravi gets NaN for head."
+  },
+  {
+   "q": "Stack the tables and number the rows 0, 1, 2 again.",
+   "c": "import pandas as pd\na = pd.DataFrame({\"v\": [1, 2]})\nb = pd.DataFrame({\"v\": [3]})\nprint(pd.concat([a, b], ___=True).index.tolist())",
+   "a": [
+    [
+     "ignore_index"
+    ]
+   ],
+   "o": "[0, 1, 2]",
+   "e": "Without it the index would be 0, 1, 0."
+  },
+  {
+   "q": "Put 0 in the empty cells of the pivot table.",
+   "c": "import pandas as pd\nemp = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"salary\": [72000, 45000, 58000]})\nprint(emp.pivot_table(values=\"salary\", index=\"dept\", columns=\"name\", aggfunc=\"count\", ___=0).sum().sum())",
+   "a": [
+    [
+     "fill_value"
+    ]
+   ],
+   "o": "3",
+   "e": "`fill_value=0` fills the cells where a department has no such person."
+  }
  ]
 };

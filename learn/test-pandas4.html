@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26.1 Big Test: Group &amp; join | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Grouping, pivot tables and joining tables, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-pandas4.html">
+<meta property="og:title" content="26.1 Big Test: Group &amp; join | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Grouping, pivot tables and joining tables, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-pandas4">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-pandas4">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>26.1 Big Test: Group &amp; join</h1><p class="lead">25 questions on Grouping, pivot tables and joining tables only, from basic to challenge. Try each one first, then open the answer. <a href="pandas4.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Print the total <code>amount</code> of each store.</p><p>Your code should print exactly:</p><pre class="out">store
+Delhi    650
+Goa      460
+Pune     690
+Name: amount, dtype: int64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.groupby(&quot;store&quot;)[&quot;amount&quot;].sum())</code></pre><p class="olbl">Output</p><pre class="out">store
+Delhi    650
+Goa      460
+Pune     690
+Name: amount, dtype: int64</pre></figure><p>Split by store, take the amount, add it up: one row per store, sorted A to Z.</p></details></li><li><p><b>Basic.</b> Print how many orders there are for each <code>item</code>, using <code>size()</code>.</p><p>Your code should print exactly:</p><pre class="out">item
+Coffee    2
+Tea       5
+dtype: int64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.groupby(&quot;item&quot;).size())</code></pre><p class="olbl">Output</p><pre class="out">item
+Coffee    2
+Tea       5
+dtype: int64</pre></figure><p><code>size()</code> counts the rows in each group.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;g&quot;: [&quot;b&quot;, &quot;a&quot;, &quot;b&quot;], &quot;v&quot;: [4, 9, 7]})
+print(df.groupby(&quot;g&quot;)[&quot;v&quot;].max().tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">[9, 7]</pre><p>Group a has 9; group b has 4 and 7, so its max is 7. Groups are sorted: a first.</p></details></li><li><p><b>Basic.</b> For each store, print the mean and the max <code>amount</code> in one table, using <code>agg</code> with a list.</p><p>Your code should print exactly:</p><pre class="out">        mean  max
+store            
+Delhi  325.0  600
+Goa    230.0  260
+Pune   230.0  300</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.groupby(&quot;store&quot;)[&quot;amount&quot;].agg([&quot;mean&quot;, &quot;max&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">        mean  max
+store            
+Delhi  325.0  600
+Goa    230.0  260
+Pune   230.0  300</pre></figure><p>A list in <code>agg</code> gives one column per summary.</p></details></li><li><p><b>Basic.</b> This code should stack the two weeks into one table of 4 rows and print <code>4</code>, but it stops with a TypeError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+w1 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [500, 650]})
+w2 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [700, 480]})
+both = pd.concat(w1, w2)
+print(len(both))</code></pre></figure><p>It should print:</p><pre class="out">4</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+w1 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [500, 650]})
+w2 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [700, 480]})
+both = pd.concat([w1, w2])
+print(len(both))</code></pre><p class="olbl">Output</p><pre class="out">4</pre></figure><p><code>pd.concat</code> takes one <b>list</b> of tables: <code>pd.concat([w1, w2])</code>.</p></details></li><li><p><b>Basic.</b> Join <code>orders</code> with <code>managers</code> so that only stores found in both tables stay. Print the <code>store</code>, <code>item</code> and <code>manager</code> columns.</p><p>Your code should print exactly:</p><pre class="out">   store    item manager
+0   Pune     Tea    Asha
+1  Delhi  Coffee    Ravi
+2   Pune  Coffee    Asha
+3  Delhi     Tea    Ravi
+4   Pune     Tea    Asha</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+managers = pd.DataFrame({&quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Chennai&quot;], &quot;manager&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;]})
+m = pd.merge(orders, managers, on=&quot;store&quot;, how=&quot;inner&quot;)
+print(m[[&quot;store&quot;, &quot;item&quot;, &quot;manager&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   store    item manager
+0   Pune     Tea    Asha
+1  Delhi  Coffee    Ravi
+2   Pune  Coffee    Asha
+3  Delhi     Tea    Ravi
+4   Pune     Tea    Asha</pre></figure><p>An inner join keeps only matching keys, so the Goa orders disappear.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([15, 45, 80])
+print(pd.cut(s, bins=[0, 30, 60, 100], labels=[&quot;Low&quot;, &quot;Mid&quot;, &quot;High&quot;]).tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">['Low', 'Mid', 'High']</pre><p>Each value goes into the range it falls in: (0, 30], (30, 60] and (60, 100].</p></details></li><li><p><b>Basic.</b> Make a pivot table of the total <code>amount</code> with stores down the side and items across the top. Print it.</p><p>Your code should print exactly:</p><pre class="out">item   Coffee    Tea
+store               
+Delhi   600.0   50.0
+Goa       NaN  460.0
+Pune    240.0  450.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.pivot_table(values=&quot;amount&quot;, index=&quot;store&quot;, columns=&quot;item&quot;, aggfunc=&quot;sum&quot;))</code></pre><p class="olbl">Output</p><pre class="out">item   Coffee    Tea
+store               
+Delhi   600.0   50.0
+Goa       NaN  460.0
+Pune    240.0  450.0</pre></figure><p><code>index</code> sets the rows, <code>columns</code> the columns, <code>aggfunc</code> how to combine.</p></details></li><li><p><b>Medium.</b> For each item, print a report with named aggregation: <code>orders</code> (count of orders), <code>units</code> (total qty) and <code>revenue</code> (total amount).</p><p>Your code should print exactly:</p><pre class="out">        orders  units  revenue
+item                          
+Coffee       2      7      840
+Tea          5     16      960</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.groupby(&quot;item&quot;).agg(orders=(&quot;qty&quot;, &quot;count&quot;), units=(&quot;qty&quot;, &quot;sum&quot;), revenue=(&quot;amount&quot;, &quot;sum&quot;)))</code></pre><p class="olbl">Output</p><pre class="out">        orders  units  revenue
+item                          
+Coffee       2      7      840
+Tea          5     16      960</pre></figure><p>Named aggregation: <code>new_name=(&quot;column&quot;, &quot;summary&quot;)</code>.</p></details></li><li><p><b>Medium.</b> This code should put each store's total amount on every order, but the new column is all NaN. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;store_total&quot;] = orders.groupby(&quot;store&quot;)[&quot;amount&quot;].sum()
+print(orders[[&quot;store&quot;, &quot;store_total&quot;]])</code></pre></figure><p>It should print:</p><pre class="out">   store  store_total
+0   Pune          690
+1  Delhi          650
+2   Pune          690
+3    Goa          460
+4  Delhi          650
+5   Pune          690
+6    Goa          460</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;store_total&quot;] = orders.groupby(&quot;store&quot;)[&quot;amount&quot;].transform(&quot;sum&quot;)
+print(orders[[&quot;store&quot;, &quot;store_total&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   store  store_total
+0   Pune          690
+1  Delhi          650
+2   Pune          690
+3    Goa          460
+4  Delhi          650
+5   Pune          690
+6    Goa          460</pre></figure><p><code>sum()</code> gives one row per store (labels Delhi, Goa, Pune), which do not match the order labels 0 to 6. <code>transform</code> gives one value per order.</p></details></li><li><p><b>Medium.</b> Add a column <code>share</code> = each order's amount as a percent of its store's total, rounded to 1 decimal. Print the <code>store</code>, <code>amount</code> and <code>share</code> columns.</p><p>Your code should print exactly:</p><pre class="out">   store  amount  share
+0   Pune     150   21.7
+1  Delhi     600   92.3
+2   Pune     240   34.8
+3    Goa     200   43.5
+4  Delhi      50    7.7
+5   Pune     300   43.5
+6    Goa     260   56.5</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;share&quot;] = (orders[&quot;amount&quot;] / orders.groupby(&quot;store&quot;)[&quot;amount&quot;].transform(&quot;sum&quot;) * 100).round(1)
+print(orders[[&quot;store&quot;, &quot;amount&quot;, &quot;share&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   store  amount  share
+0   Pune     150   21.7
+1  Delhi     600   92.3
+2   Pune     240   34.8
+3    Goa     200   43.5
+4  Delhi      50    7.7
+5   Pune     300   43.5
+6    Goa     260   56.5</pre></figure><p><code>transform(&quot;sum&quot;)</code> lines the store total up with every order, so you can divide row by row.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+managers = pd.DataFrame({&quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Chennai&quot;], &quot;manager&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;]})
+print(len(pd.merge(orders, managers, on=&quot;store&quot;, how=&quot;left&quot;)), len(pd.merge(orders, managers, on=&quot;store&quot;, how=&quot;outer&quot;)))</code></pre></figure><details><summary>Answer</summary><pre class="out">7 8</pre><p>Left keeps all 7 orders. Outer also adds Chennai, which has a manager but no orders: 8.</p></details></li><li><p><b>Medium.</b> Print the <code>store</code>, <code>item</code> and <code>amount</code> of the biggest order in each store.</p><p>Your code should print exactly:</p><pre class="out">   store    item  amount
+1  Delhi  Coffee     600
+6    Goa     Tea     260
+5   Pune     Tea     300</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.loc[orders.groupby(&quot;store&quot;)[&quot;amount&quot;].idxmax(), [&quot;store&quot;, &quot;item&quot;, &quot;amount&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   store    item  amount
+1  Delhi  Coffee     600
+6    Goa     Tea     260
+5   Pune     Tea     300</pre></figure><p><code>groupby(...).idxmax()</code> gives one label per store; <code>loc</code> shows those rows.</p></details></li><li><p><b>Medium.</b> Make a pivot table that <b>counts</b> the orders, stores down the side and items across, with 0 in empty cells. Print it.</p><p>Your code should print exactly:</p><pre class="out">item   Coffee  Tea
+store             
+Delhi       1    1
+Goa         0    2
+Pune        1    2</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.pivot_table(values=&quot;amount&quot;, index=&quot;store&quot;, columns=&quot;item&quot;, aggfunc=&quot;count&quot;, fill_value=0))</code></pre><p class="olbl">Output</p><pre class="out">item   Coffee  Tea
+store             
+Delhi       1    1
+Goa         0    2
+Pune        1    2</pre></figure><p>Goa has no Coffee orders, so that cell would be NaN. <code>fill_value=0</code> shows 0 instead.</p></details></li><li><p><b>Medium.</b> This code should join the managers onto the orders, but it raises a KeyError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+managers = pd.DataFrame({&quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Chennai&quot;], &quot;manager&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;]})
+m = pd.merge(orders, managers, on=&quot;city&quot;, how=&quot;left&quot;)
+print(m[&quot;manager&quot;].tolist())</code></pre></figure><p>It should print:</p><pre class="out">['Asha', 'Ravi', 'Asha', nan, 'Ravi', 'Asha', nan]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+managers = pd.DataFrame({&quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Chennai&quot;], &quot;manager&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;]})
+m = pd.merge(orders, managers, on=&quot;store&quot;, how=&quot;left&quot;)
+print(m[&quot;manager&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Asha', 'Ravi', 'Asha', nan, 'Ravi', 'Asha', nan]</pre></figure><p>The key must be a column that both tables have: <code>store</code>.</p></details></li><li><p><b>Medium.</b> Stack <code>w1</code> and <code>w2</code> with the labels <code>W1</code> and <code>W2</code> (use <code>keys=</code>) and print the table.</p><p>Your code should print exactly:</p><pre class="out">      day  amount
+W1 0  Mon     500
+   1  Tue     650
+W2 0  Mon     700
+   1  Tue     480</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+w1 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [500, 650]})
+w2 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [700, 480]})
+print(pd.concat([w1, w2], keys=[&quot;W1&quot;, &quot;W2&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">      day  amount
+W1 0  Mon     500
+   1  Tue     650
+W2 0  Mon     700
+   1  Tue     480</pre></figure><p><code>keys=</code> adds an outer label to each piece, so you can still tell the weeks apart.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;g&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;x&quot;], &quot;v&quot;: [2, 3, 5], &quot;w&quot;: [1, 1, 4]})
+r = df.groupby(&quot;g&quot;).agg({&quot;v&quot;: &quot;sum&quot;, &quot;w&quot;: &quot;max&quot;})
+print(r[&quot;v&quot;].tolist(), r[&quot;w&quot;].tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">[7, 3] [4, 1]</pre><p>Different summaries per column: v is added up (7, 3), w takes the max (4, 1).</p></details></li><li><p><b>Medium.</b> Print the correlation between <code>qty</code> and <code>amount</code>, rounded to 2 decimals.</p><p>Your code should print exactly:</p><pre class="out">0.64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(round(orders[&quot;qty&quot;].corr(orders[&quot;amount&quot;]), 2))</code></pre><p class="olbl">Output</p><pre class="out">0.64</pre></figure><p>0.64: bigger quantities usually mean bigger amounts, but not always, because tea and coffee have different prices.</p></details></li><li><p><b>Challenge.</b> Put the order amounts into bands with <code>pd.cut</code>: <code>Small</code> up to 200, <code>Medium</code> up to 400 and <code>Large</code> up to 1000. Print the number of orders in each band (group with <code>observed=True</code>).</p><p>Your code should print exactly:</p><pre class="out">band
+Small     3
+Medium    3
+Large     1
+dtype: int64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;band&quot;] = pd.cut(orders[&quot;amount&quot;], bins=[0, 200, 400, 1000], labels=[&quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;])
+print(orders.groupby(&quot;band&quot;, observed=True).size())</code></pre><p class="olbl">Output</p><pre class="out">band
+Small     3
+Medium    3
+Large     1
+dtype: int64</pre></figure><p>Each range includes its right edge, so 200 is Small.</p></details></li><li><p><b>Challenge.</b> Using a left join of <code>orders</code> with <code>managers</code>, print the stores (once each) that have <b>no</b> manager, as a list.</p><p>Your code should print exactly:</p><pre class="out">['Goa']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+managers = pd.DataFrame({&quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Chennai&quot;], &quot;manager&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;]})
+m = pd.merge(orders, managers, on=&quot;store&quot;, how=&quot;left&quot;)
+print(m[m[&quot;manager&quot;].isna()][&quot;store&quot;].unique().tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Goa']</pre></figure><p>Unmatched rows get NaN in the right table's columns; <code>unique()</code> lists each store once.</p></details></li><li><p><b>Challenge.</b> This code should count the orders in each band and print only the bands that have orders, with no warning. Fix the groupby.</p><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;band&quot;] = pd.cut(orders[&quot;amount&quot;], bins=[0, 40, 200, 1000], labels=[&quot;Tiny&quot;, &quot;Small&quot;, &quot;Big&quot;])
+print(orders.groupby(&quot;band&quot;).size())</code></pre></figure><p>It should print:</p><pre class="out">band
+Small    3
+Big      4
+dtype: int64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+orders[&quot;band&quot;] = pd.cut(orders[&quot;amount&quot;], bins=[0, 40, 200, 1000], labels=[&quot;Tiny&quot;, &quot;Small&quot;, &quot;Big&quot;])
+print(orders.groupby(&quot;band&quot;, observed=True).size())</code></pre><p class="olbl">Output</p><pre class="out">band
+Small    3
+Big      4
+dtype: int64</pre></figure><p>A <code>pd.cut</code> column is a category column. Without <code>observed=True</code>, empty bands like Tiny are kept and Pandas prints a FutureWarning.</p></details></li><li><p><b>Challenge.</b> Write <code>def spread(x)</code> that returns the biggest minus the smallest value. For each item, print the <code>spread</code> and the <code>mean</code> of <code>amount</code>, using named aggregation.</p><p>Your code should print exactly:</p><pre class="out">        spread   mean
+item                 
+Coffee     360  420.0
+Tea        250  192.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+def spread(x):
+    return x.max() - x.min()
+
+print(orders.groupby(&quot;item&quot;).agg(spread=(&quot;amount&quot;, spread), mean=(&quot;amount&quot;, &quot;mean&quot;)))</code></pre><p class="olbl">Output</p><pre class="out">        spread   mean
+item                 
+Coffee     360  420.0
+Tea        250  192.0</pre></figure><p>Your own function gets each group's values as a Series.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+orders = pd.DataFrame({
+    &quot;store&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Goa&quot;],
+    &quot;item&quot;: [&quot;Tea&quot;, &quot;Coffee&quot;, &quot;Coffee&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;, &quot;Tea&quot;],
+    &quot;qty&quot;: [3, 5, 2, 4, 1, 6, 2],
+    &quot;amount&quot;: [150, 600, 240, 200, 50, 300, 260]
+})
+print(orders.groupby(&quot;item&quot;)[&quot;qty&quot;].transform(&quot;max&quot;).tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">[6, 5, 5, 6, 6, 6, 6]</pre><p>Each order gets the biggest qty of its item: Tea 6, Coffee 5.</p></details></li><li><p><b>Challenge.</b> Read <code>sales_data.csv</code>. Keep only the <code>Groceries</code> orders, then print the total sales of each month (use <code>.dt.to_period(&quot;M&quot;)</code>) and the best month.</p><p>Your code should print exactly:</p><pre class="out">Date
+2024-01     5703
+2024-02     3153
+2024-03     7520
+2024-04     6481
+2024-05     6761
+2024-06     5615
+2024-07     7957
+2024-08     9089
+2024-09    10274
+2024-10    16711
+2024-11    21063
+2024-12     9589
+Freq: M, Name: Sales, dtype: int64
+Best month: 2024-11</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+groc = sales[sales[&quot;Category&quot;] == &quot;Groceries&quot;]
+monthly = groc.groupby(groc[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+print(monthly)
+print(&quot;Best month:&quot;, monthly.idxmax())</code></pre><p class="olbl">Output</p><pre class="out">Date
+2024-01     5703
+2024-02     3153
+2024-03     7520
+2024-04     6481
+2024-05     6761
+2024-06     5615
+2024-07     7957
+2024-08     9089
+2024-09    10274
+2024-10    16711
+2024-11    21063
+2024-12     9589
+Freq: M, Name: Sales, dtype: int64
+Best month: 2024-11</pre></figure><p>Filter first, then group the dates by month.</p></details></li><li><p><b>Challenge.</b> After stacking the two weeks, this code should print the amount in row 2 of the new table (<code>700</code>), but it raises a KeyError. Fix the stacking line.</p><figure class="code"><pre><code>import pandas as pd
+w1 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [500, 650]})
+w2 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [700, 480]})
+both = pd.concat([w1, w2])
+print(both.loc[2, &quot;amount&quot;])</code></pre></figure><p>It should print:</p><pre class="out">700</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+w1 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [500, 650]})
+w2 = pd.DataFrame({&quot;day&quot;: [&quot;Mon&quot;, &quot;Tue&quot;], &quot;amount&quot;: [700, 480]})
+both = pd.concat([w1, w2], ignore_index=True)
+print(both.loc[2, &quot;amount&quot;])</code></pre><p class="olbl">Output</p><pre class="out">700</pre></figure><p>Without <code>ignore_index=True</code> the labels are 0, 1, 0, 1, so there is no label 2.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pandas basics: Series, DataFrames and reading files | Python Study Hub</title>
+<meta name="description" content="Meet the library every data analyst uses. Make Series and DataFrames, read CSV and Excel files, and give any new table a quick health check: its size, its types, its statistics, its gaps and its duplicates.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/pandas1.html">
+<meta property="og:title" content="Pandas basics: Series, DataFrames and reading files | Python Study Hub">
+<meta property="og:description" content="Meet the library every data analyst uses. Make Series and DataFrames, read CSV and Excel files, and give any new table a quick health check: its size, its types, its statistics, its gaps and its duplicates.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#pandas1">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#pandas1">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 8 · Pandas · Chapter 23</p><h1>Pandas basics: Series, DataFrames and reading files</h1><p class="lead">Meet the library every data analyst uses. Make Series and DataFrames, read CSV and Excel files, and give any new table a quick health check: its size, its types, its statistics, its gaps and its duplicates.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Make a <b>Series</b> and a <b>DataFrame</b>, and pick columns from it</li><li>Read CSV and Excel files, and save a DataFrame to a file</li><li>Look at the data with <code>head()</code>, <code>tail()</code> and <code>sample()</code></li><li>Check a table with <code>shape</code>, <code>info()</code> and <code>describe()</code></li><li>Count missing values with <code>isna().sum()</code> and repeats with <code>duplicated()</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=ZyhVh-qRZPA">Python Pandas Tutorial (Part 1): Getting Started with Data Analysis - Installation and Loading Data</a> by Corey Schafer (about undefined min)</li><li>Telugu: <a href="https://www.youtube.com/watch?v=omX1aryP2d8">Pandas Full Course Explained in Simple Telugu | Python Pandas Tutorial for Beginners</a> by Sangeeth (about undefined min)</li></ul></section><h2>What Pandas is</h2>
+<p><mark>Pandas</mark> is the Python library for <b>tables of data</b>. If you know Excel or Power Query in Power BI, you already know the ideas: load a file, look at it, clean it, filter it, group it, summarise it. Pandas does the same jobs with a few lines of code that you can run again on next month's file.</p>
+<p>Pandas has two main objects. A <mark>DataFrame</mark> is a whole table. A <mark>Series</mark> is one column of that table. Every row has a label called the <mark>index</mark>.</p>
+<p class="cap">Diagram: A DataFrame. Column names run along the top, the index (0, 1, 2 ...) runs down the left, and each column, like the highlighted <code>salary</code>, is a Series.</p>
+<figure class="code"><figcaption>Import it once at the top. Everyone writes pd.</figcaption><pre><code>import pandas as pd
+print(pd.__version__)</code></pre><p class="olbl">Output</p><pre class="out">2.2.3</pre></figure>
+<div class="tbl"><table><thead><tr><th>Pandas</th><th>Excel / Power BI</th><th>Example</th></tr></thead><tbody><tr><td>DataFrame</td><td>A sheet or table</td><td>the whole staff list</td></tr><tr><td>Series</td><td>One column</td><td>just the salaries</td></tr><tr><td>index</td><td>Row numbers on the left</td><td>0, 1, 2 ... or names</td></tr><tr><td>column name</td><td>Column header</td><td><code>salary</code></td></tr><tr><td><code>NaN</code></td><td>An empty cell</td><td>a missing salary</td></tr><tr><td><code>read_csv()</code></td><td>Get Data from a file</td><td>load <code>employees.csv</code></td></tr></tbody></table></div>
+<aside class="note why"><strong>Why analysts care</strong><p>Analysts spend most of their time loading, checking and cleaning tables. With Pandas every step is written down, so you can repeat it, share it and fix it, instead of clicking through the same menus every month.</p></aside>
+<section class="mm"><h3>Mind map: Chapter 23 at a glance</h3><ul><li><b>Pandas basics</b><ul><li>Series<ul><li>one column with labels</li><li>pd.Series(list, index=...)</li><li>s.sum(), s.mean()</li></ul></li><li>DataFrame<ul><li>a table of Series</li><li>pd.DataFrame(dict)</li><li>df['col'] vs df[['a', 'b']]</li></ul></li><li>Read files<ul><li>read_csv</li><li>read_excel</li><li>MySQL, APIs (laptop)</li><li>to_csv</li></ul></li><li>Look<ul><li>head, tail</li><li>sample</li><li>shape, columns</li></ul></li><li>Check<ul><li>info</li><li>describe</li><li>isna().sum()</li><li>duplicated()</li></ul></li></ul></li></ul></section>
+<h2>Series: one labelled column</h2>
+<p>Make a Series from a list. Pandas adds the index 0, 1, 2 ... on the left. The last line, <code>dtype</code>, is the type of the values: <code>int64</code> means whole numbers.</p>
+<figure class="code"><pre><code>import pandas as pd
+prices = pd.Series([500, 1000, 400])
+print(prices)</code></pre><p class="olbl">Output</p><pre class="out">0     500
+1    1000
+2     400
+dtype: int64</pre></figure>
+<figure class="code"><figcaption>Your own labels with index=</figcaption><pre><code>import pandas as pd
+sales = pd.Series([1200, 950, 1430], index=[&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;])
+print(sales)
+print(sales[&quot;Tue&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Mon    1200
+Tue     950
+Wed    1430
+dtype: int64
+950</pre></figure>
+<figure class="code"><figcaption>From a dictionary: the keys become the index</figcaption><pre><code>import pandas as pd
+rooms = pd.Series({&quot;Deluxe&quot;: 12, &quot;Suite&quot;: 3, &quot;Standard&quot;: 25})
+print(rooms)</code></pre><p class="olbl">Output</p><pre class="out">Deluxe      12
+Suite        3
+Standard    25
+dtype: int64</pre></figure>
+<section class="anim"><h3>Animated explainer: How a Series pairs labels with values</h3><ol><li>You start with three values in a list.</li><li><code>index=</code> gives each value a label. The first label goes with the first value, and so on.</li><li>Now you can ask for a value by its label, like a dictionary: <code>sales[&quot;Tue&quot;]</code> gives 950.</li><li>Maths works on <b>every value at once</b>, like a NumPy array, and the labels stay attached.</li></ol></section>
+<figure class="code"><figcaption>Maths on the whole column</figcaption><pre><code>import pandas as pd
+sales = pd.Series([1200, 950, 1430], index=[&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;])
+print(sales * 1.18)          # add 18% GST to every day
+print(sales.sum(), round(sales.mean(), 1), sales.max())</code></pre><p class="olbl">Output</p><pre class="out">Mon    1416.0
+Tue    1121.0
+Wed    1687.4
+dtype: float64
+3580 1193.3 1430</pre></figure>
+<figure class="code"><figcaption>From the course notebook: numbers as labels</figcaption><pre><code>import pandas as pd
+qty = [8, 11, 5]
+prices = [500, 1000, 400]
+s = pd.Series(prices, index=qty)   # the index can be any values, even numbers
+print(s)
+print(s[11])</code></pre><p class="olbl">Output</p><pre class="out">8      500
+11    1000
+5      400
+dtype: int64
+1000</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([40, 70, 90], index=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])
+print(s[&quot;b&quot;] + s[&quot;c&quot;])</code></pre></figure><ol type="A"><li><code>160</code></li><li><code>70</code></li><li><code>bc</code></li><li>A KeyError</li></ol><details><summary>Answer</summary><p><b><code>160</code></b>. <code>s[&quot;b&quot;]</code> is 70 and <code>s[&quot;c&quot;]</code> is 90, so the sum is 160. Labels work like dictionary keys.</p></details></section>
+<aside class="note like"><strong>Think of it like this</strong><p>A Series is a <b>NumPy array with name tags</b>. The values do the fast maths; the index is a tag on each value so you can find it by name.</p></aside>
+<h2>DataFrame: a table of columns</h2>
+<p>The usual way to make a DataFrame is a <b>dictionary of lists</b>. Each key becomes a column name, and each list becomes that column's values. All the lists must be the same length.</p>
+<figure class="code"><pre><code>import pandas as pd
+staff = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;]
+})
+print(staff)</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  salary     city
+0    Asha     IT   72000     Pune
+1  Vikram     HR   45000    Delhi
+2    Neha     IT   58000     Pune
+3    Ravi  Sales   39000  Chennai
+4   Meena  Sales   66000    Delhi</pre></figure>
+<section class="anim"><h3>Animated explainer: From a dictionary to a table</h3><ol><li>A dictionary with 4 keys. Each value is a list of 5 items.</li><li>The first key, <code>&quot;name&quot;</code>, becomes the first column. Pandas adds the index 0 to 4 on the left.</li><li>The next key becomes the next column, lined up row by row.</li><li>With all 4 columns in place, each <b>row</b> is one person: row 1 is Vikram from HR in Delhi.</li></ol></section>
+<figure class="code"><figcaption>Size and column names</figcaption><pre><code>print(staff.shape)            # (rows, columns)
+print(list(staff.columns))
+print(len(staff))</code></pre><p class="olbl">Output</p><pre class="out">(5, 4)
+['name', 'dept', 'salary', 'city']
+5</pre></figure>
+<figure class="code"><figcaption>One column or several</figcaption><pre><code>print(staff[&quot;salary&quot;])        # one column: a Series
+print(staff[[&quot;name&quot;, &quot;salary&quot;]])   # a list of columns: a DataFrame</code></pre><p class="olbl">Output</p><pre class="out">0    72000
+1    45000
+2    58000
+3    39000
+4    66000
+Name: salary, dtype: int64
+     name  salary
+0    Asha   72000
+1  Vikram   45000
+2    Neha   58000
+3    Ravi   39000
+4   Meena   66000</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>staff[&quot;salary&quot;]</code> with <b>one</b> pair of brackets gives a Series. <code>staff[[&quot;name&quot;, &quot;salary&quot;]]</code> has a <b>list</b> inside the brackets, so it gives a smaller DataFrame. <code>staff[&quot;name&quot;, &quot;salary&quot;]</code> (no inner list) is a KeyError.</p></aside>
+<figure class="code"><figcaption>dtypes: the type of every column</figcaption><pre><code>print(staff.dtypes)</code></pre><p class="olbl">Output</p><pre class="out">name      object
+dept      object
+salary     int64
+city      object
+dtype: object</pre></figure>
+<figure class="code"><figcaption>Choose the index yourself</figcaption><pre><code>import pandas as pd
+data = {
+    &quot;pid&quot;: [2, 4, 5],
+    &quot;names&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;],
+    &quot;price&quot;: [500, 1000, 400]
+}
+products = pd.DataFrame(data, index=data[&quot;pid&quot;])   # use a column as the row labels
+print(products)</code></pre><p class="olbl">Output</p><pre class="out">   pid names  price
+2    2     A    500
+4    4     B   1000
+5    5     C    400</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+staff = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;]
+})
+print(staff.shape)</code></pre></figure><ol type="A"><li><code>(5, 4)</code></li><li><code>(4, 5)</code></li><li><code>20</code></li><li><code>5</code></li></ol><details><summary>Answer</summary><p><b><code>(5, 4)</code></b>. <code>shape</code> is always (rows, columns): 5 people, 4 columns.</p></details></section>
+<section class="deck"><h3>Slides: Series and DataFrames in 6 slides</h3><ol><li><p><b>Pandas = tables in Python.</b></p><p>A <b>DataFrame</b> is a table, a <b>Series</b> is one column, and the <b>index</b> labels the rows.</p></li><li><p><b>A Series</b></p><figure class="code"><pre><code>import pandas as pd
+print(pd.Series([10, 20], index=[&quot;a&quot;, &quot;b&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">a    10
+b    20
+dtype: int64</pre></figure></li><li><p><b>A DataFrame from a dictionary</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;city&quot;: [&quot;Pune&quot;, &quot;Goa&quot;], &quot;temp&quot;: [31, 33]})
+print(df)</code></pre><p class="olbl">Output</p><pre class="out">   city  temp
+0  Pune    31
+1   Goa    33</pre></figure></li><li><p><b>One column is a Series</b></p><p><code>df[&quot;temp&quot;]</code> gives a Series. <code>df[[&quot;city&quot;, &quot;temp&quot;]]</code> gives a DataFrame.</p></li><li><p><b>Describe the table</b></p><ul><li><code>df.shape</code>: (rows, columns)</li><li><code>df.columns</code>: the column names</li><li><code>df.dtypes</code>: the type of each column</li><li><code>len(df)</code>: the number of rows</li></ul></li><li><p><b>Maths on a whole column</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;city&quot;: [&quot;Pune&quot;, &quot;Goa&quot;], &quot;temp&quot;: [31, 33]})
+print(df[&quot;temp&quot;].mean())</code></pre><p class="olbl">Output</p><pre class="out">32.0</pre></figure></li></ol></section>
+<h2>Reading files</h2>
+<p>Real data comes from files. <code>pd.read_csv()</code> reads a CSV file into a DataFrame in one line. This site has a practice file, <b><code>employees.csv</code></b>: 41 rows of staff data with some messy values that you will clean in the next chapter.</p>
+<figure class="code"><figcaption>read_csv: the most used line in data analysis</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.shape)
+print(list(df.columns))</code></pre><p class="olbl">Output</p><pre class="out">(41, 8)
+['emp_id', 'name', 'email', 'department', 'salary', 'score', 'join_date', 'city']</pre></figure>
+<figure class="code"><figcaption>read_excel: Excel files work the same way</figcaption><pre><code>import pandas as pd
+staff = pd.read_excel(&quot;employees.xlsx&quot;, sheet_name=&quot;staff&quot;)
+print(staff[[&quot;name&quot;, &quot;department&quot;, &quot;salary&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">           name department  salary
+0      Asha Rao         IT   83000
+1  Vikram Singh         HR   51500
+2   Neha Kapoor      Sales   37000</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>read_excel</code> needs the <b>openpyxl</b> package. On your laptop, run <code>pip install openpyxl</code> once. This site has it already.</p></aside>
+<p>Data also lives in <b>databases</b> and behind <b>web APIs</b>. These two need a network connection or a database server, so they do not run on this site. Try them on your laptop in Jupyter.</p>
+<figure class="code"><figcaption>Laptop only: read a MySQL table</figcaption><pre><code># pip install mysql-connector-python
+import pandas as pd
+import mysql.connector as conn
+
+connection = conn.connect(host=&quot;localhost&quot;, user=&quot;root&quot;,
+                          password=&quot;your_password&quot;, database=&quot;classicmodels&quot;)
+customers = pd.read_sql(&quot;SELECT * FROM customers&quot;, connection)
+print(customers.head())
+connection.close()</code></pre></figure>
+<figure class="code"><figcaption>Laptop only: turn an API response into a table</figcaption><pre><code># pip install requests
+import pandas as pd
+import requests
+
+response = requests.get(&quot;https://jsonplaceholder.typicode.com/users&quot;)
+response.raise_for_status()          # stop with an error if the request failed
+users = pd.DataFrame(response.json())  # a list of dictionaries becomes rows
+print(users[[&quot;name&quot;, &quot;email&quot;]].head())</code></pre></figure>
+<figure class="code"><figcaption>Save a DataFrame to a file, then read it back</figcaption><pre><code>staff.to_csv(&quot;staff_copy.csv&quot;, index=False)   # index=False: do not save 0, 1, 2 ... as a column
+back = pd.read_csv(&quot;staff_copy.csv&quot;)
+print(back.shape)</code></pre><p class="olbl">Output</p><pre class="out">(5, 4)</pre></figure>
+<div class="tbl"><table><thead><tr><th>To read</th><th>Use</th><th>To save</th><th>Use</th></tr></thead><tbody><tr><td>CSV file</td><td><code>pd.read_csv(&quot;file.csv&quot;)</code></td><td>CSV file</td><td><code>df.to_csv(&quot;file.csv&quot;, index=False)</code></td></tr><tr><td>Excel file</td><td><code>pd.read_excel(&quot;file.xlsx&quot;)</code></td><td>Excel file</td><td><code>df.to_excel(&quot;file.xlsx&quot;, index=False)</code></td></tr><tr><td>SQL table</td><td><code>pd.read_sql(query, connection)</code></td><td>JSON file</td><td><code>df.to_json(&quot;file.json&quot;)</code></td></tr><tr><td>API (JSON)</td><td><code>pd.DataFrame(response.json())</code></td><td></td><td></td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p>Forgot <code>index=False</code> in <code>to_csv</code>? The file gets an extra column of row numbers. When you read it back you will see a column called <b><code>Unnamed: 0</code></b>. The fix is <code>index=False</code> when saving, or <code>index_col=0</code> when reading.</p></aside>
+<h2>Looking at the data: head, tail and sample</h2>
+<p>Never trust a file you have not looked at. <code>head()</code> shows the first 5 rows, <code>tail()</code> the last 5, and <code>sample()</code> a few random ones. Give a number to see more or fewer.</p>
+<figure class="code"><figcaption>head(): the first 5 rows</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.head())</code></pre><p class="olbl">Output</p><pre class="out">  emp_id            name  ...    join_date       city
+0   E101        Asha Rao  ...   2020-08-10  bengaluru
+1   E102    Vikram Singh  ...   11/08/2017       Pune
+2   E103     Neha Kapoor  ...  21-Nov-2022    Chennai
+3   E104       Ravi Teja  ...   2022-08-06      Delhi
+4   E105    Meena Pillai  ...   2022-05-09   Chennai 
+
+[5 rows x 8 columns]</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The <code>...</code> in the middle means &quot;some columns are hidden because the table is too wide for the screen&quot;. Pick the columns you want, like <code>df[[&quot;name&quot;, &quot;salary&quot;]].head()</code>. The last line tells you the real size: 5 rows x 8 columns.</p></aside>
+<figure class="code"><figcaption>tail(3): the last 3 rows</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[[&quot;emp_id&quot;, &quot;name&quot;, &quot;salary&quot;]].tail(3))</code></pre><p class="olbl">Output</p><pre class="out">   emp_id            name   salary
+38   E138    Qadir Ahmed   56500.0
+39   E139    Rekha Murthy  72000.0
+40   E140    Tarun Chopra  28500.0</pre></figure>
+<figure class="code"><figcaption>sample(): random rows (random_state makes them repeat)</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[[&quot;name&quot;, &quot;department&quot;]].sample(3, random_state=7))</code></pre><p class="olbl">Output</p><pre class="out">               name  department
+9       Rahul Verma  marketing 
+17    Lakshmi Menon          HR
+29    Harini Prasad     Finance</pre></figure>
+<aside class="note key"><strong>Remember this</strong><p>Look at the data <b>before</b> you analyse it. In just these few rows you can already see problems: extra spaces in names, <code>bengaluru</code> in small letters, and three different date styles.</p></aside>
+<h2>Shape, info and describe</h2>
+<p>Three commands give you a health check of any table: <code>shape</code> (how big), <code>info()</code> (each column's type and how many values are filled in) and <code>describe()</code> (quick statistics of the number columns).</p>
+<figure class="code"><figcaption>info(): types and filled-in counts</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df.info(memory_usage=False)</code></pre><p class="olbl">Output</p><pre class="out">&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 41 entries, 0 to 40
+Data columns (total 8 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   emp_id      41 non-null     object 
+ 1   name        41 non-null     object 
+ 2   email       40 non-null     object 
+ 3   department  41 non-null     object 
+ 4   salary      38 non-null     float64
+ 5   score       39 non-null     float64
+ 6   join_date   40 non-null     object 
+ 7   city        40 non-null     object 
+dtypes: float64(2), object(6)</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>On your laptop, plain <code>df.info()</code> also prints a last line with the memory the table uses. We hide it here with <code>memory_usage=False</code>, because the number depends on the computer.</p></aside>
+<p>Read <code>info()</code> like this: 41 rows in total, but <code>salary</code> has only <b>38 non-null</b> values, so 3 salaries are missing. <code>float64</code> means decimal numbers (a number column with a gap always becomes decimal, so <code>salary</code> shows <code>float64</code>), and <code>object</code> usually means <b>text</b>. <code>join_date</code> is text too: Pandas does not know it is a date yet.</p>
+<figure class="code"><figcaption>describe(): statistics of every number column</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.describe())</code></pre><p class="olbl">Output</p><pre class="out">             salary      score
+count     38.000000  39.000000
+mean   56184.210526  73.589744
+std    12731.330291  10.454709
+min    28500.000000  53.000000
+25%    47375.000000  67.000000
+50%    55000.000000  74.000000
+75%    63875.000000  82.500000
+max    83000.000000  91.000000</pre></figure>
+<div class="tbl"><table><thead><tr><th>Row</th><th>Means</th><th>Here (salary)</th></tr></thead><tbody><tr><td><code>count</code></td><td>How many values are filled in</td><td>38 (3 are missing)</td></tr><tr><td><code>mean</code></td><td>The average</td><td>about ₹56,184</td></tr><tr><td><code>std</code></td><td>Standard deviation: how spread out the values are</td><td>about ₹12,731</td></tr><tr><td><code>min</code> / <code>max</code></td><td>The smallest and largest value</td><td>₹28,500 and ₹83,000</td></tr><tr><td><code>25%</code> <code>50%</code> <code>75%</code></td><td>Quartiles: a quarter, half and three quarters of the values are below these</td><td>50% is the median, ₹55,000</td></tr></tbody></table></div>
+<figure class="code"><figcaption>describe() on a text column: count, unique, top, freq</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[&quot;department&quot;].describe())</code></pre><p class="olbl">Output</p><pre class="out">count          41
+unique         12
+top       Finance
+freq            7
+Name: department, dtype: object</pre></figure>
+<p>12 unique departments? The company has only 5. <code>unique()</code> lists every different value once, in the order they first appear, and shows the problem: messy spellings like <code>it</code>, <code>Hr</code> and <code> SALES</code> count as different values.</p>
+<figure class="code"><figcaption>unique() and nunique(): the different values, and how many</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[&quot;department&quot;].unique())
+print(df[&quot;department&quot;].nunique())</code></pre><p class="olbl">Output</p><pre class="out">['IT' 'HR' 'Sales' 'finance' 'Marketing' 'it' ' SALES' 'Finance'
+ 'marketing ' 'Hr' 'hr ' 'FINANCE']
+12</pre></figure>
+<p><code>value_counts()</code> counts how many rows have each value, biggest first. It is the quickest way to see what a text column holds.</p>
+<figure class="code"><figcaption>value_counts(): how many rows have each value</figcaption><pre><code>import pandas as pd
+payments = pd.Series([&quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;, &quot;Card&quot;, &quot;UPI&quot;, &quot;Cash&quot;])
+print(payments.value_counts())</code></pre><p class="olbl">Output</p><pre class="out">UPI     3
+Cash    2
+Card    1
+Name: count, dtype: int64</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;a&quot;: [1, 2, None], &quot;b&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;]})
+print(df[&quot;a&quot;].count())</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>0</code></li><li><code>None</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. <code>count()</code> counts only the values that are filled in. The <code>None</code> is missing, so the count is 2, while <code>len(df)</code> is 3.</p></details></section>
+<h2>Missing values and duplicates</h2>
+<p>Missing cells show as <mark>NaN</mark> (&quot;not a number&quot;). <code>isna()</code> turns every cell into <code>True</code> (missing) or <code>False</code> (filled). Add <code>.sum()</code> and you get the number of missing cells in each column, because <code>True</code> counts as 1.</p>
+<figure class="code"><figcaption>The first command to run on any new file</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.isna().sum())</code></pre><p class="olbl">Output</p><pre class="out">emp_id        0
+name          0
+email         1
+department    0
+salary        3
+score         2
+join_date     1
+city          1
+dtype: int64</pre></figure>
+<section class="anim"><h3>Animated explainer: How isna().sum() counts the gaps</h3><ol><li>A small table. Three cells are empty (<code>NaN</code>).</li><li><code>df.isna()</code> gives a table of the same shape: <code>True</code> where a value is missing.</li><li><code>.sum()</code> adds up each column. <code>True</code> counts as 1, so you get the number of gaps: name 0, salary 2, score 1.</li></ol></section>
+<figure class="code"><figcaption>One column, and the whole table</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[&quot;salary&quot;].isna().sum(), df[&quot;salary&quot;].notna().sum())
+print(df.isna().sum().sum())          # all the gaps in the whole table</code></pre><p class="olbl">Output</p><pre class="out">3 38
+8</pre></figure>
+<p>A <mark>duplicate</mark> is a row that appears twice. <code>duplicated()</code> marks every repeat (not the first copy) with <code>True</code>. You can check whole rows, or just an ID column.</p>
+<figure class="code"><figcaption>duplicated(): find repeats</figcaption><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.duplicated().sum())                 # rows that are exact copies
+print(df[&quot;emp_id&quot;].duplicated().sum())       # IDs that appear again
+print(df[&quot;department&quot;].duplicated().sum())   # repeats are normal here!</code></pre><p class="olbl">Output</p><pre class="out">1
+1
+29</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([&quot;E1&quot;, &quot;E2&quot;, &quot;E1&quot;, &quot;E1&quot;])
+print(s.duplicated().sum())</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>1</code></li><li><code>4</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. The first <code>E1</code> is not a duplicate. The second and third ones are, so the count is 2.</p></details></section>
+<aside class="note trap"><strong>Trap!</strong><p>Duplicates in an <b>ID</b> column are a problem. Duplicates in a <b>category</b> column, like department, are normal: many people work in IT. Always ask which column should be unique.</p></aside>
+<div class="tbl"><table><thead><tr><th>Command</th><th>Gives</th><th>Example answer</th></tr></thead><tbody><tr><td><code>df.isna().sum()</code></td><td>Missing cells per column</td><td><code>salary 3</code></td></tr><tr><td><code>df.isna().sum().sum()</code></td><td>Missing cells in the whole table</td><td><code>8</code></td></tr><tr><td><code>df[&quot;c&quot;].notna().sum()</code></td><td>Filled cells in one column</td><td><code>38</code></td></tr><tr><td><code>df.duplicated().sum()</code></td><td>Rows that repeat an earlier row</td><td><code>1</code></td></tr><tr><td><code>df[&quot;id&quot;].duplicated().sum()</code></td><td>Repeated values in one column</td><td><code>1</code></td></tr></tbody></table></div>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>Make a Series of a week's tea sales, <code>[120, 95, 140, 110, 160]</code>, with the index <code>[&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;]</code>. Print the Series, then the sales on Thursday.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>pd.Series(values, index=labels)</code>, then <code>s[&quot;Thu&quot;]</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+tea = pd.Series([120, 95, 140, 110, 160], index=[&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;])
+print(tea)
+print(tea[&quot;Thu&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Mon    120
+Tue     95
+Wed    140
+Thu    110
+Fri    160
+dtype: int64
+110</pre></figure><p>The index lets you pick a value by its label, like a dictionary key.</p></details></li><li><p>Build a DataFrame of 3 cities with the columns <code>city</code> = Hyderabad, Pune, Kochi and <code>rain_mm</code> = 812, 722, 3005. Print it, then print its shape.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>A dictionary of two lists goes into <code>pd.DataFrame()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+weather = pd.DataFrame({&quot;city&quot;: [&quot;Hyderabad&quot;, &quot;Pune&quot;, &quot;Kochi&quot;], &quot;rain_mm&quot;: [812, 722, 3005]})
+print(weather)
+print(weather.shape)</code></pre><p class="olbl">Output</p><pre class="out">        city  rain_mm
+0  Hyderabad      812
+1       Pune      722
+2      Kochi     3005
+(3, 2)</pre></figure><p>Each key becomes a column. Three items in each list make three rows.</p></details></li><li><p>Read <code>employees.csv</code>. Print only the <code>name</code> and <code>city</code> columns of the <b>last 4</b> rows.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Pick the columns with a list in double brackets, then <code>.tail(4)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[[&quot;name&quot;, &quot;city&quot;]].tail(4))</code></pre><p class="olbl">Output</p><pre class="out">              name     city
+37   Pallavi Desai  Chennai
+38    Qadir Ahmed     Delhi
+39    Rekha Murthy  Chennai
+40    Tarun Chopra  Chennai</pre></figure><p>You can chain the steps: first choose the columns, then the rows to show.</p></details></li><li><p>Read <code>employees.csv</code>. Print the number of missing values in each column, then the total number of missing values.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>df.isna().sum()</code> and <code>df.isna().sum().sum()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.isna().sum())
+print(df.isna().sum().sum())</code></pre><p class="olbl">Output</p><pre class="out">emp_id        0
+name          0
+email         1
+department    0
+salary        3
+score         2
+join_date     1
+city          1
+dtype: int64
+8</pre></figure><p>The first sum works per column. The second adds those numbers up.</p></details></li><li><p>Read <code>employees.csv</code>. Print how many rows are exact duplicates, and how many <code>emp_id</code> values repeat.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>df.duplicated().sum()</code> checks whole rows; <code>df[&quot;emp_id&quot;].duplicated().sum()</code> checks one column.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.duplicated().sum())
+print(df[&quot;emp_id&quot;].duplicated().sum())</code></pre><p class="olbl">Output</p><pre class="out">1
+1</pre></figure><p>Both are 1: one row was saved twice. You will remove it with <code>drop_duplicates()</code> in the next chapter.</p></details></li></ol>
+<h2>Practice with real data: student scores</h2>
+<p><b><code>student_scores.csv</code></b> has the same columns as the course's student file: 300 students, their background and their maths, reading and writing scores. The first column has no name, because the file was saved with its index.</p>
+<ol class="tasks"><li><p>Read <code>student_scores.csv</code> and print its shape and the first 3 column names.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>list(df.columns)[:3]</code> gives the first three names.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;student_scores.csv&quot;)
+print(df.shape)
+print(list(df.columns)[:3])</code></pre><p class="olbl">Output</p><pre class="out">(300, 15)
+['Unnamed: 0', 'Gender', 'EthnicGroup']</pre></figure><p>The first column is called <code>Unnamed: 0</code>: the old index saved as a column. <code>pd.read_csv(&quot;student_scores.csv&quot;, index_col=0)</code> uses it as the index instead.</p></details></li><li><p>Read the file with <code>index_col=0</code>. Print the statistics of the three score columns with <code>describe()</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Pick <code>[[&quot;MathScore&quot;, &quot;ReadingScore&quot;, &quot;WritingScore&quot;]]</code>, then <code>.describe()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;student_scores.csv&quot;, index_col=0)
+print(df[[&quot;MathScore&quot;, &quot;ReadingScore&quot;, &quot;WritingScore&quot;]].describe())</code></pre><p class="olbl">Output</p><pre class="out">        MathScore  ReadingScore  WritingScore
+count  300.000000    300.000000    300.000000
+mean    68.833333     69.563333     69.300000
+std     15.270544     15.737797     16.064773
+min     30.000000     28.000000     26.000000
+25%     58.000000     59.000000     59.000000
+50%     69.000000     71.000000     70.000000
+75%     80.000000     80.000000     81.000000
+max    100.000000    100.000000    100.000000</pre></figure><p>Now the shape has 14 columns, not 15. The 50% row is the median score.</p></details></li><li><p>Which columns have missing values, and how many? Read the file with <code>index_col=0</code> and print <code>isna().sum()</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Same as on the employees file.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;student_scores.csv&quot;, index_col=0)
+print(df.isna().sum())</code></pre><p class="olbl">Output</p><pre class="out">Gender                  0
+EthnicGroup            16
+ParentEduc             22
+LunchType               0
+TestPrep               21
+ParentMaritalStatus    15
+PracticeSport           9
+IsFirstChild            8
+NrSiblings             14
+TransportMeans         30
+WklyStudyHours         10
+MathScore               0
+ReadingScore            0
+WritingScore            0
+dtype: int64</pre></figure><p>Background columns like <code>TransportMeans</code> have gaps, but no score is missing. Knowing this decides how you clean the data next.</p></details></li><li><p>Print how many students there are in each value of <code>WklyStudyHours</code> with <code>value_counts()</code>. Do you spot a strange value?</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>df[&quot;WklyStudyHours&quot;].value_counts()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;student_scores.csv&quot;, index_col=0)
+print(df[&quot;WklyStudyHours&quot;].value_counts())</code></pre><p class="olbl">Output</p><pre class="out">WklyStudyHours
+05-Oct    145
+&lt; 5        86
+&gt; 10       59
+Name: count, dtype: int64</pre></figure><p><code>05-Oct</code> is not a date: it was &quot;5-10&quot; hours, and Excel turned it into a date. Spotting values like this is why you always look at the data first. You will fix it with <code>replace()</code> in the next chapter.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>A <b>DataFrame</b> is a table, a <b>Series</b> is one column, and the <b>index</b> labels the rows.</li><li><code>pd.DataFrame(dict_of_lists)</code> builds a table: keys become columns. <code>df[&quot;a&quot;]</code> is a Series, <code>df[[&quot;a&quot;, &quot;b&quot;]]</code> a DataFrame.</li><li><code>pd.read_csv()</code> and <code>pd.read_excel()</code> load files; <code>to_csv(..., index=False)</code> saves them.</li><li>Always look first: <code>head()</code>, <code>tail()</code>, <code>sample()</code>, then <code>shape</code>, <code>info()</code> and <code>describe()</code>.</li><li><code>isna().sum()</code> counts gaps per column; <code>duplicated().sum()</code> counts repeated rows.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Read the CSV file into a DataFrame.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.___(&quot;employees.csv&quot;)
+print(df.shape)</code></pre></figure><details><summary>Answer</summary><p><code>read_csv</code> — <code>pd.read_csv()</code> turns a CSV file into a DataFrame. <code>shape</code> is (rows, columns).</p><p>Output:</p><pre class="out">(41, 8)</pre></details></li><li><p>Show only the first 3 rows.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[[&quot;name&quot;, &quot;city&quot;]].___(3))</code></pre></figure><details><summary>Answer</summary><p><code>head</code> — <code>head(n)</code> shows the first n rows; without a number it shows 5.</p><p>Output:</p><pre class="out">             name       city
+0        Asha Rao  bengaluru
+1    Vikram Singh       Pune
+2     Neha Kapoor    Chennai</pre></details></li><li><p>Count the missing values in each column.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df.___().sum())</code></pre></figure><details><summary>Answer</summary><p><code>isna</code> — <code>isna()</code> marks gaps as True, and <code>sum()</code> counts the True values in each column.</p><p>Output:</p><pre class="out">emp_id        0
+name          0
+email         1
+department    0
+salary        3
+score         2
+join_date     1
+city          1
+dtype: int64</pre></details></li><li><p>Pick the two columns as a smaller DataFrame.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp[___])</code></pre></figure><details><summary>Answer</summary><p><code>[&quot;name&quot;, &quot;salary&quot;]</code> — A <b>list</b> of column names inside the brackets gives a DataFrame.</p><p>Output:</p><pre class="out">   name  salary
+0  Asha   72000
+1  Ravi   45000
+2  Neha   58000</pre></details></li><li><p>Give the Series your own labels.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([10, 20], ___=[&quot;a&quot;, &quot;b&quot;])
+print(s[&quot;b&quot;])</code></pre></figure><details><summary>Answer</summary><p><code>index</code> — <code>index=</code> sets the labels, so you can pick a value by its label.</p><p>Output:</p><pre class="out">20</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What is a Series?</p><ol type="A"><li>A whole table</li><li>One column of values with labels (the index)</li><li>A list of DataFrames</li><li>A CSV file</li></ol><details><summary>Answer</summary><p><b>One column of values with labels (the index)</b>. A Series is one labelled column. A DataFrame is a table made of Series.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;city&quot;: [&quot;Pune&quot;, &quot;Goa&quot;], &quot;temp&quot;: [31, 33], &quot;rain&quot;: [700, 2900]})
+print(df.shape)</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>(2, 2)</code></li><li><code>(2, 3)</code></li><li><code>(3, 2)</code></li></ol><details><summary>Answer</summary><p><b><code>(2, 3)</code></b>. Two rows (Pune and Goa) and three columns.</p></details></li><li><p>Which line gives a <b>DataFrame</b> with two columns?</p><ol type="A"><li><code>df[&quot;name&quot;, &quot;salary&quot;]</code></li><li><code>df[[&quot;name&quot;, &quot;salary&quot;]]</code></li><li><code>df(&quot;name&quot;, &quot;salary&quot;)</code></li><li><code>df.name.salary</code></li></ol><details><summary>Answer</summary><p><b><code>df[[&quot;name&quot;, &quot;salary&quot;]]</code></b>. Put a <b>list</b> of column names inside the brackets: double brackets.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([1200, 950], index=[&quot;Mon&quot;, &quot;Tue&quot;])
+print(s[&quot;Tue&quot;])</code></pre></figure><ol type="A"><li><code>950</code></li><li><code>1</code></li><li><code>Tue</code></li><li>A KeyError</li></ol><details><summary>Answer</summary><p><b><code>950</code></b>. With your own index, you pick a value by its label.</p></details></li><li><p>You saved a file with <code>df.to_csv(&quot;out.csv&quot;)</code> and now see a column <code>Unnamed: 0</code> when you read it. Why?</p><ol type="A"><li>The file is broken</li><li>The index was saved as a column, because <code>index=False</code> was missing</li><li>CSV files cannot store names</li><li><code>read_csv</code> always adds it</li></ol><details><summary>Answer</summary><p><b>The index was saved as a column, because <code>index=False</code> was missing</b>. Save with <code>index=False</code>, or read with <code>index_col=0</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;a&quot;: [1, None, 3], &quot;b&quot;: [None, 5, 6]})
+print(df.isna().sum().sum())</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>2</code></li><li><code>3</code></li><li><code>0</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. Two cells are missing: <code>isna()</code> marks them <code>True</code>, and <code>sum()</code> counts the <code>True</code> values.</p></details></li><li><p>In <code>df.info()</code>, a column shows <code>38 non-null</code> and the table has 41 entries. What does that tell you?</p><ol type="A"><li>38 duplicates</li><li>3 values are missing in that column</li><li>The column has 38 unique values</li><li>The column is text</li></ol><details><summary>Answer</summary><p><b>3 values are missing in that column</b>. Non-null means filled in. 41 − 38 = 3 missing values.</p></details></li><li><p>Which command shows 3 random rows, the same ones every time you run it?</p><ol type="A"><li><code>df.head(3)</code></li><li><code>df.sample(3)</code></li><li><code>df.sample(3, random_state=1)</code></li><li><code>df.tail(3)</code></li></ol><details><summary>Answer</summary><p><b><code>df.sample(3, random_state=1)</code></b>. <code>sample()</code> picks at random; <code>random_state</code> fixes the random choice so it repeats.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;])
+print(s.duplicated().sum())</code></pre></figure><ol type="A"><li><code>0</code></li><li><code>1</code></li><li><code>2</code></li><li><code>3</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. The first <code>&quot;a&quot;</code> is not counted. The second <code>&quot;a&quot;</code> and the second <code>&quot;b&quot;</code> are repeats.</p></details></li><li><p>What does the <code>50%</code> row of <code>describe()</code> show?</p><ol type="A"><li>Half the count</li><li>The median</li><li>The mean</li><li>The values that are 50 or more</li></ol><details><summary>Answer</summary><p><b>The median</b>. Half of the values are below the 50% value: that is the median.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What is a DataFrame?</dt><dd>A table of data in Pandas: columns with names, and rows with an index.</dd><dt>What is a Series?</dt><dd>One column of a DataFrame: values with labels (the index).</dd><dt>What is the index?</dt><dd>The labels of the rows, shown on the left: 0, 1, 2 ... unless you choose your own.</dd><dt><code>df[&quot;a&quot;]</code> vs <code>df[[&quot;a&quot;]]</code></dt><dd>One pair of brackets gives a Series. A list inside the brackets gives a DataFrame.</dd><dt>How do you read a CSV file?</dt><dd><code>df = pd.read_csv(&quot;file.csv&quot;)</code></dd><dt>How do you save without the index?</dt><dd><code>df.to_csv(&quot;file.csv&quot;, index=False)</code></dd><dt><code>head()</code> vs <code>tail()</code> vs <code>sample()</code></dt><dd>First 5 rows, last 5 rows, random rows (<code>random_state</code> makes them repeat).</dd><dt>What does <code>df.shape</code> give?</dt><dd>A tuple: (rows, columns).</dd><dt>What does <code>df.info()</code> show?</dt><dd>Every column's type and how many values are filled in (non-null).</dd><dt>What does <code>df.describe()</code> show?</dt><dd>count, mean, std, min, 25%, 50% (median), 75% and max of each number column.</dd><dt>How do you count missing values per column?</dt><dd><code>df.isna().sum()</code></dd><dt>How do you count duplicate rows?</dt><dd><code>df.duplicated().sum()</code>: repeats after the first copy.</dd><dt>What does <code>object</code> mean in dtypes?</dt><dd>Usually text (strings). Numbers stored as text also show as object.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>import pandas as pd</code></td><td>Load Pandas</td></tr><tr><td><code>pd.Series([1, 2], index=['a', 'b'])</code></td><td>One labelled column</td></tr><tr><td><code>pd.DataFrame({'a': [1, 2], 'b': [3, 4]})</code></td><td>A table from a dict of lists</td></tr><tr><td><code>df['col']  /  df[['a', 'b']]</code></td><td>One column (Series) / several (DataFrame)</td></tr><tr><td><code>pd.read_csv('file.csv')</code></td><td>Read a CSV file</td></tr><tr><td><code>pd.read_excel('file.xlsx', sheet_name='s')</code></td><td>Read an Excel sheet</td></tr><tr><td><code>df.to_csv('out.csv', index=False)</code></td><td>Save without the index</td></tr><tr><td><code>df.head()  df.tail(3)  df.sample(2)</code></td><td>First, last or random rows</td></tr><tr><td><code>df.shape  len(df)  df.columns</code></td><td>Size, rows, column names</td></tr><tr><td><code>df.dtypes  df.info()</code></td><td>Column types and filled-in counts</td></tr><tr><td><code>df.describe()</code></td><td>Statistics of number columns</td></tr><tr><td><code>df.isna().sum()</code></td><td>Missing values per column</td></tr><tr><td><code>df.duplicated().sum()</code></td><td>Number of duplicate rows</td></tr><tr><td><code>df['col'].value_counts()</code></td><td>Count each value in a column</td></tr></tbody></table></div></section><p class="ver"><a href="test-pandas1.html">Take the 23.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="overview7.html">← Part 7 overview</a><a href="pandas2.html">Cleaning data →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

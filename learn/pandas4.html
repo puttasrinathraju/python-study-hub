@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grouping, pivot tables and joining tables | Python Study Hub</title>
+<meta name="description" content="Summarise and combine tables like an analyst. Group rows and summarise each group, add group results to every row, build pivot tables, put numbers into bands, join tables on a key and stack them, and measure how columns move together.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/pandas4.html">
+<meta property="og:title" content="Grouping, pivot tables and joining tables | Python Study Hub">
+<meta property="og:description" content="Summarise and combine tables like an analyst. Group rows and summarise each group, add group results to every row, build pivot tables, put numbers into bands, join tables on a key and stack them, and measure how columns move together.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#pandas4">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#pandas4">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 8 · Pandas · Chapter 26</p><h1>Grouping, pivot tables and joining tables</h1><p class="lead">Summarise and combine tables like an analyst. Group rows and summarise each group, add group results to every row, build pivot tables, put numbers into bands, join tables on a key and stack them, and measure how columns move together.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Summarise groups with <code>groupby()</code> and <code>agg()</code> (lists, dictionaries, named aggregation, your own functions)</li><li>Put group results on every row with <code>transform()</code> and <code>assign()</code></li><li>Build Excel-style tables with <code>pivot_table()</code> and bands with <code>pd.cut()</code></li><li>Join tables with <code>merge()</code> (inner, left, right, outer) and stack them with <code>concat()</code></li><li>Measure relationships with <code>corr()</code> and summarise parts with <code>describe()</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=txMdrV1Ut64">Python Pandas Tutorial (Part 8): Grouping and Aggregating - Analyzing and Exploring Your Data</a> by Corey Schafer (about undefined min)</li></ul></section><h2>groupby: split, apply, combine</h2>
+<p>&quot;What is the average salary <b>in each department</b>?&quot; is a <mark>groupby</mark> question. Pandas <b>splits</b> the rows into groups, <b>applies</b> a summary to each group, and <b>combines</b> the answers into one result. It is a Pivot Table in Excel, or <code>GROUP BY</code> in SQL.</p>
+<figure class="code"><figcaption>The staff table: every example in this chapter starts from it</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+print(emp)</code></pre><p class="olbl">Output</p><pre class="out">     name   dept   city  salary  score
+0    Asha     IT   Pune   72000     91
+1  Vikram     HR   Pune   45000     74
+2    Neha     IT   Pune   58000     83
+3    Ravi  Sales  Delhi   39000     68
+4   Meena  Sales   Pune   66000     88
+5   Arjun     IT  Delhi   81000     79
+6   Priya     HR   Pune   52000     95
+7   Kiran  Sales   Pune   47000     71</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The cells below do not repeat these lines, to keep them short. <b>Try it</b> copies them in for you, so every example still runs.</p></aside>
+<section class="anim"><h3>Animated explainer: Split, apply, combine</h3><ol><li>Six staff from three departments. We want the average salary per department.</li><li><b>Split</b>: Pandas puts the rows into groups by <code>dept</code>: IT (rows 0, 2, 5), HR (row 1) and Sales (rows 3, 4).</li><li><b>Apply</b>: it works out <code>mean()</code> for each group separately.</li><li><b>Combine</b>: one row per group, with the group names as the index, sorted A to Z.</li></ol></section>
+<figure class="code"><figcaption>The average salary in each department</figcaption><pre><code>print(emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].mean())</code></pre><p class="olbl">Output</p><pre class="out">dept
+HR       48500.000000
+IT       70333.333333
+Sales    50666.666667
+Name: salary, dtype: float64</pre></figure>
+<figure class="code"><figcaption>Other summaries: sum(), count(), size(), max() ...</figcaption><pre><code>print(emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].sum())
+print(emp.groupby(&quot;dept&quot;).size())        # rows in each group</code></pre><p class="olbl">Output</p><pre class="out">dept
+HR        97000
+IT       211000
+Sales    152000
+Name: salary, dtype: int64
+dept
+HR       2
+IT       3
+Sales    3
+dtype: int64</pre></figure>
+<figure class="code"><figcaption>Group by two columns</figcaption><pre><code>print(emp.groupby([&quot;dept&quot;, &quot;city&quot;])[&quot;salary&quot;].mean())</code></pre><p class="olbl">Output</p><pre class="out">dept   city 
+HR     Pune     48500.0
+IT     Delhi    81000.0
+       Pune     65000.0
+Sales  Delhi    39000.0
+       Pune     56500.0
+Name: salary, dtype: float64</pre></figure>
+<figure class="code"><figcaption>reset_index(): turn the result back into a table</figcaption><pre><code>avg = emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].mean().reset_index()   # the groups become a normal column
+print(avg)</code></pre><p class="olbl">Output</p><pre class="out">    dept        salary
+0     HR  48500.000000
+1     IT  70333.333333
+2  Sales  50666.666667</pre></figure>
+<figure class="code"><figcaption>Group dates by month with .dt.to_period(&quot;M&quot;)</figcaption><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+monthly = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+print(monthly.head(4))
+print(&quot;Best month:&quot;, monthly.idxmax())</code></pre><p class="olbl">Output</p><pre class="out">Date
+2024-01     39892
+2024-02     44442
+2024-03     67559
+2024-04    112115
+Freq: M, Name: Sales, dtype: int64
+Best month: 2024-11</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;], &quot;v&quot;: [2, 5, 4]})
+print(df.groupby(&quot;g&quot;)[&quot;v&quot;].sum().tolist())</code></pre></figure><ol type="A"><li><code>[6, 5]</code></li><li><code>[5, 6]</code></li><li><code>[2, 5, 4]</code></li><li><code>[11]</code></li></ol><details><summary>Answer</summary><p><b><code>[6, 5]</code></b>. Group <code>a</code> has 2 + 4 = 6 and group <code>b</code> has 5. The groups come out sorted, so <code>a</code> is first.</p></details></section>
+<aside class="note like"><strong>Think of it like this</strong><p>Read <code>emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].mean()</code> as a sentence: &quot;group the staff by department, take the salary, and find the mean&quot;.</p></aside>
+<h2>agg: many summaries at once</h2>
+<p><code>agg()</code> runs several summaries in one go. Give it a list for one column, or a <b>dictionary</b> to choose different summaries for different columns.</p>
+<figure class="code"><figcaption>A list of summaries</figcaption><pre><code>print(emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].agg([&quot;mean&quot;, &quot;max&quot;, &quot;count&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">               mean    max  count
+dept                             
+HR     48500.000000  52000      2
+IT     70333.333333  81000      3
+Sales  50666.666667  66000      3</pre></figure>
+<figure class="code"><figcaption>A dictionary: different summaries per column</figcaption><pre><code>print(emp.groupby(&quot;dept&quot;).agg({&quot;salary&quot;: [&quot;mean&quot;, &quot;max&quot;], &quot;score&quot;: &quot;mean&quot;}))</code></pre><p class="olbl">Output</p><pre class="out">             salary             score
+               mean    max       mean
+dept                                 
+HR     48500.000000  52000  84.500000
+IT     70333.333333  81000  84.333333
+Sales  50666.666667  66000  75.666667</pre></figure>
+<p><b>Named aggregation</b> gives the result columns your own names: <code>new_name=(&quot;column&quot;, &quot;summary&quot;)</code>. The course notebook uses it to build a clean report.</p>
+<figure class="code"><figcaption>Named aggregation</figcaption><pre><code>report = emp.groupby(&quot;dept&quot;).agg(
+    staff=(&quot;name&quot;, &quot;count&quot;),
+    total_pay=(&quot;salary&quot;, &quot;sum&quot;),
+    best_score=(&quot;score&quot;, &quot;max&quot;),
+)
+print(report)</code></pre><p class="olbl">Output</p><pre class="out">       staff  total_pay  best_score
+dept                               
+HR         2      97000          95
+IT         3     211000          91
+Sales      3     152000          88</pre></figure>
+<figure class="code"><figcaption>Your own summary functions</figcaption><pre><code>def pay_range(x):
+    return x.max() - x.min()
+
+print(emp.groupby(&quot;dept&quot;).agg(spread=(&quot;salary&quot;, pay_range), q75=(&quot;score&quot;, lambda x: x.quantile(0.75))))</code></pre><p class="olbl">Output</p><pre class="out">       spread    q75
+dept                
+HR       7000  89.75
+IT      23000  87.00
+Sales   27000  79.50</pre></figure>
+<div class="tbl"><table><thead><tr><th>Summary</th><th>Name in agg</th><th>Gives</th></tr></thead><tbody><tr><td>Count of values</td><td><code>&quot;count&quot;</code></td><td>how many (not missing)</td></tr><tr><td>Total</td><td><code>&quot;sum&quot;</code></td><td>the sum</td></tr><tr><td>Average</td><td><code>&quot;mean&quot;</code> / <code>&quot;median&quot;</code></td><td>the mean / the middle value</td></tr><tr><td>Smallest / largest</td><td><code>&quot;min&quot;</code> / <code>&quot;max&quot;</code></td><td>the extremes</td></tr><tr><td>Spread</td><td><code>&quot;std&quot;</code></td><td>standard deviation</td></tr><tr><td>Different values</td><td><code>&quot;nunique&quot;</code></td><td>how many different ones</td></tr><tr><td>Your own</td><td>a function or <code>lambda</code></td><td>anything you can compute</td></tr></tbody></table></div>
+<h2>transform and assign</h2>
+<p><code>agg()</code> gives <b>one row per group</b>. <code>transform()</code> gives a value for <b>every row</b>: each person gets their own group's result. That is how you compare each row with its group.</p>
+<figure class="code"><figcaption>transform(): the group result on every row</figcaption><pre><code>emp[&quot;dept_avg&quot;] = emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].transform(&quot;mean&quot;).round(0)
+emp[&quot;vs_avg&quot;] = emp[&quot;salary&quot;] - emp[&quot;dept_avg&quot;]
+print(emp[[&quot;name&quot;, &quot;dept&quot;, &quot;salary&quot;, &quot;dept_avg&quot;, &quot;vs_avg&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  salary  dept_avg   vs_avg
+0    Asha     IT   72000   70333.0   1667.0
+1  Vikram     HR   45000   48500.0  -3500.0
+2    Neha     IT   58000   70333.0 -12333.0
+3    Ravi  Sales   39000   50667.0 -11667.0
+4   Meena  Sales   66000   50667.0  15333.0
+5   Arjun     IT   81000   70333.0  10667.0
+6   Priya     HR   52000   48500.0   3500.0
+7   Kiran  Sales   47000   50667.0  -3667.0</pre></figure>
+<section class="vs"><h3>Don't mix up: agg() vs transform()</h3><div class="tbl"><table><thead><tr><th></th><th>groupby().agg(&quot;mean&quot;)</th><th>groupby().transform(&quot;mean&quot;)</th></tr></thead><tbody><tr><th scope="row">Rows in the result</th><td>One per group (3)</td><td>One per original row (8)</td></tr><tr><th scope="row">Index</th><td>The group names</td><td>The original index</td></tr><tr><th scope="row">Use it for</th><td>A summary report</td><td>A new column that compares each row with its group</td></tr></tbody></table></div><p><b>Rule of thumb:</b> Want a short report? <code>agg</code>. Want to add a column to every row? <code>transform</code>.</p></section>
+<p><code>assign()</code> adds several new columns in one step and returns a new table. Each <code>name=value</code> becomes a column.</p>
+<figure class="code"><figcaption>assign(): several columns at once</figcaption><pre><code>emp = emp.assign(
+    city_staff=emp.groupby(&quot;city&quot;)[&quot;name&quot;].transform(&quot;count&quot;),
+    city_max=emp.groupby(&quot;city&quot;)[&quot;salary&quot;].transform(&quot;max&quot;),
+)
+print(emp[[&quot;name&quot;, &quot;city&quot;, &quot;city_staff&quot;, &quot;city_max&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name   city  city_staff  city_max
+0    Asha   Pune           6     72000
+1  Vikram   Pune           6     72000
+2    Neha   Pune           6     72000
+3    Ravi  Delhi           2     81000</pre></figure>
+<figure class="code"><figcaption>Each person's share of their department's pay</figcaption><pre><code>emp[&quot;share&quot;] = (emp[&quot;salary&quot;] / emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].transform(&quot;sum&quot;) * 100).round(1)
+print(emp[[&quot;name&quot;, &quot;dept&quot;, &quot;share&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  share
+0    Asha     IT   34.1
+1  Vikram     HR   46.4
+2    Neha     IT   27.5
+3    Ravi  Sales   25.7</pre></figure>
+<h2>The top row in each group</h2>
+<p><code>groupby(...)[col].idxmax()</code> gives the index label of the top row <b>in each group</b>. Loop over the result with <code>.items()</code> and look each label up with <code>loc</code>.</p>
+<figure class="code"><figcaption>Highest paid person in each department</figcaption><pre><code>top = emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].idxmax()
+print(top)
+for dept, idx in top.items():
+    print(f&quot;{dept}: {emp.loc[idx, 'name']} (₹{emp.loc[idx, 'salary']:,})&quot;)</code></pre><p class="olbl">Output</p><pre class="out">dept
+HR       6
+IT       5
+Sales    4
+Name: salary, dtype: int64
+HR: Priya (₹52,000)
+IT: Arjun (₹81,000)
+Sales: Meena (₹66,000)</pre></figure>
+<figure class="code"><figcaption>Or pass all the labels to loc at once</figcaption><pre><code>print(emp.loc[emp.groupby(&quot;dept&quot;)[&quot;score&quot;].idxmax(), [&quot;dept&quot;, &quot;name&quot;, &quot;score&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">    dept   name  score
+6     HR  Priya     95
+0     IT   Asha     91
+4  Sales  Meena     88</pre></figure>
+<h2>Pivot tables</h2>
+<p><code>pivot_table()</code> builds an Excel-style pivot in one line: <code>values</code> = what to summarise, <code>index</code> = the rows, <code>columns</code> = the columns, <code>aggfunc</code> = how. <code>fill_value=0</code> puts 0 in empty cells.</p>
+<figure class="code"><figcaption>Average salary: departments down, cities across</figcaption><pre><code>print(emp.pivot_table(values=&quot;salary&quot;, index=&quot;dept&quot;, columns=&quot;city&quot;, aggfunc=&quot;mean&quot;))</code></pre><p class="olbl">Output</p><pre class="out">city     Delhi     Pune
+dept                   
+HR         NaN  48500.0
+IT     81000.0  65000.0
+Sales  39000.0  56500.0</pre></figure>
+<figure class="code"><figcaption>fill_value=0 for the empty cells</figcaption><pre><code>print(emp.pivot_table(values=&quot;salary&quot;, index=&quot;dept&quot;, columns=&quot;city&quot;, aggfunc=&quot;count&quot;, fill_value=0))</code></pre><p class="olbl">Output</p><pre class="out">city   Delhi  Pune
+dept              
+HR         0     2
+IT         1     2
+Sales      1     2</pre></figure>
+<figure class="code"><figcaption>Several summaries</figcaption><pre><code>print(emp.pivot_table(values=&quot;salary&quot;, index=&quot;dept&quot;, aggfunc=[&quot;mean&quot;, &quot;count&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">               mean  count
+             salary salary
+dept                      
+HR     48500.000000      2
+IT     70333.333333      3
+Sales  50666.666667      3</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>A pivot table is a <code>groupby</code> by two columns, laid out as a grid. <code>emp.groupby([&quot;dept&quot;, &quot;city&quot;])[&quot;salary&quot;].mean()</code> holds the same numbers, as one long column.</p></aside>
+<h2>pd.cut: numbers into groups</h2>
+<p><code>pd.cut()</code> puts numbers into <b>ranges</b> (bins), like age groups or price bands. Give it the edges and a label for each range. By default each range includes its <b>right</b> edge.</p>
+<figure class="code"><figcaption>Edges and labels</figcaption><pre><code>import pandas as pd
+ages = pd.Series([19, 25, 34, 47, 52, 61])
+bands = pd.cut(ages, bins=[18, 30, 50, 65], labels=[&quot;18-30&quot;, &quot;31-50&quot;, &quot;51-65&quot;])
+print(bands.tolist())</code></pre><p class="olbl">Output</p><pre class="out">['18-30', '18-30', '31-50', '31-50', '51-65', '51-65']</pre></figure>
+<figure class="code"><figcaption>bins=3: Pandas picks equal ranges</figcaption><pre><code>import pandas as pd
+scores = pd.Series([35, 48, 62, 77, 91])
+print(pd.cut(scores, bins=3, labels=[&quot;Low&quot;, &quot;Medium&quot;, &quot;High&quot;]).tolist())   # 3 equal-width ranges</code></pre><p class="olbl">Output</p><pre class="out">['Low', 'Low', 'Medium', 'High', 'High']</pre></figure>
+<figure class="code"><figcaption>Group by the new bands</figcaption><pre><code>emp[&quot;pay_band&quot;] = pd.cut(emp[&quot;salary&quot;], bins=[0, 50000, 70000, 100000], labels=[&quot;Low&quot;, &quot;Mid&quot;, &quot;High&quot;])
+print(emp.groupby(&quot;pay_band&quot;, observed=True)[&quot;score&quot;].mean())</code></pre><p class="olbl">Output</p><pre class="out">pay_band
+Low     71.000000
+Mid     88.666667
+High    85.000000
+Name: score, dtype: float64</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>The column made by <code>pd.cut</code> is a <b>category</b> column. When you group by it, add <code>observed=True</code>, or Pandas prints a warning about empty groups.</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([10, 20, 30])
+print(pd.cut(s, bins=[0, 20, 40], labels=[&quot;A&quot;, &quot;B&quot;]).tolist())</code></pre></figure><ol type="A"><li><code>['A', 'A', 'B']</code></li><li><code>['A', 'B', 'B']</code></li><li><code>['A', 'B', 'C']</code></li><li><code>['B', 'B', 'B']</code></li></ol><details><summary>Answer</summary><p><b><code>['A', 'A', 'B']</code></b>. Each range includes its right edge: 20 falls in (0, 20], so it is <code>A</code>.</p></details></section>
+<h2>merge: joining two tables</h2>
+<p><code>pd.merge(left, right, on=&quot;key&quot;, how=...)</code> joins two tables <b>side by side</b> wherever the key matches: the same idea as SQL <code>JOIN</code> or Power Query's Merge Queries. <code>how</code> decides what happens to rows without a match.</p>
+<figure class="code"><figcaption>inner: only the rows that match in both</figcaption><pre><code>heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})
+print(pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;inner&quot;)[[&quot;name&quot;, &quot;dept&quot;, &quot;head&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">     name dept       head
+0    Asha   IT  Kiran Rao
+1  Vikram   HR  Lata Iyer
+2    Neha   IT  Kiran Rao
+3   Arjun   IT  Kiran Rao
+4   Priya   HR  Lata Iyer</pre></figure>
+<figure class="code"><figcaption>left: every row of the left table</figcaption><pre><code>heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})
+m = pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;left&quot;)
+print(m[[&quot;name&quot;, &quot;dept&quot;, &quot;head&quot;]])
+print(m[m[&quot;head&quot;].isna()][&quot;name&quot;].tolist())     # who has no department head?</code></pre><p class="olbl">Output</p><pre class="out">     name   dept       head
+0    Asha     IT  Kiran Rao
+1  Vikram     HR  Lata Iyer
+2    Neha     IT  Kiran Rao
+3    Ravi  Sales        NaN
+4   Meena  Sales        NaN
+5   Arjun     IT  Kiran Rao
+6   Priya     HR  Lata Iyer
+7   Kiran  Sales        NaN
+['Ravi', 'Meena', 'Kiran']</pre></figure>
+<figure class="code"><figcaption>right and outer</figcaption><pre><code>heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})
+print(len(pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;right&quot;)), len(pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;outer&quot;)))</code></pre><p class="olbl">Output</p><pre class="out">6 9</pre></figure>
+<section class="anim"><h3>Animated explainer: inner, left, right and outer joins</h3><ol><li>Two tables share the column <code>dept</code>. Sales has no head; Finance has no staff.</li><li><code>how=&quot;inner&quot;</code>: only the departments in <b>both</b> tables. Ravi (Sales) and Finance are left out.</li><li><code>how=&quot;left&quot;</code>: <b>every</b> row of the left table. Ravi stays, with <code>NaN</code> for the head he does not have.</li><li><code>how=&quot;right&quot;</code>: every row of the <b>right</b> table. Finance stays, with no name.</li><li><code>how=&quot;outer&quot;</code>: <b>everything</b> from both, with <code>NaN</code> wherever there is no match.</li></ol></section>
+<div class="tbl"><table><thead><tr><th>how=</th><th>Keeps</th><th>Like SQL</th></tr></thead><tbody><tr><td><code>&quot;inner&quot;</code> (default)</td><td>Only keys found in both tables</td><td><code>INNER JOIN</code></td></tr><tr><td><code>&quot;left&quot;</code></td><td>Every row of the left table</td><td><code>LEFT JOIN</code></td></tr><tr><td><code>&quot;right&quot;</code></td><td>Every row of the right table</td><td><code>RIGHT JOIN</code></td></tr><tr><td><code>&quot;outer&quot;</code></td><td>Every row of both tables</td><td><code>FULL OUTER JOIN</code></td></tr></tbody></table></div>
+<figure class="code"><figcaption>on= several columns: both must match</figcaption><pre><code>import pandas as pd
+a = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;IT&quot;], &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;], &quot;staff&quot;: [3, 2]})
+b = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;IT&quot;], &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;], &quot;budget&quot;: [900, 400]})
+print(pd.merge(a, b, on=[&quot;dept&quot;, &quot;city&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">  dept   city  staff  budget
+0   IT   Pune      3     900
+1   IT  Delhi      2     400</pre></figure>
+<figure class="code"><figcaption>indicator=True: where did each row come from?</figcaption><pre><code>heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})
+m = pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;outer&quot;, indicator=True)
+print(m[&quot;_merge&quot;].value_counts())</code></pre><p class="olbl">Output</p><pre class="out">_merge
+both          5
+left_only     3
+right_only    1
+Name: count, dtype: int64</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>If the key is <b>not unique</b> in both tables, every match is paired with every other match, and the result can have far more rows than you expect. Check the row count after every merge.</p></aside>
+<h2>concat: stacking tables</h2>
+<p><code>pd.concat([df1, df2])</code> puts tables <b>on top of each other</b>: the same columns, more rows, like SQL <code>UNION ALL</code> or Append Queries. Add <code>ignore_index=True</code> to number the rows 0, 1, 2 ... again.</p>
+<figure class="code"><figcaption>Stack two months</figcaption><pre><code>import pandas as pd
+jan = pd.DataFrame({&quot;id&quot;: [101, 102], &quot;amount&quot;: [500, 800]})
+feb = pd.DataFrame({&quot;id&quot;: [103, 104], &quot;amount&quot;: [650, 300]})
+print(pd.concat([jan, feb], ignore_index=True))</code></pre><p class="olbl">Output</p><pre class="out">    id  amount
+0  101     500
+1  102     800
+2  103     650
+3  104     300</pre></figure>
+<figure class="code"><figcaption>keys=: label each piece</figcaption><pre><code>import pandas as pd
+jan = pd.DataFrame({&quot;id&quot;: [101, 102], &quot;amount&quot;: [500, 800]})
+feb = pd.DataFrame({&quot;id&quot;: [103], &quot;amount&quot;: [650]})
+print(pd.concat([jan, feb], keys=[&quot;Jan&quot;, &quot;Feb&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">        id  amount
+Jan 0  101     500
+    1  102     800
+Feb 0  103     650</pre></figure>
+<figure class="code"><figcaption>axis=1: side by side, matched by index</figcaption><pre><code>print(pd.concat([emp[[&quot;name&quot;, &quot;salary&quot;]], emp[[&quot;score&quot;]]], axis=1).head(3))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary  score
+0    Asha   72000     91
+1  Vikram   45000     74
+2    Neha   58000     83</pre></figure>
+<section class="vs"><h3>Don't mix up: merge() vs concat()</h3><div class="tbl"><table><thead><tr><th></th><th>pd.merge(a, b, on=...)</th><th>pd.concat([a, b])</th></tr></thead><tbody><tr><th scope="row">Direction</th><td>Side by side (more columns)</td><td>On top (more rows)</td></tr><tr><th scope="row">Matches rows by</th><td>A key column</td><td>Nothing: it just stacks (<code>axis=1</code> matches the index)</td></tr><tr><th scope="row">SQL</th><td><code>JOIN</code></td><td><code>UNION ALL</code></td></tr><tr><th scope="row">Use it for</th><td>Adding details from another table</td><td>Joining months or files with the same columns</td></tr></tbody></table></div><p><b>Rule of thumb:</b> New <b>columns</b> from another table? <code>merge</code>. More <b>rows</b> of the same kind? <code>concat</code>.</p></section>
+<h2>describe and corr</h2>
+<p><code>describe()</code> summarises number columns (Chapter 23), and you can run it on a filtered or grouped part too. <mark>Correlation</mark> (<code>corr()</code>) measures how two number columns move together, from -1 to 1.</p>
+<div class="tbl"><table><thead><tr><th>corr</th><th>Means</th><th>Example</th></tr></thead><tbody><tr><td>near 1</td><td>They rise together</td><td>Sales and profit</td></tr><tr><td>near 0</td><td>No straight-line link</td><td>Age and satisfaction</td></tr><tr><td>near -1</td><td>One rises as the other falls</td><td>Price and units sold</td></tr></tbody></table></div>
+<figure class="code"><figcaption>Two columns, or a whole matrix</figcaption><pre><code>print(round(emp[&quot;salary&quot;].corr(emp[&quot;score&quot;]), 2))
+print(emp[[&quot;salary&quot;, &quot;score&quot;]].corr().round(2))</code></pre><p class="olbl">Output</p><pre class="out">0.52
+        salary  score
+salary    1.00   0.52
+score     0.52   1.00</pre></figure>
+<figure class="code"><figcaption>Which columns move most with Sales?</figcaption><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+cols = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;, &quot;Customer_Age&quot;]
+print(sales[cols].corr()[&quot;Sales&quot;].round(2).sort_values(ascending=False))</code></pre><p class="olbl">Output</p><pre class="out">Sales           1.00
+Profit          0.78
+Quantity        0.20
+Customer_Age   -0.04
+Name: Sales, dtype: float64</pre></figure>
+<figure class="code"><figcaption>describe() on one group</figcaption><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+print(sales[sales[&quot;Category&quot;] == &quot;Clothing&quot;][&quot;Sales&quot;].describe().round(1))</code></pre><p class="olbl">Output</p><pre class="out">count     156.0
+mean     1906.2
+std       953.9
+min       363.0
+25%      1112.0
+50%      1802.0
+75%      2616.8
+max      4526.0
+Name: Sales, dtype: float64</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>Correlation is not cause. Ice-cream sales and sunburn rise together because of the sun, not because one causes the other.</p></aside>
+<section class="deck"><h3>Slides: Group and join in 6 slides</h3><ol><li><p><b>Split, apply, combine.</b></p><p><code>df.groupby(&quot;g&quot;)[&quot;v&quot;].mean()</code>: one answer per group.</p></li><li><p><b>Many summaries</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;], &quot;v&quot;: [2, 5, 4]})
+print(df.groupby(&quot;g&quot;).agg(total=(&quot;v&quot;, &quot;sum&quot;), rows=(&quot;v&quot;, &quot;count&quot;)))</code></pre><p class="olbl">Output</p><pre class="out">   total  rows
+g             
+a      6     2
+b      5     1</pre></figure></li><li><p><b>agg vs transform</b></p><p><code>agg</code> gives one row per group. <code>transform</code> gives the group's answer on every row, so you can add it as a column.</p></li><li><p><b>Pivots and bands</b></p><ul><li><code>df.pivot_table(values=, index=, columns=, aggfunc=, fill_value=0)</code></li><li><code>pd.cut(s, bins=[0, 50, 100], labels=[&quot;Low&quot;, &quot;High&quot;])</code></li></ul></li><li><p><b>Join tables</b></p><ul><li><code>pd.merge(a, b, on=&quot;key&quot;, how=&quot;left&quot;)</code>: side by side</li><li>Unmatched rows: <code>m[m[&quot;col&quot;].isna()]</code></li><li><code>pd.concat([a, b], ignore_index=True)</code>: on top</li></ul></li><li><p><b>How related?</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3, 4], &quot;y&quot;: [10, 20, 30, 40]})
+print(df[&quot;x&quot;].corr(df[&quot;y&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">1.0</pre></figure></li></ol></section>
+<section class="mm"><h3>Mind map: Chapter 26 at a glance</h3><ul><li><b>Group &amp; join</b><ul><li>groupby<ul><li>split, apply, combine</li><li>groupby('g')['v'].mean()</li><li>two columns</li><li>reset_index()</li><li>dt.to_period('M')</li></ul></li><li>agg<ul><li>list of summaries</li><li>dict per column</li><li>named: total=('v', 'sum')</li><li>own function</li></ul></li><li>Every row<ul><li>transform('mean')</li><li>assign(...)</li><li>top row: idxmax per group</li></ul></li><li>Reshape<ul><li>pivot_table</li><li>fill_value=0</li><li>pd.cut bins + labels</li></ul></li><li>Combine<ul><li>merge: inner, left, right, outer</li><li>on=[a, b]</li><li>isna() finds no match</li><li>concat: ignore_index, keys, axis=1</li></ul></li><li>Relations<ul><li>corr(): -1 to 1</li><li>describe()</li></ul></li></ul></li></ul></section>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>Print the <b>total</b> salary of each city in <code>emp</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp.groupby(&quot;city&quot;)[&quot;salary&quot;].sum()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+print(emp.groupby(&quot;city&quot;)[&quot;salary&quot;].sum())</code></pre><p class="olbl">Output</p><pre class="out">city
+Delhi    120000
+Pune     340000
+Name: salary, dtype: int64</pre></figure><p>One row per city, sorted A to Z.</p></details></li><li><p>For each department, print the number of staff and the average score, using named aggregation with the names <code>staff</code> and <code>avg_score</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp.groupby(&quot;dept&quot;).agg(staff=(&quot;name&quot;, &quot;count&quot;), avg_score=(&quot;score&quot;, &quot;mean&quot;))</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+print(emp.groupby(&quot;dept&quot;).agg(staff=(&quot;name&quot;, &quot;count&quot;), avg_score=(&quot;score&quot;, &quot;mean&quot;)))</code></pre><p class="olbl">Output</p><pre class="out">       staff  avg_score
+dept                   
+HR         2  84.500000
+IT         3  84.333333
+Sales      3  75.666667</pre></figure><p>Named aggregation gives the columns clear names straight away.</p></details></li><li><p>Add a column <code>best_in_dept</code> with the highest score of each person's department (use <code>transform</code>). Print <code>name</code>, <code>dept</code>, <code>score</code> and <code>best_in_dept</code> for the first 4 rows.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp.groupby(&quot;dept&quot;)[&quot;score&quot;].transform(&quot;max&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+emp[&quot;best_in_dept&quot;] = emp.groupby(&quot;dept&quot;)[&quot;score&quot;].transform(&quot;max&quot;)
+print(emp[[&quot;name&quot;, &quot;dept&quot;, &quot;score&quot;, &quot;best_in_dept&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  score  best_in_dept
+0    Asha     IT     91            91
+1  Vikram     HR     74            95
+2    Neha     IT     83            91
+3    Ravi  Sales     68            88</pre></figure><p><code>transform</code> keeps the original 8 rows, so the result fits as a new column.</p></details></li><li><p>Join <code>emp</code> with <code>heads</code> so that <b>every</b> employee stays. Print the names of the staff whose department has no head.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})</code></pre></figure><details><summary>Hint</summary><p><code>pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;left&quot;)</code>, then filter with <code>isna()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;HR&quot;, &quot;Sales&quot;],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Pune&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Pune&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71]
+})
+heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;Finance&quot;], &quot;head&quot;: [&quot;Kiran Rao&quot;, &quot;Lata Iyer&quot;, &quot;Om Shah&quot;]})
+m = pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;left&quot;)
+print(m[m[&quot;head&quot;].isna()][&quot;name&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Ravi', 'Meena', 'Kiran']</pre></figure><p>A left join keeps every employee; <code>NaN</code> in <code>head</code> shows the ones with no match (Sales).</p></details></li><li><p>Stack <code>q1 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [100, 80]})</code> and <code>q2 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [120, 95]})</code> with new row numbers, then print the total sales per store.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+q1 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [100, 80]})
+q2 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [120, 95]})</code></pre></figure><details><summary>Hint</summary><p><code>pd.concat([q1, q2], ignore_index=True)</code>, then <code>groupby(&quot;store&quot;)[&quot;sales&quot;].sum()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+q1 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [100, 80]})
+q2 = pd.DataFrame({&quot;store&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;sales&quot;: [120, 95]})
+both = pd.concat([q1, q2], ignore_index=True)
+print(both.groupby(&quot;store&quot;)[&quot;sales&quot;].sum())</code></pre><p class="olbl">Output</p><pre class="out">store
+A    220
+B    175
+Name: sales, dtype: int64</pre></figure><p>Stack first, then summarise: the most common way to combine monthly or quarterly files.</p></details></li></ol>
+<h2>Practice with real data: sales by group</h2>
+<p>Back to <b><code>sales_data.csv</code></b>. These are the questions a manager asks every month.</p>
+<ol class="tasks"><li><p>For each <code>Category</code>, print the total sales, the average profit (rounded to 0 decimals) and the number of orders, with the names <code>total</code>, <code>avg_profit</code> and <code>orders</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Named aggregation, then <code>.round(0)</code> on the result.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+report = sales.groupby(&quot;Category&quot;).agg(total=(&quot;Sales&quot;, &quot;sum&quot;), avg_profit=(&quot;Profit&quot;, &quot;mean&quot;), orders=(&quot;Sales&quot;, &quot;count&quot;))
+print(report.round(0))</code></pre><p class="olbl">Output</p><pre class="out">              total  avg_profit  orders
+Category                               
+Clothing     297363       461.0     156
+Electronics  597387       661.0     116
+Furniture    543676       760.0     106
+Groceries    109916        60.0     122</pre></figure><p>Electronics brings the most money from fewer orders than Clothing.</p></details></li><li><p>Make a pivot table of total <code>Sales</code> with <code>Region</code> down the side and <code>Category</code> across the top. Print it.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>sales.pivot_table(values=&quot;Sales&quot;, index=&quot;Region&quot;, columns=&quot;Category&quot;, aggfunc=&quot;sum&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+print(sales.pivot_table(values=&quot;Sales&quot;, index=&quot;Region&quot;, columns=&quot;Category&quot;, aggfunc=&quot;sum&quot;))</code></pre><p class="olbl">Output</p><pre class="out">Category  Clothing  Electronics  Furniture  Groceries
+Region                                               
+East         47671       108449      99621      26154
+North        66834       155740     153079      24524
+South       103209       188116     139748      31538
+West         79649       145082     151228      27700</pre></figure><p>Each cell is the total for one region and one category.</p></details></li><li><p>Print the total sales of each month, and the month with the most sales.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()</code>, then <code>.idxmax()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+monthly = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+print(monthly)
+print(&quot;Best month:&quot;, monthly.idxmax())</code></pre><p class="olbl">Output</p><pre class="out">Date
+2024-01     39892
+2024-02     44442
+2024-03     67559
+2024-04    112115
+2024-05    139878
+2024-06    100093
+2024-07    141677
+2024-08    134336
+2024-09     95471
+2024-10    246944
+2024-11    316201
+2024-12    109734
+Freq: M, Name: Sales, dtype: int64
+Best month: 2024-11</pre></figure><p>October and November are the festival season (Diwali), so sales jump.</p></details></li><li><p>Put customers into age groups <code>18-30</code>, <code>31-45</code> and <code>46-65</code> with <code>pd.cut</code> (edges 17, 30, 45, 65). Print the average satisfaction score of each group, rounded to 2 decimals.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>pd.cut(sales[&quot;Customer_Age&quot;], bins=[17, 30, 45, 65], labels=[...])</code>, then <code>groupby(..., observed=True)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+sales[&quot;Age_Group&quot;] = pd.cut(sales[&quot;Customer_Age&quot;], bins=[17, 30, 45, 65], labels=[&quot;18-30&quot;, &quot;31-45&quot;, &quot;46-65&quot;])
+print(sales.groupby(&quot;Age_Group&quot;, observed=True)[&quot;Satisfaction_Score&quot;].mean().round(2))</code></pre><p class="olbl">Output</p><pre class="out">Age_Group
+18-30    3.85
+31-45    3.92
+46-65    3.91
+Name: Satisfaction_Score, dtype: float64</pre></figure><p>The groups are very close: age does not change satisfaction much in this data.</p></details></li><li><p>The company has targets: <code>targets = pd.DataFrame({&quot;Region&quot;: [&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], &quot;Target&quot;: [400000, 450000, 300000, 380000]})</code>. Merge the total sales per region with the targets and print each region's sales, target and a column <code>Met</code> (True or False).</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Make <code>actual = sales.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum().reset_index()</code>, merge on <code>Region</code>, then compare.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+targets = pd.DataFrame({&quot;Region&quot;: [&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], &quot;Target&quot;: [400000, 450000, 300000, 380000]})
+actual = sales.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum().reset_index()
+m = pd.merge(actual, targets, on=&quot;Region&quot;)
+m[&quot;Met&quot;] = m[&quot;Sales&quot;] &gt;= m[&quot;Target&quot;]
+print(m)</code></pre><p class="olbl">Output</p><pre class="out">  Region   Sales  Target    Met
+0   East  281895  300000  False
+1  North  400177  400000   True
+2  South  462611  450000   True
+3   West  403659  380000   True</pre></figure><p><code>reset_index()</code> turns the groups into a <code>Region</code> column, so <code>merge</code> can use it as the key.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>df.groupby(&quot;g&quot;)[&quot;v&quot;].mean()</code> splits, applies and combines: one answer per group, sorted by the group name.</li><li><code>agg()</code> runs several summaries; named aggregation <code>new=(&quot;col&quot;, &quot;sum&quot;)</code> gives clean column names.</li><li><code>transform()</code> puts each group's answer on every row; <code>assign()</code> adds several columns at once.</li><li><code>pivot_table(values, index, columns, aggfunc, fill_value=0)</code> makes a grid; <code>pd.cut()</code> turns numbers into bands.</li><li><code>merge(on=, how=)</code> joins side by side (check unmatched rows with <code>isna()</code>); <code>concat()</code> stacks; <code>corr()</code> runs from -1 to 1.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Group the rows by department.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.___(&quot;dept&quot;)[&quot;salary&quot;].sum())</code></pre></figure><details><summary>Answer</summary><p><code>groupby</code> — <code>groupby</code> splits the rows into groups, then <code>sum()</code> totals each group.</p><p>Output:</p><pre class="out">dept
+HR     45000
+IT    130000
+Name: salary, dtype: int64</pre></details></li><li><p>Put each group's average on every row.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.groupby(&quot;dept&quot;)[&quot;salary&quot;].___(&quot;mean&quot;).tolist())</code></pre></figure><details><summary>Answer</summary><p><code>transform</code> — <code>transform</code> returns one value per original row: each person gets their department's average.</p><p>Output:</p><pre class="out">[65000.0, 45000.0, 65000.0]</pre></details></li><li><p>Keep every employee, even without a match.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+heads = pd.DataFrame({&quot;dept&quot;: [&quot;IT&quot;], &quot;head&quot;: [&quot;Om&quot;]})
+print(len(pd.merge(emp, heads, on=&quot;dept&quot;, how=&quot;___&quot;)))</code></pre></figure><details><summary>Answer</summary><p><code>left</code> — A left join keeps all rows of the left table; Ravi gets NaN for head.</p><p>Output:</p><pre class="out">3</pre></details></li><li><p>Stack the tables and number the rows 0, 1, 2 again.</p><figure class="code"><pre><code>import pandas as pd
+a = pd.DataFrame({&quot;v&quot;: [1, 2]})
+b = pd.DataFrame({&quot;v&quot;: [3]})
+print(pd.concat([a, b], ___=True).index.tolist())</code></pre></figure><details><summary>Answer</summary><p><code>ignore_index</code> — Without it the index would be 0, 1, 0.</p><p>Output:</p><pre class="out">[0, 1, 2]</pre></details></li><li><p>Put 0 in the empty cells of the pivot table.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.pivot_table(values=&quot;salary&quot;, index=&quot;dept&quot;, columns=&quot;name&quot;, aggfunc=&quot;count&quot;, ___=0).sum().sum())</code></pre></figure><details><summary>Answer</summary><p><code>fill_value</code> — <code>fill_value=0</code> fills the cells where a department has no such person.</p><p>Output:</p><pre class="out">3</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;g&quot;: [&quot;a&quot;, &quot;b&quot;, &quot;a&quot;], &quot;v&quot;: [2, 5, 4]})
+print(df.groupby(&quot;g&quot;)[&quot;v&quot;].mean().tolist())</code></pre></figure><ol type="A"><li><code>[3.0, 5.0]</code></li><li><code>[5.0, 3.0]</code></li><li><code>[4.0]</code></li><li><code>[2.0, 4.0, 5.0]</code></li></ol><details><summary>Answer</summary><p><b><code>[3.0, 5.0]</code></b>. Group a: (2 + 4) / 2 = 3. Group b: 5. Groups come out sorted.</p></details></li><li><p>How many rows does <code>groupby(&quot;dept&quot;)[&quot;salary&quot;].transform(&quot;mean&quot;)</code> return for a table of 8 staff in 3 departments?</p><ol type="A"><li>3</li><li>8</li><li>1</li><li>24</li></ol><details><summary>Answer</summary><p><b>8</b>. <code>transform</code> returns one value per original row.</p></details></li><li><p>Which line gives the result columns the names <code>total</code> and <code>staff</code>?</p><ol type="A"><li><code>df.groupby(&quot;d&quot;).agg(total=(&quot;s&quot;, &quot;sum&quot;), staff=(&quot;n&quot;, &quot;count&quot;))</code></li><li><code>df.groupby(&quot;d&quot;).agg([&quot;total&quot;, &quot;staff&quot;])</code></li><li><code>df.groupby(&quot;d&quot;).rename(total=&quot;sum&quot;)</code></li><li><code>df.agg(total, staff)</code></li></ol><details><summary>Answer</summary><p><b><code>df.groupby(&quot;d&quot;).agg(total=(&quot;s&quot;, &quot;sum&quot;), staff=(&quot;n&quot;, &quot;count&quot;))</code></b>. Named aggregation: <code>name=(&quot;column&quot;, &quot;summary&quot;)</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+a = pd.DataFrame({&quot;k&quot;: [1, 2, 3]})
+b = pd.DataFrame({&quot;k&quot;: [1, 4], &quot;x&quot;: [&quot;p&quot;, &quot;q&quot;]})
+print(len(pd.merge(a, b, on=&quot;k&quot;, how=&quot;left&quot;)))</code></pre></figure><ol type="A"><li><code>3</code></li><li><code>2</code></li><li><code>4</code></li><li><code>1</code></li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. A left join keeps all 3 rows of the left table, matched or not.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+a = pd.DataFrame({&quot;k&quot;: [1, 2, 3]})
+b = pd.DataFrame({&quot;k&quot;: [1, 4], &quot;x&quot;: [&quot;p&quot;, &quot;q&quot;]})
+print(len(pd.merge(a, b, on=&quot;k&quot;, how=&quot;inner&quot;)))</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>3</code></li><li><code>4</code></li><li><code>2</code></li></ol><details><summary>Answer</summary><p><b><code>1</code></b>. An inner join keeps only keys found in both tables: just 1.</p></details></li><li><p>After a left merge, how do you find the rows that found no match in the right table?</p><ol type="A"><li><code>m.dropna()</code></li><li><code>m[m[&quot;right_col&quot;].isna()]</code></li><li><code>m.duplicated()</code></li><li><code>m.notna()</code></li></ol><details><summary>Answer</summary><p><b><code>m[m[&quot;right_col&quot;].isna()]</code></b>. Unmatched rows have NaN in the columns that came from the right table.</p></details></li><li><p>What does <code>pd.concat([a, b], ignore_index=True)</code> do?</p><ol type="A"><li>Joins a and b side by side on a key</li><li>Stacks b under a and numbers the rows 0, 1, 2 ... again</li><li>Removes the index column</li><li>Keeps only matching rows</li></ol><details><summary>Answer</summary><p><b>Stacks b under a and numbers the rows 0, 1, 2 ... again</b>. <code>concat</code> stacks; <code>ignore_index=True</code> renumbers the rows.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([40, 60, 90])
+print(pd.cut(s, bins=[0, 50, 100], labels=[&quot;Low&quot;, &quot;High&quot;]).tolist())</code></pre></figure><ol type="A"><li><code>['Low', 'High', 'High']</code></li><li><code>['Low', 'Low', 'High']</code></li><li><code>['High', 'High', 'High']</code></li><li><code>['Low', 'High', nan]</code></li></ol><details><summary>Answer</summary><p><b><code>['Low', 'High', 'High']</code></b>. Ranges include the right edge: 40 is in (0, 50], 60 and 90 in (50, 100].</p></details></li><li><p>A correlation of -0.9 between price and units sold means:</p><ol type="A"><li>No link</li><li>When price goes up, units sold go down, strongly</li><li>Price causes units sold</li><li>Both go up together</li></ol><details><summary>Answer</summary><p><b>When price goes up, units sold go down, strongly</b>. Near -1: one rises as the other falls. Correlation still does not prove cause.</p></details></li><li><p>What does <code>fill_value=0</code> do in <code>pivot_table()</code>?</p><ol type="A"><li>Removes empty rows</li><li>Puts 0 in cells with no data</li><li>Counts zeros</li><li>Starts the index at 0</li></ol><details><summary>Answer</summary><p><b>Puts 0 in cells with no data</b>. Without it, empty combinations show NaN.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>What does groupby do?</dt><dd>Split rows into groups, apply a summary to each, combine the answers: <code>df.groupby(&quot;g&quot;)[&quot;v&quot;].mean()</code>.</dd><dt>Group by two columns</dt><dd><code>df.groupby([&quot;dept&quot;, &quot;city&quot;])[&quot;salary&quot;].mean()</code></dd><dt>Turn the groups back into a column</dt><dd><code>.reset_index()</code></dd><dt>Several summaries</dt><dd><code>.agg([&quot;mean&quot;, &quot;max&quot;])</code> or <code>.agg({&quot;salary&quot;: &quot;mean&quot;, &quot;score&quot;: &quot;max&quot;})</code></dd><dt>Named aggregation</dt><dd><code>.agg(total=(&quot;salary&quot;, &quot;sum&quot;), staff=(&quot;name&quot;, &quot;count&quot;))</code></dd><dt><code>agg</code> vs <code>transform</code></dt><dd>agg: one row per group. transform: the group's answer on every row.</dd><dt>Top row in each group</dt><dd><code>df.loc[df.groupby(&quot;g&quot;)[&quot;v&quot;].idxmax()]</code></dd><dt>A pivot table</dt><dd><code>df.pivot_table(values=&quot;s&quot;, index=&quot;r&quot;, columns=&quot;c&quot;, aggfunc=&quot;sum&quot;, fill_value=0)</code></dd><dt>Numbers into bands</dt><dd><code>pd.cut(s, bins=[0, 50, 100], labels=[&quot;Low&quot;, &quot;High&quot;])</code>: each range includes its right edge.</dd><dt>The four joins</dt><dd>inner: both; left: all of left; right: all of right; outer: everything.</dd><dt>Find unmatched rows after a merge</dt><dd><code>m[m[&quot;col_from_right&quot;].isna()]</code>, or <code>indicator=True</code> and the <code>_merge</code> column.</dd><dt><code>merge</code> vs <code>concat</code></dt><dd>merge: side by side on a key. concat: stacked on top (axis=1 for side by side by index).</dd><dt>What does corr() measure?</dt><dd>How two number columns move together: 1 together, 0 no link, -1 opposite.</dd><dt>Group dates by month</dt><dd><code>df.groupby(df[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()</code></dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>df.groupby('g')['v'].mean()</code></td><td>One answer per group</td></tr><tr><td><code>df.groupby(['a', 'b'])['v'].sum()</code></td><td>Group by two columns</td></tr><tr><td><code>....reset_index()</code></td><td>Groups back to a column</td></tr><tr><td><code>df.groupby('g').agg({'v': ['mean', 'max'], 'w': 'sum'})</code></td><td>Different summaries per column</td></tr><tr><td><code>df.groupby('g').agg(total=('v', 'sum'))</code></td><td>Named aggregation</td></tr><tr><td><code>df.groupby('g')['v'].transform('mean')</code></td><td>Group answer on every row</td></tr><tr><td><code>df.assign(a=..., b=...)</code></td><td>Several new columns</td></tr><tr><td><code>df.loc[df.groupby('g')['v'].idxmax()]</code></td><td>Top row in each group</td></tr><tr><td><code>df.pivot_table(values='v', index='r', columns='c', aggfunc='sum', fill_value=0)</code></td><td>Excel-style pivot</td></tr><tr><td><code>pd.cut(s, bins=[0, 50, 100], labels=['L', 'H'])</code></td><td>Numbers into bands</td></tr><tr><td><code>pd.merge(a, b, on='k', how='left')</code></td><td>Join side by side</td></tr><tr><td><code>pd.merge(a, b, on=['k1', 'k2'])</code></td><td>Join on two columns</td></tr><tr><td><code>pd.concat([a, b], ignore_index=True)</code></td><td>Stack tables</td></tr><tr><td><code>pd.concat(parts, keys=['Jan', 'Feb'])</code></td><td>Stack with labels</td></tr><tr><td><code>df['a'].corr(df['b'])  df[cols].corr()</code></td><td>Correlation</td></tr><tr><td><code>df.groupby(df['Date'].dt.to_period('M'))['Sales'].sum()</code></td><td>Totals per month</td></tr></tbody></table></div></section><p class="ver"><a href="test-pandas4.html">Take the 26.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="pandas3.html">← Select &amp; change</a><a href="overview8.html">Part 8 overview →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

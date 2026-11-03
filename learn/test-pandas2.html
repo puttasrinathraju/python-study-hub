@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24.1 Big Test: Cleaning data | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Cleaning data with Pandas, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-pandas2.html">
+<meta property="og:title" content="24.1 Big Test: Cleaning data | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Cleaning data with Pandas, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-pandas2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-pandas2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>24.1 Big Test: Cleaning data</h1><p class="lead">25 questions on Cleaning data with Pandas only, from basic to challenge. Try each one first, then open the answer. <a href="pandas2.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> <code>visits = pd.DataFrame({&quot;guest&quot;: [&quot;Om&quot;, &quot;Lata&quot;, &quot;Om&quot;], &quot;room&quot;: [101, 102, 101]})</code>. Remove the repeated row and print the table.</p><p>Your code should print exactly:</p><pre class="out">  guest  room
+0    Om   101
+1  Lata   102</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+visits = pd.DataFrame({&quot;guest&quot;: [&quot;Om&quot;, &quot;Lata&quot;, &quot;Om&quot;], &quot;room&quot;: [101, 102, 101]})
+print(visits.drop_duplicates())</code></pre><p class="olbl">Output</p><pre class="out">  guest  room
+0    Om   101
+1  Lata   102</pre></figure><p><code>drop_duplicates()</code> keeps the first copy of each repeated row.</p></details></li><li><p><b>Basic.</b> <code>rain = pd.Series([12, None, 30])</code>. Fill the gap with 0 and print the values as a list.</p><p>Your code should print exactly:</p><pre class="out">[12.0, 0.0, 30.0]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rain = pd.Series([12, None, 30])
+print(rain.fillna(0).tolist())</code></pre><p class="olbl">Output</p><pre class="out">[12.0, 0.0, 30.0]</pre></figure><p>No reading on a dry day can honestly mean 0 mm of rain.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([4, None, None, 9])
+print(s.ffill().tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">[4.0, 4.0, 4.0, 9.0]</pre><p><code>ffill()</code> copies the last known value (4) down into both gaps. A column with gaps holds decimals, so you see 4.0.</p></details></li><li><p><b>Basic.</b> Read <code>employees.csv</code>, drop the <code>email</code> and <code>city</code> columns and print the new column names as a list.</p><p>Your code should print exactly:</p><pre class="out">['emp_id', 'name', 'department', 'salary', 'score', 'join_date']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df = df.drop(columns=[&quot;email&quot;, &quot;city&quot;])
+print(list(df.columns))</code></pre><p class="olbl">Output</p><pre class="out">['emp_id', 'name', 'department', 'salary', 'score', 'join_date']</pre></figure><p><code>drop(columns=[...])</code> returns a table without those columns.</p></details></li><li><p><b>Basic.</b> <code>names = pd.Series([&quot;asha rao&quot;, &quot;RAVI TEJA&quot;])</code>. Print the names in title case as a list.</p><p>Your code should print exactly:</p><pre class="out">['Asha Rao', 'Ravi Teja']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+names = pd.Series([&quot;asha rao&quot;, &quot;RAVI TEJA&quot;])
+print(names.str.title().tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Asha Rao', 'Ravi Teja']</pre></figure><p><code>.str.title()</code> gives each word a capital first letter and small letters after it.</p></details></li><li><p><b>Basic.</b> This code should print <code>['Pune', 'Goa']</code>, but it stops with an AttributeError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+cities = pd.Series([&quot;  Pune &quot;, &quot;Goa  &quot;])
+print(cities.strip().tolist())</code></pre></figure><p>It should print:</p><pre class="out">['Pune', 'Goa']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+cities = pd.Series([&quot;  Pune &quot;, &quot;Goa  &quot;])
+print(cities.str.strip().tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Pune', 'Goa']</pre></figure><p>A Series has no <code>strip()</code> method. Add <code>.str</code> to use string methods on every value.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([&quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;])
+print(s.replace({&quot;Y&quot;: &quot;Yes&quot;}).tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">['Yes', 'N', 'Yes']</pre><p><code>replace()</code> changes the values it finds in the dictionary and keeps the rest, so <code>N</code> stays.</p></details></li><li><p><b>Basic.</b> <code>d = pd.Series([&quot;2025-03-01&quot;, &quot;2025-01-15&quot;])</code>. Turn it into dates and print the earliest one.</p><p>Your code should print exactly:</p><pre class="out">2025-01-15 00:00:00</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+d = pd.Series([&quot;2025-03-01&quot;, &quot;2025-01-15&quot;])
+dates = pd.to_datetime(d)
+print(dates.min())</code></pre><p class="olbl">Output</p><pre class="out">2025-01-15 00:00:00</pre></figure><p>Real dates can be compared, so <code>min()</code> finds the earliest.</p></details></li><li><p><b>Medium.</b> Read <code>employees.csv</code> and print how many rows are left after removing the rows with <b>no score</b>.</p><p>Your code should print exactly:</p><pre class="out">39</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(len(df.dropna(subset=[&quot;score&quot;])))</code></pre><p class="olbl">Output</p><pre class="out">39</pre></figure><p><code>subset=</code> makes <code>dropna()</code> look only at the columns you name.</p></details></li><li><p><b>Medium.</b> <code>pay = pd.Series([&quot;UPI&quot;, None, &quot;Cash&quot;, &quot;UPI&quot;])</code>. Fill the gap with the most common value and print the list.</p><p>Your code should print exactly:</p><pre class="out">['UPI', 'UPI', 'Cash', 'UPI']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+pay = pd.Series([&quot;UPI&quot;, None, &quot;Cash&quot;, &quot;UPI&quot;])
+print(pay.fillna(pay.mode()[0]).tolist())</code></pre><p class="olbl">Output</p><pre class="out">['UPI', 'UPI', 'Cash', 'UPI']</pre></figure><p><code>mode()</code> returns a Series; <code>[0]</code> takes the most common value, UPI.</p></details></li><li><p><b>Medium.</b> This code should fill the gap with the average and print <code>[10.0, 20.0, 30.0]</code>. Fix the fill line.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([10, None, 30])
+s.fillna(s.mean())
+print(s.tolist())</code></pre></figure><p>It should print:</p><pre class="out">[10.0, 20.0, 30.0]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([10, None, 30])
+s = s.fillna(s.mean())
+print(s.tolist())</code></pre><p class="olbl">Output</p><pre class="out">[10.0, 20.0, 30.0]</pre></figure><p><code>fillna()</code> returns a new Series. Store the result, or the gap stays.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([None, 6, None])
+print(s.bfill().tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">[6.0, 6.0, nan]</pre><p><code>bfill()</code> copies the next value up. The last gap has nothing below it, so it stays nan.</p></details></li><li><p><b>Medium.</b> Read <code>employees.csv</code>. Drop the rows whose score is below 60 and print how many rows remain.</p><p>Your code should print exactly:</p><pre class="out">35</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+low = df[df[&quot;score&quot;] &lt; 60]
+print(len(df.drop(low.index)))</code></pre><p class="olbl">Output</p><pre class="out">35</pre></figure><p>Filter the rows you want to remove, then pass their <code>.index</code> to <code>drop()</code>. Rows with no score are not below 60, so they stay.</p></details></li><li><p><b>Medium.</b> Running this cell a second time should not crash: it should print the column names without <code>email</code>. Fix the drop line so it never raises a KeyError.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df = df.drop(columns=[&quot;email&quot;])
+df = df.drop(columns=[&quot;email&quot;])
+print(list(df.columns))</code></pre></figure><p>It should print:</p><pre class="out">['emp_id', 'name', 'department', 'salary', 'score', 'join_date', 'city']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df = df.drop(columns=[&quot;email&quot;])
+df = df.drop(columns=[&quot;email&quot;], errors=&quot;ignore&quot;)
+print(list(df.columns))</code></pre><p class="olbl">Output</p><pre class="out">['emp_id', 'name', 'department', 'salary', 'score', 'join_date', 'city']</pre></figure><p>The second drop finds no <code>email</code> column. <code>errors=&quot;ignore&quot;</code> skips names that are not there.</p></details></li><li><p><b>Medium.</b> <code>amounts = pd.Series([&quot;₹1,500&quot;, &quot;₹320&quot;, &quot;₹2,000&quot;])</code>. Remove the <code>₹</code> and the commas, turn the text into whole numbers, and print the total.</p><p>Your code should print exactly:</p><pre class="out">3820</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+amounts = pd.Series([&quot;₹1,500&quot;, &quot;₹320&quot;, &quot;₹2,000&quot;])
+clean = amounts.str.replace(&quot;₹&quot;, &quot;&quot;, regex=False).str.replace(&quot;,&quot;, &quot;&quot;, regex=False).astype(&quot;int64&quot;)
+print(clean.sum())</code></pre><p class="olbl">Output</p><pre class="out">3820</pre></figure><p>Text cannot be added up. Remove the symbols first, then <code>astype(&quot;int64&quot;)</code>.</p></details></li><li><p><b>Medium.</b> Read <code>employees.csv</code> and print how many email addresses contain <code>yahoo</code>. Missing emails count as no.</p><p>Your code should print exactly:</p><pre class="out">8</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+print(df[&quot;email&quot;].str.contains(&quot;yahoo&quot;, na=False).sum())</code></pre><p class="olbl">Output</p><pre class="out">8</pre></figure><p><code>contains()</code> gives True/False per row; <code>na=False</code> treats a missing email as False.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([&quot;S&quot;, &quot;M&quot;, &quot;XL&quot;])
+print(s.map({&quot;S&quot;: &quot;Small&quot;, &quot;M&quot;: &quot;Medium&quot;}).tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">['Small', 'Medium', nan]</pre><p><code>map()</code> looks up every value, and XL is not in the dictionary, so it becomes nan.</p></details></li><li><p><b>Medium.</b> <code>d = pd.to_datetime(pd.Series([&quot;2025-08-15&quot;, &quot;2025-10-02&quot;]))</code>. Print the day names as a list, then the dates as text in the style <code>15-Aug-2025</code>.</p><p>Your code should print exactly:</p><pre class="out">['Friday', 'Thursday']
+['15-Aug-2025', '02-Oct-2025']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+d = pd.to_datetime(pd.Series([&quot;2025-08-15&quot;, &quot;2025-10-02&quot;]))
+print(d.dt.day_name().tolist())
+print(d.dt.strftime(&quot;%d-%b-%Y&quot;).tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Friday', 'Thursday']
+['15-Aug-2025', '02-Oct-2025']</pre></figure><p><code>%d</code> is the day, <code>%b</code> the short month name and <code>%Y</code> the full year.</p></details></li><li><p><b>Challenge.</b> Read <code>employees.csv</code> into <code>raw</code>, clean a <b>copy</b>: drop the duplicate row and the rows with no salary. Print the number of rows of <code>raw</code> and of the clean table.</p><p>Your code should print exactly:</p><pre class="out">41 37</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+raw = pd.read_csv(&quot;employees.csv&quot;)
+df = raw.copy()
+df = df.drop_duplicates().dropna(subset=[&quot;salary&quot;])
+print(len(raw), len(df))</code></pre><p class="olbl">Output</p><pre class="out">41 37</pre></figure><p>Working on a copy keeps <code>raw</code> unchanged, so you can compare before and after.</p></details></li><li><p><b>Challenge.</b> Read <code>employees.csv</code>. Tidy the department names (strip the spaces, then title case) and print how many different departments there are now.</p><p>Your code should print exactly:</p><pre class="out">5</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df[&quot;department&quot;] = df[&quot;department&quot;].str.strip().str.title()
+print(df[&quot;department&quot;].nunique())</code></pre><p class="olbl">Output</p><pre class="out">5</pre></figure><p>Twelve spellings become five. They read <code>It</code> and <code>Hr</code> now, not <code>IT</code> and <code>HR</code>: a <code>replace()</code> afterwards fixes those two.</p></details></li><li><p><b>Challenge.</b> Read <code>employees.csv</code>. Convert <code>join_date</code> (mixed styles, day first, bad values to NaT) and print how many people joined in <b>2022</b>.</p><p>Your code should print exactly:</p><pre class="out">8</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.read_csv(&quot;employees.csv&quot;)
+df[&quot;join_date&quot;] = pd.to_datetime(df[&quot;join_date&quot;], format=&quot;mixed&quot;, dayfirst=True, errors=&quot;coerce&quot;)
+print((df[&quot;join_date&quot;].dt.year == 2022).sum())</code></pre><p class="olbl">Output</p><pre class="out">8</pre></figure><p>Convert first, then compare the year; NaT years are not equal to 2022, so they are not counted.</p></details></li><li><p><b>Challenge.</b> This code should read the date as 3 April 2025 and print <code>4</code>. Fix the conversion.</p><figure class="code"><pre><code>import pandas as pd
+d = pd.to_datetime(pd.Series([&quot;03/04/2025&quot;]))
+print(d.dt.month[0])</code></pre></figure><p>It should print:</p><pre class="out">4</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+d = pd.to_datetime(pd.Series([&quot;03/04/2025&quot;]), dayfirst=True)
+print(d.dt.month[0])</code></pre><p class="olbl">Output</p><pre class="out">4</pre></figure><p>Without <code>dayfirst=True</code>, Pandas reads 03/04 as March 4.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+a = pd.to_datetime(pd.Series([&quot;2025-01-01&quot;]))
+b = pd.to_datetime(pd.Series([&quot;2025-03-01&quot;]))
+print((b - a).dt.days[0])</code></pre></figure><details><summary>Answer</summary><pre class="out">59</pre><p>January has 31 days and February 2025 has 28, so the gap is 59 days.</p></details></li><li><p><b>Challenge.</b> This code should fill each gap with the <b>last known</b> value, and only the gap at the very start with the next value. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+temps = pd.Series([None, 30, None, None, 26, None])
+print(temps.bfill().ffill().tolist())</code></pre></figure><p>It should print:</p><pre class="out">[30.0, 30.0, 30.0, 30.0, 26.0, 26.0]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+temps = pd.Series([None, 30, None, None, 26, None])
+print(temps.ffill().bfill().tolist())</code></pre><p class="olbl">Output</p><pre class="out">[30.0, 30.0, 30.0, 30.0, 26.0, 26.0]</pre></figure><p>The order matters. <code>ffill()</code> first fills every gap after a value with the last known value; then <code>bfill()</code> only has the gap at the start left to fill.</p></details></li><li><p><b>Challenge.</b> <code>df = pd.DataFrame({&quot;name&quot;: [&quot;Asha Rao&quot;, &quot;Om Shah&quot;], &quot;code&quot;: [&quot;HYD&quot;, &quot;BLR&quot;]})</code>. Split <code>name</code> into <code>first</code> and <code>last</code>, add a column <code>city</code> that maps HYD to Hyderabad and BLR to Bengaluru, and print the table without the <code>name</code> and <code>code</code> columns.</p><p>Your code should print exactly:</p><pre class="out">  first  last       city
+0  Asha   Rao  Hyderabad
+1    Om  Shah  Bengaluru</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;name&quot;: [&quot;Asha Rao&quot;, &quot;Om Shah&quot;], &quot;code&quot;: [&quot;HYD&quot;, &quot;BLR&quot;]})
+df[[&quot;first&quot;, &quot;last&quot;]] = df[&quot;name&quot;].str.split(&quot; &quot;, expand=True)
+df[&quot;city&quot;] = df[&quot;code&quot;].map({&quot;HYD&quot;: &quot;Hyderabad&quot;, &quot;BLR&quot;: &quot;Bengaluru&quot;})
+print(df.drop(columns=[&quot;name&quot;, &quot;code&quot;]))</code></pre><p class="olbl">Output</p><pre class="out">  first  last       city
+0  Asha   Rao  Hyderabad
+1    Om  Shah  Bengaluru</pre></figure><p>Three cleaning tools in a row: split into columns, translate with <code>map</code>, then drop what you no longer need.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

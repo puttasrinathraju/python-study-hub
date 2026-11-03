@@ -8,7 +8,10 @@ var PARTS = [
   { n: 5, title: 'Real-world Python', sub: 'Errors, files and modules.' },
   { n: 6, title: 'Object-oriented Python', sub: 'Classes, objects and inheritance.' },
   { n: 7, title: 'NumPy', sub: 'Fast number crunching for data analysis.' },
-  { n: 8, title: 'Projects', sub: 'Put everything together.' }
+  { n: 8, title: 'Pandas', sub: 'Load, clean, select, group and join tables of data.' },
+  { n: 9, title: 'Matplotlib', sub: 'Turn data into clear charts.', soon: 1 },
+  { n: 10, title: 'Seaborn', sub: 'Statistical charts in one line.', soon: 1 },
+  { n: 11, title: 'Projects', sub: 'Put everything together.' }
 ];
 var CHAPTERS = [];
 var POSTERS = {};

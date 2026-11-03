@@ -1,4 +1,6 @@
 import ast, io, tokenize, builtins
+# Short names every data analyst knows: they count as clear names
+SHORT_OK = {'df', 'ax', 'x', 'y'}
 def analyse(src, starter=''):
     res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}
     def add(k):
@@ -54,8 +56,13 @@ def analyse(src, starter=''):
             # variables you store values in (loop and comprehension variables like i or w are not checked)
             for target in (node.targets if isinstance(node, ast.Assign) else [node.target]):
                 for sub in ast.walk(target):
-                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names']:
+                    if isinstance(sub, ast.Name) and isinstance(sub.ctx, ast.Store) and sub.id not in res['names'] and sub.id not in SHORT_OK:
                         res['names'].append(sub.id)
+        if isinstance(node, ast.Import):
+            for al in node.names:
+                add('import:' + al.name.split('.')[0])
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            add('import:' + node.module.split('.')[0])
         if isinstance(node, ast.ExceptHandler) and node.type is not None:
             for sub in ast.walk(node.type):
                 if isinstance(sub, ast.Name):

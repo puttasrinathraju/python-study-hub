@@ -1540,5 +1540,269 @@ var REFERENCE = [
     "o": "ZeroDivisionError: division by zero"
    }
   ]
+ },
+ {
+  "id": "pandas",
+  "title": "Pandas: DataFrame and Series",
+  "intro": "The tools from Part 8 on one table. `df` is a DataFrame (a table) and `s` a Series (one column). Most methods return a **new** result: store it, like `df = df.dropna()`.",
+  "rows": [
+   {
+    "m": "df.describe()",
+    "d": "count, mean, std, min, quartiles and max of number columns",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(round(df[\"pay\"].describe()[\"mean\"], 1))",
+    "o": "58333.3"
+   },
+   {
+    "m": "df.drop(columns=[...], index=[...])",
+    "d": "Removes columns or rows by name",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(list(df.drop(columns=[\"pay\"]).columns))",
+    "o": "['name', 'dept']"
+   },
+   {
+    "m": "df.drop_duplicates(subset)",
+    "d": "Removes repeated rows (or repeats in some columns)",
+    "c": "import pandas as pd\nd = pd.DataFrame({\"id\": [1, 1, 2]})\nprint(len(d.drop_duplicates()))",
+    "o": "2"
+   },
+   {
+    "m": "df.duplicated()",
+    "d": "True for every row that repeats an earlier one",
+    "c": "import pandas as pd\nd = pd.DataFrame({\"id\": [1, 1, 2]})\nprint(d.duplicated().tolist())",
+    "o": "[False, True, False]"
+   },
+   {
+    "m": "df.groupby(col)[col2].agg(...)",
+    "d": "Summaries per group: mean, sum, count, named aggregation",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.groupby(\"dept\")[\"pay\"].sum().tolist())",
+    "o": "[45000, 130000]"
+   },
+   {
+    "m": "df.head(n) / df.tail(n)",
+    "d": "The first / last n rows (5 if you give no number)",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.head(1)[\"name\"].tolist(), df.tail(1)[\"name\"].tolist())",
+    "o": "['Asha'] ['Neha']"
+   },
+   {
+    "m": "df.iloc[rows, cols]",
+    "d": "Picks by positions; a slice leaves out its end",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.iloc[0:1, 0].tolist())",
+    "o": "['Asha']"
+   },
+   {
+    "m": "df.info()",
+    "d": "Each column's type and number of filled values",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\ndf.info(memory_usage=False)",
+    "o": "<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 3 entries, 0 to 2\nData columns (total 3 columns):\n #   Column  Non-Null Count  Dtype \n---  ------  --------------  ----- \n 0   name    3 non-null      object\n 1   dept    3 non-null      object\n 2   pay     3 non-null      int64 \ndtypes: int64(1), object(2)"
+   },
+   {
+    "m": "df.loc[rows, cols]",
+    "d": "Picks by labels and names; a slice includes its end",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.loc[0:1, \"name\"].tolist())",
+    "o": "['Asha', 'Ravi']"
+   },
+   {
+    "m": "df.pivot_table(values, index, columns, aggfunc, fill_value)",
+    "d": "An Excel-style pivot table",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.pivot_table(values=\"pay\", index=\"dept\", aggfunc=\"count\")[\"pay\"].tolist())",
+    "o": "[1, 2]"
+   },
+   {
+    "m": "df.query('...')",
+    "d": "A filter written like a sentence; @name uses a variable",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.query(\"pay < 60000\")[\"name\"].tolist())",
+    "o": "['Ravi', 'Neha']"
+   },
+   {
+    "m": "df.reset_index(drop)",
+    "d": "Turns the index into a column, or renumbers the rows 0, 1, 2",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.groupby(\"dept\")[\"pay\"].sum().reset_index().columns.tolist())",
+    "o": "['dept', 'pay']"
+   },
+   {
+    "m": "df.sample(n, random_state)",
+    "d": "n random rows; random_state makes them repeat",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(len(df.sample(2, random_state=1)))",
+    "o": "2"
+   },
+   {
+    "m": "df.set_index(col)",
+    "d": "Uses a column as the row labels",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.set_index(\"name\").loc[\"Ravi\", \"pay\"])",
+    "o": "45000"
+   },
+   {
+    "m": "df.shape",
+    "d": "(rows, columns), a value, not a method",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.shape)",
+    "o": "(3, 3)"
+   },
+   {
+    "m": "df.sort_values(by, ascending)",
+    "d": "Sorts the rows by one or more columns",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.sort_values(\"pay\", ascending=False)[\"name\"].tolist())",
+    "o": "['Asha', 'Neha', 'Ravi']"
+   },
+   {
+    "m": "df.to_csv(path, index=False)",
+    "d": "Saves the table as a CSV file, without the index column",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\ndf.to_csv(\"staff.csv\", index=False)\nprint(open(\"staff.csv\").readline().strip())",
+    "o": "name,dept,pay"
+   },
+   {
+    "m": "df[condition]",
+    "d": "Keeps the rows where the condition is True (& | ~ with brackets)",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df[(df[\"dept\"] == \"IT\") & (df[\"pay\"] > 60000)][\"name\"].tolist())",
+    "o": "['Asha']"
+   },
+   {
+    "m": "groupby(...).transform(func)",
+    "d": "The group's result on every row",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.groupby(\"dept\")[\"pay\"].transform(\"max\").tolist())",
+    "o": "[72000, 45000, 72000]"
+   },
+   {
+    "m": "pd.concat([a, b], ignore_index=True)",
+    "d": "Stacks tables on top of each other",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(len(pd.concat([df, df], ignore_index=True)))",
+    "o": "6"
+   },
+   {
+    "m": "pd.cut(s, bins, labels)",
+    "d": "Puts numbers into ranges (bands)",
+    "c": "import pandas as pd\nprint(pd.cut(pd.Series([15, 55]), bins=[0, 50, 100], labels=[\"Low\", \"High\"]).tolist())",
+    "o": "['Low', 'High']"
+   },
+   {
+    "m": "pd.merge(a, b, on, how)",
+    "d": "Joins two tables side by side: inner, left, right or outer",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nh = pd.DataFrame({\"dept\": [\"IT\"], \"head\": [\"Om\"]})\nprint(len(pd.merge(df, h, on=\"dept\", how=\"left\")))",
+    "o": "3"
+   },
+   {
+    "m": "pd.read_csv(path)",
+    "d": "Reads a CSV file into a DataFrame",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\ndf.to_csv(\"staff.csv\", index=False)\nprint(pd.read_csv(\"staff.csv\").shape)",
+    "o": "(3, 3)"
+   },
+   {
+    "m": "pd.read_excel(path, sheet_name)",
+    "d": "Reads one sheet of an Excel file (needs openpyxl)",
+    "n": "On your laptop: `pip install openpyxl` once. See Chapter 23."
+   },
+   {
+    "m": "pd.to_datetime(s, format='mixed', dayfirst=True, errors='coerce')",
+    "d": "Text to real dates; bad values become NaT",
+    "c": "import pandas as pd\nprint(pd.to_datetime(pd.Series([\"03/04/2025\"]), dayfirst=True).dt.month.tolist())",
+    "o": "[4]"
+   },
+   {
+    "m": "pd.to_numeric(s, errors='coerce')",
+    "d": "Text to numbers; bad values become NaN",
+    "c": "import pandas as pd\nprint(pd.to_numeric(pd.Series([\"5\", \"x\"]), errors=\"coerce\").tolist())",
+    "o": "[5.0, nan]"
+   },
+   {
+    "m": "s.apply(func) / df.apply(func, axis=1)",
+    "d": "Runs your function on every value / every row",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df[\"pay\"].apply(lambda x: x // 1000).tolist())",
+    "o": "[72, 45, 58]"
+   },
+   {
+    "m": "s.astype(type)",
+    "d": "Changes the type of a column",
+    "c": "import pandas as pd\nprint(pd.Series([\"5\", \"7\"]).astype(\"int64\").sum())",
+    "o": "12"
+   },
+   {
+    "m": "s.corr(other) / df.corr()",
+    "d": "Correlation from -1 to 1",
+    "c": "import pandas as pd\nd = pd.DataFrame({\"x\": [1, 2, 3], \"y\": [2, 4, 7]})\nprint(round(d[\"x\"].corr(d[\"y\"]), 2))",
+    "o": "0.99"
+   },
+   {
+    "m": "s.dropna() / df.dropna(subset)",
+    "d": "Removes values or rows with gaps",
+    "c": "import pandas as pd\ns = pd.Series([30, None, 10, 20])\nprint(s.dropna().tolist())",
+    "o": "[30.0, 10.0, 20.0]"
+   },
+   {
+    "m": "s.dt.year / .month / .day_name() / .strftime(fmt)",
+    "d": "Parts of a date column",
+    "c": "import pandas as pd\nd = pd.to_datetime(pd.Series([\"2025-08-15\"]))\nprint(d.dt.year[0], d.dt.day_name()[0], d.dt.strftime(\"%d-%b\")[0])",
+    "o": "2025 Friday 15-Aug"
+   },
+   {
+    "m": "s.ffill() / s.bfill()",
+    "d": "Fills a gap with the value above / below it",
+    "c": "import pandas as pd\ns = pd.Series([30, None, 10, 20])\nprint(s.ffill().tolist())",
+    "o": "[30.0, 30.0, 10.0, 20.0]"
+   },
+   {
+    "m": "s.fillna(value)",
+    "d": "Fills the gaps with a value, mean, median or mode()[0]",
+    "c": "import pandas as pd\ns = pd.Series([30, None, 10, 20])\nprint(s.fillna(s.mean()).tolist())",
+    "o": "[30.0, 20.0, 10.0, 20.0]"
+   },
+   {
+    "m": "s.idxmax() / s.idxmin()",
+    "d": "The index label of the largest / smallest value",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df.loc[df[\"pay\"].idxmax(), \"name\"])",
+    "o": "Asha"
+   },
+   {
+    "m": "s.isin(list) / s.between(a, b)",
+    "d": "True if the value is in the list / in the range (ends included)",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df[\"pay\"].between(45000, 60000).tolist())",
+    "o": "[False, True, True]"
+   },
+   {
+    "m": "s.isna() / s.notna()",
+    "d": "True where a value is missing / filled",
+    "c": "import pandas as pd\ns = pd.Series([30, None, 10, 20])\nprint(s.isna().sum(), s.notna().sum())",
+    "o": "1 3"
+   },
+   {
+    "m": "s.map(dict) / s.replace(dict)",
+    "d": "Translate every value (others NaN) / fix some values",
+    "c": "import pandas as pd\nc = pd.Series([\"It\", \"Sales\"])\nprint(c.map({\"It\": \"IT\"}).tolist(), c.replace({\"It\": \"IT\"}).tolist())",
+    "o": "['IT', nan] ['IT', 'Sales']"
+   },
+   {
+    "m": "s.str.contains(x) / s.str.extract(r'(...)')",
+    "d": "True if x is inside / the part of the text in brackets",
+    "c": "import pandas as pd\ne = pd.Series([\"asha@gmail.com\"])\nprint(e.str.contains(\"gmail\").tolist(), e.str.extract(r\"@(.+)\", expand=False).tolist())",
+    "o": "[True] ['gmail.com']"
+   },
+   {
+    "m": "s.str.replace(a, b, regex=False)",
+    "d": "Swaps text in every value",
+    "c": "import pandas as pd\nprint(pd.Series([\"₹1,200\"]).str.replace(\",\", \"\", regex=False).tolist())",
+    "o": "['₹1200']"
+   },
+   {
+    "m": "s.str.split(sep, expand=True)",
+    "d": "Splits text into several columns",
+    "c": "import pandas as pd\nprint(pd.Series([\"Asha Rao\"]).str.split(\" \", expand=True).shape)",
+    "o": "(1, 2)"
+   },
+   {
+    "m": "s.str.strip() / .lower() / .title()",
+    "d": "String methods on every value of a text column",
+    "c": "import pandas as pd\nprint(pd.Series([\" asha RAO \"]).str.strip().str.title().tolist())",
+    "o": "['Asha Rao']"
+   },
+   {
+    "m": "s.unique() / s.nunique()",
+    "d": "The different values / how many there are",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df[\"dept\"].unique().tolist(), df[\"dept\"].nunique())",
+    "o": "['IT', 'HR'] 2"
+   },
+   {
+    "m": "s.value_counts(normalize)",
+    "d": "How many of each value (or shares with normalize=True)",
+    "c": "import pandas as pd\ndf = pd.DataFrame({\"name\": [\"Asha\", \"Ravi\", \"Neha\"], \"dept\": [\"IT\", \"HR\", \"IT\"], \"pay\": [72000, 45000, 58000]})\nprint(df[\"dept\"].value_counts().tolist())",
+    "o": "[2, 1]"
+   }
+  ]
  }
 ];

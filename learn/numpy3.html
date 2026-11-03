@@ -195,7 +195,7 @@ print(np.union1d(week1, week2))</code></pre><p class="olbl">Output</p><pre class
 [101 103]
 [101 102 103 105 106]</pre></figure><p>These work like Python's set operators <code>&amp;</code>, <code>-</code> and <code>|</code>, and they return sorted arrays.</p></details></li></ol>
 <h2>Real data practice: hotel bookings</h2>
-<p>The same messy **<code>hotel_bookings.csv</code><b> file, and two everyday analyst jobs: putting values into </b>bands<b>, and sharing work out </b>fairly**.</p>
+<p>The same messy <b><code>hotel_bookings.csv</code></b> file, and two everyday analyst jobs: putting values into <b>bands</b>, and sharing work out <b>fairly</b>.</p>
 <ol class="tasks"><li><p>Put every booking's room rate into a price band: <b>Budget</b> (under ₹2,000), <b>Mid</b> (₹2,000 to ₹2,999) and <b>Premium</b> (₹3,000 and up). Use <code>np.searchsorted</code> with the edges <code>[2000, 3000]</code> and print how many bookings are in each band.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
 import numpy as np
 with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:

@@ -1,5 +1,5 @@
 chapter({
-  id: "projects", part: 8, title: "Projects: put it all together", nav: "Projects", time: "90 min", lvl: "Intermediate",
+  id: "projects", part: 11, title: "Projects: put it all together", nav: "Projects", time: "90 min", lvl: "Intermediate",
   keys: "project movie ticket booking system billing supermarket theater inventory management book borrow library pickle menu",
   lead: "Four complete programs from your course and PDFs, rebuilt step by step, plus a challenge from your notebook. This is where all the chapters meet.",
   goals: [

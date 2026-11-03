@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25.1 Big Test: Select &amp; change | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Selecting, filtering and changing data, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-pandas3.html">
+<meta property="og:title" content="25.1 Big Test: Select &amp; change | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Selecting, filtering and changing data, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-pandas3">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-pandas3">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>25.1 Big Test: Select &amp; change</h1><p class="lead">25 questions on Selecting, filtering and changing data only, from basic to challenge. Try each one first, then open the answer. <a href="pandas3.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Print the <code>type</code> and <code>rate</code> of the rows with the labels 1 to 3 (both included), using <code>loc</code>.</p><p>Your code should print exactly:</p><pre class="out">       type  rate
+1     Suite  7200
+2  Standard  2100
+3    Deluxe  3800</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.loc[1:3, [&quot;type&quot;, &quot;rate&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">       type  rate
+1     Suite  7200
+2  Standard  2100
+3    Deluxe  3800</pre></figure><p>With <code>loc</code>, the end label 3 is included.</p></details></li><li><p><b>Basic.</b> Print the first 2 rows and the first 3 columns of <code>rooms</code>, using <code>iloc</code>.</p><p>Your code should print exactly:</p><pre class="out">   room    type  rate
+0   101  Deluxe  3500
+1   102   Suite  7200</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.iloc[0:2, 0:3])</code></pre><p class="olbl">Output</p><pre class="out">   room    type  rate
+0   101  Deluxe  3500
+1   102   Suite  7200</pre></figure><p><code>iloc</code> slices work like lists: the end position is left out.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.iloc[-1][&quot;type&quot;], rooms.iloc[0][&quot;rate&quot;])</code></pre></figure><details><summary>Answer</summary><pre class="out">Suite 3500</pre><p><code>iloc[-1]</code> is the last row (a Suite) and <code>iloc[0]</code> the first (rate 3500).</p></details></li><li><p><b>Basic.</b> Print the rows of <code>rooms</code> whose rate is above ₹3,000.</p><p>Your code should print exactly:</p><pre class="out">   room    type  rate  nights  rating
+0   101  Deluxe  3500       2     4.5
+1   102   Suite  7200       1     4.8
+3   104  Deluxe  3800       3     4.1
+5   106   Suite  6900       2     4.9</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[rooms[&quot;rate&quot;] &gt; 3000])</code></pre><p class="olbl">Output</p><pre class="out">   room    type  rate  nights  rating
+0   101  Deluxe  3500       2     4.5
+1   102   Suite  7200       1     4.8
+3   104  Deluxe  3800       3     4.1
+5   106   Suite  6900       2     4.9</pre></figure><p>The condition makes a True/False mask; <code>rooms[mask]</code> keeps the True rows.</p></details></li><li><p><b>Basic.</b> Add a column <code>bill</code> = rate × nights and print the <code>room</code> and <code>bill</code> columns.</p><p>Your code should print exactly:</p><pre class="out">   room   bill
+0   101   7000
+1   102   7200
+2   103   8400
+3   104  11400
+4   105  11500
+5   106  13800</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+rooms[&quot;bill&quot;] = rooms[&quot;rate&quot;] * rooms[&quot;nights&quot;]
+print(rooms[[&quot;room&quot;, &quot;bill&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   room   bill
+0   101   7000
+1   102   7200
+2   103   8400
+3   104  11400
+4   105  11500
+5   106  13800</pre></figure><p>Maths between two columns works row by row.</p></details></li><li><p><b>Basic.</b> This code should keep the Deluxe rooms with 3 or more nights, but it stops with a ValueError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[(rooms[&quot;type&quot;] == &quot;Deluxe&quot;) and (rooms[&quot;nights&quot;] &gt;= 3)][&quot;room&quot;].tolist())</code></pre></figure><p>It should print:</p><pre class="out">[104, 105]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[(rooms[&quot;type&quot;] == &quot;Deluxe&quot;) &amp; (rooms[&quot;nights&quot;] &gt;= 3)][&quot;room&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">[104, 105]</pre></figure><p>Python's <code>and</code> cannot combine two masks. Use <code>&amp;</code>.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;P&quot;, &quot;Q&quot;, &quot;R&quot;], &quot;v&quot;: [8, 3, 5]})
+print(df.sort_values(&quot;v&quot;)[&quot;n&quot;].tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">['Q', 'R', 'P']</pre><p>Smallest first: 3 (Q), 5 (R), 8 (P).</p></details></li><li><p><b>Basic.</b> Print how many rooms there are of each <code>type</code>, with <code>value_counts()</code>.</p><p>Your code should print exactly:</p><pre class="out">type
+Deluxe      3
+Suite       2
+Standard    1
+Name: count, dtype: int64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[&quot;type&quot;].value_counts())</code></pre><p class="olbl">Output</p><pre class="out">type
+Deluxe      3
+Suite       2
+Standard    1
+Name: count, dtype: int64</pre></figure><p><code>value_counts()</code> counts each value and puts the most common first: 3 Deluxe, 2 Suites, 1 Standard.</p></details></li><li><p><b>Medium.</b> This code should print the rate of room 104 (<code>3800</code>), but it raises a KeyError. Fix it so <code>loc</code> can find room 104.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.loc[104, &quot;rate&quot;])</code></pre></figure><p>It should print:</p><pre class="out">3800</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.set_index(&quot;room&quot;).loc[104, &quot;rate&quot;])</code></pre><p class="olbl">Output</p><pre class="out">3800</pre></figure><p>The labels are 0 to 5, not the room numbers. <code>set_index(&quot;room&quot;)</code> makes the room numbers the labels that <code>loc</code> uses.</p></details></li><li><p><b>Medium.</b> Print the room numbers of the Suites <b>or</b> the rooms rated below 4.0, as a list.</p><p>Your code should print exactly:</p><pre class="out">[102, 103, 105, 106]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[(rooms[&quot;type&quot;] == &quot;Suite&quot;) | (rooms[&quot;rating&quot;] &lt; 4.0)][&quot;room&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">[102, 103, 105, 106]</pre></figure><p><code>|</code> keeps a row when either condition is True.</p></details></li><li><p><b>Medium.</b> Using <code>query()</code>, print the room numbers with a rate under the variable <code>budget = 4000</code> and a rating of 4 or more, as a list.</p><p>Your code should print exactly:</p><pre class="out">[101, 104]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+budget = 4000
+print(rooms.query(&quot;rate &lt; @budget and rating &gt;= 4&quot;)[&quot;room&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">[101, 104]</pre></figure><p><code>@budget</code> uses the Python variable inside the query text.</p></details></li><li><p><b>Medium.</b> This code should label each rating as Good (4 or more) or OK, but it stops with a TypeError. Fix the apply line.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+def label(r):
+    return &quot;Good&quot; if r &gt;= 4 else &quot;OK&quot;
+
+print(rooms[&quot;rating&quot;].apply(label()).tolist())</code></pre></figure><p>It should print:</p><pre class="out">['Good', 'Good', 'OK', 'Good', 'OK', 'Good']</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+def label(r):
+    return &quot;Good&quot; if r &gt;= 4 else &quot;OK&quot;
+
+print(rooms[&quot;rating&quot;].apply(label).tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Good', 'Good', 'OK', 'Good', 'OK', 'Good']</pre></figure><p>Pass the function itself, without brackets. <code>label()</code> calls it with no value.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms[&quot;nights&quot;].apply(lambda n: &quot;Long&quot; if n &gt;= 3 else &quot;Short&quot;).tolist())</code></pre></figure><details><summary>Answer</summary><pre class="out">['Short', 'Short', 'Long', 'Long', 'Long', 'Short']</pre><p>The lambda runs once for each value: nights 2, 1, 4, 3, 5, 2.</p></details></li><li><p><b>Medium.</b> Add a column <code>gst</code> with <code>np.where</code>: 18% of the rate for rates above ₹7,000, otherwise 12%. Print the <code>rate</code> and <code>gst</code> columns.</p><p>Your code should print exactly:</p><pre class="out">   rate     gst
+0  3500   420.0
+1  7200  1296.0
+2  2100   252.0
+3  3800   456.0
+4  2300   276.0
+5  6900   828.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import numpy as np
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+rooms[&quot;gst&quot;] = np.where(rooms[&quot;rate&quot;] &gt; 7000, rooms[&quot;rate&quot;] * 0.18, rooms[&quot;rate&quot;] * 0.12)
+print(rooms[[&quot;rate&quot;, &quot;gst&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   rate     gst
+0  3500   420.0
+1  7200  1296.0
+2  2100   252.0
+3  3800   456.0
+4  2300   276.0
+5  6900   828.0</pre></figure><p><code>np.where</code> picks, row by row, from two calculated columns.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(len(rooms.loc[2:4]), len(rooms.iloc[2:4]))</code></pre></figure><details><summary>Answer</summary><pre class="out">3 2</pre><p><code>loc</code> keeps labels 2, 3 and 4; <code>iloc</code> keeps positions 2 and 3.</p></details></li><li><p><b>Medium.</b> Print the <code>room</code> and <code>rate</code> of the 3 most expensive rooms, highest first.</p><p>Your code should print exactly:</p><pre class="out">   room  rate
+1   102  7200
+5   106  6900
+3   104  3800</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.sort_values(&quot;rate&quot;, ascending=False)[[&quot;room&quot;, &quot;rate&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">   room  rate
+1   102  7200
+5   106  6900
+3   104  3800</pre></figure><p>Sort largest first, then take the top 3 with <code>head(3)</code>.</p></details></li><li><p><b>Medium.</b> This code should print the room <b>number</b> of the best-rated room (<code>106</code>), but it prints the rating. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+best = rooms[&quot;rating&quot;].max()
+print(rooms.loc[best, &quot;room&quot;])</code></pre></figure><p>It should print:</p><pre class="out">106</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+best = rooms[&quot;rating&quot;].idxmax()
+print(rooms.loc[best, &quot;room&quot;])</code></pre><p class="olbl">Output</p><pre class="out">106</pre></figure><p><code>max()</code> gives the value 4.9; <code>idxmax()</code> gives its index label, which <code>loc</code> needs.</p></details></li><li><p><b>Medium.</b> Read <code>sales_data.csv</code> and print how many different categories there are, then the share of orders from each category with <code>value_counts(normalize=True)</code> rounded to 2 decimals.</p><p>Your code should print exactly:</p><pre class="out">4
+Category
+Clothing       0.31
+Groceries      0.24
+Electronics    0.23
+Furniture      0.21
+Name: proportion, dtype: float64</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+print(sales[&quot;Category&quot;].nunique())
+print(sales[&quot;Category&quot;].value_counts(normalize=True).round(2))</code></pre><p class="olbl">Output</p><pre class="out">4
+Category
+Clothing       0.31
+Groceries      0.24
+Electronics    0.23
+Furniture      0.21
+Name: proportion, dtype: float64</pre></figure><p><code>nunique()</code> counts the different values; <code>normalize=True</code> gives shares that add up to 1.</p></details></li><li><p><b>Challenge.</b> Mark the rooms that need attention: set a new column <code>flag</code> to <code>&quot;Check&quot;</code> with <code>loc</code> for ratings below 4.0, and <code>&quot;OK&quot;</code> for the rest. Print the room numbers flagged <code>&quot;Check&quot;</code> as a list.</p><p>Your code should print exactly:</p><pre class="out">[103, 105]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+rooms.loc[rooms[&quot;rating&quot;] &lt; 4.0, &quot;flag&quot;] = &quot;Check&quot;
+rooms.loc[rooms[&quot;rating&quot;] &gt;= 4.0, &quot;flag&quot;] = &quot;OK&quot;
+print(rooms[rooms[&quot;flag&quot;] == &quot;Check&quot;][&quot;room&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">[103, 105]</pre></figure><p><code>loc[condition, &quot;col&quot;] = value</code> sets values only in the matching rows.</p></details></li><li><p><b>Challenge.</b> Write <code>def discount(row)</code> that gives 10% off the bill (rate × nights) for 4 or more nights and nothing otherwise, and returns the amount to pay. Add it as <code>pay</code> with <code>apply(..., axis=1)</code> and print the <code>room</code> and <code>pay</code> columns.</p><p>Your code should print exactly:</p><pre class="out">   room      pay
+0   101   7000.0
+1   102   7200.0
+2   103   7560.0
+3   104  11400.0
+4   105  10350.0
+5   106  13800.0</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+def discount(row):
+    bill = row[&quot;rate&quot;] * row[&quot;nights&quot;]
+    if row[&quot;nights&quot;] &gt;= 4:
+        return bill * 0.9
+    return bill
+
+rooms[&quot;pay&quot;] = rooms.apply(discount, axis=1)
+print(rooms[[&quot;room&quot;, &quot;pay&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">   room      pay
+0   101   7000.0
+1   102   7200.0
+2   103   7560.0
+3   104  11400.0
+4   105  10350.0
+5   106  13800.0</pre></figure><p>With <code>axis=1</code> the function gets a whole row, so it can use two columns at once.</p></details></li><li><p><b>Challenge.</b> Sort the rooms by <code>type</code> A to Z, and inside each type by <code>rating</code>, highest first. Print the <code>type</code>, <code>room</code> and <code>rating</code> columns.</p><p>Your code should print exactly:</p><pre class="out">       type  room  rating
+0    Deluxe   101     4.5
+3    Deluxe   104     4.1
+4    Deluxe   105     3.6
+2  Standard   103     3.9
+5     Suite   106     4.9
+1     Suite   102     4.8</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.sort_values([&quot;type&quot;, &quot;rating&quot;], ascending=[True, False])[[&quot;type&quot;, &quot;room&quot;, &quot;rating&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">       type  room  rating
+0    Deluxe   101     4.5
+3    Deluxe   104     4.1
+4    Deluxe   105     3.6
+2  Standard   103     3.9
+5     Suite   106     4.9
+1     Suite   102     4.8</pre></figure><p>Give a list of columns and a matching list of directions.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+cheap = rooms[rooms[&quot;rate&quot;].between(2000, 3600)]
+print(cheap[&quot;room&quot;].tolist(), len(cheap))</code></pre></figure><details><summary>Answer</summary><pre class="out">[101, 103, 105] 3</pre><p><code>between</code> includes both ends: rates 3500, 2100 and 2300 qualify.</p></details></li><li><p><b>Challenge.</b> This code should print the <b>last 2</b> room numbers, <code>[105, 106]</code>, but it prints <code>[]</code>. Fix the slice.</p><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.iloc[-2:0][&quot;room&quot;].tolist())</code></pre></figure><p>It should print:</p><pre class="out">[105, 106]</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+rooms = pd.DataFrame({
+    &quot;room&quot;: [101, 102, 103, 104, 105, 106],
+    &quot;type&quot;: [&quot;Deluxe&quot;, &quot;Suite&quot;, &quot;Standard&quot;, &quot;Deluxe&quot;, &quot;Deluxe&quot;, &quot;Suite&quot;],
+    &quot;rate&quot;: [3500, 7200, 2100, 3800, 2300, 6900],
+    &quot;nights&quot;: [2, 1, 4, 3, 5, 2],
+    &quot;rating&quot;: [4.5, 4.8, 3.9, 4.1, 3.6, 4.9]
+})
+print(rooms.iloc[-2:][&quot;room&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">[105, 106]</pre></figure><p>A slice from -2 to 0 is empty, because 0 comes before -2. Leave the end out to go to the last row.</p></details></li><li><p><b>Challenge.</b> Read <code>sales_data.csv</code>. Using <code>query()</code>, keep the West orders with a profit above 1000, then print how many there are and their total sales.</p><p>Your code should print exactly:</p><pre class="out">13 93834</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+big = sales.query(&quot;Region == 'West' and Profit &gt; 1000&quot;)
+print(len(big), big[&quot;Sales&quot;].sum())</code></pre><p class="olbl">Output</p><pre class="out">13 93834</pre></figure><p>Filter once, then use <code>len()</code> and <code>sum()</code> on the result.</p></details></li><li><p><b>Challenge.</b> Read <code>sales_data.csv</code>. Print the <code>Date</code>, <code>Category</code> and <code>Profit</code> of the order with the <b>biggest loss</b> (the smallest profit).</p><p>Your code should print exactly:</p><pre class="out">Date         2024-12-23
+Category    Electronics
+Profit             -252
+Name: 491, dtype: object</pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+print(sales.loc[sales[&quot;Profit&quot;].idxmin(), [&quot;Date&quot;, &quot;Category&quot;, &quot;Profit&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">Date         2024-12-23
+Category    Electronics
+Profit             -252
+Name: 491, dtype: object</pre></figure><p><code>idxmin()</code> finds where the smallest profit is; <code>loc</code> shows the columns you choose.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

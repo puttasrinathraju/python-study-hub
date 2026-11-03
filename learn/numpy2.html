@@ -204,7 +204,7 @@ new = prices * 1.05 + np.array([10, 20, 30])
 print(new)</code></pre><p class="olbl">Output</p><pre class="out">[[115.  230.  345. ]
  [167.5 282.5 397.5]]</pre></figure></details></li></ol>
 <h2>Real data practice: hotel bookings with NumPy</h2>
-<p>Same messy hotel file as in the Files chapter: **<code>hotel_bookings.csv</code>**. This time you load the numbers into arrays and let NumPy do the maths. The first lines drop the duplicate booking with a handy trick: a dict keeps only one row per booking ID.</p>
+<p>Same messy hotel file as in the Files chapter: <b><code>hotel_bookings.csv</code></b>. This time you load the numbers into arrays and let NumPy do the maths. The first lines drop the duplicate booking with a handy trick: a dict keeps only one row per booking ID.</p>
 <ol class="tasks"><li><p>Load the <code>nights</code> column into a NumPy array (skip the blank cells). Print how many values you have, the average stay (2 decimals) and how many stays were longer than 3 nights.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import csv
 import numpy as np
 with open(&quot;hotel_bookings.csv&quot;, encoding=&quot;utf-8&quot;) as f:

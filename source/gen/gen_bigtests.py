@@ -1,12 +1,13 @@
 # Big Tests: 25 questions per chapter (Parts 1-4). Every code answer is run in real Python here.
 import subprocess, sys, json, tempfile, os, re, importlib.util, glob
-WORK = tempfile.mkdtemp()
-import shutil
-for _f in glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'hub2', 'data', '*.csv')): shutil.copy(_f, WORK)  # sample data, also in the browser runner
+# Run with the matching Python (pandas 2.2.3 etc., see NOTES.md). chlib copies the practice data and _hubcharts.py into its folder.
+import chlib
+WORK = chlib.WORK
 def run(code):
-    p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=30, input='')
+    p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=60, input='', env=chlib.ENV)
     ok = p.returncode == 0 and not p.stderr.strip()
     return ok, (p.stdout.rstrip('\n') if ok else (p.stdout + p.stderr.strip().split('\n')[-1]).strip())
+OLD_MIX = set()   # chapters written before the 15/5/5 rule was checked
 def tick(s): return s[1:-1] if s.startswith('`') and s.endswith('`') else s
 def build(cid, Q, heads):
     out, lv = [], {1: 0, 2: 0, 3: 0}
@@ -31,9 +32,18 @@ def build(cid, Q, heads):
                 ok, o = run(fixed)
                 if j == x['a']: assert ok and o == x['want'], (tag, 'fix does not work', o); x['fixed'] = fixed
                 else: assert not (ok and o == x['want']), (tag, 'wrong fix also works', opt)
+        elif t == 'code' and x.get('chart'):   # a chart question: the chart is checked like a practice task
+            o, summ, figs, imgs = chlib.chart_run(x['sol'], 'bt-%s-%d' % (cid, n + 1)); x['out'] = o; x['sum'] = summ; x['img'] = imgs
+            bad = chlib.check(x['chart'], figs); assert not bad, (tag, bad)
+            so, ss, sfigs, _ = chlib.chart_run(x.get('starter', '') or 'pass'); assert chlib.check(x['chart'], sfigs) or so != o, (tag, 'starter already solves it')
         elif t == 'code':
             ok, o = run(x['sol']); assert ok, (tag, o); x['out'] = o
             ok2, o2 = run(x.get('starter', '')); assert not (ok2 and o2 == o), (tag, 'starter already solves it')
+        elif t == 'fix' and x.get('chart'):
+            w, summ, figs, imgs = chlib.chart_run(x['fixed'], 'bt-%s-%d' % (cid, n + 1)); x['want'] = w; x['sum'] = summ; x['img'] = imgs
+            assert not chlib.check(x['chart'], figs), (tag, 'fixed chart fails')
+            ok, got = run(x['c']); x['got'] = re.sub(r' at 0x[0-9a-f]+', ' at 0x...', got) if not ok else (got or '(a chart that does not match)')
+            if ok: assert chlib.check(x['chart'], chlib.chart_run(x['c'])[2]) or got != w, (tag, 'buggy code already works')
         elif t == 'fix':
             ok, w = run(x['fixed']); assert ok, (tag, 'fixed code fails', w); x['want'] = w
             ok, got = run(x['c']); assert not (ok and got == w), (tag, 'buggy code already works'); x['got'] = re.sub(r' at 0x[0-9a-f]+', ' at 0x...', got)
@@ -42,6 +52,8 @@ def build(cid, Q, heads):
         else: raise ValueError(t)
         out.append(x)
     assert len(out) >= 25 and lv[1] >= 8 and lv[2] >= 10 and lv[3] >= 7, (cid, len(out), lv)
+    ty = {k: sum(1 for x in out if x['ty'] == k) for k in ('code', 'fix', 'type')}
+    assert ty == {'code': 15, 'fix': 5, 'type': 5} or cid in OLD_MIX, (cid, ty)
     return out
 # chapter headings (to check every 'sec' exists), read from the site data
 here = os.path.dirname(os.path.abspath(__file__)); hub = os.path.join(here, '..', 'hub2')

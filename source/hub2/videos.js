@@ -267,5 +267,38 @@ var VIDEOS = {
    "channel": "Bro Code",
    "mins": 15
   }
+ },
+ "pandas1": {
+  "en": {
+   "id": "ZyhVh-qRZPA",
+   "title": "Python Pandas Tutorial (Part 1): Getting Started with Data Analysis - Installation and Loading Data",
+   "channel": "Corey Schafer"
+  },
+  "te": {
+   "id": "omX1aryP2d8",
+   "title": "Pandas Full Course Explained in Simple Telugu | Python Pandas Tutorial for Beginners",
+   "channel": "Sangeeth"
+  }
+ },
+ "pandas2": {
+  "en": {
+   "id": "bDhvCp3_lYw",
+   "title": "Data Cleaning in Pandas | Python Pandas Tutorials",
+   "channel": "Alex The Analyst"
+  }
+ },
+ "pandas3": {
+  "en": {
+   "id": "Lw2rlcxScZY",
+   "title": "Python Pandas Tutorial (Part 4): Filtering - Using Conditionals to Filter Rows and Columns",
+   "channel": "Corey Schafer"
+  }
+ },
+ "pandas4": {
+  "en": {
+   "id": "txMdrV1Ut64",
+   "title": "Python Pandas Tutorial (Part 8): Grouping and Aggregating - Analyzing and Exploring Your Data",
+   "channel": "Corey Schafer"
+  }
  }
 };

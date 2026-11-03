@@ -52,6 +52,10 @@ FEATURES = [
     (5, '`with` and files', 'Part 5 (Files)', dict(any=['node:With'])),
     (5, '`import`', 'Part 5 (Modules)', dict(any=['node:Import', 'node:ImportFrom'])),
     (6, 'classes', 'Part 6 (OOP)', dict(any=['node:ClassDef'])),
+    (7, 'NumPy (`import numpy`)', 'Part 7 (NumPy)', dict(any=['import:numpy'])),
+    (8, 'Pandas (`import pandas`)', 'Part 8 (Pandas)', dict(any=['import:pandas'])),
+    (9, 'Matplotlib charts (`import matplotlib`)', 'Part 9 (Matplotlib)', dict(any=['import:matplotlib'])),
+    (10, 'Seaborn charts (`import seaborn`)', 'Part 10 (Seaborn)', dict(any=['import:seaborn'])),
 ]
 # Built-in functions each Part adds (read from the chapter sources). A project may use those of its Part and earlier ones.
 # Parts without an entry skip the built-in check.
@@ -62,7 +66,7 @@ BUILTINS = {1: ['print', 'input', 'int', 'float', 'str', 'bool', 'type', 'isinst
             5: ['open', 'dir', 'Exception', 'ValueError', 'TypeError', 'KeyError', 'IndexError', 'ZeroDivisionError',
                 'FileNotFoundError', 'AssertionError', 'AttributeError'],
             6: ['super', 'property', 'staticmethod', 'classmethod', 'hasattr', 'getattr', 'setattr'],
-            7: []}
+            7: [], 8: [], 9: [], 10: []}
 def rules(part):
     r = {'ban': [dict(label=l, where=w, **m) for p, l, w, m in FEATURES if p > part]}
     if part in BUILTINS: r['allow'] = [f for k in sorted(BUILTINS) if k <= part for f in BUILTINS[k]]

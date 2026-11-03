@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selecting, filtering and changing data | Python Study Hub</title>
+<meta name="description" content="Ask a table questions. Pick rows and columns by label or position, filter with conditions, add new columns with maths and your own rules, sort, and find the top and bottom values.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/pandas3.html">
+<meta property="og:title" content="Selecting, filtering and changing data | Python Study Hub">
+<meta property="og:description" content="Ask a table questions. Pick rows and columns by label or position, filter with conditions, add new columns with maths and your own rules, sort, and find the top and bottom values.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#pandas3">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#pandas3">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 8 · Pandas · Chapter 25</p><h1>Selecting, filtering and changing data</h1><p class="lead">Ask a table questions. Pick rows and columns by label or position, filter with conditions, add new columns with maths and your own rules, sort, and find the top and bottom values.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Pick data with <code>loc</code> (labels, end included) and <code>iloc</code> (positions, end left out)</li><li>Filter rows with masks, <code>&amp;</code> <code>|</code> <code>~</code>, <code>isin()</code>, <code>between()</code> and <code>query()</code></li><li>Add columns with maths, <code>apply()</code> (also with <code>axis=1</code>) and <code>np.where()</code></li><li>Change only some rows with <code>df.loc[condition, &quot;col&quot;] = value</code></li><li>Sort with <code>sort_values()</code> and find values with <code>value_counts()</code>, <code>unique()</code> and <code>idxmax()</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=Lw2rlcxScZY">Python Pandas Tutorial (Part 4): Filtering - Using Conditionals to Filter Rows and Columns</a> by Corey Schafer (about undefined min)</li></ul></section><h2>loc: pick by labels</h2>
+<figure class="code"><figcaption>The staff table: every example in this chapter starts from it</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(emp)</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  salary  score       city
+0    Asha     IT   72000     91       Pune
+1  Vikram     HR   45000     74      Delhi
+2    Neha     IT   58000     83       Pune
+3    Ravi  Sales   39000     68    Chennai
+4   Meena  Sales   66000     88      Delhi
+5   Arjun     IT   81000     79  Hyderabad
+6   Priya  Sales   52000     95    Chennai
+7   Kiran  Sales   47000     71       Pune</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>To keep the examples short, the cells below do not repeat these lines. <b>Try it</b> copies them in for you, so every example still runs.</p></aside>
+<p><code>df.loc[rows, columns]</code> picks data by <b>labels</b>: the index labels on the left and the column names on top. Read the comma as &quot;and&quot;: which rows, and which columns.</p>
+<figure class="code"><figcaption>One row, one cell</figcaption><pre><code>print(emp.loc[2])                      # one row: a Series
+print(emp.loc[2, &quot;name&quot;])              # one cell</code></pre><p class="olbl">Output</p><pre class="out">name       Neha
+dept         IT
+salary    58000
+score        83
+city       Pune
+Name: 2, dtype: object
+Neha</pre></figure>
+<figure class="code"><figcaption>A slice of rows, a list of columns</figcaption><pre><code>print(emp.loc[1:3, [&quot;name&quot;, &quot;salary&quot;]])   # rows 1 to 3, and BOTH ends are included</code></pre><p class="olbl">Output</p><pre class="out">     name  salary
+1  Vikram   45000
+2    Neha   58000
+3    Ravi   39000</pre></figure>
+<figure class="code"><figcaption>Column slices</figcaption><pre><code>print(emp.loc[0:1, &quot;name&quot;:&quot;score&quot;])    # a slice of columns works too</code></pre><p class="olbl">Output</p><pre class="out">     name dept  salary  score
+0    Asha   IT   72000     91
+1  Vikram   HR   45000     74</pre></figure>
+<figure class="code"><figcaption>Text labels: set_index() first</figcaption><pre><code>by_name = emp.set_index(&quot;name&quot;)       # use the names as row labels
+print(by_name.loc[&quot;Neha&quot;, &quot;salary&quot;])
+print(by_name.loc[[&quot;Asha&quot;, &quot;Ravi&quot;], [&quot;dept&quot;, &quot;score&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">58000
+       dept  score
+name              
+Asha     IT     91
+Ravi  Sales     68</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>With <code>loc</code>, a slice like <code>1:3</code> <b>includes</b> the end label 3. That is different from Python lists and from <code>iloc</code>, where the end is left out.</p></aside>
+<h2>iloc: pick by position</h2>
+<p><code>df.iloc[rows, columns]</code> picks by <b>position numbers</b> (0, 1, 2 ...), ignoring the labels. It works exactly like slicing a list: the end is <b>not</b> included, and <code>-1</code> means the last one.</p>
+<figure class="code"><figcaption>Positions, like list slicing</figcaption><pre><code>print(emp.iloc[0:3, 0:2])     # positions 0, 1, 2 and columns 0, 1
+print(emp.iloc[-1][&quot;name&quot;])    # the last row</code></pre><p class="olbl">Output</p><pre class="out">     name dept
+0    Asha   IT
+1  Vikram   HR
+2    Neha   IT
+Kiran</pre></figure>
+<figure class="code"><figcaption>Lists of positions</figcaption><pre><code>print(emp.iloc[[0, 2, 4], [0, 3]])    # rows 0, 2, 4 and columns 0 and 3</code></pre><p class="olbl">Output</p><pre class="out">    name  score
+0   Asha     91
+2   Neha     83
+4  Meena     88</pre></figure>
+<section class="anim"><h3>Animated explainer: loc[0:2] vs iloc[0:2]</h3><ol><li>The same table, two ways to cut it. Here the labels and the positions are both 0 to 4.</li><li><code>emp.loc[0:2]</code> uses <b>labels</b>, and the end label is included: rows 0, 1 <b>and 2</b>. Three rows.</li><li><code>emp.iloc[0:2]</code> uses <b>positions</b>, and the end is left out, like a list: positions 0 and 1. Two rows.</li><li><code>emp.iloc[3:5, [0, 2]]</code>: positions 3 and 4, and the columns at positions 0 and 2 (<code>name</code> and <code>salary</code>).</li></ol></section>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(len(emp.loc[2:4]), len(emp.iloc[2:4]))</code></pre></figure><ol type="A"><li><code>3 2</code></li><li><code>2 2</code></li><li><code>3 3</code></li><li><code>2 3</code></li></ol><details><summary>Answer</summary><p><b><code>3 2</code></b>. <code>loc</code> includes the end label (2, 3, 4). <code>iloc</code> stops before position 4 (2, 3).</p></details></section>
+<section class="vs"><h3>Don't mix up: loc vs iloc</h3><div class="tbl"><table><thead><tr><th></th><th>loc</th><th>iloc</th></tr></thead><tbody><tr><th scope="row">Picks by</th><td>Labels and column names</td><td>Position numbers</td></tr><tr><th scope="row">End of a slice</th><td><span class="t-warn">Included</span></td><td><span class="t-ok">Left out</span> (like lists)</td></tr><tr><th scope="row">Example</th><td><code>df.loc[1:3, [&quot;name&quot;, &quot;salary&quot;]]</code></td><td><code>df.iloc[0:3, 0:2]</code></td></tr><tr><th scope="row">Takes conditions</th><td><span class="t-ok">Yes</span>: <code>df.loc[df[&quot;x&quot;] &gt; 5, &quot;name&quot;]</code></td><td>No</td></tr><tr><th scope="row">Last row</th><td><code>df.loc[df.index[-1]]</code></td><td><code>df.iloc[-1]</code></td></tr></tbody></table></div><p><b>Rule of thumb:</b> Know the name? <code>loc</code>. Know the position? <code>iloc</code>.</p></section>
+<h2>Filtering rows</h2>
+<p>A condition on a column gives <code>True</code> or <code>False</code> for every row: a <mark>boolean mask</mark>, exactly like the NumPy masks of Chapter 21. Put it inside <code>df[...]</code> to keep only the <code>True</code> rows.</p>
+<figure class="code"><figcaption>The mask: one True/False per row</figcaption><pre><code>print(emp[&quot;salary&quot;] &gt; 60000)</code></pre><p class="olbl">Output</p><pre class="out">0     True
+1    False
+2    False
+3    False
+4     True
+5     True
+6    False
+7    False
+Name: salary, dtype: bool</pre></figure>
+<figure class="code"><figcaption>Keep the True rows</figcaption><pre><code>print(emp[emp[&quot;salary&quot;] &gt; 60000])</code></pre><p class="olbl">Output</p><pre class="out">    name   dept  salary  score       city
+0   Asha     IT   72000     91       Pune
+4  Meena  Sales   66000     88      Delhi
+5  Arjun     IT   81000     79  Hyderabad</pre></figure>
+<figure class="code"><figcaption>loc: filter the rows AND pick the columns</figcaption><pre><code>print(emp.loc[emp[&quot;dept&quot;] == &quot;IT&quot;, [&quot;name&quot;, &quot;salary&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">    name  salary
+0   Asha   72000
+2   Neha   58000
+5  Arjun   81000</pre></figure>
+<p>Join conditions with <code>&amp;</code> (and), <code>|</code> (or) and <code>~</code> (not). Each condition needs its <b>own brackets</b>, because <code>&amp;</code> and <code>|</code> are worked out before <code>&gt;</code> and <code>==</code>.</p>
+<figure class="code"><figcaption>&amp; and |</figcaption><pre><code>print(emp[(emp[&quot;score&quot;] &gt; 85) &amp; (emp[&quot;salary&quot;] &gt; 50000)][[&quot;name&quot;, &quot;score&quot;]])
+print(emp[(emp[&quot;city&quot;] == &quot;Pune&quot;) | (emp[&quot;dept&quot;] == &quot;HR&quot;)][&quot;name&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">    name  score
+0   Asha     91
+4  Meena     88
+6  Priya     95
+['Asha', 'Vikram', 'Neha', 'Kiran']</pre></figure>
+<figure class="code"><figcaption>isin(), between() and ~</figcaption><pre><code>print(emp[emp[&quot;city&quot;].isin([&quot;Delhi&quot;, &quot;Chennai&quot;])][&quot;name&quot;].tolist())
+print(emp[emp[&quot;salary&quot;].between(50000, 70000)][&quot;name&quot;].tolist())   # both ends included
+print(emp[~(emp[&quot;dept&quot;] == &quot;Sales&quot;)][&quot;name&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Vikram', 'Ravi', 'Meena', 'Priya']
+['Neha', 'Meena', 'Priya']
+['Asha', 'Vikram', 'Neha', 'Arjun']</pre></figure>
+<section class="anim"><h3>Animated explainer: How a filter keeps rows</h3><ol><li>We want the people with a score above 80.</li><li><code>emp[&quot;score&quot;] &gt; 80</code> checks every row and gives a mask: True, False, True, False, True.</li><li><code>emp[mask]</code> keeps the True rows. Notice the index: 0, 2, 4. Filtering keeps the original labels.</li></ol></section>
+<aside class="note trap"><strong>Trap!</strong><p>Python's <code>and</code> / <code>or</code> do not work here: <code>emp[emp[&quot;score&quot;] &gt; 85 and emp[&quot;salary&quot;] &gt; 50000]</code> raises a ValueError. Use <code>&amp;</code> and <code>|</code>, with brackets around each condition.</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(len(emp[(emp[&quot;dept&quot;] == &quot;IT&quot;) | (emp[&quot;score&quot;] &gt; 90)]))</code></pre></figure><ol type="A"><li><code>4</code></li><li><code>3</code></li><li><code>1</code></li><li><code>5</code></li></ol><details><summary>Answer</summary><p><b><code>4</code></b>. IT gives Asha, Neha and Arjun. Score above 90 adds Priya (Asha is already in). That makes 4.</p></details></section>
+<h2>query(): filters written like a sentence</h2>
+<p><code>df.query(&quot;...&quot;)</code> does the same filtering, written like a sentence. Inside the text you use plain <code>and</code> / <code>or</code>, and quotes around text values. Put <code>@</code> before a Python variable.</p>
+<figure class="code"><figcaption>query(): the same filter, easier to read</figcaption><pre><code>print(emp.query('dept == &quot;IT&quot; and score &gt; 80'))</code></pre><p class="olbl">Output</p><pre class="out">   name dept  salary  score  city
+0  Asha   IT   72000     91  Pune
+2  Neha   IT   58000     83  Pune</pre></figure>
+<figure class="code"><figcaption>@ uses a Python variable</figcaption><pre><code>limit = 50000
+print(emp.query(&quot;salary &lt; @limit or score &gt; 90&quot;)[&quot;name&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Asha', 'Vikram', 'Ravi', 'Priya', 'Kiran']</pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>Write a query with <b>double quotes inside single quotes</b>, or the other way round: <code>'dept == &quot;IT&quot;'</code>. Column names with spaces need backticks: `<code>df.query(&quot;</code>Annual Salary<code> &gt; 50000&quot;)</code>`.</p></aside>
+<h2>New columns with maths</h2>
+<p>Maths on columns works row by row, like NumPy arrays: no loop. Store the result under a new name and you get a new column.</p>
+<figure class="code"><figcaption>Arithmetic on whole columns</figcaption><pre><code>emp[&quot;bonus&quot;] = emp[&quot;salary&quot;] * 0.10
+emp[&quot;monthly&quot;] = (emp[&quot;salary&quot;] / 12).round(2)
+print(emp[[&quot;name&quot;, &quot;salary&quot;, &quot;bonus&quot;, &quot;monthly&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary   bonus  monthly
+0    Asha   72000  7200.0  6000.00
+1  Vikram   45000  4500.0  3750.00
+2    Neha   58000  5800.0  4833.33</pre></figure>
+<figure class="code"><figcaption>Formulas that use two columns</figcaption><pre><code>emp[&quot;perf_bonus&quot;] = emp[&quot;salary&quot;] * 0.05 * (emp[&quot;score&quot;] / 100)   # two columns in one formula
+print(emp[[&quot;name&quot;, &quot;perf_bonus&quot;]].head(3))
+print(emp[&quot;salary&quot;].sum(), emp[&quot;salary&quot;].mean())</code></pre><p class="olbl">Output</p><pre class="out">     name  perf_bonus
+0    Asha      3276.0
+1  Vikram      1665.0
+2    Neha      2407.0
+460000 57500.0</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;price&quot;: [100, 250], &quot;qty&quot;: [3, 2]})
+df[&quot;total&quot;] = df[&quot;price&quot;] * df[&quot;qty&quot;]
+print(df[&quot;total&quot;].sum())</code></pre></figure><ol type="A"><li><code>800</code></li><li><code>350</code></li><li><code>5</code></li><li><code>[300, 500]</code></li></ol><details><summary>Answer</summary><p><b><code>800</code></b>. Row by row: 100 × 3 = 300 and 250 × 2 = 500. Together 800.</p></details></section>
+<h2>apply(): your own rule</h2>
+<p>When a rule needs <code>if</code> / <code>else</code>, write it as a function and use <code>apply()</code>. On a <b>column</b>, <code>apply(func)</code> calls your function once for every value. A <code>lambda</code> is fine for a short rule; a <code>def</code> is clearer for <code>if</code> / <code>elif</code> / <code>else</code>.</p>
+<figure class="code"><figcaption>A lambda for a short rule</figcaption><pre><code>emp[&quot;band&quot;] = emp[&quot;salary&quot;].apply(lambda x: &quot;High&quot; if x &gt; 60000 else &quot;Low&quot;)
+print(emp[[&quot;name&quot;, &quot;salary&quot;, &quot;band&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary  band
+0    Asha   72000  High
+1  Vikram   45000   Low
+2    Neha   58000   Low
+3    Ravi   39000   Low</pre></figure>
+<figure class="code"><figcaption>A def for if / elif / else</figcaption><pre><code>def grade(score):
+    if score &gt;= 90:
+        return &quot;Excellent&quot;
+    elif score &gt;= 80:
+        return &quot;Good&quot;
+    else:
+        return &quot;Average&quot;
+
+emp[&quot;grade&quot;] = emp[&quot;score&quot;].apply(grade)    # no brackets after grade
+print(emp[[&quot;name&quot;, &quot;score&quot;, &quot;grade&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name  score      grade
+0    Asha     91  Excellent
+1  Vikram     74    Average
+2    Neha     83       Good
+3    Ravi     68    Average</pre></figure>
+<p>When the rule needs <b>several columns</b>, use <code>df.apply(func, axis=1)</code>. Now your function gets one whole <b>row</b> at a time, and you read its values by column name.</p>
+<figure class="code"><figcaption>axis=1: the function gets a whole row</figcaption><pre><code>def bonus_ok(row):
+    if row[&quot;score&quot;] &gt; 80 and row[&quot;salary&quot;] &lt; 70000:
+        return &quot;Yes&quot;
+    return &quot;No&quot;
+
+emp[&quot;bonus_ok&quot;] = emp.apply(bonus_ok, axis=1)
+print(emp[[&quot;name&quot;, &quot;salary&quot;, &quot;score&quot;, &quot;bonus_ok&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary  score bonus_ok
+0    Asha   72000     91       No
+1  Vikram   45000     74       No
+2    Neha   58000     83      Yes
+3    Ravi   39000     68       No</pre></figure>
+<section class="anim"><h3>Animated explainer: apply() on a column vs apply(axis=1) on rows</h3><ol><li><code>emp[&quot;score&quot;].apply(grade)</code>: your function gets <b>one value</b> at a time. First 91.</li><li>Then 74, then 83, and so on. The answers form the new column.</li><li><code>emp.apply(bonus_ok, axis=1)</code>: now the function gets a <b>whole row</b>, so it can use <code>row[&quot;salary&quot;]</code> and <code>row[&quot;score&quot;]</code> together. Asha's salary is 70000 or more, so &quot;No&quot;.</li></ol></section>
+<figure class="code"><figcaption>From the course notes: a custom extract with apply</figcaption><pre><code>import pandas as pd
+emails = pd.Series([&quot;asha@gmail.com&quot;, &quot;bad-email&quot;])
+print(emails.apply(lambda e: e.split(&quot;@&quot;)[1] if &quot;@&quot; in e else None).tolist())</code></pre><p class="olbl">Output</p><pre class="out">['gmail.com', None]</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>Pass the function <b>without brackets</b>: <code>apply(grade)</code>, not <code>apply(grade())</code>. With brackets, Python calls <code>grade</code> straight away with no value, and you get a TypeError.</p></aside>
+<h2>np.where and setting values with loc</h2>
+<p>For a simple yes/no rule, <code>np.where(condition, value_if_true, value_if_false)</code> is shorter and much faster than <code>apply</code>. It works on the whole column at once.</p>
+<figure class="code"><figcaption>np.where: a fast if / else</figcaption><pre><code>import numpy as np
+emp[&quot;level&quot;] = np.where(emp[&quot;salary&quot;] &gt; 60000, &quot;Senior&quot;, &quot;Junior&quot;)
+print(emp[[&quot;name&quot;, &quot;salary&quot;, &quot;level&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary   level
+0    Asha   72000  Senior
+1  Vikram   45000  Junior
+2    Neha   58000  Junior
+3    Ravi   39000  Junior</pre></figure>
+<p>You can also <b>set</b> values with <code>loc</code>: put a condition for the rows and a column name, then <code>=</code> a value. Only the matching rows change. A new column name creates the column.</p>
+<figure class="code"><figcaption>loc + condition + column = value</figcaption><pre><code>emp.loc[emp[&quot;score&quot;] &gt;= 85, &quot;award&quot;] = &quot;Star&quot;
+emp.loc[emp[&quot;score&quot;] &lt; 85, &quot;award&quot;] = &quot;-&quot;
+print(emp[[&quot;name&quot;, &quot;score&quot;, &quot;award&quot;]].head(5))</code></pre><p class="olbl">Output</p><pre class="out">     name  score award
+0    Asha     91  Star
+1  Vikram     74     -
+2    Neha     83     -
+3    Ravi     68     -
+4   Meena     88  Star</pre></figure>
+<figure class="code"><figcaption>Change some rows of an existing column</figcaption><pre><code>emp.loc[emp[&quot;dept&quot;] == &quot;HR&quot;, &quot;salary&quot;] = emp[&quot;salary&quot;] + 5000    # a ₹5,000 raise for HR only
+print(emp.loc[1, &quot;name&quot;], emp.loc[1, &quot;salary&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Vikram 50000</pre></figure>
+<div class="tbl"><table><thead><tr><th>Tool</th><th>Best for</th><th>Example</th></tr></thead><tbody><tr><td><code>np.where(cond, a, b)</code></td><td>One yes/no rule, fast</td><td><code>np.where(df[&quot;s&quot;] &gt; 60000, &quot;High&quot;, &quot;Low&quot;)</code></td></tr><tr><td><code>df.loc[cond, &quot;col&quot;] = v</code></td><td>Changing only some rows</td><td><code>df.loc[df[&quot;s&quot;] &gt; 60000, &quot;level&quot;] = &quot;Senior&quot;</code></td></tr><tr><td><code>s.apply(func)</code></td><td>Rules with if / elif / else on one column</td><td><code>df[&quot;score&quot;].apply(grade)</code></td></tr><tr><td><code>df.apply(func, axis=1)</code></td><td>Rules that need several columns</td><td><code>df.apply(bonus_ok, axis=1)</code></td></tr></tbody></table></div>
+<h2>Sorting with sort_values</h2>
+<p><code>sort_values(&quot;col&quot;)</code> sorts the rows by a column, smallest first. Add <code>ascending=False</code> for largest first. The index labels move with their rows.</p>
+<figure class="code"><figcaption>Top 3 salaries</figcaption><pre><code>print(emp.sort_values(&quot;salary&quot;, ascending=False)[[&quot;name&quot;, &quot;salary&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">    name  salary
+5  Arjun   81000
+0   Asha   72000
+4  Meena   66000</pre></figure>
+<figure class="code"><figcaption>Sort by department (A to Z), then salary (high to low)</figcaption><pre><code>print(emp.sort_values([&quot;dept&quot;, &quot;salary&quot;], ascending=[True, False])[[&quot;name&quot;, &quot;dept&quot;, &quot;salary&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">     name   dept  salary
+1  Vikram     HR   45000
+5   Arjun     IT   81000
+0    Asha     IT   72000
+2    Neha     IT   58000
+4   Meena  Sales   66000
+6   Priya  Sales   52000
+7   Kiran  Sales   47000
+3    Ravi  Sales   39000</pre></figure>
+<figure class="code"><figcaption>na_position: where the gaps go</figcaption><pre><code>import pandas as pd
+scores = pd.DataFrame({&quot;name&quot;: [&quot;Om&quot;, &quot;Lata&quot;, &quot;Kiran&quot;], &quot;score&quot;: [72, None, 85]})
+print(scores.sort_values(&quot;score&quot;, ascending=False))
+print(scores.sort_values(&quot;score&quot;, na_position=&quot;first&quot;))</code></pre><p class="olbl">Output</p><pre class="out">    name  score
+2  Kiran   85.0
+0     Om   72.0
+1   Lata    NaN
+    name  score
+1   Lata    NaN
+0     Om   72.0
+2  Kiran   85.0</pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], &quot;v&quot;: [3, 1, 2]})
+print(df.sort_values(&quot;v&quot;)[&quot;n&quot;].tolist())</code></pre></figure><ol type="A"><li><code>['B', 'C', 'A']</code></li><li><code>['A', 'B', 'C']</code></li><li><code>['A', 'C', 'B']</code></li><li><code>[1, 2, 3]</code></li></ol><details><summary>Answer</summary><p><b><code>['B', 'C', 'A']</code></b>. Sorting by <code>v</code> gives 1 (B), 2 (C), 3 (A); then we take the names.</p></details></section>
+<aside class="note tip"><strong>Easy tip</strong><p><code>sort_index()</code> puts the rows back in index order. After a filter or a sort, the index may also have gaps; <code>reset_index(drop=True)</code> numbers the rows 0, 1, 2 ... again.</p></aside>
+<h2>Counting and finding: value_counts, unique and idxmax</h2>
+<p><code>value_counts()</code> counts each value, biggest first. With <code>normalize=True</code> you get <b>shares</b> (0 to 1) instead of counts. <code>unique()</code> lists the different values and <code>nunique()</code> counts them.</p>
+<figure class="code"><figcaption>Counts and shares</figcaption><pre><code>print(emp[&quot;dept&quot;].value_counts())
+print(emp[&quot;dept&quot;].value_counts(normalize=True))</code></pre><p class="olbl">Output</p><pre class="out">dept
+Sales    4
+IT       3
+HR       1
+Name: count, dtype: int64
+dept
+Sales    0.500
+IT       0.375
+HR       0.125
+Name: proportion, dtype: float64</pre></figure>
+<figure class="code"><figcaption>unique(), nunique(), count(), max()</figcaption><pre><code>print(emp[&quot;city&quot;].unique())
+print(emp[&quot;city&quot;].nunique(), emp[&quot;dept&quot;].count(), emp[&quot;salary&quot;].max())</code></pre><p class="olbl">Output</p><pre class="out">['Pune' 'Delhi' 'Chennai' 'Hyderabad']
+4 8 81000</pre></figure>
+<p><code>idxmax()</code> gives the <b>index label</b> of the largest value, and <code>idxmin()</code> of the smallest. Pass that label to <code>loc</code> to see the whole row.</p>
+<figure class="code"><figcaption>idxmax() and idxmin(), then loc</figcaption><pre><code>top = emp[&quot;salary&quot;].idxmax()
+print(top)
+print(emp.loc[top, &quot;name&quot;], emp.loc[top, &quot;salary&quot;])
+low = emp.loc[emp[&quot;score&quot;].idxmin()]
+print(low[&quot;name&quot;], low[&quot;score&quot;])</code></pre><p class="olbl">Output</p><pre class="out">5
+Arjun 81000
+Ravi 68</pre></figure>
+<figure class="code"><figcaption>From the course PDF: the top row for several columns</figcaption><pre><code>best = emp[[&quot;salary&quot;, &quot;score&quot;]].idxmax()   # one label per column
+for col, idx in best.items():
+    print(f&quot;Highest {col}: {emp.loc[idx, 'name']} ({emp.loc[idx, col]})&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Highest salary: Arjun (81000)
+Highest score: Priya (95)</pre></figure>
+<figure class="code"><figcaption>sample(): random rows, or a fraction of them</figcaption><pre><code>print(emp.sample(2, random_state=3)[[&quot;name&quot;, &quot;dept&quot;]])
+print(len(emp.sample(frac=0.5, random_state=3)))       # half of the rows</code></pre><p class="olbl">Output</p><pre class="out">    name   dept
+5  Arjun     IT
+7  Kiran  Sales
+4</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>max()</code> gives the biggest <b>value</b>. <code>idxmax()</code> gives <b>where</b> it is (the index label). You need <code>idxmax()</code> to find who has the top salary.</p></aside>
+<section class="deck"><h3>Slides: Select and change in 6 slides</h3><ol><li><p><b>Ask for rows, then columns.</b></p><p><code>df.loc[rows, cols]</code> by labels (end included), <code>df.iloc[rows, cols]</code> by positions (end left out).</p></li><li><p><b>Filter</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], &quot;v&quot;: [5, 9, 2]})
+print(df[df[&quot;v&quot;] &gt; 4][&quot;n&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['A', 'B']</pre></figure></li><li><p><b>Several conditions</b></p><ul><li><code>&amp;</code> and, <code>|</code> or, <code>~</code> not</li><li>Brackets around each condition</li><li>Or write it as a sentence: <code>df.query(&quot;v &gt; 4 and n != \&quot;B\&quot;&quot;)</code></li></ul></li><li><p><b>New columns</b></p><ul><li>Maths: <code>df[&quot;total&quot;] = df[&quot;price&quot;] * df[&quot;qty&quot;]</code></li><li>Fast yes/no: <code>np.where(cond, a, b)</code></li><li>Your own rule: <code>apply(func)</code> or <code>apply(func, axis=1)</code></li><li>Some rows only: <code>df.loc[cond, &quot;col&quot;] = value</code></li></ul></li><li><p><b>Sort and count</b></p><ul><li><code>sort_values(&quot;col&quot;, ascending=False)</code></li><li><code>value_counts(normalize=True)</code></li><li><code>unique()</code>, <code>nunique()</code></li></ul></li><li><p><b>Who is the top?</b></p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], &quot;v&quot;: [5, 9, 2]})
+print(df.loc[df[&quot;v&quot;].idxmax(), &quot;n&quot;])</code></pre><p class="olbl">Output</p><pre class="out">B</pre></figure></li></ol></section>
+<section class="mm"><h3>Mind map: Chapter 25 at a glance</h3><ul><li><b>Select &amp; change</b><ul><li>Pick<ul><li>loc: labels, end included</li><li>iloc: positions, end left out</li><li>set_index('name')</li></ul></li><li>Filter<ul><li>df[df['x'] &gt; 5]</li><li>&amp; | ~ with brackets</li><li>isin, between</li><li>query('x &gt; 5')</li></ul></li><li>New columns<ul><li>maths on columns</li><li>apply(func)</li><li>apply(func, axis=1)</li><li>np.where</li><li>loc[cond, 'col'] = v</li></ul></li><li>Order<ul><li>sort_values</li><li>several columns</li><li>na_position</li></ul></li><li>Count &amp; find<ul><li>value_counts(normalize)</li><li>unique, nunique</li><li>idxmax, idxmin</li><li>sample</li></ul></li></ul></li></ul></section>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>Print the <code>name</code> and <code>city</code> of the rows with the <b>labels</b> 2 to 4 (both included) of <code>emp</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp.loc[2:4, [&quot;name&quot;, &quot;city&quot;]]</code>: with loc the end label is included.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(emp.loc[2:4, [&quot;name&quot;, &quot;city&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">    name     city
+2   Neha     Pune
+3   Ravi  Chennai
+4  Meena    Delhi</pre></figure><p>With <code>iloc</code> you would write <code>iloc[2:5, ...]</code> to get the same three rows.</p></details></li><li><p>Print the names of the <b>Sales</b> staff whose score is <b>above 70</b>, as a list.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})</code></pre></figure><details><summary>Hint</summary><p>Two conditions with <code>&amp;</code>, each in brackets; then <code>[&quot;name&quot;].tolist()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(emp[(emp[&quot;dept&quot;] == &quot;Sales&quot;) &amp; (emp[&quot;score&quot;] &gt; 70)][&quot;name&quot;].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Meena', 'Priya', 'Kiran']</pre></figure><p>Meena, Priya and Kiran qualify; Ravi's 68 is too low.</p></details></li><li><p>Add a column <code>tax</code> that is 10% of the salary for salaries above ₹50,000 and 5% otherwise (use <code>np.where</code>). Print <code>name</code>, <code>salary</code> and <code>tax</code> for the first 4 rows.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import numpy as np
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})</code></pre></figure><details><summary>Hint</summary><p><code>np.where(emp[&quot;salary&quot;] &gt; 50000, emp[&quot;salary&quot;] * 0.10, emp[&quot;salary&quot;] * 0.05)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import numpy as np
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+emp[&quot;tax&quot;] = np.where(emp[&quot;salary&quot;] &gt; 50000, emp[&quot;salary&quot;] * 0.10, emp[&quot;salary&quot;] * 0.05)
+print(emp[[&quot;name&quot;, &quot;salary&quot;, &quot;tax&quot;]].head(4))</code></pre><p class="olbl">Output</p><pre class="out">     name  salary     tax
+0    Asha   72000  7200.0
+1  Vikram   45000  2250.0
+2    Neha   58000  5800.0
+3    Ravi   39000  1950.0</pre></figure><p><code>np.where</code> can choose between two <b>columns</b>, not only two fixed values.</p></details></li><li><p>Write a function <code>level(score)</code> that returns <code>&quot;A&quot;</code> for 90 or more, <code>&quot;B&quot;</code> for 70 or more, and <code>&quot;C&quot;</code> otherwise. Add it as a column with <code>apply</code> and print the value counts of the new column.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp[&quot;level&quot;] = emp[&quot;score&quot;].apply(level)</code>, then <code>value_counts()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+def level(score):
+    if score &gt;= 90:
+        return &quot;A&quot;
+    elif score &gt;= 70:
+        return &quot;B&quot;
+    return &quot;C&quot;
+
+emp[&quot;level&quot;] = emp[&quot;score&quot;].apply(level)
+print(emp[&quot;level&quot;].value_counts())</code></pre><p class="olbl">Output</p><pre class="out">level
+B    5
+A    2
+C    1
+Name: count, dtype: int64</pre></figure><p>The order of the <code>if</code> checks matters: test the highest band first.</p></details></li><li><p>Print the name of the person with the <b>lowest</b> salary, using <code>idxmin()</code> and <code>loc</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})</code></pre></figure><details><summary>Hint</summary><p><code>emp.loc[emp[&quot;salary&quot;].idxmin(), &quot;name&quot;]</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(emp.loc[emp[&quot;salary&quot;].idxmin(), &quot;name&quot;])</code></pre><p class="olbl">Output</p><pre class="out">Ravi</pre></figure><p><code>idxmin()</code> gives the label (3), and <code>loc</code> turns it into the name.</p></details></li></ol>
+<h2>Practice with real data: a year of sales</h2>
+<p><b><code>sales_data.csv</code></b> has 500 orders from 2024: the date, category, region, sales and profit in rupees, quantity, the customer's age and a satisfaction score from 1 to 5.</p>
+<figure class="code"><figcaption>A first look</figcaption><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+print(sales.shape)
+print(sales[[&quot;Date&quot;, &quot;Category&quot;, &quot;Region&quot;, &quot;Sales&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">(500, 8)
+         Date   Category Region  Sales
+0  2024-01-01  Groceries   West    134
+1  2024-01-02  Groceries  South    564
+2  2024-01-03  Groceries  North   1165</pre></figure>
+<ol class="tasks"><li><p>How many orders lost money (Profit below 0)? Print the count, and the share of all orders as a percent with 1 decimal.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>loss = sales[sales[&quot;Profit&quot;] &lt; 0]</code>, then <code>len(loss)</code> and <code>len(loss) / len(sales) * 100</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+loss = sales[sales[&quot;Profit&quot;] &lt; 0]
+print(len(loss))
+print(round(len(loss) / len(sales) * 100, 1))</code></pre><p class="olbl">Output</p><pre class="out">31
+6.2</pre></figure><p>A filter plus <code>len()</code> answers &quot;how many&quot; questions.</p></details></li><li><p>Add a column <code>margin</code> = Profit ÷ Sales × 100, rounded to 1 decimal. Print the <code>Category</code>, <code>Sales</code>, <code>Profit</code> and <code>margin</code> of the 3 orders with the highest margin.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p>Make the column, then <code>sort_values(&quot;margin&quot;, ascending=False).head(3)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;margin&quot;] = (sales[&quot;Profit&quot;] / sales[&quot;Sales&quot;] * 100).round(1)
+print(sales.sort_values(&quot;margin&quot;, ascending=False)[[&quot;Category&quot;, &quot;Sales&quot;, &quot;Profit&quot;, &quot;margin&quot;]].head(3))</code></pre><p class="olbl">Output</p><pre class="out">     Category  Sales  Profit  margin
+149  Clothing   3331    1561    46.9
+143  Clothing    620     254    41.0
+36   Clothing    764     297    38.9</pre></figure><p>Clothing has the best margins: the cheap items earn the most per rupee.</p></details></li><li><p>What share of orders comes from each region? Print <code>value_counts(normalize=True)</code> rounded to 2 decimals.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>sales[&quot;Region&quot;].value_counts(normalize=True).round(2)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+print(sales[&quot;Region&quot;].value_counts(normalize=True).round(2))</code></pre><p class="olbl">Output</p><pre class="out">Region
+South    0.32
+West     0.25
+North    0.24
+East     0.18
+Name: proportion, dtype: float64</pre></figure><p>The shares add up to 1. South has the most orders.</p></details></li><li><p>Using <code>query()</code>, print how many <b>Electronics</b> orders in the <b>South</b> had a satisfaction score of 4.5 or more.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>sales.query('Category == &quot;Electronics&quot; and Region == &quot;South&quot; and Satisfaction_Score &gt;= 4.5')</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+happy = sales.query('Category == &quot;Electronics&quot; and Region == &quot;South&quot; and Satisfaction_Score &gt;= 4.5')
+print(len(happy))</code></pre><p class="olbl">Output</p><pre class="out">6</pre></figure><p>Three conditions in one readable line.</p></details></li><li><p>Print the date, category and sales of the single biggest order, using <code>idxmax()</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd</code></pre></figure><details><summary>Hint</summary><p><code>sales.loc[sales[&quot;Sales&quot;].idxmax(), [&quot;Date&quot;, &quot;Category&quot;, &quot;Sales&quot;]]</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+print(sales.loc[sales[&quot;Sales&quot;].idxmax(), [&quot;Date&quot;, &quot;Category&quot;, &quot;Sales&quot;]])</code></pre><p class="olbl">Output</p><pre class="out">Date         2024-11-13
+Category    Electronics
+Sales             11352
+Name: 421, dtype: object</pre></figure><p>A November Electronics order: the Diwali season brings the biggest bills.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>loc</code> picks by labels and includes the end of a slice; <code>iloc</code> picks by positions and leaves the end out.</li><li>Filter with <code>df[mask]</code>; join conditions with <code>&amp;</code>, <code>|</code>, <code>~</code> and brackets, or write <code>df.query(&quot;...&quot;)</code>.</li><li>New columns: maths on columns, <code>np.where()</code> for yes/no rules, <code>apply()</code> for your own function (<code>axis=1</code> for whole rows).</li><li><code>df.loc[condition, &quot;col&quot;] = value</code> changes only the matching rows.</li><li><code>sort_values()</code>, <code>value_counts(normalize=True)</code>, <code>unique()</code>, <code>nunique()</code>, and <code>idxmax()</code> + <code>loc</code> to find the top row.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Pick the first 2 rows by position.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.___[0:2][&quot;name&quot;].tolist())</code></pre></figure><details><summary>Answer</summary><p><code>iloc</code> — <code>iloc</code> uses positions and leaves out the end of the slice, so 0:2 gives 2 rows.</p><p>Output:</p><pre class="out">['Asha', 'Ravi']</pre></details></li><li><p>Keep only the rows where both conditions are true.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp[(emp[&quot;salary&quot;] &gt; 50000) ___ (emp[&quot;dept&quot;] == &quot;IT&quot;)][&quot;name&quot;].tolist())</code></pre></figure><details><summary>Answer</summary><p><code>&amp;</code> — <code>&amp;</code> means and. Each condition needs its own brackets.</p><p>Output:</p><pre class="out">['Asha', 'Neha']</pre></details></li><li><p>Run the function on every row, not every column.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+def tag(row):
+    return row[&quot;name&quot;] + &quot;-&quot; + row[&quot;dept&quot;]
+
+print(emp.apply(tag, ___=1).tolist())</code></pre></figure><details><summary>Answer</summary><p><code>axis</code> — With <code>axis=1</code> the function gets one whole row at a time.</p><p>Output:</p><pre class="out">['Asha-IT', 'Ravi-HR', 'Neha-IT']</pre></details></li><li><p>Sort from the largest salary down.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.sort_values(&quot;salary&quot;, ___=False)[&quot;name&quot;].tolist())</code></pre></figure><details><summary>Answer</summary><p><code>ascending</code> — <code>ascending=False</code> puts the biggest value first.</p><p>Output:</p><pre class="out">['Asha', 'Neha', 'Ravi']</pre></details></li><li><p>Find the label of the row with the biggest salary.</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;salary&quot;: [72000, 45000, 58000]})
+print(emp.loc[emp[&quot;salary&quot;].___(), &quot;name&quot;])</code></pre></figure><details><summary>Answer</summary><p><code>idxmax</code> — <code>idxmax()</code> gives the index label; <code>loc</code> turns it into the name.</p><p>Output:</p><pre class="out">Asha</pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+emp = pd.DataFrame({
+    &quot;name&quot;: [&quot;Asha&quot;, &quot;Vikram&quot;, &quot;Neha&quot;, &quot;Ravi&quot;, &quot;Meena&quot;, &quot;Arjun&quot;, &quot;Priya&quot;, &quot;Kiran&quot;],
+    &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;, &quot;IT&quot;, &quot;Sales&quot;, &quot;Sales&quot;],
+    &quot;salary&quot;: [72000, 45000, 58000, 39000, 66000, 81000, 52000, 47000],
+    &quot;score&quot;: [91, 74, 83, 68, 88, 79, 95, 71],
+    &quot;city&quot;: [&quot;Pune&quot;, &quot;Delhi&quot;, &quot;Pune&quot;, &quot;Chennai&quot;, &quot;Delhi&quot;, &quot;Hyderabad&quot;, &quot;Chennai&quot;, &quot;Pune&quot;]
+})
+print(len(emp.loc[0:2]), len(emp.iloc[0:2]))</code></pre></figure><ol type="A"><li><code>3 2</code></li><li><code>2 2</code></li><li><code>2 3</code></li><li><code>3 3</code></li></ol><details><summary>Answer</summary><p><b><code>3 2</code></b>. <code>loc</code> includes the end label; <code>iloc</code> leaves the end out.</p></details></li><li><p>Which line keeps the IT staff with a score above 80?</p><ol type="A"><li><code>emp[emp[&quot;dept&quot;] == &quot;IT&quot; and emp[&quot;score&quot;] &gt; 80]</code></li><li><code>emp[(emp[&quot;dept&quot;] == &quot;IT&quot;) &amp; (emp[&quot;score&quot;] &gt; 80)]</code></li><li><code>emp[emp[&quot;dept&quot;] == &quot;IT&quot; &amp; emp[&quot;score&quot;] &gt; 80]</code></li><li><code>emp.loc[&quot;IT&quot;, 80]</code></li></ol><details><summary>Answer</summary><p><b><code>emp[(emp[&quot;dept&quot;] == &quot;IT&quot;) &amp; (emp[&quot;score&quot;] &gt; 80)]</code></b>. Use <code>&amp;</code>, with brackets around each condition.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], &quot;v&quot;: [3, 7, 12]})
+print(df.query(&quot;v &gt; 5 and v &lt; 10&quot;)[&quot;n&quot;].tolist())</code></pre></figure><ol type="A"><li><code>['B']</code></li><li><code>['A', 'B']</code></li><li><code>['C']</code></li><li><code>[]</code></li></ol><details><summary>Answer</summary><p><b><code>['B']</code></b>. Only B is over 5 and under 10.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;m&quot;: [70, 40]})
+print(df[&quot;m&quot;].apply(lambda x: &quot;Yes&quot; if x &gt; 50 else &quot;No&quot;).tolist())</code></pre></figure><ol type="A"><li><code>['Yes', 'No']</code></li><li><code>['No', 'Yes']</code></li><li><code>['Yes', 'Yes']</code></li><li>An error</li></ol><details><summary>Answer</summary><p><b><code>['Yes', 'No']</code></b>. The lambda runs once for every value: 70 &gt; 50 gives Yes, 40 gives No.</p></details></li><li><p>In <code>df.apply(func, axis=1)</code>, what does <code>func</code> receive?</p><ol type="A"><li>One value</li><li>One whole row</li><li>One whole column</li><li>The whole DataFrame</li></ol><details><summary>Answer</summary><p><b>One whole row</b>. With <code>axis=1</code>, the function gets a row, so it can use several columns.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;], &quot;v&quot;: [10, 20]})
+print(df[&quot;v&quot;].idxmax())</code></pre></figure><ol type="A"><li><code>1</code></li><li><code>20</code></li><li><code>B</code></li><li><code>2</code></li></ol><details><summary>Answer</summary><p><b><code>1</code></b>. <code>idxmax()</code> gives the index label of the biggest value, not the value itself.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+s = pd.Series([&quot;UPI&quot;, &quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;])
+print(s.value_counts(normalize=True).tolist())</code></pre></figure><ol type="A"><li><code>[0.75, 0.25]</code></li><li><code>[3, 1]</code></li><li><code>[0.25, 0.75]</code></li><li><code>[75, 25]</code></li></ol><details><summary>Answer</summary><p><b><code>[0.75, 0.25]</code></b>. <code>normalize=True</code> turns counts into shares: 3 of 4 and 1 of 4.</p></details></li><li><p>Which line sets <code>level</code> to <code>Senior</code> only for salaries above 60000?</p><ol type="A"><li><code>df[&quot;level&quot;] = df[&quot;salary&quot;] &gt; 60000</code></li><li><code>df.loc[df[&quot;salary&quot;] &gt; 60000, &quot;level&quot;] = &quot;Senior&quot;</code></li><li><code>df.iloc[df[&quot;salary&quot;] &gt; 60000] = &quot;Senior&quot;</code></li><li><code>df.level(&quot;Senior&quot;)</code></li></ol><details><summary>Answer</summary><p><b><code>df.loc[df[&quot;salary&quot;] &gt; 60000, &quot;level&quot;] = &quot;Senior&quot;</code></b>. <code>loc[condition, column] = value</code> changes only the matching rows.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+df = pd.DataFrame({&quot;n&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], &quot;v&quot;: [5, 2, 9]})
+print(df.sort_values(&quot;v&quot;, ascending=False)[&quot;n&quot;].tolist())</code></pre></figure><ol type="A"><li><code>['C', 'A', 'B']</code></li><li><code>['A', 'B', 'C']</code></li><li><code>['B', 'A', 'C']</code></li><li><code>['C', 'B', 'A']</code></li></ol><details><summary>Answer</summary><p><b><code>['C', 'A', 'B']</code></b>. <code>ascending=False</code> puts the largest value first: 9 (C), 5 (A), 2 (B).</p></details></li><li><p>Why use <code>np.where()</code> instead of <code>apply()</code> for a yes/no rule?</p><ol type="A"><li>It can use if / elif / else</li><li>It works on the whole column at once, so it is much faster</li><li>It changes the original table</li><li>apply() cannot make text</li></ol><details><summary>Answer</summary><p><b>It works on the whole column at once, so it is much faster</b>. <code>np.where</code> is vectorised, like the NumPy maths in Part 7.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt><code>loc</code> vs <code>iloc</code></dt><dd>loc: labels and names, end of a slice included. iloc: positions, end left out.</dd><dt>One cell with loc</dt><dd><code>df.loc[2, &quot;name&quot;]</code></dd><dt>First 3 rows and 2 columns by position</dt><dd><code>df.iloc[0:3, 0:2]</code></dd><dt>Keep rows that match</dt><dd><code>df[df[&quot;salary&quot;] &gt; 60000]</code></dd><dt>Filter and pick columns at once</dt><dd><code>df.loc[df[&quot;dept&quot;] == &quot;IT&quot;, [&quot;name&quot;, &quot;salary&quot;]]</code></dd><dt>Two conditions</dt><dd><code>df[(cond1) &amp; (cond2)]</code>: <code>&amp;</code> and, <code>|</code> or, <code>~</code> not, with brackets.</dd><dt><code>isin</code> and <code>between</code></dt><dd><code>df[&quot;city&quot;].isin([&quot;Pune&quot;, &quot;Goa&quot;])</code>, <code>df[&quot;s&quot;].between(10, 20)</code> (both ends included)</dd><dt>Filter as a sentence</dt><dd><code>df.query('dept == &quot;IT&quot; and score &gt; 80')</code>; <code>@name</code> uses a variable.</dd><dt><code>apply(func)</code> vs <code>apply(func, axis=1)</code></dt><dd>On a column: one value at a time. On the DataFrame with axis=1: one row at a time.</dd><dt>Fast if / else for a column</dt><dd><code>np.where(cond, if_true, if_false)</code></dd><dt>Change only some rows</dt><dd><code>df.loc[cond, &quot;col&quot;] = value</code></dd><dt>Sort by two columns</dt><dd><code>df.sort_values([&quot;dept&quot;, &quot;salary&quot;], ascending=[True, False])</code></dd><dt>Shares instead of counts</dt><dd><code>s.value_counts(normalize=True)</code></dd><dt>Who has the top salary?</dt><dd><code>df.loc[df[&quot;salary&quot;].idxmax(), &quot;name&quot;]</code></dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>df.loc[2, 'name']</code></td><td>One cell by label</td></tr><tr><td><code>df.loc[1:3, ['a', 'b']]</code></td><td>Rows 1 to 3 (end included), two columns</td></tr><tr><td><code>df.iloc[0:3, 0:2]</code></td><td>First 3 rows, first 2 columns</td></tr><tr><td><code>df.iloc[-1]</code></td><td>The last row</td></tr><tr><td><code>df.set_index('name').loc['Neha']</code></td><td>Rows by a text label</td></tr><tr><td><code>df[df['x'] &gt; 5]</code></td><td>Keep matching rows</td></tr><tr><td><code>df[(c1) &amp; (c2)]  df[(c1) | (c2)]  df[~c1]</code></td><td>and / or / not</td></tr><tr><td><code>df[df['c'].isin(['a', 'b'])]</code></td><td>One of several values</td></tr><tr><td><code>df.query('x &gt; 5 and y == &quot;A&quot;')</code></td><td>A filter as a sentence</td></tr><tr><td><code>df['new'] = df['a'] * df['b']</code></td><td>A column from maths</td></tr><tr><td><code>s.apply(func)  df.apply(func, axis=1)</code></td><td>Your own rule per value / per row</td></tr><tr><td><code>np.where(cond, 'Yes', 'No')</code></td><td>Fast if / else</td></tr><tr><td><code>df.loc[cond, 'col'] = value</code></td><td>Set values for some rows</td></tr><tr><td><code>df.sort_values(['a', 'b'], ascending=[True, False])</code></td><td>Sort by two columns</td></tr><tr><td><code>s.value_counts(normalize=True)</code></td><td>Shares of each value</td></tr><tr><td><code>s.unique()  s.nunique()</code></td><td>Different values / how many</td></tr><tr><td><code>df.loc[df['x'].idxmax()]</code></td><td>The row with the biggest x</td></tr><tr><td><code>df.sample(3, random_state=1)</code></td><td>Random rows that repeat</td></tr></tbody></table></div></section><p class="ver"><a href="test-pandas3.html">Take the 25.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="pandas2.html">← Cleaning data</a><a href="pandas4.html">Group &amp; join →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>
