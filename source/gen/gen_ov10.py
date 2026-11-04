@@ -3,11 +3,16 @@ import os, re
 from chlib import Chapter, js, run, HUB
 PRE = 'import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n'
 K = Chapter('ov10', PRE)
+K2 = Chapter('ov10v', PRE)   # the Matplotlib vs Seaborn block (keeps the older picture names)
 P, Q = K.P, K.Q
 def D(t, d, code, go):
     code = K.full(code); return {"t": t, "d": d, "c": code, "o": run(code), "go": go}
-def VS(title, head, rows, code, rule):
-    code = K.full(code); b = K.C(code); return {"t": "vs", "title": title, "head": head, "rows": rows, "c": b["c"], "o": b["o"], "rule": rule}
+def VS(title, head, rows, code, rule, k=None):
+    k = k or K; code = k.full(code); b = k.C(code); return {"t": "vs", "title": title, "head": head, "rows": rows, "c": b["c"], "o": b["o"], "rule": rule}
+def VS2(*a): return VS(*a, k=K2)
+import vspic
+VSIMG = 'img/c30v-vs.webp'   # drawn by gen_sns2.py (run it first)
+assert all(os.path.exists(os.path.join(HUB, f)) for f in (VSIMG, VSIMG.replace('.webp', '-tall.webp'))), 'run gen_sns2.py first'
 SALES = PRE + 'sns.set_theme()\nsales = pd.read_csv("sales_data.csv")\n'
 TIPS = PRE + 'tips = sns.load_dataset("tips")\n'
 body = [
@@ -15,6 +20,16 @@ body = [
  {"t": "mm", "title": "Part 10 at a glance", "root": "Part 10: Seaborn", "hint": "Tap a branch to open that chapter", "kids": [
    {"t": "29. Spread & categories", "go": "sns1", "k": ["data=, x=, y=, hue=", "histplot, kdeplot, ecdfplot", "displot panels", "countplot vs barplot", "box, violin, strip, swarm", "catplot, themes, palettes"]},
    {"t": "30. Relations & grids", "go": "sns2", "k": ["scatterplot, lineplot", "regplot, lmplot, residplot", "relplot panels", "heatmap, clustermap", "FacetGrid, pairplot, jointplot", "contexts, ax= dashboards"]}]},
+ {"t": "h", "text": "Matplotlib vs Seaborn"},
+ {"t": "p", "b": "Seaborn is built on Matplotlib, so they work together. The big difference: **Matplotlib draws the numbers you give it; Seaborn takes the whole table and does the maths for you.**"},
+ {"t": "fig", "svg": vspic.html(VSIMG, VSIMG.replace('.webp', '-tall.webp')), "cap": "One question, two ways: average order value per region. Left: Matplotlib after a `groupby`. Right: one `sns.barplot` line on the raw table, with error bars and labels for free. (`groupby` sorts A to Z; Seaborn keeps the file's order.)"},
+ {"t": "table", "master": True, "title": "Matplotlib or Seaborn: which one when", "head": ["Situation", "Reach for", "Code"], "rows": [
+   ["First look at a new dataset", "Seaborn", "`sns.pairplot(df)`, `sns.heatmap(df.corr(), annot=True)`"],
+   ["Average, count or spread per group", "Seaborn", "`sns.barplot(data=df, x=\"g\", y=\"v\")`, `sns.boxplot(...)`"],
+   ["KDE, fit lines, confidence bands", "Seaborn", "`sns.kdeplot(...)`, `sns.regplot(...)`"],
+   ["Numbers already worked out", "Matplotlib", "`plt.bar(labels, values)`"],
+   ["Exact layout: two y-axes, arrows", "Matplotlib", "`ax.twinx()`, `ax.annotate(...)`"],
+   ["A finished chart for a report", "Both", "`ax = sns.barplot(...)`, then `ax.bar_label(ax.containers[0])`, `ax.set(title=...)`"]]},
  {"t": "h", "text": "Key definitions"},
  {"t": "defs", "items": [
    D("Seaborn", "A library of statistical charts built on Matplotlib. Give it a DataFrame and column names; import it as `sns`.", 'print(sns.__name__)', "sns1"),
@@ -52,6 +67,8 @@ body = [
    ["Colours for the groups", "`hue=\"g\", palette=\"pastel\", legend=False`"], ["One panel per group", "`col=\"g\", col_wrap=2` (figure-level)"], ["Panel titles", "`g.set_titles(\"{col_name}\")`, `g.figure.suptitle(\"T\", y=1.03)`"],
    ["Numbers in a heatmap", "`annot=True, fmt=\".2f\"` (whole numbers: `fmt=\"d\"`)"], ["A clean look", "`sns.set_theme(style=\"whitegrid\")`, `sns.despine()`"], ["Bigger text for slides", "`sns.set_context(\"talk\")`"], ["A chart in a grid", "`sns.boxplot(..., ax=axes[0, 1])`"]]},
  {"t": "h", "text": "Don't mix these up"},
+ VS2("Matplotlib vs Seaborn", ["", "Matplotlib (plt)", "Seaborn (sns)"], [["You give it", "The numbers to draw: x and y", "A DataFrame and column names"], ["Averages, counts", "You work them out first (`groupby`)", "Done for you"], ["Colour by group", "One call per group + `plt.legend()`", "`hue=\"g\"`"], ["Error bars, KDE, fit lines", "Not built in", "Built in"], ["Fine control", "Every line, tick and text", "Finish with `plt` / `ax`"]],
+    'ax = sns.barplot(x=["a", "a", "b"], y=[2, 4, 9], errorbar=None)\nprint(type(ax).__name__, [float(bar.get_height()) for bar in ax.patches])\nplt.close()', "Seaborn's answer is a Matplotlib axes, and it worked out the mean of a (3.0) by itself. Explore and compare groups: Seaborn. Exact custom layout: Matplotlib. Report charts: both."),
  VS("countplot vs barplot", ["", "sns.countplot(x=...)", "sns.barplot(x=..., y=...)"], [["Bar height", "Number of rows", "Mean of y (by default)"], ["Needs y=", "No", "Yes"], ["Error bar", "None", "95% interval"]],
     'ax1 = sns.countplot(x=["a", "a", "b"])\nprint([int(b.get_height()) for b in ax1.patches])\nplt.close()\nax2 = sns.barplot(x=["a", "a", "b"], y=[2, 4, 9], errorbar=None)\nprint([float(b.get_height()) for b in ax2.patches])\nplt.close()', "Counting rows? countplot. Averaging a number? barplot."),
  VS("histplot vs displot", ["", "sns.histplot()", "sns.displot()"], [["Kind", "Axes-level", "Figure-level"], ["Returns", "An axes", "A FacetGrid"], ["Panels", "With `plt.subplots` + `ax=`", "`col=`, `row=`"], ["Size", "`plt.figure(figsize=...)`", "`height=`, `aspect=`"]],
@@ -75,8 +92,8 @@ body = [
      chart={"sns": "lmplot", "figlegend": True})]}
 ]
 ov = {"part": 10, "title": "Part 10 overview: Seaborn", "nav": "Part 10 overview", "time": "25 min",
- "keys": "seaborn sns hue axes-level figure-level facetgrid histplot kdeplot ecdfplot displot countplot barplot estimator errorbar confidence interval boxplot violinplot stripplot swarmplot pointplot catplot palette theme scatterplot lineplot regplot lmplot residplot relplot heatmap clustermap pairplot jointplot context",
- "lead": "Both Seaborn chapters on one page: which chart answers which question, axes-level and figure-level functions side by side, the options you use everywhere, and the mix-ups that cost marks (`countplot` vs `barplot`, `hue=` vs `col=`, `regplot` vs `lmplot`).",
+ "keys": "seaborn sns hue axes-level figure-level facetgrid histplot kdeplot ecdfplot displot countplot barplot estimator errorbar confidence interval boxplot violinplot stripplot swarmplot pointplot catplot palette theme scatterplot lineplot regplot lmplot residplot relplot heatmap clustermap pairplot jointplot context matplotlib vs seaborn difference compare comparison which library",
+ "lead": "Both Seaborn chapters on one page: which chart answers which question, axes-level and figure-level functions side by side, the options you use everywhere, Matplotlib vs Seaborn in one picture, and the mix-ups that cost marks (`countplot` vs `barplot`, `hue=` vs `col=`, `regplot` vs `lmplot`).",
  "five": ["Seaborn takes the table and the column names: `sns.chart(data=df, x=\"a\", y=\"b\", hue=\"g\")`, and it does the grouping, counting and averaging.",
           "One column's shape: `histplot`, `kdeplot`, `ecdfplot`. Categories: `countplot` counts, `barplot` and `pointplot` average, `boxplot`, `violinplot`, `stripplot` and `swarmplot` show spread.",
           "Relationships: `scatterplot` (hue, size, style), `lineplot` (mean + band), `regplot` (fitted line) and `residplot` to check it.",
@@ -94,8 +111,9 @@ ov = {"part": 10, "title": "Part 10 overview: Seaborn", "nav": "Part 10 overview
    Q("For a correlation heatmap, which settings fit best?", ["`cmap=\"Blues\"`", "`cmap=\"coolwarm\", center=0`", "`palette=\"pastel\"`", "`kind=\"hex\"`"], 1, "Correlations run from -1 to 1: a diverging scale centred on 0."),
    Q("What does this print?", ["`(2, 2)`", "`(4,)`", "`(1, 4)`", "`4`"], 0, "Two values of `row` and two of `col`: a 2 × 2 grid of panels.", TIPS + 'g = sns.FacetGrid(tips, col="time", row="smoker")\nprint(g.axes.shape)\nplt.close("all")'),
    Q("Which call puts a Seaborn chart into `axes[1]` of a Matplotlib grid?", ["`sns.catplot(..., ax=axes[1])`", "`sns.boxplot(..., ax=axes[1])`", "`sns.lmplot(..., ax=axes[1])`", "`sns.pairplot(..., ax=axes[1])`"], 1, "Only axes-level functions accept `ax=`."),
-   Q("Seaborn warns about `palette=\"pastel\"` in a barplot without `hue=`. The fix?", ["Remove `data=`", "Add `hue=` (same column as `x=`) and `legend=False`", "Use `ci=95`", "Use `sns.set_context`"], 1, "Since Seaborn 0.13 a palette colours the `hue=` groups.")],
- "cards": [["Seaborn's pattern", "`sns.chart(data=df, x=\"a\", y=\"b\", hue=\"g\")`"], ["hue vs col", "hue: colours in one chart. col: separate panels (figure-level)."], ["Axes-level vs figure-level", "One chart + `ax=` / a whole figure of panels that returns a grid `g`."], ["histplot options", "`bins=`, `kde=True`, `stat=\"percent\"`, `multiple=\"stack\"`"], ["countplot vs barplot", "Rows per category / the mean of y with a 95% interval."], ["Error bars", "`errorbar=(\"ci\", 95)`, `\"sd\"`, `None`; regplot uses `ci=`."], ["Box vs violin", "Five numbers and outliers / the full shape; `split=True` with hue."], ["catplot", "All category charts with `kind=`; the default is strip."], ["Regression", "`regplot` (one line), `lmplot` (per group / panels), `residplot` (check)."], ["Heatmap", "`sns.heatmap(table, annot=True, fmt=\".2f\", cmap=\"coolwarm\", center=0)`"], ["Grids", "`FacetGrid` + `map`, `pairplot` (every pair), `jointplot` (one pair + margins)."], ["Look", "`set_theme(style=)`, `palette=` with hue, `despine()`, `set_context(\"talk\")`."], ["Save", "Axes-level: `plt.savefig()`. Figure-level: `g.savefig()`."]],
+   Q("Seaborn warns about `palette=\"pastel\"` in a barplot without `hue=`. The fix?", ["Remove `data=`", "Add `hue=` (same column as `x=`) and `legend=False`", "Use `ci=95`", "Use `sns.set_context`"], 1, "Since Seaborn 0.13 a palette colours the `hue=` groups."),
+   Q("You call `plt.bar(sales[\"Region\"], sales[\"Sales\"])` on 500 raw orders to show the average per region. What goes wrong?", ["Nothing: plt.bar averages each region", "plt.bar does not average: it draws one bar per row, on top of each other", "plt.bar needs `hue=`", "It raises an error"], 1, "Matplotlib draws exactly the numbers it gets. Work out the averages with `groupby(...).mean()` first, or let `sns.barplot` do it.")],
+ "cards": [["Seaborn's pattern", "`sns.chart(data=df, x=\"a\", y=\"b\", hue=\"g\")`"], ["hue vs col", "hue: colours in one chart. col: separate panels (figure-level)."], ["Axes-level vs figure-level", "One chart + `ax=` / a whole figure of panels that returns a grid `g`."], ["histplot options", "`bins=`, `kde=True`, `stat=\"percent\"`, `multiple=\"stack\"`"], ["countplot vs barplot", "Rows per category / the mean of y with a 95% interval."], ["Error bars", "`errorbar=(\"ci\", 95)`, `\"sd\"`, `None`; regplot uses `ci=`."], ["Box vs violin", "Five numbers and outliers / the full shape; `split=True` with hue."], ["catplot", "All category charts with `kind=`; the default is strip."], ["Regression", "`regplot` (one line), `lmplot` (per group / panels), `residplot` (check)."], ["Heatmap", "`sns.heatmap(table, annot=True, fmt=\".2f\", cmap=\"coolwarm\", center=0)`"], ["Grids", "`FacetGrid` + `map`, `pairplot` (every pair), `jointplot` (one pair + margins)."], ["Look", "`set_theme(style=)`, `palette=` with hue, `despine()`, `set_context(\"talk\")`."], ["Save", "Axes-level: `plt.savefig()`. Figure-level: `g.savefig()`."], ["plt or sns?", "Explore and compare groups: `sns`. Exact custom layout: `plt`. Report charts: Seaborn draws, then `plt` / `ax` finishes."]],
 }
 open(os.path.join(HUB, 'ov_10.js'), 'w', encoding='utf-8').write('/* ---------- Part 10 overview: Seaborn (generated by gen/gen_ov10.py; every output came from running the code) ---------- */\noverview(' + js(ov) + ');\n')
 SHEET = {"title": ["Seaborn: the ", ["3", "pink"], " big ", ["differences", "lime"]], "sub": "Cheat sheet", "groups": [

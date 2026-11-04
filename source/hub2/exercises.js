@@ -1859,6 +1859,21 @@ var EXERCISES = {
    "img": [
     "img/ex-sns2-5.webp"
    ]
+  },
+  {
+   "q": "Matplotlib needs the averages first: work them out with Pandas.",
+   "c": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\navg = sales.groupby(\"Region\")[\"Sales\"].___()\nplt.bar(avg.index, avg.values)\nplt.show()",
+   "a": [
+    [
+     "mean"
+    ]
+   ],
+   "o": "",
+   "e": "`plt.bar` draws the numbers you give it, so Pandas works out the averages first. `sns.barplot(data=sales, x=\"Region\", y=\"Sales\")` does this step for you.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='' x='' y='' leg=None xt=['East', 'North', 'South', 'West'] h=[3098.0, 3307.0, 2873.0, 3178.0] tx=0",
+   "img": [
+    "img/ex-sns2-6.webp"
+   ]
   }
  ]
 };

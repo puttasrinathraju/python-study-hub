@@ -65,6 +65,6 @@ X2.update({
  ("Fit a curve instead of a straight line.", TP + 'sns.regplot(data=tips, x="total_bill", y="tip", @@=2)\nplt.show()', ["order"], "`order=2` fits a parabola."),
  ("Write the values in the heatmap cells.", TP + 'corr = tips[["total_bill", "tip", "size"]].corr()\nsns.heatmap(corr, @@=True, fmt=".2f")\nplt.show()', ["annot"], "`annot=True` writes each value; `fmt=` sets its format."),
  ("Put the white colour at 0 for a diverging scale.", TP + 'corr = tips[["total_bill", "tip", "size"]].corr()\nsns.heatmap(corr, cmap="coolwarm", @@=0)\nplt.show()', ["center"], "`center=0` makes 0 the middle colour of the scale."),
- ("Draw every pair of the chosen columns.", TP + 'sns.@@(tips, vars=["total_bill", "tip", "size"])\nplt.show()', ["pairplot"], "pairplot draws a scatter for every pair and each column's shape on the diagonal."),
+ ("Draw every pair of the chosen columns.", TP + 'sns.@@(tips, vars=["total_bill", "tip", "size"])\nplt.show()', ["pairplot"], "pairplot draws a scatter for every pair and each column's shape on the diagonal."), ("Matplotlib needs the averages first: work them out with Pandas.", PD + PL + 'sales = pd.read_csv("sales_data.csv")\navg = sales.groupby("Region")["Sales"].@@()\nplt.bar(avg.index, avg.values)\nplt.show()', ["mean"], "`plt.bar` draws the numbers you give it, so Pandas works out the averages first. `sns.barplot(data=sales, x=\"Region\", y=\"Sales\")` does this step for you."),
 ],
 })
