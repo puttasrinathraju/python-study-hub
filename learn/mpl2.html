@@ -42,7 +42,8 @@ plt.show()</code></pre></figure>
 fig, axes = plt.subplots(2, 3)
 print(type(axes).__name__, axes.shape)
 plt.close()</code></pre><p class="olbl">Output</p><pre class="out">ndarray (2, 3)</pre></figure>
-<p>Here is a 2 × 2 <b>sales dashboard</b>, built from <code>sales_data.csv</code> like in the course notes. Each chart answers a different question.</p>
+<section class="anim"><h3>Animated explainer: Building a dashboard step by step</h3><ol><li><b>Step 1</b>: <code>fig, axes = plt.subplots(2, 2)</code> makes the figure and four empty axes. Nothing is drawn yet.</li><li><b>Step 2</b>: <code>axes[0, 0].plot(...)</code> draws on the top-left chart only, and <code>axes[0, 0].set_title(...)</code> names it.</li><li><b>Step 3</b>: fill the other three with <code>axes[0, 1]</code>, <code>axes[1, 0]</code> and <code>axes[1, 1]</code>. Look closely: titles and tick labels crowd each other.</li><li><b>Step 4</b>: <code>fig.suptitle(...)</code> adds one title over everything, and <code>plt.tight_layout()</code> spaces the charts so nothing overlaps.</li></ol></section>
+<p>Here is a real 2 × 2 <b>sales dashboard</b>, built from <code>sales_data.csv</code> like in the course notes. Each chart answers a different question.</p>
 <figure class="code"><figcaption>A 2 × 2 dashboard</figcaption><pre><code>import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -176,6 +177,11 @@ lines2, names2 = ax2.get_legend_handles_labels()
 ax1.legend(lines1 + lines2, names1 + names2, loc=&quot;upper left&quot;)
 ax1.set_title(&quot;Sales and number of orders&quot;)
 plt.show()</code></pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax2 = ax.twinx()
+print(len(fig.axes))
+plt.close()</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>1</code></li><li><code>3</code></li><li><code>0</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. <code>twinx()</code> adds a second axes to the same figure, so the figure now holds 2 axes. They share the x-axis.</p></details></section>
 <aside class="note trap"><strong>Trap!</strong><p>Each axes keeps its own legend. Calling <code>ax1.legend()</code> and <code>ax2.legend()</code> gives two boxes on top of each other; collect both with <code>get_legend_handles_labels()</code> for one legend.</p></aside>
 <h2>Trend lines with polyfit</h2>
 <p>A <mark>trend line</mark> is the straight line that fits a scatter best. <code>np.polyfit(x, y, 1)</code> finds its slope and intercept (the 1 means a straight line), and <code>np.poly1d()</code> turns them into a function you can draw. <mark>R²</mark> (R squared, from 0 to 1) says how well the line fits.</p>

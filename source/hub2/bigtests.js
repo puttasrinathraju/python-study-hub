@@ -7569,5 +7569,877 @@ var BIGTESTS = {
     "img/bt-mpl2-25.webp"
    ]
   }
+ ],
+ "sns1": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Seaborn: statistical charts in one line",
+   "q": "Draw a Seaborn histogram of the `Sales` column of `sales` with **15 bins**, and give it a title.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.histplot(data=sales, x=\"Sales\", bins=15)\nplt.title(\"Order values\")\nplt.show()",
+   "e": "Give the DataFrame to `data=` and the column name to `x=`; `bins=15` makes 15 bars.",
+   "chart": {
+    "sns": "histplot",
+    "bars": 15,
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=15 t='Order values' x='Sales' y='Count' leg=None xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[90.0, 86.0, 55.0, 65.0, 39.0, 44.0, 31.0, 27.0, 20.0, 19.0, 8.0, 9.0] tx=0\n#sns histplot",
+   "img": [
+    "img/bt-sns1-1.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Datasets, data= and hue=",
+   "q": "Load the `tips` dataset with `sns.load_dataset` and draw a histogram of `tip`, coloured by `smoker` (`hue=`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.histplot(data=tips, x=\"tip\", hue=\"smoker\")\nplt.show()",
+   "e": "`hue=` colours the bars by another column and adds the legend (Yes, No) by itself.",
+   "chart": {
+    "sns": "histplot",
+    "legend": [
+     "Yes",
+     "No"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=36 t='' x='tip' y='Count' leg=['Yes', 'No'] xt=['0', '2', '4', '6', '8', '10', '12'] h=[11.0, 19.0, 32.0, 18.0, 27.0, 13.0, 9.0, 3.0, 11.0, 3.0, 1.0, 2.0] tx=0\n#sns histplot",
+   "img": [
+    "img/bt-sns1-2.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Histograms with histplot",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.histplot(x=[5, 5, 6, 9, 9, 9, 9], bins=2)\nprint([int(bar.get_height()) for bar in ax.patches])\nplt.close()",
+   "e": "Two bins from 5 to 9 split at 7: the 5, 5 and 6 fall in the first bin and the four 9s in the second.",
+   "ans": "[3, 4]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Counting categories: countplot",
+   "q": "`days = [\"Mon\", \"Tue\", \"Mon\", \"Wed\", \"Mon\", \"Tue\"]`. Count each day with `sns.countplot`, in the order Mon, Tue, Wed, and set the y label to `Orders`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Mon\", \"Wed\", \"Mon\", \"Tue\"]\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Mon\", \"Wed\", \"Mon\", \"Tue\"]\nsns.countplot(x=days, order=[\"Mon\", \"Tue\", \"Wed\"])\nplt.ylabel(\"Orders\")\nplt.show()",
+   "e": "`order=` fixes the left-to-right order of the bars.",
+   "chart": {
+    "sns": "countplot",
+    "bars": 3,
+    "xticks": [
+     "Mon",
+     "Tue",
+     "Wed"
+    ],
+    "ylabel": "Orders"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=3 t='' x='' y='Orders' leg=None xt=['Mon', 'Tue', 'Wed'] h=[3.0, 2.0, 1.0] tx=0\n#sns countplot",
+   "img": [
+    "img/bt-sns1-4.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Counting categories: countplot",
+   "q": "This code should count the bills per day, but it stops with a TypeError. Fix it.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.countplot(data=tips, x=\"day\", y=\"day\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.countplot(data=tips, x=\"day\")\nplt.show()",
+   "e": "countplot counts one column: give it `x=` (upright bars) or `y=` (sideways bars), never both.",
+   "chart": {
+    "sns": "countplot",
+    "bars": 4
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='' x='day' y='count' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[62.0, 19.0, 87.0, 76.0] tx=0\n#sns countplot",
+   "img": [
+    "img/bt-sns1-5.webp"
+   ],
+   "got": "TypeError: Cannot pass values for both `x` and `y`."
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Averages with error bars: barplot",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.barplot(x=[\"p\", \"q\", \"q\"], y=[10, 4, 8], errorbar=None)\nprint([float(bar.get_height()) for bar in ax.patches])\nplt.close()",
+   "e": "barplot shows the mean: p has only 10, and q has (4 + 8) / 2 = 6.",
+   "ans": "[10.0, 6.0]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Spread by group: boxplot and violinplot",
+   "q": "With `tips`, draw a box plot of `total_bill` for each `time` (Lunch and Dinner), with a title.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.boxplot(data=tips, x=\"time\", y=\"total_bill\")\nplt.title(\"Bills at lunch and dinner\")\nplt.show()",
+   "e": "One box per value of `x=`: two boxes.",
+   "chart": {
+    "sns": "boxplot",
+    "boxes": 2,
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 area+box boxes=2 t='Bills at lunch and dinner' x='time' y='total_bill' leg=None xt=['Lunch', 'Dinner'] h=[] tx=0\n#sns boxplot",
+   "img": [
+    "img/bt-sns1-7.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Themes, styles and palettes",
+   "q": "This code should use the white grid style, but it stops with a ValueError. Fix the style name.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.set_theme(style=\"grid\")\nsns.countplot(data=tips, x=\"day\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.set_theme(style=\"whitegrid\")\nsns.countplot(data=tips, x=\"day\")\nplt.show()",
+   "e": "The five styles are darkgrid, whitegrid, dark, white and ticks.",
+   "chart": {
+    "sns": "countplot",
+    "grid": true
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='' x='day' y='count' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[62.0, 19.0, 87.0, 76.0] tx=0\n#sns countplot",
+   "img": [
+    "img/bt-sns1-8.webp"
+   ],
+   "got": "ValueError: style must be one of white, dark, whitegrid, darkgrid, ticks"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Histograms with histplot",
+   "q": "With `tips`, draw a histogram of `total_bill` with bins **5 dollars wide** (`binwidth=5`), stacked by `time` (`multiple=\"stack\"`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.histplot(data=tips, x=\"total_bill\", hue=\"time\", multiple=\"stack\", binwidth=5)\nplt.show()",
+   "e": "`binwidth=` sets the width of each bin; `multiple=\"stack\"` puts dinner on top of lunch.",
+   "chart": {
+    "sns": "histplot",
+    "legend": [
+     "Lunch",
+     "Dinner"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=20 t='' x='total_bill' y='Count' leg=['Lunch', 'Dinner'] xt=['0', '10', '20', '30', '40', '50', '60'] h=[5.0, 24.0, 44.0, 40.0, 27.0, 15.0, 9.0, 6.0, 2.0, 4.0, 2.0, 18.0] tx=0\n#sns histplot",
+   "img": [
+    "img/bt-sns1-9.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Smooth curves: kdeplot, rugplot and ecdfplot",
+   "q": "Draw filled KDE curves of `Sales` for each `Region`, each with an area of 1 (`common_norm=False`), stopping at the real data (`cut=0`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.kdeplot(data=sales, x=\"Sales\", hue=\"Region\", fill=True, common_norm=False, cut=0)\nplt.title(\"Order values per region\")\nplt.show()",
+   "e": "`cut=0` stops each curve at its smallest and largest order, so no negative sales appear.",
+   "chart": {
+    "sns": "kdeplot",
+    "legend": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 area  t='Order values per region' x='Sales' y='Density' leg=['West', 'South', 'North', 'East'] xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[] tx=0\n#sns kdeplot",
+   "img": [
+    "img/bt-sns1-10.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Smooth curves: kdeplot, rugplot and ecdfplot",
+   "q": "With `tips`, draw an ECDF of `tip` for each `sex`, and add a dashed grey vertical line at a tip of 3 with `plt.axvline`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.ecdfplot(data=tips, x=\"tip\", hue=\"sex\")\nplt.axvline(3, color=\"grey\", linestyle=\"--\")\nplt.title(\"Share of tips up to each value\")\nplt.show()",
+   "e": "At the line you can read the share of tips that are $3 or less for men and for women.",
+   "chart": {
+    "sns": "ecdfplot",
+    "kind": "vline",
+    "legend": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+vline lines=2 t='Share of tips up to each value' x='tip' y='Proportion' leg=['Male', 'Female'] xt=['0', '2', '4', '6', '8', '10', '12'] h=[] tx=0\n#sns ecdfplot",
+   "img": [
+    "img/bt-sns1-11.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Figure-level charts: displot",
+   "q": "Use `sns.displot` to draw histograms of `total_bill` from `tips`, with **one panel per `time`** (`col=`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ng = sns.displot(data=tips, x=\"total_bill\", col=\"time\", height=3)\ng.set_titles(\"{col_name}\")\nplt.show()",
+   "e": "displot is figure-level: `col=\"time\"` makes a Lunch panel and a Dinner panel.",
+   "chart": {
+    "sns": "displot",
+    "axes": 2
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 bar bars=14 t='Lunch' x='total_bill' y='Count' leg=None xt=['0', '20', '40', '60'] h=[0.0, 7.0, 18.0, 18.0, 9.0, 5.0, 2.0, 4.0, 1.0, 2.0, 0.0, 2.0] tx=0\n#ax2 bar bars=14 t='Dinner' x='total_bill' y='' leg=None xt=['0', '20', '40', '60'] h=[2.0, 7.0, 27.0, 30.0, 30.0, 25.0, 19.0, 11.0, 8.0, 5.0, 6.0, 0.0] tx=0\n#sns displot FacetGrid",
+   "img": [
+    "img/bt-sns1-12.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Figure-level charts: displot",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ng = sns.displot(x=[1, 2, 3, 4], col=[\"a\", \"a\", \"b\", \"b\"])\nprint(type(g).__name__, len(g.axes.flat))\nplt.close(\"all\")",
+   "e": "A figure-level function returns a FacetGrid; two values of `col` give two panels.",
+   "ans": "FacetGrid 2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Averages with error bars: barplot",
+   "q": "Draw the **total** sales per `Region` as bars with `sns.barplot` (`estimator=\"sum\"`), with no error bars and the `pastel` palette (use `hue=\"Region\"` and `legend=False`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.barplot(data=sales, x=\"Region\", y=\"Sales\", estimator=\"sum\", errorbar=None, hue=\"Region\", palette=\"pastel\", legend=False)\nplt.title(\"Total sales per region\")\nplt.show()",
+   "e": "A palette colours a `hue=` column: using the same column as `x=` gives each bar its own colour without a warning.",
+   "chart": {
+    "sns": "barplot",
+    "bars": 4,
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='Total sales per region' x='Region' y='Sales' leg=None xt=['West', 'South', 'North', 'East'] h=[403700.0, 462600.0, 400200.0, 281900.0] tx=0\n#sns barplot",
+   "img": [
+    "img/bt-sns1-14.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Averages with error bars: barplot",
+   "q": "This code should show the average tip per day with a 95% confidence interval, but it stops with a ValueError. Fix the `errorbar` value.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.barplot(data=tips, x=\"day\", y=\"tip\", errorbar=\"ci95\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.barplot(data=tips, x=\"day\", y=\"tip\", errorbar=(\"ci\", 95))\nplt.show()",
+   "e": "The interval is written as a pair: `errorbar=(\"ci\", 95)`. (That is also the default.)",
+   "chart": {
+    "sns": "barplot",
+    "bars": 4
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar+line bars=4 lines=4 t='' x='day' y='tip' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[2.771, 2.735, 2.993, 3.255] tx=0\n#sns barplot",
+   "img": [
+    "img/bt-sns1-15.webp"
+   ],
+   "got": "ValueError: The value for `errorbar` must be one of ['ci', 'pi', 'se', 'sd'], but 'ci95' was passed."
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Spread by group: boxplot and violinplot",
+   "q": "With `tips`, draw violins of `tip` per `day`, split in two halves by `smoker` (`hue=`, `split=True`), with dashed quartile lines (`inner=\"quart\"`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.violinplot(data=tips, x=\"day\", y=\"tip\", hue=\"smoker\", split=True, inner=\"quart\")\nplt.show()",
+   "e": "Each violin shows smokers on one side and non-smokers on the other.",
+   "chart": {
+    "sns": "violinplot",
+    "legend": [
+     "Yes",
+     "No"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 area+line bars=2 lines=24 t='' x='day' y='tip' leg=['Yes', 'No'] xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[0.0, 0.0] tx=0\n#sns violinplot",
+   "img": [
+    "img/bt-sns1-16.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Every point: stripplot and swarmplot",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.stripplot(x=[\"a\", \"a\", \"b\"], y=[1, 2, 3])\nprint(len(ax.collections))\nplt.close()",
+   "e": "A strip plot draws one group of dots per category: one for a and one for b.",
+   "ans": "2"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Every point: stripplot and swarmplot",
+   "q": "Draw a white box plot of `Profit` per `Region` without the outlier dots (`showfliers=False`), and put every order on top as small black dots with `sns.stripplot`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.boxplot(data=sales, x=\"Region\", y=\"Profit\", color=\"white\", showfliers=False)\nsns.stripplot(data=sales, x=\"Region\", y=\"Profit\", color=\"black\", alpha=0.3, size=3)\nplt.show()",
+   "e": "Both functions draw on the same axes: the summary and the real data together.",
+   "chart": {
+    "sns": [
+     "boxplot",
+     "stripplot"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 box+scatter points=500 boxes=4 t='' x='Region' y='Profit' leg=None xt=['West', 'South', 'North', 'East'] h=[] tx=0\n#sns boxplot stripplot",
+   "img": [
+    "img/bt-sns1-18.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Means across groups: pointplot",
+   "q": "Make a `Quarter` column (`\"Q1\"` to `\"Q4\"`) from `Date`, then draw the **average profit** per quarter with `sns.pointplot`, in the order Q1 to Q4.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\nsales[\"Quarter\"] = \"Q\" + sales[\"Date\"].dt.quarter.astype(str)\nsns.pointplot(data=sales, x=\"Quarter\", y=\"Profit\", order=[\"Q1\", \"Q2\", \"Q3\", \"Q4\"])\nplt.title(\"Average profit per quarter\")\nplt.show()",
+   "e": "`dt.quarter` gives 1 to 4; turning it into text with \"Q\" in front makes good labels.",
+   "chart": {
+    "sns": "pointplot",
+    "xticks": [
+     "Q1",
+     "Q2",
+     "Q3",
+     "Q4"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=5 t='Average profit per quarter' x='Quarter' y='Profit' leg=None xt=['Q1', 'Q2', 'Q3', 'Q4'] h=[] tx=0\n#sns pointplot",
+   "img": [
+    "img/bt-sns1-19.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Many panels at once: catplot",
+   "q": "Use `sns.catplot` to draw **violins** of `total_bill` per `day` from `tips`, with one panel per `sex`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ng = sns.catplot(data=tips, x=\"day\", y=\"total_bill\", kind=\"violin\", col=\"sex\", height=3.2)\ng.set_titles(\"{col_name}\")\nplt.show()",
+   "e": "`kind=\"violin\"` picks the chart and `col=\"sex\"` makes two panels.",
+   "chart": {
+    "sns": "catplot",
+    "axes": 2
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 area+line lines=12 t='Male' x='day' y='total_bill' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#ax2 area+line lines=12 t='Female' x='day' y='' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#sns catplot FacetGrid",
+   "img": [
+    "img/bt-sns1-20.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Many panels at once: catplot",
+   "q": "This code should draw a box plot in the **left** chart of a 1 × 2 figure, but Seaborn warns and draws a separate figure instead. Fix it.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nfig, axes = plt.subplots(1, 2, figsize=(9, 3.5))\nsns.catplot(data=tips, x=\"day\", y=\"tip\", kind=\"box\", ax=axes[0])\naxes[1].hist(tips[\"tip\"], bins=10)\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nfig, axes = plt.subplots(1, 2, figsize=(9, 3.5))\nsns.boxplot(data=tips, x=\"day\", y=\"tip\", ax=axes[0])\naxes[1].hist(tips[\"tip\"], bins=10)\nplt.show()",
+   "e": "catplot is figure-level and ignores `ax=`. The axes-level `sns.boxplot(..., ax=axes[0])` draws inside the grid.",
+   "chart": {
+    "axes": 2,
+    "sns": "boxplot"
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 area+box boxes=4 t='' x='day' y='tip' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#ax2 hist bars=10 t='' x='' y='' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[41.0, 79.0, 66.0, 27.0, 19.0, 5.0, 4.0, 1.0, 1.0, 1.0] tx=0\n#sns boxplot",
+   "img": [
+    "img/bt-sns1-21.webp"
+   ],
+   "got": "/home/claude/venv/lib/python3.12/site-packages/seaborn/categorical.py:2761: UserWarning: catplot is a figure-level function and does not accept target axes. You may wish to try boxplot\n  warnings.warn(msg, UserWarning)"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Themes, styles and palettes",
+   "q": "Use `sns.set_theme(style=\"ticks\", palette=\"colorblind\")`, draw a count of orders per `Category` split by `Region` (`hue=`), and remove the top and right border lines with `sns.despine()`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.set_theme(style=\"ticks\", palette=\"colorblind\")\nsns.countplot(data=sales, x=\"Category\", hue=\"Region\")\nsns.despine()\nplt.show()",
+   "e": "`despine()` hides the top and right spines; the colorblind palette is safe for every reader.",
+   "chart": {
+    "sns": "countplot",
+    "legend": true,
+    "spines": {
+     "top": false,
+     "right": false
+    }
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=20 t='' x='Category' y='count' leg=['West', 'South', 'North', 'East'] xt=['Groceries', 'Clothing', 'Furniture', 'Electronics'] h=[29.0, 40.0, 29.0, 29.0, 40.0, 54.0, 28.0, 39.0, 29.0, 35.0, 29.0, 28.0] tx=0\n#sns countplot",
+   "img": [
+    "img/bt-sns1-22.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Themes, styles and palettes",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nprint(len(sns.color_palette(\"pastel\")), len(sns.color_palette(\"husl\", 3)))",
+   "e": "A named palette like pastel has 10 colours; `color_palette(\"husl\", 3)` asks for exactly 3.",
+   "ans": "10 3"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Histograms with histplot",
+   "q": "This code should stack the order values by region, but it stops with a ValueError. Fix it.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.histplot(data=sales, x=\"Sales\", hue=\"Region\", bins=20, multiple=\"stacked\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.histplot(data=sales, x=\"Sales\", hue=\"Region\", bins=20, multiple=\"stack\")\nplt.show()",
+   "e": "The four choices are \"layer\", \"stack\", \"dodge\" and \"fill\".",
+   "chart": {
+    "sns": "histplot",
+    "legend": true
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=80 t='' x='Sales' y='Count' leg=['West', 'South', 'North', 'East'] xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[10.0, 12.0, 14.0, 7.0, 7.0, 3.0, 8.0, 8.0, 6.0, 5.0, 4.0, 2.0] tx=0\n#sns histplot",
+   "img": [
+    "img/bt-sns1-24.webp"
+   ],
+   "got": "ValueError: The value for `multiple` must be one of ['layer', 'stack', 'fill', 'dodge'], but 'stacked' was passed."
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Which Seaborn chart? Best practices",
+   "q": "Draw the average `Profit` per `Region` as bars, **highest average first**. Work out the order with `groupby(...).mean().sort_values(ascending=False).index`, and show one standard deviation (`errorbar=\"sd\"`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\norder = sales.groupby(\"Region\")[\"Profit\"].mean().sort_values(ascending=False).index\nsns.barplot(data=sales, x=\"Region\", y=\"Profit\", order=order, errorbar=\"sd\")\nplt.title(\"Average profit per region (± 1 sd)\")\nplt.show()",
+   "e": "Sorted bars are easier to compare, and the long sd lines show that single orders vary far more than the averages do.",
+   "chart": {
+    "sns": "barplot",
+    "bars": 4,
+    "xticks": [
+     "East",
+     "North",
+     "West",
+     "South"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar+line bars=4 lines=4 t='Average profit per region (± 1 sd)' x='Region' y='Profit' leg=None xt=['East', 'North', 'West', 'South'] h=[495.6, 490.1, 487.1, 436.4] tx=0\n#sns barplot",
+   "img": [
+    "img/bt-sns1-25.webp"
+   ]
+  }
+ ],
+ "sns2": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Scatter plots: hue, size and style",
+   "q": "Draw a Seaborn scatter of `Customer_Age` (x) against `Satisfaction_Score` (y) from `sales`, coloured by `Region`, with see-through dots (`alpha=0.5`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.scatterplot(data=sales, x=\"Customer_Age\", y=\"Satisfaction_Score\", hue=\"Region\", alpha=0.5)\nplt.show()",
+   "e": "One dot per order (500), coloured by region. No clear pattern: age does not drive satisfaction.",
+   "chart": {
+    "sns": "scatterplot",
+    "points": 500,
+    "legend": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 scatter points=500 t='' x='Customer_Age' y='Satisfaction_Score' leg=['West', 'South', 'North', 'East'] xt=['10', '20', '30', '40', '50', '60', '70'] h=[] tx=0\n#sns scatterplot",
+   "img": [
+    "img/bt-sns2-1.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Line plots and confidence bands",
+   "q": "With `tips`, draw `sns.lineplot` of `tip` (y) against the group `size` (x), with a title. Every size has many bills, so you will see the mean and a band.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.lineplot(data=tips, x=\"size\", y=\"tip\", marker=\"o\")\nplt.title(\"Average tip by group size\")\nplt.show()",
+   "e": "lineplot draws the mean tip for each size, and the band is the 95% interval.",
+   "chart": {
+    "sns": "lineplot",
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+area lines=1 t='Average tip by group size' x='size' y='tip' leg=None xt=['0', '1', '2', '3', '4', '5', '6', '7'] h=[] tx=0\n#sns lineplot",
+   "img": [
+    "img/bt-sns2-2.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Heatmaps: correlations and pivot tables",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ndf = pd.DataFrame({\"x\": [1, 2, 3], \"y\": [2, 4, 6]})\nprint(df.corr().loc[\"x\", \"y\"])",
+   "e": "y is always 2 × x, a perfect straight-line link: the correlation is 1.0.",
+   "ans": "1.0"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Heatmaps: correlations and pivot tables",
+   "q": "`marks = pd.DataFrame({\"Maths\": [78, 92, 65], \"Science\": [85, 88, 70]}, index=[\"Asha\", \"Ravi\", \"Neha\"])`. Draw it as a heatmap with the whole numbers in the cells (`annot=True`, `fmt=\"d\"`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nmarks = pd.DataFrame({\"Maths\": [78, 92, 65], \"Science\": [85, 88, 70]}, index=[\"Asha\", \"Ravi\", \"Neha\"])\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nmarks = pd.DataFrame({\"Maths\": [78, 92, 65], \"Science\": [85, 88, 70]}, index=[\"Asha\", \"Ravi\", \"Neha\"])\nsns.heatmap(marks, annot=True, fmt=\"d\", cmap=\"Greens\")\nplt.title(\"Marks\")\nplt.show()",
+   "e": "Six cells, six numbers. The names come from the index and the columns.",
+   "chart": {
+    "sns": "heatmap",
+    "texts": 6
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh+text meshes=1 t='Marks' x='' y='' leg=None xt=['Maths', 'Science'] h=[] tx=6\n#sns heatmap",
+   "img": [
+    "img/bt-sns2-4.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Heatmaps: correlations and pivot tables",
+   "q": "This code should write the correlations with 2 decimals, but it stops with a ValueError. Fix the format.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ncorr = tips[[\"total_bill\", \"tip\", \"size\"]].corr()\nsns.heatmap(corr, annot=True, fmt=\".2d\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ncorr = tips[[\"total_bill\", \"tip\", \"size\"]].corr()\nsns.heatmap(corr, annot=True, fmt=\".2f\")\nplt.show()",
+   "e": "Correlations are decimals: `\".2f\"`. The `\"d\"` format is only for whole numbers.",
+   "chart": {
+    "sns": "heatmap",
+    "texts": 9
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh+text meshes=1 t='' x='' y='' leg=None xt=['total_bill', 'tip', 'size'] h=[] tx=9\n#sns heatmap",
+   "img": [
+    "img/bt-sns2-5.webp"
+   ],
+   "got": "ValueError: Unknown format code 'd' for object of type 'float'"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Regression lines: regplot and lmplot",
+   "q": "Draw a regression line of `Sales` (y) on `Quantity` (x) from `sales` with `sns.regplot`, without the band (`ci=None`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.regplot(data=sales, x=\"Quantity\", y=\"Sales\", ci=None)\nplt.show()",
+   "e": "More items in an order means a bigger order value, but the dots spread widely around the line.",
+   "chart": {
+    "sns": "regplot",
+    "kind": [
+     "scatter",
+     "line"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+scatter lines=1 points=500 t='' x='Quantity' y='Sales' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[] tx=0\n#sns regplot",
+   "img": [
+    "img/bt-sns2-6.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Faceted relations: relplot",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ng = sns.relplot(x=[1, 2, 3, 4], y=[1, 3, 2, 4], col=[\"a\", \"b\", \"a\", \"b\"])\nprint(len(g.axes.flat))\nplt.close(\"all\")",
+   "e": "relplot is figure-level: two values of `col` give two panels.",
+   "ans": "2"
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Scatter plots: hue, size and style",
+   "q": "This code should colour the dots by `time`, but it stops with an AttributeError. Fix it.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.scatterplot(data=tips, x=\"total_bill\", y=\"tip\", colour=\"time\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.scatterplot(data=tips, x=\"total_bill\", y=\"tip\", hue=\"time\")\nplt.show()",
+   "e": "Seaborn colours by a column with `hue=`. Unknown words like `colour=` are passed on to Matplotlib, which does not know them.",
+   "chart": {
+    "sns": "scatterplot",
+    "legend": true
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 scatter points=244 t='' x='total_bill' y='tip' leg=['Lunch', 'Dinner'] xt=['0', '10', '20', '30', '40', '50', '60'] h=[] tx=0\n#sns scatterplot",
+   "img": [
+    "img/bt-sns2-8.webp"
+   ],
+   "got": "AttributeError: PathCollection.set() got an unexpected keyword argument 'colour'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Line plots and confidence bands",
+   "q": "Draw the **monthly total profit** per `Region` with `sns.lineplot` (`estimator=\"sum\"`, `errorbar=None`), with a dot on every point. The `Month` column is ready.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\nsales[\"Month\"] = sales[\"Date\"].dt.month\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\nsales[\"Month\"] = sales[\"Date\"].dt.month\nsns.lineplot(data=sales, x=\"Month\", y=\"Profit\", hue=\"Region\", estimator=\"sum\", errorbar=None, marker=\"o\")\nplt.title(\"Monthly profit per region\")\nplt.show()",
+   "e": "`estimator=\"sum\"` adds up the orders of each month instead of averaging them.",
+   "chart": {
+    "sns": "lineplot",
+    "legend": true,
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=4 t='Monthly profit per region' x='Month' y='Profit' leg=['West', 'South', 'North', 'East'] xt=['0', '2', '4', '6', '8', '10', '12', '14'] h=[] tx=0\n#sns lineplot",
+   "img": [
+    "img/bt-sns2-9.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Regression lines: regplot and lmplot",
+   "q": "`hours = [1, 2, 3, 4, 5, 6, 7, 8]` of study and `marks = [35, 50, 62, 71, 77, 81, 83, 84]`. The gains slow down, so fit a **curve** with `sns.regplot(..., order=2)`, without the band, and label both axes.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nhours = [1, 2, 3, 4, 5, 6, 7, 8]\nmarks = [35, 50, 62, 71, 77, 81, 83, 84]\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nhours = [1, 2, 3, 4, 5, 6, 7, 8]\nmarks = [35, 50, 62, 71, 77, 81, 83, 84]\nsns.regplot(x=hours, y=marks, order=2, ci=None)\nplt.xlabel(\"Hours of study\")\nplt.ylabel(\"Marks\")\nplt.show()",
+   "e": "`order=2` fits a parabola, which bends to follow the slowing gains.",
+   "chart": {
+    "sns": "regplot",
+    "xlabel": true,
+    "ylabel": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+scatter lines=1 points=8 t='' x='Hours of study' y='Marks' leg=None xt=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] h=[] tx=0\n#sns regplot",
+   "img": [
+    "img/bt-sns2-10.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Regression lines: regplot and lmplot",
+   "q": "Use `sns.lmplot` to draw `tip` against `total_bill` from `tips`, with one panel per `day` (`col=\"day\"`, `col_wrap=2`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.lmplot(data=tips, x=\"total_bill\", y=\"tip\", col=\"day\", col_wrap=2, height=2.8)\nplt.show()",
+   "e": "Four days, four panels, each with its own fitted line.",
+   "chart": {
+    "sns": "lmplot",
+    "axes": 4
+   },
+   "out": "",
+   "sum": "#fig1 axes=4 sup='' cbar=0 leg=None\n#ax1 scatter+line+area lines=1 points=62 t='day = Thur' x='' y='tip' leg=None xt=[] h=[] tx=0\n#ax2 scatter+line+area lines=1 points=19 t='day = Fri' x='' y='' leg=None xt=[] h=[] tx=0\n#ax3 scatter+line+area lines=1 points=87 t='day = Sat' x='total_bill' y='tip' leg=None xt=['0', '20', '40', '60'] h=[] tx=0\n#ax4 scatter+line+area lines=1 points=76 t='day = Sun' x='total_bill' y='' leg=None xt=['0', '20', '40', '60'] h=[] tx=0\n#sns lmplot FacetGrid",
+   "img": [
+    "img/bt-sns2-11.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Checking the fit: residplot",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nx = [1, 2, 3]\ny = [2, 5, 6]\nslope, intercept = np.polyfit(x, y, 1)\nprint([round(float(b - (slope * a + intercept)), 2) for a, b in zip(x, y)])",
+   "e": "The line is y = 2x + 0.33, so it predicts 2.33, 4.33 and 6.33. Real minus predicted gives the residuals.",
+   "ans": "[-0.33, 0.67, -0.33]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Faceted relations: relplot",
+   "q": "Use `sns.relplot` with `kind=\"line\"` to draw the average `tip` per group `size` from `tips`, with one panel per `time` and no band (`errorbar=None`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ng = sns.relplot(data=tips, x=\"size\", y=\"tip\", kind=\"line\", col=\"time\", errorbar=None, marker=\"o\", height=3)\ng.set_titles(\"{col_name}\")\nplt.show()",
+   "e": "relplot draws lineplot panels with `kind=\"line\"`.",
+   "chart": {
+    "sns": "relplot",
+    "axes": 2
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Lunch' x='size' y='tip' leg=None xt=['0', '2', '4', '6', '8'] h=[] tx=0\n#ax2 line lines=1 t='Dinner' x='size' y='' leg=None xt=['0', '2', '4', '6', '8'] h=[] tx=0\n#sns relplot FacetGrid",
+   "img": [
+    "img/bt-sns2-13.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "FacetGrid: your own panels",
+   "q": "This code should draw a histogram of tips in each panel, but it stops with a ValueError. Fix the second line.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ng = sns.FacetGrid(tips, col=\"time\")\ng.map(sns.histplot, x=\"tip\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\ng = sns.FacetGrid(tips, col=\"time\")\ng.map_dataframe(sns.histplot, x=\"tip\")\nplt.show()",
+   "e": "`g.map` gives the columns by position; to name them like `x=\"tip\"`, use `g.map_dataframe`.",
+   "chart": {
+    "sns": "FacetGrid",
+    "axes": 2
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 bar bars=9 t='time = Lunch' x='tip' y='Count' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[14.0, 22.0, 13.0, 5.0, 7.0, 0.0, 5.0, 1.0, 1.0] tx=0\n#ax2 bar bars=15 t='time = Dinner' x='tip' y='Count' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[20.0, 33.0, 24.0, 39.0, 21.0, 15.0, 13.0, 3.0, 2.0, 3.0, 1.0, 0.0] tx=0\n#sns FacetGrid histplot histplot",
+   "img": [
+    "img/bt-sns2-14.webp"
+   ],
+   "got": "ValueError: Could not interpret value `tip` for `x`. Value is a string, but `data` was not passed."
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Heatmaps: correlations and pivot tables",
+   "q": "Make a pivot table of the **average profit** with `Category` as rows and `Region` as columns, and draw it as a heatmap with the values (no decimals, `fmt=\".0f\"`) and `cmap=\"YlGnBu\"`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\ntable = sales.pivot_table(values=\"Profit\", index=\"Category\", columns=\"Region\", aggfunc=\"mean\")\nsns.heatmap(table, annot=True, fmt=\".0f\", cmap=\"YlGnBu\")\nplt.title(\"Average profit (₹)\")\nplt.show()",
+   "e": "4 categories × 4 regions = 16 cells, each with its average.",
+   "chart": {
+    "sns": "heatmap",
+    "texts": 16
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh+text meshes=1 t='Average profit (₹)' x='Region' y='Category' leg=None xt=['East', 'North', 'South', 'West'] h=[] tx=16\n#sns heatmap",
+   "img": [
+    "img/bt-sns2-15.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Pair plots: every pair at once",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ng = sns.pairplot(pd.DataFrame({\"a\": [1, 2, 3], \"b\": [3, 1, 2], \"c\": [2, 2, 5]}))\nprint(g.axes.shape)\nplt.close(\"all\")",
+   "e": "Three number columns give a 3 × 3 grid of panels.",
+   "ans": "(3, 3)"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Pair plots: every pair at once",
+   "q": "Draw a pair plot of `Sales`, `Profit` and `Quantity` from `sales` (`vars=`) with only the lower half (`corner=True`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nsns.pairplot(sales, vars=[\"Sales\", \"Profit\", \"Quantity\"], corner=True, height=2)\nplt.show()",
+   "e": "`corner=True` hides the mirror half, so each pair is drawn once.",
+   "chart": {
+    "sns": "pairplot"
+   },
+   "out": "",
+   "sum": "#fig1 axes=9 sup='' cbar=0 leg=None\n#ax1   t='' x='' y='Sales' leg=None xt=[] h=[] tx=0\n#ax2 scatter points=500 t='' x='Sales' y='Profit' leg=None xt=[] h=[] tx=0\n#ax3   t='' x='' y='' leg=None xt=[] h=[] tx=0\n#ax4 scatter points=500 t='' x='Sales' y='Quantity' leg=None xt=['−5000', '0', '5000', '10000', '15000'] h=[] tx=0\n#ax5 scatter points=500 t='' x='Profit' y='Quantity' leg=None xt=['−2000', '0', '2000', '4000'] h=[] tx=0\n#ax6   t='' x='Quantity' y='' leg=None xt=['0', '5', '10', '15'] h=[] tx=0\n#ax7 bar bars=14 t='' x='Sales' y='Count' leg=None xt=['−5000', '0', '5000', '10000', '15000'] h=[99.0, 88.0, 56.0, 64.0, 42.0, 41.0, 33.0, 28.0, 20.0, 12.0, 6.0, 9.0] tx=0\n#ax8 bar bars=19 t='' x='Profit' y='Count' leg=None xt=['−2000', '0', '2000', '4000'] h=[2.0, 61.0, 93.0, 71.0, 61.0, 56.0, 51.0, 26.0, 32.0, 15.0, 8.0, 8.0] tx=0\n#ax9 bar bars=10 t='' x='Quantity' y='Count' leg=None xt=['0', '5', '10', '15'] h=[44.0, 51.0, 47.0, 66.0, 47.0, 48.0, 48.0, 49.0, 48.0, 52.0] tx=0\n#sns pairplot PairGrid",
+   "img": [
+    "img/bt-sns2-17.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Joint plots: one pair in detail",
+   "q": "With `tips`, draw a joint plot of `total_bill` and `tip` with **hexagons** (`kind=\"hex\"`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.jointplot(data=tips, x=\"total_bill\", y=\"tip\", kind=\"hex\", height=5)\nplt.show()",
+   "e": "Darker hexagons hold more bills; the margins show each column alone.",
+   "chart": {
+    "sns": "jointplot",
+    "kind": "hexbin"
+   },
+   "out": "",
+   "sum": "#fig1 axes=3 sup='' cbar=0 leg=None\n#ax1 hexbin  t='' x='total_bill' y='tip' leg=None xt=['0', '10', '20', '30', '40', '50', '60'] h=[] tx=0\n#ax2 bar bars=14 t='' x='total_bill' y='Count' leg=None xt=[] h=[2.0, 14.0, 45.0, 48.0, 39.0, 30.0, 21.0, 15.0, 9.0, 7.0, 6.0, 2.0] tx=0\n#ax3 barh bars=18 t='' x='Count' y='tip' leg=None xt=[] h=[17.0, 28.0, 53.0, 25.0, 49.0, 19.0, 21.0, 4.0, 16.0, 4.0, 1.0, 4.0] tx=0\n#sns jointplot JointGrid",
+   "img": [
+    "img/bt-sns2-18.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Clustermap: grouping similar rows",
+   "q": "Make the pivot table of the **average sales** with `Category` as rows and `Region` as columns, and draw it with `sns.clustermap`, scaling each column from 0 to 1 (`standard_scale=1`).",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\ntable = sales.pivot_table(values=\"Sales\", index=\"Category\", columns=\"Region\", aggfunc=\"mean\")\nsns.clustermap(table, standard_scale=1, cmap=\"YlGnBu\", annot=True, fmt=\".2f\", figsize=(6, 5))\nplt.show()",
+   "e": "The clustermap puts the two big-ticket categories (electronics, furniture) next to each other.",
+   "chart": {
+    "sns": "clustermap"
+   },
+   "out": "",
+   "sum": "#fig1 axes=3 sup='' cbar=1 leg=None\n#ax1   t='' x='' y='' leg=None xt=[] h=[] tx=0\n#ax2   t='' x='' y='' leg=None xt=[] h=[] tx=0\n#ax3 mesh+text meshes=1 t='' x='Region' y='Category' leg=None xt=['South', 'West', 'East', 'North'] h=[] tx=16\n#sns clustermap",
+   "img": [
+    "img/bt-sns2-19.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "FacetGrid: your own panels",
+   "q": "Build a `sns.FacetGrid` of `sales` with one panel per `Region` (`col_wrap=2`), map a scatter of `Sales` against `Profit` onto it with `g.map_dataframe(sns.scatterplot, ...)`, and set short panel titles.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\ng = sns.FacetGrid(sales, col=\"Region\", col_wrap=2, height=2.8)\ng.map_dataframe(sns.scatterplot, x=\"Sales\", y=\"Profit\", s=12)\ng.set_titles(\"{col_name}\")\nplt.show()",
+   "e": "First the empty grid, then one chart mapped onto every panel.",
+   "chart": {
+    "sns": "FacetGrid",
+    "axes": 4
+   },
+   "out": "",
+   "sum": "#fig1 axes=4 sup='' cbar=0 leg=None\n#ax1 scatter points=127 t='West' x='' y='Profit' leg=None xt=[] h=[] tx=0\n#ax2 scatter points=161 t='South' x='' y='' leg=None xt=[] h=[] tx=0\n#ax3 scatter points=121 t='North' x='Sales' y='Profit' leg=None xt=['−5000', '0', '5000', '10000', '15000'] h=[] tx=0\n#ax4 scatter points=91 t='East' x='Sales' y='' leg=None xt=['−5000', '0', '5000', '10000', '15000'] h=[] tx=0\n#sns FacetGrid scatterplot scatterplot scatterplot scatterplot",
+   "img": [
+    "img/bt-sns2-20.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Seaborn inside Matplotlib layouts",
+   "q": "This code should put a box plot in the second chart, but it stops with an IndexError. Fix it.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nfig, axes = plt.subplots(1, 2, figsize=(9, 3.5))\nsns.histplot(data=tips, x=\"tip\", ax=axes[0])\nsns.boxplot(data=tips, x=\"day\", y=\"tip\", ax=axes[2])\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nfig, axes = plt.subplots(1, 2, figsize=(9, 3.5))\nsns.histplot(data=tips, x=\"tip\", ax=axes[0])\nsns.boxplot(data=tips, x=\"day\", y=\"tip\", ax=axes[1])\nplt.show()",
+   "e": "Two charts are `axes[0]` and `axes[1]`: positions count from 0.",
+   "chart": {
+    "axes": 2,
+    "sns": [
+     "histplot",
+     "boxplot"
+    ]
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 bar bars=18 t='' x='tip' y='Count' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[17.0, 28.0, 53.0, 25.0, 49.0, 19.0, 21.0, 4.0, 16.0, 4.0, 1.0, 4.0] tx=0\n#ax2 area+box boxes=4 t='' x='day' y='tip' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#sns histplot boxplot",
+   "img": [
+    "img/bt-sns2-21.webp"
+   ],
+   "got": "IndexError: index 2 is out of bounds for axis 0 with size 2"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Seaborn inside Matplotlib layouts",
+   "q": "Build a 2 × 2 Seaborn dashboard of `sales` with `ax=`: a histogram of `Sales`, a box plot of `Profit` per `Category`, a scatter of `Sales` against `Profit`, and a count of orders per `Region`. Give the figure a title.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nfig, axes = plt.subplots(2, 2, figsize=(11, 8))\nsns.histplot(data=sales, x=\"Sales\", ax=axes[0, 0])\nsns.boxplot(data=sales, x=\"Category\", y=\"Profit\", ax=axes[0, 1])\nsns.scatterplot(data=sales, x=\"Sales\", y=\"Profit\", s=12, ax=axes[1, 0])\nsns.countplot(data=sales, x=\"Region\", ax=axes[1, 1])\nfig.suptitle(\"Sales dashboard\")\nplt.tight_layout()\nplt.show()",
+   "e": "Every axes-level chart takes `ax=`, so it lands in its own place in the grid.",
+   "chart": {
+    "axes": 4,
+    "suptitle": true,
+    "sns": [
+     "histplot",
+     "boxplot",
+     "scatterplot",
+     "countplot"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=4 sup='Sales dashboard' cbar=0 leg=None\n#ax1 bar bars=14 t='' x='Sales' y='Count' leg=None xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[99.0, 88.0, 56.0, 64.0, 42.0, 41.0, 33.0, 28.0, 20.0, 12.0, 6.0, 9.0] tx=0\n#ax2 area+box boxes=4 t='' x='Category' y='Profit' leg=None xt=['Groceries', 'Clothing', 'Furniture', 'Electronics'] h=[] tx=0\n#ax3 scatter points=500 t='' x='Sales' y='Profit' leg=None xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[] tx=0\n#ax4 bar bars=4 t='' x='Region' y='count' leg=None xt=['West', 'South', 'North', 'East'] h=[127.0, 161.0, 121.0, 91.0] tx=0\n#sns histplot boxplot scatterplot countplot",
+   "img": [
+    "img/bt-sns2-22.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Contexts and colour scales",
+   "q": "Type exactly what this code prints.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\ncontexts = [\"paper\", \"notebook\", \"talk\", \"poster\"]\nsizes = [sns.plotting_context(c)[\"font.size\"] for c in contexts]\nprint(sizes == sorted(sizes))",
+   "e": "The contexts go from small to big: each one has a bigger font than the one before.",
+   "ans": "True"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Contexts and colour scales",
+   "q": "This code should make the chart ready for slides, but it stops with a ValueError. Fix the context name.",
+   "c": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.set_context(\"slides\")\nsns.lineplot(data=tips, x=\"size\", y=\"tip\")\nplt.show()",
+   "fixed": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\ntips = sns.load_dataset(\"tips\")\nsns.set_context(\"talk\")\nsns.lineplot(data=tips, x=\"size\", y=\"tip\")\nplt.show()",
+   "e": "The four contexts are paper, notebook, talk (slides) and poster.",
+   "chart": {
+    "sns": "lineplot"
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+area lines=1 t='' x='size' y='tip' leg=None xt=['0', '1', '2', '3', '4', '5', '6', '7'] h=[] tx=0\n#sns lineplot",
+   "img": [
+    "img/bt-sns2-24.webp"
+   ],
+   "got": "ValueError: context must be in paper, notebook, talk, poster"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Best practices and common mistakes",
+   "q": "Draw the correlation heatmap of the five number columns of `sales`, showing **only the lower half** with a mask (`np.triu(np.ones_like(corr, dtype=bool))`), values with 2 decimals, `cmap=\"coolwarm\"` and `center=0`.",
+   "starter": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nimport numpy as np\n",
+   "sol": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme()\nsales = pd.read_csv(\"sales_data.csv\")\nimport numpy as np\ncorr = sales[[\"Sales\", \"Profit\", \"Quantity\", \"Customer_Age\", \"Satisfaction_Score\"]].corr()\nmask = np.triu(np.ones_like(corr, dtype=bool))\nsns.heatmap(corr, mask=mask, annot=True, fmt=\".2f\", cmap=\"coolwarm\", center=0)\nplt.title(\"Correlations, each pair once\")\nplt.tight_layout()\nplt.show()",
+   "e": "The mask hides the diagonal and the mirror half: 10 cells are left, one per pair.",
+   "chart": {
+    "sns": "heatmap",
+    "texts": 10
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh+text meshes=1 t='Correlations, each pair once' x='' y='' leg=None xt=['Sales', 'Profit', 'Quantity', 'Customer_Age', 'Satisfaction_Score'] h=[] tx=10\n#sns heatmap",
+   "img": [
+    "img/bt-sns2-25.webp"
+   ]
+  }
  ]
 };

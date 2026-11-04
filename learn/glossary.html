@@ -14,7 +14,7 @@
 <header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#glossary">Open the interactive version ▶</a></header>
 <main>
 <p class="ver">This is the text version of the page. The <a href="../#glossary">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
-<article><h1>Python glossary</h1><p class="lead">148 key words, A to Z, each with a tiny example.</p><dl class="defs"><dt>Abstraction</dt><dd><p>Hiding complicated details behind simple methods. You call <code>df.groupby()</code> without knowing the code inside it.</p><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>Accumulator</dt><dd><p>A variable that builds up a result over the rounds of a loop, like a running total.</p><figure class="code"><pre><code>total = 0
+<article><h1>Python glossary</h1><p class="lead">164 key words, A to Z, each with a tiny example.</p><dl class="defs"><dt>Abstraction</dt><dd><p>Hiding complicated details behind simple methods. You call <code>df.groupby()</code> without knowing the code inside it.</p><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>Accumulator</dt><dd><p>A variable that builds up a result over the rounds of a loop, like a running total.</p><figure class="code"><pre><code>total = 0
 for price in [120, 80, 50]:
     total += price
 print(total)</code></pre><p class="olbl">Output</p><pre class="out">250</pre></figure><p class="cap">From <a href="forloops.html">For loops and range()</a></p></dd><dt>Alias</dt><dd><p>A short nickname given when importing: <code>import numpy as np</code>. Stick to the standard ones.</p><figure class="code"><pre><code>import statistics as st
@@ -39,7 +39,12 @@ print(type(lines[0]).__name__)
 plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Line2D</pre></figure><p class="cap">From <a href="mpl1.html">Matplotlib charts: line, bar, histogram, scatter, pie and box</a></p></dd><dt>Attribute</dt><dd><p>A piece of data stored on an object, read with a dot and <b>no</b> brackets: <code>s.name</code>.</p><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>Axes</dt><dd><p>One chart area inside a figure, with its own x-axis, y-axis and title.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
 fig, ax = plt.subplots()
 print(type(ax).__name__)
-plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Axes</pre></figure><p class="cap">From <a href="mpl2.html">Matplotlib layouts and style: subplots, heatmaps and finishing touches</a></p></dd><dt>axis</dt><dd><p>The direction a calculation runs in. <code>axis=0</code> goes down the rows, <code>axis=1</code> goes across the columns.</p><figure class="code"><pre><code>import numpy as np
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Axes</pre></figure><p class="cap">From <a href="mpl2.html">Matplotlib layouts and style: subplots, heatmaps and finishing touches</a></p></dd><dt>Axes-level function</dt><dd><p>Draws one chart on one axes and returns it; accepts <code>ax=</code>. histplot, boxplot, scatterplot, heatmap ...</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.histplot(x=[1, 2, 2])
+print(type(ax).__name__)
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Axes</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>axis</dt><dd><p>The direction a calculation runs in. <code>axis=0</code> goes down the rows, <code>axis=1</code> goes across the columns.</p><figure class="code"><pre><code>import numpy as np
 m = np.array([[1, 2, 3], [4, 5, 6]])
 print(m.sum(axis=0), m.sum(axis=1))</code></pre><p class="olbl">Output</p><pre class="out">[5 7 9] [ 6 15]</pre></figure><p class="cap">From <a href="numpy2.html">NumPy operations for analysis</a></p></dd><dt>Bins</dt><dd><p>The ranges a histogram cuts the numbers into. <code>bins=5</code> makes 5 equal ranges.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
 counts, edges, bars = plt.hist([0, 10], bins=5)
@@ -84,7 +89,12 @@ print(plt.get_cmap(&quot;viridis&quot;).name)</code></pre><p class="olbl">Output
 print(&quot;hi&quot;)  # so is this part</code></pre><p class="olbl">Output</p><pre class="out">hi</pre></figure><p class="cap">From <a href="intro.html">Meet Python</a></p></dd><dt>Comprehension</dt><dd><p>A loop that builds a new collection in one line: <code>[expression for item in items if condition]</code>.</p><figure class="code"><pre><code>print([x * x for x in range(5) if x % 2 == 0])</code></pre><p class="olbl">Output</p><pre class="out">[0, 4, 16]</pre></figure><p class="cap">From <a href="comprehensions.html">Comprehensions and choosing the right collection</a></p></dd><dt>concat</dt><dd><p>Stacks tables on top of each other, like SQL UNION ALL.</p><figure class="code"><pre><code>import pandas as pd
 df = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;pay&quot;: [72000, 45000, 58000]})
 print(len(pd.concat([df, df], ignore_index=True)))</code></pre><p class="olbl">Output</p><pre class="out">6</pre></figure><p class="cap">From <a href="pandas4.html">Grouping, pivot tables and joining tables</a></p></dd><dt>Condition</dt><dd><p>An expression that is <code>True</code> or <code>False</code>, used by <code>if</code> and <code>while</code> to decide what runs.</p><figure class="code"><pre><code>marks = 72
-print(&quot;Pass&quot; if marks &gt;= 40 else &quot;Fail&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Pass</pre></figure><p class="cap">From <a href="overview2.html">the chapter</a></p></dd><dt>Copy</dt><dd><p>A separate array with its own memory, made with <code>.copy()</code>.</p><figure class="code"><pre><code>import numpy as np
+print(&quot;Pass&quot; if marks &gt;= 40 else &quot;Fail&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Pass</pre></figure><p class="cap">From <a href="overview2.html">the chapter</a></p></dd><dt>Confidence interval</dt><dd><p>The range where the true average probably lies (95% by default): the error bar and the band.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.barplot(x=[&quot;a&quot;, &quot;a&quot;, &quot;a&quot;], y=[4, 6, 8], errorbar=&quot;sd&quot;)
+print(len(ax.lines))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">1</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>Copy</dt><dd><p>A separate array with its own memory, made with <code>.copy()</code>.</p><figure class="code"><pre><code>import numpy as np
 a = np.array([1, 2, 3])
 c = a[:2].copy()
 c[0] = 99
@@ -121,7 +131,12 @@ x = np.random.normal(100, 15, 100000)   # average 100, spread 15
 print(round(x.mean()), round(x.std()))</code></pre><p class="olbl">Output</p><pre class="out">100 15</pre></figure><p class="cap">From <a href="numpy3.html">NumPy extras: iterate, split, search, random and ufuncs</a></p></dd><dt>dtype</dt><dd><p>The one data type every value shares, such as <code>float64</code>. Whole numbers usually show as <code>int64</code> in Jupyter (older NumPy on Windows shows <code>int32</code>), and as <code>int32</code> in this browser runner. Both are fine.</p><figure class="code"><pre><code>import numpy as np
 print(np.array([1, 2, 3.5]).dtype)</code></pre><p class="olbl">Output</p><pre class="out">float64</pre></figure><p class="cap">From <a href="numpy1.html">NumPy basics: arrays</a></p></dd><dt>Duplicate</dt><dd><p>A row that repeats an earlier one. <code>duplicated()</code> marks it, <code>drop_duplicates()</code> removes it.</p><figure class="code"><pre><code>import pandas as pd
 d = pd.DataFrame({&quot;id&quot;: [1, 1, 2]})
-print(d.duplicated().sum())</code></pre><p class="olbl">Output</p><pre class="out">1</pre></figure><p class="cap">From <a href="pandas2.html">Cleaning data with Pandas</a></p></dd><dt>else and finally</dt><dd><p><code>else</code> runs only when <code>try</code> had no error. <code>finally</code> runs every time, error or not.</p><figure class="code"><pre><code>try:
+print(d.duplicated().sum())</code></pre><p class="olbl">Output</p><pre class="out">1</pre></figure><p class="cap">From <a href="pandas2.html">Cleaning data with Pandas</a></p></dd><dt>ECDF</dt><dd><p>A line that climbs from 0 to 1: the share of rows at or below each value.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.ecdfplot(x=[10, 20, 30, 40])
+print(ax.lines[0].get_ydata().tolist())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[0.0, 0.25, 0.5, 0.75, 1.0]</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>else and finally</dt><dd><p><code>else</code> runs only when <code>try</code> had no error. <code>finally</code> runs every time, error or not.</p><figure class="code"><pre><code>try:
     n = int(&quot;7&quot;)
 except ValueError:
     print(&quot;bad&quot;)
@@ -132,17 +147,33 @@ finally:
 done</pre></figure><p class="cap">From <a href="errors.html">Errors and exceptions</a></p></dd><dt>Encapsulation</dt><dd><p>Keeping data inside the object and changing it only through methods that check the rules. <code>__name</code> hides an attribute.</p><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>enumerate()</dt><dd><p>Gives you the position and the item together on each round.</p><figure class="code"><pre><code>for i, name in enumerate([&quot;Asha&quot;, &quot;Ravi&quot;], start=1):
     print(i, name)</code></pre><p class="olbl">Output</p><pre class="out">1 Asha
 2 Ravi</pre></figure><p class="cap">From <a href="forloops.html">For loops and range()</a></p></dd><dt>Escape character</dt><dd><p>A backslash code inside a string: <code>\n</code> new line, <code>\t</code> tab, <code>\\</code> one backslash.</p><figure class="code"><pre><code>print(&quot;Name:\tAsha\nAge:\t25&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Name:	Asha
-Age:	25</pre></figure><p class="cap">From <a href="output.html">Printing and formatting output</a></p></dd><dt>Exception</dt><dd><p>An error that happens while the code runs. <code>try / except</code> catches it.</p><figure class="code"><pre><code>try:
+Age:	25</pre></figure><p class="cap">From <a href="output.html">Printing and formatting output</a></p></dd><dt>Estimator</dt><dd><p>The summary a chart shows per group: the mean by default in barplot, pointplot and lineplot.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.barplot(x=[&quot;a&quot;, &quot;a&quot;], y=[4, 8], estimator=&quot;sum&quot;, errorbar=None)
+print(float(ax.patches[0].get_height()))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">12.0</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>Exception</dt><dd><p>An error that happens while the code runs. <code>try / except</code> catches it.</p><figure class="code"><pre><code>try:
     int(&quot;ten&quot;)
 except ValueError:
     print(&quot;not a number&quot;)</code></pre><p class="olbl">Output</p><pre class="out">not a number</pre></figure><p class="cap">From <a href="overview5.html">the chapter</a></p></dd><dt>f-string</dt><dd><p>A string with an <code>f</code> in front. Anything inside <code>{ }</code> is worked out and dropped in.</p><figure class="code"><pre><code>total = 1234.5
-print(f&quot;Total: {total:,.2f}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Total: 1,234.50</pre></figure><p class="cap">From <a href="output.html">Printing and formatting output</a></p></dd><dt>Figure</dt><dd><p>The whole picture: the canvas that holds one or more charts. <code>figsize</code> is its size in inches.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+print(f&quot;Total: {total:,.2f}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Total: 1,234.50</pre></figure><p class="cap">From <a href="output.html">Printing and formatting output</a></p></dd><dt>FacetGrid</dt><dd><p>A grid of panels, one per value of <code>col=</code> / <code>row=</code>; <code>g.map(...)</code> draws a chart in each.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+g = sns.FacetGrid(tips, col=&quot;time&quot;, row=&quot;sex&quot;)
+print(g.axes.shape)
+plt.close(&quot;all&quot;)</code></pre><p class="olbl">Output</p><pre class="out">(2, 2)</pre></figure><p class="cap">From <a href="sns2.html">Seaborn: relationships, heatmaps and grids</a></p></dd><dt>Figure</dt><dd><p>The whole picture: the canvas that holds one or more charts. <code>figsize</code> is its size in inches.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
 fig = plt.figure(figsize=(8, 4))
 print(fig.get_size_inches().tolist())
 plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[8.0, 4.0]</pre></figure><p class="cap">From <a href="mpl1.html">Matplotlib charts: line, bar, histogram, scatter, pie and box</a></p></dd><dt>Figure and axes</dt><dd><p>In Matplotlib the figure is the whole picture and each axes is one chart inside it. <code>plt.subplots()</code> gives you both.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, 2)
 axes[0].bar([&quot;UPI&quot;, &quot;Cash&quot;], [55, 45])
-print(len(fig.axes))</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure><p class="cap">From <a href="overview9.html">the chapter</a></p></dd><dt>File</dt><dd><p>Data saved outside your program, opened with <code>with open(name, mode) as f:</code>.</p><figure class="code"><pre><code>with open(&quot;note.txt&quot;, &quot;w&quot;) as f:
+print(len(fig.axes))</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure><p class="cap">From <a href="overview9.html">the chapter</a></p></dd><dt>Figure-level function</dt><dd><p>Builds a whole figure, with panels from <code>col=</code> and <code>row=</code>, and returns a grid. displot, catplot, relplot, lmplot ...</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+g = sns.displot(x=[1, 2, 3, 4], col=[&quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;])
+print(type(g).__name__)
+plt.close(&quot;all&quot;)</code></pre><p class="olbl">Output</p><pre class="out">FacetGrid</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>File</dt><dd><p>Data saved outside your program, opened with <code>with open(name, mode) as f:</code>.</p><figure class="code"><pre><code>with open(&quot;note.txt&quot;, &quot;w&quot;) as f:
     f.write(&quot;saved&quot;)
 print(open(&quot;note.txt&quot;).read())</code></pre><p class="olbl">Output</p><pre class="out">saved</pre></figure><p class="cap">From <a href="overview5.html">the chapter</a></p></dd><dt>File mode</dt><dd><p>The second argument of <code>open()</code>. It decides whether you read, overwrite, add to or create the file.</p><figure class="code"><pre><code>with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
     f.write(&quot;hello\n&quot;)
@@ -159,10 +190,22 @@ print(tax(500))</code></pre><p class="olbl">Output</p><pre class="out">90.0</pre
 print(list(count_up(3)))</code></pre><p class="olbl">Output</p><pre class="out">[1, 2, 3]</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>groupby</dt><dd><p>Splits rows into groups, summarises each group, combines the answers.</p><figure class="code"><pre><code>import pandas as pd
 df = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;pay&quot;: [72000, 45000, 58000]})
 print(df.groupby(&quot;dept&quot;)[&quot;pay&quot;].mean().tolist())</code></pre><p class="olbl">Output</p><pre class="out">[45000.0, 65000.0]</pre></figure><p class="cap">From <a href="pandas4.html">Grouping, pivot tables and joining tables</a></p></dd><dt>Hashable</dt><dd><p>A value that can be a dict key or a set item. In practice: immutable values like <code>int</code>, <code>str</code> and <code>tuple</code>.</p><figure class="code"><pre><code>d = {(1, 2): &quot;a point&quot;}
-print(d[(1, 2)])</code></pre><p class="olbl">Output</p><pre class="out">a point</pre></figure><p class="cap">From <a href="comprehensions.html">Comprehensions and choosing the right collection</a></p></dd><dt>Histogram</dt><dd><p>Counts how many values fall into each range (bin) of a number column. Its bars touch.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+print(d[(1, 2)])</code></pre><p class="olbl">Output</p><pre class="out">a point</pre></figure><p class="cap">From <a href="comprehensions.html">Comprehensions and choosing the right collection</a></p></dd><dt>Heatmap</dt><dd><p>A grid of coloured cells, one per value of a table; <code>annot=True</code> writes the numbers.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.DataFrame({&quot;a&quot;: [1, 2], &quot;b&quot;: [3, 4]})
+ax = sns.heatmap(df, annot=True)
+print(len(ax.texts))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">4</pre></figure><p class="cap">From <a href="sns2.html">Seaborn: relationships, heatmaps and grids</a></p></dd><dt>Histogram</dt><dd><p>Counts how many values fall into each range (bin) of a number column. Its bars touch.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
 counts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3], bins=3)
 print(counts.tolist())
-plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[1.0, 2.0, 3.0]</pre></figure><p class="cap">From <a href="mpl1.html">Matplotlib charts: line, bar, histogram, scatter, pie and box</a></p></dd><dt>iloc</dt><dd><p>Picks rows and columns by position. A slice leaves out its end.</p><figure class="code"><pre><code>import pandas as pd
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[1.0, 2.0, 3.0]</pre></figure><p class="cap">From <a href="mpl1.html">Matplotlib charts: line, bar, histogram, scatter, pie and box</a></p></dd><dt>hue</dt><dd><p>An argument that colours the data by one more column and adds a legend.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+ax = sns.histplot(data=tips, x=&quot;tip&quot;, hue=&quot;time&quot;)
+print([t.get_text() for t in ax.get_legend().get_texts()])
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">['Lunch', 'Dinner']</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>iloc</dt><dd><p>Picks rows and columns by position. A slice leaves out its end.</p><figure class="code"><pre><code>import pandas as pd
 df = pd.DataFrame({&quot;name&quot;: [&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;], &quot;dept&quot;: [&quot;IT&quot;, &quot;HR&quot;, &quot;IT&quot;], &quot;pay&quot;: [72000, 45000, 58000]})
 print(df.iloc[0:1, 0].tolist())</code></pre><p class="olbl">Output</p><pre class="out">['Asha']</pre></figure><p class="cap">From <a href="pandas3.html">Selecting, filtering and changing data</a></p></dd><dt>Immutable</dt><dd><p>Cannot be changed. Methods hand back a <b>new</b> value, so store the result.</p><figure class="code"><pre><code>s = &quot;hi&quot;
 s.upper()
@@ -195,7 +238,12 @@ print(q3 - q1)</code></pre><p class="olbl">Output</p><pre class="out">4.0</pre><
     print(ch, end=&quot; &quot;)</code></pre><p class="olbl">Output</p><pre class="out">a b c</pre></figure><p class="cap">From <a href="forloops.html">For loops and range()</a></p></dd><dt>Iterator</dt><dd><p>An object that hands out items one at a time with <code>next()</code>. Every <code>for</code> loop uses one behind the scenes.</p><figure class="code"><pre><code>it = iter([&quot;a&quot;, &quot;b&quot;])
 print(next(it), next(it))</code></pre><p class="olbl">Output</p><pre class="out">a b</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>JSON</dt><dd><p>A text format for nested data: dicts and lists. It is how most web APIs send data.</p><figure class="code"><pre><code>import json
 text = json.dumps({&quot;name&quot;: &quot;Asha&quot;, &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;]})
-print(text)</code></pre><p class="olbl">Output</p><pre class="out">{&quot;name&quot;: &quot;Asha&quot;, &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;]}</pre></figure><p class="cap">From <a href="files.html">File handling</a></p></dd><dt>Keyword argument</dt><dd><p>An argument passed by name. The order no longer matters.</p><figure class="code"><pre><code>def rect(w, h):
+print(text)</code></pre><p class="olbl">Output</p><pre class="out">{&quot;name&quot;: &quot;Asha&quot;, &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;]}</pre></figure><p class="cap">From <a href="files.html">File handling</a></p></dd><dt>KDE</dt><dd><p>Kernel density estimate: a smooth curve of a column's shape. <code>bw_adjust=</code> sets the smoothing.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.kdeplot(x=[1, 2, 2, 3, 3, 3, 4])
+print(len(ax.lines))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">1</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>Keyword argument</dt><dd><p>An argument passed by name. The order no longer matters.</p><figure class="code"><pre><code>def rect(w, h):
     return w * h
 
 print(rect(h=2, w=5))</code></pre><p class="olbl">Output</p><pre class="out">10</pre></figure><p class="cap">From <a href="functions.html">Functions: the basics</a></p></dd><dt>**kwargs</dt><dd><p>Collects any number of extra keyword arguments into a <b>dict</b>.</p><figure class="code"><pre><code>def profile(**info):
@@ -264,7 +312,16 @@ print(df[&quot;name&quot;].dtype)</code></pre><p class="olbl">Output</p><pre cla
 a = Student()
 b = Student()
 print(a is b, isinstance(a, Student))</code></pre><p class="olbl">Output</p><pre class="out">False True</pre></figure><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>Object-oriented programming</dt><dd><p>A way of organising code around <b>objects</b> that bundle data and the actions on that data together.</p><p class="cap">From <a href="oop.html">Classes and objects (OOP)</a></p></dd><dt>Operator</dt><dd><p>A symbol that does work on values: maths, comparisons, logic.</p><figure class="code"><pre><code>print(7 // 2, 7 % 2, 7 &gt; 2 and 2 &gt; 7)</code></pre><p class="olbl">Output</p><pre class="out">3 1 False</pre></figure><p class="cap">From <a href="overview1.html">the chapter</a></p></dd><dt>Operator and operand</dt><dd><p>An operator is the symbol that does the work (<code>+</code>, <code>&gt;</code>, <code>and</code>). The values it works on are the operands.</p><figure class="code"><pre><code>print(7 + 2)  # + is the operator, 7 and 2 are operands</code></pre><p class="olbl">Output</p><pre class="out">9</pre></figure><p class="cap">From <a href="operators.html">Operators</a></p></dd><dt>Package</dt><dd><p>A folder of related modules. You reach the modules inside with a dot, like <code>urllib.parse</code>.</p><figure class="code"><pre><code>from urllib.parse import urlparse
-print(urlparse(&quot;https://shop.in/sales&quot;).netloc)</code></pre><p class="olbl">Output</p><pre class="out">shop.in</pre></figure><p class="cap">From <a href="modules.html">Modules and libraries</a></p></dd><dt>Pandas</dt><dd><p>The Python library for tables of data: load, clean, select, group and join them.</p><figure class="code"><pre><code>import pandas as pd
+print(urlparse(&quot;https://shop.in/sales&quot;).netloc)</code></pre><p class="olbl">Output</p><pre class="out">shop.in</pre></figure><p class="cap">From <a href="modules.html">Modules and libraries</a></p></dd><dt>Pair plot</dt><dd><p>A scatter for every pair of number columns, and each column's shape on the diagonal.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+g = sns.pairplot(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;])
+print(g.axes.shape)
+plt.close(&quot;all&quot;)</code></pre><p class="olbl">Output</p><pre class="out">(3, 3)</pre></figure><p class="cap">From <a href="sns2.html">Seaborn: relationships, heatmaps and grids</a></p></dd><dt>Palette</dt><dd><p>A list of colours. <code>palette=</code> colours the <code>hue=</code> groups; <code>&quot;colorblind&quot;</code> is safe for everyone.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+print(sns.color_palette(&quot;colorblind&quot;, 2).as_hex())</code></pre><p class="olbl">Output</p><pre class="out">['#0173b2', '#de8f05']</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>Pandas</dt><dd><p>The Python library for tables of data: load, clean, select, group and join them.</p><figure class="code"><pre><code>import pandas as pd
 print(pd.__name__)</code></pre><p class="olbl">Output</p><pre class="out">pandas</pre></figure><p class="cap">From <a href="pandas1.html">Pandas basics: Series, DataFrames and reading files</a></p></dd><dt>Parameter</dt><dd><p>A name in the <code>def</code> line. It is a placeholder that receives a value when the function is called.</p><figure class="code"><pre><code>def add(a, b):      # a and b are parameters
     return a + b</code></pre></figure><p class="cap">From <a href="functions.html">Functions: the basics</a></p></dd><dt>pickle</dt><dd><p>Saves almost any Python object to a binary file and loads it back exactly. Open with <code>&quot;wb&quot;</code> and <code>&quot;rb&quot;</code>.</p><figure class="code"><pre><code>import pickle
 with open(&quot;data.pkl&quot;, &quot;wb&quot;) as f:
@@ -306,9 +363,17 @@ print(np.array_equal(a, b))</code></pre><p class="olbl">Output</p><pre class="ou
         return 1
     return n * fact(n - 1)
 
-print(fact(5))</code></pre><p class="olbl">Output</p><pre class="out">120</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>reshape</dt><dd><p>Gives the same values a new shape. The total count must stay the same. <code>-1</code> means &quot;work it out&quot;.</p><figure class="code"><pre><code>import numpy as np
+print(fact(5))</code></pre><p class="olbl">Output</p><pre class="out">120</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>Regression line</dt><dd><p>The straight line (or curve with <code>order=2</code>) that fits a scatter best; <code>regplot</code> draws it with a 95% band.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+print(np.polyfit([1, 2, 3], [3, 5, 7], 1).round(2))</code></pre><p class="olbl">Output</p><pre class="out">[2. 1.]</pre></figure><p class="cap">From <a href="sns2.html">Seaborn: relationships, heatmaps and grids</a></p></dd><dt>reshape</dt><dd><p>Gives the same values a new shape. The total count must stay the same. <code>-1</code> means &quot;work it out&quot;.</p><figure class="code"><pre><code>import numpy as np
 print(np.arange(6).reshape(2, 3))</code></pre><p class="olbl">Output</p><pre class="out">[[0 1 2]
- [3 4 5]]</pre></figure><p class="cap">From <a href="numpy1.html">NumPy basics: arrays</a></p></dd><dt>Return value</dt><dd><p>What <code>return</code> hands back. You can store it and keep calculating with it.</p><figure class="code"><pre><code>def square(x):
+ [3 4 5]]</pre></figure><p class="cap">From <a href="numpy1.html">NumPy basics: arrays</a></p></dd><dt>Residual</dt><dd><p>Real value minus the line's value. A pattern in the residuals means the line has the wrong shape.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+real, predicted = [5, 9], [6, 8]
+print([r - p for r, p in zip(real, predicted)])</code></pre><p class="olbl">Output</p><pre class="out">[-1, 1]</pre></figure><p class="cap">From <a href="sns2.html">Seaborn: relationships, heatmaps and grids</a></p></dd><dt>Return value</dt><dd><p>What <code>return</code> hands back. You can store it and keep calculating with it.</p><figure class="code"><pre><code>def square(x):
     return x * x
 
 y = square(4) + 1
@@ -321,7 +386,14 @@ def f():
     x = &quot;local&quot;
     return x
 
-print(f(), x)</code></pre><p class="olbl">Output</p><pre class="out">local global</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>self</dt><dd><p>The object a method is working on. Python passes it in for you, so it is always the first parameter.</p><figure class="code"><pre><code>class Counter:
+print(f(), x)</code></pre><p class="olbl">Output</p><pre class="out">local global</pre></figure><p class="cap">From <a href="functions2.html">Functions: advanced tools</a></p></dd><dt>Seaborn</dt><dd><p>A library of statistical charts built on Matplotlib. Give it a DataFrame and column names; import it as <code>sns</code>.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+print(sns.__name__)</code></pre><p class="olbl">Output</p><pre class="out">seaborn</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>Seaborn chart</dt><dd><p>Give Seaborn the table and the column names, and it groups, counts or averages for you: <code>sns.barplot</code> shows the mean of each group.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.barplot(x=[&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], y=[2, 4, 9], errorbar=None)
+print([float(bar.get_height()) for bar in ax.patches])
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[3.0, 9.0]</pre></figure><p class="cap">From <a href="overview10.html">the chapter</a></p></dd><dt>self</dt><dd><p>The object a method is working on. Python passes it in for you, so it is always the first parameter.</p><figure class="code"><pre><code>class Counter:
     def __init__(self):
         self.n = 0
     def add(self):
@@ -366,7 +438,13 @@ print(prices * 0.9)</code></pre><p class="olbl">Output</p><pre class="out">[ 90.
 a = np.array([1, 2, 3])
 v = a[:2]
 v[0] = 99
-print(a)</code></pre><p class="olbl">Output</p><pre class="out">[99  2  3]</pre></figure><p class="cap">From <a href="numpy2.html">NumPy operations for analysis</a></p></dd><dt>with statement</dt><dd><p>Opens a file and closes it automatically when the block ends, even if an error happens.</p><figure class="code"><pre><code>with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
+print(a)</code></pre><p class="olbl">Output</p><pre class="out">[99  2  3]</pre></figure><p class="cap">From <a href="numpy2.html">NumPy operations for analysis</a></p></dd><dt>Violin plot</dt><dd><p>A box plot plus the shape of the data on both sides; <code>split=True</code> shows two groups in one violin.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+ax = sns.violinplot(data=tips, x=&quot;time&quot;, y=&quot;tip&quot;)
+print([t.get_text() for t in ax.get_xticklabels()])
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">['Lunch', 'Dinner']</pre></figure><p class="cap">From <a href="sns1.html">Seaborn: distributions and categories</a></p></dd><dt>with statement</dt><dd><p>Opens a file and closes it automatically when the block ends, even if an error happens.</p><figure class="code"><pre><code>with open(&quot;demo.txt&quot;, &quot;w&quot;) as f:
     f.write(&quot;saved&quot;)
 print(f.closed)</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure><p class="cap">From <a href="files.html">File handling</a></p></dd><dt>zip()</dt><dd><p>Walks two (or more) lists side by side, pairing their items.</p><figure class="code"><pre><code>for name, mark in zip([&quot;Asha&quot;, &quot;Ravi&quot;], [82, 67]):
     print(name, mark)</code></pre><p class="olbl">Output</p><pre class="out">Asha 82

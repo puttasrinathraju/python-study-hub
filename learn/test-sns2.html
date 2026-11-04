@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>30.1 Big Test: Relations &amp; grids | Python Study Hub</title>
+<meta name="description" content="25 Python practice questions on Seaborn: relationships, heatmaps and grids, from basic to challenge, with answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/test-sns2.html">
+<meta property="og:title" content="30.1 Big Test: Relations &amp; grids | Python Study Hub">
+<meta property="og:description" content="25 Python practice questions on Seaborn: relationships, heatmaps and grids, from basic to challenge, with answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#test-sns2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#test-sns2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><h1>30.1 Big Test: Relations &amp; grids</h1><p class="lead">25 questions on Seaborn: relationships, heatmaps and grids only, from basic to challenge. Try each one first, then open the answer. <a href="sns2.html">Back to the chapter</a>.</p><ol><li><p><b>Basic.</b> Draw a Seaborn scatter of <code>Customer_Age</code> (x) against <code>Satisfaction_Score</code> (y) from <code>sales</code>, coloured by <code>Region</code>, with see-through dots (<code>alpha=0.5</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.scatterplot(data=sales, x=&quot;Customer_Age&quot;, y=&quot;Satisfaction_Score&quot;, hue=&quot;Region&quot;, alpha=0.5)
+plt.show()</code></pre></figure><p>One dot per order (500), coloured by region. No clear pattern: age does not drive satisfaction.</p></details></li><li><p><b>Basic.</b> With <code>tips</code>, draw <code>sns.lineplot</code> of <code>tip</code> (y) against the group <code>size</code> (x), with a title. Every size has many bills, so you will see the mean and a band.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.lineplot(data=tips, x=&quot;size&quot;, y=&quot;tip&quot;, marker=&quot;o&quot;)
+plt.title(&quot;Average tip by group size&quot;)
+plt.show()</code></pre></figure><p>lineplot draws the mean tip for each size, and the band is the 95% interval.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.DataFrame({&quot;x&quot;: [1, 2, 3], &quot;y&quot;: [2, 4, 6]})
+print(df.corr().loc[&quot;x&quot;, &quot;y&quot;])</code></pre></figure><details><summary>Answer</summary><pre class="out">1.0</pre><p>y is always 2 × x, a perfect straight-line link: the correlation is 1.0.</p></details></li><li><p><b>Basic.</b> <code>marks = pd.DataFrame({&quot;Maths&quot;: [78, 92, 65], &quot;Science&quot;: [85, 88, 70]}, index=[&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;])</code>. Draw it as a heatmap with the whole numbers in the cells (<code>annot=True</code>, <code>fmt=&quot;d&quot;</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+marks = pd.DataFrame({&quot;Maths&quot;: [78, 92, 65], &quot;Science&quot;: [85, 88, 70]}, index=[&quot;Asha&quot;, &quot;Ravi&quot;, &quot;Neha&quot;])
+sns.heatmap(marks, annot=True, fmt=&quot;d&quot;, cmap=&quot;Greens&quot;)
+plt.title(&quot;Marks&quot;)
+plt.show()</code></pre></figure><p>Six cells, six numbers. The names come from the index and the columns.</p></details></li><li><p><b>Basic.</b> This code should write the correlations with 2 decimals, but it stops with a ValueError. Fix the format.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+corr = tips[[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;]].corr()
+sns.heatmap(corr, annot=True, fmt=&quot;.2d&quot;)
+plt.show()</code></pre></figure><p>It should print:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+corr = tips[[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;]].corr()
+sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;)
+plt.show()</code></pre></figure><p>Correlations are decimals: <code>&quot;.2f&quot;</code>. The <code>&quot;d&quot;</code> format is only for whole numbers.</p></details></li><li><p><b>Basic.</b> Draw a regression line of <code>Sales</code> (y) on <code>Quantity</code> (x) from <code>sales</code> with <code>sns.regplot</code>, without the band (<code>ci=None</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.regplot(data=sales, x=&quot;Quantity&quot;, y=&quot;Sales&quot;, ci=None)
+plt.show()</code></pre></figure><p>More items in an order means a bigger order value, but the dots spread widely around the line.</p></details></li><li><p><b>Basic.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+g = sns.relplot(x=[1, 2, 3, 4], y=[1, 3, 2, 4], col=[&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;b&quot;])
+print(len(g.axes.flat))
+plt.close(&quot;all&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">2</pre><p>relplot is figure-level: two values of <code>col</code> give two panels.</p></details></li><li><p><b>Basic.</b> This code should colour the dots by <code>time</code>, but it stops with an AttributeError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, colour=&quot;time&quot;)
+plt.show()</code></pre></figure><p>It should print:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;time&quot;)
+plt.show()</code></pre></figure><p>Seaborn colours by a column with <code>hue=</code>. Unknown words like <code>colour=</code> are passed on to Matplotlib, which does not know them.</p></details></li><li><p><b>Medium.</b> Draw the <b>monthly total profit</b> per <code>Region</code> with <code>sns.lineplot</code> (<code>estimator=&quot;sum&quot;</code>, <code>errorbar=None</code>), with a dot on every point. The <code>Month</code> column is ready.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+sales[&quot;Month&quot;] = sales[&quot;Date&quot;].dt.month
+sns.lineplot(data=sales, x=&quot;Month&quot;, y=&quot;Profit&quot;, hue=&quot;Region&quot;, estimator=&quot;sum&quot;, errorbar=None, marker=&quot;o&quot;)
+plt.title(&quot;Monthly profit per region&quot;)
+plt.show()</code></pre></figure><p><code>estimator=&quot;sum&quot;</code> adds up the orders of each month instead of averaging them.</p></details></li><li><p><b>Medium.</b> <code>hours = [1, 2, 3, 4, 5, 6, 7, 8]</code> of study and <code>marks = [35, 50, 62, 71, 77, 81, 83, 84]</code>. The gains slow down, so fit a <b>curve</b> with <code>sns.regplot(..., order=2)</code>, without the band, and label both axes.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+hours = [1, 2, 3, 4, 5, 6, 7, 8]
+marks = [35, 50, 62, 71, 77, 81, 83, 84]
+sns.regplot(x=hours, y=marks, order=2, ci=None)
+plt.xlabel(&quot;Hours of study&quot;)
+plt.ylabel(&quot;Marks&quot;)
+plt.show()</code></pre></figure><p><code>order=2</code> fits a parabola, which bends to follow the slowing gains.</p></details></li><li><p><b>Medium.</b> Use <code>sns.lmplot</code> to draw <code>tip</code> against <code>total_bill</code> from <code>tips</code>, with one panel per <code>day</code> (<code>col=&quot;day&quot;</code>, <code>col_wrap=2</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.lmplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, col=&quot;day&quot;, col_wrap=2, height=2.8)
+plt.show()</code></pre></figure><p>Four days, four panels, each with its own fitted line.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import numpy as np
+x = [1, 2, 3]
+y = [2, 5, 6]
+slope, intercept = np.polyfit(x, y, 1)
+print([round(float(b - (slope * a + intercept)), 2) for a, b in zip(x, y)])</code></pre></figure><details><summary>Answer</summary><pre class="out">[-0.33, 0.67, -0.33]</pre><p>The line is y = 2x + 0.33, so it predicts 2.33, 4.33 and 6.33. Real minus predicted gives the residuals.</p></details></li><li><p><b>Medium.</b> Use <code>sns.relplot</code> with <code>kind=&quot;line&quot;</code> to draw the average <code>tip</code> per group <code>size</code> from <code>tips</code>, with one panel per <code>time</code> and no band (<code>errorbar=None</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+g = sns.relplot(data=tips, x=&quot;size&quot;, y=&quot;tip&quot;, kind=&quot;line&quot;, col=&quot;time&quot;, errorbar=None, marker=&quot;o&quot;, height=3)
+g.set_titles(&quot;{col_name}&quot;)
+plt.show()</code></pre></figure><p>relplot draws lineplot panels with <code>kind=&quot;line&quot;</code>.</p></details></li><li><p><b>Medium.</b> This code should draw a histogram of tips in each panel, but it stops with a ValueError. Fix the second line.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+g = sns.FacetGrid(tips, col=&quot;time&quot;)
+g.map(sns.histplot, x=&quot;tip&quot;)
+plt.show()</code></pre></figure><p>It should print:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+g = sns.FacetGrid(tips, col=&quot;time&quot;)
+g.map_dataframe(sns.histplot, x=&quot;tip&quot;)
+plt.show()</code></pre></figure><p><code>g.map</code> gives the columns by position; to name them like <code>x=&quot;tip&quot;</code>, use <code>g.map_dataframe</code>.</p></details></li><li><p><b>Medium.</b> Make a pivot table of the <b>average profit</b> with <code>Category</code> as rows and <code>Region</code> as columns, and draw it as a heatmap with the values (no decimals, <code>fmt=&quot;.0f&quot;</code>) and <code>cmap=&quot;YlGnBu&quot;</code>.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+table = sales.pivot_table(values=&quot;Profit&quot;, index=&quot;Category&quot;, columns=&quot;Region&quot;, aggfunc=&quot;mean&quot;)
+sns.heatmap(table, annot=True, fmt=&quot;.0f&quot;, cmap=&quot;YlGnBu&quot;)
+plt.title(&quot;Average profit (₹)&quot;)
+plt.show()</code></pre></figure><p>4 categories × 4 regions = 16 cells, each with its average.</p></details></li><li><p><b>Medium.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+g = sns.pairplot(pd.DataFrame({&quot;a&quot;: [1, 2, 3], &quot;b&quot;: [3, 1, 2], &quot;c&quot;: [2, 2, 5]}))
+print(g.axes.shape)
+plt.close(&quot;all&quot;)</code></pre></figure><details><summary>Answer</summary><pre class="out">(3, 3)</pre><p>Three number columns give a 3 × 3 grid of panels.</p></details></li><li><p><b>Medium.</b> Draw a pair plot of <code>Sales</code>, <code>Profit</code> and <code>Quantity</code> from <code>sales</code> (<code>vars=</code>) with only the lower half (<code>corner=True</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.pairplot(sales, vars=[&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;], corner=True, height=2)
+plt.show()</code></pre></figure><p><code>corner=True</code> hides the mirror half, so each pair is drawn once.</p></details></li><li><p><b>Medium.</b> With <code>tips</code>, draw a joint plot of <code>total_bill</code> and <code>tip</code> with <b>hexagons</b> (<code>kind=&quot;hex&quot;</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.jointplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, kind=&quot;hex&quot;, height=5)
+plt.show()</code></pre></figure><p>Darker hexagons hold more bills; the margins show each column alone.</p></details></li><li><p><b>Challenge.</b> Make the pivot table of the <b>average sales</b> with <code>Category</code> as rows and <code>Region</code> as columns, and draw it with <code>sns.clustermap</code>, scaling each column from 0 to 1 (<code>standard_scale=1</code>).</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+table = sales.pivot_table(values=&quot;Sales&quot;, index=&quot;Category&quot;, columns=&quot;Region&quot;, aggfunc=&quot;mean&quot;)
+sns.clustermap(table, standard_scale=1, cmap=&quot;YlGnBu&quot;, annot=True, fmt=&quot;.2f&quot;, figsize=(6, 5))
+plt.show()</code></pre></figure><p>The clustermap puts the two big-ticket categories (electronics, furniture) next to each other.</p></details></li><li><p><b>Challenge.</b> Build a <code>sns.FacetGrid</code> of <code>sales</code> with one panel per <code>Region</code> (<code>col_wrap=2</code>), map a scatter of <code>Sales</code> against <code>Profit</code> onto it with <code>g.map_dataframe(sns.scatterplot, ...)</code>, and set short panel titles.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+g = sns.FacetGrid(sales, col=&quot;Region&quot;, col_wrap=2, height=2.8)
+g.map_dataframe(sns.scatterplot, x=&quot;Sales&quot;, y=&quot;Profit&quot;, s=12)
+g.set_titles(&quot;{col_name}&quot;)
+plt.show()</code></pre></figure><p>First the empty grid, then one chart mapped onto every panel.</p></details></li><li><p><b>Challenge.</b> This code should put a box plot in the second chart, but it stops with an IndexError. Fix it.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+sns.histplot(data=tips, x=&quot;tip&quot;, ax=axes[0])
+sns.boxplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, ax=axes[2])
+plt.show()</code></pre></figure><p>It should print:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+sns.histplot(data=tips, x=&quot;tip&quot;, ax=axes[0])
+sns.boxplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, ax=axes[1])
+plt.show()</code></pre></figure><p>Two charts are <code>axes[0]</code> and <code>axes[1]</code>: positions count from 0.</p></details></li><li><p><b>Challenge.</b> Build a 2 × 2 Seaborn dashboard of <code>sales</code> with <code>ax=</code>: a histogram of <code>Sales</code>, a box plot of <code>Profit</code> per <code>Category</code>, a scatter of <code>Sales</code> against <code>Profit</code>, and a count of orders per <code>Region</code>. Give the figure a title.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+fig, axes = plt.subplots(2, 2, figsize=(11, 8))
+sns.histplot(data=sales, x=&quot;Sales&quot;, ax=axes[0, 0])
+sns.boxplot(data=sales, x=&quot;Category&quot;, y=&quot;Profit&quot;, ax=axes[0, 1])
+sns.scatterplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, s=12, ax=axes[1, 0])
+sns.countplot(data=sales, x=&quot;Region&quot;, ax=axes[1, 1])
+fig.suptitle(&quot;Sales dashboard&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>Every axes-level chart takes <code>ax=</code>, so it lands in its own place in the grid.</p></details></li><li><p><b>Challenge.</b> Type exactly what this code prints.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+contexts = [&quot;paper&quot;, &quot;notebook&quot;, &quot;talk&quot;, &quot;poster&quot;]
+sizes = [sns.plotting_context(c)[&quot;font.size&quot;] for c in contexts]
+print(sizes == sorted(sizes))</code></pre></figure><details><summary>Answer</summary><pre class="out">True</pre><p>The contexts go from small to big: each one has a bigger font than the one before.</p></details></li><li><p><b>Challenge.</b> This code should make the chart ready for slides, but it stops with a ValueError. Fix the context name.</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.set_context(&quot;slides&quot;)
+sns.lineplot(data=tips, x=&quot;size&quot;, y=&quot;tip&quot;)
+plt.show()</code></pre></figure><p>It should print:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.set_context(&quot;talk&quot;)
+sns.lineplot(data=tips, x=&quot;size&quot;, y=&quot;tip&quot;)
+plt.show()</code></pre></figure><p>The four contexts are paper, notebook, talk (slides) and poster.</p></details></li><li><p><b>Challenge.</b> Draw the correlation heatmap of the five number columns of <code>sales</code>, showing <b>only the lower half</b> with a mask (<code>np.triu(np.ones_like(corr, dtype=bool))</code>), values with 2 decimals, <code>cmap=&quot;coolwarm&quot;</code> and <code>center=0</code>.</p><p>Your code should print exactly:</p><pre class="out"></pre><details><summary>Answer</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+import numpy as np
+corr = sales[[&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;, &quot;Customer_Age&quot;, &quot;Satisfaction_Score&quot;]].corr()
+mask = np.triu(np.ones_like(corr, dtype=bool))
+sns.heatmap(corr, mask=mask, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0)
+plt.title(&quot;Correlations, each pair once&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>The mask hides the diagonal and the mirror half: 10 cells are left, one per pair.</p></details></li></ol></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

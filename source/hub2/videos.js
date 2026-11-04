@@ -314,5 +314,19 @@ var VIDEOS = {
    "title": "Matplotlib Tutorial (Part 10): Subplots",
    "channel": "Corey Schafer"
   }
+ },
+ "sns1": {
+  "en": {
+   "id": "Bjz00ygERxY",
+   "title": "Seaborn histplot",
+   "channel": "Kimberly Fessel"
+  }
+ },
+ "sns2": {
+  "en": {
+   "id": "0U9cs2V-Mqc",
+   "title": "Seaborn heatmap",
+   "channel": "Kimberly Fessel"
+  }
  }
 };

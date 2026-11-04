@@ -135,5 +135,45 @@ def part9():
     save(fig, 'ov9-ax')
 
 
+def part10():
+    import numpy as np
+    def fig1():
+        f = plt.figure(figsize=(4, 4), dpi=100); f.patch.set_facecolor(BG); return f
+    # axes-level: one chart in one frame
+    f = fig1(); ax = f.add_axes([0.12, 0.12, 0.76, 0.66]); mini(ax, 'hist', COL['blue'])
+    f.text(0.5, 0.86, 'ax=', ha='center', color='white', fontsize=22, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-axes')
+    # figure-level: a grid of panels
+    f = fig1()
+    for i, c in enumerate((COL['purple'], COL['cyan'], COL['pink'], COL['yellow'])):
+        ax = f.add_axes([0.08 + (i % 2) * 0.46, 0.46 - (i // 2) * 0.42, 0.38, 0.32]); mini(ax, 'hist', c)
+    f.text(0.5, 0.88, 'col= / row=', ha='center', color='white', fontsize=18, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-panels')
+    # countplot: plain bars of counts
+    f = fig1(); ax = f.add_axes([0.12, 0.12, 0.76, 0.66]); mini(ax, 'bar', COL['teal'])
+    f.text(0.5, 0.86, 'count', ha='center', color='white', fontsize=22, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-count')
+    # barplot: mean bars with error bars
+    f = fig1(); ax = f.add_axes([0.12, 0.12, 0.76, 0.66]); mini(ax, 'bar', COL['orange'])
+    for x, h, e in zip(range(4), [5, 8, 4, 7], [1.2, 0.8, 1.5, 1.0]):
+        ax.plot([x, x], [h - e, h + e], color='white', lw=3); ax.plot([x - 0.12, x + 0.12], [h + e, h + e], color='white', lw=3); ax.plot([x - 0.12, x + 0.12], [h - e, h - e], color='white', lw=3)
+    f.text(0.5, 0.86, 'mean ± CI', ha='center', color='white', fontsize=20, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-bar')
+    # hue: two coloured curves in one chart
+    f = fig1(); ax = f.add_axes([0.1, 0.12, 0.8, 0.66]); ax.set_facecolor(BG)
+    for sp in ax.spines.values(): sp.set_color('#475569')
+    x = np.linspace(0, 10, 200)
+    for mu, c in ((3.5, COL['pink']), (6.2, COL['cyan'])):
+        y = np.exp(-(x - mu) ** 2 / 2.2)
+        for k, a in ((10, 0.06), (6, 0.12)): ax.plot(x, y, color=c, lw=k, alpha=a)
+        ax.fill_between(x, y, color=c, alpha=0.25); ax.plot(x, y, color=c, lw=3)
+    ax.set_xticks([]); ax.set_yticks([])
+    f.text(0.5, 0.86, 'hue=', ha='center', color='white', fontsize=22, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-hue')
+    # col: the same two groups in two panels
+    f = fig1()
+    for i, (mu, c) in enumerate(((3.5, COL['pink']), (6.2, COL['cyan']))):
+        ax = f.add_axes([0.08 + i * 0.46, 0.2, 0.38, 0.5]); ax.set_facecolor(BG)
+        for sp in ax.spines.values(): sp.set_color('#475569')
+        y = np.exp(-(x - mu) ** 2 / 2.2); ax.fill_between(x, y, color=c, alpha=0.3); ax.plot(x, y, color=c, lw=3)
+        ax.set_xticks([]); ax.set_yticks([])
+    f.text(0.5, 0.86, 'col=', ha='center', color='white', fontsize=22, fontweight='bold', family='DejaVu Sans Mono'); save(f, 'ov10-col')
+
+
 if __name__ == '__main__':
-    {'8': part8, '9': part9}[sys.argv[1]]()
+    {'8': part8, '9': part9, '10': part10}[sys.argv[1]]()

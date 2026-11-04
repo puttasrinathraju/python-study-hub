@@ -20,6 +20,15 @@ for r in range(2):
 fig.suptitle("fig, axes = plt.subplots(2, 2)")
 plt.tight_layout()
 ''', "A 2 by 2 grid of axes, each labelled with its position axes[row, column]")
+D0 = 'months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]\nfig, axes = plt.subplots(2, 2, figsize=(7, 4.6))\n'
+D1 = D0 + 'axes[0, 0].plot(months, [42, 48, 45, 60, 58, 71], marker="o")\naxes[0, 0].set_title("Monthly sales")\n'
+D2 = D1 + 'axes[0, 1].bar(["Home", "Food", "Toys"], [30, 45, 25], color="teal")\naxes[0, 1].set_title("By category")\naxes[1, 0].hist([1, 2, 2, 3, 3, 3, 4, 4, 5], bins=5, color="purple")\naxes[1, 0].set_title("Items per order")\naxes[1, 1].scatter([1, 2, 3, 4, 5, 6], [2, 4, 3, 6, 5, 7])\naxes[1, 1].set_title("Price vs profit")\n'
+D3 = D2 + 'fig.suptitle("Sales dashboard", fontweight="bold")\nplt.tight_layout()\n'
+ANIM = {"t": "anim", "title": "Building a dashboard step by step", "frames": [
+  {"html": pic(D0, "A figure with four empty charts in a 2 by 2 grid"), "c": "**Step 1**: `fig, axes = plt.subplots(2, 2)` makes the figure and four empty axes. Nothing is drawn yet."},
+  {"html": pic(D1, "The top-left chart now has a line"), "c": "**Step 2**: `axes[0, 0].plot(...)` draws on the top-left chart only, and `axes[0, 0].set_title(...)` names it."},
+  {"html": pic(D2, "All four charts are drawn, but the titles and labels overlap a little"), "c": "**Step 3**: fill the other three with `axes[0, 1]`, `axes[1, 0]` and `axes[1, 1]`. Look closely: titles and tick labels crowd each other."},
+  {"html": pic(D3, "The finished dashboard with a big title and neat spacing"), "c": "**Step 4**: `fig.suptitle(...)` adds one title over everything, and `plt.tight_layout()` spaces the charts so nothing overlaps."}]}
 body = [
  {"t": "h", "text": "Figure and axes: the object way"},
  {"t": "p", "b": "There are two ways to write Matplotlib. The quick way uses `plt.` functions, which draw on \"the current chart\". The ==object way== asks for the figure and its axes by name: `fig, ax = plt.subplots()`, then you call methods on `ax`. It is clearer, and you need it as soon as a figure holds more than one chart."},
@@ -38,7 +47,8 @@ body = [
  {"t": "fig", "svg": GRID4, "cap": "`plt.subplots(2, 2)` returns 4 axes in a 2 × 2 grid. Count rows and columns from 0, like a NumPy array."},
  C('fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))\naxes[0].bar(["UPI", "Card", "Cash"], [55, 30, 15])\naxes[0].set_title("Payments")\naxes[1].plot([1, 2, 3, 4], [12, 18, 15, 22], marker="o")\naxes[1].set_title("Weekly visitors (thousand)")\nfig.suptitle("Two charts side by side")\nplt.tight_layout()\nplt.show()', "One row, two charts"),
  C('fig, axes = plt.subplots(2, 3)\nprint(type(axes).__name__, axes.shape)\nplt.close()', "axes is a NumPy array of charts"),
- {"t": "p", "b": "Here is a 2 × 2 **sales dashboard**, built from `sales_data.csv` like in the course notes. Each chart answers a different question."},
+ ANIM,
+ {"t": "p", "b": "Here is a real 2 × 2 **sales dashboard**, built from `sales_data.csv` like in the course notes. Each chart answers a different question."},
  C(MONTHLY + 'cat = sales.groupby("Category")["Sales"].sum()\nfig, axes = plt.subplots(2, 2, figsize=(10, 7))\naxes[0, 0].plot(months, monthly.values, marker="o")\naxes[0, 0].set_title("Monthly sales")\naxes[0, 0].tick_params(axis="x", rotation=45)\naxes[0, 1].bar(cat.index, cat.values, color=["#FF6B6B", "#4ECDC4", "#45B7D1", "#F7B731"])\naxes[0, 1].set_title("Sales by category")\naxes[1, 0].hist(sales["Customer_Age"], bins=15, color="purple", alpha=0.7)\naxes[1, 0].set_title("Customer age")\naxes[1, 1].scatter(sales["Sales"], sales["Profit"], s=10, alpha=0.5)\naxes[1, 1].set_title("Sales vs profit")\nfig.suptitle("Sales dashboard 2024", fontsize=16, fontweight="bold")\nplt.tight_layout()\nplt.show()', "A 2 × 2 dashboard"),
  {"t": "p", "b": "The older one-at-a-time style also works: `plt.subplot(rows, cols, n)` picks chart number `n` (counting from **1**), and the next `plt.` lines draw on it."},
  C('plt.figure(figsize=(9, 3.5))\nplt.subplot(1, 2, 1)\nplt.hist([2, 3, 3, 4, 4, 4, 5, 6], bins=4)\nplt.title("Counts")\nplt.subplot(1, 2, 2)\nplt.hist([2, 3, 3, 4, 4, 4, 5, 6], bins=4, density=True, color="seagreen")\nplt.title("Shares (density=True)")\nplt.tight_layout()\nplt.show()', "plt.subplot(1, 2, n)"),
@@ -74,6 +84,7 @@ body = [
  {"t": "h", "text": "Two y-axes with twinx"},
  {"t": "p", "b": "To show two series with **different units** on one chart, like rupees and order counts, give the second series its own y-axis on the right: `ax2 = ax1.twinx()`. Colour each axis like its line, and combine the two legends into one."},
  C('orders = by_month.size()\nfig, ax1 = plt.subplots(figsize=(8, 4))\nax1.plot(months, monthly.values, color="tab:blue", marker="o", label="Sales (₹)")\nax1.set_ylabel("Sales (₹)", color="tab:blue")\nax1.tick_params(axis="y", labelcolor="tab:blue")\nax2 = ax1.twinx()\nax2.plot(months, orders.values, color="tab:red", marker="s", linestyle="--", label="Orders")\nax2.set_ylabel("Orders", color="tab:red")\nlines1, names1 = ax1.get_legend_handles_labels()\nlines2, names2 = ax2.get_legend_handles_labels()\nax1.legend(lines1 + lines2, names1 + names2, loc="upper left")\nax1.set_title("Sales and number of orders")\nplt.show()', "Rupees on the left, orders on the right", setup=MONTHLY),
+ PRED('fig, ax = plt.subplots()\nax2 = ax.twinx()\nprint(len(fig.axes))\nplt.close()', ["`2`", "`1`", "`3`", "`0`"], 0, "`twinx()` adds a second axes to the same figure, so the figure now holds 2 axes. They share the x-axis."),
  {"t": "note", "k": "trap", "b": "Each axes keeps its own legend. Calling `ax1.legend()` and `ax2.legend()` gives two boxes on top of each other; collect both with `get_legend_handles_labels()` for one legend."},
 
  {"t": "h", "text": "Trend lines with polyfit"},

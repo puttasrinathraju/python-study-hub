@@ -2,14 +2,14 @@
 overview({
   part: 11, title: "The whole course on one page", nav: "Whole-course overview", time: "40 min",
   fiveTitle: "The whole course in 5 lines",
-  keys: "course summary revision all topics data types collections functions errors files modules classes numpy pandas matplotlib charts projects which tool mix-ups",
+  keys: "course summary revision all topics data types collections functions errors files modules classes numpy pandas matplotlib seaborn charts projects which tool mix-ups",
   lead: "Everything from Part 1 to the projects in one place. You get the key definitions, one table per big idea, the right tool for each job, and the mix-ups that cost the most marks. Use it the night before an exam or an interview.",
   five: [
     "**Basics (Parts 1–2):** values have types, variables name them, operators combine them, and `if`, `for` and `while` decide what runs and how often.",
     "**Collections (Part 3):** text goes in a string, and a changing ordered group in a list. A fixed record goes in a tuple, unique items in a set, and lookups by name in a dict.",
     "**Functions (Part 4):** wrap each job in a `def` that takes parameters and `return`s a result you can reuse.",
     "**Real-world tools (Parts 5–6):** catch bad input with `try / except`, save data to files, import modules, and model real things with classes.",
-    "**Data tools (Parts 7–9):** NumPy arrays do fast maths on whole datasets, Pandas DataFrames load, clean, group and join real tables, and Matplotlib turns the answer into a chart. Every project (Part 11) is data structures plus functions plus a loop."
+    "**Data tools (Parts 7–10):** NumPy arrays do fast maths on whole datasets, Pandas DataFrames load, clean, group and join real tables, and Matplotlib and Seaborn turn the answer into charts. Every project (Part 11) is data structures plus functions plus a loop."
   ],
   body: [
     { t: "h", text: "Mind map of the whole course" },
@@ -23,10 +23,11 @@ overview({
       { t: "Part 7: NumPy", go: "overview7", k: [{ t: "Arrays", go: "numpy1" }, { t: "Maths, axis, filters", go: "numpy2" }, { t: "Split, random, ufuncs", go: "numpy3" }] },
       { t: "Part 8: Pandas", go: "overview8", k: [{ t: "Series, DataFrames, files", go: "pandas1" }, { t: "Cleaning data", go: "pandas2" }, { t: "Select & change", go: "pandas3" }, { t: "Group & join", go: "pandas4" }] },
       { t: "Part 9: Matplotlib", go: "overview9", k: [{ t: "Six chart types", go: "mpl1" }, { t: "Layouts & style", go: "mpl2" }] },
+      { t: "Part 10: Seaborn", go: "overview10", k: [{ t: "Spread & categories", go: "sns1" }, { t: "Relations & grids", go: "sns2" }] },
       { t: "Part 11: Projects", go: "projects", k: [{ t: "Movie tickets", go: "projects" }, { t: "Supermarket billing", go: "projects" }, { t: "Inventory system", go: "projects" }] }
     ]},
 
-    { t: "h", text: "The 18 definitions that matter most" },
+    { t: "h", text: "The 19 definitions that matter most" },
     { t: "p", b: "If you can explain each of these in one sentence and write the tiny example, you know the course. Each card links to the Part overview with the full comparison tables." },
     { t: "defs", items: [
       { t: "DataFrame", d: "Pandas' table: named columns of data, with an index labelling the rows. Load one with `pd.read_csv()`.", c: R`
@@ -38,6 +39,12 @@ import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, 2)
 axes[0].bar(["UPI", "Cash"], [55, 45])
 print(len(fig.axes))`, o: R`2`, go: "overview9" },
+      { t: "Seaborn chart", d: "Give Seaborn the table and the column names, and it groups, counts or averages for you: `sns.barplot` shows the mean of each group.", c: R`
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.barplot(x=["a", "a", "b"], y=[2, 4, 9], errorbar=None)
+print([float(bar.get_height()) for bar in ax.patches])
+plt.close()`, o: R`[3.0, 9.0]`, go: "overview10" },
       { t: "Variable", d: "A name that points at a value.", c: R`
 price = 250
 print(price * 2)`, o: R`500`, go: "overview1" },

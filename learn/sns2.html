@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seaborn: relationships, heatmaps and grids | Python Study Hub</title>
+<meta name="description" content="Show how numbers move together. Draw scatter and line plots with extra columns as colour, size and style, fit and check regression lines, turn correlation and pivot tables into heatmaps, group similar rows with a clustermap, explore a dataset with FacetGrid, pair plots and joint plots, and build a Seaborn dashboard inside a Matplotlib grid.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/sns2.html">
+<meta property="og:title" content="Seaborn: relationships, heatmaps and grids | Python Study Hub">
+<meta property="og:description" content="Show how numbers move together. Draw scatter and line plots with extra columns as colour, size and style, fit and check regression lines, turn correlation and pivot tables into heatmaps, group similar rows with a clustermap, explore a dataset with FacetGrid, pair plots and joint plots, and build a Seaborn dashboard inside a Matplotlib grid.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#sns2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#sns2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 10 · Seaborn · Chapter 30</p><h1>Seaborn: relationships, heatmaps and grids</h1><p class="lead">Show how numbers move together. Draw scatter and line plots with extra columns as colour, size and style, fit and check regression lines, turn correlation and pivot tables into heatmaps, group similar rows with a clustermap, explore a dataset with FacetGrid, pair plots and joint plots, and build a Seaborn dashboard inside a Matplotlib grid.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Show relationships with <code>scatterplot</code> (<code>hue</code>, <code>size</code>, <code>style</code>), <code>lineplot</code> and <code>relplot</code></li><li>Fit and check straight and curved trends with <code>regplot</code>, <code>lmplot</code> and <code>residplot</code></li><li>Draw correlation and pivot-table heatmaps with <code>sns.heatmap</code> and <code>clustermap</code></li><li>Explore many columns with <code>FacetGrid</code>, <code>pairplot</code>, <code>PairGrid</code>, <code>jointplot</code> and <code>JointGrid</code></li><li>Pick contexts and colour scales, place Seaborn charts with <code>ax=</code>, and save figure-level charts</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=0U9cs2V-Mqc">Seaborn heatmap</a> by Kimberly Fessel (about undefined min)</li></ul></section><h2>Scatter plots: hue, size and style</h2>
+<p>This chapter is about <mark>relationships</mark>: how one number moves with another. <code>sns.scatterplot()</code> is <code>plt.scatter()</code> plus three extras that each show one more column: <code>hue=</code> (colour), <code>size=</code> (dot size) and <code>style=</code> (marker shape). Each one gets its own legend.</p>
+<figure class="code"><figcaption>Colour by category</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.scatterplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, alpha=0.7)
+plt.title(&quot;Bigger orders, bigger profit&quot;)
+plt.show()</code></pre></figure>
+<p>Clothing and groceries orders sit at the bottom left; electronics and furniture spread out to the right. A few dots fall below 0: orders sold at a <b>loss</b>.</p>
+<figure class="code"><figcaption>hue, size and style together</figcaption><pre><code>sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;time&quot;, size=&quot;size&quot;, sizes=(20, 200), style=&quot;smoker&quot;)
+plt.legend(bbox_to_anchor=(1.02, 1), loc=&quot;upper left&quot;)
+plt.title(&quot;Four columns in one chart&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>sizes=(20, 200)</code> sets the smallest and biggest dot. <code>bbox_to_anchor=(1.02, 1)</code> moves a long legend outside the chart. Do not use all three extras without a reason: two is usually the limit for a clear chart.</p></aside>
+<section class="mm"><h3>Mind map: Chapter 30 at a glance</h3><ul><li><b>Seaborn: relations &amp; grids</b><ul><li>Relationships<ul><li>scatterplot: hue, size, style</li><li>lineplot + band</li><li>relplot (panels)</li></ul></li><li>Regression<ul><li>regplot, order=2</li><li>lmplot (panels)</li><li>residplot</li></ul></li><li>Matrix<ul><li>heatmap: annot, fmt, center</li><li>pivot_table → heatmap</li><li>clustermap</li></ul></li><li>Grids<ul><li>FacetGrid + map</li><li>pairplot, PairGrid</li><li>jointplot, JointGrid</li></ul></li><li>Finish<ul><li>set_context</li><li>colour scales</li><li>ax= inside plt.subplots</li><li>g.savefig()</li></ul></li></ul></li></ul></section>
+<h2>Line plots and confidence bands</h2>
+<p><code>sns.lineplot()</code> sorts the x values and joins them. When an x value has <b>many rows</b> (like 40 orders in January), it draws their <b>mean</b>, with a shaded 95% <mark>confidence band</mark> around it.</p>
+<figure class="code"><figcaption>Mean per month with a band</figcaption><pre><code>sns.lineplot(data=sales, x=&quot;Month&quot;, y=&quot;Sales&quot;, marker=&quot;o&quot;)
+plt.title(&quot;Average order value per month&quot;)
+plt.xticks(range(1, 13))
+plt.show()</code></pre></figure>
+<p>The band is wide because single orders vary a lot (₹108 to ₹11,352). For <b>totals</b>, use <code>estimator=&quot;sum&quot;</code>, and <code>errorbar=None</code> to remove the band.</p>
+<figure class="code"><figcaption>Totals, one line per category</figcaption><pre><code>sns.lineplot(data=sales, x=&quot;Month&quot;, y=&quot;Sales&quot;, hue=&quot;Category&quot;, estimator=&quot;sum&quot;, errorbar=None, marker=&quot;o&quot;)
+plt.title(&quot;Total sales per month and category&quot;)
+plt.xticks(range(1, 13))
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<p>You can also total the data with Pandas first and give Seaborn the small table. Then each x value has exactly one row, and there is no band.</p>
+<figure class="code"><figcaption>Group with Pandas, draw with Seaborn</figcaption><pre><code>monthly = sales.groupby([&quot;Month&quot;, &quot;Region&quot;])[&quot;Sales&quot;].sum().reset_index()
+print(monthly.head(4))
+sns.lineplot(data=monthly, x=&quot;Month&quot;, y=&quot;Sales&quot;, hue=&quot;Region&quot;, style=&quot;Region&quot;, markers=True, dashes=False)
+plt.title(&quot;Monthly sales per region&quot;)
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">   Month Region  Sales
+0      1   East   1979
+1      1  North   4525
+2      1  South  17639
+3      1   West  15749</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>lineplot</code> always sorts by x. That is right for months, but not for text labels in a special order like <code>&quot;Jan&quot;, &quot;Feb&quot;</code>: those sort A to Z (Apr, Aug, Dec ...). Use month numbers, or real dates.</p></aside>
+<h2>Regression lines: regplot and lmplot</h2>
+<p>A <mark>regression line</mark> is the straight line that fits a scatter best (Chapter 28 found it with <code>np.polyfit</code>). <code>sns.regplot()</code> draws the scatter, the line and a 95% band in one line. Seaborn does not print the numbers, so use <code>np.polyfit</code> when you need the slope.</p>
+<section class="anim"><h3>Animated explainer: From a scatter to a regression check</h3><ol><li><b>1.</b> Start with the points: tips against bills. Bigger bills seem to get bigger tips.</li><li><b>2.</b> <code>regplot(..., ci=None)</code> adds the best straight line. It rises: about 10 cents of tip per extra dollar of bill.</li><li><b>3.</b> Without <code>ci=None</code> you also get the 95% band: where the true line probably lies. It is wider at the ends, where there are fewer points.</li><li><b>4.</b> <code>residplot</code> shows what the line misses for each point. Points spread evenly around 0 mean a straight line is a fair fit.</li></ol></section>
+<figure class="code"><figcaption>regplot</figcaption><pre><code>sns.regplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, scatter_kws={&quot;alpha&quot;: 0.3, &quot;s&quot;: 15}, line_kws={&quot;color&quot;: &quot;red&quot;})
+plt.title(&quot;Sales vs profit with a regression line&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>The numbers behind the line</figcaption><pre><code>import numpy as np
+slope, intercept = np.polyfit(sales[&quot;Sales&quot;], sales[&quot;Profit&quot;], 1)
+print(f&quot;Profit = {slope:.3f} × Sales + {intercept:.1f}&quot;)</code></pre><p class="olbl">Output</p><pre class="out">Profit = 0.145 × Sales + 24.3</pre></figure>
+<p>Each extra ₹1 of sales brings about ₹0.15 of profit. <code>scatter_kws</code> and <code>line_kws</code> are dicts of options passed to the dots and the line. Real data is not always straight: <code>order=2</code> fits a <b>curve</b>.</p>
+<figure class="code"><figcaption>A curve with order=2</figcaption><pre><code>sns.regplot(x=ads, y=sold, order=2, ci=None, label=&quot;order=2 (curve)&quot;)
+sns.regplot(x=ads, y=sold, ci=None, scatter=False, color=&quot;grey&quot;, line_kws={&quot;linestyle&quot;: &quot;--&quot;}, label=&quot;straight line&quot;)
+plt.legend()
+plt.xlabel(&quot;Ad spend (₹ lakh)&quot;)
+plt.ylabel(&quot;Units sold (thousand)&quot;)
+plt.title(&quot;More ads help, but less and less&quot;)
+plt.show()</code></pre></figure>
+<p><code>sns.lmplot()</code> is the figure-level version: <code>hue=</code> draws one line per group, and <code>col=</code> / <code>row=</code> make panels.</p>
+<figure class="code"><figcaption>lmplot with hue and panels</figcaption><pre><code>sns.lmplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;smoker&quot;, col=&quot;time&quot;, height=3.2)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>The band comes from <mark>bootstrapping</mark> (re-sampling the data many times), so it changes a tiny bit every run. regplot and lmplot still use <code>ci=</code> (<code>ci=None</code> removes the band); the newer name <code>errorbar=</code> is only for barplot, pointplot and lineplot.</p></aside>
+<h2>Checking the fit: residplot</h2>
+<p>A <mark>residual</mark> is the real value minus the line's value: how far each point is from the line. <code>sns.residplot()</code> plots them around a flat line at 0. Look for a <b>pattern</b>: a curve means a straight line is the wrong shape.</p>
+<figure class="code"><figcaption>A pattern: the straight line is wrong</figcaption><pre><code>sns.residplot(x=ads, y=sold)
+plt.title(&quot;Residuals of a straight line: a clear curve&quot;)
+plt.xlabel(&quot;Ad spend (₹ lakh)&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>With order=2 the pattern is gone</figcaption><pre><code>sns.residplot(x=ads, y=sold, order=2)
+plt.title(&quot;Residuals of a curve: no pattern left&quot;)
+plt.xlabel(&quot;Ad spend (₹ lakh)&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>A funnel shape</figcaption><pre><code>sns.residplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, scatter_kws={&quot;alpha&quot;: 0.3, &quot;s&quot;: 12})
+plt.title(&quot;Sales vs profit: residuals&quot;)
+plt.show()</code></pre></figure>
+<p>Here the points spread out more as sales grow: a <mark>funnel</mark>. The line is right on average, but its guesses are less exact for big orders.</p>
+<h2>Faceted relations: relplot</h2>
+<p><code>sns.relplot()</code> is the figure-level version of <code>scatterplot</code> (<code>kind=&quot;scatter&quot;</code>, the default) and <code>lineplot</code> (<code>kind=&quot;line&quot;</code>). Use it for panels with <code>col=</code>, <code>row=</code> and <code>col_wrap=</code>.</p>
+<p class="cap">Diagram: Seaborn's three families. Each figure-level function can draw any chart of its family, with panels. The axes-level functions below it draw one chart and accept <code>ax=</code>.</p>
+<figure class="code"><figcaption>One scatter per region</figcaption><pre><code>g = sns.relplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, col=&quot;Region&quot;, col_wrap=2, col_order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], height=2.8, aspect=1.3, s=15)
+g.set_titles(&quot;{col_name}&quot;)
+g.figure.suptitle(&quot;Sales vs profit in every region&quot;, y=1.03)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>kind=&quot;line&quot; panels</figcaption><pre><code>g = sns.relplot(data=sales, x=&quot;Month&quot;, y=&quot;Sales&quot;, kind=&quot;line&quot;, col=&quot;Category&quot;, col_wrap=2, estimator=&quot;sum&quot;, errorbar=None, marker=&quot;o&quot;, height=2.6, aspect=1.5)
+g.set_titles(&quot;{col_name}&quot;)
+g.set(xticks=range(1, 13))
+plt.show()</code></pre></figure>
+<p><code>g.set(...)</code> changes every panel at once, like <code>ax.set(...)</code> for one axes: <code>g.set(xticks=..., ylim=(0, 5000))</code>.</p>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.scatterplot(x=[1, 2], y=[3, 4])
+g = sns.relplot(x=[1, 2], y=[3, 4])
+print(type(ax).__name__, type(g).__name__)
+plt.close(&quot;all&quot;)</code></pre></figure><ol type="A"><li><code>Axes FacetGrid</code></li><li><code>FacetGrid FacetGrid</code></li><li><code>Axes Axes</code></li><li><code>Figure Axes</code></li></ol><details><summary>Answer</summary><p><b><code>Axes FacetGrid</code></b>. scatterplot is axes-level and returns the Matplotlib axes; relplot is figure-level and returns a FacetGrid.</p></details></section>
+<h2>Heatmaps: correlations and pivot tables</h2>
+<p>In Chapter 28 a heatmap took a loop of <code>plt.text()</code>. <code>sns.heatmap()</code> does it in one line: give it a table of numbers (a DataFrame) and it uses the index and column names as labels.</p>
+<section class="anim"><h3>Animated explainer: Building a correlation heatmap</h3><ol><li><code>sns.heatmap(corr)</code>: one coloured cell per pair of columns, with the names on both axes and a colour bar.</li><li><code>annot=True</code> writes each value in its cell; <code>fmt=&quot;.2f&quot;</code> rounds it to 2 decimals.</li><li>A <mark>diverging</mark> colour scale (<code>cmap=&quot;coolwarm&quot;</code>) with <code>center=0</code>: red for positive, blue for negative, white for no link.</li><li>The matrix is a mirror image, so a <mark>mask</mark> hides the upper half (<code>True</code> = hide). Now each pair appears once.</li></ol></section>
+<figure class="code"><figcaption>A correlation heatmap</figcaption><pre><code>sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0, square=True, cbar_kws={&quot;shrink&quot;: 0.8})
+plt.title(&quot;Which columns move together?&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+cols = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;, &quot;Customer_Age&quot;, &quot;Satisfaction_Score&quot;]
+corr = sales[cols].corr()
+print(corr.shape, round(corr.loc[&quot;Sales&quot;, &quot;Profit&quot;], 2))</code></pre></figure><ol type="A"><li><code>(5, 5) 0.78</code></li><li><code>(500, 5) 0.78</code></li><li><code>(5, 5) 1.0</code></li><li><code>(5, 2) 0.78</code></li></ol><details><summary>Answer</summary><p><b><code>(5, 5) 0.78</code></b>. A correlation table has one row and one column per number column: 5 × 5. Sales and profit have a strong link, 0.78.</p></details></section>
+<p>Any pivot table makes a good heatmap: a grid of averages for two category columns.</p>
+<figure class="code"><figcaption>A pivot table as a heatmap</figcaption><pre><code>table = sales.pivot_table(values=&quot;Sales&quot;, index=&quot;Category&quot;, columns=&quot;Region&quot;, aggfunc=&quot;mean&quot;)
+sns.heatmap(table, annot=True, fmt=&quot;.0f&quot;, cmap=&quot;YlGnBu&quot;, linewidths=0.5)
+plt.title(&quot;Average order value (₹)&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Whole numbers: fmt=&quot;d&quot;</figcaption><pre><code>counts = sales.pivot_table(values=&quot;Sales&quot;, index=&quot;Category&quot;, columns=&quot;Region&quot;, aggfunc=&quot;count&quot;)
+sns.heatmap(counts, annot=True, fmt=&quot;d&quot;, cmap=&quot;Blues&quot;, cbar_kws={&quot;label&quot;: &quot;Orders&quot;})
+plt.title(&quot;Number of orders&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p>Combine it with <code>pd.cut()</code> (Chapter 26) to turn a number column into groups first. Pass <code>observed=True</code>, because the groups are a category type.</p>
+<figure class="code"><figcaption>Age groups × categories</figcaption><pre><code>sales[&quot;Age group&quot;] = pd.cut(sales[&quot;Customer_Age&quot;], bins=[17, 25, 35, 50, 65], labels=[&quot;18-25&quot;, &quot;26-35&quot;, &quot;36-50&quot;, &quot;51-65&quot;])
+scores = sales.pivot_table(values=&quot;Satisfaction_Score&quot;, index=&quot;Age group&quot;, columns=&quot;Category&quot;, aggfunc=&quot;mean&quot;, observed=True)
+sns.heatmap(scores, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;RdYlGn&quot;, vmin=3, vmax=4.5)
+plt.title(&quot;Average satisfaction (out of 5)&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>Option</th><th>Does</th></tr></thead><tbody><tr><td><code>annot=True</code>, <code>fmt=&quot;.2f&quot;</code> / <code>&quot;d&quot;</code> / <code>&quot;.0f&quot;</code></td><td>Values in the cells, and their format</td></tr><tr><td><code>cmap=&quot;Blues&quot;</code></td><td>Sequential: low to high</td></tr><tr><td><code>cmap=&quot;coolwarm&quot;</code>, <code>center=0</code></td><td>Diverging: around a middle value</td></tr><tr><td><code>vmin=</code>, <code>vmax=</code></td><td>Fix the ends of the colour scale</td></tr><tr><td><code>square=True</code>, <code>linewidths=0.5</code></td><td>Square cells, thin white lines between them</td></tr><tr><td><code>mask=</code></td><td>Hide cells where the mask is True</td></tr><tr><td><code>cbar_kws={&quot;label&quot;: ..., &quot;shrink&quot;: 0.8}</code></td><td>Colour bar options</td></tr></tbody></table></div>
+<h2>Clustermap: grouping similar rows</h2>
+<p><code>sns.clustermap()</code> is a heatmap that <b>reorders</b> the rows and columns so similar ones sit next to each other. The tree diagrams (<mark>dendrograms</mark>) on the sides show which ones were joined first.</p>
+<figure class="code"><figcaption>A clustered correlation matrix</figcaption><pre><code>g = sns.clustermap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;RdBu_r&quot;, center=0, figsize=(6, 6))
+g.ax_col_dendrogram.set_title(&quot;Columns grouped by how they move&quot;)
+plt.show()</code></pre></figure>
+<p>Sales and profit are joined first: they are the most alike. The other columns barely move together. Clustermap needs the <mark>SciPy</mark> library: on this site it loads by itself the first time (a few seconds), and on your laptop <code>pip install scipy</code>.</p>
+<figure class="code"><figcaption>standard_scale=1: compare inside each column</figcaption><pre><code>g = sns.clustermap(table, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;YlGnBu&quot;, standard_scale=1, figsize=(6, 5))
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>standard_scale=1</code> rescales each <b>column</b> to run from 0 (its lowest value) to 1 (its highest) before drawing; <code>0</code> does the same for rows. The cells now show these scaled values, so in every region you see which categories are at the top and bottom. A clustermap has its own layout: put a title on <code>g.ax_col_dendrogram</code>, the tree at the top.</p></aside>
+<h2>FacetGrid: your own panels</h2>
+<p><code>displot</code>, <code>catplot</code> and <code>relplot</code> are built on a <mark>FacetGrid</mark>: a grid of panels, one per value of <code>col=</code> and <code>row=</code>. Make one yourself when you want any chart in the panels. Step 1 makes the empty grid; step 2 <b>maps</b> a chart onto every panel.</p>
+<figure class="code"><figcaption>A 2 × 2 grid of scatters</figcaption><pre><code>g = sns.FacetGrid(tips, col=&quot;time&quot;, row=&quot;smoker&quot;, hue=&quot;sex&quot;, height=2.6, aspect=1.3, margin_titles=True)
+g.map(sns.scatterplot, &quot;total_bill&quot;, &quot;tip&quot;, alpha=0.7)
+g.add_legend()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>map_dataframe with named columns</figcaption><pre><code>g = sns.FacetGrid(sales, col=&quot;Category&quot;, col_wrap=2, height=2.6, aspect=1.4)
+g.map_dataframe(sns.histplot, x=&quot;Sales&quot;, bins=15)
+g.set_axis_labels(&quot;Sales (₹)&quot;, &quot;Orders&quot;)
+g.set_titles(&quot;{col_name}&quot;)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>Method</th><th>Use</th></tr></thead><tbody><tr><td><code>g.map(func, &quot;x&quot;, &quot;y&quot;)</code></td><td>Column names given in order (like <code>plt.scatter</code>)</td></tr><tr><td><code>g.map_dataframe(func, x=..., y=...)</code></td><td>Column names given by name (Seaborn functions)</td></tr><tr><td><code>g.add_legend()</code></td><td>One legend for the <code>hue=</code> of the grid</td></tr><tr><td><code>g.set_axis_labels(x, y)</code></td><td>Axis labels on every panel</td></tr><tr><td><code>g.set_titles(&quot;{col_name}&quot;)</code></td><td>Short panel titles; <code>margin_titles=True</code> puts row names on the side</td></tr><tr><td><code>g.axes</code></td><td>The array of panels, like <code>axes</code> from <code>plt.subplots</code></td></tr></tbody></table></div>
+<h2>Pair plots: every pair at once</h2>
+<p><code>sns.pairplot()</code> draws a scatter for <b>every pair</b> of number columns, and the shape of each column on the diagonal. It is the fastest first look at a new dataset.</p>
+<figure class="code"><figcaption>pairplot with hue</figcaption><pre><code>sns.pairplot(sales[[&quot;Sales&quot;, &quot;Profit&quot;, &quot;Customer_Age&quot;, &quot;Category&quot;]], hue=&quot;Category&quot;, diag_kind=&quot;kde&quot;, plot_kws={&quot;alpha&quot;: 0.5, &quot;s&quot;: 15}, height=2)
+plt.show()</code></pre></figure>
+<p>Read it like a table: the panel in row Profit and column Sales is the Sales vs profit scatter. The diagonal shows each column alone. Age has no clear link with anything. <code>corner=True</code> drops the mirror half, and <code>vars=</code> picks the columns.</p>
+<figure class="code"><figcaption>corner=True</figcaption><pre><code>sns.pairplot(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;], corner=True, height=2)
+plt.show()</code></pre></figure>
+<p>A <mark>PairGrid</mark> lets you choose the chart for each part: the upper triangle, the lower triangle and the diagonal.</p>
+<figure class="code"><figcaption>PairGrid: a different chart in each part</figcaption><pre><code>g = sns.PairGrid(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;], height=2)
+g.map_upper(sns.scatterplot, alpha=0.6)
+g.map_lower(sns.kdeplot, fill=True)
+g.map_diag(sns.histplot, kde=True)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>A pair plot of 10 columns is 100 charts and can take a long time. Pick 3 to 5 columns with <code>vars=</code> or a smaller DataFrame.</p></aside>
+<h2>Joint plots: one pair in detail</h2>
+<p><code>sns.jointplot()</code> shows one pair: the relationship in the middle, and each column's own shape on the top and right <mark>margins</mark>. <code>kind=</code> picks the middle chart: <code>&quot;scatter&quot;</code>, <code>&quot;reg&quot;</code>, <code>&quot;hex&quot;</code>, <code>&quot;kde&quot;</code> or <code>&quot;hist&quot;</code>.</p>
+<figure class="code"><figcaption>Scatter with margins</figcaption><pre><code>sns.jointplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;time&quot;, height=5)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>hex and kde: for many points</figcaption><pre><code>for kind in [&quot;hex&quot;, &quot;kde&quot;]:
+    g = sns.jointplot(data=sales, x=&quot;Customer_Age&quot;, y=&quot;Sales&quot;, kind=kind, height=3.6)
+    g.figure.suptitle(f&quot;kind=\&quot;{kind}\&quot;&quot;, y=1.02)
+plt.show()</code></pre></figure>
+<p>With hundreds of points, dots hide each other. <code>&quot;hex&quot;</code> counts the points in little hexagons (darker = more), and <code>&quot;kde&quot;</code> draws smooth contour lines. A <mark>JointGrid</mark> lets you pick both parts yourself.</p>
+<figure class="code"><figcaption>JointGrid: regplot in the middle, box plots on the margins</figcaption><pre><code>g = sns.JointGrid(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, height=4.5)
+g.plot(sns.regplot, sns.boxplot)
+plt.show()</code></pre></figure>
+<h2>Contexts and colour scales</h2>
+<p>A <mark>context</mark> scales the text and lines for where the chart will be seen: <code>&quot;paper&quot;</code> (small), <code>&quot;notebook&quot;</code> (the default), <code>&quot;talk&quot;</code> (slides) and <code>&quot;poster&quot;</code> (big). <code>sns.set_context(&quot;talk&quot;)</code> sets it for every chart; <code>with sns.plotting_context(...)</code> for a few.</p>
+<figure class="code"><figcaption>The four contexts</figcaption><pre><code>contexts = [&quot;paper&quot;, &quot;notebook&quot;, &quot;talk&quot;, &quot;poster&quot;]
+plt.figure(figsize=(13, 3.2))
+for i, context in enumerate(contexts):
+    with sns.plotting_context(context):
+        plt.subplot(1, 4, i + 1)
+        plt.plot([1, 2, 3, 4], [3, 5, 4, 6], marker=&quot;o&quot;)
+        plt.title(context)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p>Pick the colour scale by the <b>kind of data</b>, not by taste.</p>
+<div class="tbl"><table><thead><tr><th>Data</th><th>Palette type</th><th>Examples</th></tr></thead><tbody><tr><td>Categories with no order (regions, products)</td><td>Qualitative</td><td><code>&quot;deep&quot;</code>, <code>&quot;Set2&quot;</code>, <code>&quot;colorblind&quot;</code>, <code>&quot;husl&quot;</code></td></tr><tr><td>Low to high (counts, sales)</td><td>Sequential</td><td><code>&quot;Blues&quot;</code>, <code>&quot;YlGnBu&quot;</code>, <code>&quot;viridis&quot;</code>, <code>&quot;rocket&quot;</code></td></tr><tr><td>Above and below a middle (correlation, profit vs loss)</td><td>Diverging</td><td><code>&quot;coolwarm&quot;</code>, <code>&quot;RdBu_r&quot;</code>, <code>&quot;RdYlGn&quot;</code> + <code>center=</code></td></tr></tbody></table></div>
+<figure class="code"><figcaption>The same data, two colour scales</figcaption><pre><code>fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+sns.heatmap(corr, cmap=&quot;Blues&quot;, annot=True, fmt=&quot;.1f&quot;, ax=axes[0])
+axes[0].set_title(&quot;Sequential: hides negative values&quot;)
+sns.heatmap(corr, cmap=&quot;RdBu_r&quot;, center=0, annot=True, fmt=&quot;.1f&quot;, ax=axes[1])
+axes[1].set_title(&quot;Diverging: right for correlations&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>A palette for every chart</figcaption><pre><code>sns.set_palette(&quot;husl&quot;, 4)
+sns.scatterplot(data=sales, x=&quot;Customer_Age&quot;, y=&quot;Sales&quot;, hue=&quot;Region&quot;, hue_order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], s=15)
+plt.title(&quot;set_palette(\&quot;husl\&quot;, 4)&quot;)
+plt.show()</code></pre></figure>
+<h2>Seaborn inside Matplotlib layouts</h2>
+<p>Axes-level functions take <code>ax=</code>, so you can build a <b>dashboard</b> with <code>plt.subplots()</code> from Chapter 28 and fill each panel with a Seaborn chart. <code>ax.set(title=..., xlabel=..., ylabel=...)</code> sets several labels at once.</p>
+<figure class="code"><figcaption>A 2 × 2 Seaborn dashboard</figcaption><pre><code>fig, axes = plt.subplots(2, 2, figsize=(11, 8))
+sns.histplot(data=sales, x=&quot;Sales&quot;, bins=20, kde=True, ax=axes[0, 0])
+axes[0, 0].set(title=&quot;Order values&quot;, xlabel=&quot;Sales (₹)&quot;)
+sns.boxplot(data=sales, x=&quot;Category&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, palette=&quot;Set2&quot;, legend=False, ax=axes[0, 1])
+axes[0, 1].set(title=&quot;Profit per category&quot;, xlabel=&quot;&quot;)
+sns.scatterplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, hue=&quot;Region&quot;, s=12, ax=axes[1, 0])
+axes[1, 0].set(title=&quot;Sales vs profit&quot;)
+sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0, ax=axes[1, 1])
+axes[1, 1].set(title=&quot;Correlations&quot;)
+fig.suptitle(&quot;Sales dashboard with Seaborn&quot;, fontsize=16, fontweight=&quot;bold&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p>Figure-level charts make their own figure, so save them through the grid: <code>g.savefig(&quot;file.png&quot;, dpi=300)</code>. For an axes-level chart, <code>plt.savefig()</code> works as in Part 9.</p>
+<figure class="code"><figcaption>Save a figure-level chart</figcaption><pre><code>import os
+g = sns.relplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, height=3.5)
+g.savefig(&quot;sales_profit.png&quot;, dpi=150)
+print(os.path.exists(&quot;sales_profit.png&quot;))
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure>
+<h2>Best practices and common mistakes</h2>
+<div class="tbl"><table><thead><tr><th>Do</th><th>Avoid</th></tr></thead><tbody><tr><td>Start with <code>pairplot</code> and a correlation heatmap on a new dataset</td><td>Guessing which columns matter</td></tr><tr><td>A diverging scale with <code>center=0</code> for correlations</td><td>A one-colour scale that hides negatives</td></tr><tr><td><code>residplot</code> before trusting a straight line</td><td>A straight line through a curve</td></tr><tr><td><code>kind=&quot;hex&quot;</code> or <code>alpha=</code> for many points</td><td>Thousands of dots on top of each other</td></tr><tr><td><code>ax=</code> to place Seaborn charts in <code>plt.subplots</code></td><td>Figure-level charts inside <code>plt.subplot</code></td></tr><tr><td>Say what the band or error bar shows</td><td>Readers taking the 95% band as the range of the data</td></tr><tr><td>Remember: correlation is not cause</td><td>&quot;Ads cause sales&quot; from one scatter</td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p>A strong correlation does not prove that one thing <b>causes</b> the other. Ice-cream sales and AC sales both rise in May because of the heat, not because of each other.</p></aside>
+<section class="deck"><h3>Slides: Seaborn relationships and grids in 6 slides</h3><ol><li><p><b>Relationships: how one number moves with another.</b></p><p><code>scatterplot</code> (hue, size, style), <code>lineplot</code> (mean + band), <code>relplot</code> for panels.</p></li><li><p><b>Regression</b></p><ul><li><code>regplot(scatter_kws=..., line_kws=...)</code></li><li><code>order=2</code> for a curve, <code>ci=None</code> for no band</li><li><code>lmplot(hue=, col=)</code> for panels</li><li><code>residplot</code>: look for patterns</li></ul></li><li><p><b>Heatmaps</b></p><ul><li><code>sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0)</code></li><li>any <code>pivot_table</code> makes a heatmap</li><li><code>mask=</code> hides the mirror half</li><li><code>clustermap</code> groups similar rows</li></ul></li><li><p><b>Grids</b></p><ul><li><code>FacetGrid(df, col=, row=)</code> + <code>g.map(...)</code></li><li><code>pairplot(df, hue=, corner=True)</code></li><li><code>PairGrid</code>: <code>map_upper</code>, <code>map_lower</code>, <code>map_diag</code></li></ul></li><li><p><b>One pair in detail</b></p><ul><li><code>jointplot(kind=&quot;scatter&quot; / &quot;reg&quot; / &quot;hex&quot; / &quot;kde&quot;)</code></li><li><code>JointGrid(...).plot(sns.regplot, sns.boxplot)</code></li></ul></li><li><p><b>Finish</b></p><ul><li><code>sns.set_context(&quot;talk&quot;)</code> for slides</li><li>qualitative / sequential / diverging palettes</li><li><code>ax=</code> inside <code>plt.subplots</code></li><li><code>g.savefig(&quot;file.png&quot;, dpi=300)</code></li></ul></li></ol></section>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>With <code>tips</code>, draw a scatter of <code>total_bill</code> (x) against <code>tip</code> (y), coloured by <code>time</code>, with a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;time&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, hue=&quot;time&quot;)
+plt.title(&quot;Tips and bills&quot;)
+plt.show()</code></pre></figure><p>All 244 bills are dots; the legend shows Lunch and Dinner.</p></details></li><li><p><code>days = [1, 2, 3, 4, 5, 6, 7]</code> and <code>visitors = [120, 135, 128, 160, 190, 240, 210]</code>. Draw them with <code>sns.lineplot</code>, with dots on the points (<code>marker=&quot;o&quot;</code>), a title and the x label <code>Day</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+days = [1, 2, 3, 4, 5, 6, 7]
+visitors = [120, 135, 128, 160, 190, 240, 210]</code></pre></figure><details><summary>Hint</summary><p><code>sns.lineplot(x=days, y=visitors, marker=&quot;o&quot;)</code>, then <code>plt.title()</code> and <code>plt.xlabel(&quot;Day&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+days = [1, 2, 3, 4, 5, 6, 7]
+visitors = [120, 135, 128, 160, 190, 240, 210]
+sns.lineplot(x=days, y=visitors, marker=&quot;o&quot;)
+plt.title(&quot;Visitors this week&quot;)
+plt.xlabel(&quot;Day&quot;)
+plt.show()</code></pre></figure><p>Each day has one value, so there is no band: just the line.</p></details></li><li><p>With <code>tips</code>, draw a regression of <code>tip</code> on <code>total_bill</code> with <code>sns.regplot</code>, a <b>red</b> line (<code>line_kws={&quot;color&quot;: &quot;red&quot;}</code>), no band (<code>ci=None</code>) and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.regplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, ci=None, line_kws={&quot;color&quot;: &quot;red&quot;})</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.regplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, ci=None, line_kws={&quot;color&quot;: &quot;red&quot;})
+plt.title(&quot;Tip vs bill&quot;)
+plt.show()</code></pre></figure><p>regplot draws the dots and the line; <code>ci=None</code> drops the band.</p></details></li><li><p><code>stock = pd.DataFrame({&quot;Mon&quot;: [12, 7], &quot;Tue&quot;: [9, 15], &quot;Wed&quot;: [4, 11]}, index=[&quot;Pune&quot;, &quot;Goa&quot;])</code>. Draw it as a heatmap with the numbers in the cells (<code>annot=True</code>) and the <code>Blues</code> colour scale.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+stock = pd.DataFrame({&quot;Mon&quot;: [12, 7], &quot;Tue&quot;: [9, 15], &quot;Wed&quot;: [4, 11]}, index=[&quot;Pune&quot;, &quot;Goa&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>sns.heatmap(stock, annot=True, cmap=&quot;Blues&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+stock = pd.DataFrame({&quot;Mon&quot;: [12, 7], &quot;Tue&quot;: [9, 15], &quot;Wed&quot;: [4, 11]}, index=[&quot;Pune&quot;, &quot;Goa&quot;])
+sns.heatmap(stock, annot=True, cmap=&quot;Blues&quot;)
+plt.title(&quot;Boxes sold per day&quot;)
+plt.show()</code></pre></figure><p>Seaborn takes the labels from the DataFrame: cities on the side, days on the bottom; 6 cells, 6 numbers.</p></details></li><li><p>Make a pair plot of <code>tips</code> with the columns <code>total_bill</code>, <code>tip</code> and <code>size</code> (<code>vars=</code>), coloured by <code>time</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.pairplot(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;], hue=&quot;time&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.pairplot(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;], hue=&quot;time&quot;, height=2)
+plt.show()</code></pre></figure><p>Three columns give a 3 × 3 grid: 9 panels, with the shapes on the diagonal, and one legend for the whole figure.</p></details></li></ol>
+<h2>Practice with real data: a Seaborn dashboard</h2>
+<ol class="tasks"><li><p>From <code>sales</code>, draw the correlation heatmap of <code>Sales</code>, <code>Profit</code>, <code>Quantity</code>, <code>Customer_Age</code> and <code>Satisfaction_Score</code> with the values (2 decimals), <code>cmap=&quot;coolwarm&quot;</code>, <code>center=0</code> and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>corr = sales[cols].corr()</code>, then <code>sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+cols = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;, &quot;Customer_Age&quot;, &quot;Satisfaction_Score&quot;]
+corr = sales[cols].corr()
+sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0)
+plt.title(&quot;Correlations&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>5 columns, 25 cells, 25 numbers. Only sales and profit are strongly linked.</p></details></li><li><p>Use <code>sns.lmplot</code> to draw <code>Profit</code> against <code>Sales</code> with a regression line, one panel per <code>Category</code> (<code>col=&quot;Category&quot;</code>, <code>col_wrap=2</code>).</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.lmplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, col=&quot;Category&quot;, col_wrap=2)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.lmplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, col=&quot;Category&quot;, col_wrap=2, height=3, scatter_kws={&quot;s&quot;: 12})
+plt.show()</code></pre></figure><p>Four categories, four panels. The line is steeper for furniture: it earns more profit per rupee of sales.</p></details></li><li><p>Make <b>1 row of 2 charts</b> with <code>plt.subplots(1, 2)</code>: on the left a Seaborn box plot of <code>Profit</code> per <code>Region</code> (<code>ax=axes[0]</code>), on the right a scatter of <code>Sales</code> against <code>Profit</code> coloured by <code>Category</code> (<code>ax=axes[1]</code>). Give the figure a title with <code>fig.suptitle</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>fig, axes = plt.subplots(1, 2, figsize=(11, 4))</code>, then <code>sns.boxplot(..., ax=axes[0])</code> and <code>sns.scatterplot(..., ax=axes[1])</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+sns.boxplot(data=sales, x=&quot;Region&quot;, y=&quot;Profit&quot;, ax=axes[0])
+axes[0].set(title=&quot;Profit per region&quot;)
+sns.scatterplot(data=sales, x=&quot;Sales&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, s=12, ax=axes[1])
+axes[1].set(title=&quot;Sales vs profit&quot;)
+fig.suptitle(&quot;Profit overview&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>Axes-level functions take <code>ax=</code>, so they fit in any Matplotlib grid.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>scatterplot</code> adds columns as <code>hue</code>, <code>size</code> and <code>style</code>; <code>lineplot</code> draws the mean per x with a 95% band (<code>estimator=&quot;sum&quot;</code>, <code>errorbar=None</code>).</li><li><code>regplot</code> / <code>lmplot</code> draw a fitted line (<code>order=2</code> for a curve, <code>ci=None</code> for no band); <code>residplot</code> shows what the line misses.</li><li><code>sns.heatmap(table, annot=True, fmt=..., cmap=..., center=...)</code> works for any correlation or pivot table; <code>clustermap</code> reorders similar rows.</li><li>Grids: <code>FacetGrid</code> + <code>map</code>, <code>pairplot</code> (every pair), <code>jointplot</code> (one pair with margins); figure-level charts return a grid <code>g</code>.</li><li>Contexts scale text for paper or slides; choose qualitative, sequential or diverging colours; use <code>ax=</code> for dashboards and <code>g.savefig()</code> to save.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Make the dot size follow the group size.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.scatterplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, ___=&quot;size&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>size</code> — <code>size=</code> maps a column to the size of the dots.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Fit a curve instead of a straight line.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.regplot(data=tips, x=&quot;total_bill&quot;, y=&quot;tip&quot;, ___=2)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>order</code> — <code>order=2</code> fits a parabola.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Write the values in the heatmap cells.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+corr = tips[[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;]].corr()
+sns.heatmap(corr, ___=True, fmt=&quot;.2f&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>annot</code> — <code>annot=True</code> writes each value; <code>fmt=</code> sets its format.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Put the white colour at 0 for a diverging scale.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+corr = tips[[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;]].corr()
+sns.heatmap(corr, cmap=&quot;coolwarm&quot;, ___=0)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>center</code> — <code>center=0</code> makes 0 the middle colour of the scale.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Draw every pair of the chosen columns.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.___(tips, vars=[&quot;total_bill&quot;, &quot;tip&quot;, &quot;size&quot;])
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>pairplot</code> — pairplot draws a scatter for every pair and each column's shape on the diagonal.</p><p>Output:</p><pre class="out"></pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>In <code>sns.scatterplot(data=df, x=&quot;a&quot;, y=&quot;b&quot;, size=&quot;c&quot;)</code>, what does <code>size=&quot;c&quot;</code> do?</p><ol type="A"><li>Sets the figure size</li><li>Makes each dot bigger or smaller by its value in column c</li><li>Sets the font size</li><li>Counts the rows</li></ol><details><summary>Answer</summary><p><b>Makes each dot bigger or smaller by its value in column c</b>. hue, size and style each show one more column; <code>sizes=(min, max)</code> sets the range.</p></details></li><li><p><code>sns.lineplot(data=sales, x=&quot;Month&quot;, y=&quot;Sales&quot;)</code> has 40 orders in each month. What is the line?</p><ol type="A"><li>The first order of each month</li><li>The total per month</li><li>The mean per month, with a 95% band</li><li>Every order joined in order</li></ol><details><summary>Answer</summary><p><b>The mean per month, with a 95% band</b>. lineplot's estimator is the mean; use <code>estimator=&quot;sum&quot;</code> for totals.</p></details></li><li><p>Which option makes <code>regplot</code> fit a curve instead of a straight line?</p><ol type="A"><li><code>curve=True</code></li><li><code>order=2</code></li><li><code>kind=&quot;curve&quot;</code></li><li><code>ci=2</code></li></ol><details><summary>Answer</summary><p><b><code>order=2</code></b>. <code>order=2</code> fits a polynomial of degree 2 (a parabola).</p></details></li><li><p>A residual plot shows a clear U shape. What does it tell you?</p><ol type="A"><li>The fit is perfect</li><li>A straight line is the wrong shape for this data</li><li>There are too few points</li><li>The colours are wrong</li></ol><details><summary>Answer</summary><p><b>A straight line is the wrong shape for this data</b>. Residuals with a pattern mean the model misses something; try <code>order=2</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.DataFrame({&quot;a&quot;: [1, 2, 3], &quot;b&quot;: [2, 4, 7], &quot;c&quot;: [9, 4, 1]})
+print(df.corr().shape)</code></pre></figure><ol type="A"><li><code>(3, 3)</code></li><li><code>(500, 3)</code></li><li><code>(3, 500)</code></li><li><code>(9,)</code></li></ol><details><summary>Answer</summary><p><b><code>(3, 3)</code></b>. A correlation table has one row and one column per number column.</p></details></li><li><p>For a correlation heatmap, which colour settings fit best?</p><ol type="A"><li><code>cmap=&quot;Blues&quot;</code></li><li><code>cmap=&quot;coolwarm&quot;, center=0</code></li><li><code>cmap=&quot;Set2&quot;</code></li><li>No colours</li></ol><details><summary>Answer</summary><p><b><code>cmap=&quot;coolwarm&quot;, center=0</code></b>. Correlations go from -1 to 1 around 0: a diverging scale centred on 0.</p></details></li><li><p>What does <code>fmt=&quot;d&quot;</code> mean in <code>sns.heatmap(counts, annot=True, fmt=&quot;d&quot;)</code>?</p><ol type="A"><li>Dates</li><li>Whole numbers in the cells</li><li>2 decimals</li><li>Dark colours</li></ol><details><summary>Answer</summary><p><b>Whole numbers in the cells</b>. <code>&quot;d&quot;</code> formats integers; <code>&quot;.2f&quot;</code> gives 2 decimals.</p></details></li><li><p>What does <code>sns.pairplot(df, vars=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code> draw?</p><ol type="A"><li>3 charts</li><li>A 3 × 3 grid: pairs off the diagonal, each column's shape on it</li><li>One heatmap</li><li>A line per column</li></ol><details><summary>Answer</summary><p><b>A 3 × 3 grid: pairs off the diagonal, each column's shape on it</b>. Every pair of the chosen columns, plus each column alone on the diagonal.</p></details></li><li><p>You have 5,000 points and the scatter is one dark blob. Which jointplot kind helps?</p><ol type="A"><li><code>kind=&quot;scatter&quot;</code></li><li><code>kind=&quot;hex&quot;</code></li><li><code>kind=&quot;line&quot;</code></li><li><code>kind=&quot;bar&quot;</code></li></ol><details><summary>Answer</summary><p><b><code>kind=&quot;hex&quot;</code></b>. Hexagons count the points in each small area, so dense parts show as dark.</p></details></li><li><p>How do you put a Seaborn box plot into the second chart of <code>fig, axes = plt.subplots(1, 2)</code>?</p><ol type="A"><li><code>sns.boxplot(..., ax=axes[1])</code></li><li><code>axes[1] = sns.boxplot(...)</code></li><li><code>sns.catplot(..., ax=axes[1])</code></li><li><code>plt.subplot(axes[1])</code></li></ol><details><summary>Answer</summary><p><b><code>sns.boxplot(..., ax=axes[1])</code></b>. Axes-level functions take <code>ax=</code>. Figure-level ones like catplot make their own figure.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>scatterplot extras</dt><dd><code>hue=</code> colour, <code>size=</code> dot size (<code>sizes=(20, 200)</code>), <code>style=</code> marker shape.</dd><dt>lineplot</dt><dd>Sorts by x; many rows per x → the mean with a 95% band. <code>estimator=&quot;sum&quot;</code>, <code>errorbar=None</code>.</dd><dt>regplot</dt><dd>Scatter + best line + 95% band. <code>order=2</code> curve, <code>ci=None</code> no band, <code>scatter_kws</code>, <code>line_kws</code>.</dd><dt>lmplot</dt><dd>Figure-level regplot: <code>hue=</code> lines per group, <code>col=</code> panels.</dd><dt>residplot</dt><dd>Real value minus the line's value. A pattern means the wrong shape.</dd><dt>relplot</dt><dd>Figure-level scatterplot / lineplot with <code>col=</code>, <code>row=</code>; returns a FacetGrid.</dd><dt>Heatmap recipe</dt><dd><code>sns.heatmap(corr, annot=True, fmt=&quot;.2f&quot;, cmap=&quot;coolwarm&quot;, center=0)</code></dd><dt>Heatmap of a pivot table</dt><dd><code>sns.heatmap(df.pivot_table(values=, index=, columns=, aggfunc=&quot;mean&quot;), annot=True)</code></dd><dt>clustermap</dt><dd>A heatmap that reorders similar rows and columns, with dendrograms. Needs SciPy.</dd><dt>FacetGrid</dt><dd><code>g = sns.FacetGrid(df, col=, row=, hue=)</code>, then <code>g.map(sns.scatterplot, &quot;x&quot;, &quot;y&quot;)</code>, <code>g.add_legend()</code>.</dd><dt>pairplot vs jointplot</dt><dd>pairplot: every pair of columns. jointplot: one pair with its margins.</dd><dt>Contexts</dt><dd><code>sns.set_context(&quot;paper&quot; / &quot;notebook&quot; / &quot;talk&quot; / &quot;poster&quot;)</code> scales text and lines.</dd><dt>Correlation is not cause</dt><dd>Two columns can move together because of a third thing, like the summer heat.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>sns.scatterplot(data=df, x='a', y='b', hue='g', size='s', style='t')</code></td><td>Scatter + 3 columns</td></tr><tr><td><code>sns.lineplot(data=df, x='m', y='v', hue='g', estimator='sum', errorbar=None)</code></td><td>Lines</td></tr><tr><td><code>sns.regplot(data=df, x='a', y='b', order=2, ci=None)</code></td><td>Fitted line or curve</td></tr><tr><td><code>sns.lmplot(data=df, x='a', y='b', hue='g', col='h')</code></td><td>Fits in panels</td></tr><tr><td><code>sns.residplot(data=df, x='a', y='b')</code></td><td>Check the fit</td></tr><tr><td><code>sns.relplot(data=df, x='a', y='b', kind='line', col='g')</code></td><td>Relation panels</td></tr><tr><td><code>sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm', center=0)</code></td><td>Correlations</td></tr><tr><td><code>mask = np.triu(np.ones_like(corr, dtype=bool))</code></td><td>Hide the mirror half</td></tr><tr><td><code>sns.heatmap(df.pivot_table(...), annot=True, fmt='.0f')</code></td><td>Pivot heatmap</td></tr><tr><td><code>sns.clustermap(corr, cmap='RdBu_r', center=0)</code></td><td>Grouped heatmap</td></tr><tr><td><code>g = sns.FacetGrid(df, col='g', row='h'); g.map(sns.scatterplot, 'a', 'b')</code></td><td>Own panels</td></tr><tr><td><code>g.map_dataframe(sns.histplot, x='a')</code></td><td>Named columns</td></tr><tr><td><code>sns.pairplot(df, vars=[...], hue='g', corner=True)</code></td><td>Every pair</td></tr><tr><td><code>g = sns.PairGrid(df); g.map_upper(...); g.map_lower(...); g.map_diag(...)</code></td><td>Custom pairs</td></tr><tr><td><code>sns.jointplot(data=df, x='a', y='b', kind='hex')</code></td><td>One pair + margins</td></tr><tr><td><code>sns.set_context('talk')  sns.set_palette('husl', 4)</code></td><td>Scale and colours</td></tr><tr><td><code>sns.boxplot(..., ax=axes[0]); ax.set(title=..., xlabel=...)</code></td><td>Dashboards</td></tr><tr><td><code>g.savefig('file.png', dpi=300)</code></td><td>Save a figure-level chart</td></tr></tbody></table></div></section><p class="ver"><a href="test-sns2.html">Take the 30.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="sns1.html">← Spread &amp; categories</a><a href="overview10.html">Part 10 overview →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

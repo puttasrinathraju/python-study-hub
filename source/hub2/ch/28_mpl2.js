@@ -19,7 +19,7 @@ ax.plot(["Q1", "Q2", "Q3", "Q4"], [180, 240, 210, 320], marker="o")
 ax.set_title("Quarterly sales")
 ax.set_xlabel("Quarter")
 ax.set_ylabel("Sales (₹ thousand)")
-plt.show()`, o: "", img: ["img/c28-02.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-06.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line lines=1 t='Quarterly sales' x='Quarter' y='Sales (₹ thousand)' leg=None xt=['Q1', 'Q2', 'Q3', 'Q4'] h=[] tx=0`, ttl: "The same chart, the object way" },
   { t: "table", head: ["Quick way (plt.)", "Object way (ax.)"], rows: [
@@ -50,7 +50,7 @@ axes[1].plot([1, 2, 3, 4], [12, 18, 15, 22], marker="o")
 axes[1].set_title("Weekly visitors (thousand)")
 fig.suptitle("Two charts side by side")
 plt.tight_layout()
-plt.show()`, o: "", img: ["img/c28-03.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-07.webp"], sum: R`
 #fig1 axes=2 sup='Two charts side by side' cbar=0 leg=None
 #ax1 bar bars=3 t='Payments' x='' y='' leg=None xt=['UPI', 'Card', 'Cash'] h=[55.0, 30.0, 15.0] tx=0
 #ax2 line lines=1 t='Weekly visitors (thousand)' x='' y='' leg=None xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5'] h=[] tx=0`, ttl: "One row, two charts" },
@@ -59,7 +59,13 @@ import matplotlib.pyplot as plt
 fig, axes = plt.subplots(2, 3)
 print(type(axes).__name__, axes.shape)
 plt.close()`, o: "ndarray (2, 3)", img: [], sum: "", ttl: "axes is a NumPy array of charts" },
-  { t: "p", b: "Here is a 2 × 2 **sales dashboard**, built from `sales_data.csv` like in the course notes. Each chart answers a different question." },
+  { t: "anim", title: "Building a dashboard step by step", frames: [
+    { html: "<img class=\"figimg\" src=\"img/c28-02.webp\" alt=\"A figure with four empty charts in a 2 by 2 grid\" loading=\"lazy\">", c: "**Step 1**: `fig, axes = plt.subplots(2, 2)` makes the figure and four empty axes. Nothing is drawn yet." },
+    { html: "<img class=\"figimg\" src=\"img/c28-03.webp\" alt=\"The top-left chart now has a line\" loading=\"lazy\">", c: "**Step 2**: `axes[0, 0].plot(...)` draws on the top-left chart only, and `axes[0, 0].set_title(...)` names it." },
+    { html: "<img class=\"figimg\" src=\"img/c28-04.webp\" alt=\"All four charts are drawn, but the titles and labels overlap a little\" loading=\"lazy\">", c: "**Step 3**: fill the other three with `axes[0, 1]`, `axes[1, 0]` and `axes[1, 1]`. Look closely: titles and tick labels crowd each other." },
+    { html: "<img class=\"figimg\" src=\"img/c28-05.webp\" alt=\"The finished dashboard with a big title and neat spacing\" loading=\"lazy\">", c: "**Step 4**: `fig.suptitle(...)` adds one title over everything, and `plt.tight_layout()` spaces the charts so nothing overlaps." }
+  ] },
+  { t: "p", b: "Here is a real 2 × 2 **sales dashboard**, built from `sales_data.csv` like in the course notes. Each chart answers a different question." },
   { t: "code", c: R`
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -82,7 +88,7 @@ axes[1, 1].scatter(sales["Sales"], sales["Profit"], s=10, alpha=0.5)
 axes[1, 1].set_title("Sales vs profit")
 fig.suptitle("Sales dashboard 2024", fontsize=16, fontweight="bold")
 plt.tight_layout()
-plt.show()`, o: "", img: ["img/c28-05.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-09.webp"], sum: R`
 #fig1 axes=4 sup='Sales dashboard 2024' cbar=0 leg=None
 #ax1 line lines=1 t='Monthly sales' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=0
 #ax2 bar bars=4 t='Sales by category' x='' y='' leg=None xt=['Clothing', 'Electronics', 'Furniture', 'Groceries'] h=[297400.0, 597400.0, 543700.0, 109900.0] tx=0
@@ -99,7 +105,7 @@ plt.subplot(1, 2, 2)
 plt.hist([2, 3, 3, 4, 4, 4, 5, 6], bins=4, density=True, color="seagreen")
 plt.title("Shares (density=True)")
 plt.tight_layout()
-plt.show()`, o: "", img: ["img/c28-06.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-10.webp"], sum: R`
 #fig1 axes=2 sup='' cbar=0 leg=None
 #ax1 hist bars=4 t='Counts' x='' y='' leg=None xt=['1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0', '5.5', '6.0', '6.5'] h=[1.0, 2.0, 3.0, 2.0] tx=0
 #ax2 hist bars=4 t='Shares (density=True)' x='' y='' leg=None xt=['1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0', '5.5', '6.0', '6.5'] h=[0.125, 0.25, 0.375, 0.25] tx=0`, ttl: "plt.subplot(1, 2, n)" },
@@ -125,7 +131,7 @@ for i in range(len(cols)):
         plt.text(j, i, f"{value:.2f}", ha="center", va="center", color="white" if abs(value) > 0.5 else "black")
 plt.title("How the columns move together")
 plt.tight_layout()
-plt.show()`, o: "", img: ["img/c28-07.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-11.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=1 leg=None
 #ax1 image+text images=1 t='How the columns move together' x='' y='' leg=None xt=['Sales', 'Profit', 'Quantity', 'Customer_Age'] h=[] tx=16`, ttl: "A correlation heatmap", pre: R`
 import matplotlib.pyplot as plt
@@ -146,7 +152,7 @@ plt.plot([1, 2, 3, 4], [2, 4, 5, 5], marker="s", label="Last year")
 plt.legend(loc="upper left", title="Sales", frameon=True)
 plt.title("The ggplot style")
 plt.show()
-plt.style.use("default")     # back to normal`, o: "", img: ["img/c28-08.webp"], sum: R`
+plt.style.use("default")     # back to normal`, o: "", img: ["img/c28-12.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line lines=2 t='The ggplot style' x='' y='' leg=['This year', 'Last year'] xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5'] h=[] tx=0`, ttl: "plt.style.use()" },
   { t: "note", k: "trap", b: "A style stays on until you change it: in Jupyter it affects **every later cell**. Switch back with `plt.style.use(\"default\")`. (On this site each code box starts fresh.) Try `\"seaborn-v0_8\"`, `\"fivethirtyeight\"` or `\"bmh\"` too." },
@@ -159,7 +165,7 @@ ax.legend(loc="upper left", ncol=3, fontsize=9, title="City")
 ax.grid(True, linestyle="--", alpha=0.5)
 ax.set_facecolor("#F8F9FA")
 ax.set_title("Average temperature (°C)")
-plt.show()`, o: "", img: ["img/c28-09.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-13.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line lines=3 t='Average temperature (°C)' x='' y='' leg=['Pune', 'Goa', 'Delhi'] xt=['Jan', 'Feb', 'Mar', 'Apr'] h=[] tx=0`, ttl: "Legend options, grid style and background" },
   { t: "table", head: ["Legend option", "Does"], rows: [
@@ -182,7 +188,7 @@ ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, pos: f"₹{value:,.
 ax.grid(axis="y", alpha=0.3)
 ax.set_axisbelow(True)        # the grid goes behind the bars
 ax.set_title("Revenue, first quarter")
-plt.show()`, o: "", img: ["img/c28-10.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-14.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 bar bars=3 t='Revenue, first quarter' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[125000.0, 98000.0, 143500.0] tx=0`, ttl: "Clean spines and a rupee axis" },
   { t: "p", b: "`plt.FuncFormatter` takes a function with two inputs: the tick value and its position. It returns the text to show. `f\"₹{value:,.0f}\"` adds the rupee sign and commas, with no decimals." },
@@ -195,7 +201,7 @@ bars = ax.bar(["Electronics", "Furniture", "Clothing", "Groceries"], [597387, 54
 ax.bar_label(bars, fmt="₹{:,.0f}", fontsize=9)
 ax.set_title("Sales by category")
 ax.set_ylim(0, 700000)       # room for the labels
-plt.show()`, o: "", img: ["img/c28-11.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-15.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 bar+annotate bars=4 t='Sales by category' x='' y='' leg=None xt=['Electronics', 'Furniture', 'Clothing', 'Groceries'] h=[597400.0, 543700.0, 297400.0, 109900.0] tx=4`, ttl: "bar_label(): numbers on the bars" },
   { t: "code", c: R`
@@ -206,7 +212,7 @@ for bar in bars:
     height = bar.get_height()
     ax.text(bar.get_x() + bar.get_width() / 2, height, f"{height:,.0f}", ha="center", va="bottom")
 ax.set_title("Quarterly sales (₹ thousand)")
-plt.show()`, o: "", img: ["img/c28-12.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-16.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 bar+text bars=4 t='Quarterly sales (₹ thousand)' x='' y='' leg=None xt=['Q1', 'Q2', 'Q3', 'Q4'] h=[180.0, 240.0, 210.0, 320.0] tx=4`, ttl: "The same by hand, as in the course notes" },
   { t: "p", b: "`ax.annotate()` points an arrow at one spot: `xy=` is the point, `xytext=` is where the text sits. Use it to call out the peak." },
@@ -217,7 +223,7 @@ ax.plot(months, monthly.values, marker="o")
 ax.annotate(f"Peak: ₹{monthly.values[peak]:,.0f}", xy=(peak, monthly.values[peak]), xytext=(peak - 4, monthly.values[peak] - 30000), arrowprops=dict(arrowstyle="->", color="red"), bbox=dict(boxstyle="round", facecolor="yellow"))
 ax.set_title("Monthly sales with the peak marked")
 ax.set_ylabel("Sales (₹)")
-plt.show()`, o: "", img: ["img/c28-13.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-17.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line+annotate lines=1 t='Monthly sales with the peak marked' x='' y='Sales (₹)' leg=None xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=1`, ttl: "annotate(): point at the peak", pre: R`
 import matplotlib.pyplot as plt
@@ -244,7 +250,7 @@ lines1, names1 = ax1.get_legend_handles_labels()
 lines2, names2 = ax2.get_legend_handles_labels()
 ax1.legend(lines1 + lines2, names1 + names2, loc="upper left")
 ax1.set_title("Sales and number of orders")
-plt.show()`, o: "", img: ["img/c28-14.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-18.webp"], sum: R`
 #fig1 axes=2 sup='' cbar=0 leg=None
 #ax1 line lines=1 t='Sales and number of orders' x='' y='Sales (₹)' leg=['Sales (₹)', 'Orders'] xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=0
 #ax2 line lines=1 t='' x='' y='Orders' leg=None xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=0`, ttl: "Rupees on the left, orders on the right", pre: R`
@@ -256,6 +262,12 @@ sales["Date"] = pd.to_datetime(sales["Date"])
 by_month = sales.groupby(sales["Date"].dt.to_period("M"))
 monthly = by_month["Sales"].sum()
 months = monthly.index.strftime("%b")` },
+  { t: "pred", chk: 1, c: R`
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax2 = ax.twinx()
+print(len(fig.axes))
+plt.close()`, o: ["`2`", "`1`", "`3`", "`0`"], a: 0, e: "`twinx()` adds a second axes to the same figure, so the figure now holds 2 axes. They share the x-axis." },
   { t: "note", k: "trap", b: "Each axes keeps its own legend. Calling `ax1.legend()` and `ax2.legend()` gives two boxes on top of each other; collect both with `get_legend_handles_labels()` for one legend." },
   { t: "h", text: "Trend lines with polyfit" },
   { t: "p", b: "A ==trend line== is the straight line that fits a scatter best. `np.polyfit(x, y, 1)` finds its slope and intercept (the 1 means a straight line), and `np.poly1d()` turns them into a function you can draw. ==R²== (R squared, from 0 to 1) says how well the line fits." },
@@ -275,7 +287,7 @@ ax.text(0.05, 0.84, f"$R^2 = {r2:.2f}$", transform=ax.transAxes)
 ax.set_xlabel("Sales (₹)")
 ax.set_ylabel("Profit (₹)")
 ax.legend(loc="lower right")
-plt.show()`, o: "slope 0.145, intercept 24.3, R² 0.60", img: ["img/c28-15.webp"], sum: R`
+plt.show()`, o: "slope 0.145, intercept 24.3, R² 0.60", img: ["img/c28-19.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 scatter+line+text lines=1 points=500 t='' x='Sales (₹)' y='Profit (₹)' leg=['Orders', 'Trend line'] xt=['−2000', '0', '2000', '4000', '6000', '8000', '10000', '12000'] h=[] tx=2`, ttl: "Trend line, equation and R²", pre: R`
 import matplotlib.pyplot as plt
@@ -304,7 +316,7 @@ inset = inset_axes(ax, width="35%", height="35%", loc="upper right")
 inset.scatter(big["Customer_Age"], big["Sales"], s=12, color="crimson")
 inset.set_title("Orders over ₹7,000", fontsize=8)
 plt.colorbar(points, ax=ax, label="Satisfaction")
-plt.show()`, o: "", img: ["img/c28-17.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-21.webp"], sum: R`
 #fig1 axes=2 sup='' cbar=1 leg=None
 #ax1 scatter points=500 t='Age vs order value' x='Customer age' y='Sales (₹)' leg=None xt=['10', '20', '30', '40', '50', '60', '70'] h=[] tx=0
 #ax2 scatter points=39 t='Orders over ₹7,000' x='' y='' leg=None xt=['0', '20', '40', '60'] h=[] tx=0`, ttl: "A zoom on the biggest orders", pre: R`
@@ -321,7 +333,7 @@ fig, ax = plt.subplots(figsize=(7, 3.5))
 ax.plot(["Jan", "Feb", "Mar"], [40, 44, 68], marker="o")
 ax.set_title("Same look for every chart")
 plt.show()
-plt.rcdefaults()     # back to the normal settings`, o: "", img: ["img/c28-18.webp"], sum: R`
+plt.rcdefaults()     # back to the normal settings`, o: "", img: ["img/c28-22.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line lines=1 t='Same look for every chart' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[] tx=0`, ttl: "rcParams: settings for every chart" },
   { t: "h", text: "Best practices and common mistakes" },
@@ -346,7 +358,7 @@ axes[1].barh([names[i] for i in order], [values[i] for i in order], color="teal"
 axes[1].set_title("After: sorted bars")
 axes[1].set_xlabel("Rooms booked")
 plt.tight_layout()
-plt.show()`, o: "", img: ["img/c28-19.webp"], sum: R`
+plt.show()`, o: "", img: ["img/c28-23.webp"], sum: R`
 #fig1 axes=2 sup='' cbar=0 leg=None
 #ax1 pie wedges=5 t='Before: which is biggest?' x='' y='' leg=None xt=[] h=[] tx=5
 #ax2 barh bars=5 t='After: sorted bars' x='Rooms booked' y='' leg=None xt=['0', '10', '20', '30', '40', '50', '60', '70'] h=[35.0, 39.0, 42.0, 47.0, 58.0] tx=0`, ttl: "Before and after: the same numbers, easier to compare" },
@@ -381,7 +393,7 @@ fig, ax = plt.subplots()
 ax.bar(cities, visitors)
 ax.set_title("Weekend visitors")
 ax.set_ylabel("Visitors")
-plt.show()`, why: "On an axes, every label method starts with `set_`.", out: "", img: ["img/c28-20.webp"], sum: R`
+plt.show()`, why: "On an axes, every label method starts with `set_`.", out: "", img: ["img/c28-24.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 bar bars=3 t='Weekend visitors' x='' y='Visitors' leg=None xt=['Pune', 'Goa', 'Kochi'] h=[120.0, 300.0, 180.0] tx=0`, chart: { kind: "bar", bars: 3, title: true, ylabel: true, xticks: ["Pune", "Goa", "Kochi"] }, starter: R`
 import matplotlib.pyplot as plt
@@ -397,7 +409,7 @@ axes[1].hist([1, 2, 2, 3, 3, 3, 4], bins=3)
 axes[1].set_title("Spread")
 fig.suptitle("My first dashboard")
 plt.tight_layout()
-plt.show()`, why: "One figure, two axes: each one gets its own drawing and title.", out: "", img: ["img/c28-21.webp"], sum: R`
+plt.show()`, why: "One figure, two axes: each one gets its own drawing and title.", out: "", img: ["img/c28-25.webp"], sum: R`
 #fig1 axes=2 sup='My first dashboard' cbar=0 leg=None
 #ax1 line lines=1 t='Trend' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5'] h=[] tx=0
 #ax2 hist bars=3 t='Spread' x='' y='' leg=None xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5'] h=[1.0, 2.0, 4.0] tx=0`, chart: { axes: 2, suptitle: "My first dashboard", ax: [
@@ -416,7 +428,7 @@ ax.bar_label(bars)
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 ax.set_title("Revenue (₹ thousand)")
-plt.show()`, why: "`bar_label` adds one text per bar, so the checker finds 3 texts.", out: "", img: ["img/c28-22.webp"], sum: R`
+plt.show()`, why: "`bar_label` adds one text per bar, so the checker finds 3 texts.", out: "", img: ["img/c28-26.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 bar+annotate bars=3 t='Revenue (₹ thousand)' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[125.0, 98.0, 143.0] tx=3`, chart: { kind: "bar", bars: 3, texts: 3, title: true, spines: { top: false, right: false } }, starter: R`
 import matplotlib.pyplot as plt
@@ -435,7 +447,7 @@ ax.scatter(x, y, label="Data")
 ax.plot(x, [slope * v + intercept for v in x], "r-", label="Trend")
 ax.legend()
 ax.set_title("A straight trend")
-plt.show()`, why: "The slope is about 2: y grows by 2 when x grows by 1.", out: "1.99 0.05", img: ["img/c28-23.webp"], sum: R`
+plt.show()`, why: "The slope is about 2: y grows by 2 when x grows by 1.", out: "1.99 0.05", img: ["img/c28-27.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 scatter+line lines=1 points=5 t='A straight trend' x='' y='' leg=['Data', 'Trend'] xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0', '5.5'] h=[] tx=0`, chart: { kind: ["scatter", "line"], points: 5, lines: 1, legend: true }, starter: R`
 import matplotlib.pyplot as plt
@@ -452,7 +464,7 @@ plt.colorbar()
 plt.xticks(range(3), names)
 plt.yticks(range(3), names)
 plt.title("Correlations")
-plt.show()`, why: "`xticks(positions, names)` swaps the numbers 0, 1, 2 for the column names.", out: "", img: ["img/c28-24.webp"], sum: R`
+plt.show()`, why: "`xticks(positions, names)` swaps the numbers 0, 1, 2 for the column names.", out: "", img: ["img/c28-28.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=1 leg=None
 #ax1 image images=1 t='Correlations' x='' y='' leg=None xt=['Sales', 'Profit', 'Age'] h=[] tx=0`, chart: { kind: "image", colorbar: true, xticks: ["Sales", "Profit", "Age"], yticks: ["Sales", "Profit", "Age"] }, starter: R`
 import matplotlib.pyplot as plt
@@ -477,7 +489,7 @@ axes[1].pie(counts.values, labels=counts.index, autopct="%1.1f%%", startangle=90
 axes[1].set_title("Orders by category")
 fig.suptitle("Sales overview")
 plt.tight_layout()
-plt.show()`, why: "Two different questions, one figure.", out: "", img: ["img/c28-25.webp"], sum: R`
+plt.show()`, why: "Two different questions, one figure.", out: "", img: ["img/c28-29.webp"], sum: R`
 #fig1 axes=2 sup='Sales overview' cbar=0 leg=None
 #ax1 bar bars=4 t='Sales by region' x='' y='' leg=None xt=['East', 'North', 'South', 'West'] h=[281900.0, 400200.0, 462600.0, 403700.0] tx=0
 #ax2 pie wedges=4 t='Orders by category' x='' y='' leg=None xt=[] h=[] tx=8`, chart: { axes: 2, suptitle: true, ax: [
@@ -503,7 +515,7 @@ ax.plot(months, profit.values, marker="o")
 ax.annotate("Best month", xy=(best, profit.values[best]), xytext=(best - 4, profit.values[best]), arrowprops=dict(arrowstyle="->"))
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, pos: f"₹{value:,.0f}"))
 ax.set_title("Monthly profit")
-plt.show()`, why: "November is the best month for profit too.", out: "", img: ["img/c28-26.webp"], sum: R`
+plt.show()`, why: "November is the best month for profit too.", out: "", img: ["img/c28-30.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 line+annotate lines=1 t='Monthly profit' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=1`, chart: { kind: ["line", "annotate"], lines: 1, title: true, text_has: "Best" }, starter: R`
 import pandas as pd
@@ -529,7 +541,7 @@ ax.plot(line_x, slope * line_x + intercept, "r-")
 ax.set_xlabel("Customer age")
 ax.set_ylabel("Satisfaction")
 ax.set_title("Age vs satisfaction")
-plt.show()`, why: "R² is close to 0: age tells you almost nothing about satisfaction. A flat trend line says the same.", out: "0.003", img: ["img/c28-27.webp"], sum: R`
+plt.show()`, why: "R² is close to 0: age tells you almost nothing about satisfaction. A flat trend line says the same.", out: "0.003", img: ["img/c28-31.webp"], sum: R`
 #fig1 axes=1 sup='' cbar=0 leg=None
 #ax1 scatter+line lines=1 points=500 t='Age vs satisfaction' x='Customer age' y='Satisfaction' leg=None xt=['10', '20', '30', '40', '50', '60', '70'] h=[] tx=0`, chart: { kind: ["scatter", "line"], points: 500, xlabel: true, ylabel: true }, starter: R`
 import pandas as pd

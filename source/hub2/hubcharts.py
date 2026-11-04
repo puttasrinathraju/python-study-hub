@@ -2,7 +2,7 @@
 # The browser runner and the checker in the build use this same file, so both see the same chart facts.
 # On import it switches Matplotlib to the Agg backend (no window), makes plt.show() keep a picture of every
 # open chart, and records which plotting functions draw on each axes.
-import os, io, json, base64, functools
+import os, io, json, base64, functools, sys
 os.environ['MPLBACKEND'] = 'Agg'
 import matplotlib
 matplotlib.use('Agg')
@@ -64,6 +64,14 @@ def patch():
 
 def patch_sns():
     import seaborn as sns
+    m = sys.modules.get('seaborn.matrix')
+    if m is not None and getattr(m, '_no_scipy', False):
+        # Seaborn was imported before SciPy was loaded (the browser loads SciPy only for clustermap): switch it on now
+        try:
+            from scipy.cluster import hierarchy
+            m.hierarchy, m._no_scipy = hierarchy, False
+        except ImportError:
+            pass
     if getattr(sns, '_hub_patched', False):
         return
     names = ['histplot', 'kdeplot', 'rugplot', 'ecdfplot', 'displot', 'barplot', 'countplot', 'boxplot', 'violinplot',
@@ -145,7 +153,7 @@ def collect():
         item = {}
         try:
             buf = io.BytesIO()
-            fig.savefig(buf, format='png', dpi=DPI)
+            fig.savefig(buf, format='png', dpi=DPI, bbox_inches='tight')
             if PNG:
                 item['png'] = base64.b64encode(buf.getvalue()).decode('ascii')
             item['facts'] = fig_facts(fig)

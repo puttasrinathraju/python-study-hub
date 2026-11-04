@@ -1,6 +1,6 @@
 import ast, io, tokenize, builtins
 # Short names every data analyst knows: they count as clear names
-SHORT_OK = {'df', 'ax', 'x', 'y'}
+SHORT_OK = {'df', 'ax', 'x', 'y', 'g'}   # g: the usual name of a Seaborn grid
 def analyse(src, starter=''):
     res = {'ok': True, 'feat': {}, 'names': [], 'defs': [], 'comments': 0, 'lines': 0, 'long': [], 'tabs': [], 'indent': [], 'tight': []}
     def add(k):

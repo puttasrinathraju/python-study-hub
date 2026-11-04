@@ -1,6 +1,6 @@
 import json, subprocess, sys, os, tempfile
 items = json.load(open('out/items.json'))
-only = sys.argv[1] if len(sys.argv) > 1 else None
+only = tuple(sys.argv[1:]) or None   # item id prefixes to check (all items when none)
 bad = 0
 work = tempfile.mkdtemp()
 import shutil, glob

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seaborn: distributions and categories | Python Study Hub</title>
+<meta name="description" content="Seaborn turns a DataFrame into a statistical chart in one line. Learn the shared arguments (data, x, y, hue), show the shape of one column with histograms, KDE curves and ECDFs, compare groups with count, bar, point, box, violin, strip and swarm plots, split charts into panels, and give them a clean, colour-blind-friendly style.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/sns1.html">
+<meta property="og:title" content="Seaborn: distributions and categories | Python Study Hub">
+<meta property="og:description" content="Seaborn turns a DataFrame into a statistical chart in one line. Learn the shared arguments (data, x, y, hue), show the shape of one column with histograms, KDE curves and ECDFs, compare groups with count, bar, point, box, violin, strip and swarm plots, split charts into panels, and give them a clean, colour-blind-friendly style.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#sns1">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#sns1">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 10 · Seaborn · Chapter 29</p><h1>Seaborn: distributions and categories</h1><p class="lead">Seaborn turns a DataFrame into a statistical chart in one line. Learn the shared arguments (<code>data</code>, <code>x</code>, <code>y</code>, <code>hue</code>), show the shape of one column with histograms, KDE curves and ECDFs, compare groups with count, bar, point, box, violin, strip and swarm plots, split charts into panels, and give them a clean, colour-blind-friendly style.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Draw Seaborn charts from a DataFrame with <code>data=</code>, <code>x=</code>, <code>y=</code> and <code>hue=</code></li><li>Show the shape of a column with <code>histplot</code>, <code>kdeplot</code>, <code>rugplot</code>, <code>ecdfplot</code> and <code>displot</code></li><li>Count and average categories with <code>countplot</code>, <code>barplot</code> and <code>pointplot</code>, and read error bars</li><li>Compare spread with <code>boxplot</code>, <code>violinplot</code>, <code>stripplot</code> and <code>swarmplot</code>; make panels with <code>catplot</code></li><li>Style charts with themes, palettes and <code>despine()</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=Bjz00ygERxY">Seaborn histplot</a> by Kimberly Fessel (about undefined min)</li></ul></section><h2>Seaborn: statistical charts in one line</h2>
+<p><mark>Seaborn</mark> is a charting library built on Matplotlib. You give it a DataFrame and the <b>names</b> of the columns, and it does the grouping, counting, averaging and colouring for you. It is always imported as <code>sns</code>, next to <code>plt</code>, because the finished chart is still a Matplotlib chart.</p>
+<figure class="code"><figcaption>Your first Seaborn chart</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.histplot(data=sales, x=&quot;Sales&quot;, bins=20)
+plt.title(&quot;Order values in 2024&quot;)
+plt.show()</code></pre></figure>
+<p><code>sns.set_theme()</code> switches on Seaborn's look: a grey background with a white grid and softer colours. Call it once at the top. After that, plain <code>plt.title()</code>, <code>plt.xlabel()</code> and <code>plt.show()</code> work as in Part 9.</p>
+<aside class="note tip"><strong>Easy tip</strong><p>From here on, the examples start with these four lines and <code>sales = pd.read_csv(&quot;sales_data.csv&quot;)</code> (or <code>tips = sns.load_dataset(&quot;tips&quot;)</code>). They are hidden to save space; <b>Edit and run</b> includes them.</p></aside>
+<p>Compare the two ways to draw the <b>average</b> order value per category. Matplotlib needs the numbers worked out first. Seaborn works them out from the raw rows.</p>
+<figure class="code"><figcaption>The Matplotlib way</figcaption><pre><code>avg = sales.groupby(&quot;Category&quot;)[&quot;Sales&quot;].mean()
+plt.bar(avg.index, avg.values)
+plt.title(&quot;Matplotlib: group first, then draw&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>The Seaborn way</figcaption><pre><code>sns.barplot(data=sales, x=&quot;Category&quot;, y=&quot;Sales&quot;, errorbar=None)
+plt.title(&quot;Seaborn: one line from the raw rows&quot;)
+plt.show()</code></pre></figure>
+<section class="mm"><h3>Mind map: Chapter 29 at a glance</h3><ul><li><b>Seaborn: spread &amp; categories</b><ul><li>Basics<ul><li>import seaborn as sns</li><li>sns.set_theme()</li><li>data=, x=, y=, hue=</li><li>load_dataset(&quot;tips&quot;)</li></ul></li><li>One number column<ul><li>histplot</li><li>kdeplot, rugplot</li><li>ecdfplot</li><li>displot (panels)</li></ul></li><li>Count and average<ul><li>countplot</li><li>barplot: mean + error bar</li><li>pointplot</li></ul></li><li>Spread by group<ul><li>boxplot</li><li>violinplot, split=True</li><li>stripplot, swarmplot</li><li>catplot (panels)</li></ul></li><li>Style<ul><li>set_theme(style=...)</li><li>palette=</li><li>color_palette()</li><li>despine()</li></ul></li></ul></li></ul></section>
+<h2>Datasets, data= and hue=</h2>
+<p>Seaborn comes with small practice datasets. <code>sns.load_dataset(&quot;tips&quot;)</code> gives 244 restaurant bills from the USA (so the money is in dollars): the bill, the tip, the day, lunch or dinner, smoker or not, and the size of the group.</p>
+<figure class="code"><figcaption>A built-in dataset</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+print(tips.shape)
+print(tips.head(3))</code></pre><p class="olbl">Output</p><pre class="out">(244, 7)
+   total_bill   tip     sex smoker  day    time  size
+0       16.99  1.01  Female     No  Sun  Dinner     2
+1       10.34  1.66    Male     No  Sun  Dinner     3
+2       21.01  3.50    Male     No  Sun  Dinner     3</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>On your laptop, <code>load_dataset()</code> downloads the file from the internet the first time. On this site only <code>&quot;tips&quot;</code> is ready offline. For your own work, load your own file with <code>pd.read_csv()</code>.</p></aside>
+<p>Almost every Seaborn function takes the same arguments. Learn them once and every chart is easy.</p>
+<div class="tbl"><table><thead><tr><th>Argument</th><th>Means</th><th>Example</th></tr></thead><tbody><tr><td><code>data=</code></td><td>The DataFrame</td><td><code>data=sales</code></td></tr><tr><td><code>x=</code> / <code>y=</code></td><td>Column names for the two axes</td><td><code>x=&quot;Category&quot;, y=&quot;Sales&quot;</code></td></tr><tr><td><code>hue=</code></td><td>A column that sets the <b>colour</b>, with a legend for free</td><td><code>hue=&quot;Region&quot;</code></td></tr><tr><td><code>order=</code></td><td>The order of the categories</td><td><code>order=[&quot;North&quot;, &quot;South&quot;]</code></td></tr><tr><td><code>palette=</code></td><td>The set of colours</td><td><code>palette=&quot;pastel&quot;</code></td></tr><tr><td><code>ax=</code></td><td>Which Matplotlib axes to draw on</td><td><code>ax=axes[0, 1]</code></td></tr></tbody></table></div>
+<figure class="code"><figcaption>hue= splits the data by colour</figcaption><pre><code>sns.histplot(data=tips, x=&quot;total_bill&quot;, hue=&quot;time&quot;)
+plt.title(&quot;Bills at lunch and at dinner&quot;)
+plt.show()</code></pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+print(tips[&quot;day&quot;].nunique(), len(tips))</code></pre></figure><ol type="A"><li><code>4 244</code></li><li><code>7 244</code></li><li><code>244 4</code></li><li><code>4 7</code></li></ol><details><summary>Answer</summary><p><b><code>4 244</code></b>. The restaurant was open on 4 days (Thur, Fri, Sat, Sun), and the table has 244 rows.</p></details></section>
+<h2>Histograms with histplot</h2>
+<p><code>sns.histplot()</code> cuts a number column into ranges (<mark>bins</mark>) and counts the rows in each, like <code>plt.hist()</code>. Add <code>kde=True</code> for a smooth curve of the shape on top.</p>
+<figure class="code"><figcaption>Bins plus a smooth curve</figcaption><pre><code>sns.histplot(data=sales, x=&quot;Sales&quot;, bins=20, kde=True, color=&quot;teal&quot;)
+plt.title(&quot;Order values&quot;)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()</code></pre></figure>
+<p>The shape is <mark>right-skewed</mark>: most orders are small, and a few big ones stretch the tail to the right. That is why the mean (₹3,097) is higher than the median (₹2,582).</p>
+<section class="anim"><h3>Animated explainer: hue and multiple: four ways to share one histogram</h3><ol><li><b>layer</b> (the default): one see-through histogram per category, drawn on top of each other. Fine for 2 groups, busy for 4.</li><li><b>stack</b>: the categories sit on top of each other, so the tower's height is the total in that bin.</li><li><b>dodge</b>: thin bars side by side in every bin. Good for comparing a few groups bin by bin.</li><li><b>fill</b>: every bin is stretched to 100%, so you see each category's <b>share</b> of the bin. Small orders are mostly groceries and clothing.</li></ol></section>
+<figure class="code"><figcaption>Stacked by category</figcaption><pre><code>sns.histplot(data=sales, x=&quot;Sales&quot;, hue=&quot;Category&quot;, multiple=&quot;stack&quot;, bins=20)
+plt.title(&quot;Order values by category&quot;)
+plt.show()</code></pre></figure>
+<p><code>stat=</code> changes what the bar height means, and <code>binwidth=</code> sets the width of each bin instead of the number of bins.</p>
+<figure class="code"><figcaption>stat=&quot;percent&quot; and binwidth=</figcaption><pre><code>sns.histplot(data=sales, x=&quot;Customer_Age&quot;, binwidth=5, stat=&quot;percent&quot;)
+plt.title(&quot;Customer age: percent of orders&quot;)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>Option</th><th>Does</th></tr></thead><tbody><tr><td><code>bins=20</code> / <code>binwidth=5</code></td><td>How many bins / how wide each one is</td></tr><tr><td><code>kde=True</code></td><td>Adds the smooth curve</td></tr><tr><td><code>stat=&quot;count&quot;</code></td><td>Bar height: rows (default); also <code>&quot;percent&quot;</code>, <code>&quot;density&quot;</code>, <code>&quot;probability&quot;</code></td></tr><tr><td><code>hue=</code> + <code>multiple=</code></td><td><code>&quot;layer&quot;</code>, <code>&quot;stack&quot;</code>, <code>&quot;dodge&quot;</code> or <code>&quot;fill&quot;</code></td></tr><tr><td><code>element=&quot;step&quot;</code></td><td>Outlines instead of filled bars</td></tr><tr><td><code>x=</code> and <code>y=</code></td><td>Two number columns give a 2D histogram</td></tr></tbody></table></div>
+<p>With a number column on <b>both</b> axes, <code>histplot</code> draws a <mark>2D histogram</mark>: a grid of squares, darker where more orders fall.</p>
+<figure class="code"><figcaption>A 2D histogram</figcaption><pre><code>sns.histplot(data=sales, x=&quot;Customer_Age&quot;, y=&quot;Sales&quot;, bins=15, cbar=True)
+plt.title(&quot;Age and order value together&quot;)
+plt.show()</code></pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.histplot(x=[1, 2, 2, 3, 3, 3], bins=3)
+print([int(bar.get_height()) for bar in ax.patches])
+plt.close()</code></pre></figure><ol type="A"><li><code>[1, 2, 3]</code></li><li><code>[3, 2, 1]</code></li><li><code>[6]</code></li><li><code>[1, 1, 1]</code></li></ol><details><summary>Answer</summary><p><b><code>[1, 2, 3]</code></b>. Three bins: one 1, two 2s and three 3s. <code>ax.patches</code> are the bars, from left to right.</p></details></section>
+<h2>Smooth curves: kdeplot, rugplot and ecdfplot</h2>
+<p>A <mark>KDE</mark> (kernel density estimate) is a smooth version of a histogram. Curves are easier than bars to compare when there are several groups. <code>common_norm=False</code> gives every curve an area of 1, so a small group is not squashed flat.</p>
+<figure class="code"><figcaption>kdeplot with hue</figcaption><pre><code>sns.kdeplot(data=sales, x=&quot;Sales&quot;, hue=&quot;Category&quot;, fill=True, common_norm=False, alpha=0.4)
+plt.title(&quot;Order value shape per category&quot;)
+plt.show()</code></pre></figure>
+<p>Groceries and clothing orders are small and close together; electronics and furniture are bigger and spread wide. <code>bw_adjust=</code> sets the smoothing: below 1 is more wiggly, above 1 is smoother.</p>
+<figure class="code"><figcaption>Choosing the smoothing</figcaption><pre><code>sns.kdeplot(data=sales, x=&quot;Customer_Age&quot;, bw_adjust=0.4, label=&quot;bw_adjust=0.4&quot;)
+sns.kdeplot(data=sales, x=&quot;Customer_Age&quot;, bw_adjust=2, label=&quot;bw_adjust=2&quot;)
+plt.legend()
+plt.title(&quot;Same data, different smoothing&quot;)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>A KDE can run past the real data: here it goes below age 18 and above 65, where there are no customers. Add <code>cut=0</code> to stop the curve at the smallest and largest value.</p></aside>
+<p>A <mark>rug plot</mark> draws one small tick for <b>every</b> value along the axis, so you see the real data under the curve.</p>
+<figure class="code"><figcaption>kdeplot + rugplot</figcaption><pre><code>groceries = sales[sales[&quot;Category&quot;] == &quot;Groceries&quot;]
+sns.kdeplot(data=groceries, x=&quot;Sales&quot;, cut=0)
+sns.rugplot(data=groceries, x=&quot;Sales&quot;, height=0.08)
+plt.title(&quot;Grocery orders: curve and every value&quot;)
+plt.show()</code></pre></figure>
+<p>An <mark>ECDF</mark> (empirical cumulative distribution) climbs from 0 to 1. At any value on the x-axis, its height is the <b>share of rows at or below</b> that value. No bins and no smoothing to choose.</p>
+<figure class="code"><figcaption>ecdfplot</figcaption><pre><code>sns.ecdfplot(data=sales, x=&quot;Sales&quot;, hue=&quot;Region&quot;)
+plt.axvline(2500, color=&quot;grey&quot;, linestyle=&quot;--&quot;)
+plt.title(&quot;Share of orders up to each value&quot;)
+plt.show()</code></pre></figure>
+<p>Read it at the dashed line: about half of every region's orders are ₹2,500 or less. Where one line sits to the <b>right</b> of another, that region has bigger orders.</p>
+<h2>Figure-level charts: displot</h2>
+<p>Seaborn has two kinds of functions. <mark>Axes-level</mark> functions (<code>histplot</code>, <code>kdeplot</code>, <code>boxplot</code> ...) draw one chart on the current axes. <mark>Figure-level</mark> functions (<code>displot</code>, <code>catplot</code>, and in Chapter 30 <code>relplot</code>, <code>lmplot</code>, <code>pairplot</code>, <code>jointplot</code>) build a <b>whole figure</b> and can split it into panels with <code>col=</code> and <code>row=</code>.</p>
+<div class="tbl"><table><thead><tr><th></th><th>Axes-level</th><th>Figure-level</th></tr></thead><tbody><tr><td>Examples</td><td><code>histplot</code>, <code>kdeplot</code>, <code>countplot</code>, <code>boxplot</code></td><td><code>displot</code>, <code>catplot</code></td></tr><tr><td>Draws</td><td>One chart</td><td>A whole figure, one panel per group</td></tr><tr><td>Panels</td><td>Use <code>plt.subplots</code> + <code>ax=</code></td><td><code>col=&quot;Region&quot;</code>, <code>row=...</code>, <code>col_wrap=2</code></td></tr><tr><td>Size</td><td><code>plt.figure(figsize=(w, h))</code></td><td><code>height=3, aspect=1.5</code> (per panel)</td></tr><tr><td>Labels</td><td><code>plt.title()</code>, <code>plt.xlabel()</code></td><td><code>g.set_axis_labels()</code>, <code>g.set_titles()</code>, <code>g.figure.suptitle()</code></td></tr><tr><td>Returns</td><td>A Matplotlib axes</td><td>A <code>FacetGrid</code> (often called <code>g</code>)</td></tr></tbody></table></div>
+<figure class="code"><figcaption>One panel per region</figcaption><pre><code>g = sns.displot(data=sales, x=&quot;Sales&quot;, col=&quot;Region&quot;, col_wrap=2, bins=15, height=2.8, aspect=1.4)
+g.set_axis_labels(&quot;Sales (₹)&quot;, &quot;Orders&quot;)
+g.set_titles(&quot;{col_name}&quot;)
+g.figure.suptitle(&quot;Order values by region&quot;, y=1.03)
+plt.show()</code></pre></figure>
+<p><code>&quot;{col_name}&quot;</code> in <code>set_titles()</code> is replaced by each panel's value (North, South ...). <code>y=1.03</code> lifts the big title a little above the panels. Older code writes <code>g.fig</code> instead of <code>g.figure</code>; both work.</p>
+<figure class="code"><figcaption>kind= picks hist, kde or ecdf</figcaption><pre><code>sns.displot(data=sales, x=&quot;Sales&quot;, hue=&quot;Category&quot;, kind=&quot;kde&quot;, fill=True, height=3.5, aspect=1.8)
+plt.title(&quot;displot(kind=\&quot;kde\&quot;)&quot;)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>A figure-level function always makes its <b>own</b> figure. Put it after <code>plt.subplot(1, 2, 1)</code> and you get an empty subplot plus a separate figure. For charts inside a grid, use the axes-level function with <code>ax=</code>: <code>sns.histplot(..., ax=axes[0])</code>.</p></aside>
+<h2>Counting categories: countplot</h2>
+<p><code>sns.countplot()</code> counts the rows in each category and draws a bar for each: a histogram for text columns. Give it only <code>x=</code> (upright bars) or only <code>y=</code> (sideways bars).</p>
+<figure class="code"><figcaption>Rows per category</figcaption><pre><code>sns.countplot(data=sales, x=&quot;Region&quot;, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;])
+plt.title(&quot;Orders per region&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Sideways, biggest first, split by region</figcaption><pre><code>top = sales[&quot;Category&quot;].value_counts().index
+sns.countplot(data=sales, y=&quot;Category&quot;, hue=&quot;Region&quot;, order=top)
+plt.title(&quot;Orders per category and region&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p><code>value_counts().index</code> lists the categories from the most rows to the fewest, which makes a good <code>order=</code>. Sorted bars are much easier to read.</p>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.countplot(x=[&quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;, &quot;Card&quot;, &quot;UPI&quot;])
+print([int(bar.get_height()) for bar in ax.patches])
+plt.close()</code></pre></figure><ol type="A"><li><code>[3, 1, 1]</code></li><li><code>[1, 1, 3]</code></li><li><code>[5]</code></li><li><code>[3, 2]</code></li></ol><details><summary>Answer</summary><p><b><code>[3, 1, 1]</code></b>. Without <code>order=</code>, the bars come in the order the values first appear: UPI (3), Cash (1), Card (1).</p></details></section>
+<h2>Averages with error bars: barplot</h2>
+<p><code>sns.barplot()</code> does <b>not</b> count. It shows the <b>mean</b> of <code>y</code> for each category, plus a black <mark>error bar</mark>: the 95% <mark>confidence interval</mark>, the range where the true average probably lies. A long error bar means the average is not very certain.</p>
+<figure class="code"><figcaption>Mean with a confidence interval</figcaption><pre><code>sns.barplot(data=sales, x=&quot;Category&quot;, y=&quot;Sales&quot;)
+plt.title(&quot;Average order value (95% interval)&quot;)
+plt.show()</code></pre></figure>
+<p><code>estimator=</code> picks another summary, like <code>&quot;sum&quot;</code> or <code>&quot;median&quot;</code>. <code>errorbar=None</code> removes the error bars. To colour the bars with a palette, set <code>hue=</code> to the same column as <code>x=</code> and hide the legend.</p>
+<figure class="code"><figcaption>Totals with estimator=&quot;sum&quot;</figcaption><pre><code>sns.barplot(data=sales, x=&quot;Region&quot;, y=&quot;Sales&quot;, estimator=&quot;sum&quot;, errorbar=None, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], hue=&quot;Region&quot;, palette=&quot;pastel&quot;, legend=False)
+plt.title(&quot;Total sales per region&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Groups inside groups</figcaption><pre><code>sns.barplot(data=sales, x=&quot;Region&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, errorbar=&quot;sd&quot;, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;])
+plt.title(&quot;Average profit, ± one standard deviation&quot;)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>errorbar=</th><th>The line shows</th></tr></thead><tbody><tr><td><code>(&quot;ci&quot;, 95)</code> (default)</td><td>95% confidence interval of the mean</td></tr><tr><td><code>&quot;sd&quot;</code></td><td>One standard deviation each side: the spread of the data</td></tr><tr><td><code>&quot;se&quot;</code></td><td>One standard error</td></tr><tr><td><code>None</code></td><td>No error bar</td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p>The course notes write <code>ci=95</code>. That is the old name: Seaborn 0.13 still accepts it but warns you. Write <code>errorbar=(&quot;ci&quot;, 95)</code>. And <code>palette=</code> without <code>hue=</code> also warns now: add <code>hue=</code> (same column as <code>x=</code>) and <code>legend=False</code>, or use one <code>color=</code>.</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.barplot(x=[&quot;a&quot;, &quot;a&quot;, &quot;b&quot;], y=[2, 4, 9], errorbar=None)
+print([float(bar.get_height()) for bar in ax.patches])
+plt.close()</code></pre></figure><ol type="A"><li><code>[3.0, 9.0]</code></li><li><code>[6.0, 9.0]</code></li><li><code>[2.0, 4.0, 9.0]</code></li><li><code>[2.0, 1.0]</code></li></ol><details><summary>Answer</summary><p><b><code>[3.0, 9.0]</code></b>. barplot shows the <b>mean</b>: (2 + 4) / 2 = 3 for a, and 9 for b. A sum would give 6; countplot would give 2 and 1.</p></details></section>
+<h2>Spread by group: boxplot and violinplot</h2>
+<p>To compare the <b>spread</b> of a number across groups, use a box plot (Chapter 27 shows how to read one) or a violin. Seaborn draws one per category in one line.</p>
+<figure class="code"><figcaption>One box per category</figcaption><pre><code>sns.boxplot(data=sales, x=&quot;Category&quot;, y=&quot;Sales&quot;, hue=&quot;Category&quot;, palette=&quot;Set2&quot;, legend=False)
+plt.title(&quot;Order values per category&quot;)
+plt.show()</code></pre></figure>
+<section class="anim"><h3>Animated explainer: From box plot to violin</h3><ol><li>A <b>box plot</b> shows five numbers per group: the median, the box from Q1 to Q3, the whiskers and the outliers.</li><li>A <b>violin</b> shows the whole shape: it is wide where many bills are and thin where few are. The mini box inside is a tiny box plot.</li><li><code>inner=&quot;quart&quot;</code> draws dashed lines at the quartiles and the median instead of the mini box.</li><li>With <code>hue=&quot;sex&quot;</code> and <code>split=True</code>, each violin has two halves: men on the left, women on the right. One chart, two comparisons.</li></ol></section>
+<figure class="code"><figcaption>A split violin</figcaption><pre><code>sns.violinplot(data=tips, x=&quot;day&quot;, y=&quot;total_bill&quot;, hue=&quot;sex&quot;, split=True, inner=&quot;quart&quot;)
+plt.title(&quot;Bills per day, men and women&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Boxes side by side with hue=</figcaption><pre><code>sns.boxplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, hue=&quot;smoker&quot;)
+plt.title(&quot;Tips per day, smokers and non-smokers&quot;)
+plt.show()</code></pre></figure>
+<h2>Every point: stripplot and swarmplot</h2>
+<p>Box plots hide how many rows there are. A <mark>strip plot</mark> draws <b>every row</b> as a dot. <code>jitter=</code> moves the dots a little sideways so they do not sit on one line.</p>
+<figure class="code"><figcaption>stripplot</figcaption><pre><code>sns.stripplot(data=sales, x=&quot;Region&quot;, y=&quot;Sales&quot;, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], jitter=0.25, alpha=0.5, size=4)
+plt.title(&quot;Every order, per region&quot;)
+plt.show()</code></pre></figure>
+<p>A <mark>swarm plot</mark> moves the dots so that <b>none overlap</b>, which shows the shape like a violin made of dots. It needs room, so use it for a few hundred rows at most.</p>
+<figure class="code"><figcaption>swarmplot</figcaption><pre><code>sns.swarmplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, hue=&quot;sex&quot;, size=4)
+plt.title(&quot;Every tip, per day&quot;)
+plt.show()</code></pre></figure>
+<p>A favourite of analysts: a box plot with the real dots on top. <code>showfliers=False</code> stops the outliers being drawn twice.</p>
+<figure class="code"><figcaption>Box + strip</figcaption><pre><code>sns.boxplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, color=&quot;white&quot;, showfliers=False)
+sns.stripplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, color=&quot;black&quot;, alpha=0.4, size=3)
+plt.title(&quot;Summary and the real data together&quot;)
+plt.show()</code></pre></figure>
+<h2>Means across groups: pointplot</h2>
+<p><code>sns.pointplot()</code> shows the same mean and error bar as <code>barplot</code>, but as a <b>dot</b>, and joins the dots with a line. It is good for following one number across ordered groups, like quarters.</p>
+<figure class="code"><figcaption>Average per quarter and category</figcaption><pre><code>sns.pointplot(data=sales, x=&quot;Quarter&quot;, y=&quot;Sales&quot;, hue=&quot;Category&quot;, order=[&quot;Q1&quot;, &quot;Q2&quot;, &quot;Q3&quot;, &quot;Q4&quot;], dodge=0.3)
+plt.title(&quot;Average order value per quarter&quot;)
+plt.show()</code></pre></figure>
+<p><code>dodge=0.3</code> shifts the groups apart so their error bars do not cover each other. Electronics and furniture orders grow towards the festival quarter (Q4).</p>
+<figure class="code"><figcaption>Careful with the y-axis</figcaption><pre><code>sns.pointplot(data=sales, x=&quot;Region&quot;, y=&quot;Satisfaction_Score&quot;, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;])
+plt.title(&quot;Average satisfaction per region&quot;)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>Look at the y-axis: it runs only from about 3.7 to 4.1, so tiny differences look huge. The averages are 3.83 to 4.00 out of 5. Use <code>plt.ylim(1, 5)</code> when you want to show how small the gap really is.</p></aside>
+<h2>Many panels at once: catplot</h2>
+<p><code>sns.catplot()</code> is the figure-level version of all the category charts. Pick the chart with <code>kind=</code> and split it into panels with <code>col=</code> or <code>row=</code>.</p>
+<figure class="code"><figcaption>A box plot per category</figcaption><pre><code>g = sns.catplot(data=sales, x=&quot;Region&quot;, y=&quot;Sales&quot;, kind=&quot;box&quot;, col=&quot;Category&quot;, col_wrap=2, order=[&quot;North&quot;, &quot;South&quot;, &quot;East&quot;, &quot;West&quot;], height=2.8, aspect=1.4)
+g.set_titles(&quot;{col_name}&quot;)
+g.figure.suptitle(&quot;Order values per region, for each category&quot;, y=1.03)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Counts, split two ways</figcaption><pre><code>sns.catplot(data=tips, x=&quot;day&quot;, kind=&quot;count&quot;, hue=&quot;time&quot;, col=&quot;sex&quot;, height=3.2)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>kind=</th><th>Same as</th></tr></thead><tbody><tr><td><code>&quot;strip&quot;</code> (default)</td><td><code>stripplot</code></td></tr><tr><td><code>&quot;swarm&quot;</code></td><td><code>swarmplot</code></td></tr><tr><td><code>&quot;box&quot;</code> / <code>&quot;violin&quot;</code> / <code>&quot;boxen&quot;</code></td><td><code>boxplot</code> / <code>violinplot</code> / <code>boxenplot</code></td></tr><tr><td><code>&quot;bar&quot;</code> / <code>&quot;point&quot;</code></td><td><code>barplot</code> / <code>pointplot</code></td></tr><tr><td><code>&quot;count&quot;</code></td><td><code>countplot</code></td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p>Forget <code>kind=</code> and <code>catplot</code> draws a <b>strip plot</b>, not bars. Always write the kind you want.</p></aside>
+<h2>Themes, styles and palettes</h2>
+<p><code>sns.set_theme(style=..., palette=...)</code> sets the look of every chart after it. There are five styles. <code>with sns.axes_style(&quot;ticks&quot;):</code> uses a style for just the charts made inside the <code>with</code> block.</p>
+<figure class="code"><figcaption>The five styles</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+styles = [&quot;darkgrid&quot;, &quot;whitegrid&quot;, &quot;dark&quot;, &quot;white&quot;, &quot;ticks&quot;]
+plt.figure(figsize=(13, 2.6))
+for i, style in enumerate(styles):
+    with sns.axes_style(style):
+        plt.subplot(1, 5, i + 1)
+        plt.plot([1, 2, 3, 4], [3, 5, 4, 6], marker=&quot;o&quot;)
+        plt.title(style)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>A clean report style</figcaption><pre><code>sns.set_theme(style=&quot;whitegrid&quot;, palette=&quot;pastel&quot;)
+sns.countplot(data=sales, x=&quot;Category&quot;, hue=&quot;Region&quot;)
+sns.despine()
+plt.title(&quot;whitegrid + pastel + despine()&quot;)
+plt.show()</code></pre></figure>
+<p><code>sns.despine()</code> removes the top and right border lines, like <code>ax.spines[...]</code> in Chapter 28. A <mark>palette</mark> is a list of colours. <code>sns.color_palette(name)</code> gives one, and <code>.as_hex()</code> shows the colour codes.</p>
+<figure class="code"><figcaption>Palettes are lists of colours</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+for name in [&quot;deep&quot;, &quot;pastel&quot;, &quot;colorblind&quot;]:
+    print(name, sns.color_palette(name).as_hex()[:4])
+print(len(sns.color_palette(&quot;husl&quot;, 6)))</code></pre><p class="olbl">Output</p><pre class="out">deep ['#4c72b0', '#dd8452', '#55a868', '#c44e52']
+pastel ['#a1c9f4', '#ffb482', '#8de5a1', '#ff9f9b']
+colorblind ['#0173b2', '#de8f05', '#029e73', '#d55e00']
+6</pre></figure>
+<div class="tbl"><table><thead><tr><th>Palette</th><th>Use it for</th></tr></thead><tbody><tr><td><code>&quot;deep&quot;</code> (default), <code>&quot;muted&quot;</code>, <code>&quot;bright&quot;</code>, <code>&quot;pastel&quot;</code>, <code>&quot;dark&quot;</code></td><td>Categories: different colours, no order</td></tr><tr><td><code>&quot;colorblind&quot;</code></td><td>Categories, safe for colour-blind readers (about 1 in 12 men)</td></tr><tr><td><code>&quot;husl&quot;</code>, <code>&quot;Set2&quot;</code></td><td>Many evenly spread colours</td></tr><tr><td><code>&quot;Blues&quot;</code>, <code>&quot;viridis&quot;</code>, <code>&quot;rocket&quot;</code></td><td>Low to high values (Chapter 30 heatmaps)</td></tr><tr><td>A list: <code>[&quot;#FF6B6B&quot;, &quot;#4ECDC4&quot;]</code></td><td>Your own brand colours</td></tr></tbody></table></div>
+<figure class="code"><figcaption>Your own colours</figcaption><pre><code>sns.boxplot(data=sales, x=&quot;Category&quot;, y=&quot;Profit&quot;, hue=&quot;Category&quot;, palette=[&quot;#FF6B6B&quot;, &quot;#4ECDC4&quot;, &quot;#45B7D1&quot;, &quot;#F7B731&quot;], legend=False)
+plt.axhline(0, color=&quot;grey&quot;, linewidth=1)
+plt.title(&quot;Profit per order, own colours&quot;)
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>In Jupyter, <code>set_theme()</code> stays on for every later cell, like <code>plt.style.use()</code>. Undo it with <code>sns.reset_defaults()</code>. (On this site every code box starts fresh.)</p></aside>
+<h2>Which Seaborn chart? Best practices</h2>
+<p class="cap">Diagram: The same data, six ways: count and average on top, spread and every row below. Each one answers a different question.</p>
+<div class="tbl"><table><thead><tr><th>Your question</th><th>Chart</th></tr></thead><tbody><tr><td>What does one number column look like?</td><td><code>histplot</code>, <code>kdeplot</code>, <code>ecdfplot</code></td></tr><tr><td>The same, in panels per group?</td><td><code>displot(col=...)</code></td></tr><tr><td>How many rows per category?</td><td><code>countplot</code></td></tr><tr><td>Which group has the higher average?</td><td><code>barplot</code> or <code>pointplot</code></td></tr><tr><td>How spread out is each group? Outliers?</td><td><code>boxplot</code>, <code>violinplot</code></td></tr><tr><td>I want to see every single row</td><td><code>stripplot</code>, <code>swarmplot</code></td></tr><tr><td>Many category charts in panels</td><td><code>catplot(kind=..., col=...)</code></td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Do</th><th>Avoid</th></tr></thead><tbody><tr><td>Give the DataFrame and column names: <code>data=sales, x=&quot;Sales&quot;</code></td><td>Turning columns into lists first</td></tr><tr><td>Sort categories with <code>order=</code></td><td>Bars in random order</td></tr><tr><td>Say what the error bar shows (<code>errorbar=</code>)</td><td>Readers thinking the black line is the range of the data</td></tr><tr><td><code>hue=</code> for one extra column</td><td>Three or four colour splits in one chart</td></tr><tr><td>Axes-level + <code>ax=</code> inside <code>plt.subplots</code></td><td>Figure-level functions inside <code>plt.subplot</code></td></tr><tr><td>Check the y-axis range</td><td>Zoomed axes that make tiny gaps look big</td></tr></tbody></table></div>
+<section class="deck"><h3>Slides: Seaborn distributions and categories in 6 slides</h3><ol><li><p><b>Give Seaborn the table and the column names.</b></p><p><code>sns.chart(data=df, x=&quot;col&quot;, y=&quot;col&quot;, hue=&quot;col&quot;)</code>: it groups, counts and averages for you.</p></li><li><p><b>One number column</b></p><ul><li><code>histplot(bins=, kde=True, stat=, multiple=)</code></li><li><code>kdeplot(fill=True, bw_adjust=, cut=0)</code></li><li><code>ecdfplot</code>: share of rows up to each value</li><li><code>displot(col=...)</code>: panels</li></ul></li><li><p><b>Count vs average</b></p><ul><li><code>countplot</code>: rows per category</li><li><code>barplot</code>: mean + 95% interval</li><li><code>estimator=&quot;sum&quot;</code>, <code>errorbar=None</code></li><li><code>pointplot</code>: means joined by a line</li></ul></li><li><p><b>Spread</b></p><ul><li><code>boxplot</code>: five numbers</li><li><code>violinplot(split=True, inner=&quot;quart&quot;)</code></li><li><code>stripplot(jitter=)</code>, <code>swarmplot</code></li></ul></li><li><p><b>Panels</b></p><ul><li>Figure-level: <code>displot</code>, <code>catplot(kind=&quot;box&quot;, col=...)</code></li><li><code>g.set_titles(&quot;{col_name}&quot;)</code></li><li><code>g.figure.suptitle(&quot;...&quot;, y=1.03)</code></li></ul></li><li><p><b>Style</b></p><ul><li><code>sns.set_theme(style=&quot;whitegrid&quot;, palette=&quot;pastel&quot;)</code></li><li><code>hue=</code> + <code>palette=</code> + <code>legend=False</code></li><li><code>sns.despine()</code></li><li><code>&quot;colorblind&quot;</code> for everyone</li></ul></li></ol></section>
+<h2>Practice</h2>
+<ol class="tasks"><li><p><code>ages = [22, 25, 25, 28, 30, 31, 35, 35, 35, 40, 42, 48]</code>. Draw a Seaborn histogram of <code>ages</code> with <code>bins=6</code>, a smooth curve (<code>kde=True</code>) and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ages = [22, 25, 25, 28, 30, 31, 35, 35, 35, 40, 42, 48]</code></pre></figure><details><summary>Hint</summary><p><code>sns.histplot(x=ages, bins=6, kde=True)</code>, then <code>plt.title(...)</code> and <code>plt.show()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ages = [22, 25, 25, 28, 30, 31, 35, 35, 35, 40, 42, 48]
+sns.histplot(x=ages, bins=6, kde=True)
+plt.title(&quot;Ages of the team&quot;)
+plt.show()</code></pre></figure><p>Without a DataFrame, give the list straight to <code>x=</code>. The curve is the KDE.</p></details></li><li><p><code>pay = [&quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;, &quot;Card&quot;, &quot;UPI&quot;, &quot;Cash&quot;]</code>. Count each payment type with <code>sns.countplot</code>, set the y label to <code>Orders</code> and add a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+pay = [&quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;, &quot;Card&quot;, &quot;UPI&quot;, &quot;Cash&quot;]</code></pre></figure><details><summary>Hint</summary><p><code>sns.countplot(x=pay)</code>, then <code>plt.ylabel(&quot;Orders&quot;)</code> and <code>plt.title(...)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+pay = [&quot;UPI&quot;, &quot;Cash&quot;, &quot;UPI&quot;, &quot;Card&quot;, &quot;UPI&quot;, &quot;Cash&quot;]
+sns.countplot(x=pay)
+plt.ylabel(&quot;Orders&quot;)
+plt.title(&quot;Payment types&quot;)
+plt.show()</code></pre></figure><p>countplot counts the rows itself: UPI 3, Cash 2, Card 1.</p></details></li><li><p>With <code>tips</code>, draw the <b>average tip</b> per day as bars, from Sunday back to Thursday (<code>order=[&quot;Sun&quot;, &quot;Sat&quot;, &quot;Fri&quot;, &quot;Thur&quot;]</code>), with no error bars and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.barplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, order=[...], errorbar=None)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.barplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, order=[&quot;Sun&quot;, &quot;Sat&quot;, &quot;Fri&quot;, &quot;Thur&quot;], errorbar=None)
+plt.title(&quot;Average tip per day&quot;)
+plt.show()</code></pre></figure><p>barplot works out the mean for each day; <code>order=</code> sets the left-to-right order.</p></details></li><li><p>With <code>tips</code>, draw violins of <code>total_bill</code> per <code>day</code>, split in two halves by <code>sex</code> (<code>hue=</code> and <code>split=True</code>), with a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.violinplot(data=tips, x=&quot;day&quot;, y=&quot;total_bill&quot;, hue=&quot;sex&quot;, split=True)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.violinplot(data=tips, x=&quot;day&quot;, y=&quot;total_bill&quot;, hue=&quot;sex&quot;, split=True)
+plt.title(&quot;Bills per day, split by sex&quot;)
+plt.show()</code></pre></figure><p><code>hue=</code> adds the legend; <code>split=True</code> puts both groups in one violin.</p></details></li><li><p>Switch on the <code>whitegrid</code> style with <code>sns.set_theme(style=&quot;whitegrid&quot;)</code>, then draw filled KDE curves of <code>total_bill</code> from <code>tips</code>, one per <code>time</code> (Lunch and Dinner).</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.set_theme(style=&quot;whitegrid&quot;)</code>, then <code>sns.kdeplot(data=tips, x=&quot;total_bill&quot;, hue=&quot;time&quot;, fill=True)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.set_theme(style=&quot;whitegrid&quot;)
+sns.kdeplot(data=tips, x=&quot;total_bill&quot;, hue=&quot;time&quot;, fill=True)
+plt.title(&quot;Lunch and dinner bills&quot;)
+plt.show()</code></pre></figure><p>Dinner bills are bigger and more spread out. The white grid comes from the style.</p></details></li></ol>
+<h2>Practice with real data: sales by category</h2>
+<ol class="tasks"><li><p>From <code>sales</code>, draw a histogram of <code>Sales</code> with 20 bins, <b>stacked</b> by <code>Category</code> (<code>multiple=&quot;stack&quot;</code>), with the x label <code>Sales (₹)</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.histplot(data=sales, x=&quot;Sales&quot;, hue=&quot;Category&quot;, multiple=&quot;stack&quot;, bins=20)</code>, then <code>plt.xlabel(...)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sns.histplot(data=sales, x=&quot;Sales&quot;, hue=&quot;Category&quot;, multiple=&quot;stack&quot;, bins=20)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.title(&quot;Order values by category&quot;)
+plt.show()</code></pre></figure><p>The legend shows the four categories; each tower is the total for its bin.</p></details></li><li><p>Use <code>sns.catplot</code> to draw a <b>box plot</b> of <code>Sales</code> per <code>Category</code>, with one panel per <code>Region</code> (<code>col=&quot;Region&quot;</code>, <code>col_wrap=2</code>).</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.catplot(data=sales, x=&quot;Category&quot;, y=&quot;Sales&quot;, kind=&quot;box&quot;, col=&quot;Region&quot;, col_wrap=2)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+g = sns.catplot(data=sales, x=&quot;Category&quot;, y=&quot;Sales&quot;, kind=&quot;box&quot;, col=&quot;Region&quot;, col_wrap=2, height=3, aspect=1.3)
+g.set_titles(&quot;{col_name}&quot;)
+plt.show()</code></pre></figure><p>Four regions, so four panels. The pattern is the same everywhere: electronics and furniture orders are the big ones.</p></details></li><li><p>Draw the <b>total profit</b> per category as bars, largest first (<code>order=[&quot;Furniture&quot;, &quot;Electronics&quot;, &quot;Clothing&quot;, &quot;Groceries&quot;]</code>), with <code>estimator=&quot;sum&quot;</code>, no error bars and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)</code></pre></figure><details><summary>Hint</summary><p><code>sns.barplot(data=sales, x=&quot;Category&quot;, y=&quot;Profit&quot;, estimator=&quot;sum&quot;, errorbar=None, order=[...])</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set_theme()
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+best = [&quot;Furniture&quot;, &quot;Electronics&quot;, &quot;Clothing&quot;, &quot;Groceries&quot;]
+sns.barplot(data=sales, x=&quot;Category&quot;, y=&quot;Profit&quot;, estimator=&quot;sum&quot;, errorbar=None, order=best)
+plt.title(&quot;Total profit per category&quot;)
+plt.ylabel(&quot;Profit (₹)&quot;)
+plt.show()</code></pre></figure><p>Furniture earns the most profit (₹80,580) although electronics has the biggest sales: profit margins differ.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>sns.chart(data=df, x=..., y=..., hue=...)</code>: Seaborn groups, counts and averages from the raw rows; <code>plt.title()</code> and friends still work.</li><li>One column's shape: <code>histplot</code> (bins, <code>kde=True</code>, <code>multiple=</code>), <code>kdeplot</code> (smooth, <code>cut=0</code>), <code>ecdfplot</code> (share up to a value).</li><li><code>countplot</code> counts rows; <code>barplot</code> and <code>pointplot</code> show the <b>mean</b> with a 95% interval (<code>errorbar=</code>, <code>estimator=</code>).</li><li>Spread: <code>boxplot</code> and <code>violinplot</code> (<code>split=True</code>); every row: <code>stripplot</code> and <code>swarmplot</code>.</li><li>Figure-level <code>displot</code> and <code>catplot</code> make panels with <code>col=</code>; style with <code>set_theme</code>, <code>palette=</code> (with <code>hue=</code>) and <code>despine()</code>.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Draw a histogram with a smooth curve on top.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.histplot(data=tips, x=&quot;tip&quot;, bins=12, ___=True)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>kde</code> — <code>kde=True</code> adds the smooth KDE curve over the bars.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Colour the bars by the time of the meal.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.histplot(data=tips, x=&quot;total_bill&quot;, ___=&quot;time&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>hue</code> — <code>hue=</code> splits the data by a column and adds a legend.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Count the bills on each day.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.___(data=tips, x=&quot;day&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>countplot</code> — countplot counts the rows of each category; barplot would need a <code>y=</code> to average.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Show two groups in the two halves of each violin.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.violinplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, hue=&quot;sex&quot;, ___=True)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>split</code> — <code>split=True</code> draws one hue group on each side.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Draw box plots in panels, one per smoker group.</p><figure class="code"><pre><code>import seaborn as sns
+import matplotlib.pyplot as plt
+tips = sns.load_dataset(&quot;tips&quot;)
+sns.catplot(data=tips, x=&quot;day&quot;, y=&quot;tip&quot;, kind=&quot;___&quot;, col=&quot;smoker&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>box</code> — catplot's <code>kind=</code> picks the chart; without it you get a strip plot.</p><p>Output:</p><pre class="out"></pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>What does <code>hue=&quot;Region&quot;</code> do in a Seaborn chart?</p><ol type="A"><li>Sorts the bars by region</li><li>Colours the data by region and adds a legend</li><li>Makes one panel per region</li><li>Filters to one region</li></ol><details><summary>Answer</summary><p><b>Colours the data by region and adds a legend</b>. <code>hue=</code> splits by colour inside one chart; <code>col=</code> (figure-level) makes panels.</p></details></li><li><p>Which function draws a histogram of one number column?</p><ol type="A"><li><code>sns.countplot</code></li><li><code>sns.histplot</code></li><li><code>sns.barplot</code></li><li><code>sns.boxplot</code></li></ol><details><summary>Answer</summary><p><b><code>sns.histplot</code></b>. <code>histplot</code> bins numbers. <code>countplot</code> counts the values of a category column.</p></details></li><li><p>By default, what is the height of each bar in <code>sns.barplot(data=df, x=&quot;city&quot;, y=&quot;sales&quot;)</code>?</p><ol type="A"><li>The number of rows per city</li><li>The total sales per city</li><li>The mean sales per city, with a 95% interval</li><li>The largest sale per city</li></ol><details><summary>Answer</summary><p><b>The mean sales per city, with a 95% interval</b>. barplot's estimator is the mean; add <code>estimator=&quot;sum&quot;</code> for totals.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+ax = sns.countplot(x=[&quot;a&quot;, &quot;b&quot;, &quot;a&quot;])
+print(len(ax.patches))
+plt.close()</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>1</code></li><li><code>0</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. Two different values, a and b, so two bars.</p></details></li><li><p>What does <code>sns.displot(..., col=&quot;Region&quot;)</code> give you?</p><ol type="A"><li>One histogram per region, in panels of one figure</li><li>A list of charts</li><li>A pie chart</li><li>An error</li></ol><details><summary>Answer</summary><p><b>One histogram per region, in panels of one figure</b>. displot is figure-level: <code>col=</code> makes one panel per value.</p></details></li><li><p>You put <code>sns.catplot(...)</code> after <code>plt.subplot(1, 2, 1)</code>. What happens?</p><ol type="A"><li>It fills the first subplot</li><li>It makes its own new figure; the subplot stays empty</li><li>It fills both subplots</li><li>Nothing is drawn</li></ol><details><summary>Answer</summary><p><b>It makes its own new figure; the subplot stays empty</b>. Figure-level functions always make their own figure. Use an axes-level function with <code>ax=</code> inside a grid.</p></details></li><li><p>In <code>sns.violinplot(..., hue=&quot;sex&quot;, split=True)</code>, what does <code>split=True</code> do?</p><ol type="A"><li>Makes two separate charts</li><li>Draws the two groups as the two halves of each violin</li><li>Splits the y-axis</li><li>Removes the legend</li></ol><details><summary>Answer</summary><p><b>Draws the two groups as the two halves of each violin</b>. Each violin shows one group on each side, so you compare them directly.</p></details></li><li><p>Seaborn 0.13 warns about <code>sns.barplot(data=df, x=&quot;cat&quot;, y=&quot;v&quot;, palette=&quot;pastel&quot;)</code>. What is the clean fix?</p><ol type="A"><li>Remove <code>data=</code></li><li>Add <code>hue=&quot;cat&quot;, legend=False</code></li><li>Use <code>ci=95</code></li><li>Use <code>plt.bar</code> instead</li></ol><details><summary>Answer</summary><p><b>Add <code>hue=&quot;cat&quot;, legend=False</code></b>. A palette colours a <code>hue=</code> column. Use the same column as <code>x=</code> and hide the legend.</p></details></li><li><p>Your KDE of ages goes below 18, but no customer is younger than 18. What helps?</p><ol type="A"><li><code>bins=18</code></li><li><code>cut=0</code></li><li><code>fill=True</code></li><li><code>hue=&quot;age&quot;</code></li></ol><details><summary>Answer</summary><p><b><code>cut=0</code></b>. <code>cut=0</code> stops the curve at the smallest and largest real value.</p></details></li><li><p>What does <code>sns.catplot(data=df, x=&quot;day&quot;, y=&quot;tip&quot;)</code> draw when you leave out <code>kind=</code>?</p><ol type="A"><li>Bars</li><li>Box plots</li><li>A strip plot (dots)</li><li>A line</li></ol><details><summary>Answer</summary><p><b>A strip plot (dots)</b>. catplot's default kind is <code>&quot;strip&quot;</code>. Always write the kind you want.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Seaborn in one line</dt><dd><code>sns.histplot(data=df, x=&quot;col&quot;, hue=&quot;group&quot;)</code>: give the table and the column names.</dd><dt><code>sns.set_theme()</code></dt><dd>Switches on Seaborn's look for every chart after it; <code>style=</code> and <code>palette=</code> change it.</dd><dt>histplot options</dt><dd><code>bins=</code>, <code>binwidth=</code>, <code>kde=True</code>, <code>stat=&quot;percent&quot;</code>, <code>multiple=&quot;stack&quot;</code></dd><dt>KDE</dt><dd>A smooth curve of the shape. <code>bw_adjust=</code> sets the smoothing, <code>cut=0</code> stops it at the real data.</dd><dt>ECDF</dt><dd>Height = share of rows at or below each value. No bins to choose.</dd><dt>Axes-level vs figure-level</dt><dd>histplot/countplot/boxplot draw one chart; displot/catplot build a figure with panels (<code>col=</code>).</dd><dt>countplot vs barplot</dt><dd>countplot: how many rows. barplot: the mean of <code>y</code>, with a 95% interval.</dd><dt>Error bars</dt><dd><code>errorbar=(&quot;ci&quot;, 95)</code> (default), <code>&quot;sd&quot;</code>, <code>&quot;se&quot;</code>, or <code>None</code>. Old code: <code>ci=</code>.</dd><dt>Violin</dt><dd>Box plot + shape. <code>split=True</code> with <code>hue=</code> shows two groups in one violin.</dd><dt>strip vs swarm</dt><dd>Both draw every row; swarm moves dots so none overlap (small data only).</dd><dt>pointplot</dt><dd>Means as dots joined by a line: good for ordered groups like quarters.</dd><dt>catplot</dt><dd>Figure-level category charts: <code>kind=&quot;box&quot;</code>, <code>&quot;bar&quot;</code>, <code>&quot;count&quot;</code> ... Default is strip.</dd><dt>Palettes</dt><dd><code>palette=&quot;pastel&quot;</code> with <code>hue=</code>; <code>&quot;colorblind&quot;</code> is safe for everyone; <code>sns.despine()</code> cleans borders.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>import seaborn as sns; sns.set_theme()</code></td><td>Start</td></tr><tr><td><code>sns.load_dataset('tips')</code></td><td>Practice data</td></tr><tr><td><code>sns.histplot(data=df, x='c', bins=20, kde=True)</code></td><td>Histogram + curve</td></tr><tr><td><code>sns.histplot(..., hue='g', multiple='stack')</code></td><td>Stacked groups</td></tr><tr><td><code>sns.histplot(data=df, x='a', y='b')</code></td><td>2D histogram</td></tr><tr><td><code>sns.kdeplot(data=df, x='c', hue='g', fill=True, cut=0)</code></td><td>Smooth shapes</td></tr><tr><td><code>sns.rugplot(data=df, x='c')</code></td><td>A tick per value</td></tr><tr><td><code>sns.ecdfplot(data=df, x='c')</code></td><td>Share up to a value</td></tr><tr><td><code>g = sns.displot(data=df, x='c', col='g', col_wrap=2)</code></td><td>Panels</td></tr><tr><td><code>g.set_titles('{col_name}'); g.figure.suptitle('T', y=1.03)</code></td><td>Panel titles</td></tr><tr><td><code>sns.countplot(data=df, x='g', order=...)</code></td><td>Rows per category</td></tr><tr><td><code>sns.barplot(data=df, x='g', y='v', estimator='sum', errorbar=None)</code></td><td>Totals</td></tr><tr><td><code>sns.boxplot / sns.violinplot(..., hue='h', split=True)</code></td><td>Spread</td></tr><tr><td><code>sns.stripplot(..., jitter=0.25) / sns.swarmplot(...)</code></td><td>Every row</td></tr><tr><td><code>sns.pointplot(data=df, x='q', y='v', hue='g', dodge=0.3)</code></td><td>Means joined</td></tr><tr><td><code>sns.catplot(data=df, x='g', y='v', kind='box', col='h')</code></td><td>Category panels</td></tr><tr><td><code>sns.set_theme(style='whitegrid', palette='pastel')</code></td><td>Look</td></tr><tr><td><code>sns.despine()  sns.color_palette('colorblind')</code></td><td>Borders, colours</td></tr></tbody></table></div></section><p class="ver"><a href="test-sns1.html">Take the 29.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="overview9.html">← Part 9 overview</a><a href="sns2.html">Relations &amp; grids →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

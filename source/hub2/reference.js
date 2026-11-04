@@ -1990,5 +1990,186 @@ var REFERENCE = [
     "o": "['Jan', 'Feb', 'Mar']"
    }
   ]
+ },
+ {
+  "id": "sns",
+  "title": "Seaborn: statistical charts",
+  "intro": "The tools from Part 10. `sns` is `seaborn`. Axes-level functions (histplot, boxplot, scatterplot ...) draw one chart and accept `ax=`; figure-level ones (displot, catplot, relplot, lmplot, pairplot, jointplot) build a whole figure with panels and return a grid `g`. The examples print a fact about the chart.",
+  "rows": [
+   {
+    "m": "g.savefig(path, dpi)",
+    "d": "Saves a figure-level chart",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nimport os\ng = sns.relplot(data=tips, x=\"total_bill\", y=\"tip\")\ng.savefig(\"tips.png\", dpi=100)\nprint(os.path.exists(\"tips.png\"))",
+    "o": "True"
+   },
+   {
+    "m": "g.set_axis_labels(x, y) / g.set_titles(template) / g.figure.suptitle(t)",
+    "d": "Labels and titles of a figure-level grid",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.displot(data=tips, x=\"tip\", col=\"time\")\ng.set_titles(\"{col_name}\")\nprint([ax.get_title() for ax in g.axes.flat])",
+    "o": "['Lunch', 'Dinner']"
+   },
+   {
+    "m": "sns.barplot(data, x, y, estimator, errorbar)",
+    "d": "The mean of y per category, with a 95% interval",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.barplot(x=[\"a\", \"a\", \"b\"], y=[2, 4, 9], errorbar=None)\nprint([float(b.get_height()) for b in ax.patches])",
+    "o": "[3.0, 9.0]"
+   },
+   {
+    "m": "sns.boxplot(data, x, y, hue)",
+    "d": "Median, quartiles, whiskers and outliers per group",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.boxplot(data=tips, x=\"time\", y=\"tip\")\nprint([t.get_text() for t in ax.get_xticklabels()])",
+    "o": "['Lunch', 'Dinner']"
+   },
+   {
+    "m": "sns.catplot(data, x, y, kind, col, row)",
+    "d": "Figure-level category charts; the default kind is strip",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.catplot(data=tips, x=\"day\", y=\"tip\", kind=\"box\", col=\"sex\")\nprint(len(g.axes.flat))",
+    "o": "2"
+   },
+   {
+    "m": "sns.clustermap(table, standard_scale, cmap)",
+    "d": "A heatmap that groups similar rows and columns (needs SciPy)",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.clustermap(tips[[\"total_bill\", \"tip\", \"size\"]].corr())\nprint(type(g).__name__)",
+    "o": "ClusterGrid"
+   },
+   {
+    "m": "sns.color_palette(name, n) / sns.set_palette(...)",
+    "d": "A list of colours / the colours for every chart",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nprint(sns.color_palette(\"colorblind\", 3).as_hex())",
+    "o": "['#0173b2', '#de8f05', '#029e73']"
+   },
+   {
+    "m": "sns.countplot(data, x, hue, order)",
+    "d": "Counts the rows of each category",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.countplot(x=[\"UPI\", \"Cash\", \"UPI\"])\nprint([int(b.get_height()) for b in ax.patches])",
+    "o": "[2, 1]"
+   },
+   {
+    "m": "sns.despine()",
+    "d": "Removes the top and right border lines",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.countplot(x=[\"a\", \"b\"])\nsns.despine()\nprint(ax.spines[\"top\"].get_visible(), ax.spines[\"left\"].get_visible())",
+    "o": "False True"
+   },
+   {
+    "m": "sns.displot(data, x, kind, col, row)",
+    "d": "Figure-level: histogram, kde or ecdf panels",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.displot(data=tips, x=\"tip\", col=\"time\")\nprint(type(g).__name__, len(g.axes.flat))",
+    "o": "FacetGrid 2"
+   },
+   {
+    "m": "sns.FacetGrid(data, col, row, hue) + g.map(...)",
+    "d": "Your own grid of panels; map_dataframe takes named columns",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.FacetGrid(tips, col=\"time\", row=\"smoker\")\ng.map(sns.scatterplot, \"total_bill\", \"tip\")\nprint(g.axes.shape)",
+    "o": "(2, 2)"
+   },
+   {
+    "m": "sns.heatmap(table, annot, fmt, cmap, center, mask)",
+    "d": "A coloured grid of a DataFrame, labels from its index and columns",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\ndf = pd.DataFrame({\"Mon\": [3, 1], \"Tue\": [2, 5]}, index=[\"Pune\", \"Goa\"])\nax = sns.heatmap(df, annot=True)\nprint([t.get_text() for t in ax.texts])",
+    "o": "['3', '2', '1', '5']"
+   },
+   {
+    "m": "sns.histplot(data, x, bins, kde, hue, multiple, stat)",
+    "d": "Histogram of a number column; multiple='stack' stacks the hue groups",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.histplot(x=[1, 2, 2, 3, 3, 3], bins=3)\nprint([int(b.get_height()) for b in ax.patches])",
+    "o": "[1, 2, 3]"
+   },
+   {
+    "m": "sns.jointplot(data, x, y, kind)",
+    "d": "One pair with its margins: scatter, reg, hex, kde or hist",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.jointplot(data=tips, x=\"total_bill\", y=\"tip\", kind=\"hex\")\nprint(type(g).__name__)",
+    "o": "JointGrid"
+   },
+   {
+    "m": "sns.kdeplot(data, x, hue, fill, bw_adjust, cut)",
+    "d": "A smooth curve of the shape; cut=0 stops at the real data",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.kdeplot(data=tips, x=\"tip\", cut=0)\nprint(len(ax.lines))",
+    "o": "1"
+   },
+   {
+    "m": "sns.lineplot(data, x, y, hue, estimator, errorbar)",
+    "d": "Mean of y per x (sorted), with a 95% band",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.lineplot(x=[1, 1, 2, 2], y=[2, 4, 6, 8], errorbar=None)\nprint(ax.lines[0].get_ydata().tolist())",
+    "o": "[3.0, 7.0]"
+   },
+   {
+    "m": "sns.lmplot(...) / sns.residplot(data, x, y)",
+    "d": "Fitted lines in panels / what the line misses",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.lmplot(data=tips, x=\"total_bill\", y=\"tip\", col=\"time\")\nprint(len(g.axes.flat))",
+    "o": "2"
+   },
+   {
+    "m": "sns.load_dataset(name)",
+    "d": "A practice dataset (on this site only \"tips\")",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nprint(tips.shape)",
+    "o": "(244, 7)"
+   },
+   {
+    "m": "sns.PairGrid(data).map_upper / map_lower / map_diag",
+    "d": "Pick the chart for each part of a pair grid",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.PairGrid(tips, vars=[\"total_bill\", \"tip\"])\ng.map_diag(sns.histplot)\ng.map_offdiag(sns.scatterplot)\nprint(type(g).__name__)",
+    "o": "PairGrid"
+   },
+   {
+    "m": "sns.pairplot(data, vars, hue, corner)",
+    "d": "A scatter for every pair, each column's shape on the diagonal",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.pairplot(tips, vars=[\"total_bill\", \"tip\"])\nprint(g.axes.shape)",
+    "o": "(2, 2)"
+   },
+   {
+    "m": "sns.pointplot(data, x, y, hue, dodge)",
+    "d": "Means as dots joined by a line",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.pointplot(data=tips, x=\"day\", y=\"tip\")\nprint([t.get_text() for t in ax.get_xticklabels()])",
+    "o": "['Thur', 'Fri', 'Sat', 'Sun']"
+   },
+   {
+    "m": "sns.regplot(data, x, y, order, ci, scatter_kws, line_kws)",
+    "d": "Scatter plus the fitted line or curve",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.regplot(data=tips, x=\"total_bill\", y=\"tip\", ci=None)\nprint(len(ax.lines))",
+    "o": "1"
+   },
+   {
+    "m": "sns.relplot(data, x, y, kind, col, row)",
+    "d": "Figure-level scatter or line panels",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ng = sns.relplot(data=tips, x=\"total_bill\", y=\"tip\", kind=\"scatter\", col=\"smoker\")\nprint(type(g).__name__)",
+    "o": "FacetGrid"
+   },
+   {
+    "m": "sns.rugplot(data, x) / sns.ecdfplot(data, x)",
+    "d": "A tick per value / the share of rows up to each value",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.ecdfplot(data=tips, x=\"tip\")\nprint(ax.get_ylabel())",
+    "o": "Proportion"
+   },
+   {
+    "m": "sns.scatterplot(data, x, y, hue, size, style)",
+    "d": "A scatter that can show 3 more columns",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.scatterplot(data=tips, x=\"total_bill\", y=\"tip\", hue=\"time\")\nprint(len(ax.collections[0].get_offsets()))",
+    "o": "244"
+   },
+   {
+    "m": "sns.set_context(name) / sns.plotting_context(name)",
+    "d": "Text and line size: paper, notebook, talk, poster",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nprint(sns.plotting_context(\"talk\")[\"font.size\"] > sns.plotting_context(\"paper\")[\"font.size\"])",
+    "o": "True"
+   },
+   {
+    "m": "sns.set_theme(style, palette)",
+    "d": "Seaborn's look for every chart after it",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nsns.set_theme(style=\"whitegrid\")\nprint(plt.rcParams[\"axes.grid\"])",
+    "o": "True"
+   },
+   {
+    "m": "sns.stripplot(..., jitter) / sns.swarmplot(...)",
+    "d": "Every row as a dot / dots that never overlap",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\nax = sns.stripplot(x=[\"a\", \"a\", \"b\"], y=[1, 2, 3])\nprint(len(ax.collections))",
+    "o": "2"
+   },
+   {
+    "m": "sns.violinplot(data, x, y, hue, split, inner)",
+    "d": "Box plot plus the shape; split=True with hue",
+    "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nax = sns.violinplot(data=tips, x=\"day\", y=\"tip\", hue=\"sex\", split=True)\nprint([t.get_text() for t in ax.get_legend().get_texts()])",
+    "o": "['Male', 'Female']"
+   }
+  ]
  }
 ];

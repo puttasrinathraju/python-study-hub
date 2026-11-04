@@ -279,15 +279,18 @@ S = [
  ("exc", "Built-in exceptions", "Each error's name tells you what went wrong. Catch the specific one, like `except KeyError:`. Some are parents of others: `LookupError` covers `IndexError` and `KeyError`, `ArithmeticError` covers `ZeroDivisionError` and `OverflowError`, and `OSError` covers `FileNotFoundError` and `PermissionError`. `except Exception` catches almost everything except `SystemExit` and `KeyboardInterrupt`.", EXC),
 ]
 import subprocess, sys, tempfile, os
-# Parts 8-10: the most used Pandas and Matplotlib tools (gen/ref_pandas.py, gen/ref_mpl.py). Run genref.py with the matching Python (NOTES.md).
+# Parts 8-10: the most used Pandas, Matplotlib and Seaborn tools (gen/ref_pandas.py, gen/ref_mpl.py, gen/ref_sns.py). Run genref.py with the matching Python (NOTES.md).
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen'))
 from ref_pandas import PANDAS
 S.append(("pandas", "Pandas: DataFrame and Series", "The tools from Part 8 on one table. `df` is a DataFrame (a table) and `s` a Series (one column). Most methods return a **new** result: store it, like `df = df.dropna()`.", PANDAS))
 from ref_mpl import MPL
 S.append(("mpl", "Matplotlib: charts", "The chart tools from Part 9. `plt` is `matplotlib.pyplot`; `fig` is the whole picture and `ax` one chart inside it. With `plt.` you draw on the current chart; with `ax.` you pick the chart. The examples print a fact about the chart, so you can see what each tool did.", MPL))
+from ref_sns import SNS
+S.append(("sns", "Seaborn: statistical charts", "The tools from Part 10. `sns` is `seaborn`. Axes-level functions (histplot, boxplot, scatterplot ...) draw one chart and accept `ax=`; figure-level ones (displot, catplot, relplot, lmplot, pairplot, jointplot) build a whole figure with panels and return a grid `g`. The examples print a fact about the chart.", SNS))
 WORK = tempfile.mkdtemp()
 def run(code):
-    p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=30)
+    env = dict(os.environ, MPLBACKEND='Agg', SEABORN_DATA=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hub2', 'data'))   # tips.csv offline, like the site
+    p = subprocess.run([sys.executable, '-c', code], capture_output=True, text=True, cwd=WORK, timeout=60, env=env)
     assert p.returncode == 0 and not p.stderr.strip(), (code, p.stderr)
     return p.stdout.rstrip('\n')
 def row(r):

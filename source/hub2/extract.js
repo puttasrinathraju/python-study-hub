@@ -11,7 +11,7 @@ const items = [];
 // with hub2/hubcharts.py and compares it. A practice task's `chart` spec is also checked in the browser.
 const add = (id, c, o, err, nr, pre, sum, chart) => { if (nr) return; if (o == null) return;
   let code = (pre ? trim(pre) + '\n' : '') + trim(c), out = trim(o);
-  if (sum != null) { code = 'import _hubcharts\n' + code + '\n_hubcharts.summary()'; out = (out ? out + '\n' : '') + trim(sum); }
+  if (sum != null) { code = 'import _hubcharts\n' + (/\bseaborn\b/.test(code) ? '_hubcharts.patch_sns()\n' : '') + code + '\n_hubcharts.summary()'; out = (out ? out + '\n' : '') + trim(sum); }
   const it = { id, code, out, err: !!err }; if (chart) it.chart = chart; items.push(it); };
 const stats = { chapters: 0, quiz: 0, cards: 0, anim: 0, deck: 0, mm: 0, pred: 0, code: 0 };
 for (const ch of ctx.__CH) {

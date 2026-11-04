@@ -1,0 +1,35 @@
+# Seaborn rows for the Python reference page (genref.py adds them as their own section). Every example is run by
+# genref.py; each prints a fact about the chart instead of showing it, so the output can be checked.
+SN = 'import seaborn as sns\nimport matplotlib.pyplot as plt\n'
+TP = SN + 'tips = sns.load_dataset("tips")\n'
+SNS = [
+  ("sns.set_theme(style, palette)", "Seaborn's look for every chart after it", SN + 'sns.set_theme(style="whitegrid")\nprint(plt.rcParams["axes.grid"])'),
+  ("sns.load_dataset(name)", "A practice dataset (on this site only \"tips\")", TP + 'print(tips.shape)'),
+  ("sns.histplot(data, x, bins, kde, hue, multiple, stat)", "Histogram of a number column; multiple='stack' stacks the hue groups", SN + 'ax = sns.histplot(x=[1, 2, 2, 3, 3, 3], bins=3)\nprint([int(b.get_height()) for b in ax.patches])'),
+  ("sns.kdeplot(data, x, hue, fill, bw_adjust, cut)", "A smooth curve of the shape; cut=0 stops at the real data", TP + 'ax = sns.kdeplot(data=tips, x="tip", cut=0)\nprint(len(ax.lines))'),
+  ("sns.rugplot(data, x) / sns.ecdfplot(data, x)", "A tick per value / the share of rows up to each value", TP + 'ax = sns.ecdfplot(data=tips, x="tip")\nprint(ax.get_ylabel())'),
+  ("sns.displot(data, x, kind, col, row)", "Figure-level: histogram, kde or ecdf panels", TP + 'g = sns.displot(data=tips, x="tip", col="time")\nprint(type(g).__name__, len(g.axes.flat))'),
+  ("sns.countplot(data, x, hue, order)", "Counts the rows of each category", SN + 'ax = sns.countplot(x=["UPI", "Cash", "UPI"])\nprint([int(b.get_height()) for b in ax.patches])'),
+  ("sns.barplot(data, x, y, estimator, errorbar)", "The mean of y per category, with a 95% interval", SN + 'ax = sns.barplot(x=["a", "a", "b"], y=[2, 4, 9], errorbar=None)\nprint([float(b.get_height()) for b in ax.patches])'),
+  ("sns.boxplot(data, x, y, hue)", "Median, quartiles, whiskers and outliers per group", TP + 'ax = sns.boxplot(data=tips, x="time", y="tip")\nprint([t.get_text() for t in ax.get_xticklabels()])'),
+  ("sns.violinplot(data, x, y, hue, split, inner)", "Box plot plus the shape; split=True with hue", TP + 'ax = sns.violinplot(data=tips, x="day", y="tip", hue="sex", split=True)\nprint([t.get_text() for t in ax.get_legend().get_texts()])'),
+  ("sns.stripplot(..., jitter) / sns.swarmplot(...)", "Every row as a dot / dots that never overlap", SN + 'ax = sns.stripplot(x=["a", "a", "b"], y=[1, 2, 3])\nprint(len(ax.collections))'),
+  ("sns.pointplot(data, x, y, hue, dodge)", "Means as dots joined by a line", TP + 'ax = sns.pointplot(data=tips, x="day", y="tip")\nprint([t.get_text() for t in ax.get_xticklabels()])'),
+  ("sns.catplot(data, x, y, kind, col, row)", "Figure-level category charts; the default kind is strip", TP + 'g = sns.catplot(data=tips, x="day", y="tip", kind="box", col="sex")\nprint(len(g.axes.flat))'),
+  ("sns.scatterplot(data, x, y, hue, size, style)", "A scatter that can show 3 more columns", TP + 'ax = sns.scatterplot(data=tips, x="total_bill", y="tip", hue="time")\nprint(len(ax.collections[0].get_offsets()))'),
+  ("sns.lineplot(data, x, y, hue, estimator, errorbar)", "Mean of y per x (sorted), with a 95% band", SN + 'ax = sns.lineplot(x=[1, 1, 2, 2], y=[2, 4, 6, 8], errorbar=None)\nprint(ax.lines[0].get_ydata().tolist())'),
+  ("sns.regplot(data, x, y, order, ci, scatter_kws, line_kws)", "Scatter plus the fitted line or curve", TP + 'ax = sns.regplot(data=tips, x="total_bill", y="tip", ci=None)\nprint(len(ax.lines))'),
+  ("sns.lmplot(...) / sns.residplot(data, x, y)", "Fitted lines in panels / what the line misses", TP + 'g = sns.lmplot(data=tips, x="total_bill", y="tip", col="time")\nprint(len(g.axes.flat))'),
+  ("sns.relplot(data, x, y, kind, col, row)", "Figure-level scatter or line panels", TP + 'g = sns.relplot(data=tips, x="total_bill", y="tip", kind="scatter", col="smoker")\nprint(type(g).__name__)'),
+  ("sns.heatmap(table, annot, fmt, cmap, center, mask)", "A coloured grid of a DataFrame, labels from its index and columns", SN + 'import pandas as pd\ndf = pd.DataFrame({"Mon": [3, 1], "Tue": [2, 5]}, index=["Pune", "Goa"])\nax = sns.heatmap(df, annot=True)\nprint([t.get_text() for t in ax.texts])'),
+  ("sns.clustermap(table, standard_scale, cmap)", "A heatmap that groups similar rows and columns (needs SciPy)", TP + 'g = sns.clustermap(tips[["total_bill", "tip", "size"]].corr())\nprint(type(g).__name__)'),
+  ("sns.FacetGrid(data, col, row, hue) + g.map(...)", "Your own grid of panels; map_dataframe takes named columns", TP + 'g = sns.FacetGrid(tips, col="time", row="smoker")\ng.map(sns.scatterplot, "total_bill", "tip")\nprint(g.axes.shape)'),
+  ("sns.pairplot(data, vars, hue, corner)", "A scatter for every pair, each column's shape on the diagonal", TP + 'g = sns.pairplot(tips, vars=["total_bill", "tip"])\nprint(g.axes.shape)'),
+  ("sns.PairGrid(data).map_upper / map_lower / map_diag", "Pick the chart for each part of a pair grid", TP + 'g = sns.PairGrid(tips, vars=["total_bill", "tip"])\ng.map_diag(sns.histplot)\ng.map_offdiag(sns.scatterplot)\nprint(type(g).__name__)'),
+  ("sns.jointplot(data, x, y, kind)", "One pair with its margins: scatter, reg, hex, kde or hist", TP + 'g = sns.jointplot(data=tips, x="total_bill", y="tip", kind="hex")\nprint(type(g).__name__)'),
+  ("sns.set_context(name) / sns.plotting_context(name)", "Text and line size: paper, notebook, talk, poster", SN + 'print(sns.plotting_context("talk")["font.size"] > sns.plotting_context("paper")["font.size"])'),
+  ("sns.color_palette(name, n) / sns.set_palette(...)", "A list of colours / the colours for every chart", SN + 'print(sns.color_palette("colorblind", 3).as_hex())'),
+  ("sns.despine()", "Removes the top and right border lines", SN + 'ax = sns.countplot(x=["a", "b"])\nsns.despine()\nprint(ax.spines["top"].get_visible(), ax.spines["left"].get_visible())'),
+  ("g.set_axis_labels(x, y) / g.set_titles(template) / g.figure.suptitle(t)", "Labels and titles of a figure-level grid", TP + 'g = sns.displot(data=tips, x="tip", col="time")\ng.set_titles("{col_name}")\nprint([ax.get_title() for ax in g.axes.flat])'),
+  ("g.savefig(path, dpi)", "Saves a figure-level chart", TP + 'import os\ng = sns.relplot(data=tips, x="total_bill", y="tip")\ng.savefig("tips.png", dpi=100)\nprint(os.path.exists("tips.png"))'),
+]

@@ -1706,5 +1706,159 @@ var EXERCISES = {
     "img/ex-mpl2-5.webp"
    ]
   }
+ ],
+ "sns1": [
+  {
+   "q": "Draw a histogram with a smooth curve on top.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.histplot(data=tips, x=\"tip\", bins=12, ___=True)\nplt.show()",
+   "a": [
+    [
+     "kde"
+    ]
+   ],
+   "o": "",
+   "e": "`kde=True` adds the smooth KDE curve over the bars.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar+line bars=12 lines=1 t='' x='tip' y='Count' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[37.0, 61.0, 63.0, 30.0, 25.0, 16.0, 5.0, 4.0, 1.0, 0.0, 1.0, 1.0] tx=0\n#sns histplot",
+   "img": [
+    "img/ex-sns1-1.webp"
+   ]
+  },
+  {
+   "q": "Colour the bars by the time of the meal.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.histplot(data=tips, x=\"total_bill\", ___=\"time\")\nplt.show()",
+   "a": [
+    [
+     "hue"
+    ]
+   ],
+   "o": "",
+   "e": "`hue=` splits the data by a column and adds a legend.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=28 t='' x='total_bill' y='Count' leg=['Lunch', 'Dinner'] xt=['0', '10', '20', '30', '40', '50', '60'] h=[2.0, 7.0, 27.0, 30.0, 30.0, 25.0, 19.0, 11.0, 8.0, 5.0, 6.0, 0.0] tx=0\n#sns histplot",
+   "img": [
+    "img/ex-sns1-2.webp"
+   ]
+  },
+  {
+   "q": "Count the bills on each day.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.___(data=tips, x=\"day\")\nplt.show()",
+   "a": [
+    [
+     "countplot"
+    ]
+   ],
+   "o": "",
+   "e": "countplot counts the rows of each category; barplot would need a `y=` to average.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='' x='day' y='count' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[62.0, 19.0, 87.0, 76.0] tx=0\n#sns countplot",
+   "img": [
+    "img/ex-sns1-3.webp"
+   ]
+  },
+  {
+   "q": "Show two groups in the two halves of each violin.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.violinplot(data=tips, x=\"day\", y=\"tip\", hue=\"sex\", ___=True)\nplt.show()",
+   "a": [
+    [
+     "split"
+    ]
+   ],
+   "o": "",
+   "e": "`split=True` draws one hue group on each side.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 area+line bars=2 lines=24 t='' x='day' y='tip' leg=['Male', 'Female'] xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[0.0, 0.0] tx=0\n#sns violinplot",
+   "img": [
+    "img/ex-sns1-4.webp"
+   ]
+  },
+  {
+   "q": "Draw box plots in panels, one per smoker group.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.catplot(data=tips, x=\"day\", y=\"tip\", kind=\"___\", col=\"smoker\")\nplt.show()",
+   "a": [
+    [
+     "box"
+    ]
+   ],
+   "o": "",
+   "e": "catplot's `kind=` picks the chart; without it you get a strip plot.",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 box boxes=4 t='smoker = Yes' x='day' y='tip' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#ax2 box boxes=4 t='smoker = No' x='day' y='' leg=None xt=['Thur', 'Fri', 'Sat', 'Sun'] h=[] tx=0\n#sns catplot FacetGrid",
+   "img": [
+    "img/ex-sns1-5.webp"
+   ]
+  }
+ ],
+ "sns2": [
+  {
+   "q": "Make the dot size follow the group size.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.scatterplot(data=tips, x=\"total_bill\", y=\"tip\", ___=\"size\")\nplt.show()",
+   "a": [
+    [
+     "size"
+    ]
+   ],
+   "o": "",
+   "e": "`size=` maps a column to the size of the dots.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 scatter points=244 t='' x='total_bill' y='tip' leg=['1', '2', '3', '4', '5', '6'] xt=['0', '10', '20', '30', '40', '50', '60'] h=[] tx=0\n#sns scatterplot",
+   "img": [
+    "img/ex-sns2-1.webp"
+   ]
+  },
+  {
+   "q": "Fit a curve instead of a straight line.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.regplot(data=tips, x=\"total_bill\", y=\"tip\", ___=2)\nplt.show()",
+   "a": [
+    [
+     "order"
+    ]
+   ],
+   "o": "",
+   "e": "`order=2` fits a parabola.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+scatter+area lines=1 points=244 t='' x='total_bill' y='tip' leg=None xt=['0', '10', '20', '30', '40', '50', '60'] h=[] tx=0\n#sns regplot",
+   "img": [
+    "img/ex-sns2-2.webp"
+   ]
+  },
+  {
+   "q": "Write the values in the heatmap cells.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ncorr = tips[[\"total_bill\", \"tip\", \"size\"]].corr()\nsns.heatmap(corr, ___=True, fmt=\".2f\")\nplt.show()",
+   "a": [
+    [
+     "annot"
+    ]
+   ],
+   "o": "",
+   "e": "`annot=True` writes each value; `fmt=` sets its format.",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh+text meshes=1 t='' x='' y='' leg=None xt=['total_bill', 'tip', 'size'] h=[] tx=9\n#sns heatmap",
+   "img": [
+    "img/ex-sns2-3.webp"
+   ]
+  },
+  {
+   "q": "Put the white colour at 0 for a diverging scale.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\ncorr = tips[[\"total_bill\", \"tip\", \"size\"]].corr()\nsns.heatmap(corr, cmap=\"coolwarm\", ___=0)\nplt.show()",
+   "a": [
+    [
+     "center"
+    ]
+   ],
+   "o": "",
+   "e": "`center=0` makes 0 the middle colour of the scale.",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 mesh meshes=1 t='' x='' y='' leg=None xt=['total_bill', 'tip', 'size'] h=[] tx=0\n#sns heatmap",
+   "img": [
+    "img/ex-sns2-4.webp"
+   ]
+  },
+  {
+   "q": "Draw every pair of the chosen columns.",
+   "c": "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset(\"tips\")\nsns.___(tips, vars=[\"total_bill\", \"tip\", \"size\"])\nplt.show()",
+   "a": [
+    [
+     "pairplot"
+    ]
+   ],
+   "o": "",
+   "e": "pairplot draws a scatter for every pair and each column's shape on the diagonal.",
+   "sum": "#fig1 axes=12 sup='' cbar=0 leg=None\n#ax1   t='' x='' y='total_bill' leg=None xt=[] h=[] tx=0\n#ax2 scatter points=244 t='' x='tip' y='total_bill' leg=None xt=[] h=[] tx=0\n#ax3 scatter points=244 t='' x='size' y='total_bill' leg=None xt=[] h=[] tx=0\n#ax4 scatter points=244 t='' x='total_bill' y='tip' leg=None xt=[] h=[] tx=0\n#ax5   t='' x='' y='' leg=None xt=[] h=[] tx=0\n#ax6 scatter points=244 t='' x='size' y='tip' leg=None xt=[] h=[] tx=0\n#ax7 scatter points=244 t='' x='total_bill' y='size' leg=None xt=['0', '20', '40', '60'] h=[] tx=0\n#ax8 scatter points=244 t='' x='tip' y='size' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[] tx=0\n#ax9   t='' x='size' y='' leg=None xt=['0', '2', '4', '6', '8'] h=[] tx=0\n#ax10 bar bars=14 t='' x='total_bill' y='Count' leg=None xt=['0', '20', '40', '60'] h=[2.0, 14.0, 45.0, 48.0, 39.0, 30.0, 21.0, 15.0, 9.0, 7.0, 6.0, 2.0] tx=0\n#ax11 bar bars=18 t='' x='tip' y='Count' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[17.0, 28.0, 53.0, 25.0, 49.0, 19.0, 21.0, 4.0, 16.0, 4.0, 1.0, 4.0] tx=0\n#ax12 bar bars=16 t='' x='size' y='Count' leg=None xt=['0', '2', '4', '6', '8'] h=[4.0, 0.0, 0.0, 156.0, 0.0, 0.0, 38.0, 0.0, 0.0, 37.0, 0.0, 0.0] tx=0\n#sns pairplot PairGrid",
+   "img": [
+    "img/ex-sns2-5.webp"
+   ]
+  }
  ]
 };

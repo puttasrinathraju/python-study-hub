@@ -1210,7 +1210,7 @@ function vGlossary(){
 var REF_BY = {}; (window.REFERENCE || []).forEach(function(x){ REF_BY[x.id] = x; });
 function vReference(){
   var RF = window.REFERENCE || [], total = RF.reduce(function(a, x){ return a + x.rows.length; }, 0);
-  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas and Matplotlib tools: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas, Matplotlib and Seaborn tools: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
     '<label for="rq" class="eyebrow">Search the reference</label><input id="rq" class="search" type="search" placeholder="e.g. strip, append, zip, KeyError, lambda" autocomplete="off"><div class="toc" id="rtoc">' + RF.map(function(x){ return '<button type="button" data-s="ref-' + x.id + '">' + esc(x.title) + '</button>'; }).join('') + '</div><div id="rBox"></div>';
   view.className = 'col wide'; view.innerHTML = h;
   function draw(q){

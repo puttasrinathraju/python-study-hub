@@ -49,3 +49,22 @@ X2.update({
  ("Hide the border line along the top.", PL + 'fig, ax = plt.subplots()\nax.bar(["a", "b"], [3, 5])\nax.spines["@@"].set_visible(False)\nplt.show()', ["top"], "The four spines are top, right, bottom and left."),
 ],
 })
+
+SN = 'import seaborn as sns\nimport matplotlib.pyplot as plt\n'
+TP = 'import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset("tips")\n'
+X2.update({
+"sns1": [
+ ("Draw a histogram with a smooth curve on top.", TP + 'sns.histplot(data=tips, x="tip", bins=12, @@=True)\nplt.show()', ["kde"], "`kde=True` adds the smooth KDE curve over the bars."),
+ ("Colour the bars by the time of the meal.", TP + 'sns.histplot(data=tips, x="total_bill", @@="time")\nplt.show()', ["hue"], "`hue=` splits the data by a column and adds a legend."),
+ ("Count the bills on each day.", TP + 'sns.@@(data=tips, x="day")\nplt.show()', ["countplot"], "countplot counts the rows of each category; barplot would need a `y=` to average."),
+ ("Show two groups in the two halves of each violin.", TP + 'sns.violinplot(data=tips, x="day", y="tip", hue="sex", @@=True)\nplt.show()', ["split"], "`split=True` draws one hue group on each side."),
+ ("Draw box plots in panels, one per smoker group.", TP + 'sns.catplot(data=tips, x="day", y="tip", kind="@@", col="smoker")\nplt.show()', ["box"], "catplot's `kind=` picks the chart; without it you get a strip plot."),
+],
+"sns2": [
+ ("Make the dot size follow the group size.", TP + 'sns.scatterplot(data=tips, x="total_bill", y="tip", @@="size")\nplt.show()', ["size"], "`size=` maps a column to the size of the dots."),
+ ("Fit a curve instead of a straight line.", TP + 'sns.regplot(data=tips, x="total_bill", y="tip", @@=2)\nplt.show()', ["order"], "`order=2` fits a parabola."),
+ ("Write the values in the heatmap cells.", TP + 'corr = tips[["total_bill", "tip", "size"]].corr()\nsns.heatmap(corr, @@=True, fmt=".2f")\nplt.show()', ["annot"], "`annot=True` writes each value; `fmt=` sets its format."),
+ ("Put the white colour at 0 for a diverging scale.", TP + 'corr = tips[["total_bill", "tip", "size"]].corr()\nsns.heatmap(corr, cmap="coolwarm", @@=0)\nplt.show()', ["center"], "`center=0` makes 0 the middle colour of the scale."),
+ ("Draw every pair of the chosen columns.", TP + 'sns.@@(tips, vars=["total_bill", "tip", "size"])\nplt.show()', ["pairplot"], "pairplot draws a scatter for every pair and each column's shape on the diagonal."),
+],
+})
