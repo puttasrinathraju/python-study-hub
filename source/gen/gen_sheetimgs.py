@@ -96,5 +96,44 @@ def part8():
     save(fig, 'ov8-concat')
 
 
+def mini(ax, kind, c):
+    import numpy as np
+    ax.set_facecolor(BG)
+    for sp in ax.spines.values(): sp.set_color('#475569')
+    ax.tick_params(colors='#64748B', labelsize=0, length=0)
+    if kind == 'bar':
+        for k in (10, 5):
+            ax.bar([0, 1, 2, 3], [5, 8, 4, 7], width=0.6, color='none', edgecolor=c, linewidth=k, alpha=0.1)
+        ax.bar([0, 1, 2, 3], [5, 8, 4, 7], width=0.6, color=c, alpha=0.55, edgecolor=c, linewidth=2)
+    elif kind == 'hist':
+        h = [2, 4, 7, 9, 6, 3, 1]
+        ax.bar(range(7), h, width=1.0, color=c, alpha=0.55, edgecolor='white', linewidth=1.5)
+    elif kind == 'line':
+        x = np.arange(8); y = [3, 4, 3.5, 5, 6, 5.5, 7, 8]
+        for k, a in ((12, 0.06), (7, 0.12)): ax.plot(x, y, color=c, lw=k, alpha=a)
+        ax.plot(x, y, color=c, lw=3, marker='o', ms=8)
+    elif kind == 'scatter':
+        rs = np.random.RandomState(3); x = rs.uniform(0, 10, 40); y = x * 0.7 + rs.normal(0, 1.4, 40)
+        ax.scatter(x, y, s=140, color=c, alpha=0.12); ax.scatter(x, y, s=40, color=c)
+    ax.set_xticks([]); ax.set_yticks([])
+
+
+def part9():
+    for name, kind, c in (('ov9-bar', 'bar', COL['blue']), ('ov9-hist', 'hist', COL['orange']), ('ov9-line', 'line', COL['teal']), ('ov9-scatter', 'scatter', COL['pink'])):
+        fig = plt.figure(figsize=(4, 4), dpi=100); fig.patch.set_facecolor(BG)
+        ax = fig.add_axes([0.1, 0.1, 0.8, 0.8]); mini(ax, kind, c); save(fig, name)
+    # plt: one chart, drawn on "the current chart"
+    fig = plt.figure(figsize=(4, 4), dpi=100); fig.patch.set_facecolor(BG)
+    ax = fig.add_axes([0.12, 0.12, 0.76, 0.62]); mini(ax, 'line', COL['green'])
+    fig.text(0.5, 0.86, 'plt.plot()', ha='center', color='white', fontsize=20, fontweight='bold', family='DejaVu Sans Mono')
+    save(fig, 'ov9-plt')
+    # ax: a grid of named charts
+    fig = plt.figure(figsize=(4, 4), dpi=100); fig.patch.set_facecolor(BG)
+    for i, (kind, c) in enumerate((('line', COL['purple']), ('bar', COL['cyan']), ('hist', COL['yellow']), ('scatter', COL['pink']))):
+        ax = fig.add_axes([0.08 + (i % 2) * 0.46, 0.5 - (i // 2) * 0.44, 0.38, 0.34]); mini(ax, kind, c)
+        fig.text(0.27 + (i % 2) * 0.46, 0.87 - (i // 2) * 0.44, 'axes[%d, %d]' % (i // 2, i % 2), ha='center', color='white', fontsize=11, family='DejaVu Sans Mono')
+    save(fig, 'ov9-ax')
+
+
 if __name__ == '__main__':
-    {'8': part8}[sys.argv[1]]()
+    {'8': part8, '9': part9}[sys.argv[1]]()

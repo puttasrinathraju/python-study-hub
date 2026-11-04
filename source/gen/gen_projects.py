@@ -18,21 +18,30 @@ def setup(t):
     gone = list(t.get('remove', [])) + ([t['outfile']] if t.get('outfile') else [])
     return ('# hotel_bookings.csv\nimport os as _o, json as _j\nfor _n in _j.loads(%s):\n    if _o.path.exists(_n): _o.remove(_n)\n'
             'for _n, _t in _j.loads(%s).items():\n    with open(_n, "w") as _f: _f.write(_t)\n') % (json.dumps(json.dumps(gone)), json.dumps(json.dumps(t.get('files', {}))))
+CHARTS = '--- charts ---'
 def post(t):
-    """Python that shows the file the program had to write (after a separator line)."""
+    """Python that shows the file the program had to write (after a separator line), or a report of its charts."""
+    if t.get('charts'): return '\nimport _hubcharts as _hc\n_hc.project_report()\n'
     if not t.get('outfile'): return ''
     n = json.dumps(t['outfile'])
     return '\nimport os as _o\nprint(%s)\nprint(open(%s).read() if _o.path.exists(%s) else "(file not written)", end="")\n' % (json.dumps(SEP % t['outfile']), n, n)
-def full(t, code): return setup(t) + prelude(t['inputs']) + code + post(t)
+def full(t, code):
+    # chart projects: the browser runner loads hubcharts before any chart code, so the checker does the same
+    first = 'import _hubcharts\n' if re.search(r'\b(matplotlib|seaborn)\b', code) else ''
+    # one run here, so the chart report reads this run's charts (the page runs the report separately)
+    return first + setup(t) + prelude(t['inputs']) + code + post(t).replace('project_report()', 'project_report(this_run=True)')
 def run(code, t):
     work = tempfile.mkdtemp(dir=WORK)
     for f in DATA: shutil.copy(f, work)
-    p = subprocess.run([sys.executable, '-c', full(t, code)], capture_output=True, text=True, cwd=work, timeout=30)
+    shutil.copy(os.path.join(hub, 'hubcharts.py'), os.path.join(work, '_hubcharts.py'))
+    env = dict(os.environ, COLUMNS='80', LINES='24', MPLBACKEND='Agg', SEABORN_DATA=work)
+    p = subprocess.run([sys.executable, '-c', full(t, code)], capture_output=True, text=True, cwd=work, timeout=60, env=env)
     return p.returncode == 0 and not p.stderr.strip(), p.stdout.rstrip('\n'), p.stderr.strip()
 def norm(s): return re.sub(r'\s+', ' ', s.strip())
 def split_out(out, t):
-    if t.get('outfile') and (SEP % t['outfile']) in out.split('\n'):
-        L = out.split('\n'); k = L.index(SEP % t['outfile']); return L[:k], L[k + 1:]
+    mark = CHARTS if t.get('charts') else (SEP % t['outfile']) if t.get('outfile') else None
+    if mark and mark in out.split('\n'):
+        L = out.split('\n'); k = L.index(mark); return L[:k], L[k + 1:]
     return out.split('\n'), []
 def has_lines(out, t, lines, flines=()):
     so, fo = split_out(out, t)
@@ -96,7 +105,7 @@ for f in sorted(glob.glob(os.path.join(here, 'pj', 'pj_part*.py'))):
             ok, out, err = run(P['sol'], t); assert ok, (pid, t['name'], err)
             miss = has_lines(out, t, exp, fexp); assert not miss, (pid, t['name'], 'missing', miss, out)
             rec = dict(name=t['name'], kind=t['kind'], inputs=t['inputs'], expect=exp, tip=t.get('tip', ''), out=out)
-            for k in ('files', 'remove', 'outfile', 'data'):
+            for k in ('files', 'remove', 'outfile', 'data', 'charts'):
                 if t.get(k): rec[k] = t[k]
             if fexp: rec['fexpect'] = fexp
             if setup(t): rec['setup'] = setup(t)

@@ -6551,5 +6551,1023 @@ var BIGTESTS = {
    "want": "700",
    "got": "KeyError: 2"
   }
+ ],
+ "mpl1": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Line charts: change over time",
+   "q": "Draw a line chart of the weekly sales `[230, 260, 245, 310]` for the weeks `[\"W1\", \"W2\", \"W3\", \"W4\"]` with round markers, and the title `Weekly sales`.",
+   "starter": "import matplotlib.pyplot as plt\nweeks = [\"W1\", \"W2\", \"W3\", \"W4\"]\nsales = [230, 260, 245, 310]\n",
+   "sol": "import matplotlib.pyplot as plt\nweeks = [\"W1\", \"W2\", \"W3\", \"W4\"]\nsales = [230, 260, 245, 310]\nplt.plot(weeks, sales, marker=\"o\")\nplt.title(\"Weekly sales\")\nplt.show()",
+   "e": "`plt.plot(x, y, marker=\"o\")` joins the points in order and puts a dot on each.",
+   "chart": {
+    "kind": "line",
+    "lines": 1,
+    "title": "Weekly sales",
+    "xticks": [
+     "W1",
+     "W2",
+     "W3",
+     "W4"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Weekly sales' x='' y='' leg=None xt=['W1', 'W2', 'W3', 'W4'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-1.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Bar charts: compare categories",
+   "q": "This should be a **bar chart** comparing the three shops, but it draws a line. Fix it.",
+   "c": "import matplotlib.pyplot as plt\nplt.plot([\"Ameerpet\", \"Kukatpally\", \"Gachibowli\"], [42, 35, 58])\nplt.title(\"Orders per shop\")\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nplt.bar([\"Ameerpet\", \"Kukatpally\", \"Gachibowli\"], [42, 35, 58])\nplt.title(\"Orders per shop\")\nplt.show()",
+   "e": "Categories are compared with bars: `plt.bar(names, values)`. A line suggests an order in time that shops do not have.",
+   "chart": {
+    "kind": "bar",
+    "bars": 3,
+    "title": true
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=3 t='Orders per shop' x='' y='' leg=None xt=['Ameerpet', 'Kukatpally', 'Gachibowli'] h=[42.0, 35.0, 58.0] tx=0",
+   "img": [
+    "img/bt-mpl1-2.webp"
+   ],
+   "got": "Expected a bar chart (bar), but found: line chart (plot).\nExpected 3 bars, found 0."
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Bar charts: compare categories",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nbars = plt.bar([\"A\", \"B\", \"C\", \"D\"], [4, 7, 2, 5])\nprint(len(bars), bars[2].get_height())",
+   "e": "`plt.bar` returns one bar per value. The third bar (index 2) is 2 tall.",
+   "ans": "4 2"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Histograms: how values are spread",
+   "q": "`waits = [3, 5, 6, 8, 9, 10, 12, 13, 15, 21]` are minutes customers waited. Draw a histogram with **4 bins** and the x label `Minutes`.",
+   "starter": "import matplotlib.pyplot as plt\nwaits = [3, 5, 6, 8, 9, 10, 12, 13, 15, 21]\n",
+   "sol": "import matplotlib.pyplot as plt\nwaits = [3, 5, 6, 8, 9, 10, 12, 13, 15, 21]\nplt.hist(waits, bins=4, edgecolor=\"black\")\nplt.xlabel(\"Minutes\")\nplt.show()",
+   "e": "`bins=4` cuts the range from 3 to 21 into 4 equal parts.",
+   "chart": {
+    "kind": "hist",
+    "bars": 4,
+    "xlabel": "Minutes"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 hist bars=4 t='' x='Minutes' y='' leg=None xt=['0.0', '2.5', '5.0', '7.5', '10.0', '12.5', '15.0', '17.5', '20.0', '22.5'] h=[3.0, 3.0, 3.0, 1.0] tx=0",
+   "img": [
+    "img/bt-mpl1-4.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Line charts: change over time",
+   "q": "This chart should have a legend with **Tea** and **Coffee**, but no legend appears. Fix the two plot lines.",
+   "c": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\"]\nplt.plot(days, [120, 95, 140])\nplt.plot(days, [80, 90, 70])\nplt.legend()\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\"]\nplt.plot(days, [120, 95, 140], label=\"Tea\")\nplt.plot(days, [80, 90, 70], label=\"Coffee\")\nplt.legend()\nplt.show()",
+   "e": "A legend lists the `label=` of each series. Without labels there is nothing to list, and Matplotlib warns you.",
+   "chart": {
+    "kind": "line",
+    "lines": 2,
+    "legend": [
+     "Tea",
+     "Coffee"
+    ]
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=2 t='' x='' y='' leg=['Tea', 'Coffee'] xt=['Mon', 'Tue', 'Wed'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-5.webp"
+   ],
+   "got": "No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument."
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Pie charts: share of a whole",
+   "q": "Draw a pie chart of the expenses `[45, 30, 25]` labelled `[\"Rent\", \"Food\", \"Travel\"]`, with the percent and 1 decimal on every slice.",
+   "starter": "import matplotlib.pyplot as plt\nspend = [45, 30, 25]\nnames = [\"Rent\", \"Food\", \"Travel\"]\n",
+   "sol": "import matplotlib.pyplot as plt\nspend = [45, 30, 25]\nnames = [\"Rent\", \"Food\", \"Travel\"]\nplt.pie(spend, labels=names, autopct=\"%1.1f%%\")\nplt.show()",
+   "e": "`autopct=\"%1.1f%%\"` writes each share with 1 decimal and a % sign.",
+   "chart": {
+    "kind": "pie",
+    "wedges": 3,
+    "text_has": "45.0%"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 pie wedges=3 t='' x='' y='' leg=None xt=[] h=[] tx=6",
+   "img": [
+    "img/bt-mpl1-6.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Histograms: how values are spread",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\ncounts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3], bins=3)\nprint(counts.tolist())",
+   "e": "3 equal bins from 1 to 3: one 1, two 2s, three 3s.",
+   "ans": "[1.0, 2.0, 3.0]"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Scatter plots: are two numbers related?",
+   "q": "Draw a scatter plot of `hours = [1, 2, 3, 4, 5, 6]` (x) against `marks = [35, 48, 55, 61, 72, 80]` (y), with both axis labels.",
+   "starter": "import matplotlib.pyplot as plt\nhours = [1, 2, 3, 4, 5, 6]\nmarks = [35, 48, 55, 61, 72, 80]\n",
+   "sol": "import matplotlib.pyplot as plt\nhours = [1, 2, 3, 4, 5, 6]\nmarks = [35, 48, 55, 61, 72, 80]\nplt.scatter(hours, marks)\nplt.xlabel(\"Study hours\")\nplt.ylabel(\"Marks\")\nplt.show()",
+   "e": "One dot per student; the dots climb, so more study goes with higher marks.",
+   "chart": {
+    "kind": "scatter",
+    "points": 6,
+    "xlabel": true,
+    "ylabel": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 scatter points=6 t='' x='Study hours' y='Marks' leg=None xt=['0', '1', '2', '3', '4', '5', '6', '7'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-8.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Bar charts: compare categories",
+   "q": "`rooms = {\"Deluxe\": 42, \"Suite\": 9, \"Standard\": 65, \"Family\": 23}`. Draw **horizontal** bars sorted from smallest to largest (so the biggest is at the top), with an x label.",
+   "starter": "import matplotlib.pyplot as plt\nrooms = {\"Deluxe\": 42, \"Suite\": 9, \"Standard\": 65, \"Family\": 23}\n",
+   "sol": "import matplotlib.pyplot as plt\nrooms = {\"Deluxe\": 42, \"Suite\": 9, \"Standard\": 65, \"Family\": 23}\nnames = sorted(rooms, key=rooms.get)\nplt.barh(names, [rooms[n] for n in names])\nplt.xlabel(\"Rooms booked\")\nplt.show()",
+   "e": "`barh` draws the first item at the bottom, so sorting from small to large puts the biggest on top.",
+   "chart": {
+    "kind": "barh",
+    "heights": [
+     9,
+     23,
+     42,
+     65
+    ],
+    "xlabel": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 barh bars=4 t='' x='Rooms booked' y='' leg=None xt=['0', '10', '20', '30', '40', '50', '60', '70'] h=[9.0, 23.0, 42.0, 65.0] tx=0",
+   "img": [
+    "img/bt-mpl1-9.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Line charts: change over time",
+   "q": "Plot the monthly rainfall of two cities for `[\"Jun\", \"Jul\", \"Aug\"]`: Mumbai `[500, 840, 590]` with a solid line and Chennai `[50, 90, 120]` with a dashed line. Add a legend.",
+   "starter": "import matplotlib.pyplot as plt\nmonths = [\"Jun\", \"Jul\", \"Aug\"]\n",
+   "sol": "import matplotlib.pyplot as plt\nmonths = [\"Jun\", \"Jul\", \"Aug\"]\nplt.plot(months, [500, 840, 590], label=\"Mumbai\")\nplt.plot(months, [50, 90, 120], linestyle=\"--\", label=\"Chennai\")\nplt.legend()\nplt.title(\"Monsoon rainfall (mm)\")\nplt.show()",
+   "e": "Two `plot` calls draw two lines; the `label=` values fill the legend.",
+   "chart": {
+    "kind": "line",
+    "lines": 2,
+    "legend": [
+     "Mumbai",
+     "Chennai"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=2 t='Monsoon rainfall (mm)' x='' y='' leg=['Mumbai', 'Chennai'] xt=['Jun', 'Jul', 'Aug'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-10.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Histograms: how values are spread",
+   "q": "This code should draw a histogram of the marks with 5 bins, but it stops with a TypeError. Fix it.",
+   "c": "import matplotlib.pyplot as plt\nmarks = [35, 42, 48, 55, 58, 61, 63, 67, 70, 72, 81, 88]\nplt.bar(marks, bins=5)\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nmarks = [35, 42, 48, 55, 58, 61, 63, 67, 70, 72, 81, 88]\nplt.hist(marks, bins=5)\nplt.show()",
+   "e": "`plt.bar` needs categories and heights. To count raw numbers into ranges, use `plt.hist(values, bins=5)`.",
+   "chart": {
+    "kind": "hist",
+    "bars": 5
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 hist bars=5 t='' x='' y='' leg=None xt=['30', '40', '50', '60', '70', '80', '90', '100'] h=[2.0, 2.0, 3.0, 3.0, 2.0] tx=0",
+   "img": [
+    "img/bt-mpl1-11.webp"
+   ],
+   "got": "TypeError: bar() missing 1 required positional argument: 'height'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Bar charts: compare categories",
+   "q": "Draw **grouped** bars for the regions `[\"North\", \"South\", \"East\"]`: 2023 sales `[40, 55, 30]` and 2024 sales `[48, 60, 35]`. Shift them by 0.2 with width 0.4, put the region names under the groups and add a legend.",
+   "starter": "import matplotlib.pyplot as plt\nimport numpy as np\nregions = [\"North\", \"South\", \"East\"]\n",
+   "sol": "import matplotlib.pyplot as plt\nimport numpy as np\nregions = [\"North\", \"South\", \"East\"]\nx = np.arange(len(regions))\nplt.bar(x - 0.2, [40, 55, 30], width=0.4, label=\"2023\")\nplt.bar(x + 0.2, [48, 60, 35], width=0.4, label=\"2024\")\nplt.xticks(x, regions)\nplt.legend()\nplt.show()",
+   "e": "Shifting each series half a bar left or right puts them side by side; `plt.xticks(x, regions)` names the groups.",
+   "chart": {
+    "kind": "bar",
+    "bars": 6,
+    "xticks": [
+     "North",
+     "South",
+     "East"
+    ],
+    "legend": [
+     "2023",
+     "2024"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=6 t='' x='' y='' leg=['2023', '2024'] xt=['North', 'South', 'East'] h=[40.0, 55.0, 30.0, 48.0, 60.0, 35.0] tx=0",
+   "img": [
+    "img/bt-mpl1-12.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Line charts: change over time",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nlines = plt.plot([1, 2], [3, 4], [1, 2], [4, 3], [1, 2], [5, 5])\nprint(len(lines))",
+   "e": "Three x/y pairs in one `plot()` call draw three lines.",
+   "ans": "3"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Bar charts: compare categories",
+   "q": "Draw **stacked** bars for `[\"Q1\", \"Q2\", \"Q3\"]`: online sales `[30, 42, 51]` with shop sales `[25, 22, 28]` on top of them. Add a legend.",
+   "starter": "import matplotlib.pyplot as plt\nquarters = [\"Q1\", \"Q2\", \"Q3\"]\nonline = [30, 42, 51]\nshop = [25, 22, 28]\n",
+   "sol": "import matplotlib.pyplot as plt\nquarters = [\"Q1\", \"Q2\", \"Q3\"]\nonline = [30, 42, 51]\nshop = [25, 22, 28]\nplt.bar(quarters, online, label=\"Online\")\nplt.bar(quarters, shop, bottom=online, label=\"Shop\")\nplt.legend()\nplt.show()",
+   "e": "`bottom=online` starts each shop bar where the online bar ends.",
+   "chart": {
+    "kind": "bar",
+    "bars": 6,
+    "legend": [
+     "Online",
+     "Shop"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=6 t='' x='' y='' leg=['Online', 'Shop'] xt=['Q1', 'Q2', 'Q3'] h=[30.0, 42.0, 51.0, 25.0, 22.0, 28.0] tx=0",
+   "img": [
+    "img/bt-mpl1-14.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Box plots: spread and outliers",
+   "q": "Draw one box plot for each of three batches, `a = [55, 60, 62, 65, 70, 90]`, `b = [40, 45, 52, 58, 61]` and `c = [70, 72, 75, 78, 80, 82]`, with the names `Batch A`, `Batch B`, `Batch C` under the boxes.",
+   "starter": "import matplotlib.pyplot as plt\na = [55, 60, 62, 65, 70, 90]\nb = [40, 45, 52, 58, 61]\nc = [70, 72, 75, 78, 80, 82]\n",
+   "sol": "import matplotlib.pyplot as plt\na = [55, 60, 62, 65, 70, 90]\nb = [40, 45, 52, 58, 61]\nc = [70, 72, 75, 78, 80, 82]\nplt.boxplot([a, b, c])\nplt.xticks([1, 2, 3], [\"Batch A\", \"Batch B\", \"Batch C\"])\nplt.show()",
+   "e": "Give `boxplot` a list of groups; the boxes stand at x = 1, 2, 3, which `xticks` names.",
+   "chart": {
+    "kind": "box",
+    "boxes": 3,
+    "xticks": [
+     "Batch A",
+     "Batch B",
+     "Batch C"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 box boxes=3 t='' x='' y='' leg=None xt=['Batch A', 'Batch B', 'Batch C'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-15.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Pie charts: share of a whole",
+   "q": "This pie chart should show each share as a percent, like `40.0%`, but the labels show plain numbers. Fix the format.",
+   "c": "import matplotlib.pyplot as plt\nplt.pie([40, 35, 25], labels=[\"UPI\", \"Card\", \"Cash\"], autopct=\"%1.1f\")\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nplt.pie([40, 35, 25], labels=[\"UPI\", \"Card\", \"Cash\"], autopct=\"%1.1f%%\")\nplt.show()",
+   "e": "`%%` prints a real % sign after the number.",
+   "chart": {
+    "kind": "pie",
+    "wedges": 3,
+    "text_has": "40.0%"
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 pie wedges=3 t='' x='' y='' leg=None xt=[] h=[] tx=6",
+   "img": [
+    "img/bt-mpl1-16.webp"
+   ],
+   "got": "No text on the chart contains '40.0%'."
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Scatter plots: are two numbers related?",
+   "q": "Draw a scatter of `price = [100, 150, 200, 250, 300]` (x) against `units = [90, 70, 52, 40, 25]` (y), coloured by `rating = [4.5, 4.2, 3.9, 3.5, 3.1]` with `cmap=\"viridis\"`, and add a colour bar labelled `Rating`.",
+   "starter": "import matplotlib.pyplot as plt\nprice = [100, 150, 200, 250, 300]\nunits = [90, 70, 52, 40, 25]\nrating = [4.5, 4.2, 3.9, 3.5, 3.1]\n",
+   "sol": "import matplotlib.pyplot as plt\nprice = [100, 150, 200, 250, 300]\nunits = [90, 70, 52, 40, 25]\nrating = [4.5, 4.2, 3.9, 3.5, 3.1]\nplt.scatter(price, units, c=rating, cmap=\"viridis\")\nplt.colorbar(label=\"Rating\")\nplt.show()",
+   "e": "`c=` colours each dot by a third value and `plt.colorbar()` explains the colours.",
+   "chart": {
+    "kind": "scatter",
+    "points": 5,
+    "colorbar": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 scatter points=5 t='' x='' y='' leg=None xt=['75', '100', '125', '150', '175', '200', '225', '250', '275', '300', '325'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-17.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Saving a chart: savefig",
+   "q": "Draw a bar chart of `[\"Mon\", \"Tue\"]` and `[12, 18]`, save it as `days.png` with `dpi=120`, show it, and then print whether the file exists (use `os.path.exists`).",
+   "starter": "import matplotlib.pyplot as plt\nimport os\n",
+   "sol": "import matplotlib.pyplot as plt\nimport os\nplt.bar([\"Mon\", \"Tue\"], [12, 18])\nplt.savefig(\"days.png\", dpi=120)\nplt.show()\nprint(os.path.exists(\"days.png\"))",
+   "e": "Save first, then show: `show()` finishes the chart.",
+   "chart": {
+    "kind": "bar",
+    "bars": 2
+   },
+   "out": "True",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=2 t='' x='' y='' leg=None xt=['Mon', 'Tue'] h=[12.0, 18.0] tx=0",
+   "img": [
+    "img/bt-mpl1-18.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Bar charts: compare categories",
+   "q": "From `sales_data.csv`, draw a bar chart of the **average** satisfaction score per region, highest first, with a title and a y label.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\navg = sales.groupby(\"Region\")[\"Satisfaction_Score\"].mean().sort_values(ascending=False)\nplt.bar(avg.index, avg.values)\nplt.title(\"Average satisfaction by region\")\nplt.ylabel(\"Score (1 to 5)\")\nplt.show()",
+   "e": "Group, sort, then draw the sorted Series: its index gives the names and its values the heights.",
+   "chart": {
+    "kind": "bar",
+    "bars": 4,
+    "title": true,
+    "ylabel": true,
+    "xticks": [
+     "West",
+     "North",
+     "South",
+     "East"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='Average satisfaction by region' x='' y='Score (1 to 5)' leg=None xt=['West', 'North', 'South', 'East'] h=[4.002, 3.885, 3.865, 3.83] tx=0",
+   "img": [
+    "img/bt-mpl1-19.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Line charts: change over time",
+   "q": "From `sales_data.csv`, draw the **number of Clothing orders** in each month as a line with markers, with the short month names on the x-axis and a title.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\ncloth = sales[sales[\"Category\"] == \"Clothing\"]\ncounts = cloth.groupby(cloth[\"Date\"].dt.to_period(\"M\")).size()\nplt.plot(counts.index.strftime(\"%b\"), counts.values, marker=\"o\")\nplt.title(\"Clothing orders per month\")\nplt.show()",
+   "e": "Filter first, then group by month and count with `size()`.",
+   "chart": {
+    "kind": "line",
+    "lines": 1,
+    "title": true,
+    "xticks": [
+     "Jan",
+     "Feb",
+     "Mar",
+     "Apr",
+     "May",
+     "Jun",
+     "Jul",
+     "Aug",
+     "Sep",
+     "Oct",
+     "Nov",
+     "Dec"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Clothing orders per month' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-20.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Box plots: spread and outliers",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.percentile([2, 4, 6, 8, 10], [25, 50, 75]).tolist())",
+   "e": "These are the three lines of a box plot: Q1 (25%), the median and Q3 (75%). The IQR is 8 - 4 = 4.",
+   "ans": "[4.0, 6.0, 8.0]"
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Saving a chart: savefig",
+   "q": "This code should save a picture of the chart. It saves a file, but the file is an empty white picture, so it prints `False`. Fix the order.",
+   "c": "import matplotlib.pyplot as plt\nimport os\nplt.bar([\"A\", \"B\", \"C\"], [3, 7, 5])\nplt.title(\"Saved chart\")\nplt.show()\nplt.savefig(\"saved.png\")\nprint(os.path.getsize(\"saved.png\") > 6000)",
+   "fixed": "import matplotlib.pyplot as plt\nimport os\nplt.bar([\"A\", \"B\", \"C\"], [3, 7, 5])\nplt.title(\"Saved chart\")\nplt.savefig(\"saved.png\")\nplt.show()\nprint(os.path.getsize(\"saved.png\") > 6000)",
+   "e": "`show()` finishes the chart, so a later `savefig()` saves a new empty figure. Save first.",
+   "chart": {
+    "kind": "bar",
+    "bars": 3
+   },
+   "want": "True",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=3 t='Saved chart' x='' y='' leg=None xt=['A', 'B', 'C'] h=[3.0, 7.0, 5.0] tx=0",
+   "img": [
+    "img/bt-mpl1-22.webp"
+   ],
+   "got": "False"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Pie charts: share of a whole",
+   "q": "From `sales_data.csv`, draw a pie of the **number of orders** per region with percents (1 decimal), starting at the top (`startangle=90`), and pull the South slice out by 0.1. The regions come out A to Z: East, North, South, West.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\ncounts = sales.groupby(\"Region\").size()\nplt.pie(counts.values, labels=counts.index, autopct=\"%1.1f%%\", startangle=90, explode=[0, 0, 0.1, 0])\nplt.title(\"Orders by region\")\nplt.show()",
+   "e": "`explode` takes one value per slice, in the same order as the data.",
+   "chart": {
+    "kind": "pie",
+    "wedges": 4,
+    "text_has": "%"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 pie wedges=4 t='Orders by region' x='' y='' leg=None xt=[] h=[] tx=8",
+   "img": [
+    "img/bt-mpl1-23.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "The 5-step recipe for every chart",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nfig = plt.figure(figsize=(8, 3))\nprint(fig.get_size_inches().tolist())\nplt.close()",
+   "e": "`figsize` is (width, height) in inches.",
+   "ans": "[8.0, 3.0]"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Which chart for which question",
+   "q": "Daily footfall for a week is `[320, 280, 300, 410, 520, 760, 690]` (Mon to Sun). Draw it as a **line** with markers, and add a **red dot** on the busiest day with `plt.scatter`. Add a title.",
+   "starter": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]\nfootfall = [320, 280, 300, 410, 520, 760, 690]\n",
+   "sol": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\"]\nfootfall = [320, 280, 300, 410, 520, 760, 690]\nbusiest = footfall.index(max(footfall))\nplt.plot(days, footfall, marker=\"o\")\nplt.scatter([days[busiest]], [footfall[busiest]], color=\"red\", s=120)\nplt.title(\"Footfall this week\")\nplt.show()",
+   "e": "Two chart types on one axes: the line shows the trend and one scatter dot calls out the peak.",
+   "chart": {
+    "kind": [
+     "line",
+     "scatter"
+    ],
+    "lines": 1,
+    "points": 1,
+    "title": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+scatter lines=1 points=1 t='Footfall this week' x='' y='' leg=None xt=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl1-25.webp"
+   ]
+  }
+ ],
+ "mpl2": [
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Figure and axes: the object way",
+   "q": "Using `fig, ax = plt.subplots()`, draw a bar chart of `[\"Tea\", \"Coffee\", \"Juice\"]` and `[120, 80, 45]`, with a title and a y label set through `ax`.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Tea\", \"Coffee\", \"Juice\"], [120, 80, 45])\nax.set_title(\"Drinks sold\")\nax.set_ylabel(\"Cups\")\nplt.show()",
+   "e": "On an axes, labels use `set_title`, `set_xlabel` and `set_ylabel`.",
+   "chart": {
+    "kind": "bar",
+    "bars": 3,
+    "title": true,
+    "ylabel": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=3 t='Drinks sold' x='' y='Cups' leg=None xt=['Tea', 'Coffee', 'Juice'] h=[120.0, 80.0, 45.0] tx=0",
+   "img": [
+    "img/bt-mpl2-1.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Figure and axes: the object way",
+   "q": "This code should give the chart the title `Visitors`, but it stops with a TypeError. Fix it.",
+   "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 2, 3], [10, 30, 20])\nax.title(\"Visitors\")\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 2, 3], [10, 30, 20])\nax.set_title(\"Visitors\")\nplt.show()",
+   "e": "`ax.title` is the title text object, not a function. Set it with `ax.set_title(...)`.",
+   "chart": {
+    "kind": "line",
+    "title": "Visitors"
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Visitors' x='' y='' leg=None xt=['0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25', '2.50', '2.75', '3.00', '3.25'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-2.webp"
+   ],
+   "got": "TypeError: 'Text' object is not callable"
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Several charts in one figure: subplots",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(2, 3)\nprint(axes.shape)\nplt.close()",
+   "e": "2 rows and 3 columns of charts: a NumPy array of shape (2, 3).",
+   "ans": "(2, 3)"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Several charts in one figure: subplots",
+   "q": "Make **1 row of 2 charts**: a line of `[4, 6, 5, 8]` on the left and a bar chart of `[\"A\", \"B\"]` and `[3, 5]` on the right. Give each chart a title.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([4, 6, 5, 8])\naxes[0].set_title(\"Trend\")\naxes[1].bar([\"A\", \"B\"], [3, 5])\naxes[1].set_title(\"Compare\")\nplt.tight_layout()\nplt.show()",
+   "e": "With one row, pick each chart with `axes[0]` and `axes[1]`.",
+   "chart": {
+    "axes": 2,
+    "ax": [
+     {
+      "kind": "line",
+      "title": true
+     },
+     {
+      "kind": "bar",
+      "bars": 2,
+      "title": true
+     }
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Trend' x='' y='' leg=None xt=['−1', '0', '1', '2', '3', '4'] h=[] tx=0\n#ax2 bar bars=2 t='Compare' x='' y='' leg=None xt=['A', 'B'] h=[3.0, 5.0] tx=0",
+   "img": [
+    "img/bt-mpl2-4.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Spines, ticks and number formats",
+   "q": "Draw a line of `[3, 5, 4, 6]` with `fig, ax = plt.subplots()` and hide the **top** and **right** spines.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([3, 5, 4, 6])\nax.spines[\"top\"].set_visible(False)\nax.spines[\"right\"].set_visible(False)\nplt.show()",
+   "e": "Each of the four border lines is a spine you can hide.",
+   "chart": {
+    "kind": "line",
+    "spines": {
+     "top": false,
+     "right": false
+    }
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-5.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "type",
+   "sec": "Value labels and annotations",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nbars = ax.bar([\"a\", \"b\"], [3, 5])\ntexts = ax.bar_label(bars)\nprint(len(texts), texts[1].get_text())\nplt.close()",
+   "e": "`bar_label` adds one text per bar and returns them; the second one shows 5.",
+   "ans": "2 5"
+  },
+  {
+   "lv": 1,
+   "ty": "code",
+   "sec": "Heatmaps with imshow",
+   "q": "Show `grid = [[1, 2, 3], [4, 5, 6]]` as a heatmap with `plt.imshow` and `cmap=\"Blues\"`, and add a colour bar.",
+   "starter": "import matplotlib.pyplot as plt\ngrid = [[1, 2, 3], [4, 5, 6]]\n",
+   "sol": "import matplotlib.pyplot as plt\ngrid = [[1, 2, 3], [4, 5, 6]]\nplt.imshow(grid, cmap=\"Blues\")\nplt.colorbar()\nplt.show()",
+   "e": "`imshow` colours every cell; `colorbar()` says which colour means which value.",
+   "chart": {
+    "kind": "image",
+    "colorbar": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 image images=1 t='' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-7.webp"
+   ]
+  },
+  {
+   "lv": 1,
+   "ty": "fix",
+   "sec": "Several charts in one figure: subplots",
+   "q": "This dashboard should have one title over both charts, but it stops with an AttributeError. Fix the title line.",
+   "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([1, 2, 3])\naxes[1].bar([\"x\", \"y\"], [2, 4])\nfig.title(\"Dashboard\")\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([1, 2, 3])\naxes[1].bar([\"x\", \"y\"], [2, 4])\nfig.suptitle(\"Dashboard\")\nplt.show()",
+   "e": "A figure has no `title()`. Its title over all the charts is `fig.suptitle()`.",
+   "chart": {
+    "axes": 2,
+    "suptitle": "Dashboard"
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='Dashboard' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5'] h=[] tx=0\n#ax2 bar bars=2 t='' x='' y='' leg=None xt=['x', 'y'] h=[2.0, 4.0] tx=0",
+   "img": [
+    "img/bt-mpl2-8.webp"
+   ],
+   "got": "AttributeError: 'Figure' object has no attribute 'title'"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Several charts in one figure: subplots",
+   "q": "Make a **2 × 2** grid: a line, a bar chart, a histogram and a scatter (any small data), each with a title, and the figure title `Four charts`.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(2, 2, figsize=(8, 6))\naxes[0, 0].plot([1, 3, 2, 4])\naxes[0, 0].set_title(\"Line\")\naxes[0, 1].bar([\"a\", \"b\", \"c\"], [3, 1, 2])\naxes[0, 1].set_title(\"Bar\")\naxes[1, 0].hist([1, 2, 2, 3, 3, 3], bins=3)\naxes[1, 0].set_title(\"Histogram\")\naxes[1, 1].scatter([1, 2, 3], [3, 1, 2])\naxes[1, 1].set_title(\"Scatter\")\nfig.suptitle(\"Four charts\")\nplt.tight_layout()\nplt.show()",
+   "e": "Row and column both count from 0: the scatter goes in `axes[1, 1]`.",
+   "chart": {
+    "axes": 4,
+    "suptitle": "Four charts",
+    "ax": [
+     {
+      "kind": "line",
+      "title": true
+     },
+     {
+      "kind": "bar",
+      "title": true
+     },
+     {
+      "kind": "hist",
+      "title": true
+     },
+     {
+      "kind": "scatter",
+      "title": true
+     }
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=4 sup='Four charts' cbar=0 leg=None\n#ax1 line lines=1 t='Line' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5'] h=[] tx=0\n#ax2 bar bars=3 t='Bar' x='' y='' leg=None xt=['a', 'b', 'c'] h=[3.0, 1.0, 2.0] tx=0\n#ax3 hist bars=3 t='Histogram' x='' y='' leg=None xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5'] h=[1.0, 2.0, 3.0] tx=0\n#ax4 scatter points=3 t='Scatter' x='' y='' leg=None xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-9.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Value labels and annotations",
+   "q": "Draw bars for `[\"Jan\", \"Feb\", \"Mar\"]` with `[12500, 9800, 14350]` and write each value on its bar with `ax.bar_label` and the format `\"{:,}\"`.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nbars = ax.bar([\"Jan\", \"Feb\", \"Mar\"], [12500, 9800, 14350])\nax.bar_label(bars, fmt=\"{:,}\")\nplt.show()",
+   "e": "`fmt=\"{:,}\"` adds thousands separators to every label.",
+   "chart": {
+    "kind": "bar",
+    "bars": 3,
+    "texts": 3,
+    "text_has": "14,350"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar+annotate bars=3 t='' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[12500.0, 9800.0, 14350.0] tx=3",
+   "img": [
+    "img/bt-mpl2-10.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Value labels and annotations",
+   "q": "Plot `[220, 310, 290, 450, 380]` as a line for the days Mon to Fri, and point at the highest value with `ax.annotate(\"Peak\", ...)` and an arrow.",
+   "starter": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]\nvisits = [220, 310, 290, 450, 380]\n",
+   "sol": "import matplotlib.pyplot as plt\ndays = [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]\nvisits = [220, 310, 290, 450, 380]\npeak = visits.index(max(visits))\nfig, ax = plt.subplots()\nax.plot(days, visits, marker=\"o\")\nax.annotate(\"Peak\", xy=(peak, visits[peak]), xytext=(peak - 2, visits[peak] - 40), arrowprops=dict(arrowstyle=\"->\"))\nplt.show()",
+   "e": "`xy` is the point (its position 3, and 450), `xytext` is where the words go.",
+   "chart": {
+    "kind": [
+     "line",
+     "annotate"
+    ],
+    "text_has": "Peak"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line+annotate lines=1 t='' x='' y='' leg=None xt=['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] h=[] tx=1",
+   "img": [
+    "img/bt-mpl2-11.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Two y-axes with twinx",
+   "q": "This chart should show sales on the left axis and orders on a **second** y-axis on the right, but both lines end up on the left. Fix it.",
+   "c": "import matplotlib.pyplot as plt\nmonths = [\"Jan\", \"Feb\", \"Mar\"]\nfig, ax1 = plt.subplots()\nax1.plot(months, [40000, 52000, 61000], color=\"tab:blue\")\nax2 = ax1.twinx()\nax1.plot(months, [120, 150, 135], color=\"tab:red\")\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nmonths = [\"Jan\", \"Feb\", \"Mar\"]\nfig, ax1 = plt.subplots()\nax1.plot(months, [40000, 52000, 61000], color=\"tab:blue\")\nax2 = ax1.twinx()\nax2.plot(months, [120, 150, 135], color=\"tab:red\")\nplt.show()",
+   "e": "`twinx()` makes the second axes, but you must draw on it: `ax2.plot(...)`.",
+   "chart": {
+    "axes": 2,
+    "ax": [
+     {
+      "lines": 1
+     },
+     {
+      "lines": 1
+     }
+    ]
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[] tx=0\n#ax2 line lines=1 t='' x='' y='' leg=None xt=['Jan', 'Feb', 'Mar'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-12.webp"
+   ],
+   "got": "Chart 1: Expected 1 line, found 2.\nChart 2: Expected 1 line, found 0."
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Trend lines with polyfit",
+   "q": "Type exactly what this code prints.",
+   "c": "import numpy as np\nprint(np.polyfit([0, 1, 2, 3], [3, 5, 7, 9], 1).round(2))",
+   "e": "The points lie on y = 2x + 3, so the slope is 2 and the intercept 3.",
+   "ans": "[2. 3.]"
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Two y-axes with twinx",
+   "q": "Plot sales `[40000, 52000, 61000]` and orders `[120, 150, 135]` for `[\"Jan\", \"Feb\", \"Mar\"]` with two y-axes (`twinx`), and label both y-axes.",
+   "starter": "import matplotlib.pyplot as plt\nmonths = [\"Jan\", \"Feb\", \"Mar\"]\n",
+   "sol": "import matplotlib.pyplot as plt\nmonths = [\"Jan\", \"Feb\", \"Mar\"]\nfig, ax1 = plt.subplots()\nax1.plot(months, [40000, 52000, 61000], color=\"tab:blue\")\nax1.set_ylabel(\"Sales (₹)\")\nax2 = ax1.twinx()\nax2.plot(months, [120, 150, 135], color=\"tab:red\")\nax2.set_ylabel(\"Orders\")\nplt.show()",
+   "e": "Each axes has its own y label: the left one on `ax1`, the right one on `ax2`.",
+   "chart": {
+    "axes": 2,
+    "ax": [
+     {
+      "lines": 1,
+      "ylabel": true
+     },
+     {
+      "lines": 1,
+      "ylabel": true
+     }
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='Sales (₹)' leg=None xt=['Jan', 'Feb', 'Mar'] h=[] tx=0\n#ax2 line lines=1 t='' x='' y='Orders' leg=None xt=['Jan', 'Feb', 'Mar'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-14.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Colours, style sheets and legends",
+   "q": "Use the `\"ggplot\"` style for a chart with two lines, `[1, 3, 2]` labelled `2024` and `[2, 2, 3]` labelled `2025`, and a legend with the title `Year`.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nplt.style.use(\"ggplot\")\nplt.plot([1, 3, 2], label=\"2024\")\nplt.plot([2, 2, 3], label=\"2025\")\nplt.legend(title=\"Year\")\nplt.show()\nplt.style.use(\"default\")",
+   "e": "The ggplot style turns on a grid and a grey background; switch back with `plt.style.use(\"default\")`.",
+   "chart": {
+    "kind": "line",
+    "lines": 2,
+    "legend": [
+     "2024",
+     "2025"
+    ],
+    "grid": true
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=2 t='' x='' y='' leg=['2024', '2025'] xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-15.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "code",
+   "sec": "Spines, ticks and number formats",
+   "q": "Draw bars for `[\"Q1\", \"Q2\", \"Q3\"]` with `[150000, 210000, 185000]` and show the y-axis numbers in rupees with commas, like `₹150,000`, using `plt.FuncFormatter`.",
+   "starter": "import matplotlib.pyplot as plt\n",
+   "sol": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"Q1\", \"Q2\", \"Q3\"], [150000, 210000, 185000])\nax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, pos: f\"₹{value:,.0f}\"))\nplt.show()",
+   "e": "The formatter function gets each tick value and returns the text to show.",
+   "chart": {
+    "kind": "bar",
+    "bars": 3,
+    "ytick_has": "₹"
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=3 t='' x='' y='' leg=None xt=['Q1', 'Q2', 'Q3'] h=[150000.0, 210000.0, 185000.0] tx=0",
+   "img": [
+    "img/bt-mpl2-16.webp"
+   ]
+  },
+  {
+   "lv": 2,
+   "ty": "fix",
+   "sec": "Heatmaps with imshow",
+   "q": "This heatmap should have the names `Sales`, `Profit` and `Age` on both axes, but it shows the numbers 0, 1, 2. Fix it by naming the ticks.",
+   "c": "import matplotlib.pyplot as plt\ngrid = [[1, 0.8, 0.1], [0.8, 1, 0.0], [0.1, 0.0, 1]]\nnames = [\"Sales\", \"Profit\", \"Age\"]\nplt.imshow(grid, cmap=\"coolwarm\", vmin=-1, vmax=1)\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\ngrid = [[1, 0.8, 0.1], [0.8, 1, 0.0], [0.1, 0.0, 1]]\nnames = [\"Sales\", \"Profit\", \"Age\"]\nplt.imshow(grid, cmap=\"coolwarm\", vmin=-1, vmax=1)\nplt.xticks(range(3), names)\nplt.yticks(range(3), names)\nplt.show()",
+   "e": "`plt.xticks(positions, labels)` swaps the positions 0, 1, 2 for the column names.",
+   "chart": {
+    "kind": "image",
+    "xticks": [
+     "Sales",
+     "Profit",
+     "Age"
+    ],
+    "yticks": [
+     "Sales",
+     "Profit",
+     "Age"
+    ]
+   },
+   "want": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 image images=1 t='' x='' y='' leg=None xt=['Sales', 'Profit', 'Age'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-17.webp"
+   ],
+   "got": "The x-axis labels should be Sales, Profit, Age, but they are −0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5.\nThe y-axis labels should be Sales, Profit, Age, but they are −0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5."
+  },
+  {
+   "lv": 2,
+   "ty": "type",
+   "sec": "Inset charts and global settings",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nplt.rcParams[\"font.size\"] = 14\nprint(plt.rcParams[\"font.size\"])\nplt.rcdefaults()\nprint(plt.rcParams[\"font.size\"])",
+   "e": "`rcParams` stores the setting as a decimal; `rcdefaults()` puts back the normal size, 10.",
+   "ans": "14.0\n10.0"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Several charts in one figure: subplots",
+   "q": "From `sales_data.csv`, make 1 row of 2 charts: the **average profit** per category as bars (left) and a histogram of `Quantity` with 10 bins (right). Give both charts titles and the figure the title `Orders at a glance`.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\navg = sales.groupby(\"Category\")[\"Profit\"].mean()\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\naxes[0].bar(avg.index, avg.values)\naxes[0].set_title(\"Average profit\")\naxes[1].hist(sales[\"Quantity\"], bins=10)\naxes[1].set_title(\"Items per order\")\nfig.suptitle(\"Orders at a glance\")\nplt.tight_layout()\nplt.show()",
+   "e": "Each axes answers its own question; `fig.suptitle` ties them together.",
+   "chart": {
+    "axes": 2,
+    "suptitle": "Orders at a glance",
+    "ax": [
+     {
+      "kind": "bar",
+      "bars": 4,
+      "title": true
+     },
+     {
+      "kind": "hist",
+      "bars": 10,
+      "title": true
+     }
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='Orders at a glance' cbar=0 leg=None\n#ax1 bar bars=4 t='Average profit' x='' y='' leg=None xt=['Clothing', 'Electronics', 'Furniture', 'Groceries'] h=[461.3, 661.0, 760.2, 59.93] tx=0\n#ax2 hist bars=10 t='Items per order' x='' y='' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[44.0, 51.0, 47.0, 66.0, 47.0, 48.0, 48.0, 49.0, 48.0, 52.0] tx=0",
+   "img": [
+    "img/bt-mpl2-19.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Heatmaps with imshow",
+   "q": "From `sales_data.csv`, draw the correlation heatmap of `[\"Sales\", \"Profit\", \"Quantity\"]` with `cmap=\"coolwarm\"`, `vmin=-1`, `vmax=1`, a colour bar, the names on both axes, and the value (2 decimals) written in every cell.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\ncols = [\"Sales\", \"Profit\", \"Quantity\"]\ncorr = sales[cols].corr()\nplt.imshow(corr, cmap=\"coolwarm\", vmin=-1, vmax=1)\nplt.colorbar()\nplt.xticks(range(3), cols)\nplt.yticks(range(3), cols)\nfor i in range(3):\n    for j in range(3):\n        plt.text(j, i, f\"{corr.iloc[i, j]:.2f}\", ha=\"center\", va=\"center\")\nplt.show()",
+   "e": "Two loops visit every cell: `plt.text(j, i, ...)` writes at column j, row i.",
+   "chart": {
+    "kind": "image",
+    "colorbar": true,
+    "texts": 9,
+    "text_has": "0.78",
+    "xticks": [
+     "Sales",
+     "Profit",
+     "Quantity"
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 image+text images=1 t='' x='' y='' leg=None xt=['Sales', 'Profit', 'Quantity'] h=[] tx=9",
+   "img": [
+    "img/bt-mpl2-20.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Trend lines with polyfit",
+   "q": "From `sales_data.csv`, scatter `Quantity` (x) against `Sales` (y), draw the straight trend line from `np.polyfit` in red, and print the slope rounded to 1 decimal.",
+   "starter": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\nimport numpy as np\n",
+   "sol": "import pandas as pd\nimport matplotlib.pyplot as plt\nsales = pd.read_csv(\"sales_data.csv\")\nsales[\"Date\"] = pd.to_datetime(sales[\"Date\"])\nimport numpy as np\nx = sales[\"Quantity\"].values\ny = sales[\"Sales\"].values\nslope, intercept = np.polyfit(x, y, 1)\nprint(round(slope, 1))\nfig, ax = plt.subplots()\nax.scatter(x, y, s=10)\nline_x = np.linspace(1, 10, 10)\nax.plot(line_x, slope * line_x + intercept, \"r-\")\nplt.show()",
+   "e": "Each extra item in an order adds about this many rupees, on average.",
+   "chart": {
+    "kind": [
+     "scatter",
+     "line"
+    ],
+    "points": 500,
+    "lines": 1
+   },
+   "out": "161.6",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 scatter+line lines=1 points=500 t='' x='' y='' leg=None xt=['0', '2', '4', '6', '8', '10', '12'] h=[] tx=0",
+   "img": [
+    "img/bt-mpl2-21.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "fix",
+   "sec": "Several charts in one figure: subplots",
+   "q": "This code should put the bar chart in the second chart of the row, but it raises an IndexError. Fix it.",
+   "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([1, 2, 3])\naxes[2].bar([\"a\", \"b\"], [1, 2])\nplt.show()",
+   "fixed": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([1, 2, 3])\naxes[1].bar([\"a\", \"b\"], [1, 2])\nplt.show()",
+   "e": "Two charts are `axes[0]` and `axes[1]`: positions count from 0.",
+   "chart": {
+    "axes": 2,
+    "ax": [
+     {
+      "kind": "line"
+     },
+     {
+      "kind": "bar"
+     }
+    ]
+   },
+   "want": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5'] h=[] tx=0\n#ax2 bar bars=2 t='' x='' y='' leg=None xt=['a', 'b'] h=[1.0, 2.0] tx=0",
+   "img": [
+    "img/bt-mpl2-22.webp"
+   ],
+   "got": "IndexError: index 2 is out of bounds for axis 0 with size 2"
+  },
+  {
+   "lv": 3,
+   "ty": "type",
+   "sec": "Inset charts and global settings",
+   "q": "Type exactly what this code prints.",
+   "c": "import matplotlib.pyplot as plt\nfrom mpl_toolkits.axes_grid1.inset_locator import inset_axes\nfig, ax = plt.subplots()\nsmall = inset_axes(ax, width=\"30%\", height=\"30%\")\nprint(len(fig.axes))\nplt.close()",
+   "e": "The inset is a second axes inside the same figure.",
+   "ans": "2"
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Inset charts and global settings",
+   "q": "Plot 12 months of visitors `[30, 32, 35, 41, 38, 44, 47, 52, 49, 58, 66, 61]` as a line, and add an **inset** bar chart (35% wide and high, upper left) of the last three months.",
+   "starter": "import matplotlib.pyplot as plt\nfrom mpl_toolkits.axes_grid1.inset_locator import inset_axes\nvisitors = [30, 32, 35, 41, 38, 44, 47, 52, 49, 58, 66, 61]\n",
+   "sol": "import matplotlib.pyplot as plt\nfrom mpl_toolkits.axes_grid1.inset_locator import inset_axes\nvisitors = [30, 32, 35, 41, 38, 44, 47, 52, 49, 58, 66, 61]\nfig, ax = plt.subplots()\nax.plot(range(1, 13), visitors, marker=\"o\")\nsmall = inset_axes(ax, width=\"35%\", height=\"35%\", loc=\"upper left\")\nsmall.bar([\"Oct\", \"Nov\", \"Dec\"], visitors[-3:])\nplt.show()",
+   "e": "The inset is its own axes, so you draw on it with its own methods.",
+   "chart": {
+    "axes": 2,
+    "ax": [
+     {
+      "kind": "line"
+     },
+     {
+      "kind": "bar",
+      "bars": 3
+     }
+    ]
+   },
+   "out": "",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['0', '2', '4', '6', '8', '10', '12', '14'] h=[] tx=0\n#ax2 bar bars=3 t='' x='' y='' leg=None xt=['Oct', 'Nov', 'Dec'] h=[58.0, 66.0, 61.0] tx=0",
+   "img": [
+    "img/bt-mpl2-24.webp"
+   ]
+  },
+  {
+   "lv": 3,
+   "ty": "code",
+   "sec": "Best practices and common mistakes",
+   "q": "`rooms = {\"Taj\": 42, \"Novotel\": 35, \"ITC\": 58, \"Marriott\": 47}`. Make a clear chart: horizontal bars sorted small to large, a title, an x label, the values on the bars and no top or right spines.",
+   "starter": "import matplotlib.pyplot as plt\nrooms = {\"Taj\": 42, \"Novotel\": 35, \"ITC\": 58, \"Marriott\": 47}\n",
+   "sol": "import matplotlib.pyplot as plt\nrooms = {\"Taj\": 42, \"Novotel\": 35, \"ITC\": 58, \"Marriott\": 47}\nnames = sorted(rooms, key=rooms.get)\nfig, ax = plt.subplots()\nbars = ax.barh(names, [rooms[n] for n in names], color=\"teal\")\nax.bar_label(bars)\nax.set_title(\"Rooms booked this week\")\nax.set_xlabel(\"Rooms\")\nax.spines[\"top\"].set_visible(False)\nax.spines[\"right\"].set_visible(False)\nplt.show()",
+   "e": "Sorted bars, clear labels, exact numbers and no clutter: the best practices from the chapter in one chart.",
+   "chart": {
+    "kind": "barh",
+    "heights": [
+     35,
+     42,
+     47,
+     58
+    ],
+    "texts": 4,
+    "title": true,
+    "xlabel": true,
+    "spines": {
+     "top": false,
+     "right": false
+    }
+   },
+   "out": "",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 barh+annotate bars=4 t='Rooms booked this week' x='Rooms' y='' leg=None xt=['0', '10', '20', '30', '40', '50', '60', '70'] h=[35.0, 42.0, 47.0, 58.0] tx=4",
+   "img": [
+    "img/bt-mpl2-25.webp"
+   ]
+  }
  ]
 };

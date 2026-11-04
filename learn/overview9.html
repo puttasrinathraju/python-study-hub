@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 9 overview: Matplotlib | Python Study Hub</title>
+<meta name="description" content="Both Matplotlib chapters on one page: which chart answers which question, the quick way and the object way side by side, the finishing touches, and the mix-ups that spoil a chart (bar vs hist, plot vs scatter, savefig after show).">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/overview9.html">
+<meta property="og:title" content="Part 9 overview: Matplotlib | Python Study Hub">
+<meta property="og:description" content="Both Matplotlib chapters on one page: which chart answers which question, the quick way and the object way side by side, the finishing touches, and the mix-ups that spoil a chart (bar vs hist, plot vs scatter, savefig after show).">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#overview9">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#overview9">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 9 · Matplotlib · Overview</p><h1>Part 9 overview: Matplotlib</h1><p class="lead">Both Matplotlib chapters on one page: which chart answers which question, the quick way and the object way side by side, the finishing touches, and the mix-ups that spoil a chart (<code>bar</code> vs <code>hist</code>, <code>plot</code> vs <code>scatter</code>, <code>savefig</code> after <code>show</code>).</p><section class="five"><h2>The whole Part in 5 lines</h2><ol><li>Every chart: <code>plt.figure(figsize=...)</code> (or <code>fig, ax = plt.subplots()</code>), draw, label (title, x, y, legend), tidy (<code>grid</code>, <code>tight_layout</code>), then <code>show()</code> or <code>savefig()</code>.</li><li>Pick the chart from the question: line for time, bar for categories, histogram or box plot for spread, scatter for two numbers, pie for a few shares, heatmap for many correlations.</li><li>The <mark>object way</mark> names every chart: <code>fig, axes = plt.subplots(2, 2)</code>, <code>axes[0, 1].bar(...)</code>, <code>ax.set_title(...)</code>, and <code>fig.suptitle(...)</code> over them all.</li><li>Clean charts get read: sorted bars, labels with units, a light grid, no top/right spines, <code>bar_label</code> for exact numbers and <code>annotate</code> for the one point that matters.</li><li>Extras: <code>twinx()</code> for a second unit, <code>np.polyfit(x, y, 1)</code> for a trend line and R², <code>inset_axes</code> to zoom, <code>rcParams</code> for one look everywhere.</li></ol></section><section class="sheet"><h2>Picture cheat sheet: Matplotlib: the 3 big differences</h2><h3>plt.bar vs plt.hist</h3><div class="tbl"><table><thead><tr><th></th><th>Symbol</th><th>You give it</th><th>x-axis</th><th>Bars</th><th>Example</th><th>Picture and example</th></tr></thead><tbody><tr><th scope="row"><b>bar</b></th><td><code>plt.bar()</code> Compare categories</td><td>Heights</td><td>Categories</td><td>Gaps</td><td>plt.bar(names, totals)</td><td>A shelf of jars: each jar is one category, and you decide how full it is. <code>plt.barh(names, totals)</code></td></tr><tr><th scope="row"><b>hist</b></th><td><code>plt.hist()</code> Show a spread</td><td>Raw numbers</td><td>A number line</td><td>Touching</td><td>plt.hist(ages, bins=15)</td><td>Sorting coins into slots by size: the tallest pile shows the most common size. <code>plt.hist(col, density=True)</code></td></tr></tbody></table></div><h3>plt.plot vs plt.scatter</h3><div class="tbl"><table><thead><tr><th></th><th>Symbol</th><th>Draws</th><th>Best for</th><th>Row order</th><th>Picture and example</th></tr></thead><tbody><tr><th scope="row"><b>plot</b></th><td><code>plt.plot()</code> A trend</td><td>A joined line</td><td>Change over time</td><td>Matters</td><td>A road trip: the line goes from one stop to the next, in order. <code>plt.plot(months, sales, marker=&quot;o&quot;)</code></td></tr><tr><th scope="row"><b>scatter</b></th><td><code>plt.scatter()</code> A relationship</td><td>Separate dots</td><td>Two numbers per row</td><td>Does not matter</td><td>Stars in the sky: each dot is one row, and the cloud's shape shows the link. <code>plt.scatter(x, y, c=z, cmap=&quot;viridis&quot;)</code></td></tr></tbody></table></div><h3>plt. (quick) vs ax. (object)</h3><div class="tbl"><table><thead><tr><th></th><th>Symbol</th><th>Draws on</th><th>Title</th><th>Several charts</th><th>Picture and example</th></tr></thead><tbody><tr><th scope="row"><b>plt.</b></th><td><code>plt.title()</code> The current chart</td><td>The current chart</td><td>plt.title(&quot;T&quot;)</td><td>plt.subplot(1, 2, 1)</td><td>Pointing at whatever is in front of you: quick for one chart. <code>plt.xlabel(&quot;Month&quot;)</code></td></tr><tr><th scope="row"><b>ax.</b></th><td><code>ax.set_title()</code> A named chart</td><td>The axes you name</td><td>ax.set_title(&quot;T&quot;)</td><td>axes[0, 1]</td><td>Calling each chart by its seat number: clear when there are many. <code>fig, axes = plt.subplots(2, 2)</code></td></tr></tbody></table></div><p class="cap">Recipe: figure → draw → title, labels, legend → grid, tight_layout → savefig, then show.</p></section><h2>Mind map of Part 9</h2>
+<section class="mm"><h3>Mind map: Part 9 at a glance</h3><ul><li><b>Part 9: Matplotlib</b><ul><li>27. Charts<ul><li>5-step recipe</li><li>plot: trends</li><li>bar / barh: compare</li><li>hist / boxplot: spread</li><li>scatter: relations</li><li>pie: shares</li><li>savefig</li></ul></li><li>28. Layouts &amp; style<ul><li>fig, ax = plt.subplots()</li><li>subplots grid, suptitle</li><li>imshow heatmap</li><li>styles, legends, spines</li><li>bar_label, annotate</li><li>twinx, polyfit, inset</li></ul></li></ul></li></ul></section>
+<h2>Key definitions</h2>
+<dl class="defs"><dt>Matplotlib</dt><dd><p>Python's main charting library. Use its <code>pyplot</code> part, imported as <code>plt</code>.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+print(plt.__name__)</code></pre><p class="olbl">Output</p><pre class="out">matplotlib.pyplot</pre></figure></dd><dt>Figure</dt><dd><p>The whole picture: the canvas that holds one or more charts. <code>figsize</code> is its size in inches.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig = plt.figure(figsize=(8, 4))
+print(fig.get_size_inches().tolist())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[8.0, 4.0]</pre></figure></dd><dt>Axes</dt><dd><p>One chart area inside a figure, with its own x-axis, y-axis and title.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+print(type(ax).__name__)
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Axes</pre></figure></dd><dt>Artist</dt><dd><p>Anything drawn on a figure: lines, bars, text, ticks.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+lines = plt.plot([1, 2], [3, 4])
+print(type(lines[0]).__name__)
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Line2D</pre></figure></dd><dt>Histogram</dt><dd><p>Counts how many values fall into each range (bin) of a number column. Its bars touch.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+counts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3], bins=3)
+print(counts.tolist())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[1.0, 2.0, 3.0]</pre></figure></dd><dt>Bins</dt><dd><p>The ranges a histogram cuts the numbers into. <code>bins=5</code> makes 5 equal ranges.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+counts, edges, bars = plt.hist([0, 10], bins=5)
+print(edges.tolist())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">[0.0, 2.0, 4.0, 6.0, 8.0, 10.0]</pre></figure></dd><dt>Scatter plot</dt><dd><p>One dot per row with one number on each axis: shows whether two numbers are related.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+dots = plt.scatter([1, 2, 3], [4, 5, 6])
+print(len(dots.get_offsets()))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">3</pre></figure></dd><dt>Colormap (cmap)</dt><dd><p>A colour scale that turns numbers into colours, like <code>viridis</code> or <code>coolwarm</code>.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+print(plt.get_cmap(&quot;viridis&quot;).name)</code></pre><p class="olbl">Output</p><pre class="out">viridis</pre></figure></dd><dt>Box plot</dt><dd><p>Median, quartiles (the box), whiskers and outlier dots of a column, often one per group.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+parts = plt.boxplot([[1, 2, 3, 4, 20]])
+print(len(parts[&quot;boxes&quot;]), len(parts[&quot;fliers&quot;][0].get_xdata()))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">1 1</pre></figure></dd><dt>IQR</dt><dd><p>Interquartile range: Q3 − Q1, the width of the box. Values beyond 1.5 × IQR from the box are outliers.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+q1, q3 = np.percentile([2, 4, 6, 8, 10], [25, 75])
+print(q3 - q1)</code></pre><p class="olbl">Output</p><pre class="out">4.0</pre></figure></dd><dt>subplots</dt><dd><p><code>plt.subplots(rows, cols)</code> gives a figure and an array of axes.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(2, 2)
+print(axes.shape)
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">(2, 2)</pre></figure></dd><dt>Spines</dt><dd><p>The four border lines of an axes; hide the top and right ones for a clean look.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+print(sorted(ax.spines.keys()))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">['bottom', 'left', 'right', 'top']</pre></figure></dd><dt>twinx</dt><dd><p>A second axes sharing the x-axis, with its own y-axis on the right, for a second unit.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax2 = ax.twinx()
+print(len(fig.axes))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure></dd><dt>Trend line</dt><dd><p>The straight line that best fits a scatter, from <code>np.polyfit(x, y, 1)</code> (slope, intercept).</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+print(np.polyfit([1, 2, 3], [5, 7, 9], 1).round(2))</code></pre><p class="olbl">Output</p><pre class="out">[2. 3.]</pre></figure></dd></dl>
+<h2>The big comparison tables</h2>
+<h3>Which chart for which question</h3><div class="tbl"><table><thead><tr><th>Question</th><th>Chart</th><th>Code</th><th>Watch out</th></tr></thead><tbody><tr><th scope="row">How does it change over time?</th><td>Line</td><td><code>plt.plot(x, y, marker=&quot;o&quot;)</code></td><td>Keep the x values in time order</td></tr><tr><th scope="row">Which category is bigger?</th><td>Bar / barh</td><td><code>plt.bar(names, values)</code></td><td>Sort the bars; barh for long names</td></tr><tr><th scope="row">How are values spread?</th><td>Histogram</td><td><code>plt.hist(col, bins=15)</code></td><td>Try a few bin counts</td></tr><tr><th scope="row">Are two numbers related?</th><td>Scatter</td><td><code>plt.scatter(x, y, c=z, cmap=&quot;viridis&quot;)</code></td><td>Correlation is not cause</td></tr><tr><th scope="row">What share of the whole?</th><td>Pie</td><td><code>plt.pie(v, labels=n, autopct=&quot;%1.1f%%&quot;)</code></td><td>About 5 slices at most</td></tr><tr><th scope="row">How do groups compare, with outliers?</th><td>Box plot</td><td><code>plt.boxplot(groups)</code></td><td>Name the boxes with xticks</td></tr><tr><th scope="row">How do many columns relate?</th><td>Heatmap</td><td><code>plt.imshow(corr, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code></td><td>Fix vmin/vmax so 0 is the middle</td></tr></tbody></table></div>
+<h3>Quick way and object way</h3><div class="tbl"><table><thead><tr><th>Job</th><th>plt. (quick)</th><th>ax. (object)</th></tr></thead><tbody><tr><th scope="row">Make the chart</th><td><code>plt.figure(figsize=(8, 4))</code></td><td><code>fig, ax = plt.subplots(figsize=(8, 4))</code></td></tr><tr><th scope="row">Draw</th><td><code>plt.plot(...)</code></td><td><code>ax.plot(...)</code></td></tr><tr><th scope="row">Title / labels</th><td><code>plt.title()</code>, <code>plt.xlabel()</code></td><td><code>ax.set_title()</code>, <code>ax.set_xlabel()</code></td></tr><tr><th scope="row">Tick labels</th><td><code>plt.xticks(rotation=45)</code></td><td><code>ax.tick_params(axis=&quot;x&quot;, rotation=45)</code></td></tr><tr><th scope="row">Limits</th><td><code>plt.ylim(0, 100)</code></td><td><code>ax.set_ylim(0, 100)</code></td></tr><tr><th scope="row">Several charts</th><td><code>plt.subplot(1, 2, 1)</code> (counts from 1)</td><td><code>fig, axes = plt.subplots(1, 2)</code>; <code>axes[0]</code> (counts from 0)</td></tr></tbody></table></div>
+<h3>Finishing touches</h3><div class="tbl"><table><thead><tr><th>I want</th><th>Code</th></tr></thead><tbody><tr><th scope="row">One title over all charts</th><td><code>fig.suptitle(&quot;...&quot;)</code></td></tr><tr><th scope="row">No overlapping labels</th><td><code>plt.tight_layout()</code></td></tr><tr><th scope="row">Values on bars</th><td><code>ax.bar_label(bars)</code></td></tr><tr><th scope="row">An arrow to the peak</th><td><code>ax.annotate(&quot;Peak&quot;, xy=(x, y), xytext=(x2, y2), arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))</code></td></tr><tr><th scope="row">A rupee axis</th><td><code>ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, p: f&quot;₹{v:,.0f}&quot;))</code></td></tr><tr><th scope="row">Clean borders</th><td><code>ax.spines[&quot;top&quot;].set_visible(False)</code></td></tr><tr><th scope="row">A second unit</th><td><code>ax2 = ax.twinx()</code></td></tr><tr><th scope="row">A trend line</th><td><code>slope, intercept = np.polyfit(x, y, 1)</code></td></tr><tr><th scope="row">A sharp file</th><td><code>plt.savefig(&quot;c.png&quot;, dpi=300, bbox_inches=&quot;tight&quot;)</code> before <code>show()</code></td></tr></tbody></table></div>
+<h2>Don't mix these up</h2>
+<section class="vs"><h3>Don't mix up: plt.bar vs plt.hist</h3><div class="tbl"><table><thead><tr><th></th><th>plt.bar(names, heights)</th><th>plt.hist(values, bins)</th></tr></thead><tbody><tr><th scope="row">You give it</th><td>The heights you worked out</td><td>Raw numbers; it counts them</td></tr><tr><th scope="row">x-axis</th><td>Categories</td><td>A number line</td></tr><tr><th scope="row">Bars</th><td>Have gaps</td><td>Touch</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+bars = plt.bar([&quot;A&quot;, &quot;B&quot;], [3, 5])
+counts, edges, patches = plt.hist([1, 1, 2], bins=2)
+print(len(bars), counts.tolist())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">2 [2.0, 1.0]</pre></figure><p><b>Rule of thumb:</b> Categories → <code>bar</code>. One number column → <code>hist</code>.</p></section>
+<section class="vs"><h3>Don't mix up: plt.plot vs plt.scatter</h3><div class="tbl"><table><thead><tr><th></th><th>plt.plot(x, y)</th><th>plt.scatter(x, y)</th></tr></thead><tbody><tr><th scope="row">Draws</th><td>A line joining the points in order</td><td>Separate dots</td></tr><tr><th scope="row">Use it for</th><td>Change over time</td><td>The link between two numbers</td></tr><tr><th scope="row">Order of rows</th><td>Matters</td><td>Does not matter</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+lines = plt.plot([1, 2, 3], [2, 4, 3])
+dots = plt.scatter([1, 2, 3], [2, 4, 3])
+print(len(lines), len(dots.get_offsets()))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">1 3</pre></figure><p><b>Rule of thumb:</b> Time on the x-axis? Line. Two measures of the same rows? Scatter.</p></section>
+<section class="vs"><h3>Don't mix up: plt.title vs ax.set_title</h3><div class="tbl"><table><thead><tr><th></th><th>plt.title(&quot;T&quot;)</th><th>ax.set_title(&quot;T&quot;)</th></tr></thead><tbody><tr><th scope="row">Works on</th><td>The current chart</td><td>The axes you name</td></tr><tr><th scope="row">In a grid of charts</th><td>Easy to label the wrong one</td><td>Clear</td></tr><tr><th scope="row">Common error</th><td></td><td><code>ax.title(&quot;T&quot;)</code>: TypeError</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2)
+axes[1].set_title(&quot;Right&quot;)
+print(repr(axes[0].get_title()), axes[1].get_title())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">'' Right</pre></figure><p><b>Rule of thumb:</b> In a grid, always use <code>ax.set_title()</code>.</p></section>
+<section class="vs"><h3>Don't mix up: plt.subplot vs plt.subplots</h3><div class="tbl"><table><thead><tr><th></th><th>plt.subplot(1, 2, 1)</th><th>fig, axes = plt.subplots(1, 2)</th></tr></thead><tbody><tr><th scope="row">Makes</th><td>One chart at a time</td><td>All the charts at once</td></tr><tr><th scope="row">Counts from</th><td>1</td><td>0 (<code>axes[0]</code>)</td></tr><tr><th scope="row">Returns</th><td>One axes</td><td>The figure and an array of axes</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2)
+print(len(axes))
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">2</pre></figure><p><b>Rule of thumb:</b> Use <code>plt.subplots</code> for dashboards: you get every axes by name.</p></section>
+<section class="vs"><h3>Don't mix up: suptitle vs set_title</h3><div class="tbl"><table><thead><tr><th></th><th>fig.suptitle()</th><th>ax.set_title()</th></tr></thead><tbody><tr><th scope="row">Belongs to</th><td>The whole figure</td><td>One chart</td></tr><tr><th scope="row">How many</th><td>One per figure</td><td>One per axes</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2)
+fig.suptitle(&quot;Dashboard&quot;)
+axes[0].set_title(&quot;Sales&quot;)
+print(fig.get_suptitle(), axes[0].get_title())
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">Dashboard Sales</pre></figure><p><b>Rule of thumb:</b> The figure has a supertitle; each chart has its own title.</p></section>
+<section class="vs"><h3>Don't mix up: savefig before show, not after</h3><div class="tbl"><table><thead><tr><th></th><th>savefig() then show()</th><th>show() then savefig()</th></tr></thead><tbody><tr><th scope="row">The file</th><td><span class="t-ok">The chart</span></td><td><span class="t-no">An empty picture</span></td></tr><tr><th scope="row">Why</th><td>The chart still exists</td><td>show() finished the chart</td></tr></tbody></table></div><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import os
+plt.bar([&quot;A&quot;, &quot;B&quot;], [3, 5])
+plt.savefig(&quot;ok.png&quot;)
+plt.close()
+print(os.path.exists(&quot;ok.png&quot;))</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure><p><b>Rule of thumb:</b> Save first. Then show.</p></section>
+<h2>Try it yourself</h2>
+<p>Charts need Matplotlib and Pandas, which load the first time you press <b>Run</b> (about 10 to 20 seconds). The checker looks at your chart, not the pixels: the chart type, the counts, the titles and labels.</p>
+<ol class="tasks"><li><p>From <code>sales_data.csv</code>, draw the <b>average order value</b> per category as sorted horizontal bars (biggest at the top), with a title and an x label.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>groupby(&quot;Category&quot;)[&quot;Sales&quot;].mean().sort_values()</code>, then <code>plt.barh(avg.index, avg.values)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+avg = sales.groupby(&quot;Category&quot;)[&quot;Sales&quot;].mean().sort_values()
+plt.barh(avg.index, avg.values)
+plt.title(&quot;Average order value&quot;)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure><p>Sorting small to large puts the biggest bar on top in a <code>barh</code> chart.</p></details></li><li><p>Make a 1 × 2 figure: a histogram of <code>Customer_Age</code> with 12 bins (left) and a scatter of <code>Sales</code> against <code>Profit</code> (right), each with a title, and the figure title <code>Customers and orders</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+axes[0].hist(sales[&quot;Customer_Age&quot;], bins=12)
+axes[0].set_title(&quot;Customer age&quot;)
+axes[1].scatter(sales[&quot;Sales&quot;], sales[&quot;Profit&quot;], s=8)
+axes[1].set_title(&quot;Sales vs profit&quot;)
+fig.suptitle(&quot;Customers and orders&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>One figure, two questions: who buys, and do big orders pay.</p></details></li><li><p>Draw the monthly total sales as a line, mark the best month with <code>ax.annotate</code> and an arrow, and hide the top and right spines.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p>Group by <code>dt.to_period(&quot;M&quot;)</code>, <code>best = monthly.values.argmax()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+monthly = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+best = monthly.values.argmax()
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(monthly.index.strftime(&quot;%b&quot;), monthly.values, marker=&quot;o&quot;)
+ax.annotate(&quot;Best month&quot;, xy=(best, monthly.values[best]), xytext=(best - 4, monthly.values[best]), arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))
+ax.spines[&quot;top&quot;].set_visible(False)
+ax.spines[&quot;right&quot;].set_visible(False)
+ax.set_title(&quot;Monthly sales&quot;)
+plt.show()</code></pre></figure><p>A clean chart with one clear message: November.</p></details></li></ol><section class="quiz"><h2>Mixed quiz</h2><ol><li><p>Which chart shows how monthly sales changed over the year?</p><ol type="A"><li>Pie</li><li>Line</li><li>Box plot</li><li>Heatmap</li></ol><details><summary>Answer</summary><p><b>Line</b>. Change over time: a line.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 3)
+print(axes.shape)
+plt.close()</code></pre></figure><ol type="A"><li><code>(1, 3)</code></li><li><code>(3,)</code></li><li><code>3</code></li><li><code>(3, 1)</code></li></ol><details><summary>Answer</summary><p><b><code>(3,)</code></b>. With one row, <code>axes</code> is a 1D array of 3 charts.</p></details></li><li><p>Your x-axis has numbers on a continuous scale and the bars touch. Which chart is it?</p><ol type="A"><li>Bar</li><li>Histogram</li><li>Pie</li><li>Scatter</li></ol><details><summary>Answer</summary><p><b>Histogram</b>. Histogram bars touch because the x-axis is a number line.</p></details></li><li><p>Which line labels the y-axis of <code>ax</code>?</p><ol type="A"><li><code>ax.ylabel(&quot;Sales&quot;)</code></li><li><code>ax.set_ylabel(&quot;Sales&quot;)</code></li><li><code>plt.ax.ylabel()</code></li><li><code>ax.label_y(&quot;Sales&quot;)</code></li></ol><details><summary>Answer</summary><p><b><code>ax.set_ylabel(&quot;Sales&quot;)</code></b>. Axes methods start with <code>set_</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+bars = plt.bar([&quot;Pune&quot;, &quot;Goa&quot;], [3, 5])
+print(len(bars))
+plt.close()</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>3</code></li><li><code>1</code></li><li><code>5</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. One <code>plt.bar</code> call with two names draws two bars.</p></details></li><li><p>What does a box plot's box show?</p><ol type="A"><li>The mean ± 1</li><li>The middle half of the values: Q1 to Q3</li><li>Every value</li><li>Only the outliers</li></ol><details><summary>Answer</summary><p><b>The middle half of the values: Q1 to Q3</b>. The box is the IQR; the line inside is the median.</p></details></li><li><p>How many slices are too many for a pie chart?</p><ol type="A"><li>More than 2</li><li>More than about 5</li><li>More than 20</li><li>There is no limit</li></ol><details><summary>Answer</summary><p><b>More than about 5</b>. With many slices, a sorted bar chart is easier to read.</p></details></li><li><p>Why use <code>vmin=-1, vmax=1</code> in a correlation heatmap?</p><ol type="A"><li>To hide values</li><li>So the colours always mean the same correlation, with 0 in the middle</li><li>To round values</li><li>It is required</li></ol><details><summary>Answer</summary><p><b>So the colours always mean the same correlation, with 0 in the middle</b>. Otherwise the scale stretches to this table's smallest and largest value.</p></details></li><li><p>What does <code>ax2 = ax1.twinx()</code> give you?</p><ol type="A"><li>A copy of the chart</li><li>A second y-axis on the right that shares the x-axis</li><li>A second figure</li><li>A legend</li></ol><details><summary>Answer</summary><p><b>A second y-axis on the right that shares the x-axis</b>. Use it for a second unit, like orders next to rupees.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+print(np.polyfit([0, 1, 2], [2, 5, 8], 1).round(2))</code></pre></figure><ol type="A"><li><code>[3. 2.]</code></li><li><code>[2. 3.]</code></li><li><code>[3. 1.]</code></li><li><code>[1. 3.]</code></li></ol><details><summary>Answer</summary><p><b><code>[3. 2.]</code></b>. y = 3x + 2: slope 3, intercept 2.</p></details></li><li><p>Which order saves a picture of the chart?</p><ol type="A"><li><code>plt.show()</code> then <code>plt.savefig()</code></li><li><code>plt.savefig()</code> then <code>plt.show()</code></li><li>Either</li><li><code>plt.close()</code> then <code>plt.savefig()</code></li></ol><details><summary>Answer</summary><p><b><code>plt.savefig()</code> then <code>plt.show()</code></b>. <code>show()</code> finishes the chart; save first.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>The 5-step recipe</dt><dd>figure → draw → label → tidy → show / savefig</dd><dt>Figure vs axes vs artist</dt><dd>Whole picture / one chart area / anything drawn</dd><dt><code>bar</code> vs <code>hist</code></dt><dd>bar: heights you give for categories. hist: counts it works out for a number column.</dd><dt><code>plot</code> vs <code>scatter</code></dt><dd>plot joins points in order (time). scatter draws separate dots (two numbers).</dd><dt>Grouped and stacked bars</dt><dd>Grouped: shift x by ± width/2. Stacked: <code>bottom=</code> the first series.</dd><dt>Reading a box plot</dt><dd>Box: Q1 to Q3. Line: median. Whiskers: 1.5 × IQR. Dots: outliers.</dd><dt>A grid of charts</dt><dd><code>fig, axes = plt.subplots(2, 2)</code>; <code>axes[row, col]</code>; <code>fig.suptitle()</code>; <code>plt.tight_layout()</code></dd><dt>Heatmap</dt><dd><code>imshow(corr, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code> + <code>colorbar()</code> + names on ticks + <code>text</code> per cell</dd><dt>Clean style</dt><dd>Hide top/right spines, light grid behind, sorted bars, labels with units.</dd><dt>Values and arrows</dt><dd><code>ax.bar_label(bars)</code>; <code>ax.annotate(&quot;Peak&quot;, xy=..., xytext=..., arrowprops=...)</code></dd><dt>Second unit</dt><dd><code>ax2 = ax1.twinx()</code>; merge legends with <code>get_legend_handles_labels()</code></dd><dt>Save a chart</dt><dd><code>plt.savefig(&quot;c.png&quot;, dpi=300, bbox_inches=&quot;tight&quot;)</code> before <code>plt.show()</code></dd></dl></section><p class="ver"><a href="projects-part9.html">Part 9 projects</a>: 3 real data-analyst problems with briefs, hints, example runs and model answers.</p><nav class="pn"><a href="mpl2.html">← Layouts &amp; style</a><a href="projects.html">Projects →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

@@ -2,14 +2,14 @@
 overview({
   part: 11, title: "The whole course on one page", nav: "Whole-course overview", time: "40 min",
   fiveTitle: "The whole course in 5 lines",
-  keys: "course summary revision all topics data types collections functions errors files modules classes numpy projects which tool mix-ups",
+  keys: "course summary revision all topics data types collections functions errors files modules classes numpy pandas matplotlib charts projects which tool mix-ups",
   lead: "Everything from Part 1 to the projects in one place. You get the key definitions, one table per big idea, the right tool for each job, and the mix-ups that cost the most marks. Use it the night before an exam or an interview.",
   five: [
     "**Basics (Parts 1–2):** values have types, variables name them, operators combine them, and `if`, `for` and `while` decide what runs and how often.",
     "**Collections (Part 3):** text goes in a string, and a changing ordered group in a list. A fixed record goes in a tuple, unique items in a set, and lookups by name in a dict.",
     "**Functions (Part 4):** wrap each job in a `def` that takes parameters and `return`s a result you can reuse.",
     "**Real-world tools (Parts 5–6):** catch bad input with `try / except`, save data to files, import modules, and model real things with classes.",
-    "**NumPy and Pandas (Parts 7–8):** arrays do fast maths on whole datasets, and DataFrames load, clean, group and join real tables. Every project (Part 11) is data structures plus functions plus a loop."
+    "**Data tools (Parts 7–9):** NumPy arrays do fast maths on whole datasets, Pandas DataFrames load, clean, group and join real tables, and Matplotlib turns the answer into a chart. Every project (Part 11) is data structures plus functions plus a loop."
   ],
   body: [
     { t: "h", text: "Mind map of the whole course" },
@@ -22,16 +22,22 @@ overview({
       { t: "Part 6: OOP", go: "overview6", k: [{ t: "Classes & objects", go: "oop" }] },
       { t: "Part 7: NumPy", go: "overview7", k: [{ t: "Arrays", go: "numpy1" }, { t: "Maths, axis, filters", go: "numpy2" }, { t: "Split, random, ufuncs", go: "numpy3" }] },
       { t: "Part 8: Pandas", go: "overview8", k: [{ t: "Series, DataFrames, files", go: "pandas1" }, { t: "Cleaning data", go: "pandas2" }, { t: "Select & change", go: "pandas3" }, { t: "Group & join", go: "pandas4" }] },
+      { t: "Part 9: Matplotlib", go: "overview9", k: [{ t: "Six chart types", go: "mpl1" }, { t: "Layouts & style", go: "mpl2" }] },
       { t: "Part 11: Projects", go: "projects", k: [{ t: "Movie tickets", go: "projects" }, { t: "Supermarket billing", go: "projects" }, { t: "Inventory system", go: "projects" }] }
     ]},
 
-    { t: "h", text: "The 17 definitions that matter most" },
+    { t: "h", text: "The 18 definitions that matter most" },
     { t: "p", b: "If you can explain each of these in one sentence and write the tiny example, you know the course. Each card links to the Part overview with the full comparison tables." },
     { t: "defs", items: [
       { t: "DataFrame", d: "Pandas' table: named columns of data, with an index labelling the rows. Load one with `pd.read_csv()`.", c: R`
 import pandas as pd
 df = pd.DataFrame({"city": ["Pune", "Goa"], "temp": [31, 33]})
 print(df.shape, df["temp"].mean())`, o: R`(2, 2) 32.0`, go: "overview8" },
+      { t: "Figure and axes", d: "In Matplotlib the figure is the whole picture and each axes is one chart inside it. `plt.subplots()` gives you both.", c: R`
+import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2)
+axes[0].bar(["UPI", "Cash"], [55, 45])
+print(len(fig.axes))`, o: R`2`, go: "overview9" },
       { t: "Variable", d: "A name that points at a value.", c: R`
 price = 250
 print(price * 2)`, o: R`500`, go: "overview1" },

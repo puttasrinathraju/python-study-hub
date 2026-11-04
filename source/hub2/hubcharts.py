@@ -156,8 +156,11 @@ def collect():
 
 
 def start():
+    """Start of a run: forget the last run's charts and styles, so every code box starts like a fresh Python."""
     del SHOWN[:]
     del SNS[:]
+    plt.close('all')
+    matplotlib.style.use('default')   # undo plt.style.use(...), rcParams and Seaborn themes of an earlier run (keeps the backend)
 
 
 def finish():
@@ -173,6 +176,9 @@ NAMES = {'line': 'line chart (plot)', 'bar': 'bar chart (bar)', 'barh': 'horizon
          'mesh': 'heatmap', 'violin': 'violin plot', 'area': 'shaded area', 'annotate': 'annotation (annotate)', 'text': 'text label (text)'}
 COUNTS = [('bars', 'bars'), ('lines', 'lines'), ('points', 'points'), ('wedges', 'pie slices'), ('boxes', 'boxes'),
           ('violins', 'violins'), ('images', 'images'), ('meshes', 'heatmaps')]
+
+
+SINGLE = {'bars': 'bar', 'lines': 'line', 'points': 'point', 'pie slices': 'pie slice', 'boxes': 'box', 'violins': 'violin', 'images': 'image', 'heatmaps': 'heatmap'}
 
 
 def _same(a, b):
@@ -209,7 +215,8 @@ def check_axes(s, f, where=''):
                 p.append('%sExpected a %s, but found: %s.' % (where, NAMES.get(k, k), found))
     for key, word in COUNTS:
         if key in s and not _count_ok(s[key], f[key]):
-            p.append('%sExpected %s %s, found %d.' % (where, _count_txt(s[key]), word, f[key]))
+            one = s[key] == 1 or (isinstance(s[key], (list, tuple)) and s[key][1] == 1)
+            p.append('%sExpected %s %s, found %d.' % (where, _count_txt(s[key]), SINGLE.get(word, word) if one else word, f[key]))
     p += [where + m for m in _label(s.get('title'), f['title'], 'title', 'plt.title() or ax.set_title()')]
     p += [where + m for m in _label(s.get('xlabel'), f['xlabel'], 'x-axis label', 'plt.xlabel() or ax.set_xlabel()')]
     p += [where + m for m in _label(s.get('ylabel'), f['ylabel'], 'y-axis label', 'plt.ylabel() or ax.set_ylabel()')]
@@ -228,6 +235,9 @@ def check_axes(s, f, where=''):
             p.append('%sThe bar sizes are not right yet: expected %s, found %s.' % (where, ', '.join('%g' % x for x in want), ', '.join('%g' % x for x in got)))
     if 'texts' in s and not _count_ok(s['texts'], len(f['texts'])):
         p.append('%sExpected %s text labels on the chart, found %d.' % (where, _count_txt(s['texts']), len(f['texts'])))
+    for key, word in (('xtick_has', 'x-axis'), ('ytick_has', 'y-axis')):
+        if key in s and not any(s[key] in t for t in f[key[:5] + 's']):
+            p.append("%sThe %s numbers should show '%s', like %s." % (where, word, s[key], ', '.join(f[key[:5] + 's'][:2]) or 'nothing yet'))
     if 'text_has' in s and not any(s['text_has'].lower() in t.lower() for t in f['texts']):
         p.append("%sNo text on the chart contains '%s'." % (where, s['text_has']))
     if s.get('grid') and not f['grid']:
@@ -290,18 +300,19 @@ def summary():
     print('\n'.join(out))
 
 
-def project_report():
-    """Plain lines a project test can check: what each chart shows."""
+def project_report(this_run=False):
+    """Plain lines a project test can check: what each chart shows. On the page the report runs just after the
+    learner's program, as its own run, so it reads LAST; the build checks run both in one go (this_run=True)."""
     collect()
-    figs = SHOWN or LAST
+    figs = SHOWN if this_run else (SHOWN or LAST)
     print('--- charts ---')
     print('Figures: %d' % len(figs))
     for i, it in enumerate(figs):
         f = it['facts']
         print('Figure %d: %d chart%s%s' % (i + 1, len(f['axes']), '' if len(f['axes']) == 1 else 's', (', title: ' + f['suptitle']) if f['suptitle'] else ''))
         for j, a in enumerate(f['axes']):
-            parts = ['+'.join(k for k in a['kinds'] if k not in ('text', 'annotate', 'hline', 'vline')) or 'empty']
-            parts += ['%d %s' % (a[k], w) for k, w in COUNTS if a[k]]
+            parts = ['+'.join(sorted(k for k in a['kinds'] if k not in ('text', 'annotate', 'hline', 'vline'))) or 'empty']
+            parts += ['%d %s' % (a[k], SINGLE.get(w, w) if a[k] == 1 else w) for k, w in COUNTS if a[k]]
             for k, w in (('title', 'title'), ('xlabel', 'x'), ('ylabel', 'y')):
                 if a[k]:
                     parts.append('%s: %s' % (w, a[k]))

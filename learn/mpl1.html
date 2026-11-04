@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matplotlib charts: line, bar, histogram, scatter, pie and box | Python Study Hub</title>
+<meta name="description" content="Turn tables into pictures. Learn the 5-step recipe that every chart follows, then draw the six charts analysts use most (line, bar, histogram, scatter, pie and box plot) and learn which one answers which question.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/mpl1.html">
+<meta property="og:title" content="Matplotlib charts: line, bar, histogram, scatter, pie and box | Python Study Hub">
+<meta property="og:description" content="Turn tables into pictures. Learn the 5-step recipe that every chart follows, then draw the six charts analysts use most (line, bar, histogram, scatter, pie and box plot) and learn which one answers which question.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#mpl1">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#mpl1">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 9 · Matplotlib · Chapter 27</p><h1>Matplotlib charts: line, bar, histogram, scatter, pie and box</h1><p class="lead">Turn tables into pictures. Learn the 5-step recipe that every chart follows, then draw the six charts analysts use most (line, bar, histogram, scatter, pie and box plot) and learn which one answers which question.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Follow the 5-step recipe: figure, draw, label, tidy, show</li><li>Draw trends with <code>plt.plot()</code> and compare categories with <code>plt.bar()</code> / <code>plt.barh()</code>, also grouped and stacked</li><li>Show spread with <code>plt.hist()</code> and <code>plt.boxplot()</code>, and relationships with <code>plt.scatter()</code></li><li>Show shares with <code>plt.pie()</code>, and pick the right chart for a question</li><li>Save a chart with <code>plt.savefig()</code></li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=UO98lJQ3QGI">Matplotlib Tutorial (Part 1): Creating and Customizing Our First Plots</a> by Corey Schafer (about undefined min)</li></ul></section><h2>The 5-step recipe for every chart</h2>
+<p><mark>Matplotlib</mark> is Python's main charting library: almost every other chart tool, including Seaborn in Part 10, is built on it. You use its <code>pyplot</code> part, always imported as <code>plt</code>. Every chart follows the same five steps.</p>
+<ol><li><b>Make the canvas</b>: <code>plt.figure(figsize=(width, height))</code>, in inches.</li><li><b>Draw</b>: <code>plt.plot(...)</code>, <code>plt.bar(...)</code> and so on.</li><li><b>Label everything</b>: <code>plt.title()</code>, <code>plt.xlabel()</code>, <code>plt.ylabel()</code>, and <code>plt.legend()</code> when there are several series.</li><li><b>Tidy</b>: <code>plt.grid(alpha=0.3)</code> for a light grid and <code>plt.tight_layout()</code> so nothing overlaps.</li><li><b>Show</b>: <code>plt.show()</code>, or save it with <code>plt.savefig(&quot;chart.png&quot;)</code>.</li></ol>
+<section class="anim"><h3>Animated explainer: Building a chart step by step</h3><ol><li><b>Step 1</b>: <code>plt.figure(figsize=(7, 3.5))</code> makes an empty canvas, 7 inches wide and 3.5 tall.</li><li><b>Step 2</b>: <code>plt.plot(days, chai)</code> draws a line: the days along the bottom (x), the cups up the side (y).</li><li><b>Step 3</b>: a title and two axis labels tell the reader what they are looking at. <code>marker=&quot;o&quot;</code> adds a dot on every day.</li><li><b>Steps 4 and 5</b>: a light grid helps reading values, <code>tight_layout()</code> keeps labels inside, and <code>plt.show()</code> shows it. Done.</li></ol></section>
+<figure class="code"><figcaption>The whole recipe in one cell</figcaption><pre><code>import matplotlib.pyplot as plt
+days = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]
+chai = [120, 95, 140, 110, 160, 210, 190]      # cups of tea sold
+plt.figure(figsize=(7, 3.5))
+plt.plot(days, chai, marker=&quot;o&quot;)
+plt.title(&quot;Chai sold this week&quot;)
+plt.xlabel(&quot;Day&quot;)
+plt.ylabel(&quot;Cups&quot;)
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>On this site the chart appears under your code when you press <b>Run</b>. In Jupyter it appears under the cell. In a plain <code>.py</code> file, <code>plt.show()</code> opens a window.</p></aside>
+<p class="cap">Diagram: The words you will meet: the <mark>figure</mark> is the whole picture, an <mark>axes</mark> is one chart area inside it, and every drawn thing (line, text, tick) is an <mark>artist</mark>.</p>
+<section class="mm"><h3>Mind map: Chapter 27 at a glance</h3><ul><li><b>Matplotlib charts</b><ul><li>Recipe<ul><li>plt.figure(figsize=...)</li><li>draw</li><li>title, xlabel, ylabel</li><li>grid, tight_layout</li><li>show / savefig</li></ul></li><li>Change over time<ul><li>plt.plot</li><li>marker, linestyle</li><li>color, linewidth</li><li>label + legend</li></ul></li><li>Compare<ul><li>plt.bar, plt.barh</li><li>grouped: shift x</li><li>stacked: bottom=</li></ul></li><li>Spread<ul><li>plt.hist(bins=)</li><li>plt.boxplot</li><li>density, cumulative</li></ul></li><li>Relations &amp; shares<ul><li>plt.scatter(c=, cmap=)</li><li>plt.colorbar</li><li>plt.pie(autopct=)</li></ul></li></ul></li></ul></section>
+<h2>Line charts: change over time</h2>
+<p>A <mark>line chart</mark> joins points in order, so it shows a <b>trend</b>: sales month by month, temperature hour by hour. Style the line with these options.</p>
+<div class="tbl"><table><thead><tr><th>Option</th><th>Short form</th><th>Examples</th></tr></thead><tbody><tr><td><code>color=</code></td><td><code>c=</code></td><td><code>&quot;teal&quot;</code>, <code>&quot;#E74C3C&quot;</code></td></tr><tr><td><code>linewidth=</code></td><td><code>lw=</code></td><td><code>2</code></td></tr><tr><td><code>linestyle=</code></td><td><code>ls=</code></td><td><code>&quot;-&quot;</code> solid, <code>&quot;--&quot;</code> dashed, <code>&quot;:&quot;</code> dotted, <code>&quot;-.&quot;</code></td></tr><tr><td><code>marker=</code></td><td></td><td><code>&quot;o&quot;</code> circle, <code>&quot;s&quot;</code> square, <code>&quot;^&quot;</code> triangle</td></tr><tr><td><code>alpha=</code></td><td></td><td><code>0</code> see-through to <code>1</code> solid</td></tr><tr><td><code>label=</code></td><td></td><td>the name shown in the legend</td></tr></tbody></table></div>
+<p>The practice file <b><code>sales_data.csv</code></b> has 500 orders from 2024. Group the sales by month first (Chapter 26), then draw them. The next cells start with these lines:</p>
+<figure class="code"><figcaption>The monthly totals behind the next charts</figcaption><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+monthly = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+months = monthly.index.strftime(&quot;%b&quot;)      # Jan, Feb, ...
+print(monthly.head(3))
+print(list(months[:3]))</code></pre><p class="olbl">Output</p><pre class="out">Date
+2024-01    39892
+2024-02    44442
+2024-03    67559
+Freq: M, Name: Sales, dtype: int64
+['Jan', 'Feb', 'Mar']</pre></figure>
+<figure class="code"><figcaption>A monthly trend</figcaption><pre><code>plt.figure(figsize=(8, 4))
+plt.plot(months, monthly.values, marker=&quot;o&quot;, linestyle=&quot;--&quot;, color=&quot;teal&quot;, label=&quot;Sales&quot;)
+plt.title(&quot;Monthly sales, 2024&quot;)
+plt.xlabel(&quot;Month&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Two lines and a legend</figcaption><pre><code>elec = sales[sales[&quot;Category&quot;] == &quot;Electronics&quot;]
+cloth = sales[sales[&quot;Category&quot;] == &quot;Clothing&quot;]
+e = elec.groupby(elec[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+c = cloth.groupby(cloth[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+plt.figure(figsize=(8, 4))
+plt.plot(months, e.values, marker=&quot;o&quot;, label=&quot;Electronics&quot;)
+plt.plot(months, c.values, marker=&quot;s&quot;, label=&quot;Clothing&quot;)
+plt.title(&quot;Two categories, month by month&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.xticks(rotation=45)
+plt.legend()
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>plt.legend()</code> only shows series that have a <code>label=</code>. No labels, no legend (and a warning).</p></aside>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+lines = plt.plot([1, 2, 3], [4, 5, 6], [1, 2, 3], [6, 5, 4])
+print(len(lines))</code></pre></figure><ol type="A"><li><code>2</code></li><li><code>1</code></li><li><code>3</code></li><li><code>6</code></li></ol><details><summary>Answer</summary><p><b><code>2</code></b>. Two x/y pairs in one <code>plot()</code> call draw two lines, and <code>plot()</code> returns a list of them.</p></details></section>
+<h2>Bar charts: compare categories</h2>
+<p>A <mark>bar chart</mark> compares amounts across categories. <code>plt.bar(names, values)</code> draws upright bars; <code>plt.barh(names, values)</code> draws them across, which is easier to read when names are long or there are many of them. Sort the values first so the biggest stands out.</p>
+<figure class="code"><figcaption>plt.bar: one bar per category</figcaption><pre><code>cat = sales.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum().sort_values(ascending=False)
+plt.figure(figsize=(7, 4))
+plt.bar(cat.index, cat.values, color=&quot;steelblue&quot;, edgecolor=&quot;black&quot;)
+plt.title(&quot;Sales by category&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>plt.barh: sideways bars, biggest at the top</figcaption><pre><code>reg = sales.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum().sort_values()
+plt.figure(figsize=(7, 3.5))
+plt.barh(reg.index, reg.values, color=&quot;#45B7D1&quot;)
+plt.title(&quot;Sales by region&quot;)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<p>To compare <b>two series</b> per category, shift their x positions: a <mark>grouped bar chart</mark>. To show how two parts make a whole, put one on top of the other with <code>bottom=</code>: a <mark>stacked bar chart</mark>.</p>
+<figure class="code"><figcaption>Grouped bars</figcaption><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+regions = [&quot;East&quot;, &quot;North&quot;, &quot;South&quot;, &quot;West&quot;]
+elec = [108449, 155740, 188116, 145082]
+furn = [99621, 153079, 139748, 151228]
+x = np.arange(len(regions))      # 0, 1, 2, 3
+plt.figure(figsize=(7, 4))
+plt.bar(x - 0.2, elec, width=0.4, label=&quot;Electronics&quot;)
+plt.bar(x + 0.2, furn, width=0.4, label=&quot;Furniture&quot;)
+plt.xticks(x, regions)
+plt.title(&quot;Grouped bars: two categories per region&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.legend()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>Stacked bars with bottom=</figcaption><pre><code>import matplotlib.pyplot as plt
+regions = [&quot;East&quot;, &quot;North&quot;, &quot;South&quot;, &quot;West&quot;]
+elec = [108449, 155740, 188116, 145082]
+furn = [99621, 153079, 139748, 151228]
+plt.figure(figsize=(7, 4))
+plt.bar(regions, elec, label=&quot;Electronics&quot;)
+plt.bar(regions, furn, bottom=elec, label=&quot;Furniture&quot;)   # starts where Electronics ends
+plt.title(&quot;Stacked bars: the two together&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.legend()
+plt.show()</code></pre></figure>
+<section class="anim"><h3>Animated explainer: Grouped bars: shifting the x positions</h3><ol><li>One series, drawn at x = 0, 1, 2, 3 with <code>width=0.4</code>.</li><li>Draw a second series at the <b>same</b> x and it hides the first one.</li><li>Shift one left by half a bar (<code>x - 0.2</code>) and the other right (<code>x + 0.2</code>). Now they stand side by side, and <code>plt.xticks(x, names)</code> puts the names back in the middle.</li></ol></section>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+bars = plt.bar([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], [3, 9, 4])
+print(len(bars), bars[1].get_height())</code></pre></figure><ol type="A"><li><code>3 9</code></li><li><code>3 4</code></li><li><code>1 9</code></li><li><code>9 3</code></li></ol><details><summary>Answer</summary><p><b><code>3 9</code></b>. <code>plt.bar</code> returns the bars. There are 3, and the second one (index 1) is 9 tall.</p></details></section>
+<h2>Histograms: how values are spread</h2>
+<p>A <mark>histogram</mark> cuts a number column into ranges (<mark>bins</mark>) and draws how many values fall in each. It shows the <b>shape</b> of the data: where most values are, how wide the spread is, and whether one side has a long tail (<mark>skew</mark>).</p>
+<figure class="code"><figcaption>Ages of the customers</figcaption><pre><code>plt.figure(figsize=(7, 4))
+plt.hist(sales[&quot;Customer_Age&quot;], bins=15, color=&quot;orange&quot;, edgecolor=&quot;black&quot;, alpha=0.7)
+plt.title(&quot;Customer age&quot;)
+plt.xlabel(&quot;Age&quot;)
+plt.ylabel(&quot;Number of orders&quot;)
+plt.show()</code></pre></figure>
+<p>Most customers are 25 to 45, and there are more older customers than very young ones: the tail is a little longer on the <b>right</b>. Order values are much more skewed, because a few big Electronics orders stretch the right side.</p>
+<figure class="code"><figcaption>A right-skewed column</figcaption><pre><code>plt.figure(figsize=(7, 4))
+plt.hist(sales[&quot;Sales&quot;], bins=20, color=&quot;lightblue&quot;, edgecolor=&quot;black&quot;)
+plt.title(&quot;Order values: a long right tail&quot;)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>hist() also gives you the counts and the bin edges</figcaption><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+counts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3, 4, 7], bins=3, edgecolor=&quot;black&quot;)
+print(counts.tolist())
+print(edges.round(2).tolist())
+plt.title(&quot;What hist() returns&quot;)
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">[3.0, 4.0, 1.0]
+[1.0, 3.0, 5.0, 7.0]</pre></figure>
+<div class="tbl"><table><thead><tr><th>Option</th><th>Does</th></tr></thead><tbody><tr><td><code>bins=15</code></td><td>How many bars (or a list of edges)</td></tr><tr><td><code>density=True</code></td><td>Bar heights become shares, so the total area is 1</td></tr><tr><td><code>cumulative=True</code></td><td>Each bar adds up everything before it</td></tr><tr><td><code>edgecolor=&quot;black&quot;</code></td><td>Lines between the bars, easier to read</td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p>A histogram is not a bar chart. Bars <b>touch</b>, because the x-axis is a continuous number line. Use <code>plt.bar</code> for categories and <code>plt.hist</code> for a number column.</p></aside>
+<h2>Scatter plots: are two numbers related?</h2>
+<p>A <mark>scatter plot</mark> draws one dot per row, with one number on each axis. A cloud going up to the right means the two rise together (a positive correlation, Chapter 26). <code>s=</code> sets the dot size, <code>c=</code> colours the dots by a third column, and <code>cmap=</code> picks the colour scale.</p>
+<figure class="code"><figcaption>Sales against profit, coloured by quantity</figcaption><pre><code>plt.figure(figsize=(7, 4.5))
+plt.scatter(sales[&quot;Sales&quot;], sales[&quot;Profit&quot;], c=sales[&quot;Quantity&quot;], cmap=&quot;viridis&quot;, s=20, alpha=0.7)
+plt.colorbar(label=&quot;Quantity&quot;)
+plt.title(&quot;Sales vs profit&quot;)
+plt.xlabel(&quot;Sales (₹)&quot;)
+plt.ylabel(&quot;Profit (₹)&quot;)
+plt.show()</code></pre></figure>
+<p>The dots rise to the right: bigger orders usually make more profit (correlation 0.78). The dots below 0 are the orders sold at a loss.</p>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+dots = plt.scatter([1, 2, 3, 4], [10, 20, 15, 30])
+print(len(dots.get_offsets()))</code></pre></figure><ol type="A"><li><code>4</code></li><li><code>1</code></li><li><code>2</code></li><li><code>8</code></li></ol><details><summary>Answer</summary><p><b><code>4</code></b>. A scatter makes one collection of dots; <code>get_offsets()</code> holds one (x, y) pair per dot.</p></details></section>
+<h2>Pie charts: share of a whole</h2>
+<p>A <mark>pie chart</mark> shows each part's <b>share of a total</b>. <code>autopct=&quot;%1.1f%%&quot;</code> writes the percent on each slice, <code>startangle=90</code> starts at the top, and <code>explode=</code> pulls a slice out. Use it only for a few slices (about 5); for more, a bar chart is easier to read.</p>
+<figure class="code"><figcaption>Four regions, South pulled out</figcaption><pre><code>reg = sales.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum()
+plt.figure(figsize=(5, 5))
+plt.pie(reg.values, labels=reg.index, autopct=&quot;%1.1f%%&quot;, startangle=90, explode=[0, 0, 0.08, 0])
+plt.title(&quot;Share of sales by region&quot;)
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>In <code>&quot;%1.1f%%&quot;</code>, <code>%1.1f</code> means a number with 1 decimal and <code>%%</code> prints a real <code>%</code> sign. <code>plt.axis(&quot;equal&quot;)</code> keeps the pie perfectly round in older Matplotlib versions.</p></aside>
+<h2>Box plots: spread and outliers</h2>
+<p>A <mark>box plot</mark> sums up a whole column in one shape, and is great for <b>comparing groups</b>. The box runs from the 25th to the 75th percentile (the <mark>IQR</mark>), the line inside is the median, the whiskers reach the furthest values within 1.5 × IQR, and dots beyond them are <mark>outliers</mark>.</p>
+<p class="cap">Diagram: Reading a box plot. Half the values are inside the box; the dot on the right is an outlier.</p>
+<figure class="code"><figcaption>One box per category</figcaption><pre><code>names = [&quot;Clothing&quot;, &quot;Electronics&quot;, &quot;Furniture&quot;, &quot;Groceries&quot;]
+groups = [sales[sales[&quot;Category&quot;] == n][&quot;Sales&quot;] for n in names]
+plt.figure(figsize=(7, 4))
+plt.boxplot(groups, patch_artist=True, showmeans=True)
+plt.xticks([1, 2, 3, 4], names)
+plt.title(&quot;Order value by category&quot;)
+plt.ylabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p><code>patch_artist=True</code> fills the boxes with colour, <code>showmeans=True</code> adds a marker for the mean, and <code>vert=False</code> lays the boxes flat. Name the boxes with <code>plt.xticks([1, 2, 3, 4], names)</code>: the boxes stand at x = 1, 2, 3 ... (The course notes pass <code>labels=names</code>; Matplotlib 3.9 renamed it <code>tick_labels</code>.)</p></aside>
+<h2>Which chart for which question</h2>
+<div class="tbl"><table><thead><tr><th>Your question</th><th>Chart</th><th>Function</th></tr></thead><tbody><tr><td>How does it change over time?</td><td>Line</td><td><code>plt.plot()</code></td></tr><tr><td>Which category is bigger?</td><td>Bar</td><td><code>plt.bar()</code> / <code>plt.barh()</code></td></tr><tr><td>How are the values spread out?</td><td>Histogram</td><td><code>plt.hist()</code></td></tr><tr><td>Are two numbers related?</td><td>Scatter</td><td><code>plt.scatter()</code></td></tr><tr><td>What share of the total is each part?</td><td>Pie (few slices)</td><td><code>plt.pie()</code></td></tr><tr><td>How do groups compare, with outliers?</td><td>Box plot</td><td><code>plt.boxplot()</code></td></tr><tr><td>How do many columns relate to each other?</td><td>Heatmap</td><td><code>plt.imshow()</code> (Chapter 28)</td></tr></tbody></table></div>
+<section class="deck"><h3>Slides: Chart types in 7 slides</h3><ol><li><p><b>Pick the chart from the question.</b></p><p>Time → line. Categories → bar. Spread → histogram or box. Two numbers → scatter. Shares → pie.</p></li><li><p><b>Line: a trend</b></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+plt.plot([&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;], [40, 44, 68], marker=&quot;o&quot;)
+plt.title(&quot;Sales trend&quot;)
+plt.show()</code></pre></figure></li><li><p><b>Bar: compare</b></p><ul><li><code>plt.bar(names, values)</code></li><li><code>plt.barh(names, values)</code> for long names</li><li>Sort the values first</li></ul></li><li><p><b>Histogram: spread</b></p><ul><li><code>plt.hist(column, bins=15)</code></li><li>Bars touch: it is a number line</li><li>Look for the peak and the tail</li></ul></li><li><p><b>Scatter: relationship</b></p><ul><li><code>plt.scatter(x, y)</code></li><li><code>c=column, cmap=&quot;viridis&quot;</code> + <code>plt.colorbar()</code></li><li>Up to the right = rise together</li></ul></li><li><p><b>Pie and box</b></p><ul><li><code>plt.pie(values, labels=..., autopct=&quot;%1.1f%%&quot;)</code>, few slices</li><li><code>plt.boxplot(groups)</code>: median, IQR, whiskers, outliers</li></ul></li><li><p><b>Always</b></p><ul><li>A title that says what it shows</li><li>Axis labels with units: <code>Sales (₹)</code></li><li>A legend when there are several series</li></ul></li></ol></section>
+<h2>Saving a chart: savefig</h2>
+<p><code>plt.savefig(&quot;name.png&quot;)</code> saves the chart as a picture, for a report or an email. Call it <b>before</b> <code>plt.show()</code>, because showing the chart closes it. <code>dpi=</code> sets the sharpness and <code>bbox_inches=&quot;tight&quot;</code> trims the empty border.</p>
+<figure class="code"><figcaption>Save, then show</figcaption><pre><code>import matplotlib.pyplot as plt
+import os
+plt.figure(figsize=(6, 3.5))
+plt.bar([&quot;Q1&quot;, &quot;Q2&quot;, &quot;Q3&quot;, &quot;Q4&quot;], [180, 240, 210, 320])
+plt.title(&quot;Quarterly sales&quot;)
+plt.savefig(&quot;quarterly.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)
+plt.show()
+print(os.path.exists(&quot;quarterly.png&quot;))</code></pre><p class="olbl">Output</p><pre class="out">True</pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p><code>plt.show()</code> then <code>plt.savefig()</code> saves an <b>empty</b> picture: once a chart is shown, it is finished. Save first.</p></aside>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>Draw a line chart of <code>temps = [31, 33, 36, 35, 30]</code> for the days <code>[&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;]</code> with round markers. Give it the title <code>Hyderabad this week</code>, the x label <code>Day</code> and the y label <code>Temperature (°C)</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+days = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;]
+temps = [31, 33, 36, 35, 30]</code></pre></figure><details><summary>Hint</summary><p><code>plt.plot(days, temps, marker=&quot;o&quot;)</code>, then <code>plt.title</code>, <code>plt.xlabel</code>, <code>plt.ylabel</code>, <code>plt.show()</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+days = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;]
+temps = [31, 33, 36, 35, 30]
+plt.plot(days, temps, marker=&quot;o&quot;)
+plt.title(&quot;Hyderabad this week&quot;)
+plt.xlabel(&quot;Day&quot;)
+plt.ylabel(&quot;Temperature (°C)&quot;)
+plt.show()</code></pre></figure><p>Five points joined in order: a trend over the week.</p></details></li><li><p>Draw a <b>horizontal</b> bar chart of the rooms booked per hotel: <code>hotels = [&quot;Taj&quot;, &quot;Novotel&quot;, &quot;ITC&quot;, &quot;Marriott&quot;]</code> and <code>rooms = [42, 35, 58, 47]</code>. Add a title and an x label.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+hotels = [&quot;Taj&quot;, &quot;Novotel&quot;, &quot;ITC&quot;, &quot;Marriott&quot;]
+rooms = [42, 35, 58, 47]</code></pre></figure><details><summary>Hint</summary><p><code>plt.barh(hotels, rooms)</code>; for barh the numbers run along the x-axis.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+hotels = [&quot;Taj&quot;, &quot;Novotel&quot;, &quot;ITC&quot;, &quot;Marriott&quot;]
+rooms = [42, 35, 58, 47]
+plt.barh(hotels, rooms, color=&quot;teal&quot;)
+plt.title(&quot;Rooms booked&quot;)
+plt.xlabel(&quot;Rooms&quot;)
+plt.show()</code></pre></figure><p>With <code>barh</code>, the categories go up the side and the values along the bottom.</p></details></li><li><p><code>marks = [35, 42, 48, 55, 58, 61, 63, 67, 70, 72, 75, 78, 81, 88, 93]</code>. Draw a histogram with <b>5 bins</b> and black edges, a title, and both axis labels.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+marks = [35, 42, 48, 55, 58, 61, 63, 67, 70, 72, 75, 78, 81, 88, 93]</code></pre></figure><details><summary>Hint</summary><p><code>plt.hist(marks, bins=5, edgecolor=&quot;black&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+marks = [35, 42, 48, 55, 58, 61, 63, 67, 70, 72, 75, 78, 81, 88, 93]
+plt.hist(marks, bins=5, edgecolor=&quot;black&quot;)
+plt.title(&quot;Class marks&quot;)
+plt.xlabel(&quot;Marks&quot;)
+plt.ylabel(&quot;Students&quot;)
+plt.show()</code></pre></figure><p>Five equal ranges from 35 to 93; each bar counts the students in its range.</p></details></li><li><p>Draw a scatter plot of <code>ad_spend = [10, 15, 20, 25, 30, 35]</code> (x) against <code>orders = [120, 150, 210, 230, 290, 310]</code> (y) with dot size 60. Add a title and both axis labels.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+ad_spend = [10, 15, 20, 25, 30, 35]
+orders = [120, 150, 210, 230, 290, 310]</code></pre></figure><details><summary>Hint</summary><p><code>plt.scatter(ad_spend, orders, s=60)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+ad_spend = [10, 15, 20, 25, 30, 35]
+orders = [120, 150, 210, 230, 290, 310]
+plt.scatter(ad_spend, orders, s=60)
+plt.title(&quot;Ads vs orders&quot;)
+plt.xlabel(&quot;Ad spend (₹ thousand)&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()</code></pre></figure><p>The dots climb to the right: more ad spend, more orders.</p></details></li><li><p>Draw a pie chart of the payment modes <code>[&quot;UPI&quot;, &quot;Card&quot;, &quot;Cash&quot;]</code> with the counts <code>[55, 30, 15]</code>. Show the percent with 1 decimal on each slice and add a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+modes = [&quot;UPI&quot;, &quot;Card&quot;, &quot;Cash&quot;]
+counts = [55, 30, 15]</code></pre></figure><details><summary>Hint</summary><p><code>plt.pie(counts, labels=modes, autopct=&quot;%1.1f%%&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+modes = [&quot;UPI&quot;, &quot;Card&quot;, &quot;Cash&quot;]
+counts = [55, 30, 15]
+plt.pie(counts, labels=modes, autopct=&quot;%1.1f%%&quot;, startangle=90)
+plt.title(&quot;How customers pay&quot;)
+plt.show()</code></pre></figure><p>Three slices: few enough for a pie chart to be clear.</p></details></li></ol>
+<h2>Practice with real data: charts of a year of sales</h2>
+<p>Every task starts by reading <b><code>sales_data.csv</code></b>, so you can do them in any order.</p>
+<ol class="tasks"><li><p>Draw a bar chart of the <b>total profit</b> of each category, largest first. Title it <code>Profit by category</code> and label the y-axis.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>groupby(&quot;Category&quot;)[&quot;Profit&quot;].sum().sort_values(ascending=False)</code>, then <code>plt.bar(s.index, s.values)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+profit = sales.groupby(&quot;Category&quot;)[&quot;Profit&quot;].sum().sort_values(ascending=False)
+plt.bar(profit.index, profit.values, color=&quot;seagreen&quot;)
+plt.title(&quot;Profit by category&quot;)
+plt.ylabel(&quot;Profit (₹)&quot;)
+plt.show()</code></pre></figure><p>Furniture makes the most profit even though Electronics sells more.</p></details></li><li><p>Draw the <b>number of orders</b> in each month as a line with markers. Use the short month names on the x-axis and add a title and both labels.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>counts = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;)).size()</code> and <code>counts.index.strftime(&quot;%b&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+counts = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;)).size()
+plt.plot(counts.index.strftime(&quot;%b&quot;), counts.values, marker=&quot;o&quot;)
+plt.title(&quot;Orders per month&quot;)
+plt.xlabel(&quot;Month&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()</code></pre></figure><p>October and November have the most orders: the festival season.</p></details></li><li><p>Draw a histogram of <code>Satisfaction_Score</code> with 8 bins. Then print the mean score rounded to 2 decimals.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>plt.hist(sales[&quot;Satisfaction_Score&quot;], bins=8)</code>; <code>round(sales[&quot;Satisfaction_Score&quot;].mean(), 2)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+plt.hist(sales[&quot;Satisfaction_Score&quot;], bins=8, edgecolor=&quot;black&quot;)
+plt.title(&quot;Satisfaction scores&quot;)
+plt.xlabel(&quot;Score (1 to 5)&quot;)
+plt.ylabel(&quot;Orders&quot;)
+plt.show()
+print(round(sales[&quot;Satisfaction_Score&quot;].mean(), 2))</code></pre><p class="olbl">Output</p><pre class="out">3.9</pre></figure><p>Most customers score 3.5 to 4.5; the printed mean confirms it.</p></details></li><li><p>Draw one box plot per region of the <b>profit</b> of the orders, in the order East, North, South, West, with the region names under the boxes and a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p>Make <code>groups = [sales[sales[&quot;Region&quot;] == r][&quot;Profit&quot;] for r in names]</code>, then <code>plt.boxplot(groups)</code> and <code>plt.xticks([1, 2, 3, 4], names)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+names = [&quot;East&quot;, &quot;North&quot;, &quot;South&quot;, &quot;West&quot;]
+groups = [sales[sales[&quot;Region&quot;] == r][&quot;Profit&quot;] for r in names]
+plt.boxplot(groups)
+plt.xticks([1, 2, 3, 4], names)
+plt.title(&quot;Profit per order by region&quot;)
+plt.ylabel(&quot;Profit (₹)&quot;)
+plt.show()</code></pre></figure><p>The regions look alike: similar medians, and outliers above the boxes from big orders.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li>Every chart: <code>plt.figure(figsize=...)</code>, draw, <code>title</code> / <code>xlabel</code> / <code>ylabel</code> (and <code>legend</code>), <code>grid</code> / <code>tight_layout</code>, then <code>show()</code> or <code>savefig()</code>.</li><li>Line for change over time; bar / barh for categories (grouped: shift x; stacked: <code>bottom=</code>).</li><li>Histogram (<code>bins=</code>) and box plot (median, IQR, whiskers, outliers) for spread; scatter (<code>s=</code>, <code>c=</code>, <code>cmap=</code>, <code>colorbar</code>) for two numbers.</li><li>Pie only for a few shares: <code>autopct=&quot;%1.1f%%&quot;</code>, <code>startangle</code>, <code>explode</code>.</li><li>Save before you show: <code>plt.savefig(&quot;chart.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)</code>.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Draw the bars sideways, so the long names fit.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+plt.___([&quot;Banjara Hills&quot;, &quot;Jubilee Hills&quot;, &quot;Madhapur&quot;], [42, 35, 58])
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>barh</code> — <code>plt.barh(names, values)</code> draws horizontal bars.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Cut the ages into 5 bars.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+ages = [21, 25, 27, 30, 33, 35, 38, 41, 45, 52]
+plt.hist(ages, ___=5, edgecolor=&quot;black&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>bins</code> — <code>bins=5</code> makes 5 equal ranges between the smallest and largest age.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Write the percent with 1 decimal on every slice.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+plt.pie([55, 45], labels=[&quot;UPI&quot;, &quot;Cash&quot;], autopct=&quot;___&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>%1.1f%%</code> — <code>%1.1f</code> is a number with 1 decimal; <code>%%</code> is a real % sign.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Colour the dots by quantity, using a colour scale.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+plt.scatter([1, 2, 3, 4], [10, 25, 18, 30], c=[1, 5, 3, 8], ___=&quot;viridis&quot;)
+plt.colorbar()
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>cmap</code> — <code>cmap=</code> picks the colour scale used for the <code>c=</code> values.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Start the second series where the first one ends.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+names = [&quot;Q1&quot;, &quot;Q2&quot;]
+plt.bar(names, [30, 40], label=&quot;Online&quot;)
+plt.bar(names, [20, 25], ___=[30, 40], label=&quot;Shop&quot;)
+plt.legend()
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>bottom</code> — <code>bottom=</code> stacks the bars: each shop bar starts on top of the online bar.</p><p>Output:</p><pre class="out"></pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>Which chart answers &quot;how did sales change month by month&quot;?</p><ol type="A"><li>Pie</li><li>Line</li><li>Histogram</li><li>Box plot</li></ol><details><summary>Answer</summary><p><b>Line</b>. Change over time is a trend: a line chart.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+bars = plt.bar([&quot;Pune&quot;, &quot;Goa&quot;, &quot;Kochi&quot;], [12, 30, 18])
+print(len(bars))</code></pre></figure><ol type="A"><li><code>3</code></li><li><code>1</code></li><li><code>2</code></li><li><code>0</code></li></ol><details><summary>Answer</summary><p><b><code>3</code></b>. <code>plt.bar</code> draws one bar per value and returns them.</p></details></li><li><p>You have 12 product names, some of them long. Which chart is easiest to read?</p><ol type="A"><li><code>plt.pie()</code></li><li><code>plt.barh()</code></li><li><code>plt.hist()</code></li><li><code>plt.scatter()</code></li></ol><details><summary>Answer</summary><p><b><code>plt.barh()</code></b>. Horizontal bars leave room for long names; 12 slices would make a messy pie.</p></details></li><li><p>What is the difference between <code>plt.hist()</code> and <code>plt.bar()</code>?</p><ol type="A"><li>None</li><li>hist counts values in ranges of a number column; bar draws given heights for categories</li><li>hist is sideways</li><li>bar needs bins</li></ol><details><summary>Answer</summary><p><b>hist counts values in ranges of a number column; bar draws given heights for categories</b>. A histogram works out the bars from raw numbers; a bar chart draws the numbers you give it.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+counts, edges, bars = plt.hist([1, 2, 3, 4, 4, 7], bins=3)
+print(counts.tolist())</code></pre></figure><ol type="A"><li><code>[2.0, 3.0, 1.0]</code></li><li><code>[1.0, 2.0, 3.0]</code></li><li><code>[3.0, 3.0]</code></li><li><code>[2.0, 4.0]</code></li></ol><details><summary>Answer</summary><p><b><code>[2.0, 3.0, 1.0]</code></b>. 3 equal ranges of width 2: 1 to 3 holds 1 and 2, 3 to 5 holds 3, 4 and 4, and 5 to 7 holds 7.</p></details></li><li><p>In a box plot, what does the line inside the box show?</p><ol type="A"><li>The mean</li><li>The median</li><li>The maximum</li><li>An outlier</li></ol><details><summary>Answer</summary><p><b>The median</b>. The box is Q1 to Q3 and the line in it is the median (Q2).</p></details></li><li><p>Your legend does not appear after <code>plt.legend()</code>. Why?</p><ol type="A"><li>The chart has no title</li><li>No series has a <code>label=</code></li><li>Legends only work with bars</li><li>You need <code>plt.grid()</code></li></ol><details><summary>Answer</summary><p><b>No series has a <code>label=</code></b>. The legend lists the labels you gave the series.</p></details></li><li><p>Which line writes the percent with 1 decimal on every pie slice?</p><ol type="A"><li><code>plt.pie(v, percent=1)</code></li><li><code>plt.pie(v, autopct=&quot;%1.1f%%&quot;)</code></li><li><code>plt.pie(v, labels=&quot;%&quot;)</code></li><li><code>plt.pie(v, fmt=&quot;.1f&quot;)</code></li></ol><details><summary>Answer</summary><p><b><code>plt.pie(v, autopct=&quot;%1.1f%%&quot;)</code></b>. <code>autopct</code> takes a format; <code>%%</code> prints the % sign.</p></details></li><li><p>What does <code>c=sales[&quot;Quantity&quot;], cmap=&quot;viridis&quot;</code> do in <code>plt.scatter()</code>?</p><ol type="A"><li>Sets the dot size</li><li>Colours each dot by its quantity, using the viridis colour scale</li><li>Draws a line</li><li>Removes outliers</li></ol><details><summary>Answer</summary><p><b>Colours each dot by its quantity, using the viridis colour scale</b>. <code>plt.colorbar()</code> then shows which colour means which quantity.</p></details></li><li><p>Why can <code>plt.savefig()</code> after <code>plt.show()</code> give an empty picture?</p><ol type="A"><li>savefig is slow</li><li>show() finishes and closes the chart, so there is nothing left to save</li><li>PNG is not supported</li><li>It needs dpi</li></ol><details><summary>Answer</summary><p><b>show() finishes and closes the chart, so there is nothing left to save</b>. Save first, then show.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>The 5-step recipe</dt><dd>figure(figsize) → draw → title/xlabel/ylabel (+ legend) → grid/tight_layout → show() or savefig().</dd><dt>Figure vs axes</dt><dd>Figure: the whole picture. Axes: one chart area inside it.</dd><dt>Line chart options</dt><dd><code>marker=&quot;o&quot;</code>, <code>linestyle=&quot;--&quot;</code>, <code>color=</code>, <code>linewidth=</code>, <code>alpha=</code>, <code>label=</code></dd><dt><code>plt.bar</code> vs <code>plt.barh</code></dt><dd>Upright bars vs sideways bars (good for long names).</dd><dt>Grouped bars</dt><dd>Shift each series: <code>plt.bar(x - 0.2, a, width=0.4)</code> and <code>plt.bar(x + 0.2, b, width=0.4)</code>, then <code>plt.xticks(x, names)</code>.</dd><dt>Stacked bars</dt><dd><code>plt.bar(names, b, bottom=a)</code> starts the second series where the first ends.</dd><dt>What does <code>bins=</code> set?</dt><dd>How many ranges (bars) a histogram cuts the numbers into.</dd><dt>Right-skewed</dt><dd>Most values on the left, a long tail to the right (a few very big values).</dd><dt>Colour a scatter by a column</dt><dd><code>plt.scatter(x, y, c=col, cmap=&quot;viridis&quot;)</code> + <code>plt.colorbar(label=...)</code></dd><dt>Pie percent labels</dt><dd><code>autopct=&quot;%1.1f%%&quot;</code>; keep it to about 5 slices.</dd><dt>Parts of a box plot</dt><dd>Box: Q1 to Q3 (IQR). Line: median. Whiskers: to 1.5 × IQR. Dots: outliers.</dd><dt>Which chart for spread?</dt><dd>Histogram for one column; box plot to compare groups.</dd><dt>Save a chart</dt><dd><code>plt.savefig(&quot;c.png&quot;, dpi=150, bbox_inches=&quot;tight&quot;)</code> before <code>plt.show()</code>.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>import matplotlib.pyplot as plt</code></td><td>Load pyplot</td></tr><tr><td><code>plt.figure(figsize=(8, 4))</code></td><td>A canvas 8 by 4 inches</td></tr><tr><td><code>plt.plot(x, y, marker='o', ls='--', label='A')</code></td><td>Line chart</td></tr><tr><td><code>plt.bar(names, values)  plt.barh(names, values)</code></td><td>Bars up / across</td></tr><tr><td><code>plt.bar(x - 0.2, a, width=0.4)</code></td><td>Grouped bars</td></tr><tr><td><code>plt.bar(names, b, bottom=a)</code></td><td>Stacked bars</td></tr><tr><td><code>plt.hist(col, bins=15, edgecolor='black')</code></td><td>Histogram</td></tr><tr><td><code>plt.scatter(x, y, s=20, c=col, cmap='viridis')</code></td><td>Scatter, coloured by a column</td></tr><tr><td><code>plt.colorbar(label='Quantity')</code></td><td>Colour scale</td></tr><tr><td><code>plt.pie(v, labels=n, autopct='%1.1f%%', startangle=90)</code></td><td>Pie with percents</td></tr><tr><td><code>plt.boxplot(groups); plt.xticks([1, 2], names)</code></td><td>Box plots</td></tr><tr><td><code>plt.title()  plt.xlabel()  plt.ylabel()</code></td><td>Labels</td></tr><tr><td><code>plt.legend()  plt.grid(alpha=0.3)</code></td><td>Legend, light grid</td></tr><tr><td><code>plt.xticks(rotation=45)</code></td><td>Tilt long labels</td></tr><tr><td><code>plt.tight_layout()</code></td><td>Stop overlaps</td></tr><tr><td><code>plt.savefig('c.png', dpi=150, bbox_inches='tight')</code></td><td>Save (before show)</td></tr></tbody></table></div></section><p class="ver"><a href="test-mpl1.html">Take the 27.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="overview8.html">← Part 8 overview</a><a href="mpl2.html">Layouts &amp; style →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

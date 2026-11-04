@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Part 9 Python projects for data analysts | Python Study Hub</title>
+<meta name="description" content="3 Python projects for beginner data analysts on Part 9 (Matplotlib), with briefs, hints, example runs and model answers.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/projects-part9.html">
+<meta property="og:title" content="Part 9 Python projects for data analysts | Python Study Hub">
+<meta property="og:description" content="3 Python projects for beginner data analysts on Part 9 (Matplotlib), with briefs, hints, example runs and model answers.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#projects-part9">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#projects-part9">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 9 · Matplotlib · Projects</p><h1>Part 9 projects: charts with Matplotlib</h1><p class="lead">Three reports a manager can see at a glance: a monthly sales chart, a two-chart sales overview, and a full 2 × 2 sales dashboard with a trend line. Pandas does the numbers, Matplotlib draws them, and the checker reads your charts: their type, counts, titles and labels.</p><p>In the <a href="../#projects-9">interactive version</a> you write each program in the browser, run it with your own numbers, and press <b>Submit</b> to get an automatic score out of 100 with feedback. A score of 70 or more means you are ready for the next project.</p><section><h2>Project 9.1 (Beginner): Monthly sales chart</h2><p><b>Total the orders by month, print the highlights and draw a clean line chart.</b></p><p>Rahul from Part 8 liked his monthly report, and now he wants a <b>picture</b> for the team meeting: one line chart of the sales in every month of the year, plus the best and worst month and the average. He will paste the saved picture into his slides.</p><h3>What you will practise</h3><ul><li>Total sales per month with <code>groupby</code> and <code>dt.to_period(&quot;M&quot;)</code></li><li>Draw a line chart with markers, a title and axis labels</li><li>Use short month names on the x-axis</li><li>Save the chart with <code>savefig()</code> before <code>show()</code></li></ul><p><b>You may use:</b> everything from Parts 1-8, Matplotlib: <code>plt.figure</code>, <code>plt.plot</code>, <code>plt.title</code>, <code>plt.xlabel</code>, <code>plt.ylabel</code>, <code>plt.grid</code>, <code>plt.savefig</code>, <code>plt.show</code>.<br><b>Do not use yet:</b> Seaborn (Part 10).</p><h3>Your tasks</h3><ol><li>Read <code>orders.csv</code> (<code>Date</code>, <code>Category</code>, <code>Region</code>, <code>Sales</code>, <code>Profit</code>) and turn <code>Date</code> into dates. If the file has no rows, print <code>No orders in the file</code> and stop (draw nothing).</li><li>Total the <code>Sales</code> of each month: <code>groupby(orders[&quot;Date&quot;].dt.to_period(&quot;M&quot;))</code>.</li><li>Print <code>Months: &lt;n&gt;</code> (how many months have orders), <code>Best month</code> and <code>Worst month</code> with their totals (on a tie, the earlier month), and <code>Average per month</code>. Use the short month names: <code>Jan</code>, <code>Feb</code> ...</li><li>Draw <b>one</b> line chart of the monthly totals with markers: the short month names along the x-axis, the title <code>Monthly sales</code>, the x label <code>Month</code> and the y label <code>Sales (₹)</code>.</li><li>Save it as <code>monthly_sales.png</code>, print <code>Saved monthly_sales.png</code>, then <code>plt.show()</code>.</li></ol><h3>Lines your output must contain</h3><pre class="out">Months: &lt;n&gt;
+Best month: &lt;Mon&gt; (₹&lt;amount&gt;)
+Worst month: &lt;Mon&gt; (₹&lt;amount&gt;)
+Average per month: ₹&lt;amount&gt;
+Saved monthly_sales.png
+No orders in the file
+Chart report (checked after your program): Figure 1: 1 chart
+Chart 1.1: line, 1 line, title: Monthly sales, x: Month, y: Sales (₹)</pre><p>Money has <code>₹</code>, commas and 2 decimals. The chart must be a single line (markers are fine; no extra lines or dots), with exactly the title and labels above.</p><h3>Example run</h3><p>Typed values: .</p><pre class="out">Months: 12
+Best month: Apr (₹24,493.00)
+Worst month: Dec (₹7,232.00)
+Average per month: ₹13,547.08
+Saved monthly_sales.png
+--- charts ---
+Figures: 1
+Figure 1: 1 chart
+Chart 1.1: line, 1 line, title: Monthly sales, x: Month, y: Sales (₹)</pre><h3>Files for this project</h3><p><b>orders.csv</b></p><pre class="out">Date,Category,Region,Sales,Profit
+2024-01-15,Groceries,West,8620,1724
+2024-02-07,Electronics,West,3350,-167
+2024-03-15,Furniture,North,1785,357
+2024-04-26,Clothing,West,7721,1930
+2024-05-24,Electronics,East,8956,-447
+2024-06-02,Clothing,North,4263,852
+2024-07-01,Groceries,South,7517,1503
+2024-08-27,Electronics,North,5119,767
+2024-09-01,Clothing,West,4857,728
+2024-10-18,Clothing,South,5465,437
+2024-11-17,Furniture,East,1450,290
+2024-12-25,Clothing,West,2066,247
+2024-01-13,Clothing,East,308,24
+2024-02-07,Clothing,West,6451,1612
+2024-03-13,Groceries,East,3552,888
+2024-04-09,Furniture,East,5398,647
+2024-05-01,Groceries,East,2505,200
+2024-06-23,Clothing,East,1281,192
+2024-07-26,Groceries,North,3386,507
+2024-08-17,Electronics,North,7168,1792
+2024-09-13,Clothing,West,7193,575
+2024-10-01,Furniture,South,621,49
+2024-11-06,Groceries,East,989,79
+2024-12-07,Groceries,South,456,91
+2024-01-11,Furniture,West,1502,-75
+2024-02-03,Electronics,North,554,110
+2024-03-12,Furniture,West,2384,476
+2024-04-16,Electronics,West,3295,823
+2024-05-05,Furniture,North,4387,1096
+2024-06-07,Electronics,North,6660,999
+2024-07-20,Clothing,West,1076,-53
+2024-08-04,Clothing,South,4206,1051
+2024-09-23,Groceries,South,7194,1438
+2024-10-16,Furniture,North,1426,114
+2024-11-08,Groceries,East,4891,391
+2024-12-07,Clothing,East,4710,706
+2024-01-15,Electronics,East,1063,85
+2024-02-10,Furniture,North,1810,217
+2024-03-05,Groceries,South,8851,1770
+2024-04-05,Clothing,East,8079,969
+</pre><h3>Edge cases to think about</h3><ul><li>A file with only the <b>header</b>: no chart at all.</li><li>Orders in <b>only one month</b>: one point, still a line chart.</li><li>Two months with the <b>same</b> total: the earlier one wins.</li><li>Months <b>missing</b> in the middle of the year.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p><code>orders[&quot;Date&quot;] = pd.to_datetime(orders[&quot;Date&quot;])</code>, then <code>monthly = orders.groupby(orders[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()</code>.</p></details><details><summary>Hint 2</summary><p><code>monthly.idxmax()</code> is a month period; <code>.strftime(&quot;%b&quot;)</code> turns it into <code>Nov</code>. <code>monthly.index.strftime(&quot;%b&quot;)</code> gives all the short names for the x-axis.</p></details><details><summary>Hint 3</summary><p>Chart: <code>plt.plot(names, monthly.values, marker=&quot;o&quot;)</code>, then the title and labels, <code>plt.savefig(&quot;monthly_sales.png&quot;)</code>, and <code>plt.show()</code> last.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 9.1: Monthly sales chart
+import pandas as pd
+import matplotlib.pyplot as plt
+
+orders = pd.read_csv(&quot;orders.csv&quot;)
+if len(orders) == 0:
+    print(&quot;No orders in the file&quot;)
+else:
+    orders[&quot;Date&quot;] = pd.to_datetime(orders[&quot;Date&quot;])
+    monthly = orders.groupby(orders[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+    names = monthly.index.strftime(&quot;%b&quot;)
+    best, worst = monthly.idxmax(), monthly.idxmin()
+    print(f&quot;Months: {len(monthly)}&quot;)
+    print(f&quot;Best month: {best.strftime('%b')} (₹{monthly[best]:,.2f})&quot;)
+    print(f&quot;Worst month: {worst.strftime('%b')} (₹{monthly[worst]:,.2f})&quot;)
+    print(f&quot;Average per month: ₹{monthly.mean():,.2f}&quot;)
+    # One clean line chart, saved before it is shown
+    plt.figure(figsize=(8, 4))
+    plt.plot(names, monthly.values, marker=&quot;o&quot;)
+    plt.title(&quot;Monthly sales&quot;)
+    plt.xlabel(&quot;Month&quot;)
+    plt.ylabel(&quot;Sales (₹)&quot;)
+    plt.grid(alpha=0.3)
+    plt.savefig(&quot;monthly_sales.png&quot;)
+    print(&quot;Saved monthly_sales.png&quot;)
+    plt.show()</code></pre></figure></details></section><section><h2>Project 9.2 (Intermediate): Sales overview: two charts</h2><p><b>Filter the orders by size, then draw sorted category bars and a region pie in one figure.</b></p><p>The sales head wants <b>one picture</b> for the monthly review: on the left, which categories bring in the most money; on the right, how the orders are shared between the regions. Sometimes she only wants the bigger orders, so the program first asks for the smallest order value to include.</p><h3>What you will practise</h3><ul><li>Read and check a typed number, then filter rows with a mask</li><li>Group, sort and count with Pandas</li><li>Draw two charts in one figure with <code>plt.subplots(1, 2)</code></li><li>Sort the bars, show percents on the pie, and give the figure one title</li></ul><p><b>You may use:</b> everything from Parts 1-8, Matplotlib: <code>plt.subplots</code>, <code>ax.bar</code>, <code>ax.pie</code>, <code>ax.set_title</code>, <code>ax.set_ylabel</code>, <code>fig.suptitle</code>, <code>plt.tight_layout</code>, <code>plt.show</code>.<br><b>Do not use yet:</b> Seaborn (Part 10).</p><h3>Your tasks</h3><ol><li>Read <code>orders.csv</code>. Ask <code>Smallest order (₹): </code>. If it is not a whole number of 0 or more, print <code>Please enter a whole number of rupees</code> and stop.</li><li>Keep the orders whose <code>Sales</code> is at least that value. If none are left, print <code>No orders of ₹&lt;value&gt; or more</code> (the value with commas) and <code>Orders used: 0</code>, and stop. Otherwise print <code>Orders used: &lt;n&gt;</code>.</li><li>Print the <code>Top category</code> (biggest total sales; a tie: A to Z) with its total and its share of all the sales kept: <code>Top category: Electronics (₹1,23,456.00 ...</code> in the format of the lines below.</li><li>Print the <code>Busiest region</code> (most orders; a tie: A to Z) with its number of orders and its share of the orders.</li><li>Make <b>one figure with 2 charts</b> side by side (<code>plt.subplots(1, 2)</code>). Left: a bar chart of the total sales per category, <b>largest first</b>, with the title <code>Sales by category</code> and the y label <code>Sales (₹)</code>.</li><li>Right: a pie of the number of orders per region with the percent on each slice (<code>autopct=&quot;%1.1f%%&quot;</code>) and the title <code>Orders by region</code>.</li><li>Give the figure the title <code>Sales overview</code>, call <code>plt.tight_layout()</code> and show it.</li></ol><h3>Lines your output must contain</h3><pre class="out">Orders used: &lt;n&gt;
+Top category: &lt;Category&gt; (₹&lt;amount&gt;, &lt;x.x&gt;% of sales)
+Busiest region: &lt;Region&gt; (&lt;n&gt; orders, &lt;x.x&gt;%)
+Please enter a whole number of rupees
+No orders of ₹&lt;value&gt; or more
+Chart report: Figure 1: 2 charts, title: Sales overview
+Chart 1.1: bar, &lt;n&gt; bars, title: Sales by category, y: Sales (₹)
+Chart 1.2: pie, &lt;n&gt; pie slices, title: Orders by region</pre><p>Money has <code>₹</code>, commas and 2 decimals; percents 1 decimal. The left chart has no x label; the pie has no axis labels. Only the two charts, no others.</p><h3>Example run</h3><p>Typed values: <code>0</code>.</p><pre class="out">Smallest order (₹): 0
+Orders used: 36
+Top category: Groceries (₹53,045.00, 32.3% of sales)
+Busiest region: East (10 orders, 27.8%)
+--- charts ---
+Figures: 1
+Figure 1: 2 charts, title: Sales overview
+Chart 1.1: bar, 4 bars, title: Sales by category, y: Sales (₹)
+Chart 1.2: pie, 4 pie slices, title: Orders by region</pre><h3>Files for this project</h3><p><b>orders.csv</b></p><pre class="out">Date,Category,Region,Sales,Profit
+2024-01-06,Groceries,West,4908,736
+2024-02-27,Electronics,West,8696,695
+2024-03-17,Electronics,East,531,63
+2024-04-19,Groceries,East,2674,213
+2024-05-08,Clothing,West,6964,1392
+2024-06-15,Clothing,South,8451,2112
+2024-07-04,Furniture,East,2836,709
+2024-08-27,Clothing,East,620,93
+2024-09-06,Furniture,West,8241,659
+2024-10-06,Clothing,West,4148,-207
+2024-11-25,Electronics,North,1462,-73
+2024-12-18,Groceries,West,3594,431
+2024-01-05,Groceries,South,6283,942
+2024-02-17,Groceries,South,8237,1235
+2024-03-09,Clothing,East,2904,726
+2024-04-23,Groceries,East,8353,-417
+2024-05-18,Electronics,South,2146,171
+2024-06-22,Electronics,South,5745,689
+2024-07-25,Furniture,North,1992,159
+2024-08-03,Electronics,West,6441,515
+2024-09-22,Clothing,North,6968,557
+2024-10-24,Clothing,South,8343,1668
+2024-11-13,Electronics,North,2959,591
+2024-12-03,Groceries,West,8216,-410
+2024-01-27,Furniture,East,4526,1131
+2024-02-10,Clothing,West,4372,349
+2024-03-13,Clothing,South,2693,215
+2024-04-24,Groceries,East,4432,354
+2024-05-21,Groceries,East,3774,452
+2024-06-26,Electronics,South,7280,1092
+2024-07-19,Groceries,South,2574,514
+2024-08-19,Furniture,North,467,70
+2024-09-22,Electronics,East,4632,926
+2024-10-11,Electronics,West,4513,1128
+2024-11-13,Electronics,North,2625,-131
+2024-12-13,Clothing,North,714,178
+</pre><h3>Edge cases to think about</h3><ul><li>A value so high that <b>no order</b> is left: no chart.</li><li>A value that is <b>not a number</b>, or below 0.</li><li>Only <b>one region</b> left after filtering: a pie with one slice.</li><li>Two categories with the <b>same</b> total.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Read the value inside <code>try</code> / <code>except ValueError</code>. Filter with <code>kept = orders[orders[&quot;Sales&quot;] &gt;= low]</code>.</p></details><details><summary>Hint 2</summary><p><code>cats = kept.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum().reset_index().sort_values([&quot;Sales&quot;, &quot;Category&quot;], ascending=[False, True])</code> gives the bars in order, ties A to Z. <code>counts = kept.groupby(&quot;Region&quot;).size()</code> gives the pie values.</p></details><details><summary>Hint 3</summary><p><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))</code>; <code>axes[0].bar(cats[&quot;Category&quot;], cats[&quot;Sales&quot;])</code>; <code>axes[1].pie(counts.values, labels=counts.index, autopct=&quot;%1.1f%%&quot;)</code>; then <code>fig.suptitle(&quot;Sales overview&quot;)</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 9.2: Sales overview with two charts
+import pandas as pd
+import matplotlib.pyplot as plt
+
+orders = pd.read_csv(&quot;orders.csv&quot;)
+try:
+    low = int(input(&quot;Smallest order (₹): &quot;))
+except ValueError:
+    low = -1
+if low &lt; 0:
+    print(&quot;Please enter a whole number of rupees&quot;)
+else:
+    kept = orders[orders[&quot;Sales&quot;] &gt;= low]
+    if len(kept) == 0:
+        print(f&quot;No orders of ₹{low:,} or more&quot;)
+        print(&quot;Orders used: 0&quot;)
+    else:
+        print(f&quot;Orders used: {len(kept)}&quot;)
+        # Totals per category, largest first (ties A to Z)
+        cats = kept.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum().reset_index()
+        cats = cats.sort_values([&quot;Sales&quot;, &quot;Category&quot;], ascending=[False, True])
+        total = cats[&quot;Sales&quot;].sum()
+        top, top_sales = cats[&quot;Category&quot;].iloc[0], cats[&quot;Sales&quot;].iloc[0]
+        share = top_sales / total * 100
+        print(f&quot;Top category: {top} (₹{top_sales:,.2f}, {share:.1f}% of sales)&quot;)
+        counts = kept.groupby(&quot;Region&quot;).size()
+        busy = counts.idxmax()
+        part = counts[busy] / len(kept) * 100
+        print(f&quot;Busiest region: {busy} ({counts[busy]} orders, {part:.1f}%)&quot;)
+        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+        axes[0].bar(cats[&quot;Category&quot;], cats[&quot;Sales&quot;], color=&quot;steelblue&quot;)
+        axes[0].set_title(&quot;Sales by category&quot;)
+        axes[0].set_ylabel(&quot;Sales (₹)&quot;)
+        axes[1].pie(counts.values, labels=counts.index, autopct=&quot;%1.1f%%&quot;, startangle=90)
+        axes[1].set_title(&quot;Orders by region&quot;)
+        fig.suptitle(&quot;Sales overview&quot;)
+        plt.tight_layout()
+        plt.show()</code></pre></figure></details></section><section><h2>Project 9.3 (Challenging): Sales dashboard</h2><p><b>Four charts in one figure, with a trend line and the numbers a manager asks for.</b></p><p>Meena runs the analytics team. Every month she sends the directors one <b>dashboard</b>: monthly sales, profit by region, the spread of order values, and sales against profit with a trend line. Build it once, so next month she only changes the file.</p><h3>What you will practise</h3><ul><li>Lay out a 2 × 2 grid with <code>plt.subplots(2, 2)</code> and <code>axes[row, col]</code></li><li>Use four chart types: line, sorted horizontal bars, histogram and scatter</li><li>Fit a trend line with <code>np.polyfit</code> and report the slope and R²</li><li>Title every chart and the figure, tidy with <code>tight_layout</code>, and save the picture</li></ul><p><b>You may use:</b> everything from Parts 1-8 (NumPy included), all of Part 9: subplots, <code>ax.plot</code>, <code>ax.barh</code>, <code>ax.hist</code>, <code>ax.scatter</code>, <code>ax.set_title</code>, <code>fig.suptitle</code>, <code>np.polyfit</code>, <code>np.corrcoef</code>, <code>savefig</code>.<br><b>Do not use yet:</b> Seaborn (Part 10).</p><h3>Your tasks</h3><ol><li>Read <code>orders.csv</code> and turn <code>Date</code> into dates. If it has fewer than 2 rows, print <code>Need at least 2 orders</code> and stop (no chart).</li><li>Print <code>Orders: &lt;n&gt;</code>, the <code>Best region for profit</code> (highest total profit; a tie: A to Z) with its profit, and <code>Loss-making orders: &lt;n&gt;</code> (profit below 0).</li><li>Fit a straight line of <code>Profit</code> against <code>Sales</code> with <code>np.polyfit(x, y, 1)</code>. Print the slope as <code>Profit per extra ₹1 of sales: ₹&lt;x.xx&gt;</code> and R² (the squared correlation, <code>np.corrcoef</code>) as <code>R²: &lt;x.xx&gt;</code>.</li><li>Make a 2 × 2 figure. Top left <code>axes[0, 0]</code>: monthly total sales as a line (title <code>Monthly sales</code>). Top right: total <b>profit</b> per region as horizontal bars sorted small to large (title <code>Profit by region</code>).</li><li>Bottom left: a histogram of <code>Sales</code> with 10 bins (title <code>Order values</code>, x label <code>Sales (₹)</code>). Bottom right: a scatter of <code>Sales</code> (x) against <code>Profit</code> (y) with the trend line drawn on it as <b>one</b> line (title <code>Sales vs profit</code>).</li><li>Give the figure the title <code>Sales dashboard</code>, call <code>plt.tight_layout()</code>, save it as <code>dashboard.png</code>, print <code>Saved dashboard.png</code> and show it.</li></ol><h3>Lines your output must contain</h3><pre class="out">Orders: &lt;n&gt;
+Best region for profit: &lt;Region&gt; (₹&lt;amount&gt;)
+Loss-making orders: &lt;n&gt;
+Profit per extra ₹1 of sales: ₹&lt;x.xx&gt;
+R²: &lt;x.xx&gt;
+Saved dashboard.png
+Need at least 2 orders
+Chart report: Figure 1: 4 charts, title: Sales dashboard
+Chart 1.1: line, 1 line, title: Monthly sales
+Chart 1.2: barh, &lt;n&gt; bars, title: Profit by region
+Chart 1.3: hist, 10 bars, title: Order values, x: Sales (₹)
+Chart 1.4: line+scatter, 1 line, &lt;n&gt; points, title: Sales vs profit</pre><p>Money has <code>₹</code>, commas and 2 decimals. The slope and R² have 2 decimals. Only the labels listed: no x or y labels on the other charts.</p><h3>Example run</h3><p>Typed values: .</p><pre class="out">Orders: 48
+Best region for profit: South (₹10,131.00)
+Loss-making orders: 8
+Profit per extra ₹1 of sales: ₹0.10
+R²: 0.25
+Saved dashboard.png
+--- charts ---
+Figures: 1
+Figure 1: 4 charts, title: Sales dashboard
+Chart 1.1: line, 1 line, title: Monthly sales
+Chart 1.2: barh, 4 bars, title: Profit by region
+Chart 1.3: hist, 10 bars, title: Order values, x: Sales (₹)
+Chart 1.4: line+scatter, 1 line, 48 points, title: Sales vs profit</pre><h3>Files for this project</h3><p><b>orders.csv</b></p><pre class="out">Date,Category,Region,Sales,Profit
+2024-01-01,Groceries,East,6736,538
+2024-02-22,Clothing,North,2142,428
+2024-03-08,Electronics,North,842,210
+2024-04-02,Electronics,North,7635,1527
+2024-05-14,Electronics,East,2235,-111
+2024-06-25,Groceries,South,3552,284
+2024-07-11,Groceries,South,4339,347
+2024-08-24,Electronics,West,1283,-64
+2024-09-27,Electronics,South,2507,200
+2024-10-05,Groceries,East,1710,427
+2024-11-17,Groceries,North,3703,555
+2024-12-24,Furniture,North,5717,1429
+2024-01-27,Electronics,West,978,117
+2024-02-11,Furniture,South,6790,1018
+2024-03-21,Furniture,North,1861,223
+2024-04-06,Furniture,East,3143,251
+2024-05-01,Furniture,East,6840,820
+2024-06-10,Electronics,East,7751,620
+2024-07-26,Furniture,West,6901,-345
+2024-08-18,Clothing,South,1919,479
+2024-09-04,Electronics,North,5792,463
+2024-10-23,Electronics,West,1249,187
+2024-11-20,Furniture,South,8332,2083
+2024-12-19,Clothing,East,8253,660
+2024-01-26,Groceries,East,4473,670
+2024-02-25,Groceries,South,4190,-209
+2024-03-04,Groceries,South,7604,608
+2024-04-02,Electronics,East,1119,223
+2024-05-07,Electronics,South,3311,662
+2024-06-15,Groceries,North,8885,710
+2024-07-23,Groceries,South,7949,953
+2024-08-05,Furniture,East,8862,1063
+2024-09-24,Electronics,South,6514,1302
+2024-10-25,Electronics,East,2246,561
+2024-11-14,Electronics,North,4322,648
+2024-12-10,Electronics,West,5329,1065
+2024-01-19,Electronics,South,919,-45
+2024-02-16,Furniture,South,3612,541
+2024-03-27,Furniture,North,6874,-343
+2024-04-27,Groceries,West,3551,284
+2024-05-07,Furniture,South,5166,1291
+2024-06-12,Clothing,North,1380,110
+2024-07-20,Groceries,West,7704,1926
+2024-08-09,Electronics,West,852,-42
+2024-09-16,Electronics,South,8062,-403
+2024-10-01,Furniture,West,4764,571
+2024-11-10,Electronics,South,6910,552
+2024-12-08,Electronics,South,1872,468
+</pre><h3>Edge cases to think about</h3><ul><li>A file with <b>only 1 order</b>: a trend line needs at least 2.</li><li>A region whose total profit is <b>negative</b>.</li><li>Two regions with the <b>same</b> profit.</li><li>Orders in <b>one month</b> only: a line with one point.</li></ul><h3>How your score is worked out</h3><div class="tbl"><table><thead><tr><th>Part</th><th>Points</th><th>How it is checked</th></tr></thead><tbody><tr><td><b>Correctness</b></td><td>30</td><td>Share of the main tests your program passes</td></tr><tr><td><b>Logic</b></td><td>20</td><td>Share of the logic tests (tricky formulas and conditions)</td></tr><tr><td><b>Edge cases</b></td><td>10</td><td>Share of the edge-case tests (zeros, big numbers, spaces)</td></tr><tr><td><b>Use of concepts</b></td><td>25</td><td>Python reads your code and looks for the tools the project needs; 5 points off for each tool from a later Part</td></tr><tr><td><b>Readability</b></td><td>15</td><td>Clear names, your own comments, short lines, clean indentation, spaces around =</td></tr></tbody></table></div><h3>Hints</h3><details><summary>Hint 1</summary><p>Numbers first: <code>profit = orders.groupby(&quot;Region&quot;)[&quot;Profit&quot;].sum()</code>; <code>profit.idxmax()</code>; <code>(orders[&quot;Profit&quot;] &lt; 0).sum()</code>. Then <code>x = orders[&quot;Sales&quot;].values</code>, <code>y = orders[&quot;Profit&quot;].values</code>, <code>slope, intercept = np.polyfit(x, y, 1)</code> and <code>np.corrcoef(x, y)[0, 1] ** 2</code>.</p></details><details><summary>Hint 2</summary><p>Layout: <code>fig, axes = plt.subplots(2, 2, figsize=(11, 8))</code>. For the bars, <code>profit.sort_values()</code> then <code>axes[0, 1].barh(p.index, p.values)</code>.</p></details><details><summary>Hint 3</summary><p>Trend line on the scatter: <code>line_x = np.linspace(x.min(), x.max(), 50)</code> and <code>axes[1, 1].plot(line_x, slope * line_x + intercept, &quot;r-&quot;)</code>. Save with <code>plt.savefig(&quot;dashboard.png&quot;)</code> before <code>plt.show()</code>.</p></details><details><summary>Model answer (try it yourself first)</summary><figure class="code"><pre><code># Project 9.3: Sales dashboard
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+orders = pd.read_csv(&quot;orders.csv&quot;)
+if len(orders) &lt; 2:
+    print(&quot;Need at least 2 orders&quot;)
+else:
+    orders[&quot;Date&quot;] = pd.to_datetime(orders[&quot;Date&quot;])
+    profit = orders.groupby(&quot;Region&quot;)[&quot;Profit&quot;].sum()
+    best = profit.idxmax()
+    print(f&quot;Orders: {len(orders)}&quot;)
+    print(f&quot;Best region for profit: {best} (₹{profit[best]:,.2f})&quot;)
+    print(f&quot;Loss-making orders: {(orders['Profit'] &lt; 0).sum()}&quot;)
+    # Trend line: profit against sales
+    x = orders[&quot;Sales&quot;].values
+    y = orders[&quot;Profit&quot;].values
+    slope, intercept = np.polyfit(x, y, 1)
+    print(f&quot;Profit per extra ₹1 of sales: ₹{slope:.2f}&quot;)
+    print(f&quot;R²: {np.corrcoef(x, y)[0, 1] ** 2:.2f}&quot;)
+    monthly = orders.groupby(orders[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Sales&quot;].sum()
+    by_region = profit.sort_values()
+    fig, axes = plt.subplots(2, 2, figsize=(11, 8))
+    axes[0, 0].plot(monthly.index.strftime(&quot;%b&quot;), monthly.values, marker=&quot;o&quot;)
+    axes[0, 0].set_title(&quot;Monthly sales&quot;)
+    axes[0, 1].barh(by_region.index, by_region.values, color=&quot;seagreen&quot;)
+    axes[0, 1].set_title(&quot;Profit by region&quot;)
+    axes[1, 0].hist(x, bins=10, edgecolor=&quot;black&quot;)
+    axes[1, 0].set_title(&quot;Order values&quot;)
+    axes[1, 0].set_xlabel(&quot;Sales (₹)&quot;)
+    line_x = np.linspace(x.min(), x.max(), 50)
+    axes[1, 1].scatter(x, y, s=15, alpha=0.6)
+    axes[1, 1].plot(line_x, slope * line_x + intercept, &quot;r-&quot;)
+    axes[1, 1].set_title(&quot;Sales vs profit&quot;)
+    fig.suptitle(&quot;Sales dashboard&quot;)
+    plt.tight_layout()
+    plt.savefig(&quot;dashboard.png&quot;)
+    print(&quot;Saved dashboard.png&quot;)
+    plt.show()</code></pre></figure></details></section><nav class="pn"><a href="overview9.html">← Part 9 overview</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

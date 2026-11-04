@@ -42,8 +42,9 @@ def build(cid, Q, heads):
         elif t == 'fix' and x.get('chart'):
             w, summ, figs, imgs = chlib.chart_run(x['fixed'], 'bt-%s-%d' % (cid, n + 1)); x['want'] = w; x['sum'] = summ; x['img'] = imgs
             assert not chlib.check(x['chart'], figs), (tag, 'fixed chart fails')
-            ok, got = run(x['c']); x['got'] = re.sub(r' at 0x[0-9a-f]+', ' at 0x...', got) if not ok else (got or '(a chart that does not match)')
-            if ok: assert chlib.check(x['chart'], chlib.chart_run(x['c'])[2]) or got != w, (tag, 'buggy code already works')
+            ok, got, bfigs = chlib.chart_try(x['c'])
+            if ok: assert chlib.check(x['chart'], bfigs) or got != w, (tag, 'buggy code already works')
+            x['got'] = re.sub(r' at 0x[0-9a-f]+', ' at 0x...', got) if not ok else ('\n'.join(chlib.check(x['chart'], bfigs)) or got)
         elif t == 'fix':
             ok, w = run(x['fixed']); assert ok, (tag, 'fixed code fails', w); x['want'] = w
             ok, got = run(x['c']); assert not (ok and got == w), (tag, 'buggy code already works'); x['got'] = re.sub(r' at 0x[0-9a-f]+', ' at 0x...', got)

@@ -1552,5 +1552,159 @@ var EXERCISES = {
    "o": "3",
    "e": "`fill_value=0` fills the cells where a department has no such person."
   }
+ ],
+ "mpl1": [
+  {
+   "q": "Draw the bars sideways, so the long names fit.",
+   "c": "import matplotlib.pyplot as plt\nplt.___([\"Banjara Hills\", \"Jubilee Hills\", \"Madhapur\"], [42, 35, 58])\nplt.show()",
+   "a": [
+    [
+     "barh"
+    ]
+   ],
+   "o": "",
+   "e": "`plt.barh(names, values)` draws horizontal bars.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 barh bars=3 t='' x='' y='' leg=None xt=['0', '10', '20', '30', '40', '50', '60', '70'] h=[42.0, 35.0, 58.0] tx=0",
+   "img": [
+    "img/ex-mpl1-1.webp"
+   ]
+  },
+  {
+   "q": "Cut the ages into 5 bars.",
+   "c": "import matplotlib.pyplot as plt\nages = [21, 25, 27, 30, 33, 35, 38, 41, 45, 52]\nplt.hist(ages, ___=5, edgecolor=\"black\")\nplt.show()",
+   "a": [
+    [
+     "bins"
+    ]
+   ],
+   "o": "",
+   "e": "`bins=5` makes 5 equal ranges between the smallest and largest age.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 hist bars=5 t='' x='' y='' leg=None xt=['15', '20', '25', '30', '35', '40', '45', '50', '55'] h=[3.0, 2.0, 2.0, 2.0, 1.0] tx=0",
+   "img": [
+    "img/ex-mpl1-2.webp"
+   ]
+  },
+  {
+   "q": "Write the percent with 1 decimal on every slice.",
+   "c": "import matplotlib.pyplot as plt\nplt.pie([55, 45], labels=[\"UPI\", \"Cash\"], autopct=\"___\")\nplt.show()",
+   "a": [
+    [
+     "%1.1f%%"
+    ]
+   ],
+   "o": "",
+   "e": "`%1.1f` is a number with 1 decimal; `%%` is a real % sign.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 pie wedges=2 t='' x='' y='' leg=None xt=[] h=[] tx=4",
+   "img": [
+    "img/ex-mpl1-3.webp"
+   ]
+  },
+  {
+   "q": "Colour the dots by quantity, using a colour scale.",
+   "c": "import matplotlib.pyplot as plt\nplt.scatter([1, 2, 3, 4], [10, 25, 18, 30], c=[1, 5, 3, 8], ___=\"viridis\")\nplt.colorbar()\nplt.show()",
+   "a": [
+    [
+     "cmap"
+    ]
+   ],
+   "o": "",
+   "e": "`cmap=` picks the colour scale used for the `c=` values.",
+   "sum": "#fig1 axes=1 sup='' cbar=1 leg=None\n#ax1 scatter points=4 t='' x='' y='' leg=None xt=['0.5', '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5'] h=[] tx=0",
+   "img": [
+    "img/ex-mpl1-4.webp"
+   ]
+  },
+  {
+   "q": "Start the second series where the first one ends.",
+   "c": "import matplotlib.pyplot as plt\nnames = [\"Q1\", \"Q2\"]\nplt.bar(names, [30, 40], label=\"Online\")\nplt.bar(names, [20, 25], ___=[30, 40], label=\"Shop\")\nplt.legend()\nplt.show()",
+   "a": [
+    [
+     "bottom"
+    ]
+   ],
+   "o": "",
+   "e": "`bottom=` stacks the bars: each shop bar starts on top of the online bar.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=4 t='' x='' y='' leg=['Online', 'Shop'] xt=['Q1', 'Q2'] h=[30.0, 40.0, 20.0, 25.0] tx=0",
+   "img": [
+    "img/ex-mpl1-5.webp"
+   ]
+  }
+ ],
+ "mpl2": [
+  {
+   "q": "Make a figure with 1 row of 2 charts.",
+   "c": "import matplotlib.pyplot as plt\nfig, axes = plt.___(1, 2)\naxes[0].plot([1, 2, 3])\naxes[1].bar([\"a\", \"b\"], [2, 3])\nplt.show()",
+   "a": [
+    [
+     "subplots"
+    ]
+   ],
+   "o": "",
+   "e": "`plt.subplots(rows, cols)` gives the figure and an array of axes.",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.5', '0.0', '0.5', '1.0', '1.5', '2.0', '2.5'] h=[] tx=0\n#ax2 bar bars=2 t='' x='' y='' leg=None xt=['a', 'b'] h=[2.0, 3.0] tx=0",
+   "img": [
+    "img/ex-mpl2-1.webp"
+   ]
+  },
+  {
+   "q": "Set the title of this axes.",
+   "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([4, 6, 5])\nax.___(\"Weekly sales\")\nplt.show()",
+   "a": [
+    [
+     "set_title"
+    ]
+   ],
+   "o": "",
+   "e": "On an axes, label methods start with `set_`.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='Weekly sales' x='' y='' leg=None xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25'] h=[] tx=0",
+   "img": [
+    "img/ex-mpl2-2.webp"
+   ]
+  },
+  {
+   "q": "Give the whole figure one title.",
+   "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].plot([1, 2])\naxes[1].plot([2, 1])\nfig.___(\"Dashboard\")\nplt.show()",
+   "a": [
+    [
+     "suptitle"
+    ]
+   ],
+   "o": "",
+   "e": "`fig.suptitle()` goes above all the charts of the figure.",
+   "sum": "#fig1 axes=2 sup='Dashboard' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25'] h=[] tx=0\n#ax2 line lines=1 t='' x='' y='' leg=None xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25'] h=[] tx=0",
+   "img": [
+    "img/ex-mpl2-3.webp"
+   ]
+  },
+  {
+   "q": "Add a second y-axis on the right.",
+   "c": "import matplotlib.pyplot as plt\nfig, ax1 = plt.subplots()\nax1.plot([40, 52, 61])\nax2 = ax1.___()\nax2.plot([120, 150, 135], color=\"red\")\nplt.show()",
+   "a": [
+    [
+     "twinx"
+    ]
+   ],
+   "o": "",
+   "e": "`twinx()` makes a new axes that shares the x-axis, with its own y-axis on the right.",
+   "sum": "#fig1 axes=2 sup='' cbar=0 leg=None\n#ax1 line lines=1 t='' x='' y='' leg=None xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25'] h=[] tx=0\n#ax2 line lines=1 t='' x='' y='' leg=None xt=['−0.25', '0.00', '0.25', '0.50', '0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25'] h=[] tx=0",
+   "img": [
+    "img/ex-mpl2-4.webp"
+   ]
+  },
+  {
+   "q": "Hide the border line along the top.",
+   "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [3, 5])\nax.spines[\"___\"].set_visible(False)\nplt.show()",
+   "a": [
+    [
+     "top"
+    ]
+   ],
+   "o": "",
+   "e": "The four spines are top, right, bottom and left.",
+   "sum": "#fig1 axes=1 sup='' cbar=0 leg=None\n#ax1 bar bars=2 t='' x='' y='' leg=None xt=['a', 'b'] h=[3.0, 5.0] tx=0",
+   "img": [
+    "img/ex-mpl2-5.webp"
+   ]
+  }
  ]
 };

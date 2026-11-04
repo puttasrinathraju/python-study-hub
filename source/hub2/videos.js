@@ -300,5 +300,19 @@ var VIDEOS = {
    "title": "Python Pandas Tutorial (Part 8): Grouping and Aggregating - Analyzing and Exploring Your Data",
    "channel": "Corey Schafer"
   }
+ },
+ "mpl1": {
+  "en": {
+   "id": "UO98lJQ3QGI",
+   "title": "Matplotlib Tutorial (Part 1): Creating and Customizing Our First Plots",
+   "channel": "Corey Schafer"
+  }
+ },
+ "mpl2": {
+  "en": {
+   "id": "XFZRVnP-MTU",
+   "title": "Matplotlib Tutorial (Part 10): Subplots",
+   "channel": "Corey Schafer"
+  }
  }
 };

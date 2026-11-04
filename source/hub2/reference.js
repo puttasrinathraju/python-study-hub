@@ -1804,5 +1804,191 @@ var REFERENCE = [
     "o": "[2, 1]"
    }
   ]
+ },
+ {
+  "id": "mpl",
+  "title": "Matplotlib: charts",
+  "intro": "The chart tools from Part 9. `plt` is `matplotlib.pyplot`; `fig` is the whole picture and `ax` one chart inside it. With `plt.` you draw on the current chart; with `ax.` you pick the chart. The examples print a fact about the chart, so you can see what each tool did.",
+  "rows": [
+   {
+    "m": "ax.bar_label(bars, fmt)",
+    "d": "Writes each bar's value on top of it",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nbars = ax.bar([\"A\", \"B\"], [12, 30])\nlabels = ax.bar_label(bars)\nprint([t.get_text() for t in labels])",
+    "o": "['12', '30']"
+   },
+   {
+    "m": "ax.set_title(t) / ax.set_xlabel(t) / ax.set_ylabel(t)",
+    "d": "Labels on one axes: the same names with set_",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([4, 6])\nax.set_title(\"Profit\")\nax.set_ylabel(\"₹\")\nprint(ax.get_title(), ax.get_ylabel())",
+    "o": "Profit ₹"
+   },
+   {
+    "m": "ax.set_xlim(a, b) / ax.set_xticks(pos)",
+    "d": "Axis range and ticks on one axes",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 5])\nax.set_xlim(0, 1)\nax.set_xticks([0, 0.5, 1])\nprint(ax.get_xticks().tolist())",
+    "o": "[0.0, 0.5, 1.0]"
+   },
+   {
+    "m": "ax.spines[side].set_visible(False)",
+    "d": "Hides a border line: top, right, bottom or left",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.spines[\"top\"].set_visible(False)\nprint(ax.spines[\"top\"].get_visible(), ax.spines[\"left\"].get_visible())",
+    "o": "False True"
+   },
+   {
+    "m": "ax.tick_params(axis, labelsize, rotation)",
+    "d": "Changes the look of the ticks",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 2])\nax.tick_params(axis=\"x\", labelsize=8)\nprint(ax.get_xticklabels()[0].get_fontsize())",
+    "o": "8.0"
+   },
+   {
+    "m": "ax.twinx()",
+    "d": "A second y-axis on the right that shares the x-axis",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax2 = ax.twinx()\nprint(len(fig.axes))",
+    "o": "2"
+   },
+   {
+    "m": "ax.yaxis.set_major_formatter(plt.FuncFormatter(f))",
+    "d": "Your own function writes every tick label",
+    "c": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1000, 2500])\nax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, pos: f\"₹{v:,.0f}\"))\nprint(ax.yaxis.get_major_formatter()(2500, 0))",
+    "o": "₹2,500"
+   },
+   {
+    "m": "fig, axes = plt.subplots(rows, cols)",
+    "d": "A figure with a grid of charts; axes[r, c] is one chart",
+    "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(2, 3)\nprint(axes.shape)",
+    "o": "(2, 3)"
+   },
+   {
+    "m": "fig.suptitle(t)",
+    "d": "One title above all the charts of the figure",
+    "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\nfig.suptitle(\"Dashboard\")\nprint(fig.get_suptitle())",
+    "o": "Dashboard"
+   },
+   {
+    "m": "plt.bar(x, height, bottom) / plt.barh(y, width)",
+    "d": "Upright / sideways bars; bottom= stacks a second series",
+    "c": "import matplotlib.pyplot as plt\nbars = plt.bar([\"UPI\", \"Cash\", \"Card\"], [55, 30, 15])\nprint(len(bars))",
+    "o": "3"
+   },
+   {
+    "m": "plt.boxplot(data)",
+    "d": "A box plot: median, quartiles and outliers",
+    "c": "import matplotlib.pyplot as plt\nparts = plt.boxplot([4, 5, 6, 7, 40])\nprint(parts[\"fliers\"][0].get_ydata().tolist())",
+    "o": "[40]"
+   },
+   {
+    "m": "plt.close() / plt.close('all')",
+    "d": "Throws away the current figure / every figure",
+    "c": "import matplotlib.pyplot as plt\nplt.figure()\nplt.figure()\nplt.close(\"all\")\nprint(len(plt.get_fignums()))",
+    "o": "0"
+   },
+   {
+    "m": "plt.figure(figsize=(w, h))",
+    "d": "A new empty figure; the size is in inches",
+    "c": "import matplotlib.pyplot as plt\nfig = plt.figure(figsize=(8, 4))\nprint(fig.get_size_inches().tolist())",
+    "o": "[8.0, 4.0]"
+   },
+   {
+    "m": "plt.grid(alpha, axis)",
+    "d": "Light grid lines; axis='y' for flat lines only",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 2])\nplt.grid(alpha=0.3, axis=\"y\")\nprint(plt.gca().yaxis.get_gridlines()[0].get_visible())",
+    "o": "True"
+   },
+   {
+    "m": "plt.hist(data, bins, edgecolor)",
+    "d": "A histogram: how many values fall in each range",
+    "c": "import matplotlib.pyplot as plt\ncounts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3], bins=3)\nprint(counts.tolist())",
+    "o": "[1.0, 2.0, 3.0]"
+   },
+   {
+    "m": "plt.imshow(grid, cmap) / plt.colorbar()",
+    "d": "A grid of numbers as colours / the colour key",
+    "c": "import matplotlib.pyplot as plt\nplt.imshow([[1, 2], [3, 4]], cmap=\"viridis\")\nplt.colorbar()\nprint(len(plt.gcf().axes))",
+    "o": "2"
+   },
+   {
+    "m": "plt.legend(loc)",
+    "d": "A box naming each series that has label=",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 2], label=\"2024\")\nplt.plot([2, 3], label=\"2025\")\nleg = plt.legend(loc=\"upper left\")\nprint([t.get_text() for t in leg.get_texts()])",
+    "o": "['2024', '2025']"
+   },
+   {
+    "m": "plt.pie(values, labels, autopct)",
+    "d": "A pie; autopct='%1.1f%%' writes the percents",
+    "c": "import matplotlib.pyplot as plt\nwedges, names, pcts = plt.pie([3, 1], labels=[\"UPI\", \"Cash\"], autopct=\"%1.1f%%\")\nprint([p.get_text() for p in pcts])",
+    "o": "['75.0%', '25.0%']"
+   },
+   {
+    "m": "plt.plot(x, y, marker, linestyle, label)",
+    "d": "A line chart; marker='o' adds dots, linestyle='--' dashes",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 2, 3], [4, 6, 5], marker=\"o\", linestyle=\"--\")\nprint(len(plt.gca().lines))",
+    "o": "1"
+   },
+   {
+    "m": "plt.rcParams[key] / plt.rcdefaults()",
+    "d": "The default settings for every chart / back to normal",
+    "c": "import matplotlib.pyplot as plt\nplt.rcParams[\"font.size\"] = 12\nprint(plt.rcParams[\"font.size\"])\nplt.rcdefaults()\nprint(plt.rcParams[\"font.size\"])",
+    "o": "12.0\n10.0"
+   },
+   {
+    "m": "plt.savefig(path, dpi, bbox_inches='tight')",
+    "d": "Saves the figure as a picture file: call it before show()",
+    "c": "import matplotlib.pyplot as plt\nimport os\nplt.plot([1, 2])\nplt.savefig(\"chart.png\", dpi=100, bbox_inches=\"tight\")\nprint(os.path.exists(\"chart.png\"))",
+    "o": "True"
+   },
+   {
+    "m": "plt.scatter(x, y, c, s, cmap, alpha)",
+    "d": "Dots; colour c and size s can come from the data",
+    "c": "import matplotlib.pyplot as plt\ndots = plt.scatter([1, 2, 3], [3, 1, 2], s=[20, 40, 60])\nprint(len(dots.get_offsets()))",
+    "o": "3"
+   },
+   {
+    "m": "plt.show()",
+    "d": "Shows the figure; call it last",
+    "n": "On this site the picture appears under the output. On your laptop a window opens and the program waits until you close it."
+   },
+   {
+    "m": "plt.style.use(name)",
+    "d": "A ready-made look, like 'ggplot'; plt.style.available lists them",
+    "c": "import matplotlib.pyplot as plt\nplt.style.use(\"ggplot\")\nprint(\"ggplot\" in plt.style.available)\nplt.style.use(\"default\")",
+    "o": "True"
+   },
+   {
+    "m": "plt.subplot(rows, cols, n)",
+    "d": "Makes chart number n (from 1) the current one",
+    "c": "import matplotlib.pyplot as plt\nplt.subplot(1, 2, 1)\nplt.plot([1, 2])\nplt.subplot(1, 2, 2)\nplt.bar([\"a\"], [3])\nprint(len(plt.gcf().axes))",
+    "o": "2"
+   },
+   {
+    "m": "plt.text(x, y, s) / plt.annotate(s, xy, xytext, arrowprops)",
+    "d": "Writes text at a point / text with an arrow",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 3, 2])\nplt.annotate(\"Peak\", xy=(1, 3), xytext=(1.5, 3.2), arrowprops={\"arrowstyle\": \"->\"})\nprint(len(plt.gca().texts))",
+    "o": "1"
+   },
+   {
+    "m": "plt.tight_layout()",
+    "d": "Spaces the charts so titles and labels do not overlap",
+    "c": "import matplotlib.pyplot as plt\nfig, axes = plt.subplots(2, 2)\nplt.tight_layout()\nprint(len(fig.axes))",
+    "o": "4"
+   },
+   {
+    "m": "plt.title(t) / plt.xlabel(t) / plt.ylabel(t)",
+    "d": "The chart title and the axis labels",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 2])\nplt.title(\"Sales\")\nplt.xlabel(\"Month\")\nprint(plt.gca().get_title(), plt.gca().get_xlabel())",
+    "o": "Sales Month"
+   },
+   {
+    "m": "plt.xlim(a, b) / plt.ylim(a, b)",
+    "d": "Sets the range shown on an axis",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([1, 5])\nplt.ylim(0, 10)\nbottom, top = plt.ylim()\nprint(bottom, top)",
+    "o": "0.0 10.0"
+   },
+   {
+    "m": "plt.xticks(pos, labels, rotation) / plt.yticks(...)",
+    "d": "Where the ticks go and the text on them",
+    "c": "import matplotlib.pyplot as plt\nplt.plot([5, 7, 6])\nplt.xticks([0, 1, 2], [\"Jan\", \"Feb\", \"Mar\"], rotation=45)\nprint([t.get_text() for t in plt.gca().get_xticklabels()])",
+    "o": "['Jan', 'Feb', 'Mar']"
+   }
+  ]
  }
 ];

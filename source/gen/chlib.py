@@ -56,6 +56,19 @@ def chart_run(code, name=None):
     return text.rstrip('\n'), summ.rstrip('\n'), figs, imgs
 
 
+def chart_try(code):
+    """Like chart_run, but for code that may fail: returns (ok, text or error, figs)."""
+    pre = 'import _hubcharts as _hc\n_hc.start()\n' + ('_hc.patch_sns()\n' if 'seaborn' in code else '')
+    post = '\nimport json as _j\n_hc.collect()\nprint("@@FIGS@@" + _j.dumps({"figs": _hc.SHOWN, "sns": _hc.SNS}))\n'
+    p = _exec(pre + code + post)
+    if p.returncode != 0 or p.stderr.strip():
+        lines = (p.stdout.split('@@FIGS@@')[0] + p.stderr).strip().split('\n')
+        k = max([i for i, l in enumerate(lines) if re.match(r'^[\w.]+(Error|Exception|Warning)\b|.*Warning: ', l)] or [len(lines) - 1])
+        return False, '\n'.join(lines[k:]).strip(), {'figs': [], 'sns': []}
+    text, figs = p.stdout.split('@@FIGS@@', 1)
+    return True, text.rstrip('\n'), json.loads(figs)
+
+
 def check(spec, figs):
     """The same chart check the browser runs (hubcharts.check), run here on the facts."""
     sys.path.insert(0, WORK)

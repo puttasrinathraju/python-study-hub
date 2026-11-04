@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matplotlib layouts and style: subplots, heatmaps and finishing touches | Python Study Hub</title>
+<meta name="description" content="Go from one chart to a polished dashboard. Use the object way (fig, ax), put several charts in one figure, draw a correlation heatmap, and add the finishing touches: styles, clean axes, rupee labels, values on bars, annotations, a second y-axis, trend lines and insets.">
+<link rel="canonical" href="https://puttasrinathraju.github.io/python-study-hub/learn/mpl2.html">
+<meta property="og:title" content="Matplotlib layouts and style: subplots, heatmaps and finishing touches | Python Study Hub">
+<meta property="og:description" content="Go from one chart to a polished dashboard. Use the object way (fig, ax), put several charts in one figure, draw a correlation heatmap, and add the finishing touches: styles, clean axes, rupee labels, values on bars, annotations, a second y-axis, trend lines and insets.">
+<link rel="stylesheet" href="learn.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">&gt;&gt;&gt; Python Study Hub</a><a class="go" href="../#mpl2">Open the interactive version ▶</a></header>
+<main>
+<p class="ver">This is the text version of the page. The <a href="../#mpl2">interactive version</a> adds a real Python runner with answer checking, animations, slides, videos, quizzes and flashcards.</p>
+<article><p class="crumb">Part 9 · Matplotlib · Chapter 28</p><h1>Matplotlib layouts and style: subplots, heatmaps and finishing touches</h1><p class="lead">Go from one chart to a polished dashboard. Use the object way (<code>fig, ax</code>), put several charts in one figure, draw a correlation heatmap, and add the finishing touches: styles, clean axes, rupee labels, values on bars, annotations, a second y-axis, trend lines and insets.</p><section class="goals"><h2>In this chapter you will learn</h2><ul><li>Use the object way: <code>fig, ax = plt.subplots()</code> and <code>ax.set_title()</code></li><li>Build multi-chart figures with <code>plt.subplots(rows, cols)</code> and <code>fig.suptitle()</code></li><li>Draw a correlation heatmap with <code>imshow</code>, a colour bar and values in the cells</li><li>Style charts: colours, style sheets, legends, spines, ticks and a rupee axis</li><li>Add value labels, annotations, a second y-axis, a <code>polyfit</code> trend line and an inset chart</li></ul></section><section><h2>Watch it explained</h2><ul><li>English: <a href="https://www.youtube.com/watch?v=XFZRVnP-MTU">Matplotlib Tutorial (Part 10): Subplots</a> by Corey Schafer (about undefined min)</li></ul></section><h2>Figure and axes: the object way</h2>
+<p>There are two ways to write Matplotlib. The quick way uses <code>plt.</code> functions, which draw on &quot;the current chart&quot;. The <mark>object way</mark> asks for the figure and its axes by name: <code>fig, ax = plt.subplots()</code>, then you call methods on <code>ax</code>. It is clearer, and you need it as soon as a figure holds more than one chart.</p>
+<figure class="code"><figcaption>The same chart, the object way</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.plot([&quot;Q1&quot;, &quot;Q2&quot;, &quot;Q3&quot;, &quot;Q4&quot;], [180, 240, 210, 320], marker=&quot;o&quot;)
+ax.set_title(&quot;Quarterly sales&quot;)
+ax.set_xlabel(&quot;Quarter&quot;)
+ax.set_ylabel(&quot;Sales (₹ thousand)&quot;)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>Quick way (plt.)</th><th>Object way (ax.)</th></tr></thead><tbody><tr><td><code>plt.plot()</code>, <code>plt.bar()</code> ...</td><td><code>ax.plot()</code>, <code>ax.bar()</code> ...</td></tr><tr><td><code>plt.title(&quot;T&quot;)</code></td><td><code>ax.set_title(&quot;T&quot;)</code></td></tr><tr><td><code>plt.xlabel()</code> / <code>plt.ylabel()</code></td><td><code>ax.set_xlabel()</code> / <code>ax.set_ylabel()</code></td></tr><tr><td><code>plt.xticks(rotation=45)</code></td><td><code>ax.tick_params(axis=&quot;x&quot;, rotation=45)</code></td></tr><tr><td><code>plt.xlim(0, 10)</code></td><td><code>ax.set_xlim(0, 10)</code></td></tr><tr><td><code>plt.legend()</code>, <code>plt.grid()</code></td><td><code>ax.legend()</code>, <code>ax.grid()</code></td></tr></tbody></table></div>
+<aside class="note trap"><strong>Trap!</strong><p><code>ax.title(&quot;T&quot;)</code> is an error: on an axes the names start with <code>set_</code>. <code>ax.set_title(&quot;T&quot;)</code>, <code>ax.set_xlabel(...)</code>.</p></aside>
+<section class="mm"><h3>Mind map: Chapter 28 at a glance</h3><ul><li><b>Layouts &amp; style</b><ul><li>Object way<ul><li>fig, ax = plt.subplots()</li><li>ax.set_title, set_xlabel</li><li>figure, axes, artist</li></ul></li><li>Many charts<ul><li>plt.subplots(2, 2)</li><li>axes[0, 1]</li><li>fig.suptitle</li><li>plt.subplot(1, 2, 1)</li></ul></li><li>Heatmap<ul><li>imshow + colorbar</li><li>ticks with names</li><li>text in each cell</li></ul></li><li>Style<ul><li>colours, style sheets</li><li>legend options, grid</li><li>spines, tick_params</li><li>₹ axis with FuncFormatter</li></ul></li><li>Extras<ul><li>bar_label, annotate</li><li>twinx: two y-axes</li><li>polyfit trend line, R²</li><li>inset_axes, rcParams</li></ul></li></ul></li></ul></section>
+<h2>Several charts in one figure: subplots</h2>
+<p><code>plt.subplots(rows, cols)</code> gives a figure and a <b>grid</b> of axes. With one row, pick a chart with <code>axes[0]</code>; with several rows, use <code>axes[row, col]</code>. <code>fig.suptitle()</code> puts one title over the whole figure.</p>
+<p class="cap">Diagram: <code>plt.subplots(2, 2)</code> returns 4 axes in a 2 × 2 grid. Count rows and columns from 0, like a NumPy array.</p>
+<figure class="code"><figcaption>One row, two charts</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+axes[0].bar([&quot;UPI&quot;, &quot;Card&quot;, &quot;Cash&quot;], [55, 30, 15])
+axes[0].set_title(&quot;Payments&quot;)
+axes[1].plot([1, 2, 3, 4], [12, 18, 15, 22], marker=&quot;o&quot;)
+axes[1].set_title(&quot;Weekly visitors (thousand)&quot;)
+fig.suptitle(&quot;Two charts side by side&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>axes is a NumPy array of charts</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(2, 3)
+print(type(axes).__name__, axes.shape)
+plt.close()</code></pre><p class="olbl">Output</p><pre class="out">ndarray (2, 3)</pre></figure>
+<p>Here is a 2 × 2 <b>sales dashboard</b>, built from <code>sales_data.csv</code> like in the course notes. Each chart answers a different question.</p>
+<figure class="code"><figcaption>A 2 × 2 dashboard</figcaption><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+by_month = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))
+monthly = by_month[&quot;Sales&quot;].sum()
+months = monthly.index.strftime(&quot;%b&quot;)
+cat = sales.groupby(&quot;Category&quot;)[&quot;Sales&quot;].sum()
+fig, axes = plt.subplots(2, 2, figsize=(10, 7))
+axes[0, 0].plot(months, monthly.values, marker=&quot;o&quot;)
+axes[0, 0].set_title(&quot;Monthly sales&quot;)
+axes[0, 0].tick_params(axis=&quot;x&quot;, rotation=45)
+axes[0, 1].bar(cat.index, cat.values, color=[&quot;#FF6B6B&quot;, &quot;#4ECDC4&quot;, &quot;#45B7D1&quot;, &quot;#F7B731&quot;])
+axes[0, 1].set_title(&quot;Sales by category&quot;)
+axes[1, 0].hist(sales[&quot;Customer_Age&quot;], bins=15, color=&quot;purple&quot;, alpha=0.7)
+axes[1, 0].set_title(&quot;Customer age&quot;)
+axes[1, 1].scatter(sales[&quot;Sales&quot;], sales[&quot;Profit&quot;], s=10, alpha=0.5)
+axes[1, 1].set_title(&quot;Sales vs profit&quot;)
+fig.suptitle(&quot;Sales dashboard 2024&quot;, fontsize=16, fontweight=&quot;bold&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p>The older one-at-a-time style also works: <code>plt.subplot(rows, cols, n)</code> picks chart number <code>n</code> (counting from <b>1</b>), and the next <code>plt.</code> lines draw on it.</p>
+<figure class="code"><figcaption>plt.subplot(1, 2, n)</figcaption><pre><code>import matplotlib.pyplot as plt
+plt.figure(figsize=(9, 3.5))
+plt.subplot(1, 2, 1)
+plt.hist([2, 3, 3, 4, 4, 4, 5, 6], bins=4)
+plt.title(&quot;Counts&quot;)
+plt.subplot(1, 2, 2)
+plt.hist([2, 3, 3, 4, 4, 4, 5, 6], bins=4, density=True, color=&quot;seagreen&quot;)
+plt.title(&quot;Shares (density=True)&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<section class="pred"><h3>Predict the output</h3><p></p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(3, 2)
+print(axes.shape, len(fig.axes))
+plt.close()</code></pre></figure><ol type="A"><li><code>(3, 2) 6</code></li><li><code>(2, 3) 6</code></li><li><code>(3, 2) 5</code></li><li><code>6 6</code></li></ol><details><summary>Answer</summary><p><b><code>(3, 2) 6</code></b>. 3 rows and 2 columns: the array has shape (3, 2), and the figure holds 6 axes.</p></details></section>
+<aside class="note tip"><strong>Easy tip</strong><p>Always end a multi-chart figure with <code>plt.tight_layout()</code>. Without it, titles and tick labels of neighbouring charts often overlap.</p></aside>
+<h2>Heatmaps with imshow</h2>
+<p>A <mark>heatmap</mark> colours the cells of a grid by their value. The classic analyst heatmap is a <b>correlation matrix</b> (Chapter 26): which columns move together? <code>plt.imshow()</code> draws the colours, <code>plt.colorbar()</code> explains them, and a loop of <code>plt.text()</code> writes the numbers.</p>
+<figure class="code"><figcaption>A correlation heatmap</figcaption><pre><code>cols = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Quantity&quot;, &quot;Customer_Age&quot;]
+corr = sales[cols].corr()
+plt.figure(figsize=(6, 5))
+plt.imshow(corr, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)
+plt.colorbar(label=&quot;Correlation&quot;)
+plt.xticks(range(len(cols)), cols, rotation=45, ha=&quot;right&quot;)
+plt.yticks(range(len(cols)), cols)
+for i in range(len(cols)):
+    for j in range(len(cols)):
+        value = corr.iloc[i, j]
+        plt.text(j, i, f&quot;{value:.2f}&quot;, ha=&quot;center&quot;, va=&quot;center&quot;, color=&quot;white&quot; if abs(value) &gt; 0.5 else &quot;black&quot;)
+plt.title(&quot;How the columns move together&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<p>Read it like a table: the cell in row Sales and column Profit is 0.78, a strong positive link. The diagonal is always 1, because every column matches itself. <code>vmin=-1, vmax=1</code> fixes the colour scale, so 0 is always the middle colour.</p>
+<aside class="note tip"><strong>Easy tip</strong><p><code>cmap=&quot;coolwarm&quot;</code> is a <mark>diverging</mark> colour scale (blue, white, red): good when values go negative. For counts or amounts that only go up, use one colour from light to dark, like <code>cmap=&quot;Blues&quot;</code>.</p></aside>
+<h2>Colours, style sheets and legends</h2>
+<p>Colours can be names (<code>&quot;teal&quot;</code>), hex codes (<code>&quot;#E74C3C&quot;</code>) or RGB tuples (<code>(0.2, 0.4, 0.6)</code>). A <mark>style sheet</mark> changes the look of every chart at once.</p>
+<figure class="code"><figcaption>plt.style.use()</figcaption><pre><code>import matplotlib.pyplot as plt
+plt.style.use(&quot;ggplot&quot;)
+plt.figure(figsize=(7, 3.5))
+plt.plot([1, 2, 3, 4], [3, 5, 4, 7], marker=&quot;o&quot;, label=&quot;This year&quot;)
+plt.plot([1, 2, 3, 4], [2, 4, 5, 5], marker=&quot;s&quot;, label=&quot;Last year&quot;)
+plt.legend(loc=&quot;upper left&quot;, title=&quot;Sales&quot;, frameon=True)
+plt.title(&quot;The ggplot style&quot;)
+plt.show()
+plt.style.use(&quot;default&quot;)     # back to normal</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>A style stays on until you change it: in Jupyter it affects <b>every later cell</b>. Switch back with <code>plt.style.use(&quot;default&quot;)</code>. (On this site each code box starts fresh.) Try <code>&quot;seaborn-v0_8&quot;</code>, <code>&quot;fivethirtyeight&quot;</code> or <code>&quot;bmh&quot;</code> too.</p></aside>
+<figure class="code"><figcaption>Legend options, grid style and background</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(7, 3.5))
+for name, values, style in [(&quot;Pune&quot;, [30, 32, 35, 33], &quot;-&quot;), (&quot;Goa&quot;, [31, 31, 32, 33], &quot;--&quot;), (&quot;Delhi&quot;, [22, 28, 36, 40], &quot;:&quot;)]:
+    ax.plot([&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;], values, linestyle=style, marker=&quot;o&quot;, label=name)
+ax.legend(loc=&quot;upper left&quot;, ncol=3, fontsize=9, title=&quot;City&quot;)
+ax.grid(True, linestyle=&quot;--&quot;, alpha=0.5)
+ax.set_facecolor(&quot;#F8F9FA&quot;)
+ax.set_title(&quot;Average temperature (°C)&quot;)
+plt.show()</code></pre></figure>
+<div class="tbl"><table><thead><tr><th>Legend option</th><th>Does</th></tr></thead><tbody><tr><td><code>loc=&quot;upper left&quot;</code></td><td>Where it goes (<code>&quot;best&quot;</code> lets Matplotlib choose)</td></tr><tr><td><code>title=&quot;City&quot;</code></td><td>A heading above the entries</td></tr><tr><td><code>ncol=3</code></td><td>Entries side by side in 3 columns</td></tr><tr><td><code>frameon=False</code></td><td>No box around it</td></tr><tr><td><code>fontsize=9</code></td><td>Smaller text</td></tr></tbody></table></div>
+<h2>Spines, ticks and number formats</h2>
+<p>The <mark>spines</mark> are the four lines around a chart. Hiding the top and right ones gives a cleaner look. <code>tick_params()</code> styles the ticks, and a <mark>formatter</mark> changes how the axis numbers are written, for example in rupees.</p>
+<figure class="code"><figcaption>Clean spines and a rupee axis</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.bar([&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;], [125000, 98000, 143500], color=&quot;#4ECDC4&quot;)
+ax.spines[&quot;top&quot;].set_visible(False)
+ax.spines[&quot;right&quot;].set_visible(False)
+ax.tick_params(axis=&quot;both&quot;, labelsize=10)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, pos: f&quot;₹{value:,.0f}&quot;))
+ax.grid(axis=&quot;y&quot;, alpha=0.3)
+ax.set_axisbelow(True)        # the grid goes behind the bars
+ax.set_title(&quot;Revenue, first quarter&quot;)
+plt.show()</code></pre></figure>
+<p><code>plt.FuncFormatter</code> takes a function with two inputs: the tick value and its position. It returns the text to show. <code>f&quot;₹{value:,.0f}&quot;</code> adds the rupee sign and commas, with no decimals.</p>
+<h2>Value labels and annotations</h2>
+<p>Readers like exact numbers on bars. <code>ax.bar_label(bars)</code> writes them for you. The course notes do it by hand with <code>plt.text()</code> at the top of each bar; both work.</p>
+<figure class="code"><figcaption>bar_label(): numbers on the bars</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(7, 3.6))
+bars = ax.bar([&quot;Electronics&quot;, &quot;Furniture&quot;, &quot;Clothing&quot;, &quot;Groceries&quot;], [597387, 543676, 297363, 109916], color=&quot;steelblue&quot;)
+ax.bar_label(bars, fmt=&quot;₹{:,.0f}&quot;, fontsize=9)
+ax.set_title(&quot;Sales by category&quot;)
+ax.set_ylim(0, 700000)       # room for the labels
+plt.show()</code></pre></figure>
+<figure class="code"><figcaption>The same by hand, as in the course notes</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(7, 3.6))
+bars = ax.bar([&quot;Q1&quot;, &quot;Q2&quot;, &quot;Q3&quot;, &quot;Q4&quot;], [180, 240, 210, 320], color=&quot;#FF6B6B&quot;)
+for bar in bars:
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width() / 2, height, f&quot;{height:,.0f}&quot;, ha=&quot;center&quot;, va=&quot;bottom&quot;)
+ax.set_title(&quot;Quarterly sales (₹ thousand)&quot;)
+plt.show()</code></pre></figure>
+<p><code>ax.annotate()</code> points an arrow at one spot: <code>xy=</code> is the point, <code>xytext=</code> is where the text sits. Use it to call out the peak.</p>
+<figure class="code"><figcaption>annotate(): point at the peak</figcaption><pre><code>peak = monthly.values.argmax()
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(months, monthly.values, marker=&quot;o&quot;)
+ax.annotate(f&quot;Peak: ₹{monthly.values[peak]:,.0f}&quot;, xy=(peak, monthly.values[peak]), xytext=(peak - 4, monthly.values[peak] - 30000), arrowprops=dict(arrowstyle=&quot;-&gt;&quot;, color=&quot;red&quot;), bbox=dict(boxstyle=&quot;round&quot;, facecolor=&quot;yellow&quot;))
+ax.set_title(&quot;Monthly sales with the peak marked&quot;)
+ax.set_ylabel(&quot;Sales (₹)&quot;)
+plt.show()</code></pre></figure>
+<aside class="note tip"><strong>Easy tip</strong><p>With text labels on the x-axis (like month names), the positions are 0, 1, 2 ... So <code>xy=(peak, value)</code> uses the <b>position</b> of the peak, which <code>argmax()</code> gives you.</p></aside>
+<h2>Two y-axes with twinx</h2>
+<p>To show two series with <b>different units</b> on one chart, like rupees and order counts, give the second series its own y-axis on the right: <code>ax2 = ax1.twinx()</code>. Colour each axis like its line, and combine the two legends into one.</p>
+<figure class="code"><figcaption>Rupees on the left, orders on the right</figcaption><pre><code>orders = by_month.size()
+fig, ax1 = plt.subplots(figsize=(8, 4))
+ax1.plot(months, monthly.values, color=&quot;tab:blue&quot;, marker=&quot;o&quot;, label=&quot;Sales (₹)&quot;)
+ax1.set_ylabel(&quot;Sales (₹)&quot;, color=&quot;tab:blue&quot;)
+ax1.tick_params(axis=&quot;y&quot;, labelcolor=&quot;tab:blue&quot;)
+ax2 = ax1.twinx()
+ax2.plot(months, orders.values, color=&quot;tab:red&quot;, marker=&quot;s&quot;, linestyle=&quot;--&quot;, label=&quot;Orders&quot;)
+ax2.set_ylabel(&quot;Orders&quot;, color=&quot;tab:red&quot;)
+lines1, names1 = ax1.get_legend_handles_labels()
+lines2, names2 = ax2.get_legend_handles_labels()
+ax1.legend(lines1 + lines2, names1 + names2, loc=&quot;upper left&quot;)
+ax1.set_title(&quot;Sales and number of orders&quot;)
+plt.show()</code></pre></figure>
+<aside class="note trap"><strong>Trap!</strong><p>Each axes keeps its own legend. Calling <code>ax1.legend()</code> and <code>ax2.legend()</code> gives two boxes on top of each other; collect both with <code>get_legend_handles_labels()</code> for one legend.</p></aside>
+<h2>Trend lines with polyfit</h2>
+<p>A <mark>trend line</mark> is the straight line that fits a scatter best. <code>np.polyfit(x, y, 1)</code> finds its slope and intercept (the 1 means a straight line), and <code>np.poly1d()</code> turns them into a function you can draw. <mark>R²</mark> (R squared, from 0 to 1) says how well the line fits.</p>
+<figure class="code"><figcaption>Trend line, equation and R²</figcaption><pre><code>import numpy as np
+x = sales[&quot;Sales&quot;].values
+y = sales[&quot;Profit&quot;].values
+slope, intercept = np.polyfit(x, y, 1)
+r2 = np.corrcoef(x, y)[0, 1] ** 2
+print(f&quot;slope {slope:.3f}, intercept {intercept:.1f}, R² {r2:.2f}&quot;)
+line_x = np.linspace(x.min(), x.max(), 100)
+fig, ax = plt.subplots(figsize=(7, 4.5))
+ax.scatter(x, y, s=10, alpha=0.5, label=&quot;Orders&quot;)
+ax.plot(line_x, slope * line_x + intercept, &quot;r-&quot;, linewidth=2, label=&quot;Trend line&quot;)
+ax.text(0.05, 0.92, f&quot;$y = {slope:.3f}x {intercept:+.1f}$&quot;, transform=ax.transAxes)
+ax.text(0.05, 0.84, f&quot;$R^2 = {r2:.2f}$&quot;, transform=ax.transAxes)
+ax.set_xlabel(&quot;Sales (₹)&quot;)
+ax.set_ylabel(&quot;Profit (₹)&quot;)
+ax.legend(loc=&quot;lower right&quot;)
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">slope 0.145, intercept 24.3, R² 0.60</pre></figure>
+<p>The slope means &quot;each extra ₹1 of sales brings about ₹0.15 more profit&quot;. <code>transform=ax.transAxes</code> places the text by <b>share of the chart</b> (0 to 1) instead of by data values, and text between <code>$</code> signs is written as a maths formula.</p>
+<figure class="code"><figcaption>poly1d: the line as a function</figcaption><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+z = np.polyfit([1, 2, 3, 4], [3, 5, 7, 9], 1)
+p = np.poly1d(z)
+print(z.round(2), round(p(5), 2))</code></pre><p class="olbl">Output</p><pre class="out">[2. 1.] 11.0</pre></figure>
+<h2>Inset charts and global settings</h2>
+<p>An <mark>inset</mark> is a small chart inside a big one, for zooming in on a part. <code>inset_axes(ax, width=&quot;40%&quot;, height=&quot;40%&quot;, loc=&quot;upper right&quot;)</code> makes one.</p>
+<figure class="code"><figcaption>A zoom on the biggest orders</figcaption><pre><code>from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+fig, ax = plt.subplots(figsize=(8, 4.5))
+points = ax.scatter(sales[&quot;Customer_Age&quot;], sales[&quot;Sales&quot;], c=sales[&quot;Satisfaction_Score&quot;], cmap=&quot;viridis&quot;, s=12)
+ax.set_xlabel(&quot;Customer age&quot;)
+ax.set_ylabel(&quot;Sales (₹)&quot;)
+ax.set_title(&quot;Age vs order value&quot;)
+big = sales[sales[&quot;Sales&quot;] &gt; 7000]
+inset = inset_axes(ax, width=&quot;35%&quot;, height=&quot;35%&quot;, loc=&quot;upper right&quot;)
+inset.scatter(big[&quot;Customer_Age&quot;], big[&quot;Sales&quot;], s=12, color=&quot;crimson&quot;)
+inset.set_title(&quot;Orders over ₹7,000&quot;, fontsize=8)
+plt.colorbar(points, ax=ax, label=&quot;Satisfaction&quot;)
+plt.show()</code></pre></figure>
+<p><code>plt.rcParams</code> holds the default settings of every chart. Change them once at the top of a notebook to give all your charts the same look, and put them back with <code>plt.rcdefaults()</code>.</p>
+<figure class="code"><figcaption>rcParams: settings for every chart</figcaption><pre><code>import matplotlib.pyplot as plt
+plt.rcParams.update({&quot;font.size&quot;: 11, &quot;axes.spines.top&quot;: False, &quot;axes.spines.right&quot;: False, &quot;axes.titleweight&quot;: &quot;bold&quot;})
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.plot([&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;], [40, 44, 68], marker=&quot;o&quot;)
+ax.set_title(&quot;Same look for every chart&quot;)
+plt.show()
+plt.rcdefaults()     # back to the normal settings</code></pre></figure>
+<h2>Best practices and common mistakes</h2>
+<div class="tbl"><table><thead><tr><th>Do</th><th>Avoid</th></tr></thead><tbody><tr><td>Pick the chart that fits the question</td><td>A pie with 10 slices, a line for categories</td></tr><tr><td>A title that says what it shows, axis labels with units</td><td>Missing labels: &quot;what is this number?&quot;</td></tr><tr><td>Set <code>figsize</code> and end with <code>tight_layout()</code></td><td>Squashed charts and overlapping text</td></tr><tr><td>A few consistent colours, colour-blind friendly</td><td>A rainbow of colours that mean nothing</td></tr><tr><td>A light grid behind the data</td><td>Heavy grid lines that hide the data</td></tr><tr><td>Look at gaps and outliers first</td><td>Charts that hide the data's real shape</td></tr><tr><td>Save sharp pictures: <code>dpi=300, bbox_inches=&quot;tight&quot;</code></td><td>Blurry screenshots in reports</td></tr></tbody></table></div>
+<figure class="code"><figcaption>Before and after: the same numbers, easier to compare</figcaption><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+values = [42, 35, 58, 47, 39]
+names = [&quot;Taj&quot;, &quot;Novotel&quot;, &quot;ITC&quot;, &quot;Marriott&quot;, &quot;Hyatt&quot;]
+axes[0].pie(values, labels=names)
+axes[0].set_title(&quot;Before: which is biggest?&quot;)
+order = sorted(range(5), key=lambda i: values[i])
+axes[1].barh([names[i] for i in order], [values[i] for i in order], color=&quot;teal&quot;)
+axes[1].set_title(&quot;After: sorted bars&quot;)
+axes[1].set_xlabel(&quot;Rooms booked&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure>
+<section class="deck"><h3>Slides: Layouts and style in 6 slides</h3><ol><li><p><b>Name your charts: fig, ax = plt.subplots().</b></p><p>Then use <code>ax.</code> methods; titles and labels start with <code>set_</code>.</p></li><li><p><b>Grids of charts</b></p><ul><li><code>fig, axes = plt.subplots(2, 2)</code></li><li><code>axes[0, 1].bar(...)</code></li><li><code>fig.suptitle(...)</code> + <code>plt.tight_layout()</code></li></ul></li><li><p><b>Heatmap</b></p><ul><li><code>plt.imshow(corr, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code></li><li><code>plt.colorbar()</code>, <code>plt.xticks(range(n), names)</code></li><li><code>plt.text(j, i, f&quot;{v:.2f}&quot;)</code> in a loop</li></ul></li><li><p><b>Clean style</b></p><ul><li><code>ax.spines[&quot;top&quot;].set_visible(False)</code></li><li><code>ax.grid(alpha=0.3)</code> + <code>ax.set_axisbelow(True)</code></li><li><code>plt.FuncFormatter(lambda v, p: f&quot;₹{v:,.0f}&quot;)</code></li></ul></li><li><p><b>Tell the story</b></p><ul><li><code>ax.bar_label(bars)</code></li><li><code>ax.annotate(&quot;Peak&quot;, xy=..., xytext=..., arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))</code></li></ul></li><li><p><b>Advanced</b></p><ul><li><code>ax2 = ax.twinx()</code>: a second y-axis</li><li><code>np.polyfit(x, y, 1)</code>: trend line</li><li><code>inset_axes(ax, &quot;40%&quot;, &quot;40%&quot;)</code>: zoom</li><li><code>plt.rcParams.update({...})</code> / <code>plt.rcdefaults()</code></li></ul></li></ol></section>
+<h2>Practice</h2>
+<ol class="tasks"><li><p>Using the object way (<code>fig, ax = plt.subplots()</code>), draw a bar chart of <code>cities = [&quot;Pune&quot;, &quot;Goa&quot;, &quot;Kochi&quot;]</code> and <code>visitors = [120, 300, 180]</code>. Set a title and a y label with <code>ax.set_...</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+cities = [&quot;Pune&quot;, &quot;Goa&quot;, &quot;Kochi&quot;]
+visitors = [120, 300, 180]</code></pre></figure><details><summary>Hint</summary><p><code>fig, ax = plt.subplots()</code>, <code>ax.bar(cities, visitors)</code>, <code>ax.set_title(...)</code>, <code>ax.set_ylabel(...)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+cities = [&quot;Pune&quot;, &quot;Goa&quot;, &quot;Kochi&quot;]
+visitors = [120, 300, 180]
+fig, ax = plt.subplots()
+ax.bar(cities, visitors)
+ax.set_title(&quot;Weekend visitors&quot;)
+ax.set_ylabel(&quot;Visitors&quot;)
+plt.show()</code></pre></figure><p>On an axes, every label method starts with <code>set_</code>.</p></details></li><li><p>Make a figure with <b>1 row and 2 charts</b>: on the left a line of <code>[5, 8, 6, 9]</code>, on the right a histogram of <code>[1, 2, 2, 3, 3, 3, 4]</code> with 3 bins. Give each chart a title and the figure the title <code>My first dashboard</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt</code></pre></figure><details><summary>Hint</summary><p><code>fig, axes = plt.subplots(1, 2)</code>, then <code>axes[0].plot(...)</code>, <code>axes[1].hist(...)</code> and <code>fig.suptitle(...)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.5))
+axes[0].plot([5, 8, 6, 9], marker=&quot;o&quot;)
+axes[0].set_title(&quot;Trend&quot;)
+axes[1].hist([1, 2, 2, 3, 3, 3, 4], bins=3)
+axes[1].set_title(&quot;Spread&quot;)
+fig.suptitle(&quot;My first dashboard&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>One figure, two axes: each one gets its own drawing and title.</p></details></li><li><p>Draw a bar chart of <code>months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;]</code> and <code>revenue = [125, 98, 143]</code> with the value written on every bar (use <code>ax.bar_label</code>). Hide the top and right spines and add a title.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;]
+revenue = [125, 98, 143]</code></pre></figure><details><summary>Hint</summary><p><code>bars = ax.bar(...)</code>, <code>ax.bar_label(bars)</code>, <code>ax.spines[&quot;top&quot;].set_visible(False)</code> and the same for <code>&quot;right&quot;</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+months = [&quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;]
+revenue = [125, 98, 143]
+fig, ax = plt.subplots()
+bars = ax.bar(months, revenue, color=&quot;#4ECDC4&quot;)
+ax.bar_label(bars)
+ax.spines[&quot;top&quot;].set_visible(False)
+ax.spines[&quot;right&quot;].set_visible(False)
+ax.set_title(&quot;Revenue (₹ thousand)&quot;)
+plt.show()</code></pre></figure><p><code>bar_label</code> adds one text per bar, so the checker finds 3 texts.</p></details></li><li><p><code>x = [1, 2, 3, 4, 5]</code> and <code>y = [2.1, 3.9, 6.2, 7.8, 10.1]</code>. Draw them as a scatter, find the straight trend line with <code>np.polyfit(x, y, 1)</code> and draw it as a red line. Print the slope and intercept rounded to 2 decimals, and add a legend.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+x = [1, 2, 3, 4, 5]
+y = [2.1, 3.9, 6.2, 7.8, 10.1]</code></pre></figure><details><summary>Hint</summary><p><code>slope, intercept = np.polyfit(x, y, 1)</code>; then <code>ax.plot(x, [slope * v + intercept for v in x], &quot;r-&quot;, label=...)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+x = [1, 2, 3, 4, 5]
+y = [2.1, 3.9, 6.2, 7.8, 10.1]
+slope, intercept = np.polyfit(x, y, 1)
+print(round(slope, 2), round(intercept, 2))
+fig, ax = plt.subplots()
+ax.scatter(x, y, label=&quot;Data&quot;)
+ax.plot(x, [slope * v + intercept for v in x], &quot;r-&quot;, label=&quot;Trend&quot;)
+ax.legend()
+ax.set_title(&quot;A straight trend&quot;)
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">1.99 0.05</pre></figure><p>The slope is about 2: y grows by 2 when x grows by 1.</p></details></li><li><p>Draw a heatmap of <code>grid = [[1, 0.8, -0.2], [0.8, 1, 0.1], [-0.2, 0.1, 1]]</code> with <code>plt.imshow</code> and <code>cmap=&quot;coolwarm&quot;</code>, add a colour bar, and use the names <code>[&quot;Sales&quot;, &quot;Profit&quot;, &quot;Age&quot;]</code> on both axes.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import matplotlib.pyplot as plt
+grid = [[1, 0.8, -0.2], [0.8, 1, 0.1], [-0.2, 0.1, 1]]
+names = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Age&quot;]</code></pre></figure><details><summary>Hint</summary><p><code>plt.imshow(grid, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code>, <code>plt.colorbar()</code>, <code>plt.xticks(range(3), names)</code> and <code>plt.yticks(range(3), names)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+grid = [[1, 0.8, -0.2], [0.8, 1, 0.1], [-0.2, 0.1, 1]]
+names = [&quot;Sales&quot;, &quot;Profit&quot;, &quot;Age&quot;]
+plt.imshow(grid, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)
+plt.colorbar()
+plt.xticks(range(3), names)
+plt.yticks(range(3), names)
+plt.title(&quot;Correlations&quot;)
+plt.show()</code></pre></figure><p><code>xticks(positions, names)</code> swaps the numbers 0, 1, 2 for the column names.</p></details></li></ol>
+<h2>Practice with real data: a sales dashboard</h2>
+<ol class="tasks"><li><p>From <code>sales_data.csv</code>, make a figure with <b>2 charts side by side</b>: total sales per region as bars (left) and the share of orders per category as a pie with percents (right). Give both charts a title, and the figure the title <code>Sales overview</code>.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>fig, axes = plt.subplots(1, 2, figsize=(10, 4))</code>; <code>axes[0].bar(...)</code>; <code>axes[1].pie(counts.values, labels=counts.index, autopct=&quot;%1.1f%%&quot;)</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+reg = sales.groupby(&quot;Region&quot;)[&quot;Sales&quot;].sum()
+counts = sales.groupby(&quot;Category&quot;).size()
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+axes[0].bar(reg.index, reg.values, color=&quot;steelblue&quot;)
+axes[0].set_title(&quot;Sales by region&quot;)
+axes[1].pie(counts.values, labels=counts.index, autopct=&quot;%1.1f%%&quot;, startangle=90)
+axes[1].set_title(&quot;Orders by category&quot;)
+fig.suptitle(&quot;Sales overview&quot;)
+plt.tight_layout()
+plt.show()</code></pre></figure><p>Two different questions, one figure.</p></details></li><li><p>Draw the monthly total <b>profit</b> as a line and mark the best month with <code>ax.annotate</code> and an arrow. Use a rupee formatter on the y-axis.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p>Group by <code>dt.to_period(&quot;M&quot;)</code>; <code>best = profit.values.argmax()</code>; <code>ax.annotate(&quot;Best&quot;, xy=(best, profit.values[best]), xytext=..., arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+profit = sales.groupby(sales[&quot;Date&quot;].dt.to_period(&quot;M&quot;))[&quot;Profit&quot;].sum()
+months = profit.index.strftime(&quot;%b&quot;)
+best = profit.values.argmax()
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(months, profit.values, marker=&quot;o&quot;)
+ax.annotate(&quot;Best month&quot;, xy=(best, profit.values[best]), xytext=(best - 4, profit.values[best]), arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda value, pos: f&quot;₹{value:,.0f}&quot;))
+ax.set_title(&quot;Monthly profit&quot;)
+plt.show()</code></pre></figure><p>November is the best month for profit too.</p></details></li><li><p>Make a scatter of <code>Customer_Age</code> (x) against <code>Satisfaction_Score</code> (y), add a straight trend line with <code>np.polyfit</code>, and print R² (the squared correlation) rounded to 3 decimals. Label both axes.</p><figure class="code"><figcaption>Starter code</figcaption><pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])</code></pre></figure><details><summary>Hint</summary><p><code>slope, intercept = np.polyfit(x, y, 1)</code> and <code>np.corrcoef(x, y)[0, 1] ** 2</code>.</p></details><details><summary>Solution</summary><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.pyplot as plt
+sales = pd.read_csv(&quot;sales_data.csv&quot;)
+sales[&quot;Date&quot;] = pd.to_datetime(sales[&quot;Date&quot;])
+import numpy as np
+x = sales[&quot;Customer_Age&quot;].values
+y = sales[&quot;Satisfaction_Score&quot;].values
+slope, intercept = np.polyfit(x, y, 1)
+print(round(np.corrcoef(x, y)[0, 1] ** 2, 3))
+line_x = np.linspace(x.min(), x.max(), 50)
+fig, ax = plt.subplots()
+ax.scatter(x, y, s=10, alpha=0.5)
+ax.plot(line_x, slope * line_x + intercept, &quot;r-&quot;)
+ax.set_xlabel(&quot;Customer age&quot;)
+ax.set_ylabel(&quot;Satisfaction&quot;)
+ax.set_title(&quot;Age vs satisfaction&quot;)
+plt.show()</code></pre><p class="olbl">Output</p><pre class="out">0.003</pre></figure><p>R² is close to 0: age tells you almost nothing about satisfaction. A flat trend line says the same.</p></details></li></ol><section class="take"><h2>Key takeaways</h2><ul><li><code>fig, ax = plt.subplots()</code> and <code>ax.</code> methods give you control; labels on an axes start with <code>set_</code>.</li><li><code>plt.subplots(r, c)</code> returns a grid <code>axes[row, col]</code>; finish with <code>fig.suptitle()</code> and <code>plt.tight_layout()</code>.</li><li>Heatmap: <code>imshow(corr, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code> + <code>colorbar()</code> + <code>xticks/yticks</code> + <code>text</code> in a loop.</li><li>Clean style: hide top/right spines, a light grid behind the data, <code>FuncFormatter</code> for ₹, <code>bar_label</code> and <code>annotate</code> to tell the story.</li><li><code>twinx()</code> for a second unit, <code>np.polyfit(x, y, 1)</code> for a trend line (R² for the fit), <code>inset_axes</code> to zoom, <code>rcParams</code> for every chart.</li></ul></section><section class="quiz"><h2>Quick exercises</h2><p>Fill in each blank (<code>___</code>). The answers are hidden under each exercise.</p><ol><li><p>Make a figure with 1 row of 2 charts.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.___(1, 2)
+axes[0].plot([1, 2, 3])
+axes[1].bar([&quot;a&quot;, &quot;b&quot;], [2, 3])
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>subplots</code> — <code>plt.subplots(rows, cols)</code> gives the figure and an array of axes.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Set the title of this axes.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.plot([4, 6, 5])
+ax.___(&quot;Weekly sales&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>set_title</code> — On an axes, label methods start with <code>set_</code>.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Give the whole figure one title.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(1, 2)
+axes[0].plot([1, 2])
+axes[1].plot([2, 1])
+fig.___(&quot;Dashboard&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>suptitle</code> — <code>fig.suptitle()</code> goes above all the charts of the figure.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Add a second y-axis on the right.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax1 = plt.subplots()
+ax1.plot([40, 52, 61])
+ax2 = ax1.___()
+ax2.plot([120, 150, 135], color=&quot;red&quot;)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>twinx</code> — <code>twinx()</code> makes a new axes that shares the x-axis, with its own y-axis on the right.</p><p>Output:</p><pre class="out"></pre></details></li><li><p>Hide the border line along the top.</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.bar([&quot;a&quot;, &quot;b&quot;], [3, 5])
+ax.spines[&quot;___&quot;].set_visible(False)
+plt.show()</code></pre></figure><details><summary>Answer</summary><p><code>top</code> — The four spines are top, right, bottom and left.</p><p>Output:</p><pre class="out"></pre></details></li></ol></section><section class="quiz"><h2>Chapter quiz</h2><ol><li><p>Which line sets the title of the axes <code>ax</code>?</p><ol type="A"><li><code>ax.title(&quot;Sales&quot;)</code></li><li><code>ax.set_title(&quot;Sales&quot;)</code></li><li><code>ax.settitle(&quot;Sales&quot;)</code></li><li><code>plt.ax.title(&quot;Sales&quot;)</code></li></ol><details><summary>Answer</summary><p><b><code>ax.set_title(&quot;Sales&quot;)</code></b>. Axes methods for labels start with <code>set_</code>.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+fig, axes = plt.subplots(2, 2)
+print(axes.shape, len(fig.axes))
+plt.close()</code></pre></figure><ol type="A"><li><code>(2, 2) 4</code></li><li><code>(4,) 4</code></li><li><code>(2, 2) 2</code></li><li><code>4 4</code></li></ol><details><summary>Answer</summary><p><b><code>(2, 2) 4</code></b>. A 2 × 2 grid: the axes array has shape (2, 2) and the figure holds 4 axes.</p></details></li><li><p>In <code>fig, axes = plt.subplots(2, 3)</code>, which chart is in the second row, last column?</p><ol type="A"><li><code>axes[2, 3]</code></li><li><code>axes[1, 2]</code></li><li><code>axes[2, 1]</code></li><li><code>axes[1][3]</code></li></ol><details><summary>Answer</summary><p><b><code>axes[1, 2]</code></b>. Rows and columns count from 0: row 1, column 2.</p></details></li><li><p>Why add <code>vmin=-1, vmax=1</code> to <code>plt.imshow()</code> for a correlation matrix?</p><ol type="A"><li>To make it faster</li><li>So the colour scale always runs from -1 to 1, with 0 in the middle</li><li>To hide the diagonal</li><li>To round the values</li></ol><details><summary>Answer</summary><p><b>So the colour scale always runs from -1 to 1, with 0 in the middle</b>. Without it the colours stretch to the smallest and largest value in this grid.</p></details></li><li><p>What does <code>ax.spines[&quot;top&quot;].set_visible(False)</code> do?</p><ol type="A"><li>Hides the title</li><li>Hides the line along the top of the chart</li><li>Hides the top tick labels</li><li>Moves the legend</li></ol><details><summary>Answer</summary><p><b>Hides the line along the top of the chart</b>. Spines are the four border lines of the axes.</p></details></li><li><p>You want sales in rupees on the left and the number of orders on the right. What do you use?</p><ol type="A"><li><code>plt.subplots(1, 2)</code></li><li><code>ax2 = ax1.twinx()</code></li><li><code>inset_axes</code></li><li><code>plt.style.use()</code></li></ol><details><summary>Answer</summary><p><b><code>ax2 = ax1.twinx()</code></b>. <code>twinx()</code> makes a second y-axis that shares the x-axis.</p></details></li><li><p>What does this print?</p><figure class="code"><pre><code>import matplotlib.pyplot as plt
+import numpy as np
+print(np.polyfit([0, 1, 2], [1, 3, 5], 1).round(2))</code></pre></figure><ol type="A"><li><code>[2. 1.]</code></li><li><code>[1. 2.]</code></li><li><code>[3. 0.]</code></li><li><code>[2. 0.]</code></li></ol><details><summary>Answer</summary><p><b><code>[2. 1.]</code></b>. The points lie on y = 2x + 1: slope 2, intercept 1.</p></details></li><li><p>What does <code>transform=ax.transAxes</code> mean in <code>ax.text(0.05, 0.95, &quot;...&quot;, transform=ax.transAxes)</code>?</p><ol type="A"><li>The text is rotated</li><li>0.05 and 0.95 are shares of the chart's width and height, not data values</li><li>The text goes on the x-axis</li><li>The text is in bold</li></ol><details><summary>Answer</summary><p><b>0.05 and 0.95 are shares of the chart's width and height, not data values</b>. (0, 0) is the bottom-left corner of the axes and (1, 1) the top-right.</p></details></li><li><p>After <code>plt.style.use(&quot;ggplot&quot;)</code> in Jupyter, what happens to the next cells' charts?</p><ol type="A"><li>Nothing</li><li>They use the ggplot style too, until you change it</li><li>Only the next one changes</li><li>An error</li></ol><details><summary>Answer</summary><p><b>They use the ggplot style too, until you change it</b>. A style stays on. Switch back with <code>plt.style.use(&quot;default&quot;)</code>.</p></details></li><li><p>Which call writes the value on top of every bar?</p><ol type="A"><li><code>ax.bar_label(bars)</code></li><li><code>ax.legend(bars)</code></li><li><code>ax.set_xticks(bars)</code></li><li><code>ax.grid(bars)</code></li></ol><details><summary>Answer</summary><p><b><code>ax.bar_label(bars)</code></b>. <code>bar_label</code> adds one text per bar; <code>fmt=</code> sets the number format.</p></details></li></ol></section><section class="cards"><h2>Flashcards</h2><dl><dt>Quick way vs object way</dt><dd><code>plt.title()</code> draws on the current chart; <code>fig, ax = plt.subplots()</code> then <code>ax.set_title()</code> names the chart you mean.</dd><dt>A grid of charts</dt><dd><code>fig, axes = plt.subplots(2, 2)</code>, then <code>axes[0, 1].bar(...)</code>.</dd><dt>One title for the whole figure</dt><dd><code>fig.suptitle(&quot;...&quot;)</code></dd><dt><code>plt.subplot(1, 2, 1)</code></dt><dd>The older style: chart number 1 (counting from 1) of a 1 × 2 grid.</dd><dt>Heatmap recipe</dt><dd><code>plt.imshow(m, cmap=&quot;coolwarm&quot;, vmin=-1, vmax=1)</code>, <code>plt.colorbar()</code>, <code>plt.xticks(range(n), names)</code>, <code>plt.text(j, i, value)</code>.</dd><dt>Diverging vs sequential colours</dt><dd>coolwarm / RdBu for values around 0; Blues / viridis for low to high.</dd><dt>Hide the top and right lines</dt><dd><code>ax.spines[&quot;top&quot;].set_visible(False)</code> (and <code>&quot;right&quot;</code>)</dd><dt>A rupee axis</dt><dd><code>ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, p: f&quot;₹{v:,.0f}&quot;))</code></dd><dt>Numbers on bars</dt><dd><code>ax.bar_label(bars, fmt=&quot;{:,.0f}&quot;)</code></dd><dt>Point at a spot</dt><dd><code>ax.annotate(&quot;Peak&quot;, xy=(x, y), xytext=(x2, y2), arrowprops=dict(arrowstyle=&quot;-&gt;&quot;))</code></dd><dt>Two y-axes</dt><dd><code>ax2 = ax1.twinx()</code>; combine legends with <code>get_legend_handles_labels()</code>.</dd><dt>Trend line</dt><dd><code>slope, intercept = np.polyfit(x, y, 1)</code>; R² = <code>np.corrcoef(x, y)[0, 1] ** 2</code>.</dd><dt>Settings for every chart</dt><dd><code>plt.rcParams.update({...})</code>, undo with <code>plt.rcdefaults()</code>.</dd></dl></section><section><h2>Cheat sheet</h2><div class="tbl"><table><thead><tr><th>Code</th><th>What it does</th></tr></thead><tbody><tr><td><code>fig, ax = plt.subplots(figsize=(8, 4))</code></td><td>One named chart</td></tr><tr><td><code>ax.set_title()  ax.set_xlabel()  ax.set_ylabel()</code></td><td>Labels, the object way</td></tr><tr><td><code>fig, axes = plt.subplots(2, 2); axes[0, 1]</code></td><td>A grid of charts</td></tr><tr><td><code>fig.suptitle('Dashboard')</code></td><td>Figure title</td></tr><tr><td><code>plt.subplot(1, 2, 1)</code></td><td>Chart 1 of a 1 × 2 grid</td></tr><tr><td><code>plt.imshow(m, cmap='coolwarm', vmin=-1, vmax=1)</code></td><td>Heatmap</td></tr><tr><td><code>plt.text(j, i, f'{v:.2f}', ha='center')</code></td><td>Text in a cell</td></tr><tr><td><code>plt.style.use('ggplot') / ('default')</code></td><td>Style sheets</td></tr><tr><td><code>ax.legend(loc='upper left', title='T', ncol=2)</code></td><td>Legend options</td></tr><tr><td><code>ax.spines['top'].set_visible(False)</code></td><td>Clean borders</td></tr><tr><td><code>ax.tick_params(axis='x', rotation=45)</code></td><td>Tick style</td></tr><tr><td><code>ax.yaxis.set_major_formatter(plt.FuncFormatter(f))</code></td><td>Custom axis numbers</td></tr><tr><td><code>ax.bar_label(bars)</code></td><td>Values on bars</td></tr><tr><td><code>ax.annotate('t', xy=..., xytext=..., arrowprops=dict(arrowstyle='-&gt;'))</code></td><td>Arrow + text</td></tr><tr><td><code>ax2 = ax.twinx()</code></td><td>Second y-axis</td></tr><tr><td><code>np.polyfit(x, y, 1)  np.poly1d(z)</code></td><td>Trend line</td></tr><tr><td><code>inset_axes(ax, width='40%', height='40%')</code></td><td>Small chart inside</td></tr><tr><td><code>plt.rcParams.update({...})  plt.rcdefaults()</code></td><td>Global settings</td></tr></tbody></table></div></section><p class="ver"><a href="test-mpl2.html">Take the 28.1 Big Test</a>: 25 questions on this chapter, with answers.</p><nav class="pn"><a href="mpl1.html">← Matplotlib charts</a><a href="overview9.html">Part 9 overview →</a></nav></article>
+</main>
+<footer><a href="index.html">All chapters</a> · <a href="reference.html">Python reference</a> · <a href="glossary.html">Glossary</a> · <a href="cheatsheet.html">Cheat sheet</a></footer>
+</body>
+</html>

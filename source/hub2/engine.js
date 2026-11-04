@@ -190,10 +190,10 @@ var CH_WORD = { line: 'a line chart', bar: 'a bar chart', barh: 'a horizontal ba
 function chartWants(s){
   var w = [], one = function(a, pre){
     if (a.kind) [].concat(a.kind).forEach(function(k){ w.push(pre + (CH_WORD[k] || k)); });
-    [['bars', 'bars'], ['lines', 'lines'], ['points', 'points'], ['wedges', 'slices'], ['boxes', 'boxes'], ['violins', 'violins']].forEach(function(c){ if (a[c[0]] != null) w.push(pre + (Array.isArray(a[c[0]]) ? (a[c[0]][1] >= 9999 ? 'at least ' + a[c[0]][0] : a[c[0]].join(' to ')) : a[c[0]]) + ' ' + c[1]); });
+    [['bars', 'bars', 'bar'], ['lines', 'lines', 'line'], ['points', 'points', 'point'], ['wedges', 'slices', 'slice'], ['boxes', 'boxes', 'box'], ['violins', 'violins', 'violin']].forEach(function(c){ var n = a[c[0]]; if (n != null) w.push(pre + (Array.isArray(n) ? (n[1] >= 9999 ? 'at least ' + n[0] : n.join(' to ')) : n) + ' ' + (n === 1 ? c[2] : c[1])); });
     if (a.heights) w.push(pre + 'the right bar sizes');
     ['title', 'xlabel', 'ylabel'].forEach(function(k){ if (a[k]) w.push(pre + ({ title: 'title', xlabel: 'x-axis label', ylabel: 'y-axis label' })[k] + (a[k] === true ? '' : ' "' + a[k] + '"')); });
-    if (a.legend) w.push(pre + 'a legend'); if (a.xticks) w.push(pre + 'x-axis labels'); if (a.texts) w.push(pre + 'text labels'); if (a.grid) w.push(pre + 'a grid');
+    if (a.legend) w.push(pre + 'a legend'); if (a.xticks) w.push(pre + 'the labels along the x-axis'); if (a.yticks) w.push(pre + 'the labels up the y-axis'); if (a.xtick_has || a.ytick_has) w.push(pre + 'axis numbers with ' + (a.xtick_has || a.ytick_has)); if (a.text_has) w.push(pre + 'the text "' + a.text_has + '"'); if (a.texts) w.push(pre + 'text labels'); if (a.grid) w.push(pre + 'a grid');
     if (a.spines) w.push(pre + 'top and right borders hidden');
   };
   if (s.sns) [].concat(s.sns).forEach(function(n){ w.push('uses sns.' + n + (/^[a-z]/.test(n) ? '()' : '')); });
@@ -1210,7 +1210,7 @@ function vGlossary(){
 var REF_BY = {}; (window.REFERENCE || []).forEach(function(x){ REF_BY[x.id] = x; });
 function vReference(){
   var RF = window.REFERENCE || [], total = RF.reduce(function(a, x){ return a + x.rows.length; }, 0);
-  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas tools: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
+  var h = '<header class="chead"><div class="num">Study tool</div><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas and Matplotlib tools: ' + total + ' entries. Almost every one has an example and its real output. Tap <b>▶</b> to edit and run any example.</p></header>' +
     '<label for="rq" class="eyebrow">Search the reference</label><input id="rq" class="search" type="search" placeholder="e.g. strip, append, zip, KeyError, lambda" autocomplete="off"><div class="toc" id="rtoc">' + RF.map(function(x){ return '<button type="button" data-s="ref-' + x.id + '">' + esc(x.title) + '</button>'; }).join('') + '</div><div id="rBox"></div>';
   view.className = 'col wide'; view.innerHTML = h;
   function draw(q){
@@ -1243,7 +1243,7 @@ function ExBox(el, cid, i){
     '<div class="row"><button class="btn pri exck" type="button">Check</button><button class="btn exsh" type="button">Show answer</button></div><div class="exfb" aria-live="polite"></div>';
   var ins = $$('.exin', el), fb = $('.exfb', el);
   function done(own){
-    fb.innerHTML = '<div class="rchk ' + (own ? 'ok win' : 'almost') + '">' + (own ? '<span class="wbadge" aria-hidden="true">✓</span>' : '') + '<b>' + (own ? 'Correct!' : 'Here is the answer.') + '</b> ' + md(x.e) + '<div class="exo">Output</div><pre>' + esc(x.o) + '</pre></div>';
+    fb.innerHTML = '<div class="rchk ' + (own ? 'ok win' : 'almost') + '">' + (own ? '<span class="wbadge" aria-hidden="true">✓</span>' : '') + '<b>' + (own ? 'Correct!' : 'Here is the answer.') + '</b> ' + md(x.e) + (x.o ? '<div class="exo">Output</div><pre>' + esc(x.o) + '</pre>' : '') + (x.img ? figImgs(x.img, 'The chart this code draws') : '') + '</div>';
     if (own) { var s2 = store.get('ex', {}); s2[cid + ':' + i] = 1; store.set('ex', s2); $('.exst', el).textContent = '✓ Solved'; var pc = document.getElementById('exc-' + cid); if (pc) pc.textContent = exCount(cid) + '/' + EXS[cid].length; }
   }
   function check(){
@@ -1329,8 +1329,10 @@ function vBigTest(cid){
     h += '<div class="btq" id="btq-' + i + '"><div class="btqh"><span class="btn-n">' + (i + 1) + '</span><span class="pill lv' + x.lv + '">' + BT_LV[x.lv] + '</span><span class="pill">' + BT_TY[x.ty] + '</span></div><p class="btqq">' + md(x.q) + '</p>';
     if (x.ty === 'bug') h += cell(x.c, null, { ttl: 'Line ' + x.line + ' has the bug' }) + '<div class="btwant"><div><span>It should print</span><pre>' + esc(x.want) + '</pre></div><div><span>But it gives</span><pre>' + esc(x.got) + '</pre></div></div><p class="btqq" style="margin-top:4px">Replace line ' + x.line + ' with:</p>';
     else if (x.c && x.ty !== 'fix') h += cell(x.c, null);
-    if (x.ty === 'fix') h += '<div class="btwant"><div><span>It should print</span><pre>' + esc(x.want) + '</pre></div><div><span>But it gives</span><pre>' + esc(x.got) + '</pre></div></div><div class="btcode"></div>';
-    else if (x.ty === 'code') h += '<div class="btwant"><div><span>Your code should print exactly</span><pre>' + esc(x.out) + '</pre></div></div><div class="btcode"></div>';
+    var tb = isTab(x.c || x.sol || '') ? ' class="tab"' : '';
+    if (x.ty === 'fix') h += '<div class="btwant"><div><span>It should ' + (x.chart ? 'draw this' : 'print') + '</span>' + (x.want || !x.chart ? '<pre' + tb + '>' + esc(x.want) + '</pre>' : '') + (x.chart && x.img ? figImgs(x.img, 'What the fixed code draws') : '') + '</div><div><span>But it gives</span><pre' + tb + '>' + esc(x.got) + '</pre></div></div><div class="btcode"></div>';
+    else if (x.ty === 'code' && x.chart) h += '<div class="btwant"><div><span>Your chart should have</span><p class="chkwhat" style="margin:4px 0 6px">' + chartWants(x.chart) + '</p>' + (x.out ? '<span>and your code should print</span><pre' + tb + '>' + esc(x.out) + '</pre>' : '') + (x.img ? figImgs(x.img, 'A chart that passes') : '') + '</div></div><div class="btcode"></div>';
+    else if (x.ty === 'code') h += '<div class="btwant"><div><span>Your code should print exactly</span><pre' + tb + '>' + esc(x.out) + '</pre></div></div><div class="btcode"></div>';
     else if (x.ty === 'type') h += '<label class="btinl">Your answer<textarea class="btin" rows="' + Math.max(1, x.ans.split("\n").length) + '" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Type exactly what it prints"></textarea></label>';
     else h += '<div class="opts">' + x.o.map(function(o, j){ return '<button class="opt" type="button" data-q="' + i + '" data-j="' + j + '"><span class="l">' + 'ABCD'.charAt(j) + '</span><span class="t">' + md(o) + '</span></button>'; }).join('') + '</div>';
     h += '<div class="btfb" hidden></div></div>';
@@ -1363,7 +1365,10 @@ function vBigTest(cid){
       if (!btEdit(x)) { res[i] = { ok: ans[i] === x.a }; return; }
       p = p.then(function(){
         if (!answered(i)) { res[i] = { ok: false, empty: true }; return; }
-        return pyRun($('#btq-' + i + ' .edta').value, [], function(){}).then(function(r){ res[i] = { ok: r.status === 'ok' && btNorm(r.out) === btNorm(btWant(x)), out: r.out, err: r.err, status: r.status }; });
+        return pyRun($('#btq-' + i + ' .edta').value, [], function(){}, x.chart || null).then(function(r){
+          var chk = x.chart ? (r.chk || ['No chart was drawn.']) : [], textOk = (x.chart && !btWant(x)) || btNorm(r.out) === btNorm(btWant(x));
+          res[i] = { ok: r.status === 'ok' && textOk && !chk.length, out: r.out, err: r.err, status: r.status, chk: chk, textOk: textOk };
+        });
       });
     });
     p.then(function(){ show(res); }, function(){ L.forEach(function(x, i){ if (!res[i]) res[i] = { ok: false, nopy: true }; }); show(res); });
@@ -1378,9 +1383,10 @@ function vBigTest(cid){
       $$('.opt', q).forEach(function(o){ var j = +o.getAttribute('data-j'); o.disabled = true; if (j === x.a) o.classList.add('right'); else if (j === ans[i]) o.classList.add('wrong'); });
       var fb = $('.btfb', q), t = '<div class="rchk ' + (r.ok ? 'ok' : 'no') + '"><b>' + (r.ok ? '✓ Correct.' : (btEdit(x) || x.ty === 'type' ? (r.empty ? '✗ Not answered.' : r.nopy ? '✗ Python could not start, so this was not checked.' : '✗ Not right yet.') : (ans[i] == null ? '✗ Not answered.' : '✗ Not right.'))) + '</b> ' + md(x.e);
       if (x.ty === 'type') { $('#btq-' + i + ' .btin').readOnly = true; if (!r.ok) t += '<div class="lbl2" style="padding:8px 0 2px">It prints</div><pre>' + esc(x.ans) + '</pre>'; }
-      if (btEdit(x) && !r.ok && !r.empty && !r.nopy) t += '<div class="lbl2" style="padding:8px 0 2px">Your output</div><pre>' + esc(r.status === 'error' ? (r.err || '').trim().split('\n').pop() : r.status === 'input' ? 'Your code waited for input()' : (r.out || '(nothing)')) + '</pre>';
+      if (btEdit(x) && !r.ok && !r.empty && !r.nopy && r.status === 'ok' && r.chk && r.chk.length && r.textOk) t += '<div class="lbl2" style="padding:8px 0 2px">Your chart</div><ul class="chkl">' + r.chk.slice(0, 5).map(function(m){ return '<li>' + esc(m) + '</li>'; }).join('') + '</ul>';
+      else if (btEdit(x) && !r.ok && !r.empty && !r.nopy) t += '<div class="lbl2" style="padding:8px 0 2px">Your output</div><pre>' + esc(r.status === 'error' ? (r.err || '').trim().split('\n').pop() : r.status === 'input' ? 'Your code waited for input()' : (r.out || '(nothing)')) + '</pre>';
       t += '</div>';
-      if (btEdit(x)) t += '<details class="reveal"><summary>Show a model answer</summary>' + (x.ty === 'fix' ? cell(x.fixed, x.want) : cell(x.sol, x.out)) + '</details>';
+      if (btEdit(x)) t += '<details class="reveal"><summary>Show a model answer</summary>' + (x.ty === 'fix' ? cell(x.fixed, x.want, { img: x.img }) : cell(x.sol, x.out, { img: x.img })) + '</details>';
       fb.innerHTML = t; fb.hidden = false;
     });
     var pct = Math.round(score / L.length * 100), all = store.get('bt', {}), prev = all[cid];
@@ -1564,7 +1570,7 @@ function pjShow(P, code, res, an){
     else if (r.status === 'input') (grp.input = grp.input || { n: [], t: function(n){ return 'In ' + n + ', your program asked for more input than the test gives. Check that it asks only for the values in the tasks, in the same order, and that it stops reading when it should (for example at the stop word).'; } }).n.push(i + 1);
     else if (r.status === 'timeout' || r.status === 'stopped') m = 'Test ' + (i + 1) + ' (' + r.t.name + ') took longer than ' + PJ_TIMEOUT / 1000 + ' seconds and was stopped. Is something running forever?';
     else if (r.t.tip) m = r.t.tip;
-    else if (nDiff++ < 2) { var ml = r.miss[0], inFile = r.t.expect.indexOf(ml) < 0, nr = pjNear(inFile ? r.flines : r.lines, ml); m = inFile ? 'Test ' + (i + 1) + ' (' + r.t.name + '): the file `' + r.t.outfile + '` should contain the line `' + ml + '`' + (r.ftext == null || /\(file not written\)/.test(r.ftext) ? ', but the file was not written.' : nr ? '. It has `' + nr + '` instead.' : ', and no line in it starts like that.') : 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
+    else if (nDiff++ < 2) { var ml = r.miss[0], inFile = r.t.expect.indexOf(ml) < 0, nr = pjNear(inFile ? r.flines : r.lines, ml); m = inFile && r.t.charts ? 'Test ' + (i + 1) + ' (' + r.t.name + '): your charts should give the report line `' + ml + '`' + (nr ? '. Yours gives `' + nr + '`. Check the chart type, the number of bars or slices, and the exact title and axis labels.' : '. Check that you drew every chart the task asks for, with the exact titles.') : inFile ? 'Test ' + (i + 1) + ' (' + r.t.name + '): the file `' + r.t.outfile + '` should contain the line `' + ml + '`' + (r.ftext == null || /\(file not written\)/.test(r.ftext) ? ', but the file was not written.' : nr ? '. It has `' + nr + '` instead.' : ', and no line in it starts like that.') : 'Test ' + (i + 1) + ' (' + r.t.name + '): the line `' + ml + '` is missing' + (nr ? '. You printed `' + nr + '`. The words, signs and number format must match exactly.' : ', and no line starts like it. Check the spelling and the words before the colon.'); }
     if (m && !seen[m]) { seen[m] = 1; todo.push(m); }
   });
   Object.keys(grp).forEach(function(g){ var n = grp[g].n; todo.unshift(grp[g].t((n.length > 1 ? 'tests ' : 'test ') + (n.length > 2 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n.join(' and ')))); });
@@ -1588,7 +1594,7 @@ function pjShow(P, code, res, an){
     '<div class="pjtodo"><h3>What to improve</h3>' + (todo.length ? '<ul class="list">' + todo.map(function(x){ return '<li>' + md(x) + '</li>'; }).join('') + '</ul>' : '<p class="prose">Nothing! Every check passed. 🎉</p>') + '</div></div>';
   h += '<section class="sec"><h2>Every test</h2><div class="tbl pjtests"><table><thead><tr><th>Test</th><th>Input given</th><th>Lines expected</th><th>Your output</th><th>Result</th></tr></thead><tbody>' + res.map(function(r, i){
     var mark = function(l){ var miss = r.miss.indexOf(l) > -1; return '<span class="' + (miss ? 'pjmiss' : 'pjhit') + '">' + esc(l) + '</span>'; };
-    var exp = r.t.expect.map(mark).join('\n') + (r.t.fexpect ? '\n<b>--- ' + esc(r.t.outfile) + ' ---</b>\n' + r.t.fexpect.map(mark).join('\n') : '');
+    var exp = r.t.expect.map(mark).join('\n') + (r.t.fexpect ? '\n<b>--- ' + esc(r.t.charts ? 'charts' : r.t.outfile) + ' ---</b>\n' + r.t.fexpect.map(mark).join('\n') : '');
     var yo = r.status === 'error' ? r.out + (r.out ? '\n' : '') + r.err.trim().split('\n').pop() : r.status === 'input' ? r.out + '\n(waiting for more input)' : (r.status === 'timeout' || r.status === 'stopped') ? '(stopped after ' + PJ_TIMEOUT / 1000 + ' seconds)' : r.out || '(nothing printed)';
     if (r.ftext != null) yo += '\n' + r.ftext;
     var why = r.pass ? '✓ Pass' : r.status === 'ok' ? '✗ ' + r.miss.length + ' line' + (r.miss.length > 1 ? 's' : '') + ' missing' : r.status === 'error' ? '✗ Error' : r.status === 'input' ? '✗ Asked for more input' : '✗ Too slow';

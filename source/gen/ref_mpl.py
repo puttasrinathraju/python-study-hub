@@ -1,0 +1,36 @@
+# Matplotlib rows for the Python reference page (genref.py adds them as their own section). Every example is run by
+# genref.py. The examples print a fact about the chart instead of showing it, so the output can be checked.
+PL = 'import matplotlib.pyplot as plt\n'
+FA = PL + 'fig, ax = plt.subplots()\n'
+MPL = [
+  ("plt.plot(x, y, marker, linestyle, label)", "A line chart; marker='o' adds dots, linestyle='--' dashes", PL + 'plt.plot([1, 2, 3], [4, 6, 5], marker="o", linestyle="--")\nprint(len(plt.gca().lines))'),
+  ("plt.bar(x, height, bottom) / plt.barh(y, width)", "Upright / sideways bars; bottom= stacks a second series", PL + 'bars = plt.bar(["UPI", "Cash", "Card"], [55, 30, 15])\nprint(len(bars))'),
+  ("plt.hist(data, bins, edgecolor)", "A histogram: how many values fall in each range", PL + 'counts, edges, bars = plt.hist([1, 2, 2, 3, 3, 3], bins=3)\nprint(counts.tolist())'),
+  ("plt.scatter(x, y, c, s, cmap, alpha)", "Dots; colour c and size s can come from the data", PL + 'dots = plt.scatter([1, 2, 3], [3, 1, 2], s=[20, 40, 60])\nprint(len(dots.get_offsets()))'),
+  ("plt.pie(values, labels, autopct)", "A pie; autopct='%1.1f%%' writes the percents", PL + 'wedges, names, pcts = plt.pie([3, 1], labels=["UPI", "Cash"], autopct="%1.1f%%")\nprint([p.get_text() for p in pcts])'),
+  ("plt.boxplot(data)", "A box plot: median, quartiles and outliers", PL + 'parts = plt.boxplot([4, 5, 6, 7, 40])\nprint(parts["fliers"][0].get_ydata().tolist())'),
+  ("plt.imshow(grid, cmap) / plt.colorbar()", "A grid of numbers as colours / the colour key", PL + 'plt.imshow([[1, 2], [3, 4]], cmap="viridis")\nplt.colorbar()\nprint(len(plt.gcf().axes))'),
+  ("plt.title(t) / plt.xlabel(t) / plt.ylabel(t)", "The chart title and the axis labels", PL + 'plt.plot([1, 2])\nplt.title("Sales")\nplt.xlabel("Month")\nprint(plt.gca().get_title(), plt.gca().get_xlabel())'),
+  ("plt.legend(loc)", "A box naming each series that has label=", PL + 'plt.plot([1, 2], label="2024")\nplt.plot([2, 3], label="2025")\nleg = plt.legend(loc="upper left")\nprint([t.get_text() for t in leg.get_texts()])'),
+  ("plt.xticks(pos, labels, rotation) / plt.yticks(...)", "Where the ticks go and the text on them", PL + 'plt.plot([5, 7, 6])\nplt.xticks([0, 1, 2], ["Jan", "Feb", "Mar"], rotation=45)\nprint([t.get_text() for t in plt.gca().get_xticklabels()])'),
+  ("plt.xlim(a, b) / plt.ylim(a, b)", "Sets the range shown on an axis", PL + 'plt.plot([1, 5])\nplt.ylim(0, 10)\nbottom, top = plt.ylim()\nprint(bottom, top)'),
+  ("plt.grid(alpha, axis)", "Light grid lines; axis='y' for flat lines only", PL + 'plt.plot([1, 2])\nplt.grid(alpha=0.3, axis="y")\nprint(plt.gca().yaxis.get_gridlines()[0].get_visible())'),
+  ("plt.text(x, y, s) / plt.annotate(s, xy, xytext, arrowprops)", "Writes text at a point / text with an arrow", PL + 'plt.plot([1, 3, 2])\nplt.annotate("Peak", xy=(1, 3), xytext=(1.5, 3.2), arrowprops={"arrowstyle": "->"})\nprint(len(plt.gca().texts))'),
+  ("plt.figure(figsize=(w, h))", "A new empty figure; the size is in inches", PL + 'fig = plt.figure(figsize=(8, 4))\nprint(fig.get_size_inches().tolist())'),
+  ("fig, axes = plt.subplots(rows, cols)", "A figure with a grid of charts; axes[r, c] is one chart", PL + 'fig, axes = plt.subplots(2, 3)\nprint(axes.shape)'),
+  ("plt.subplot(rows, cols, n)", "Makes chart number n (from 1) the current one", PL + 'plt.subplot(1, 2, 1)\nplt.plot([1, 2])\nplt.subplot(1, 2, 2)\nplt.bar(["a"], [3])\nprint(len(plt.gcf().axes))'),
+  ("ax.set_title(t) / ax.set_xlabel(t) / ax.set_ylabel(t)", "Labels on one axes: the same names with set_", FA + 'ax.plot([4, 6])\nax.set_title("Profit")\nax.set_ylabel("₹")\nprint(ax.get_title(), ax.get_ylabel())'),
+  ("ax.set_xlim(a, b) / ax.set_xticks(pos)", "Axis range and ticks on one axes", FA + 'ax.plot([1, 5])\nax.set_xlim(0, 1)\nax.set_xticks([0, 0.5, 1])\nprint(ax.get_xticks().tolist())'),
+  ("fig.suptitle(t)", "One title above all the charts of the figure", PL + 'fig, axes = plt.subplots(1, 2)\nfig.suptitle("Dashboard")\nprint(fig.get_suptitle())'),
+  ("plt.tight_layout()", "Spaces the charts so titles and labels do not overlap", PL + 'fig, axes = plt.subplots(2, 2)\nplt.tight_layout()\nprint(len(fig.axes))'),
+  ("ax.twinx()", "A second y-axis on the right that shares the x-axis", FA + 'ax2 = ax.twinx()\nprint(len(fig.axes))'),
+  ("ax.bar_label(bars, fmt)", "Writes each bar's value on top of it", FA + 'bars = ax.bar(["A", "B"], [12, 30])\nlabels = ax.bar_label(bars)\nprint([t.get_text() for t in labels])'),
+  ("ax.spines[side].set_visible(False)", "Hides a border line: top, right, bottom or left", FA + 'ax.spines["top"].set_visible(False)\nprint(ax.spines["top"].get_visible(), ax.spines["left"].get_visible())'),
+  ("ax.tick_params(axis, labelsize, rotation)", "Changes the look of the ticks", FA + 'ax.plot([1, 2])\nax.tick_params(axis="x", labelsize=8)\nprint(ax.get_xticklabels()[0].get_fontsize())'),
+  ("ax.yaxis.set_major_formatter(plt.FuncFormatter(f))", "Your own function writes every tick label", FA + 'ax.plot([1000, 2500])\nax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, pos: f"₹{v:,.0f}"))\nprint(ax.yaxis.get_major_formatter()(2500, 0))'),
+  ("plt.style.use(name)", "A ready-made look, like 'ggplot'; plt.style.available lists them", PL + 'plt.style.use("ggplot")\nprint("ggplot" in plt.style.available)\nplt.style.use("default")'),
+  ("plt.rcParams[key] / plt.rcdefaults()", "The default settings for every chart / back to normal", PL + 'plt.rcParams["font.size"] = 12\nprint(plt.rcParams["font.size"])\nplt.rcdefaults()\nprint(plt.rcParams["font.size"])'),
+  ("plt.savefig(path, dpi, bbox_inches='tight')", "Saves the figure as a picture file: call it before show()", PL + 'import os\nplt.plot([1, 2])\nplt.savefig("chart.png", dpi=100, bbox_inches="tight")\nprint(os.path.exists("chart.png"))'),
+  ("plt.show()", "Shows the figure; call it last", None, "On this site the picture appears under the output. On your laptop a window opens and the program waits until you close it."),
+  ("plt.close() / plt.close('all')", "Throws away the current figure / every figure", PL + 'plt.figure()\nplt.figure()\nplt.close("all")\nprint(len(plt.get_fignums()))'),
+]

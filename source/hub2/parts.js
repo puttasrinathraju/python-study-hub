@@ -9,7 +9,7 @@ var PARTS = [
   { n: 6, title: 'Object-oriented Python', sub: 'Classes, objects and inheritance.' },
   { n: 7, title: 'NumPy', sub: 'Fast number crunching for data analysis.' },
   { n: 8, title: 'Pandas', sub: 'Load, clean, select, group and join tables of data.' },
-  { n: 9, title: 'Matplotlib', sub: 'Turn data into clear charts.', soon: 1 },
+  { n: 9, title: 'Matplotlib', sub: 'Turn data into clear charts.' },
   { n: 10, title: 'Seaborn', sub: 'Statistical charts in one line.', soon: 1 },
   { n: 11, title: 'Projects', sub: 'Put everything together.' }
 ];

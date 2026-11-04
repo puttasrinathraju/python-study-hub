@@ -114,7 +114,7 @@ for (const [n, P] of Object.entries(ctx.D.PJP)) {
 }
 // Reference
 fs.writeFileSync(path.join(out, 'reference.html'), page('reference', 'Python reference: string, list, tuple, set and dict methods and built-in functions', 'Every Python method for strings, lists, tuples, sets and dictionaries, plus the built-in functions, each with an example and its real output.',
-  '<article><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas tools. Each example was run in real Python.</p>' +
+  '<article><h1>Python reference</h1><p class="lead">Every method of strings, lists, tuples, sets, dictionaries and files, every built-in function, every keyword, the built-in exceptions and the most used Pandas and Matplotlib tools. Each example was run in real Python.</p>' +
   REF.map(x => '<section><h2 id="' + x.id + '">' + esc(x.title) + '</h2><p>' + md(x.intro) + '</p>' + '<div class="tbl"><table><thead><tr><th>Method</th><th>What it does</th><th>Example</th><th>Output</th></tr></thead><tbody>' + x.rows.map(r => '<tr><th scope="row"><code>' + esc(r.m) + '</code></th><td>' + md(r.d) + '</td>' + (r.c ? '<td><pre><code>' + esc(r.c) + '</code></pre></td><td><pre class="out">' + esc(r.o) + '</pre></td>' : '<td colspan="2">' + md(r.n || '') + '</td>') + '</tr>').join('') + '</tbody></table></div></section>').join('') + '</article>'));
 urls.push('learn/reference.html');
 // Glossary
