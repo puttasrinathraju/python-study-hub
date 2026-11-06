@@ -751,6 +751,7 @@ select.search{appearance:auto}
 .tbl.master table{min-width:900px}
 .tbl.master tbody th,.vs tbody th{font-family:var(--display);font-weight:600;font-size:14px;background:var(--surface);white-space:nowrap}
 .tbl.master thead th{background:var(--accent);color:var(--accent-ink)}
+.tbl.master thead th:has(>b){font-weight:400;font-size:13px;line-height:1.35;vertical-align:top}.tbl.master thead th>b{display:block;font-family:var(--display);font-size:17px;font-weight:700}.tbl.master thead th>b+br{display:none}.tbl.master thead th:has(>b) code,.tbl.master thead th:has(>b) code *{color:var(--accent-ink)!important;font-weight:600}
 .tbl.master thead code{background:color-mix(in srgb,var(--accent-ink) 18%,transparent);color:inherit;border-color:transparent}
 .tbl.master tbody tr:nth-child(even) td,.tbl.master tbody tr:nth-child(even) th{background:color-mix(in srgb,var(--surface2) 55%,var(--surface))}
 .tbl.master th:first-child,.tbl.master td:first-child{position:sticky;left:0;z-index:1;box-shadow:1px 0 0 var(--line)}
@@ -17842,13 +17843,14 @@ print(a)`, o: R`[1, 2, 3]`, go: "lists" },
       ["Use cases", "Names, emails, IDs, messages, cleaning raw text", "Records that grow or shrink, things to sort, a shopping cart", "Coordinates, dates, returning several values, dict keys", "Unique visitors, removing duplicates, fast `in` checks, comparing groups", "Look up by name or ID, counting, JSON-style records"],
       ["Example", "`\"asha@x.com\".split(\"@\")[1]`\ngives `'x.com'`", "`cart.append(\"oil\")`", "`lat, lon = (17.38, 78.48)`", "`len(set(emails))`\ncounts unique emails", "`prices[\"tea\"]`\ngives `20`"]
     ], cap: "On a phone, scroll the table sideways. The first column stays in place." },
-    { t: "table", master: true, title: "What works on which collection", head: ["Operation", "String", "List", "Tuple", "Set", "Dictionary"], rows: [
-      ["`len(x)`", "[[ok:Yes]] characters", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] keys"],
-      ["`x[0]`", "[[ok:Yes]]", "[[ok:Yes]]", "[[ok:Yes]]", "[[no:TypeError]]", "Only if `0` is a key"],
-      ["Slicing `x[1:3]`", "[[ok:Yes]]", "[[ok:Yes]]", "[[ok:Yes]]", "[[no:No]]", "[[no:No]]"],
-      ["`item in x`", "Is it a substring?", "Is it an item?", "Is it an item?", "Is it an item? (fast)", "Is it a **key**? (fast)"],
-      ["Add", "`s + \"!\"` makes a new string", "`append()`, `insert()`, `extend()`", "[[no:No]] Build a new tuple", "`add()`, `update()`", "`d[key] = value`"],
-      ["Remove", "`replace(\"a\", \"\")` makes a new string", "`remove()`, `pop()`, `del`", "[[no:No]]", "`remove()`, `discard()`", "`pop(key)`, `del d[key]`"],
+    { t: "table", master: true, title: "What works on which collection", head: ["", "**String**\n`\"apple\"`\nText in quotes", "**List**\n`[1, 2, 3]`\nOrdered, changeable, allows duplicates", "**Tuple**\n`(1, 2, 3)`\nOrdered, unchangeable, allows duplicates", "**Set**\n`{1, 2, 3}`\nUnordered, changeable, no duplicates", "**Dictionary**\n`{\"name\": \"Asha\"}`\nKey-value pairs, unique keys"], rows: [
+      ["Can you change it?", "[[no:No]]\nmethods make a new string", "[[ok:Yes]]", "[[no:No]]\nfixed once made", "[[ok:Yes]]", "[[ok:Yes]]"],
+      ["How many? `len(x)`", "[[ok:Yes]] characters", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] items", "[[ok:Yes]] keys"],
+      ["First item `x[0]`", "[[ok:Yes]] `\"a\"`", "[[ok:Yes]] `1`", "[[ok:Yes]] `1`", "[[no:TypeError]]\nno order", "[[no:Only if]] `0` is a key\nuse `d[\"name\"]`"],
+      ["Slicing `x[1:3]`", "[[ok:Yes]] `\"pp\"`", "[[ok:Yes]] `[2, 3]`", "[[ok:Yes]] `(2, 3)`", "[[no:No]]\nno order", "[[no:No]]\nneeds keys"],
+      ["Check inside `item in x`", "Is it a substring?", "Is it an item?", "Is it an item?", "Is it an item? (fast)", "Is it a **key**? (fast)"],
+      ["Add item", "`s + \"!\"` makes a new string", "`append()`, `insert()`, `extend()`", "[[no:No]] Build a new tuple: `t + (4,)`", "`add()`, `update()`", "`d[key] = value`"],
+      ["Remove item", "`replace(\"a\", \"\")` makes a new string", "`remove()`, `pop()`, `del`", "[[no:No]]", "`remove()`, `discard()`", "`pop(key)`, `del d[key]`"],
       ["Change one item", "[[no:No]]", "`l[0] = 5`", "[[no:No]]", "Remove one, add another", "`d[key] = new`"],
       ["Sort", "`sorted(s)` gives a list", "`l.sort()` or `sorted(l)`", "`sorted(t)` gives a list", "`sorted(s)` gives a list", "`sorted(d)` gives sorted keys"],
       ["A `for` loop gives", "Each character", "Each item", "Each item", "Each item, in no set order", "Each **key**. Use `.items()` for pairs"],
